@@ -1,22 +1,25 @@
 name: Remote Desktop Network Traffic
 id: 272b8407-842d-4b3d-bead-a704584003d3
-version: 4
-date: '2024-02-27'
+version: 5
+date: '2024-05-29'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects unusual Remote Desktop Protocol (RDP) traffic on TCP/3389, the default RDP port. 
-  It identifies this activity by filtering out traffic from known RDP sources and destinations, focusing on atypical RDP connections within the network. 
-  This detection is crucial for a Security Operations Center (SOC) as unauthorized RDP access can indicate an attacker's attempt to gain control over 
-  networked systems, potentially leading to data theft, ransomware deployment, or further network compromise. 
-  The impact of such unauthorized access can be significant, ranging from data breaches to complete system and network control loss.
+description: The following analytic detects unusual Remote Desktop Protocol (RDP)
+  traffic on TCP/3389 by filtering out known RDP sources and destinations, focusing
+  on atypical connections within the network. This detection leverages network traffic
+  data to identify potentially unauthorized RDP access. Monitoring this activity is
+  crucial for a SOC as unauthorized RDP access can indicate an attacker's attempt
+  to control networked systems, leading to data theft, ransomware deployment, or further
+  network compromise. If confirmed malicious, this activity could result in significant
+  data breaches or complete system and network control loss.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.dest_port=3389 AND
   All_Traffic.dest_category!=common_rdp_destination AND All_Traffic.src_category!=common_rdp_source
   AND All_Traffic.action="allowed" by All_Traffic.src All_Traffic.dest All_Traffic.dest_port
   | `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `remote_desktop_network_traffic_filter` '
+  | `remote_desktop_network_traffic_filter`'
 how_to_implement: To successfully implement this search you need to identify systems
   that commonly originate remote desktop traffic and that commonly receive remote
   desktop traffic. You can use the included support search "Identify Systems Creating
@@ -68,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/remote_desktop_connection/zeek_conn.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/remote_desktop_connection/zeek_conn.log
     sourcetype: bro:conn:json
     source: conn.log

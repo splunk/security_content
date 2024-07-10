@@ -1,23 +1,18 @@
 name: Detect DGA domains using pretrained model in DSDL
 id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
-version: 1
-date: '2023-01-18'
+version: 2
+date: '2024-05-29'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic uses a pre trained deep learning model to detect
-  Domain Generation Algorithm (DGA) generated domains. The model is trained independently
-  and is then made available for download. One of the prominent indicators of a domain
-  being DGA generated is if the domain name consists of unusual character sequences
-  or concatenated dictionary words. Adversaries often use clever techniques to obfuscate
-  machine generated domain names as human generated. Predicting DGA generated domain
-  names requires analysis and building a model based on carefully chosen features.
-  The deep learning model we have developed uses the domain name to analyze patterns
-  of character sequences along with carefully chosen custom features to predict if
-  a domain is DGA generated. The model takes a domain name consisting of second-level
-  and top-level domain names as input and outputs a dga_score. Higher the dga_score,
-  the more likely the input domain is a DGA domain. The threshold for flagging a domain
-  as DGA is set at 0.5.
+description: The following analytic identifies Domain Generation Algorithm (DGA) generated
+  domains using a pre-trained deep learning model. It leverages the Network Resolution
+  data model to analyze domain names and detect unusual character sequences indicative
+  of DGA activity. This behavior is significant as adversaries often use DGAs to generate
+  numerous domain names for command-and-control servers, making it harder to block
+  malicious traffic. If confirmed malicious, this activity could enable attackers
+  to maintain persistent communication with compromised systems, evade detection,
+  and execute further malicious actions.
 data_source: []
 search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
   as firstTime  max(_time) as lastTime from datamodel=Network_Resolution by DNS.src,
@@ -38,7 +33,7 @@ how_to_implement: 'Steps to deploy DGA detection model into Splunk App DSDL.\ Th
   * Login to the Jupyter Lab for pretrained_dga_model_dsdl container. This container
   should be listed on Containers page for DSDL app.
 
-  * Below steps need to be followed inside Jupyter lab 
+  * Below steps need to be followed inside Jupyter lab
 
   * Upload the pretrained_dga_model_dsdl.tar.gz file into `app/model/data` path using
   the upload option in the jupyter notebook.

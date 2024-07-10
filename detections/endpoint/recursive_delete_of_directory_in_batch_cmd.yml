@@ -1,14 +1,18 @@
 name: Recursive Delete of Directory In Batch CMD
 id: ba570b3a-d356-11eb-8358-acde48001122
-version: 3
-date: '2022-11-12'
+version: 4
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious commandline designed to delete
-  files or directory recursive using batch command. This technique was seen in ransomware
-  (reddot) where it it tries to delete the files in recycle bin to impaire user from
-  recovering deleted files.
+description: The following analytic detects the execution of a batch command designed
+  to recursively delete files or directories, a technique often used by ransomware
+  like Reddot to delete files in the recycle bin and prevent recovery. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions that include specific flags for recursive and quiet deletions. This activity
+  is significant as it indicates potential ransomware behavior aimed at data destruction.
+  If confirmed malicious, it could lead to significant data loss and hinder recovery
+  efforts, severely impacting business operations.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

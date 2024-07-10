@@ -1,20 +1,27 @@
 name: O365 High Number Of Failed Authentications for User
 id: 31641378-2fa9-42b1-948e-25e281cb98f7
-version: 1
-date: '2023-10-10'
+version: 2
+date: '2024-05-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - O365 UserLoginFailed
-description: The following analytic identifies an O365 account that has experienced more than 20 failed authentication events within a span of 5 minutes. This could be indicative of an attacker attempting to brute force or guess the password for that particular user account. It leverages the O365 Unified Audit Logs, specifically the "UserLoginFailed" events. By monitoring the frequency and volume of these events for individual users, the analytic can flag accounts that exceed the set threshold of failed attempts within the defined timeframe. Multiple failed login attempts in a short period can be a strong indicator of malicious activity. While there could be benign reasons, such as a user forgetting their password, the rapid succession of failed attempts is often a sign of an attacker trying to gain unauthorized access. By detecting and alerting on this behavior, the SOC can quickly investigate and take appropriate action, potentially stopping an attack in its early stages. Given that environments differ across organizations, security teams should consider customizing the threshold of this detection to better suit their specific needs and risk profile. If an attacker successfully guesses or brute-forces a user's password after numerous attempts, they can gain unauthorized access to the O365 environment. This unauthorized access could allow them to view sensitive emails, documents, and other data.
-search: ' `o365_management_activity` Operation=UserLoginFailed  record_type=AzureActiveDirectoryStsLogon Workload=AzureActiveDirectory
-  | bucket span=5m _time 
-  | stats  dc(_raw) AS failed_attempts  values(src_ip) as src_ip by user, _time
-  | where failed_attempts > 10
-  | `o365_high_number_of_failed_authentications_for_user_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Although unusual, users who have lost their passwords may trigger this detection. Filter as needed.
+description: The following analytic identifies an O365 account experiencing more than
+  20 failed authentication attempts within 5 minutes. It uses O365 Unified Audit Logs,
+  specifically "UserLoginFailed" events, to monitor and flag accounts exceeding this
+  threshold. This activity is significant as it may indicate a brute force attack
+  or password guessing attempt. If confirmed malicious, an attacker could gain unauthorized
+  access to the O365 environment, potentially compromising sensitive emails, documents,
+  and other data. Prompt investigation and action are crucial to prevent unauthorized
+  access and data breaches.
+search: ' `o365_management_activity` Operation=UserLoginFailed  record_type=AzureActiveDirectoryStsLogon
+  Workload=AzureActiveDirectory | bucket span=5m _time | stats  dc(_raw) AS failed_attempts  values(src_ip)
+  as src_ip by user, _time | where failed_attempts > 10 | `o365_high_number_of_failed_authentications_for_user_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Although unusual, users who have lost their passwords may trigger
+  this detection. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://attack.mitre.org/techniques/T1110/001/
@@ -24,7 +31,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 70
   impact: 50
-  message: User $user$ failed to authenticate more than 10 times in the span of 5 minutes.
+  message: User $user$ failed to authenticate more than 10 times in the span of 5
+    minutes.
   mitre_attack_id:
   - T1110
   - T1110.001
@@ -53,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/o365_high_number_authentications_for_user/o365_high_number_authentications_for_user.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/o365_high_number_authentications_for_user/o365_high_number_authentications_for_user.log
     source: o365:management:activity
     sourcetype: o365:management:activity

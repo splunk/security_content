@@ -1,28 +1,31 @@
 name: GPUpdate with no Command Line Arguments with Network
 id: 2c853856-a140-11eb-a5b5-acde48001122
-version: 2
-date: '2023-07-10'
+version: 3
+date: '2024-05-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies gpupdate.exe with no command line arguments
-  and with a network connection. It is unusual for gpupdate.exe to execute with no
-  command line arguments present. This particular behavior is common with malicious
-  software, including Cobalt Strike. During investigation, triage any network connections
-  and parallel processes. Identify any suspicious module loads related to credential
-  dumping or file writes. gpupdate.exe is natively found in C:\Windows\system32 and
-  C:\Windows\syswow64.
+description: The following analytic detects the execution of gpupdate.exe without
+  command line arguments and with an active network connection. This behavior is identified
+  using Endpoint Detection and Response (EDR) telemetry, focusing on process execution
+  and network traffic data. It is significant because gpupdate.exe typically runs
+  with specific arguments, and its execution without them, especially with network
+  activity, is often associated with malicious software like Cobalt Strike. If confirmed
+  malicious, this activity could indicate an attacker leveraging gpupdate.exe for
+  lateral movement, command and control, or other nefarious purposes, potentially
+  leading to system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id
-  Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(?i)(gpupdate\.exe.{0,4}$)"| join  process_id [| tstats `security_content_summariesonly`
-  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
-  0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
-  | rename dest as C2 ] | table _time user dest parent_process_name process_name process_path
-  process process_id dest_port C2 | `gpupdate_with_no_command_line_arguments_with_network_filter`'
+  Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process
+  Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | regex process="(?i)(gpupdate\.exe.{0,4}$)"|
+  join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where All_Traffic.dest_port != 0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+  | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ] | table _time user dest
+  parent_process_name process_name process_path process process_id dest_port C2 |
+  `gpupdate_with_no_command_line_arguments_with_network_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -46,8 +49,8 @@ tags:
   confidence: 90
   impact: 90
   message: Process gpupdate.exe  with parent_process $parent_process_name$ is executed
-    on $dest$ by user $user$, followed by an outbound network connection to $C2$
-    on port $dest_port$. This behaviour is seen with cobaltstrike.
+    on $dest$ by user $user$, followed by an outbound network connection to $C2$ on
+    port $dest_port$. This behaviour is seen with cobaltstrike.
   mitre_attack_id:
   - T1055
   observable:
@@ -85,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

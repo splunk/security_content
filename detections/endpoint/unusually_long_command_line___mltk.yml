@@ -1,13 +1,17 @@
 name: Unusually Long Command Line - MLTK
 id: 57edaefa-a73b-45e5-bbae-f39c1473f941
-version: 1
-date: '2019-05-08'
+version: 2
+date: '2024-05-26'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: Command lines that are extremely long may be indicative of malicious
-  activity on your hosts. This search leverages the Machine Learning Toolkit (MLTK)
-  to help identify command lines with lengths that are unusual for a given user.
+description: The following analytic identifies unusually long command lines executed
+  on hosts, which may indicate malicious activity. It leverages the Machine Learning
+  Toolkit (MLTK) to detect command lines with lengths that deviate from the norm for
+  a given user. This is significant for a SOC as unusually long command lines can
+  be a sign of obfuscation or complex malicious scripts. If confirmed malicious, this
+  activity could allow attackers to execute sophisticated commands, potentially leading
+  to unauthorized access, data exfiltration, or further compromise of the system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

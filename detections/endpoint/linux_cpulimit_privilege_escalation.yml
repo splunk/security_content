@@ -1,15 +1,17 @@
 name: Linux Cpulimit Privilege Escalation
 id: d4e40b7e-aad3-4a7d-aac8-550ea5222be5
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-23'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: cpulimit is a simple program which attempts to limit the cpu usage of
-  a process (expressed in percentage, not in cpu time). This is useful to control
-  batch jobs, when you don't want them to eat too much cpu. If sudo right is given
-  to the program for the user, then the user can run system commands as root and possibly
-  get a root shell.
+description: The following analytic detects the use of the 'cpulimit' command with
+  specific flags ('-l', '-f') executed with 'sudo' privileges. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process command-line arguments
+  and execution details. This activity is significant because if 'cpulimit' is granted
+  sudo rights, a user can potentially execute system commands as root, leading to
+  privilege escalation. If confirmed malicious, this could allow an attacker to gain
+  root access, execute arbitrary commands, and fully compromise the affected system.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/cpulimit/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/cpulimit/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

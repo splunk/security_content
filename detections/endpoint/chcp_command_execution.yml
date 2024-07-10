@@ -1,13 +1,18 @@
 name: CHCP Command Execution
 id: 21d236ec-eec1-11eb-b23e-acde48001122
-version: 1
-date: '2021-07-27'
+version: 2
+date: '2024-05-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect execution of chcp.exe application. this utility
-  is used to change the active code page of the console. This technique was seen in
-  icedid malware to know the locale region/language/country of the compromise host.
+description: The following analytic detects the execution of the chcp.exe application,
+  which is used to change the active code page of the console. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process creation
+  events where chcp.exe is executed by cmd.exe with specific command-line arguments.
+  This activity is significant because it can indicate the presence of malware, such
+  as IcedID, which uses this technique to determine the locale region, language, or
+  country of the compromised host. If confirmed malicious, this could lead to further
+  system compromise and data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

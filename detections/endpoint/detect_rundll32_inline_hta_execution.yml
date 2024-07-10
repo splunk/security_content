@@ -1,17 +1,17 @@
 name: Detect Rundll32 Inline HTA Execution
 id: 91c79f14-5b41-11eb-ae93-0242ac130002
-version: 2
-date: '2021-01-20'
+version: 3
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies "rundll32.exe" execution with inline
-  protocol handlers. "JavaScript", "VBScript", and "About" are the only supported
-  options when invoking HTA content directly on the command-line. This type of behavior
-  is commonly observed with fileless malware or application whitelisting bypass techniques.
-  The search will return the first time and last time these command-line arguments
-  were used for these executions, as well as the target system, the user, process
-  "rundll32.exe" and its parent process.
+description: The following analytic detects the execution of "rundll32.exe" with inline
+  protocol handlers such as "JavaScript", "VBScript", and "About". This behavior is
+  identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line
+  arguments. This activity is significant as it is often associated with fileless
+  malware or application whitelisting bypass techniques. If confirmed malicious, this
+  could allow an attacker to execute arbitrary code, bypass security controls, and
+  maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
@@ -75,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

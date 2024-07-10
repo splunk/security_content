@@ -1,22 +1,18 @@
 name: PowerShell Domain Enumeration
 id: e1866ce2-ca22-11eb-8e44-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies specific PowerShell modules typically used to enumerate
-  an organizations domain or users. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of PowerShell commands
+  used for domain enumeration, such as `get-netdomaintrust` and `get-adgroupmember`.
+  It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze
+  the full command sent to PowerShell. This activity is significant as it often indicates
+  reconnaissance efforts by an attacker to map out the domain structure and identify
+  key users and groups. If confirmed malicious, this behavior could lead to further
+  targeted attacks, privilege escalation, and unauthorized access to sensitive information
+  within the domain.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN (*get-netdomaintrust*, *get-netforesttrust*,
@@ -73,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/enumeration.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/enumeration.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

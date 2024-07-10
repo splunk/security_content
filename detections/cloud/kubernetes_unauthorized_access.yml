@@ -1,21 +1,25 @@
 name: Kubernetes Unauthorized Access
 id: 9b5f1832-e8b9-453f-93df-07a3d6a72a45
-version: 1
-date: '2023-12-07'
+version: 2
+date: '2024-05-21'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic detects unauthorized access to Kubernetes by monitoring Kubernetes audit logs. 
-  It identifies anomalies in access patterns by segmenting and analyzing the source of requests. Unauthorized access is worth identifying for a SOC as it could indicate 
-  an attacker attempting to infiltrate the system. The impact of such an attack could be severe, potentially leading to unauthorized access to sensitive systems or data.'
-data_source: 
+description: 'The following analytic detects unauthorized access attempts to Kubernetes
+  by analyzing Kubernetes audit logs. It identifies anomalies in access patterns by
+  examining the source of requests and their response statuses. This activity is significant
+  for a SOC as it may indicate an attacker attempting to infiltrate the Kubernetes
+  environment. If confirmed malicious, such access could lead to unauthorized control
+  over Kubernetes resources, potentially compromising sensitive systems or data within
+  the cluster.'
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` verb=create responseStatus.reason=Forbidden  
   | fillnull
   | stats count by objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI responseStatus.code responseStatus.message sourceIPs{} stage 
   user.groups{} user.uid user.username userAgent verb
   | rename sourceIPs{} as src_ip, user.username as user
-  | `kubernetes_unauthorized_access_filter` '
+  | `kubernetes_unauthorized_access_filter`'
 how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
   Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
   Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
@@ -62,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_unauthorized_access/kubernetes_unauthorized_access.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_unauthorized_access/kubernetes_unauthorized_access.json
     sourcetype: _json
     source: kubernetes

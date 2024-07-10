@@ -1,7 +1,7 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
 version: 6
-date: '2025-05-20'
+date: '2024-05-20'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly

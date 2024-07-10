@@ -1,14 +1,17 @@
 name: Rundll32 Create Remote Thread To A Process
 id: 2dbeee3a-f067-11eb-96c0-acde48001122
-version: 1
-date: '2021-07-29'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies the suspicious Remote Thread execution of rundll32.exe
-  to any process. This technique was seen in IcedID malware to execute its malicious
-  code in normal process for defense evasion and to steal sensitive information in
-  the compromised host.
+description: The following analytic detects the creation of a remote thread by rundll32.exe
+  into another process. It leverages Sysmon EventCode 8 logs, specifically monitoring
+  SourceImage and TargetImage fields. This activity is significant as it is a common
+  technique used by malware, such as IcedID, to execute malicious code within legitimate
+  processes, aiding in defense evasion and data theft. If confirmed malicious, this
+  behavior could allow an attacker to execute arbitrary code, escalate privileges,
+  and exfiltrate sensitive information from the compromised host.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage = "*.exe"
@@ -60,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

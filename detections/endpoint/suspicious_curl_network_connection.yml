@@ -1,14 +1,18 @@
 name: Suspicious Curl Network Connection
 id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
-version: 1
-date: '2021-02-22'
+version: 2
+date: '2024-05-29'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the use of a curl contacting suspicious
-  remote domains to checkin to Command And Control servers or download further implants.
-  In the context of Silver Sparrow, curl is identified contacting s3.amazonaws.com.
-  This particular behavior is common with MacOS adware-malicious software.
+description: The following analytic detects the use of the curl command contacting
+  suspicious remote domains, such as s3.amazonaws.com, which is indicative of Command
+  and Control (C2) activity or downloading further implants. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs and command-line arguments. This activity is significant as it may indicate
+  the presence of MacOS adware or other malicious software attempting to establish
+  persistence or exfiltrate data. If confirmed malicious, this could allow attackers
+  to maintain control over the compromised system and deploy additional payloads.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

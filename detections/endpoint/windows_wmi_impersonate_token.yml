@@ -1,15 +1,17 @@
 name: Windows WMI Impersonate Token
 id: cf192860-2d94-40db-9a51-c04a2e8a8f8b
-version: 1
-date: '2022-10-24'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a possible wmi token impersonation
-  activities in a process or command. This technique was seen in Qakbot malware where
-  it will execute a vbscript code contains wmi impersonation object to gain privilege
-  escalation or as defense evasion. This Anomaly detection looks for wmiprvse.exe
-  SourceImage having a duplicate handle or full granted access in a target process.
+description: The following analytic detects potential WMI token impersonation activities
+  in a process or command. It leverages Sysmon EventCode 10 to identify instances
+  where `wmiprvse.exe` has a duplicate handle or full granted access in a target process.
+  This behavior is significant as it is commonly used by malware like Qakbot for privilege
+  escalation or defense evasion. If confirmed malicious, this activity could allow
+  an attacker to gain elevated privileges, evade defenses, and maintain persistence
+  within the environment.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 SourceImage = "*\\wmiprvse.exe"  GrantedAccess IN ("0x1478",
@@ -63,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/wmi_impersonate/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/wmi_impersonate/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

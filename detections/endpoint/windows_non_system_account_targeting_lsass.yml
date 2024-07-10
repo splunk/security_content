@@ -1,15 +1,18 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies non SYSTEM accounts requesting access
-  to lsass.exe. This behavior may be related to credential dumping or applications
-  requiring access to credentials. Triaging this event will require understanding
-  the GrantedAccess from the SourceImage. In addition, whether the account is privileged
-  or not. Review the process requesting permissions and review parallel processes.
+description: The following analytic identifies non-SYSTEM accounts requesting access
+  to lsass.exe. This detection leverages Sysmon EventCode 10 logs to monitor access
+  attempts to the Local Security Authority Subsystem Service (lsass.exe) by non-SYSTEM
+  users. This activity is significant as it may indicate credential dumping attempts
+  or unauthorized access to sensitive credentials. If confirmed malicious, an attacker
+  could potentially extract credentials from memory, leading to privilege escalation
+  or lateral movement within the network. Immediate investigation is required to determine
+  the legitimacy of the access request and to mitigate any potential threats.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

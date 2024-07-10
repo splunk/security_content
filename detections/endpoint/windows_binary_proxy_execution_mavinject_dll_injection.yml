@@ -1,18 +1,18 @@
 name: Windows Binary Proxy Execution Mavinject DLL Injection
 id: ccf4b61b-1b26-4f2e-a089-f2009c569c57
-version: 1
-date: '2022-07-07'
+version: 2
+date: '2024-05-29'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: Adversaries may abuse mavinject.exe to inject malicious DLLs into running
-  processes (i.e. Dynamic-link Library Injection), allowing for arbitrary code execution
-  (ex. C:\Windows\system32\mavinject.exe PID /INJECTRUNNING PATH_DLL). In addition
-  to Dynamic-link Library Injection, Mavinject.exe can also be abused to perform import
-  descriptor injection via its /HMODULE command-line parameter (ex. mavinject.exe
-  PID /HMODULE=BASE_ADDRESS PATH_DLL ORDINAL_NUMBER). This command would inject an
-  import table entry consisting of the specified DLL into the module at the given
-  base address. During triage, review file modifcations and parallel processes.
+description: The following analytic detects the use of mavinject.exe for DLL injection
+  into running processes, identified by specific command-line parameters such as /INJECTRUNNING
+  and /HMODULE. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names and command-line executions. This activity
+  is significant because it indicates potential arbitrary code execution, a common
+  tactic for malware deployment and persistence. If confirmed malicious, this could
+  allow attackers to execute unauthorized code, escalate privileges, and maintain
+  persistence within the environment, posing a severe security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -86,7 +86,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.013/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.013/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

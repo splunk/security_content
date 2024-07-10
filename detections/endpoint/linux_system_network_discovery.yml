@@ -1,15 +1,18 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to look for possible enumeration of local network configuration.
-  This technique is commonly used as part of recon of adversaries or threat actor
-  to know some network information for its next or further attack. This anomaly detections
-  may capture normal event made by administrator during auditing or testing network
-  connection of specific host or network to network.
+description: The following analytic identifies potential enumeration of local network
+  configuration on Linux systems. It detects this activity by monitoring processes
+  such as "arp," "ifconfig," "ip," "netstat," "firewall-cmd," "ufw," "iptables," "ss,"
+  and "route" within a 30-minute window. This behavior is significant as it often
+  indicates reconnaissance efforts by adversaries to gather network information for
+  subsequent attacks. If confirmed malicious, this activity could enable attackers
+  to map the network, identify vulnerabilities, and plan further exploitation or lateral
+  movement within the environment.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

@@ -1,15 +1,18 @@
 name: Elevated Group Discovery With Net
 id: a23a0e20-0b1b-4a07-82e5-ec5f70811e7a
-version: 1
-date: '2021-08-25'
+version: 2
+date: '2024-05-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `net.exe` or `net1.exe`  with
-  command-line arguments utilized to query for specific elevated domain groups. Red
-  Teams and adversaries alike use net.exe to enumerate elevated domain groups for
-  situational awareness and Active Directory Discovery to identify high privileged
-  users.
+description: The following analytic detects the execution of `net.exe` or `net1.exe`
+  with command-line arguments used to query elevated domain groups. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process names and
+  command-line executions. This activity is significant as it indicates potential
+  reconnaissance efforts by adversaries to identify high-privileged users within Active
+  Directory. If confirmed malicious, this behavior could lead to further attacks aimed
+  at compromising privileged accounts, escalating privileges, or gaining unauthorized
+  access to sensitive systems and data.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,19 +1,32 @@
 name: Access to Vulnerable Ivanti Connect Secure Bookmark Endpoint
 id: 15838756-f425-43fa-9d88-a7f88063e81a
-version: 1
-date: '2024-01-16'
+version: 2
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: This analytic monitors access to the /api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark endpoint, a key indicator for both CVE-2023-46805 and CVE-2024-21887 vulnerabilities. It detects potential vulnerabilities by looking for a 403 Forbidden response with an empty body on this endpoint. This detection method is used in both Nmap script and Project Discovery Nuclei, with the latter focusing on systems where XML mitigation for these vulnerabilities has not been applied.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*" Web.http_method=GET Web.status=403 by Web.src, Web.dest, Web.http_user_agent, Web.status, Web.url source
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
+description: The following analytic identifies access to the 
+  /api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark
+  endpoint, which is associated with CVE-2023-46805 and CVE-2024-21887 vulnerabilities.
+  It detects this activity by monitoring for GET requests that receive a 403 Forbidden
+  response with an empty body. This behavior is significant as it indicates potential
+  exploitation attempts against Ivanti Connect Secure systems. If confirmed malicious,
+  attackers could exploit these vulnerabilities to gain unauthorized access or control
+  over the affected systems, leading to potential data breaches or system compromise.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url="*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*"
+  Web.http_method=GET Web.status=403 by Web.src, Web.dest, Web.http_user_agent, Web.status,
+  Web.url source | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `access_to_vulnerable_ivanti_connect_secure_bookmark_endpoint_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: This analytic is limited to HTTP Status 403; adjust as necessary. False positives may occur if the URI path is IP-restricted or externally blocked. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx,
+  or Splunk for Palo Alto.
+known_false_positives: This analytic is limited to HTTP Status 403; adjust as necessary.
+  False positives may occur if the URI path is IP-restricted or externally blocked.
+  It's recommended to review the context of the alerts and adjust the analytic parameters
+  to better fit the specific environment.
 references:
 - https://github.com/RootUp/PersonalStuff/blob/master/http-vuln-cve2023-46805_2024_21887.nse
 - https://github.com/projectdiscovery/nuclei-templates/blob/c6b351e71b0fb0e40e222e97038f1fe09ac58194/http/misconfiguration/ivanti/CVE-2023-46085-CVE-2024-21887-mitigation-not-applied.yaml
@@ -51,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_bookmark_web_access.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_bookmark_web_access.log
     source: suricata
     sourcetype: suricata

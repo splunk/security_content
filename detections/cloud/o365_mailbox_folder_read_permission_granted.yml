@@ -1,22 +1,29 @@
 name: O365 Mailbox Folder Read Permission Granted
 id: cd15c0a8-470e-4b12-9517-046e4927db30
-version: 1
-date: '2024-03-28'
+version: 2
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: This detection focuses on identifying changes in mailbox folder permissions within an Office 365 environment, specifically pinpointing instances where read permissions are granted. It monitors for two key operations Set-MailboxFolderPermission and Add-MailboxFolderPermission, as logged in the o365_management_activity. These operations are indicative of modifications or additions to the permissions of mailbox folders, potentially altering who can view or interact with the folder contents.
-search: ' `o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission" OR Operation="Add-MailboxFolderPermission" )
-  | eval isReadRole=if(match(AccessRights, "^(ReadItems|Author|NonEditingAuthor|Owner|PublishingAuthor|Reviewer)$"), "true", "false") 
-  | search isReadRole="true"
-  | rename UserId as user
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by Operation, user, Identity, AccessRights 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `o365_mailbox_folder_read_permission_granted_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Mailbox folder permissions may be configured for legitimate purposes, filter as needed.
+description: The following analytic identifies instances where read permissions are
+  granted to mailbox folders within an Office 365 environment. It detects this activity
+  by monitoring the `o365_management_activity` data source for the `Set-MailboxFolderPermission`
+  and `Add-MailboxFolderPermission` operations. This behavior is significant as it
+  may indicate unauthorized access or changes to mailbox folder permissions, potentially
+  exposing sensitive email content. If confirmed malicious, an attacker could gain
+  unauthorized access to read email communications, leading to data breaches or information
+  leakage.
+search: ' `o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission"
+  OR Operation="Add-MailboxFolderPermission" ) | eval isReadRole=if(match(AccessRights,
+  "^(ReadItems|Author|NonEditingAuthor|Owner|PublishingAuthor|Reviewer)$"), "true",
+  "false") | search isReadRole="true" | rename UserId as user | stats count earliest(_time)
+  as firstTime latest(_time) as lastTime by Operation, user, Identity, AccessRights
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_mailbox_folder_read_permission_granted_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Mailbox folder permissions may be configured for legitimate
+  purposes, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/002/
 - https://learn.microsoft.com/en-us/powershell/module/exchange/add-mailboxfolderpermission?view=exchange-ps
@@ -52,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
     source: o365
     sourcetype: o365:management:activity
 

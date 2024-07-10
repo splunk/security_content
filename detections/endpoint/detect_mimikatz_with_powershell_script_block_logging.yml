@@ -1,23 +1,18 @@
 name: Detect Mimikatz With PowerShell Script Block Logging
 id: 8148c29c-c952-11eb-9255-acde48001122
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable no critical endpoints or all.
-  
-
-  This analytic identifies common Mimikatz functions that may be identified in the
-  script block, including `mimikatz`. This will catch the most basic use cases for
-  Pass the Ticket, Pass the Hash and `-DumprCreds`. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of Mimikatz commands via
+  PowerShell by leveraging PowerShell Script Block Logging (EventCode=4104). This
+  method captures and logs the full command sent to PowerShell, allowing for the identification
+  of suspicious activities such as Pass the Ticket, Pass the Hash, and credential
+  dumping. This activity is significant as Mimikatz is a well-known tool used for
+  credential theft and lateral movement. If confirmed malicious, this could lead to
+  unauthorized access, privilege escalation, and potential compromise of sensitive
+  information within the environment.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText IN (*mimikatz*, *-dumpcr*, *sekurlsa::pth*,
@@ -77,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/credaccess-powershell.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/credaccess-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,15 +1,18 @@
 name: Get DomainUser with PowerShell Script Block
 id: 61994268-04f4-11ec-865c-acde48001122
-version: 3
-date: '2023-12-27'
+version: 4
+date: '2024-05-09'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is
-  part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
-  Red Teams and adversaries alike may use PowerView to enumerate domain users for
-  situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-DomainUser`
+  cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is part
+  of PowerView, a tool often used for domain enumeration. The detection leverages
+  PowerShell operational logs to identify instances where this command is executed.
+  Monitoring this activity is crucial as it may indicate an adversary's attempt to
+  gather information about domain users, which is a common step in Active Directory
+  Discovery. If confirmed malicious, this activity could lead to further reconnaissance
+  and potential exploitation of domain resources.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainUser*" | stats
@@ -58,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

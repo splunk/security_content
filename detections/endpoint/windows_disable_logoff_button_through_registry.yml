@@ -1,28 +1,27 @@
 name: Windows Disable LogOff Button Through Registry
 id: b2fb6830-9ed1-11ec-9fcb-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-30'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a suspicious registry modification to disable
-  logoff feature in windows host. This registry when enable will prevent users to
-  log off of the system by using any method, including programs run from the command
-  line, such as scripts. It also disables or removes all menu items and buttons that
-  log the user off of the system. This technique was seen abused by ransomware malware
-  to make the compromised host un-useful and hard to remove other registry modification
-  made on the machine that needs restart to take effect. This windows feature may
-  implement by administrator in some server where shutdown is critical. In that scenario
-  filter of machine and users that can modify this registry is needed.
+description: The following analytic detects a suspicious registry modification that
+  disables the logoff feature on a Windows host. It leverages data from the Endpoint.Registry
+  data model to identify changes to specific registry values associated with logoff
+  functionality. This activity is significant because it can indicate ransomware attempting
+  to make the compromised host unusable and hinder remediation efforts. If confirmed
+  malicious, this action could prevent users from logging off, complicate incident
+  response, and allow attackers to maintain persistence and control over the affected
+  system.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
   Registry.registry_value_name IN ("NoLogOff", "StartMenuLogOff") Registry.registry_value_data
-  = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
+  = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_logoff_button_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -67,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/ransomware_disable_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

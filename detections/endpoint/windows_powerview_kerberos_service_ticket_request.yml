@@ -1,25 +1,24 @@
 name: Windows PowerView Kerberos Service Ticket Request
 id: 970455a1-4ac2-47e1-a9a5-9e75443ddcb9
-version: 1
-date: '2022-06-22'
+version: 2
+date: '2024-05-31'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainSPNTicket` commandlets with specific
-  parameters. This commandlet is a part of PowerView, a PowerShell tool used to perform
-  enumeration and discovery on Windows Active Directory networks. As the name suggests,
-  this commandlet is used to request the kerberos ticket for a specified service principal
-  name (SPN). Once the ticket is received, it may be cracked using password cracking
-  tools like hashcat to extract the password of the SPN account. Red Teams and adversaries
-  alike may leverage PowerView and these commandlets to identify accounts that can
-  be attacked with the Kerberoasting technique.
+description: The following analytic detects the execution of the `Get-DomainSPNTicket`
+  commandlet, part of the PowerView tool, by leveraging PowerShell Script Block Logging
+  (EventCode=4104). This commandlet requests Kerberos service tickets for specified
+  service principal names (SPNs). Monitoring this activity is crucial as it can indicate
+  attempts to perform Kerberoasting, a technique used to extract SPN account passwords
+  via cracking tools like hashcat. If confirmed malicious, this activity could allow
+  attackers to gain unauthorized access to sensitive accounts, potentially leading
+  to privilege escalation and further network compromise.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText=*Get-DomainSPNTicket* | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_powerview_kerberos_service_ticket_request_filter`'
+  Computer UserID | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_powerview_kerberos_service_ticket_request_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs to be
   imported. Modify the powershell macro as needed to match the sourcetype or add index.
   This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -62,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.003/powerview/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

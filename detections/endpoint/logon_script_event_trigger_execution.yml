@@ -1,14 +1,18 @@
 name: Logon Script Event Trigger Execution
 id: 4c38c264-1f74-11ec-b5fa-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious modification of registry entry
-  to persist and gain privilege escalation upon booting up of compromised host. This
-  technique was seen in several APT and malware where it modify UserInitMprLogonScript
-  registry entry to its malicious payload to be executed upon boot up of the machine.
+description: The following analytic detects the modification of the UserInitMprLogonScript
+  registry entry, which is often used by attackers to establish persistence and gain
+  privilege escalation upon system boot. It leverages data from the Endpoint.Registry
+  data model, focusing on changes to the specified registry path. This activity is
+  significant because it is a common technique used by APT groups and malware to ensure
+  their payloads execute automatically when the system starts. If confirmed malicious,
+  this could allow attackers to maintain persistent access and potentially escalate
+  their privileges on the compromised host.
 data_source:
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
@@ -63,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.001/logonscript_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

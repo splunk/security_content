@@ -1,16 +1,18 @@
 name: Windows Mail Protocol In Non-Common Process Path
 id: ac3311f5-661d-4e99-bd1f-3ec665b05441
-version: 1
-date: '2022-09-16'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a possible windows application having
-  a SMTP connection in a non common installation path in windows operating system.This
-  network protocol is being used by adversaries, threat actors and malware like AgentTesla
-  as a Command And Control communication to transfer its collected stolen information
-  like the desktop screenshots, browser information and system information of a targeted
-  or compromised host.
+description: The following analytic detects a Windows application establishing an
+  SMTP connection from a non-common installation path. It leverages Sysmon EventCode
+  3 to identify processes not typically associated with email clients (e.g., Thunderbird,
+  Outlook) making SMTP connections. This activity is significant as adversaries, including
+  malware like AgentTesla, use such connections for Command and Control (C2) communication
+  to exfiltrate stolen data. If confirmed malicious, this behavior could lead to unauthorized
+  data exfiltration, including sensitive information like desktop screenshots, browser
+  data, and system details, compromising the affected host.
 data_source:
 - Sysmon EventID 3
 search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe"))
@@ -65,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

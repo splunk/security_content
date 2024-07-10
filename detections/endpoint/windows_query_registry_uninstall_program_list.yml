@@ -1,25 +1,28 @@
 name: Windows Query Registry UnInstall Program List
 id: 535fd4fc-7151-4062-9d7e-e896bea77bf6
-version: 1
-date: '2023-04-25'
+version: 2
+date: '2024-05-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Windows Event Log Security 4663
-description: The following analytic identifies a suspicious query on uninstall application list in Windows OS registry. 
-  This registry  is commonly used by legitimate software to store information about installed applications on a Windows system, such as their name, version, publisher, and installation path.
-  However, malware, adversaries or even red-teamers can abuse this registry key to retrieve information stored in the "Uninstall" key to gather data about installed applications in the target host.
-  This Anomaly detection can be a good pivot to detect a possible suspicious process accessing this registry which is not commonly accessed by a normal user.
-search: '`wineventlog_security` EventCode=4663 object_file_path="\\REGISTRY\\MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*" 
-  | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_query_registry_uninstall_program_list_filter`'
+description: The following analytic detects a suspicious query on the uninstall application
+  list in the Windows OS registry. It leverages Windows Security Event logs, specifically
+  event code 4663, to identify access to the "Uninstall" registry key. This activity
+  is significant because adversaries or malware can exploit this key to gather information
+  about installed applications, aiding in further attacks. If confirmed malicious,
+  this behavior could allow attackers to map out installed software, potentially identifying
+  vulnerabilities or software to exploit, leading to further system compromise.
+search: '`wineventlog_security` EventCode=4663 object_file_path="\\REGISTRY\\MACHINE\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\*"
+  | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name
+  object_file_path process_name process_path  process_id EventCode dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_query_registry_uninstall_program_list_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: Uninstall application may access this registry to remove the entry of the target application. Filter is needed.
+known_false_positives: Uninstall application may access this registry to remove the
+  entry of the target application. Filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
 tags:
@@ -28,7 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A suspicious process $process_name$ accessing uninstall registry on $dest$  
+  message: A suspicious process $process_name$ accessing uninstall registry on $dest$
   mitre_attack_id:
   - T1012
   observable:
@@ -54,6 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/recon_registry/recon-reg-redline-security-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/recon_registry/recon-reg-redline-security-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

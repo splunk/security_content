@@ -1,94 +1,82 @@
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
 id: 92f65c3a-168c-11ed-71eb-0242ac120012
-version: 1
-date: '2023-04-27'
+version: 2
+date: '2024-05-22'
 status: experimental
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 data_source: []
-description: The following analytic uses a pre trained deep learning model to
-  detect DNS data exfiltration. The model is trained on the data we collected
-  and is inferred on live data. This detection detects low throughput DNS
-  Tunneling (data exfiltration) using features computed from past events between
-  the same src and domain. The search uses macros from URL ToolBox app to
-  generate features used by the model. The model is a deep learning model that
-  accepts DNS request as input along with a few custom features to generate a
-  pred_is_exfiltration_proba score. The higher the pred_is_exfiltration_proba,
-  the more likely the DNS request is data exfiltration. The threshold for
-  flagging a request as DNS exfiltration is set at 0.5.
-search: '| tstats `security_content_summariesonly` count from
-  datamodel=Network_Resolution by DNS.src _time DNS.query |
-  `drop_dm_object_name("DNS")` | sort - _time,src, query | streamstats count as
-  rank by src query | where rank < 10 | table src,query,rank,_time | apply
-  detect_dns_data_exfiltration_using_pretrained_model_in_dsdl | table
-  src,_time,query,rank,pred_is_dns_data_exfiltration_proba,pred_is_dns_data_exfiltration
-  | where rank == 1 | rename pred_is_dns_data_exfiltration_proba as
-  is_exfiltration_score | rename pred_is_dns_data_exfiltration as
-  is_exfiltration | where is_exfiltration_score > 0.5 |
-  `security_content_ctime(_time)` |
-  table src, _time,query,is_exfiltration_score,is_exfiltration |
-  `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl_filter`'
-how_to_implement:
-  Steps to deploy detect DNS data exfiltration model into Splunk
-  App DSDL. This detection depends on the Splunk app for Data Science and Deep
-  Learning which can be found here - https://splunkbase.splunk.com/app/4607/ and
-  the Network Resolution datamodel which can be found here -
-  https://splunkbase.splunk.com/app/1621/. The detection uses a pre-trained deep
-  learning model that needs to be deployed in DSDL app. Follow the steps for
-  deployment here -
-  `https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU`.
-
-  * Download the `artifacts .tar.gz` file from the link - https://seal.splunkresearch.com/detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz Download the `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.ipynb` Jupyter notebook from https://github.com/splunk/security_content/notebooks
-
-  * Login to the Jupyter Lab assigned for detect_dns_data_exfiltration_using_pretrained_model_in_dsdl container. This container should be listed on Containers page for DSDL app.
-
-  * Below steps need to be followed inside Jupyter lab 
-
-  * Upload the detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz file into `app/model/data` path using the upload option in the jupyter notebook.
-
-  * Untar the artifact detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz using `tar -xf app/model/data/detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz -C app/model/data`
-
-  * Upload detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.pynb into Jupyter lab notebooks folder using the upload option in Jupyter lab 
-
-  * Save the notebook using the save option in jupyter notebook. 
-
-  * Upload `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.json` into `notebooks/data` folder.
-known_false_positives: False positives may be present if DNS data exfiltration
-  request look very similar to benign DNS requests.
+description: The following analytic identifies potential DNS data exfiltration using
+  a pre-trained deep learning model. It leverages DNS request data from the Network
+  Resolution datamodel and computes features from past events between the same source
+  and domain. The model generates a probability score (pred_is_exfiltration_proba)
+  indicating the likelihood of data exfiltration. This activity is significant as
+  DNS tunneling can be used by attackers to covertly exfiltrate sensitive data. If
+  confirmed malicious, this could lead to unauthorized data access and potential data
+  breaches, compromising the organization's security posture.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
+  by DNS.src _time DNS.query | `drop_dm_object_name("DNS")` | sort - _time,src, query
+  | streamstats count as rank by src query | where rank < 10 | table src,query,rank,_time
+  | apply detect_dns_data_exfiltration_using_pretrained_model_in_dsdl | table src,_time,query,rank,pred_is_dns_data_exfiltration_proba,pred_is_dns_data_exfiltration
+  | where rank == 1 | rename pred_is_dns_data_exfiltration_proba as is_exfiltration_score
+  | rename pred_is_dns_data_exfiltration as is_exfiltration | where is_exfiltration_score
+  > 0.5 | `security_content_ctime(_time)` | table src, _time,query,is_exfiltration_score,is_exfiltration
+  | `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl_filter`'
+how_to_implement: "Steps to deploy detect DNS data exfiltration model into Splunk
+  App DSDL. This detection depends on the Splunk app for Data Science and Deep Learning
+  which can be found here - https://splunkbase.splunk.com/app/4607/ and the Network
+  Resolution datamodel which can be found here - https://splunkbase.splunk.com/app/1621/.
+  The detection uses a pre-trained deep learning model that needs to be deployed in
+  DSDL app. Follow the steps for deployment here - `https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU`.\n
+  * Download the `artifacts .tar.gz` file from the link - https://seal.splunkresearch.com/detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz
+  Download the `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.ipynb`
+  Jupyter notebook from https://github.com/splunk/security_content/notebooks\n* Login
+  to the Jupyter Lab assigned for detect_dns_data_exfiltration_using_pretrained_model_in_dsdl
+  container. This container should be listed on Containers page for DSDL app.\n* Below
+  steps need to be followed inside Jupyter lab\n* Upload the detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz
+  file into `app/model/data` path using the upload option in the jupyter notebook.\n
+  * Untar the artifact detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.tar.gz
+  using `tar -xf app/model/data/detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl.tar.gz
+  -C app/model/data`\n* Upload detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.pynb
+  into Jupyter lab notebooks folder using the upload option in Jupyter lab\n* Save
+  the notebook using the save option in jupyter notebook.\n* Upload `detect_dns_data_exfiltration_using_pretrained_model_in_dsdl.json`
+  into `notebooks/data` folder."
+known_false_positives: False positives may be present if DNS data exfiltration request
+  look very similar to benign DNS requests.
 references:
-  - https://attack.mitre.org/techniques/T1048/003/
-  - https://unit42.paloaltonetworks.com/dns-tunneling-how-dns-can-be-abused-by-malicious-actors/
-  - https://en.wikipedia.org/wiki/Data_exfiltration
+- https://attack.mitre.org/techniques/T1048/003/
+- https://unit42.paloaltonetworks.com/dns-tunneling-how-dns-can-be-abused-by-malicious-actors/
+- https://en.wikipedia.org/wiki/Data_exfiltration
 tags:
   analytic_story:
-    - DNS Hijacking
-    - Suspicious DNS Traffic
-    - Command And Control
+  - DNS Hijacking
+  - Suspicious DNS Traffic
+  - Command And Control
   asset_type: Endpoint
   confidence: 90
   impact: 50
   message: A DNS data exfiltration request was sent by this host $src$ , kindly review.
   mitre_attack_id:
-    - T1048.003
+  - T1048.003
   observable:
-    - name: query
-      type: Other
-      role:
-        - Attacker
-    - name: src
-      type: Hostname
-      role:
-        - Victim
+  - name: query
+    type: Other
+    role:
+    - Attacker
+  - name: src
+    type: Hostname
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _time
-    - DNS.message_type
-    - DNS.record_type
-    - DNS.src
-    - DNS.dest
-    - DNS.answer
+  - _time
+  - DNS.message_type
+  - DNS.record_type
+  - DNS.src
+  - DNS.dest
+  - DNS.answer
   risk_score: 45
   security_domain: network

@@ -1,21 +1,34 @@
 name: Splunk HTTP Response Splitting Via Rest SPL Command
 id: e615a0e1-a1b2-4196-9865-8aa646e1708c
-version: 1
-date: '2023-05-23'
+version: 2
+date: '2024-05-27'
 author: Rod Soto, Chase Franklin
 status: production
 type: Hunting
 data_source:
 - Splunk
-description: A low-privileged user, using a specially crafted search command, can trigger an HTTP response splitting vulnerability with the rest SPL command that lets them potentially access other REST endpoints in the system arbitrarily, including accessing restricted content such as password files. This is because the user is able to inject the rest SPL command into the q parameter of an HTTP GET web request. The vulnerability requires the attacker to phish the victim by tricking them into initiating a request within their browser. The attacker cannot exploit the vulnerability at will.
-search: '`audit_searches` AND search IN ("*|*rest*POST*","*|*rest*PUT*","*|*rest*PATCH*","*|*rest*DELETE*") AND NOT search="*audit_searches*" | table user info has_error_msg search _time  | `splunk_http_response_splitting_via_rest_spl_command_filter`'
-how_to_implement: This detection does not require you to ingest any new data. The detection does require the ability to search the _audit index. This search may assist in detecting possible http response splitting exploitation attemptss. 
-known_false_positives: This search may have produce false positives as malformed or erroneous requests made to this endpoint may be executed willingly or erroneously by operators. 
+description: The following analytic identifies attempts to exploit an HTTP response
+  splitting vulnerability via the rest SPL command in Splunk. It detects this activity
+  by analyzing audit logs for specific search commands that include REST methods like
+  POST, PUT, PATCH, or DELETE. This behavior is significant because it indicates a
+  potential attempt to access restricted REST endpoints, which could lead to unauthorized
+  access to sensitive information. If confirmed malicious, this activity could allow
+  an attacker to access restricted content, such as password files, by injecting commands
+  into HTTP requests.
+search: '`audit_searches` AND search IN ("*|*rest*POST*","*|*rest*PUT*","*|*rest*PATCH*","*|*rest*DELETE*")
+  AND NOT search="*audit_searches*" | table user info has_error_msg search _time  |
+  `splunk_http_response_splitting_via_rest_spl_command_filter`'
+how_to_implement: This detection does not require you to ingest any new data. The
+  detection does require the ability to search the _audit index. This search may assist
+  in detecting possible http response splitting exploitation attemptss.
+known_false_positives: This search may have produce false positives as malformed or
+  erroneous requests made to this endpoint may be executed willingly or erroneously
+  by operators.
 references:
 - https://advisory.splunk.com/
 tags:
   analytic_story:
-  - Splunk Vulnerabilities 
+  - Splunk Vulnerabilities
   asset_type: Endpoint
   atomic_guid: []
   confidence: 50
@@ -33,14 +46,15 @@ tags:
   risk_score: 25
   required_fields:
   - search
-  - testing_endpoint 
-  - info 
+  - testing_endpoint
+  - info
   - has_error_msg
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.006/splunk/splunk_http_response_splitting_via_rest_spl_command.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.006/splunk/splunk_http_response_splitting_via_rest_spl_command.log
     source: audittrail
     sourcetype: audittrail
     custom_index: _audit

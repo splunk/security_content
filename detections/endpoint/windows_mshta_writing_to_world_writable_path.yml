@@ -1,25 +1,44 @@
 name: Windows MSHTA Writing to World Writable Path
 id: efbcf8ee-bc75-47f1-8985-a5c638c4faf0
-version: 1
-date: '2024-03-26'
+version: 2
+date: '2024-05-26'
 author: Michael Haag, Splunk
 data_source:
 - Sysmon EventID 11
 type: TTP
 status: production
-description: This detection identifies instances of the Windows utility `mshta.exe` being used to write files to world-writable directories, a technique commonly leveraged by adversaries to execute malicious scripts or payloads. Starting from 26 February 2024, APT29 has been observed distributing phishing attachments that lead to the download and execution of the ROOTSAW dropper via a compromised website. The ROOTSAW payload, utilizing obfuscated JavaScript, downloads a file named `invite.txt` to the `C:\Windows\Tasks` directory. This file is then decoded and decompressed to execute a malicious payload, often leveraging legitimate Windows binaries for malicious purposes, as seen with `SqlDumper.exe` in this campaign. \
-
-  The analytic is designed to detect the initial file write operation by `mshta.exe` to directories that are typically writable by any user, such as `C:\Windows\Tasks`, `C:\Windows\Temp`, and others. This behavior is indicative of an attempt to establish persistence, execute code, or both, as part of a multi-stage infection process. The detection focuses on the use of `mshta.exe` to write to these locations, which is a deviation from the utility's legitimate use cases and thus serves as a strong indicator of compromise (IoC). \
-
-  The ROOTSAW campaign associated with APT29 utilizes a sophisticated obfuscation technique and leverages multiple stages of payloads, ultimately leading to the execution of the WINELOADER malware. This detection aims to catch the early stages of such attacks, enabling defenders to respond before full compromise occurs.
-search: '`sysmon` EventCode=11 Image="*\\mshta.exe" TargetFilename IN ("*\\Windows\\Tasks\\*", "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*", "*\\Windows\\PLA\\Reports\\*", "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*", "*\\Windows\\PLA\\Reports\\en-US\\*", "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*", "*\\Windows\\System32\\Tasks\\*", "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*", "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*", "*\\Windows\\System32\\spool\\PRINTERS\\*", "*\\Windows\\System32\\spool\\SERVERS\\*", "*\\Windows\\System32\\spool\\drivers\\color\\*", "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*")
-  | rename Computer as dest, User as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, user, Image, TargetFilename 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_mshta_writing_to_world_writable_path_filter`'
-how_to_implement: The analytic is designed to be run against Sysmon event logs collected from endpoints. The analytic requires the Sysmon event logs to be ingested into Splunk. The search focuses on EventCode 11 where the Image is `mshta.exe` and the TargetFilename is within world-writable directories such as `C:\Windows\Tasks`, `C:\Windows\Temp`, and others. The detection is designed to catch the initial file write operation by `mshta.exe` to these locations, which is indicative of an attempt to establish persistence or execute malicious code. The analytic can be modified to include additional world-writable directories as needed.
-known_false_positives: False positives may occur if legitimate processes are writing to world-writable directories. It is recommended to investigate the context of the file write operation to determine if it is malicious or not. Modify the search to include additional known good paths for `mshta.exe` to reduce false positives.
+description: The following analytic identifies instances of `mshta.exe` writing files
+  to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file
+  write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`.
+  This activity is significant as it often indicates an attempt to establish persistence
+  or execute malicious code, deviating from the utility's legitimate use. If confirmed
+  malicious, this behavior could lead to the execution of multi-stage payloads, potentially
+  resulting in full system compromise and unauthorized access to sensitive information.
+search: '`sysmon` EventCode=11 Image="*\\mshta.exe" TargetFilename IN ("*\\Windows\\Tasks\\*",
+  "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*", "*\\Windows\\PLA\\Reports\\*",
+  "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*", "*\\Windows\\PLA\\Reports\\en-US\\*",
+  "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*", "*\\Windows\\System32\\Tasks\\*",
+  "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*", "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
+  "*\\Windows\\System32\\spool\\PRINTERS\\*", "*\\Windows\\System32\\spool\\SERVERS\\*",
+  "*\\Windows\\System32\\spool\\drivers\\color\\*", "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp
+  and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*",
+  "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp
+  and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*")
+  | rename Computer as dest, User as user | stats count min(_time) as firstTime max(_time)
+  as lastTime by dest, user, Image, TargetFilename | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_mshta_writing_to_world_writable_path_filter`'
+how_to_implement: The analytic is designed to be run against Sysmon event logs collected
+  from endpoints. The analytic requires the Sysmon event logs to be ingested into
+  Splunk. The search focuses on EventCode 11 where the Image is `mshta.exe` and the
+  TargetFilename is within world-writable directories such as `C:\Windows\Tasks`,
+  `C:\Windows\Temp`, and others. The detection is designed to catch the initial file
+  write operation by `mshta.exe` to these locations, which is indicative of an attempt
+  to establish persistence or execute malicious code. The analytic can be modified
+  to include additional world-writable directories as needed.
+known_false_positives: False positives may occur if legitimate processes are writing
+  to world-writable directories. It is recommended to investigate the context of the
+  file write operation to determine if it is malicious or not. Modify the search to
+  include additional known good paths for `mshta.exe` to reduce false positives.
 references:
 - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
 - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
@@ -61,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
     sourcetype: xmlwineventlog
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

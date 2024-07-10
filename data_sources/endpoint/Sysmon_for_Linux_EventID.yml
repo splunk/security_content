@@ -2,7 +2,7 @@ name: Sysmon for Linux EventID
 id: da9fc0c9-4b15-4537-aa91-19ca0cb1eba5
 author: Patrick Bareiss, Splunk
 source: Syslog:Linux-Sysmon/Operational
-sourcetype: sysmon_linux
+sourcetype: sysmon:linux
 separator: EventID
 supported_TA:
   name: Splunk Add-on for Sysmon for Linux

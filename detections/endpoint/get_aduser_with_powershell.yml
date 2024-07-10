@@ -1,14 +1,18 @@
 name: Get ADUser with PowerShell
 id: 0b6ee3f4-04e3-11ec-a87d-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to enumerate domain users. The `Get-AdUser' commandlet returns
-  a list of all domain users. Red Teams and adversaries alike may use this commandlet
-  to identify remote systems for situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments used to enumerate domain users via the `Get-ADUser` cmdlet.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process names and command-line executions. This activity is significant as it may
+  indicate an attempt by adversaries to gather information about domain users for
+  situational awareness and Active Directory discovery. If confirmed malicious, this
+  behavior could lead to further reconnaissance, enabling attackers to identify high-value
+  targets and plan subsequent attacks.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

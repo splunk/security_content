@@ -1,20 +1,28 @@
 name: Splunk Enterprise KV Store Incorrect Authorization
 id: 8f0e8380-a835-4f2b-b749-9ce119364df0
-version: 1
-date: '2024-01-18'
+version: 2
+date: '2024-05-10'
 author: Rod Soto, Eric McGinnis, Chase Franklin
 status: production
 type: Hunting
-data_source: 
+data_source:
 - Splunk
-description: In Splunk Enterprise versions below 9.0.8 and 9.1.3, Splunk app key value store KV Store improperly handles permissions for users using the REST application programming interface (API). This can potentially result in the deletion of KV Store collections. 
-search: '`splunkda` uri=/servicesNS/nobody/search/admin/collections-conf/_reload status=2* method="POST" user=* file=_reload
-  | stats count min(_time) as firstTime max(_time) as lastTime values(status) as status by host clientip file method 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `splunk_enterprise_kv_store_incorrect_authorization_filter`'
-how_to_implement: Requires access to internal indexes and REST API enabled instances. 
-known_false_positives: This is a hunting search and will produce false positives. Operator must follow results into instances where curl requests coming from actual users may indicate intent of exploitation. 
+description: The following analytic detects unauthorized attempts to reload Splunk
+  KV Store collections via the REST API. It leverages internal index logs to identify
+  POST requests to the `/servicesNS/nobody/search/admin/collections-conf/_reload`
+  endpoint, focusing on status codes starting with '2'. This activity is significant
+  as it may indicate improper permission handling, potentially leading to unauthorized
+  deletion of KV Store collections. If confirmed malicious, this could result in data
+  loss or unauthorized data manipulation, impacting the integrity and availability
+  of critical Splunk data.
+search: '`splunkda` uri=/servicesNS/nobody/search/admin/collections-conf/_reload status=2*
+  method="POST" user=* file=_reload | stats count min(_time) as firstTime max(_time)
+  as lastTime values(status) as status by host clientip file method | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `splunk_enterprise_kv_store_incorrect_authorization_filter`'
+how_to_implement: Requires access to internal indexes and REST API enabled instances.
+known_false_positives: This is a hunting search and will produce false positives.
+  Operator must follow results into instances where curl requests coming from actual
+  users may indicate intent of exploitation.
 references:
 - https://advisory.splunk.com/advisories/SVD-2024-0105
 tags:
@@ -39,16 +47,17 @@ tags:
   risk_score: 25
   required_fields:
   - uri
-  - status 
-  - method 
-  - file 
-  - clientip 
-  - host 
+  - status
+  - method
+  - file
+  - clientip
+  - host
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_enterprise_kv_store_incorrect_authorization_splunkd_access.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/splunk_enterprise_kv_store_incorrect_authorization_splunkd_access.log
     source: /opt/splunk/var/log/splunk/splunkd_access.log
-    sourcetype: splunkd_access 
-    custom_index: _internal 
+    sourcetype: splunkd_access
+    custom_index: _internal

@@ -1,27 +1,26 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 3
-date: '2022-08-31'
+version: 4
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'Detect procdump.exe dumping the lsass process. This query looks for
-  both -mm and -ma usage. -mm will produce a mini dump file and -ma will write a dump
-  file with all process memory. Both are highly suspect and should be reviewed. This
-  query does not monitor for the internal name (original_file_name=procdump) of the
-  PE or look for procdump64.exe. Modify the query as needed.
-
-  During triage, confirm this is procdump.exe executing. If it is the first time a
-  Sysinternals utility has been ran, it is possible there will be a -accepteula on
-  the command line. Review other endpoint data sources for cross process (injection)
-  into lsass.exe.'
+description: 'The following analytic detects the use of procdump.exe to dump the LSASS
+  process, specifically looking for the -mm and -ma command-line arguments. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names,
+  command-line executions, and parent processes. This activity is significant because
+  dumping LSASS can expose sensitive credentials, posing a severe security risk. If
+  confirmed malicious, an attacker could obtain credentials, escalate privileges,
+  and move laterally within the network, leading to potential data breaches and further
+  compromise of the environment.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_procdump` (Processes.process=*-ma*
-  OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.original_file_name Processes.dest | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `dump_lsass_via_procdump_filter`'
+  OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.parent_process_name
+  Processes.process_name Processes.process Processes.original_file_name Processes.dest
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `dump_lsass_via_procdump_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -85,11 +84,13 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/crowdstrike_falcon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike
     sourcetype: crowdstrike:events:sensor

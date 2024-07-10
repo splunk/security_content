@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Filesystem.file_
   != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*"
   by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest
   | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `email_files_written_outside_of_the_outlook_directory_filter` '
+  `email_files_written_outside_of_the_outlook_directory_filter`'
 how_to_implement: To successfully implement this search, you must be ingesting data
   that records the file-system activity from your hosts to populate the Endpoint.Filesystem
   data model node. This is typically populated via endpoint detection-and-response

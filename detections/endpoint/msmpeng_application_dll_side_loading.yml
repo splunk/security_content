@@ -1,23 +1,26 @@
 name: Msmpeng Application DLL Side Loading
 id: 8bb3f280-dd9b-11eb-84d5-acde48001122
-version: 3
-date: '2023-03-15'
+version: 4
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk, Sanjay Govind
 status: production
 type: TTP
-description: This search is to detect a suspicious creation of msmpeng.exe or mpsvc.dll
-  in non default windows defender folder. This technique was seen
-  with revil ransomware in Kaseya Supply chain. The approach is to drop an old version
-  of msmpeng.exe to load the actual payload name as mspvc.dll which will load the
-  revil ransomware to the compromise machine
+description: The following analytic detects the suspicious creation of msmpeng.exe
+  or mpsvc.dll in non-default Windows Defender folders. It leverages the Endpoint.Filesystem
+  datamodel to identify instances where these files are created outside their expected
+  directories. This activity is significant because it is associated with the REvil
+  ransomware, which uses DLL side-loading to execute malicious payloads. If confirmed
+  malicious, this could lead to ransomware deployment, resulting in data encryption,
+  system compromise, and potential data loss or extortion.
 data_source:
 - Sysmon EventID 1
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND NOT 
-  (Filesystem.file_path IN ("*\\Program Files\\windows defender\\*","*\\WinSxS\\*defender-service*","*\\WinSxS\\Temp\\*defender-service*")) by Filesystem.file_create_time
-  Filesystem.process_id  Filesystem.file_name Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `msmpeng_application_dll_side_loading_filter`'
+  where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND
+  NOT (Filesystem.file_path IN ("*\\Program Files\\windows defender\\*","*\\WinSxS\\*defender-service*","*\\WinSxS\\Temp\\*defender-service*"))
+  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user
+  Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `msmpeng_application_dll_side_loading_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
@@ -31,7 +34,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious creation of msmpeng.exe or mpsvc.dll in non default windows defender folder on host - $dest$
+  message: Suspicious creation of msmpeng.exe or mpsvc.dll in non default windows
+    defender folder on host - $dest$
   mitre_attack_id:
   - T1574.002
   - T1574
@@ -56,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets//malware/revil/msmpeng_side/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,15 +1,17 @@
 name: Linux Possible Access To Sudoers File
 id: 4479539c-71fc-11ec-b2e2-acde48001122
-version: 1
-date: '2022-01-10'
+version: 2
+date: '2024-05-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a possible access or modification of /etc/sudoers
-  file. "/etc/sudoers" file controls who can run what command as what users on what
-  machine and can also control whether a specific user need a password for particular
-  commands.  adversaries and threat actors abuse this file to gain persistence and/or
-  privilege escalation during attack on targeted host.
+description: The following analytic detects potential access or modification of the
+  /etc/sudoers file on a Linux system. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on processes like "cat," "nano," "vim," and "vi"
+  accessing the /etc/sudoers file. This activity is significant because the sudoers
+  file controls user permissions for executing commands with elevated privileges.
+  If confirmed malicious, an attacker could gain persistence or escalate privileges,
+  compromising the security of the targeted host.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.008/copy_file_stdoutpipe/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.008/copy_file_stdoutpipe/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

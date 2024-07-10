@@ -1,7 +1,7 @@
 name: Windows Event Log Security
 id: e3e44de1-57b1-462d-b57c-c7657af7ae6e
 author: Patrick Bareiss, Splunk
-source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+source: XmlWinEventLog:Security
 sourcetype: xmlwineventlog
 separator: EventCode
 supported_TA:

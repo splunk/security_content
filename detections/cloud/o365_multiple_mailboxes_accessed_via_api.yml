@@ -1,22 +1,31 @@
 name: O365 Multiple Mailboxes Accessed via API
 id: 7cd853e9-d370-412f-965d-a2bcff2a2908
-version: 1
-date: '2024-02-01'
+version: 2
+date: '2024-05-16'
 author: Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - O365 MailItemsAccessed
 type: TTP
 status: production
-description: The following analytic is designed to trigger when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) in a short time, hinting at possible unauthorized mass email access. It tracks 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. Crucial for SOC teams, this analytic focuses on spotting abnormal access patterns, often signaling data exfiltration or account compromise. Security teams should tailor the threshold - set here to flag over five unique mailboxes accessed within 10 minutes - to align with their environment's norms, ensuring effective detection of potential security incidents while maintaining operational efficiency.
-search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* ClientAppId=* 
-  | bucket span=10m _time
-  | eval matchRegex=if(match(ClientInfoString, "^Client=WebServices;ExchangeWebServices"), 1, 0) 
-  | search (AppId="00000003-0000-0000-c000-000000000000" OR matchRegex=1)
-  | stats values(ClientIPAddress) as src_ip dc(user) as unique_mailboxes values(user) as user by _time ClientAppId ClientInfoString
-  | where unique_mailboxes > 5
-  | `o365_multiple_mailboxes_accessed_via_api_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
-known_false_positives: Legitimate applications may access multiple mailboxes via an API. You can filter by the ClientAppId or the CLientIpAddress fields.
+description: The following analytic detects when a high number of Office 365 Exchange
+  mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) within
+  a short timeframe. It leverages 'MailItemsAccessed' operations in Exchange, using
+  AppId and regex to identify API interactions. This activity is significant as it
+  may indicate unauthorized mass email access, potentially signaling data exfiltration
+  or account compromise. If confirmed malicious, attackers could gain access to sensitive
+  information, leading to data breaches and further exploitation of compromised accounts.
+  The threshold is set to flag over five unique mailboxes accessed within 10 minutes,
+  but should be tailored to your environment.
+search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
+  AppId=* ClientAppId=* | bucket span=10m _time | eval matchRegex=if(match(ClientInfoString,
+  "^Client=WebServices;ExchangeWebServices"), 1, 0) | search (AppId="00000003-0000-0000-c000-000000000000"
+  OR matchRegex=1) | stats values(ClientIPAddress) as src_ip dc(user) as unique_mailboxes
+  values(user) as user by _time ClientAppId ClientInfoString | where unique_mailboxes
+  > 5 | `o365_multiple_mailboxes_accessed_via_api_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: Legitimate applications may access multiple mailboxes via an
+  API. You can filter by the ClientAppId or the CLientIpAddress fields.
 references:
 - https://attack.mitre.org/techniques/T1114/002/
 - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
@@ -31,7 +40,8 @@ tags:
   asset_type: O365 Tenant
   confidence: 60
   impact: 70
-  message: An Oauth application identified with id $ClientAppId$ accessed multiple mailboxes in a short period of time via an API.
+  message: An Oauth application identified with id $ClientAppId$ accessed multiple
+    mailboxes in a short period of time via an API.
   mitre_attack_id:
   - T1114.002
   observable:
@@ -57,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
     source: o365
     sourcetype: o365:management:activity

@@ -1,22 +1,19 @@
 name: AWS Concurrent Sessions From Different Ips
 id: 51c04fdb-2746-465a-b86e-b413a09c9085
-version: 1
-date: '2023-02-01'
+version: 2
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 description: The following analytic identifies an AWS IAM account with concurrent
-  sessions coming from more than one unique IP address within the span of 5 minutes.
-  This behavior could represent a session hijacking attack whereby an adversary has
-  extracted cookies from a victims browser and is using them from a different location
-  to access corporate online resources. When a user navigates the AWS Console after
-  authentication, the API call with the event name `DescribeEventAggregates` is registered
-  in the AWS CloudTrail logs. The Splunk Threat Research team leveraged this event
-  name to identify 2 concurrent sessions. The presence of this event occurring from
-  two different IP addresses is highly unlikely. As users may behave differently across
-  organizations, security teams should test and customize this detection to fit their
-  environments.
-data_source: 
+  sessions originating from more than one unique IP address within a 5-minute window.
+  It leverages AWS CloudTrail logs, specifically the `DescribeEventAggregates` event,
+  to detect this behavior. This activity is significant as it may indicate a session
+  hijacking attack, where an adversary uses stolen session cookies to access AWS resources
+  from a different location. If confirmed malicious, this could allow unauthorized
+  access to sensitive corporate resources, leading to potential data breaches or further
+  exploitation within the AWS environment.
+data_source:
 - AWS CloudTrail DescribeEventAggregates
 search: ' `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
   | bin span=5m _time | stats values(userAgent) values(eventName) values(src_ip) as
@@ -68,7 +65,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/aws_concurrent_sessions_from_different_ips/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

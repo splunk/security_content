@@ -1,13 +1,17 @@
 name: Wget Download and Bash Execution
 id: 35682718-5a85-11ec-b8f7-acde48001122
-version: 1
-date: '2021-12-11'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of wget on Linux or MacOS attempting
-  to download a file from a remote source and pipe it to bash. This is typically found
-  with coinminers and most recently with CVE-2021-44228, a vulnerability in Log4j.
+description: The following analytic detects the use of wget on Linux or MacOS to download
+  a file from a remote source and pipe it to bash. This detection leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process names and command-line
+  executions. This activity is significant as it is commonly associated with malicious
+  actions like coinminers and exploits such as CVE-2021-44228 in Log4j. If confirmed
+  malicious, this behavior could allow attackers to execute arbitrary code, potentially
+  leading to system compromise and unauthorized access to sensitive data.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/linux-sysmon_curlwget.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/linux-sysmon_curlwget.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

@@ -1,14 +1,18 @@
 name: Windows Change Default File Association For No File Ext
 id: dbdf52ad-d6a1-4b68-975f-0a10939d8e38
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is developed to detect suspicious process commandline to
-  change or set the default file association of a file without file extension with
-  notepad.exe. This technique was seen in some APT and ransomware Prestige where it
-  set/modify the default process to run file association, like .txt to notepad.exe.
+description: The following analytic detects attempts to change the default file association
+  for files without an extension to open with Notepad.exe. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on specific command-line
+  patterns and registry modifications. This activity is significant as it can indicate
+  an attempt to manipulate file handling behavior, a technique observed in APT and
+  ransomware attacks like Prestige. If confirmed malicious, this could allow attackers
+  to execute arbitrary code by tricking users into opening files, potentially leading
+  to system compromise or data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

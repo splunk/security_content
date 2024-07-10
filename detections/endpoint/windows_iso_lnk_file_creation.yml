@@ -1,15 +1,17 @@
 name: Windows ISO LNK File Creation
 id: d7c2c09b-9569-4a9e-a8b6-6a39a99c1d32
-version: 2
-date: '2022-09-19'
+version: 3
+date: '2024-05-09'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the use of a delivered ISO file that
-  has been mounted and the afformention lnk or file opened within it. When the ISO
-  file is opened, the files are saved in the %USER%\AppData\Local\Temp\<random folder
-  name>\ path. The analytic identifies .iso.lnk written to the path. The name of the
-  ISO file is prepended.
+description: The following analytic detects the creation of .iso.lnk files in the
+  %USER%\AppData\Local\Temp\<random folder name>\ path, indicating that an ISO file
+  has been mounted and accessed. This detection leverages the Endpoint.Filesystem
+  data model, specifically monitoring file creation events in the Windows Recent folder.
+  This activity is significant as it may indicate the delivery and execution of potentially
+  malicious payloads via ISO files. If confirmed malicious, this could lead to unauthorized
+  code execution, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.001/atomic_red_team/iso_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

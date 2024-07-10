@@ -1,18 +1,21 @@
 name: Windows Modify Registry Disable WinDefender Notifications
 id: 8e207707-ad40-4eb3-b865-3a52aec91f26
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification
-  to disable Windows Defender notification. This technique was being abused by several
-  adversaries, malware authors and also red-teamers to evade detection on the targeted
-  machine. RedLine Stealer is one of the malware we've seen that uses this technique
-  to bypass Windows defender detection.
+description: The following analytic detects a suspicious registry modification aimed
+  at disabling Windows Defender notifications. It leverages data from the Endpoint.Registry
+  data model, specifically looking for changes to the registry path "*\\SOFTWARE\\Policies\\Microsoft\\Windows
+  Defender Security Center\\Notifications\\DisableNotifications" with a value of "0x00000001".
+  This activity is significant as it indicates an attempt to evade detection by disabling
+  security alerts, a technique used by adversaries and malware like RedLine Stealer.
+  If confirmed malicious, this could allow attackers to operate undetected, increasing
+  the risk of further compromise and data exfiltration.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows
   Defender Security Center\\Notifications\\DisableNotifications" AND Registry.registry_value_data="0x00000001"
@@ -63,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

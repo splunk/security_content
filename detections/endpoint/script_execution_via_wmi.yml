@@ -1,19 +1,19 @@
 name: Script Execution via WMI
 id: aa73f80d-d728-4077-b226-81ea0c8be589
-version: 4
-date: '2020-03-16'
+version: 5
+date: '2024-05-11'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects any potential misuse of Windows Management Instrumentation (WMI) for malicious purposes since adversaries often use WMI to run scripts which allows them to carry out malicious activities without raising suspicion. The detection is made by monitoring the process 'scrcons.exe', which is essential to run WMI scripts. The detection is important because it proactively identifies and responds to potential threats that leverage WMI for malicious purposes that can lead to system compromise, data exfiltration, or the establishment of persistence within the environment. False positives might occur since administrators might occasionally use WMI to launch scripts for legitimate purposes. Therefore, you must distinguish between malicious and benign activities.
+  The following analytic detects the execution of scripts via Windows Management Instrumentation (WMI) by monitoring the process 'scrcons.exe'. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events. WMI-based script execution is significant because adversaries often use it to perform malicious activities stealthily, such as system compromise, data exfiltration, or establishing persistence. If confirmed malicious, this activity could allow attackers to execute arbitrary code, escalate privileges, or maintain long-term access to the environment. Analysts should differentiate between legitimate administrative use and potential threats.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=scrcons.exe
   by Processes.dest Processes.user Processes.parent_process Processes.process_name
   Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `script_execution_via_wmi_filter` '
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `script_execution_via_wmi_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -59,6 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/execution_scrcons/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/execution_scrcons/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

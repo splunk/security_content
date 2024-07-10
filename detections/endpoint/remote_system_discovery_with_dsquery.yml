@@ -1,15 +1,18 @@
 name: Remote System Discovery with Dsquery
 id: 9fb562f4-42f8-4139-8e11-a82edf7ed718
-version: 1
-date: '2021-08-31'
+version: 2
+date: '2024-05-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `dsquery.exe` with command-line
-  arguments utilized to discover remote systems. The `computer` argument returns a
-  list of all computers registered in the domain. Red Teams and adversaries alike
-  engage in remote system discovery for situational awareness and Active Directory
-  Discovery.
+description: The following analytic detects the execution of `dsquery.exe` with the
+  `computer` argument, which is used to discover remote systems within a domain. This
+  detection leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process names and command-line arguments. Remote system discovery is significant
+  as it indicates potential reconnaissance activities by adversaries or Red Teams
+  to map out network resources and Active Directory structures. If confirmed malicious,
+  this activity could lead to further exploitation, lateral movement, and unauthorized
+  access to critical systems within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -66,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

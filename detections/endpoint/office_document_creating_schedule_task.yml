@@ -1,31 +1,23 @@
 name: Office Document Creating Schedule Task
 id: cc8b7b74-9d0f-11eb-8342-acde48001122
-version: 6
-date: '2024-03-14'
+version: 7
+date: '2024-05-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a potentially malicious office document that creates
-  a scheduled task entry either through a macro VBA API or by loading taskschd.dll. This
-  technique has been observed in numerous instances of malicious macro malware aiming to establish persistence
-  or beaconing through task schedule entries. The analytic will return the first and
-  last time the task was registered, as well as details such as the `Command` to be executed,
-  `Task Name`, `Author`, `Enabled` status, and whether it is `Hidden`. schtasks.exe
-  is natively located in `C:\Windows\system32` and `C:\Windows\syswow64`. The DLL(s)
-  `taskschd.dll` are loaded when schtasks.exe or TaskService is initiated. If this DLL is found loaded by another process, it may indicate that a scheduled task is being registered
-  within that process's context in memory. During triage, determine the source of the scheduled
-  task. Was it schtasks.exe or via TaskService? Review the job created and the command
-  to be executed. Capture any artifacts on disk for further review. Identify any parallel
-  processes within the same timeframe to pinpoint the source.'
+description: The following analytic detects an Office document creating a scheduled
+  task, either through a macro VBA API or by loading `taskschd.dll`. This detection
+  leverages Sysmon EventCode 7 to identify when Office applications load the `taskschd.dll`
+  file. This activity is significant as it is a common technique used by malicious
+  macro malware to establish persistence or initiate beaconing. If confirmed malicious,
+  this could allow an attacker to maintain persistence, execute arbitrary commands,
+  or schedule future malicious activities, posing a significant threat to the environment.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE",
-    "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
-    "msaccess.exe") loaded_file_path = "*\\taskschd.dll" 
-  | stats min(_time) as firstTime
-      max(_time) as lastTime count by user_id, dest, process_name,loaded_file, loaded_file_path, original_file_name, process_guid
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+search: '`sysmon` EventCode=7 process_name IN ("WINWORD.EXE", "EXCEL.EXE", "POWERPNT.EXE","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
+  "msaccess.exe") loaded_file_path = "*\\taskschd.dll" | stats min(_time) as firstTime
+  max(_time) as lastTime count by user_id, dest, process_name,loaded_file, loaded_file_path,
+  original_file_name, process_guid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `office_document_creating_schedule_task_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
@@ -45,8 +37,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: An Office document was identified creating a scheduled task on $dest$. Investigate
-    further.
+  message: An Office document was identified creating a scheduled task on $dest$.
+    Investigate further.
   mitre_attack_id:
   - T1566
   - T1566.001
@@ -74,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

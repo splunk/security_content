@@ -1,22 +1,18 @@
 name: Print Spooler Failed to Load a Plug-in
 id: 1adc9548-da7c-11eb-8f13-acde48001122
-version: 1
-date: '2021-07-01'
+version: 2
+date: '2024-05-28'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies driver load errors utilizing the Windows
-  PrintService Admin logs. This was identified during our testing of CVE-2021-34527
-  previously (CVE-2021-1675) or PrintNightmare. 
-
-  Within the proof of concept code, the following error will occur - "The print spooler
-  failed to load a plug-in module C:\Windows\system32\spool\DRIVERS\x64\3\meterpreter.dll,
-  error code 0x45A. See the event user data for context information." 
-
-  The analytic is based on file path and failure to load the plug-in. 
-
-  During triage, isolate the endpoint and review for source of exploitation. Capture
-  any additional file modification events.'
+description: 'The following analytic detects driver load errors in the Windows PrintService
+  Admin logs, specifically identifying issues related to CVE-2021-34527 (PrintNightmare).
+  It triggers on error messages indicating the print spooler failed to load a plug-in
+  module, such as "meterpreter.dll," with error code 0x45A. This detection method
+  leverages specific event codes and error messages. This activity is significant
+  as it may indicate an exploitation attempt of a known vulnerability. If confirmed
+  malicious, an attacker could gain unauthorized code execution on the affected system,
+  leading to potential system compromise.'
 data_source:
 - Windows Event Log Printservice 808
 - Windows Event Log Printservice 4909
@@ -66,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_admin.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_admin.log
     source: WinEventLog:Microsoft-Windows-PrintService/Admin
     sourcetype: WinEventLog

@@ -1,15 +1,18 @@
 name: Disabling Defender Services
 id: 911eacdc-317f-11ec-ad30-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-19'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This particular behavior is typically executed when an adversaries or
-  malware gains access to an endpoint and beings to perform execution and to evade
-  detections. Usually, a batch (.bat) will be executed and multiple registry and scheduled
-  task modifications will occur. During triage, review parallel processes and identify
-  any further file modifications. Endpoint should be isolated.
+description: The following analytic detects the disabling of Windows Defender services
+  by monitoring registry modifications. It leverages registry event data to identify
+  changes to specific registry paths associated with Defender services, where the
+  'Start' value is set to '0x00000004'. This activity is significant because disabling
+  Defender services can indicate an attempt by an adversary to evade detection and
+  maintain persistence on the endpoint. If confirmed malicious, this action could
+  allow attackers to execute further malicious activities undetected, leading to potential
+  data breaches or system compromise.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -17,9 +20,9 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   WHERE (Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" AND
   (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*",
   "*SecurityHealthService*")) AND Registry.registry_value_name = Start Registry.registry_value_data
-  = 0x00000004) BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
+  = 0x00000004) BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_defender_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -66,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

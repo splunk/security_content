@@ -1,19 +1,19 @@
 name: Kubernetes Previously Unseen Process
 id: c8119b2f-d7f7-40be-940a-1c582870e8e2
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-05-13'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: This analytic detects newly seen process within the Kubernetes scope on a master or worker node. This detection leverages process metrics harvested using an 
-  OTEL collector and hostmetrics receiever, and is pulled from Splunk Observability cloud using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). 
-  This detection compares the processes seen for each node over the previous 1 hour with those over the previous 30 days up until the previous 1 hour. 
-  The specific metric used by this detection is process.memory.utilization. Newly seen processes on a Kubernetes worker node are concerning as they may represent security risks and 
-  anomalies that could be related to unauthorized activity. New processes may be introduced  in an attempt to compromise the node or gain control of the Kubernetes cluster. 
-  By detecting these processes, they can be investigated, and correlated with other anomalous activity for that host. Newly seen processes may be part of an attacker's strategy to compromise the node, 
-  gain unauthorized access, and subsequently extend their control to the entire Kubernetes cluster. These processes could facilitate activities such as data exfiltration, privilege escalation, 
-  denial-of-service attacks, or the introduction of malware and backdoors, putting sensitive data, applications, and the entire infrastructure at risk.  
-  The consequences may include data breaches, service disruptions, financial losses, and reputational damage, underscoring the need to identify anomalous process and associate them with any concurrent risk activity.
+description: The following analytic detects previously unseen processes within the
+  Kubernetes environment on master or worker nodes. It leverages process metrics collected
+  via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability
+  Cloud. This detection compares processes observed in the last hour against those
+  seen in the previous 30 days. Identifying new processes is crucial as they may indicate
+  unauthorized activity or attempts to compromise the node. If confirmed malicious,
+  these processes could lead to data exfiltration, privilege escalation, denial-of-service
+  attacks, or the introduction of malware, posing significant risks to the Kubernetes
+  cluster.
 data_source: []
 search: '| mstats  count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.executable.name
   | eval current="True"
@@ -22,29 +22,37 @@ search: '| mstats  count(process.memory.utilization) as process.memory.utilizati
   | stats count values(current) as current by host.name k8s.cluster.name k8s.node.name process.executable.name
   | where count=1 and current="True"
   | rename host.name as host
-  | `kubernetes_previously_unseen_process_filter` '
+  | `kubernetes_previously_unseen_process_filter`'
 how_to_implement: 'To implement this detection, follow these steps: 
   
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
-  
+
   * Enable the hostmetrics/process receiver in the OTEL configuration.
-  
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
-  
+
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
+  are enabled.
+
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
-  
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
-  
+
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
+  Token.
+
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
-  
-  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
-  
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
-  
+
+  * In the SIM configuration, set the Organization ID to your Observability Cloud
+  Organization ID.
+
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
+  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
+  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
+  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
+  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
+  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+
   * Set the Metric Resolution to 10000.
-  
+
   * Leave all other settings at their default values.
-  
+
   * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
 known_false_positives: unknown
 references:
@@ -69,9 +77,9 @@ tags:
   - Splunk Cloud
   required_fields:
   - process.memory.utilization
-  - host.name 
-  - k8s.cluster.name 
-  - k8s.node.name 
+  - host.name
+  - k8s.cluster.name
+  - k8s.node.name
   - process.executable.name
   risk_score: 25
   security_domain: network

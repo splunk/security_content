@@ -1,21 +1,24 @@
 name: Windows Multi hop Proxy TOR Website Query
 id: 4c2d198b-da58-48d7-ba27-9368732d0054
-version: 1
-date: '2022-09-16'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a dns query to a known TOR proxy website.
-  This technique was seen in several adversaries, threat actors and malware like AgentTesla
-  to To disguise the source of its malicious traffic. adversaries may chain together
-  multiple proxies. This Anomaly detection might be a good pivot for a process trying
-  to download or use TOR proxies in a compromised host machine.
+description: The following analytic identifies DNS queries to known TOR proxy websites,
+  such as "*.torproject.org" and "www.theonionrouter.com". It leverages Sysmon EventCode
+  22 to detect these queries by monitoring DNS query events from endpoints. This activity
+  is significant because adversaries often use TOR proxies to disguise the source
+  of their malicious traffic, making it harder to trace their actions. If confirmed
+  malicious, this behavior could indicate an attempt to obfuscate network traffic,
+  potentially allowing attackers to exfiltrate data or communicate with command and
+  control servers undetected.
 data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
   | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName
-  QueryStatus ProcessId  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_multi_hop_proxy_tor_website_query_filter`'
+  QueryStatus ProcessId  Computer | rename Computer as dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_multi_hop_proxy_tor_website_query_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and sysmon eventcode = 22 dns query events from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -56,7 +59,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_tor_dns_query/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_tor_dns_query/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,19 +1,18 @@
 name: Rubeus Command Line Parameters
 id: cca37478-8377-11ec-b59a-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: Rubeus is a C# toolset for raw Kerberos interaction and abuses. It is
-  heavily adapted from Benjamin Delpys Kekeo project and Vincent LE TOUXs MakeMeEnterpriseAdmin
-  project. This analytic looks for the use of Rubeus command line arguments utilized
-  in common Kerberos attacks like exporting and importing tickets, forging silver
-  and golden tickets, requesting a TGT or TGS, kerberoasting, password spraying, etc.
-  Red teams and adversaries alike use Rubeus for Kerberos attacks within Active Directory
-  networks. Defenders should be aware that adversaries may customize the source code
-  of Rubeus and modify the command line parameters. This would effectively bypass
-  this analytic.
+description: The following analytic detects the use of Rubeus command line parameters,
+  a toolset for Kerberos attacks within Active Directory environments. It leverages
+  Endpoint Detection and Response (EDR) data to identify specific command-line arguments
+  associated with actions like ticket manipulation, kerberoasting, and password spraying.
+  This activity is significant as Rubeus is commonly used by adversaries to exploit
+  Kerberos for privilege escalation and lateral movement. If confirmed malicious,
+  this could lead to unauthorized access, persistence, and potential compromise of
+  sensitive information within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -90,6 +89,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.003/rubeus/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

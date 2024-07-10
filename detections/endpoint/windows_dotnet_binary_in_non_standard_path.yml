@@ -1,28 +1,29 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies native .net binaries within the Windows
-  operating system that may be abused by adversaries by moving it to a new directory.
-  The analytic identifies the .net binary by using a lookup and compares the process
-  name and original file name (internal name). The analytic utilizes a lookup with
-  the is_net_windows_file_macro macro to identify the binary process name and original file
-  name. if one or the other matches an alert will be generated. Adversaries abuse
-  these binaries as they are native to windows and native DotNet. Note that not all
-  SDK (post install of Windows) are captured in the lookup.
+description: The following analytic detects the execution of native .NET binaries
+  from non-standard directories within the Windows operating system. It leverages
+  Endpoint Detection and Response (EDR) telemetry, comparing process names and original
+  file names against a predefined lookup using the `is_net_windows_file_macro` macro.
+  This activity is significant because adversaries may move .NET binaries to unconventional
+  paths to evade detection and execute malicious code. If confirmed malicious, this
+  behavior could allow attackers to execute arbitrary code, escalate privileges, or
+  maintain persistence within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where NOT (Processes.process_path
   IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
   "*\\Windows\\SystemApps\\*", "*\\WinSxS\\*", "*\\Windows\\Microsoft.NET\\*")) by
-  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
-  Processes.original_file_name Processes.process_path Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `is_net_windows_file_macro` | `windows_dotnet_binary_in_non_standard_path_filter`'
+  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
+  Processes.process_name Processes.process Processes.original_file_name Processes.process_path
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_net_windows_file_macro`
+  | `windows_dotnet_binary_in_non_standard_path_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -97,6 +98,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon_installutil_path.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,27 +1,31 @@
 name: Windows Query Registry Browser List Application
 id: 45ebd21c-f4bf-4ced-bd49-d25b6526cebb
-version: 1
-date: '2023-04-25'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Windows Event Log Security 4663
-description: The following analytic identifies a suspicious process accessing default internet browsers registry entry. 
-  This registry is used by Windows to store information about default internet browsers installed on a system. 
-  Malware, adversaries or red-teamers can abuse this registry key to collect data about the installed internet browsers and their associated settings.
-  This information can be used to steal sensitive data such as login credentials, browsing history, and saved passwords.
-  We observed noise that needs to be filter out so we add several known path of Windows Application to make this detection more stable.
-search: '`wineventlog_security` EventCode=4663 object_file_path IN ("*\\SOFTWARE\\Clients\\StartMenuInternet\\*", "*\\SOFTWARE\\Clients\\StartMenuInternet\\*")
-  AND NOT (process_path IN ("*:\\Windows\\System32\\*", "*:\\Windows\\SysWow64\\*", "*:\\Program Files*", "*:\\Windows\\*"))       
-  | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path  process_id EventCode dest
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_query_registry_browser_list_application_filter`'
+description: The following analytic detects a suspicious process accessing the registry
+  entries for default internet browsers. It leverages Windows Security Event logs,
+  specifically event code 4663, to identify access attempts to these registry paths.
+  This activity is significant because adversaries can exploit this registry key to
+  gather information about installed browsers and their settings, potentially leading
+  to the theft of sensitive data such as login credentials and browsing history. If
+  confirmed malicious, this behavior could enable attackers to exfiltrate sensitive
+  information and compromise user accounts.
+search: '`wineventlog_security` EventCode=4663 object_file_path IN ("*\\SOFTWARE\\Clients\\StartMenuInternet\\*",
+  "*\\SOFTWARE\\Clients\\StartMenuInternet\\*") AND NOT (process_path IN ("*:\\Windows\\System32\\*",
+  "*:\\Windows\\SysWow64\\*", "*:\\Program Files*", "*:\\Windows\\*")) | stats count
+  min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path
+  process_name process_path  process_id EventCode dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_query_registry_browser_list_application_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: uninstall application may access this registry to remove the entry of the target application. filter is needed.
+known_false_positives: uninstall application may access this registry to remove the
+  entry of the target application. filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
 tags:
@@ -30,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A suspicious process accessing installed default browser registry on $dest$  
+  message: A suspicious process accessing installed default browser registry on $dest$
   mitre_attack_id:
   - T1012
   observable:
@@ -56,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/browser_list/ar3_4663_redline_reg.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/browser_list/ar3_4663_redline_reg.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

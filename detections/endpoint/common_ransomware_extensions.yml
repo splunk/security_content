@@ -1,11 +1,18 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 5
-date: '2022-11-10'
+version: 6
+date: '2024-05-26'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: Hunting
-description: "The following analytic detects Searches for file modifications that commonly occur with Ransomware to detect modifications to files with extensions that are commonly used by Ransomware. The detection is made by searches for changes in the datamodel=Endpoint.Filesystem, specifically modifications to file extensions that match those commonly used by Ransomware. The detection is important because it suggests that an attacker is attempting to encrypt or otherwise modify files in the environment using malware, potentially leading to data loss that can cause significant damage to an organization's data and systems. False positives might occur so the SOC must investigate the affected system to determine the source of the modification and take appropriate action to contain and remediate the attack."
+description: "The following analytic detects modifications to files with extensions
+  commonly associated with ransomware. It leverages the Endpoint.Filesystem data model
+  to identify changes in file extensions that match known ransomware patterns. This
+  activity is significant because it suggests an attacker is attempting to encrypt
+  or alter files, potentially leading to severe data loss and operational disruption.
+  If confirmed malicious, this activity could result in the encryption of critical
+  data, rendering it inaccessible and causing significant damage to the organization's
+  data integrity and availability."
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
@@ -68,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

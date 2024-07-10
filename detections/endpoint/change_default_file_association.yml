@@ -1,15 +1,18 @@
 name: Change Default File Association
 id: 462d17d8-1f71-11ec-ad07-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is developed to detect suspicious registry modification
-  to change the default file association of windows to malicious payload. This technique
-  was seen in some APT where it modify the default process to run file association,
-  like .txt to notepad.exe. Instead notepad.exe it will point to a Script or other
-  payload that will load malicious commands to the compromised host.
+description: The following analytic detects suspicious registry modifications that
+  change the default file association to execute a malicious payload. It leverages
+  data from the Endpoint data model, specifically monitoring registry paths under
+  "*\\shell\\open\\command\\*" and "*HKCR\\*". This activity is significant because
+  altering default file associations can allow attackers to execute arbitrary scripts
+  or payloads when a user opens a file, leading to potential code execution. If confirmed
+  malicious, this technique can enable attackers to persist on the compromised host
+  and execute further malicious commands, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -68,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

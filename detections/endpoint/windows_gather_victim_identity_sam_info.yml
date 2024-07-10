@@ -1,15 +1,17 @@
 name: Windows Gather Victim Identity SAM Info
 id: a18e85d7-8b98-4399-820c-d46a1ca3516f
-version: 1
-date: '2022-08-24'
+version: 2
+date: '2024-05-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a process that loads the samlib.dll
-  module. This module is being abused by adversaries, threat actors and red teamers
-  to access information of SAM objects or access credentials information in DC. This
-  hunting query can be a good indicator that a process is capable of accessing the
-  SAM object.
+description: The following analytic detects processes loading the samlib.dll or samcli.dll
+  modules, which are often abused to access Security Account Manager (SAM) objects
+  or credentials on domain controllers. This detection leverages Sysmon EventCode
+  7 to identify these DLLs being loaded outside typical system directories. Monitoring
+  this activity is crucial as it may indicate attempts to gather sensitive identity
+  information. If confirmed malicious, this behavior could allow attackers to obtain
+  credentials, escalate privileges, or further infiltrate the network.
 data_source:
 - Sysmon EventID 7
 search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName
@@ -32,8 +34,8 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: An instance of $dest$ that loads $ImageLoaded$ that are related to
-    accessing to SAM object information.
+  message: An instance of $dest$ that loads $ImageLoaded$ that are related to accessing
+    to SAM object information.
   mitre_attack_id:
   - T1589.001
   - T1589
@@ -59,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

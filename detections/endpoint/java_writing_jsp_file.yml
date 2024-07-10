@@ -1,14 +1,17 @@
 name: Java Writing JSP File
 id: eb65619c-4f8d-4383-a975-d352765d344b
-version: 2
-date: '2022-06-03'
+version: 3
+date: '2024-05-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the process java writing a .jsp to
-  disk. This is potentially indicative of a web shell being written to disk. Modify
-  and tune the analytic based on data ingested. For instance, it may be worth running
-  a broad query for jsp file writes first before performing a join.
+description: The following analytic detects the Java process writing a .jsp file to
+  disk, which may indicate a web shell being deployed. It leverages data from the
+  Endpoint datamodel, specifically monitoring process and filesystem activities. This
+  activity is significant because web shells can provide attackers with remote control
+  over the compromised server, leading to further exploitation. If confirmed malicious,
+  this could allow unauthorized access, data exfiltration, or further compromise of
+  the affected system, posing a severe security risk.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -85,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/java_write_jsp-linux-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/java_write_jsp-linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

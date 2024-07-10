@@ -1,15 +1,17 @@
 name: Remote Process Instantiation via WinRM and PowerShell Script Block
 id: 7d4c618e-4716-11ec-951c-3e22fbd008af
-version: 2
-date: '2022-03-22'
+version: 3
+date: '2024-05-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of PowerShell with arguments utilized to start a process
-  on a remote endpoint by abusing the WinRM protocol. Specifically, this search looks
-  for the abuse of the `Invoke-Command` commandlet. Red Teams and adversaries alike
-  may abuse WinRM for lateral movement and remote code execution.
+description: The following analytic detects the execution of PowerShell commands that
+  use the `Invoke-Command` cmdlet to start a process on a remote endpoint via the
+  WinRM protocol. It leverages PowerShell Script Block Logging (EventCode=4104) to
+  identify such activities. This behavior is significant as it may indicate lateral
+  movement or remote code execution attempts by adversaries. If confirmed malicious,
+  this activity could allow attackers to execute arbitrary code on remote systems,
+  potentially leading to further compromise and persistence within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText="*Invoke-Command*" AND ScriptBlockText="*-ComputerName*")
@@ -18,7 +20,8 @@ search: '`powershell` EventCode=4104 (ScriptBlockText="*Invoke-Command*" AND Scr
   | `remote_process_instantiation_via_winrm_and_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
-  can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  can be found 
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Administrators may leverage WinRM and `Invoke-Command` to start
   a process on remote systems for system administration or automation use cases. This
   activity is usually limited to a small set of hosts or users. In certain environments,
@@ -58,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

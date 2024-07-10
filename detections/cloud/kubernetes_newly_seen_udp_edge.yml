@@ -1,19 +1,19 @@
 name: Kubernetes newly seen UDP edge
 id: 49b7daca-4e3c-4899-ba15-9a175e056fa9
-version: 1
-date: '2024-01-10'
+version: 2
+date: '2024-05-27'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: 'This analytic detects UDP communication between a newly seen source and destination workload pair. 
-  This is done to identify changes in network behavior between workloads in a kubernetes cluster. This detection leverages Network performance Monitoring 
-  metrics harvested using an OTEL collector, and is pulled from Splunk Observability cloud using the Splunk Infrastructure Monitoring Add-on. (https://splunkbase.splunk.com/app/5247). 
-  This detection compares network activity between workloads over the last 1 hour, with those over the last 30 days in order to detect newly seen inter workload communication.
-  Newly seen network connections in a microservices based app indicate a change in behavior which could indicate potential security threats or anomalies. 
-  Distributed applications typically have common established network connection topologies, and new connections are often either an indication of a change in the application or an active threat.
-  Unauthorized connections may enable the attacker to infiltrate the applications ecosystem, potentially leading to data breaches, manipulation of sensitive information, 
-  or disruption of critical services. Bad actors may exploit these connections to gain access, escalate privileges, move laterally within the microservices, or introduce malicious code or payloads, 
-  putting the applications integrity, availability, and confidentiality at risk.'
+description: 'The following analytic detects UDP communication between a newly seen
+  source and destination workload pair within a Kubernetes cluster. It leverages Network
+  Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk
+  Observability Cloud. This detection compares network activity over the last hour
+  with the past 30 days to identify new inter-workload communication. Such changes
+  in network behavior can indicate potential security threats or anomalies. If confirmed
+  malicious, unauthorized connections may enable attackers to infiltrate the application
+  ecosystem, leading to data breaches, privilege escalation, lateral movement, or
+  disruption of critical services.'
 data_source: []
 search: '| mstats count(udp.packets) as udp.packets_count where `kubernetes_metrics` AND earliest=-1h by k8s.cluster.name source.workload.name dest.workload.name
   | eval current="True" 
@@ -24,7 +24,7 @@ search: '| mstats count(udp.packets) as udp.packets_count where `kubernetes_metr
   | eventstats values(current) as current by source.workload.name dest.workload.name
   | search current="true" current!="false"
   | rename k8s.cluster.name as host
-  | `kubernetes_newly_seen_udp_edge_filter` '
+  | `kubernetes_newly_seen_udp_edge_filter`'
 how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cluster and 
   enable Network Performance Monitoring according to instructions found in Splunk Docs 
   https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup 
@@ -34,10 +34,6 @@ how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cl
   
   * Name sim_npm_metrics_to_metrics_index 
 
-  * Org ID <Your O11y Cloud Org Id> 
-  
-  * Signal Flow Program data(''tcp.packets'').publish(label=''A''); data(''tcp.bytes'').publish(label=''B''); data(''tcp.new_sockets'').publish(label=''C''); data(''udp.packets'').publish(label=''D''); data(''udp.bytes'').publish(label=''E'') 
-  
   * Metric Resolution 10000'
 known_false_positives: unknown
 references:
@@ -61,9 +57,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - k8s.cluster.name 
-  - source.workload.name 
-  - dest.workload.name 
+  - k8s.cluster.name
+  - source.workload.name
+  - dest.workload.name
   - udp.packets
   risk_score: 25
   security_domain: network

@@ -1,26 +1,31 @@
 name: ASL AWS New MFA Method Registered For User
 id: 33ae0931-2a03-456b-b1d7-b016c5557fbd
-version: 2
-date: '2024-02-13'
+version: 3
+date: '2024-05-18'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects when a new Multi-Factor Authentication (MFA) method is registered for an AWS account, as logged 
-  through Amazon Security Lake (ASL). This behavior is detected by monitoring ASL logs for specific API calls associated with MFA registration. 
-  Identifying this activity is crucial for a Security Operations Center (SOC) because unauthorized registration of a new MFA method can indicate 
-  an adversary's attempt to establish or maintain access to a compromised account. The impact of such an attack is significant as it can enable 
-  persistent access for the attacker, potentially leading to further compromise and exploitation of cloud resources.
+description: The following analytic identifies the registration of a new Multi-Factor
+  Authentication (MFA) method for an AWS account, as logged through Amazon Security
+  Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice`
+  API operation within ASL logs. This behavior is significant because adversaries
+  who gain unauthorized access to an AWS account may register a new MFA method to
+  maintain persistence. If confirmed malicious, this activity could allow attackers
+  to secure their access, making it harder to detect and remove their presence from
+  the compromised environment.
 data_source: []
-search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
-  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `asl_aws_new_mfa_method_registered_for_user_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
-  security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
-  ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
-  the Federated Analytics App.
+search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull |
+  stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid
+  actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
+  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region,
+  http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_new_mfa_method_registered_for_user_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon
+  Web Services (AWS), which is a centralized data lake that provides security-related
+  data from AWS services. To use this detection, you must ingest CloudTrail logs from
+  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
+  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
+  or the Federated Analytics App.
 known_false_positives: Newly onboarded users who are registering an MFA method for
   the first time will also trigger this detection.
 references:
@@ -53,8 +58,8 @@ tags:
   - Splunk Cloud
   required_fields:
   - api.operation
-  - actor.user.account_uid 
-  - actor.user.name 
+  - actor.user.account_uid
+  - actor.user.name
   - actor.user.uid
   - http_request.user_agent
   - src_endpoint.ip
@@ -64,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

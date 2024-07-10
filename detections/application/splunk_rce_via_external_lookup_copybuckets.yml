@@ -1,0 +1,56 @@
+name: Splunk RCE via External Lookup Copybuckets
+id: 8598f9de-bba8-42a4-8ef0-12e1adda4131
+version: 1
+date: '2024-07-01'
+status: production
+author: Rod Soto, Chase Franklin
+type: Hunting
+data_source:
+- Splunk
+description: The following detection provides the ability to detect remote code execution attempts against a script named copybuckets present within the splunk_archiver application by calling this script as an external lookup.
+search: 'index=_internal sourcetype="splunk_archiver-too_small" *.csv
+  | rex field=_raw "Invoking command:\s(?<command>.*)" 
+  | stats min(_time) as firstTime max(_time) as lastTime values(command) as command values(severity) as severity by host
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `splunk_rce_via_external_lookup_copybuckets_filter`'
+how_to_implement: Requires access to internal indexes
+known_false_positives: An operator must identify elements indicatives of command execution requests by looking at regex data being extracted from the log. Not all the requests will be malicious. 
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0705
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities 
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  impact: 80
+  kill_chain_phases:
+  - Exploitation
+  message: Possible exploitation attempt against $host$
+  mitre_attack_id:
+  - T1210
+  nist:
+  - DE.CM
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  required_fields:
+  - host
+  risk_score: 80
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/SVD-2024-0705_splunk_archiver_splunk_archiver-too_small.log
+    source: /opt/splunk/var/log/splunk/splunk_archiver.log
+    sourcetype: splunk_archiver-too_small
+    update_timestamp: true
+    custom_index: _internal

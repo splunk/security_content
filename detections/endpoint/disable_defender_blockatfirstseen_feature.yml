@@ -1,17 +1,21 @@
 name: Disable Defender BlockAtFirstSeen Feature
 id: 2dd719ac-3021-11ec-97b4-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-22'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: This analytic is intended to detect a suspicious modification of the
-  Windows registry to disable a Windows Defender feature. This technique is intended
-  to bypass or evade detection from Windows Defender AV, specifically the BlockAtFirstSeen
-  feature where it blocks suspicious files the first time seen on the host.
+description: The following analytic detects the modification of the Windows registry
+  to disable the Windows Defender BlockAtFirstSeen feature. It leverages data from
+  the Endpoint.Registry data model, specifically monitoring changes to the registry
+  path associated with Windows Defender SpyNet and the DisableBlockAtFirstSeen value.
+  This activity is significant because disabling this feature can allow malicious
+  files to bypass initial detection by Windows Defender, increasing the risk of malware
+  infection. If confirmed malicious, this action could enable attackers to execute
+  malicious code undetected, leading to potential system compromise and data breaches.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
   = DisableBlockAtFirstSeen Registry.registry_value_data = 0x00000001) BY _time span=1h
@@ -65,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,21 +1,17 @@
 name: Windows Replication Through Removable Media
 id: 60df805d-4605-41c8-bbba-57baa6a4eb97
-version: 1
-date: '2023-09-07'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is developed to detect suspicious executable or script
-  files created or dropped in the root drive of a targeted host. This technique is
-  commonly used by threat actors, adversaries or even red teamers to replicate or
-  spread in possible removable drives. Back then, WORM malware was popular for this
-  technique where it would drop a copy of itself in the root drive to be able to spread
-  or to have a lateral movement in other network machines. Nowadays, Ransomware like
-  CHAOS ransomware also use this technique to spread its malicious code in possible
-  removable drives. This TTP detection can be a good indicator that a process might
-  create a persistence technique or lateral movement of a targeted machine. We suggest
-  checking the process name that creates this event, the file created, user type,
-  and the reason why that executable or scripts are dropped in the root drive.
+description: The following analytic detects the creation or dropping of executable
+  or script files in the root directory of a removable drive. It leverages data from
+  the Endpoint.Filesystem datamodel, focusing on specific file types and their creation
+  paths. This activity is significant as it may indicate an attempt to spread malware,
+  such as ransomware, via removable media. If confirmed malicious, this behavior could
+  lead to unauthorized code execution, lateral movement, or persistence within the
+  network, potentially compromising sensitive data and systems.
 data_source:
 - Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -24,8 +20,8 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name
   = *.js  OR Filesystem.file_name= *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name
   = *.pif) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)` | eval
-  dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count
+  Filesystem.file_path Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)`
+  | eval dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count
   = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) |
   where LIKE(root_drive, "%:") AND dropped_file_path_split_count = 2  AND root_drive!=
   "C:" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -46,8 +42,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: executable or script $file_path$ was dropped in root drive $root_drive$ in
-    $dest$
+  message: executable or script $file_path$ was dropped in root drive $root_drive$
+    in $dest$
   mitre_attack_id:
   - T1091
   observable:
@@ -75,7 +71,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/spread_in_root_drives/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/spread_in_root_drives/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

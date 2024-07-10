@@ -1,16 +1,18 @@
 name: Spoolsv Writing a DLL - Sysmon
 id: 347fd388-da87-11eb-836d-acde48001122
-version: 1
-date: '2021-07-01'
+version: 2
+date: '2024-05-17'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a `.dll` being written by `spoolsv.exe`.
-  This was identified during our testing of CVE-2021-34527 previously(CVE-2021-1675)
-  or PrintNightmare. Typically, this is not normal behavior for `spoolsv.exe` to write
-  a `.dll`. Current POC code used will write the suspicious DLL to disk within a path
-  of `\spool\drivers\x64\`. During triage, isolate the endpoint and review for source
-  of exploitation. Capture any additional file modification events.
+description: The following analytic detects `spoolsv.exe` writing a `.dll` file, which
+  is unusual behavior and may indicate exploitation of vulnerabilities like CVE-2021-34527
+  (PrintNightmare). This detection leverages Sysmon Event ID 11 to monitor file creation
+  events in the `\spool\drivers\x64\` directory. This activity is significant because
+  `spoolsv.exe` typically does not write DLL files, and such behavior could signify
+  an ongoing attack. If confirmed malicious, this could allow an attacker to execute
+  arbitrary code, escalate privileges, or maintain persistence on the compromised
+  system.
 data_source:
 - Sysmon EventID 11
 search: '`sysmon` EventID=11 process_name=spoolsv.exe file_path="*\\spool\\drivers\\x64\\*"
@@ -70,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,31 +1,24 @@
 name: Powershell Get LocalGroup Discovery with Script Block Logging
 id: d7c6ad22-155c-11ec-bb64-acde48001122
-version: 2
-date: '2022-04-26'
+version: 3
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies PowerShell cmdlet - `get-localgroup` being ran. Typically,
-  by itself, is not malicious but may raise suspicion based on time of day, endpoint
-  and username. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of the PowerShell cmdlet
+  `get-localgroup` using PowerShell Script Block Logging (EventCode=4104). This method
+  captures the full command sent to PowerShell, providing detailed visibility into
+  script execution. Monitoring this activity is significant as it can indicate an
+  attempt to enumerate local groups, which may be a precursor to privilege escalation
+  or lateral movement. If confirmed malicious, an attacker could gain insights into
+  group memberships, potentially leading to unauthorized access or privilege abuse.
+  Review parallel processes and the entire script block for comprehensive analysis.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-localgroup*" | stats
   count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
-  ScriptBlockText  | rename Computer as dest, UserID as user
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)`
-  | `powershell_get_localgroup_discovery_with_script_block_logging_filter`'
+  ScriptBlockText  | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `powershell_get_localgroup_discovery_with_script_block_logging_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -72,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getlocalgroup.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getlocalgroup.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

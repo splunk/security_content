@@ -1,14 +1,18 @@
 name: Disable Security Logs Using MiniNt Registry
 id: 39ebdc68-25b9-11ec-aec7-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious registry modification to disable
-  security audit logs. This technique was shared by a researcher to disable Security
-  logs of windows by adding this registry. The Windows will think it is WinPE and
-  will not log any event to the Security Log
+description: The following analytic detects a suspicious registry modification aimed
+  at disabling security audit logs by adding a specific registry entry. It leverages
+  data from the Endpoint.Registry data model, focusing on changes to the "Control\\MiniNt"
+  registry path. This activity is significant because it can prevent Windows from
+  logging any events to the Security Log, effectively blinding security monitoring
+  efforts. If confirmed malicious, this technique could allow an attacker to operate
+  undetected, making it difficult to trace their actions and compromising the integrity
+  of security audits.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -62,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/minint_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/minint_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

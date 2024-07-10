@@ -1,44 +1,32 @@
 name: Detect Exchange Web Shell
 id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
-version: 5
-date: '2023-11-07'
+version: 6
+date: '2024-05-21'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
 status: production
 type: TTP
-description: 'The following query identifies suspicious .aspx created in 3 paths identified
-  by Microsoft as known drop locations for Exchange exploitation related to HAFNIUM
-  group and recently disclosed vulnerablity named ProxyShell and ProxyNotShell. Paths
-  include: `\HttpProxy\owa\auth\`, `\inetpub\wwwroot\aspnet_client\`, and `\HttpProxy\OAB\`.
-  Upon triage, the suspicious .aspx file will likely look obvious on the surface.
-  inspect the contents for script code inside. Identify additional log sources, IIS
-  included, to review source and other potential exploitation. It is often the case
-  that a particular threat is only applicable to a specific subset of systems in your
-  environment. Typically analytics to detect those threats are written without the
-  benefit of being able to only target those systems as well. Writing analytics against
-  all systems when those behaviors are limited to identifiable subsets of those systems
-  is suboptimal. Consider the case ProxyShell vulnerability on Microsoft Exchange
-  Servers. With asset information, a hunter can limit their analytics to systems that
-  have been identified as Exchange servers. A hunter may start with the theory that
-  the exchange server is communicating with new systems that it has not previously.
-  If this theory is run against all publicly facing systems, the amount of noise it
-  will generate will likely render this theory untenable. However, using the asset
-  information to limit this analytic to just the Exchange servers will reduce the
-  noise allowing the hunter to focus only on the systems where this behavioral change
-  is relevant.'
+description: 'The following analytic identifies the creation of suspicious .aspx files
+  in known drop locations for Exchange exploitation, specifically targeting paths
+  associated with HAFNIUM group and vulnerabilities like ProxyShell and ProxyNotShell.
+  It leverages data from the Endpoint datamodel, focusing on process and filesystem
+  events. This activity is significant as it may indicate a web shell deployment,
+  a common method for persistent access and remote code execution. If confirmed malicious,
+  attackers could gain unauthorized access, execute arbitrary commands, and potentially
+  escalate privileges within the Exchange environment.'
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name
-  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | join process_guid, _time [|
-  tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | join process_guid,
+  _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
   "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name
   IN( "*.aspx", "*.ashx") by _time span=1h Filesystem.user Filesystem.dest Filesystem.file_create_time
   Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
   fields _time dest user file_create_time file_name file_path process_name process_path
-  process] | dedup file_create_time | table dest user file_create_time, file_name, file_path,
-  process_name | `detect_exchange_web_shell_filter`'
+  process] | dedup file_create_time | table dest user file_create_time, file_name,
+  file_path, process_name | `detect_exchange_web_shell_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
@@ -98,6 +86,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,18 +1,18 @@
 name: Process Writing DynamicWrapperX
 id: b0a078e4-2601-11ec-9aec-acde48001122
-version: 1
-date: '2021-10-05'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: DynamicWrapperX is an ActiveX component that can be used in a script
-  to call Windows API functions, but it requires the dynwrapx.dll to be installed
-  and registered. With that, a binary writing dynwrapx.dll to disk and registering
-  it into the registry is highly suspect. Why is it needed? In most malicious instances,
-  it will be written to disk at a non-standard location. During triage, review parallel
-  processes and pivot on the process_guid. Review the registry for any suspicious
-  modifications meant to load dynwrapx.dll. Identify any suspicious module loads of
-  dynwrapx.dll. This will identify the process that will invoke vbs/wscript/cscript.
+description: The following analytic detects a process writing the dynwrapx.dll file
+  to disk and registering it in the registry. It leverages data from the Endpoint
+  datamodel, specifically monitoring process and filesystem events. This activity
+  is significant because DynamicWrapperX is an ActiveX component often used in scripts
+  to call Windows API functions, and its presence in non-standard locations is highly
+  suspicious. If confirmed malicious, this could allow an attacker to execute arbitrary
+  code, escalate privileges, or maintain persistence within the environment. Immediate
+  investigation of parallel processes and registry modifications is recommended.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
@@ -82,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

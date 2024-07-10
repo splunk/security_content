@@ -1,28 +1,17 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 1
-date: '2021-11-10'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the use of Windows Curl.exe uploading
-  a file to a remote destination. 
-
-  `-T` or `--upload-file` is used when a file is to be uploaded to a remotge destination.
-  
-
-  `-d` or `--data` POST is the HTTP method that was invented to send data to a receiving
-  web application, and it is, for example, how most common HTML forms on the web work.
-  
-
-  HTTP multipart formposts are done with `-F`, but this appears to not be compatible
-  with the Windows version of Curl. Will update if identified adversary tradecraft.
-  
-
-  Adversaries may use one of the three methods based on the remote destination and
-  what they are attempting to upload (zip vs txt). During triage, review parallel
-  processes for further behavior. In addition, identify if the upload was successful
-  in network logs. If a file was uploaded, isolate the endpoint and review.'
+description: 'The following analytic detects the use of Windows Curl.exe to upload
+  a file to a remote destination. It identifies command-line arguments such as `-T`,
+  `--upload-file`, `-d`, `--data`, and `-F` in process execution logs. This activity
+  is significant because adversaries may use Curl to exfiltrate data or upload malicious
+  payloads. If confirmed malicious, this could lead to data breaches or further compromise
+  of the system. Analysts should review parallel processes and network logs to determine
+  if the upload was successful and isolate the endpoint if necessary.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -95,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl_upload.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/windows-sysmon_curl_upload.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

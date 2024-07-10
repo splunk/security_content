@@ -1,16 +1,17 @@
 name: WinRM Spawning a Process
 id: a081836a-ba4d-11eb-8593-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-20'
 author: Drew Church, Michael Haag, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies suspicious processes spawning from
-  WinRM (wsmprovhost.exe). This analytic is related to potential exploitation of CVE-2021-31166.
-  which is a kernel-mode device driver http.sys vulnerability. Current proof of concept
-  code will blue-screen the operating system. However, http.sys used by many different
-  Windows processes, including WinRM. In this case, identifying suspicious process
-  create (child processes) from `wsmprovhost.exe` is what this analytic is identifying.
+description: The following analytic detects suspicious processes spawned by WinRM
+  (wsmprovhost.exe). It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on specific child processes like cmd.exe, powershell.exe, and others.
+  This activity is significant as it may indicate exploitation attempts of vulnerabilities
+  like CVE-2021-31166, which could lead to system instability or compromise. If confirmed
+  malicious, attackers could execute arbitrary commands, escalate privileges, or maintain
+  persistence, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

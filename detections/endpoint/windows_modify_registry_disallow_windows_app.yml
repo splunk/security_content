@@ -1,15 +1,18 @@
 name: Windows Modify Registry DisAllow Windows App
 id: 4bc788d3-c83a-48c5-a4e2-e0c6dba57889
-version: 1
-date: '2022-06-22'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies modification in the Windows registry
-  to prevent user running specific computer programs that could aid them in manually
-  removing malware or detecting it using security products. This technique was recently
-  identified in Azorult malware where it uses this registry value to prevent several
-  AV products to execute on the compromised host machine.
+description: The following analytic detects modifications to the Windows registry
+  aimed at preventing the execution of specific computer programs. It leverages data
+  from the Endpoint.Registry datamodel, focusing on changes to the registry path 
+  "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\DisallowRun*"
+  with a value of "0x00000001". This activity is significant as it can indicate an
+  attempt to disable security tools, a tactic used by malware like Azorult. If confirmed
+  malicious, this could allow an attacker to evade detection and maintain persistence
+  on the compromised host.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -58,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

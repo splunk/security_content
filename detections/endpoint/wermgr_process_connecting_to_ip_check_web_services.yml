@@ -1,17 +1,17 @@
 name: Wermgr Process Connecting To IP Check Web Services
 id: ed313326-a0f9-11eb-a89c-acde48001122
-version: 2
-date: '2022-06-01'
+version: 3
+date: '2024-05-27'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This search is designed to detect suspicious wermgr.exe process that
-  tries to connect to known IP web services. This technique is know for trickbot and
-  other trojan spy malware to recon the infected machine and look for its ip address
-  without so much finger print on the commandline process. Since wermgr.exe is designed
-  for error handling process of windows it is really suspicious that this process
-  is trying to connect to this IP web services cause that maybe cause of some malicious
-  code injection.
+description: The following analytic detects the wermgr.exe process attempting to connect
+  to known IP check web services. It leverages Sysmon EventCode 22 to identify DNS
+  queries made by wermgr.exe to specific IP check services. This activity is significant
+  because wermgr.exe is typically used for Windows error reporting, and its connection
+  to these services may indicate malicious code injection, often associated with malware
+  like Trickbot. If confirmed malicious, this behavior could allow attackers to recon
+  the infected machine's IP address, aiding in further exploitation and evasion tactics.
 data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfismyip.com",
@@ -19,8 +19,9 @@ search: '`sysmon` EventCode =22 process_name = wermgr.exe QueryName IN ("*wtfism
   "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org",
   "*cbl.abuseat.org", "*b.barracudacentral.org","*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net")
   |  stats  min(_time) as firstTime max(_time) as lastTime count by Image process_name
-  ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `wermgr_process_connecting_to_ip_check_web_services_filter`'
+  ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer
+  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `wermgr_process_connecting_to_ip_check_web_services_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, dns query name process path , and query ststus from
   your endpoints like EventCode 22. If you are using Sysmon, you must have at least
@@ -63,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

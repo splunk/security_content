@@ -1,15 +1,19 @@
 name: AWS SAML Update identity provider
 id: 2f0604c6-6030-11eb-ae93-0242ac130002
-version: 1
-date: '2021-01-26'
+version: 2
+date: '2024-05-19'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search provides detection of updates to SAML provider in AWS. Updates
-  to SAML provider need to be monitored closely as they may indicate possible perimeter
-  compromise of federated credentials, or backdoor access from another cloud provider
-  set by attacker.
-data_source: 
+description: The following analytic detects updates to the SAML provider in AWS. It
+  leverages AWS CloudTrail logs to identify the `UpdateSAMLProvider` event, analyzing
+  fields such as `sAMLProviderArn`, `sourceIPAddress`, and `userIdentity` details.
+  Monitoring updates to the SAML provider is crucial as it may indicate a perimeter
+  compromise of federated credentials or unauthorized backdoor access set by an attacker.
+  If confirmed malicious, this activity could allow attackers to manipulate identity
+  federation, potentially leading to unauthorized access to cloud resources and sensitive
+  data.
+data_source:
 - AWS CloudTrail UpdateSAMLProvider
 search: '`cloudtrail` eventName=UpdateSAMLProvider | stats count min(_time) as firstTime
   max(_time) as lastTime by eventType eventName requestParameters.sAMLProviderArn
@@ -63,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

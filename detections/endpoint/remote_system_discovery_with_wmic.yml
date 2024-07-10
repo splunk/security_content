@@ -1,15 +1,18 @@
 name: Remote System Discovery with Wmic
 id: d82eced3-b1dc-42ab-859e-a2fc98827359
-version: 1
-date: '2021-09-01'
+version: 2
+date: '2024-05-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `wmic.exe` with command-line
-  arguments utilized to discover remote systems. The arguments utilized in this command
-  return a list of all the systems registered in the domain. Red Teams and adversaries
-  alike may leverage WMI and wmic.exe to identify remote systems for situational awareness
-  and Active Directory Discovery.
+description: The following analytic detects the execution of `wmic.exe` with specific
+  command-line arguments used to discover remote systems within a domain. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and command-line executions. This activity is significant as it indicates potential
+  reconnaissance efforts by adversaries to map out network resources and Active Directory
+  structures. If confirmed malicious, this behavior could allow attackers to gain
+  situational awareness, identify critical systems, and plan further attacks, potentially
+  leading to unauthorized access and data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

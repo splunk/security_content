@@ -1,25 +1,24 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 2
-date: '2024-04-26'
+version: 3
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect an anomaly event of a non-firefox process accessing
-  the files in the profile folder. This folder contains all the sqlite database of
-  the firefox browser related to users login, history, cookies and etc. Most of the
-  RAT, trojan spy as well as FIN7 jssloader try to parse the those sqlite database
-  to collect information on the compromised host. This SACL Event (4663) needs to
-  be enabled to the firefox profile directory to use this. Since this is monitoring
-  the access to the folder, we have obsevered noise and hence added `sqlite db browser`
-  and `explorer.exe` to make this detection more stable.
+description: The following analytic detects non-Firefox processes accessing the Firefox
+  profile directory, which contains sensitive user data such as login credentials,
+  browsing history, and cookies. It leverages Windows Security Event logs, specifically
+  event code 4663, to monitor access attempts. This activity is significant because
+  it may indicate attempts by malware, such as RATs or trojans, to harvest user information.
+  If confirmed malicious, this behavior could lead to data exfiltration, unauthorized
+  access to user accounts, and further compromise of the affected system.
 data_source:
 - Windows Event Log Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\firefox.exe",
   "*\\explorer.exe", "*sql*")) ObjectName="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
   | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType
-  ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `non_firefox_process_access_firefox_profile_dir_filter`'
+  ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `non_firefox_process_access_firefox_profile_dir_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
@@ -72,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

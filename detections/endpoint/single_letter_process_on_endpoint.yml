@@ -1,12 +1,12 @@
 name: Single Letter Process On Endpoint
 id: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
-version: 3
-date: '2020-12-08'
+version: 4
+date: '2024-05-27'
 author: David Dorsey, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects a behavior where a process name consists only of a single letter that helps to detect potential threats earlier and mitigate the risks. This detection is important because it indicates the presence of malware or an attacker attempting to evade detection by using a process name that is difficult to identify or track so that he can carry out malicious activities such as data theft or ransomware attacks. False positives might occur since there might be legitimate uses of single-letter process names in your environment. Next steps include reviewing the process details and investigating any suspicious activity upon triage.
+  The following analytic detects processes with names consisting of a single letter, which is often indicative of malware or an attacker attempting to evade detection. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because attackers use such techniques to obscure their presence and carry out malicious activities like data theft or ransomware attacks. If confirmed malicious, this behavior could lead to unauthorized access, data exfiltration, or system compromise. Immediate investigation is required to determine the legitimacy of the process.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -62,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

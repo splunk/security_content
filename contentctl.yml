@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 4.33.0
+  version: 4.35.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -13,7 +13,7 @@ app:
 enrichments: false
 build_app: true
 build_api: true
-build_ssa: true
+build_ssa: false
 build_path: dist
 test_instance:
   splunk_app_username: admin
@@ -47,12 +47,12 @@ apps:
   version: 2.2.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-okta-identity-cloud_220.tgz
-- uid: 6176
+- uid: 6652
   title: Add-on for Linux Sysmon
   appid: Splunk_TA_linux_sysmon
-  version: 1.0.4
+  version: 1.0.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/add-on-for-linux-sysmon_104.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-sysmon-for-linux_100.tgz
 - uid: null
   title: Splunk Fix XmlWinEventLog HEC Parsing
   appid: Splunk_FIX_XMLWINEVENTLOG_HEC_PARSING
@@ -71,9 +71,9 @@ apps:
 - uid: 5709
   title: Splunk Add-on for Sysmon
   appid: Splunk_TA_microsoft_sysmon
-  version: 4.0.0
+  version: 4.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_400.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-sysmon_401.tgz
 - uid: 833
   title: Splunk Add-on for Unix and Linux
   appid: Splunk_TA_nix

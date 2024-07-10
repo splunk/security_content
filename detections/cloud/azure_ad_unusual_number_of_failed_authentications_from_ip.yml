@@ -1,40 +1,32 @@
 name: Azure AD Unusual Number of Failed Authentications From Ip
 id: 3d8d3a36-93b8-42d7-8d91-c5f24cec223d
-version: 2
-date: '2022-07-11'
+version: 3
+date: '2024-05-15'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic identifies one source Ip failing to authenticate
-  with multiple valid users. This behavior could represent an adversary performing
-  a Password Spraying attack against an Azure Active Directory tenant to obtain initial
-  access or elevate privileges. Error Code 50126 represents an invalid password.
-
-  The detection calculates the standard deviation for source Ip and leverages the
-  3-sigma statistical rule to identify an unusual number of failed authentication
-  attempts. To customize this analytic, users can try different combinations of the
-  `bucket` span time and the calculation of the `upperBound` field. This logic can
-  be used for real time security monitoring as well as threat hunting exercises.
-
-  While looking for anomalies using statistical methods like the standard deviation
-  can have benefits, we also recommend using threshold-based detections to complement
-  coverage. A similar analytic following the threshold model is `Azure AD Multiple
-  Users Failing To Authenticate From Ip`.'
-data_source: 
+description: 'The following analytic identifies a single source IP failing to authenticate
+  with multiple valid users, potentially indicating a Password Spraying attack against
+  an Azure Active Directory tenant. It uses Azure SignInLogs data and calculates the
+  standard deviation for source IPs, applying the 3-sigma rule to detect unusual numbers
+  of failed authentication attempts. This activity is significant as it may signal
+  an adversary attempting to gain initial access or elevate privileges. If confirmed
+  malicious, this could lead to unauthorized access, privilege escalation, and potential
+  compromise of sensitive information.'
+data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
-  | rename properties.* as *
-  | bucket span=5m _time
-  | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as userPrincipalName by _time, ipAddress
-  | eventstats  avg(unique_accounts) as ip_avg, stdev(unique_accounts) as ip_std by ipAddress
-  | eval  upperBound=(ip_avg+ip_std*3)
+search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126
+  properties.authenticationDetails{}.succeeded=false | rename properties.* as * |
+  bucket span=5m _time | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName)
+  as userPrincipalName by _time, ipAddress | eventstats  avg(unique_accounts) as ip_avg,
+  stdev(unique_accounts) as ip_std by ipAddress | eval  upperBound=(ip_avg+ip_std*3)
   | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1,0)
-  | where isOutlier = 1 
-  | `azure_ad_unusual_number_of_failed_authentications_from_ip_filter`'
+  | where isOutlier = 1 | `azure_ad_unusual_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Signin log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is
   not a common for legitimate behavior.
 references:
@@ -80,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

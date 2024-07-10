@@ -1,20 +1,17 @@
 name: Detect suspicious DNS TXT records using pretrained model in DSDL
 id: 92f65c3a-968c-11ed-a1eb-0242ac120002
-version: 1
-date: '2023-01-15'
+version: 2
+date: '2024-05-13'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic uses a pre trained deep learning model to detect
-  suspicious DNS TXT records. The model is trained independently and is then made
-  available for download. The DNS TXT records are categorized into commonly identified
-  types like email, verification, http using regular expressions https://www.tide-project.nl/blog/wtmc2020/.
-  The TXT records that do not match regular expressions for well known types are labeled
-  as 1 for "unknown/suspicious" and otherwise 0 for "not suspicious". The deep learning
-  model we have developed uses DNS TXT responses to analyze patterns of character
-  sequences to predict if a DNS TXT is suspicious or not. The higher the pred_is_unknown_proba,
-  the more likely the DNS TXT record is suspicious. The threshold for flagging a domain
-  as suspicious is set at 0.5.
+description: The following analytic identifies suspicious DNS TXT records using a
+  pre-trained deep learning model. It leverages DNS response data from the Network
+  Resolution data model, categorizing TXT records into known types via regular expressions.
+  Records that do not match known patterns are flagged as suspicious. This activity
+  is significant as DNS TXT records can be used for data exfiltration or command-and-control
+  communication. If confirmed malicious, attackers could use these records to covertly
+  transfer data or receive instructions, posing a severe threat to network security.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Resolution where DNS.message_type=response AND
@@ -22,7 +19,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | rename answer as text | fields firstTime, lastTime, message_type,record_type,src,dest,
   text | apply detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl |
   rename predicted_is_unknown as is_suspicious_score | where is_suspicious_score >
-  0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table src,dest,text,record_type, firstTime, lastTime,is_suspicious_score | `detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl_filter`'
+  0.5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |
+  table src,dest,text,record_type, firstTime, lastTime,is_suspicious_score | `detect_suspicious_dns_txt_records_using_pretrained_model_in_dsdl_filter`'
 how_to_implement: 'Steps to deploy detect suspicious DNS TXT records model into Splunk
   App DSDL. This detection depends on the Splunk app for Data Science and Deep Learning
   which can be found here - `https://splunkbase.splunk.com/app/4607/` and the Network

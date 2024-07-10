@@ -1,15 +1,18 @@
 name: Linux APT Privilege Escalation
 id: 4d5a05fa-77d9-4fd0-af9c-05704f9f9a88
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-22'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: Advanced Package Tool, more commonly known as APT, is a collection of
-  tools used to install, update, remove, and otherwise manage software packages on
-  Debian and its derivative operating systems, including Ubuntu and Linux Mint. If
-  sudo right is given to the tool for user, then the user can run system commands
-  as root and possibly get a root shell.
+description: The following analytic detects the use of the Advanced Package Tool (APT)
+  with elevated privileges via sudo on Linux systems. It leverages Endpoint Detection
+  and Response (EDR) telemetry to identify processes where APT commands are executed
+  with sudo rights. This activity is significant because it indicates a user can run
+  system commands as root, potentially leading to unauthorized root shell access.
+  If confirmed malicious, this could allow an attacker to escalate privileges, execute
+  arbitrary commands, and gain full control over the affected system, posing a severe
+  security risk.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +78,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

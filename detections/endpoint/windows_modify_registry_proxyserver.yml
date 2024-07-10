@@ -1,26 +1,25 @@
 name: Windows Modify Registry ProxyServer
 id: 12bdaa0b-3c59-4489-aae1-bff6d67746ef
-version: 1
-date: '2023-11-23'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to setup proxy server.
-  This method has been exploited by various malware and adversaries to establish proxy communication on compromised hosts, 
-  facilitating connections to malicious Command and Control (C2) servers.
-  Identifying this anomaly serves as a crucial indicator to unveil suspicious processes attempting to activate the proxy 
-  feature within the Windows operating system. Detecting such attempts becomes pivotal in flagging potential threats, especially 
-  those aiming to leverage proxy configurations for unauthorized communication with malicious entities.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
-  where Registry.registry_path = "*\\Internet Settings\\ProxyServer" 
-  by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action Registry.user Registry.dest 
-  | `drop_dm_object_name(Registry)` 
-  | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects modifications to the Windows registry
+  key for setting up a proxy server. It leverages data from the Endpoint.Registry
+  datamodel, focusing on changes to the "Internet Settings\\ProxyServer" registry
+  path. This activity is significant as it can indicate malware or adversaries configuring
+  a proxy to facilitate unauthorized communication with Command and Control (C2) servers.
+  If confirmed malicious, this could allow attackers to establish persistent, covert
+  channels for data exfiltration or further exploitation of the compromised host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Internet
+  Settings\\ProxyServer" by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_modify_registry_proxyserver_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
@@ -61,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/proxy_server/ProxyServer_sys.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/proxy_server/ProxyServer_sys.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

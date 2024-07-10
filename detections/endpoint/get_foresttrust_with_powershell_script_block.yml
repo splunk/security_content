@@ -1,28 +1,24 @@
 name: Get-ForestTrust with PowerShell Script Block
 id: 70fac80e-0bf1-11ec-9ba0-acde48001122
-version: 2
-date: '2022-02-24'
+version: 3
+date: '2024-05-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify suspicious PowerShell execution. Script Block Logging captures the command
-  sent to PowerShell, the full command to be executed. Upon enabling, logs will output
-  to Windows event logs. Dependent upon volume, enable on critical endpoints or all.
-  
-
-  This analytic identifies Get-ForestTrust from PowerSploit in order to gather domain
-  trust information. 
-
-  During triage, review parallel processes using an EDR product or 4688 events. It
-  will be important to understand the timeline of events around this activity. Review
-  the entire logged PowerShell script block.'
+description: 'The following analytic detects the execution of the Get-ForestTrust
+  command from PowerSploit using PowerShell Script Block Logging (EventCode=4104).
+  This method captures the full command sent to PowerShell, providing detailed visibility
+  into potentially suspicious activities. Monitoring this behavior is crucial as it
+  can indicate an attempt to gather domain trust information, which is often a precursor
+  to lateral movement or privilege escalation. If confirmed malicious, this activity
+  could allow an attacker to map trust relationships within the domain, facilitating
+  further exploitation and access to sensitive resources.'
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-foresttrust*" | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `get_foresttrust_with_powershell_script_block_filter`'
+  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `get_foresttrust_with_powershell_script_block_filter`'
 how_to_implement: To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
   https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -67,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

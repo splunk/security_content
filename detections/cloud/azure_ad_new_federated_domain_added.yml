@@ -1,36 +1,29 @@
 name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-28'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the addition of a new federated domain
-  within an Azure Active Directory tenant. This event could represent the execution
-  of the Azure Active Directory identity federation backdoor technique discovered
-  by security researcher Nestori Syynimaa. Similar to Active Directory, Azure AD uses
-  the concept of domains to manage directories of identities. A new Azure AD tenant
-  will initially contain a single domain that is commonly called the `cloud-only`
-  onmicrosoft.com domain. Organizations can also add their registered custom domains
-  to Azure AD for email addresses to match the organizations domain name. If the organization
-  intends to use a third-party identity provider such as ADFS for authentication,
-  the added custom domains can be configured as federated. An adversary who has obtained
-  privileged access to an Azure AD tenant may leverage this technique to establish
-  persistence and be able to authenticate to Azure AD impersonating any user and bypassing
-  the requirement to have a valid password and/or perform MFA.
-data_source: 
+description: The following analytic detects the addition of a new federated domain
+  within an Azure Active Directory tenant. It leverages Azure AD AuditLogs to identify
+  successful "Set domain authentication" operations. This activity is significant
+  as it may indicate the use of the Azure AD identity federation backdoor technique,
+  allowing an adversary to establish persistence. If confirmed malicious, the attacker
+  could impersonate any user, bypassing password and MFA requirements, potentially
+  leading to unauthorized access and control over the Azure AD environment.
+data_source:
 - Azure Active Directory Set domain authentication
 search: ' `azure_monitor_aad`  operationName="Set domain authentication" "properties.result"=success
-  | rename properties.* as * 
-  | rename targetResources{}.displayName as domain 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user, domain, result, operationName, src_ip
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  | rename properties.* as * | rename targetResources{}.displayName as domain | stats
+  count min(_time) as firstTime max(_time) as lastTime by user, domain, result, operationName,
+  src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `azure_ad_new_federated_domain_added_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
+  the AuditLogs log category.
 known_false_positives: In most organizations, domain federation settings will be updated
   infrequently. Filter as needed.
 references:
@@ -70,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

@@ -1,15 +1,18 @@
 name: GetNetTcpconnection with PowerShell Script Block
 id: 091712ff-b02a-4d43-82ed-34765515d95d
-version: 2
-date: '2022-04-02'
+version: 3
+date: '2024-05-22'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-NetTcpconnection ` commandlet. This commandlet
-  is used to return a listing of network connections on a compromised system. Red
-  Teams and adversaries alike may use this commandlet for situational awareness and
-  Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-NetTcpconnection`
+  PowerShell cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet
+  lists network connections on a system, which adversaries may use for situational
+  awareness and Active Directory discovery. Monitoring this activity is crucial as
+  it can indicate reconnaissance efforts by an attacker. If confirmed malicious, this
+  behavior could allow an attacker to map the network, identify critical systems,
+  and plan further attacks, potentially leading to data exfiltration or lateral movement
+  within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-NetTcpconnection*")
@@ -53,6 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/nettcpconnection.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/nettcpconnection.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

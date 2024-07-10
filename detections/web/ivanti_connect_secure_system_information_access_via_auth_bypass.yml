@@ -1,20 +1,32 @@
 name: Ivanti Connect Secure System Information Access via Auth Bypass
 id: d51c13dd-a232-4c83-a2bb-72ab36233c5d
-version: 1
-date: '2024-01-16'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-data_source: 
+data_source:
 - Suricata
-description: This analytic is designed to identify the "check phase" of the CVE-2023-46805 and CVE-2024-21887 vulnerabilities. During this phase, a GET request is made to the /api/v1/totp/user-backup-code/../../system/system-information URI. This request exploits the authentication bypass vulnerability to gain access to system information. A successful request, indicated by a 200 OK response, suggests that the system is vulnerable.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/api/v1/totp/user-backup-code/../../system/system-information*" Web.http_method=GET Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies attempts to exploit the CVE-2023-46805
+  and CVE-2024-21887 vulnerabilities in Ivanti Connect Secure. It detects GET requests
+  to the /api/v1/totp/user-backup-code/../../system/system-information URI, which
+  leverage an authentication bypass to access system information. The detection uses
+  the Web datamodel to identify requests with a 200 OK response, indicating a successful
+  exploit attempt. This activity is significant as it reveals potential unauthorized
+  access to sensitive system information. If confirmed malicious, attackers could
+  gain critical insights into the system, facilitating further exploitation and compromise.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url="*/api/v1/totp/user-backup-code/../../system/system-information*"
+  Web.http_method=GET Web.status=200 by Web.src, Web.dest, Web.http_user_agent, Web.url
+  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ivanti_connect_secure_system_information_access_via_auth_bypass_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: This analytic is limited to HTTP Status 200; adjust as necessary. False positives may occur if the URI path is IP-restricted or externally blocked. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx,
+  or Splunk for Palo Alto.
+known_false_positives: This analytic is limited to HTTP Status 200; adjust as necessary.
+  False positives may occur if the URI path is IP-restricted or externally blocked.
+  It's recommended to review the context of the alerts and adjust the analytic parameters
+  to better fit the specific environment.
 references:
 - https://github.com/RootUp/PersonalStuff/blob/master/http-vuln-cve2023-46805_2024_21887.nse
 - https://github.com/projectdiscovery/nuclei-templates/blob/c6b351e71b0fb0e40e222e97038f1fe09ac58194/http/misconfiguration/ivanti/CVE-2023-46085-CVE-2024-21887-mitigation-not-applied.yaml
@@ -51,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_secure_connect_checkphase.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_secure_connect_checkphase.log
     source: suricata
     sourcetype: suricata

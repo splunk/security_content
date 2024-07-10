@@ -1,15 +1,19 @@
 name: Web Spring4Shell HTTP Request Class Module
 id: fcdfd69d-0ca3-4476-920e-9b633cb4593e
-version: 1
-date: '2022-04-06'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the payload related to Spring4Shell,
-  CVE-2022-22965. This analytic uses Splunk Stream HTTP to view the http request body,
-  form data. STRT reviewed all the current proof of concept code and determined the
-  commonality with the payloads being passed used the same fields "class.module.classLoader.resources.context.parent.pipeline.first".
-data_source: 
+description: The following analytic detects HTTP requests containing payloads related
+  to the Spring4Shell vulnerability (CVE-2022-22965). It leverages Splunk Stream HTTP
+  data to inspect the HTTP request body and form data for specific fields such as
+  "class.module.classLoader.resources.context.parent.pipeline.first". This activity
+  is significant as it indicates an attempt to exploit a critical vulnerability in
+  Spring Framework, potentially leading to remote code execution. If confirmed malicious,
+  this could allow attackers to gain unauthorized access, execute arbitrary code,
+  and compromise the affected system.
+data_source:
 - Splunk Stream HTTP
 search: '`stream_http` http_method IN ("POST") | stats values(form_data) as http_request_body
   min(_time) as firstTime max(_time) as lastTime count by src dest http_method http_user_agent
@@ -63,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/http_request_body_streams.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/http_request_body_streams.log
     source: stream:http
     sourcetype: stream:http

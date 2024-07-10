@@ -1,14 +1,18 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
-version: 4
-date: '2023-12-27'
+version: 5
+date: '2024-05-24'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to identify modification in registry to disable ETW windows
-  feature to evade detections. This technique was seen in several ransomware, RAT
-  and even APT to impaire defenses of the compromise machine and to be able to execute
-  payload with minimal alert as much as possible.
+description: The following analytic detects modifications to the registry that disable
+  the Event Tracing for Windows (ETW) feature. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"
+  with a value set to "0x00000000". This activity is significant because disabling
+  ETW can allow attackers to evade detection mechanisms, making it harder for security
+  tools to monitor malicious activities. If confirmed malicious, this could enable
+  attackers to execute payloads with minimal alerts, impairing defenses and potentially
+  leading to further compromise of the system.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -60,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

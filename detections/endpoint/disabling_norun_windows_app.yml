@@ -1,22 +1,24 @@
 name: Disabling NoRun Windows App
 id: de81bc46-9213-11eb-adc9-acde48001122
-version: 5
-date: '2024-04-26'
+version: 6
+date: '2024-05-13'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to identify modification of registry to disable run application
-  in window start menu. this application is known to be a helpful shortcut to windows
-  OS user to run known application and also to execute some reg or batch script. This
-  technique is used malware to make cleaning of its infection more harder by preventing
-  known application run easily through run shortcut.
+description: The following analytic detects the modification of the Windows registry
+  to disable the Run application in the Start menu. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
+  with a value of "0x00000001". This activity is significant because the Run application
+  is a useful shortcut for executing known applications and scripts. If confirmed
+  malicious, this action could hinder system cleaning efforts and make it more difficult
+  to run essential tools, thereby aiding malware persistence.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_norun_windows_app_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -66,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

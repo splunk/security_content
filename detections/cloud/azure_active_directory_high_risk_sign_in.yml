@@ -1,26 +1,28 @@
 name: Azure Active Directory High Risk Sign-in
 id: 1ecff169-26d7-4161-9a7b-2ac4c8e61bea
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-22'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic triggers on a high risk sign-in against Azure
-  Active Directory identified by Azure Identity Protection. Identity Protection monitors
-  sign-in events using heuristics and machine learning to identify potentially malicious
-  events and categorizes them in three categories high, medium and low.
-data_source: 
-- Azure Active Directory 
-search: ' `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high
- | rename properties.* as * 
- | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, activity, riskLevel, riskEventType, additionalInfo  
- | `security_content_ctime(firstTime)` 
- | `security_content_ctime(lastTime)` 
- | `azure_active_directory_high_risk_sign_in_filter`'
+description: The following analytic detects high-risk sign-in attempts against Azure
+  Active Directory, identified by Azure Identity Protection. It leverages the RiskyUsers
+  and UserRiskEvents log categories from Azure AD events ingested via EventHub. This
+  activity is significant as it indicates potentially compromised accounts, flagged
+  by heuristics and machine learning. If confirmed malicious, attackers could gain
+  unauthorized access to sensitive resources, leading to data breaches or further
+  exploitation within the environment.
+data_source:
+- Azure Active Directory
+search: ' `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high |
+  rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
+  values(user) as user by src_ip, activity, riskLevel, riskEventType, additionalInfo
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_active_directory_high_risk_sign_in_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  Specifically, this analytic leverages the RiskyUsers and UserRiskEvents log category in the azure:monitor:aad sourcetype.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. Specifically, this analytic leverages the RiskyUsers and UserRiskEvents
+  log category in the azure:monitor:aad sourcetype.
 known_false_positives: Details for the risk calculation algorithm used by Identity
   Protection are unknown and may be prone to false positives.
 references:
@@ -67,7 +69,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread_highrisk/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread_highrisk/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

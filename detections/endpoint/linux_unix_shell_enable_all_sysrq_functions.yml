@@ -1,17 +1,18 @@
 name: Linux Unix Shell Enable All SysRq Functions
 id: e7a96937-3b58-4962-8dce-538e4763cf15
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to look for possible execution of SysReq hack to enable
-  all functions of kernel system requests of the Linux system host. This technique
-  was seen in AwfulShred malware wiper to reboot the compromised host by using the
-  linux magic sysreq key. This kernel configuration can be triggered by piping out
-  bitmask '1' to /proc/sys/kernel/sysrq. This TTP detection can be a good indicator
-  of possible suspicious processes running on the Linux host since this command is
-  not so common shell commandline.
+description: The following analytic detects the execution of a command to enable all
+  SysRq functions on a Linux system, a technique associated with the AwfulShred malware.
+  It leverages Endpoint Detection and Response (EDR) data to identify processes executing
+  the command to pipe bitmask '1' to /proc/sys/kernel/sysrq. This activity is significant
+  as it can indicate an attempt to manipulate kernel system requests, which is uncommon
+  and potentially malicious. If confirmed, this could allow an attacker to reboot
+  the system or perform other critical actions, leading to system instability or further
+  compromise.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test2/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test2/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

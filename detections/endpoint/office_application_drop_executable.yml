@@ -1,16 +1,18 @@
 name: Office Application Drop Executable
 id: 73ce70c4-146d-11ec-9184-acde48001122
-version: 4
-date: '2023-02-15'
+version: 5
+date: '2024-05-14'
 author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
 status: production
 type: TTP
-description: This search is to detect a suspicious MS office application that drops
-  or creates executables or scripts in a Windows Operating System. This behavior is
-  commonly seen in spear phishing office attachment where it drop malicious files
-  or script to compromised the host. It might be some normal macro may drop script
-  or tools as part of automation but still this behavior is reallly suspicious and
-  not commonly seen in normal office application
+description: The following analytic detects Microsoft Office applications dropping
+  or creating executables or scripts on a Windows OS. It leverages process creation
+  and file system events from the Endpoint data model to identify Office applications
+  like Word or Excel generating files with extensions such as .exe, .dll, or .ps1.
+  This behavior is significant as it is often associated with spear-phishing attacks
+  where malicious files are dropped to compromise the host. If confirmed malicious,
+  this activity could lead to code execution, privilege escalation, or persistent
+  access, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 11
@@ -74,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

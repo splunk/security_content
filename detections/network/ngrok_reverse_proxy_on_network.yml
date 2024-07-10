@@ -1,16 +1,19 @@
 name: Ngrok Reverse Proxy on Network
 id: 5790a766-53b8-40d3-a696-3547b978fcf0
-version: 1
-date: '2022-11-16'
+version: 2
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the 4 most common Ngrok used domains
-  based on DNS queries under the Network Resolution datamodel. It's possible these
-  domains may be ran against the Web datamodel or ran with a direct query across network/proxy
-  traffic. The sign of someone using Ngrok is not malicious, however, more recenctly
-  it has become an adversary tool.
-data_source: 
+description: The following analytic detects DNS queries to common Ngrok domains, indicating
+  potential use of the Ngrok reverse proxy tool. It leverages the Network Resolution
+  datamodel to identify queries to domains such as "*.ngrok.com" and "*.ngrok.io".
+  While Ngrok usage is not inherently malicious, it has been increasingly adopted
+  by adversaries for covert communication and data exfiltration. If confirmed malicious,
+  this activity could allow attackers to bypass network defenses, establish persistent
+  connections, and exfiltrate sensitive data, posing a significant threat to the network's
+  security.
+data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Network_Resolution where DNS.query IN ("*.ngrok.com","*.ngrok.io",
@@ -52,7 +55,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ngrok/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ngrok/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

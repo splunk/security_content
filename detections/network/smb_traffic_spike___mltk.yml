@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count values(All_Traffic.dest
   _time span=1h, All_Traffic.src | eval HourOfDay=strftime(_time, "%H") | eval DayOfWeek=strftime(_time,
   "%A") | `drop_dm_object_name(All_Traffic)` | apply smb_pdfmodel threshold=0.001
   | rename "IsOutlier(count)" as isOutlier | search isOutlier > 0 | sort -count |
-  table _time src dest port count | `smb_traffic_spike___mltk_filter` '
+  table _time src dest port count | `smb_traffic_spike___mltk_filter`'
 how_to_implement: "To successfully implement this search, you will need to ensure
   that DNS data is populating the Network_Traffic data model. In addition, the latest
   version of Machine Learning Toolkit (MLTK) must be installed on your search heads,

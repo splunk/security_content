@@ -1,26 +1,30 @@
 name: MSHTML Module Load in Office Product
 id: 5f1c168e-118b-11ec-84ff-acde48001122
-version: 3
-date: '2024-03-14'
+version: 4
+date: '2024-05-14'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This detection identifies the loading of the mshtml.dll module into
-  an Office product. This behavior is associated with CVE-2021-40444, where a
-  malicious document loads ActiveX, thereby activating the MSHTML component. The
-  vulnerability is found within the MSHTML component itself. During triage, it is important to identify concurrent
-  processes and document any file modifications for further analysis.
+description: The following analytic detects the loading of the mshtml.dll module into
+  an Office product, which is indicative of CVE-2021-40444 exploitation. It leverages
+  Sysmon EventID 7 to monitor image loads by specific Office processes. This activity
+  is significant because it can indicate an attempt to exploit a vulnerability in
+  the MSHTML component via a malicious document. If confirmed malicious, this could
+  allow an attacker to execute arbitrary code, potentially leading to system compromise,
+  data exfiltration, or further network penetration.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventID=7 process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe", "msaccess.exe","Graph.exe","winproj.exe") loaded_file_path IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by user_id, dest, process_name, loaded_file, loaded_file_path, original_file_name, process_guid 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `mshtml_module_load_in_office_product_filter`'
+search: '`sysmon` EventID=7 process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe",
+  "msaccess.exe","Graph.exe","winproj.exe") loaded_file_path IN ("*\\mshtml.dll",
+  "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
+  | stats count min(_time) as firstTime max(_time) as lastTime by user_id, dest, process_name,
+  loaded_file, loaded_file_path, original_file_name, process_guid | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `mshtml_module_load_in_office_product_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process names and image loads from your endpoints. If you are using
   Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present, however, tune as necessary. Some applications may legitimately load mshtml.dll.
+known_false_positives: Limited false positives will be present, however, tune as necessary.
+  Some applications may legitimately load mshtml.dll.
 references:
 - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
@@ -36,7 +40,8 @@ tags:
   cve:
   - CVE-2021-40444
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll.
+  message: An instance of $process_name$ was identified on endpoint $dest$ loading
+    mshtml.dll.
   mitre_attack_id:
   - T1566
   - T1566.001
@@ -65,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

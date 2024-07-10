@@ -1,14 +1,18 @@
 name: Excessive Usage Of Net App
 id: 45e52536-ae42-11eb-b5c6-acde48001122
-version: 2
-date: '2023-06-13'
+version: 3
+date: '2024-05-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies excessive usage of `net.exe` or `net1.exe` within
-  a bucket of time (1 minute). This behavior was seen in a Monero incident where the
-  adversary attempts to create many users, delete and disable users as part of its
-  malicious behavior.
+description: The following analytic detects excessive usage of `net.exe` or `net1.exe`
+  within a one-minute interval. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names, parent processes, and command-line executions.
+  This behavior is significant as it may indicate an adversary attempting to create,
+  delete, or disable multiple user accounts rapidly, a tactic observed in Monero mining
+  incidents. If confirmed malicious, this activity could lead to unauthorized user
+  account manipulation, potentially compromising system integrity and enabling further
+  malicious actions.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -80,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

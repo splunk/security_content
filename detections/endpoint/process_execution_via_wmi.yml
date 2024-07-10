@@ -1,22 +1,28 @@
 name: Process Execution via WMI
 id: 24869767-8579-485d-9a4f-d9ddfd8f0cac
-version: 5
-date: '2020-03-16'
+version: 6
+date: '2024-05-22'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies `WmiPrvSE.exe` spawning a process.
-  This typically occurs when a process is instantiated from a local or remote process
-  using `wmic.exe`. During triage, review parallel processes for suspicious behavior
-  or commands executed. Review the process and command-line spawning from `wmiprvse.exe`.
-  Contain and remediate the endpoint as necessary.
+description: The following analytic detects the execution of a process by `WmiPrvSE.exe`,
+  indicating potential use of WMI (Windows Management Instrumentation) for process
+  creation. This detection leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on process and parent process relationships. This activity is significant
+  as WMI can be used for lateral movement, remote code execution, or persistence by
+  attackers. If confirmed malicious, this could allow an attacker to execute arbitrary
+  commands or scripts, potentially leading to further compromise of the affected system
+  or network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=WmiPrvSE.exe NOT (Processes.process IN ("*\\dismhost.exe*"))
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_execution_via_wmi_filter` '
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=WmiPrvSE.exe
+  NOT (Processes.process IN ("*\\dismhost.exe*")) by Processes.dest Processes.user
+  Processes.parent_process Processes.process_name Processes.process Processes.process_id
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `process_execution_via_wmi_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -35,7 +41,8 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A remote instance execution of wmic.exe by WmiPrvSE.exe detected on host - $dest$
+  message: A remote instance execution of wmic.exe by WmiPrvSE.exe detected on host
+    - $dest$
   mitre_attack_id:
   - T1047
   observable:
@@ -63,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1047/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

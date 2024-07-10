@@ -1,16 +1,18 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic will identify the possible execution of ping sleep batch
-  commands. This technique was seen in several malware samples and is used to trigger
-  sleep times without explicitly calling sleep functions or commandlets. The goal
-  is to delay the execution of malicious code and bypass detection or sandbox analysis.
-  This  detection can be a good indicator of a process delaying its execution for
-  malicious purposes.
+description: The following analytic identifies the execution of ping sleep batch commands.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process and parent process command-line details. This activity is significant as
+  it indicates an attempt to delay malicious code execution, potentially evading detection
+  or sandbox analysis. If confirmed malicious, this technique allows attackers to
+  bypass security measures, making it harder to detect and analyze their activities,
+  thereby increasing the risk of prolonged unauthorized access and potential data
+  exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -78,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497.003/ping_sleep/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,18 @@
 name: Windows DLL Search Order Hijacking with iscsicpl
 id: f39ee679-3b1e-4f47-841c-5c3c580acda2
-version: 1
-date: '2022-07-29'
+version: 2
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a recently disclosed search ordler
-  DLL hijack in iscsicpl.exe. The malicious DLL must be in a new path and iscsicpl.exe,
-  upon load, will execute the payload. The analytic is restricted to Windows shells.
-  Two proof of concepts were identified and utilized to determine the behavior. The
-  command-line is an option to go after, but most likely identifying a child process
-  off iscsicpl.exe will be more effective. Monitoring for suspicious DLL loads is
-  also an option.
+description: The following analytic detects DLL search order hijacking involving iscsicpl.exe.
+  It identifies when iscsicpl.exe loads a malicious DLL from a new path, triggering
+  the payload execution. This detection leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on child processes spawned by iscsicpl.exe. This
+  activity is significant as it indicates a potential attempt to execute unauthorized
+  code via DLL hijacking. If confirmed malicious, this could allow an attacker to
+  execute arbitrary code, escalate privileges, or maintain persistence within the
+  environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -84,7 +85,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.001/iscsicpl/iscsicpl-windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.001/iscsicpl/iscsicpl-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

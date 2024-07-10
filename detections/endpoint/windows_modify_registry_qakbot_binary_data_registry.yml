@@ -1,35 +1,39 @@
 name: Windows Modify Registry Qakbot Binary Data Registry
 id: 2e768497-04e0-4188-b800-70dd2be0e30d
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-12'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a suspicious registry entry created
-  by Qakbot malware as part of its malicious execution. This "Binary Data" Registry  was
-  created by newly spawn explorer.exe where its malicious code is injected to it.
-  The registry consist of 8 random registry value name with encrypted binary data
-  on its registry value data. This anomaly detections can be a good pivot for possible
-  Qakbot malware infection or other malware that uses registry to save or store there
-  config or malicious code on the registry data stream.
+description: The following analytic detects the creation of a suspicious registry
+  entry by Qakbot malware, characterized by 8 random registry value names with encrypted
+  binary data. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on registry modifications under the "SOFTWARE\\Microsoft\\"
+  path by processes like explorer.exe. This activity is significant as it indicates
+  potential Qakbot infection, which uses the registry to store malicious code or configuration
+  data. If confirmed malicious, this could allow attackers to maintain persistence
+  and execute arbitrary code on the compromised system.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count dc(registry_value_name) as registry_value_name_count FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\*" AND Registry.registry_value_data = "Binary Data" by _time span=1m Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.process_id Registry.registry_key_name 
-  | `drop_dm_object_name(Registry)` 
-  | eval registry_key_name_len = len(registry_key_name) 
-  | eval registry_value_name_len = len(registry_value_name) 
-  | regex registry_value_name="^[0-9a-fA-F]{8}" 
-  | where registry_key_name_len < 80 AND registry_value_name_len == 8 
-  | join process_guid, _time 
-    [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name IN ("explorer.exe", "wermgr.exe","dxdiag.exe", "OneDriveSetup.exe", "mobsync.exe", "msra.exe", "xwizard.exe") by _time span=1m Processes.process_id Processes.process_name Processes.process Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid Processes.process_path 
-    | `drop_dm_object_name(Processes)` 
-        ] 
-  | stats min(_time) as firstTime max(_time) as lastTime values(registry_value_name) as registry_value_name dc(registry_value_name) as registry_value_name_count values(registry_key_name) by dest process_guid process_name parent_process_name
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | where registry_value_name_count >= 5  
-  | `windows_modify_registry_qakbot_binary_data_registry_filter`'
+search: '| tstats `security_content_summariesonly` count dc(registry_value_name) as
+  registry_value_name_count FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\*"
+  AND Registry.registry_value_data = "Binary Data" by _time span=1m Registry.dest
+  Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.process_id Registry.registry_key_name | `drop_dm_object_name(Registry)`
+  | eval registry_key_name_len = len(registry_key_name) | eval registry_value_name_len
+  = len(registry_value_name) | regex registry_value_name="^[0-9a-fA-F]{8}" | where
+  registry_key_name_len < 80 AND registry_value_name_len == 8 | join process_guid,
+  _time [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name IN ("explorer.exe", "wermgr.exe","dxdiag.exe", "OneDriveSetup.exe",
+  "mobsync.exe", "msra.exe", "xwizard.exe") by _time span=1m Processes.process_id
+  Processes.process_name Processes.process Processes.dest Processes.parent_process_name
+  Processes.parent_process Processes.process_guid Processes.process_path | `drop_dm_object_name(Processes)`
+  ] | stats min(_time) as firstTime max(_time) as lastTime values(registry_value_name)
+  as registry_value_name dc(registry_value_name) as registry_value_name_count values(registry_key_name)
+  by dest process_guid process_name parent_process_name | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | where registry_value_name_count >= 5 | `windows_modify_registry_qakbot_binary_data_registry_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -82,7 +86,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot2/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

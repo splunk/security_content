@@ -1,20 +1,23 @@
 name: Sqlite Module In Temp Folder
 id: 0f216a38-f45f-11eb-b09c-acde48001122
-version: 1
-date: '2021-08-03'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious file creation of sqlite3.dll in
-  %temp% folder. This behavior was seen in IcedID malware where it download sqlite
-  module to parse browser database like for chrome or firefox to stole browser information
-  related to bank, credit card or credentials.
+description: The following analytic detects the creation of sqlite3.dll files in the
+  %temp% folder. It leverages Sysmon EventCode 11 to identify when these files are
+  written to the temporary directory. This activity is significant because it is associated
+  with IcedID malware, which uses the sqlite3 module to parse browser databases and
+  steal sensitive information such as banking details, credit card information, and
+  credentials. If confirmed malicious, this behavior could lead to significant data
+  theft and compromise of user accounts.
 data_source:
 - Sysmon EventID 11
 search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename
-    = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") 
-  | stats count min(_time) as
-    firstTime max(_time) as lastTime by dest signature signature_id process_name file_name file_path action process_guid| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") | stats count min(_time) as
+  firstTime max(_time) as lastTime by dest signature signature_id process_name file_name
+  file_path action process_guid| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `sqlite_module_in_temp_folder_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -57,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

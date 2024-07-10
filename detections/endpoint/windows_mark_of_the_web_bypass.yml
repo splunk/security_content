@@ -1,23 +1,26 @@
 name: Windows Mark Of The Web Bypass
 id: 8ca13343-7405-4916-a2d1-ae34ce0c28ae
-version: 1
-date: '2023-08-14'
+version: 2
+date: '2024-05-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 23
-description: The following analytic identifies a suspicious process that delete mark-of-the-web data stream. 
-  This technique has been observed in various instances of malware and adversarial activities aimed at circumventing 
-  security restrictions within the Windows Operating System, particularly pertaining to files downloaded from the internet. 
-  An example of this scenario is demonstrated by Ave Maria RAT, which attempts to delete this data stream as a means to evade such restrictions.
-search: '`sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier" 
-  | stats  min(_time) as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename ProcessID dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic identifies a suspicious process that deletes the
+  Mark-of-the-Web (MOTW) data stream. It leverages Sysmon EventCode 23 to detect when
+  a file's Zone.Identifier stream is removed. This activity is significant because
+  it is a common technique used by malware, such as Ave Maria RAT, to bypass security
+  restrictions on files downloaded from the internet. If confirmed malicious, this
+  behavior could allow an attacker to execute potentially harmful files without triggering
+  security warnings, leading to further compromise of the system.
+search: '`sysmon` EventCode=23 TargetFilename = "*:Zone.Identifier" | stats  min(_time)
+  as firstTime max(_time) as lastTime count by user EventCode Image TargetFilename
+  ProcessID dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_mark_of_the_web_bypass_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the deleted target file name, 
-  process name and process id  from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the deleted target file name, process name and process id  from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://attack.mitre.org/techniques/T1553/005/
@@ -57,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.005/mark_of_the_web_bypass/possible-motw-deletion.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.005/mark_of_the_web_bypass/possible-motw-deletion.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,18 +1,18 @@
 name: Windows Ingress Tool Transfer Using Explorer
 id: 76753bab-f116-4ea3-8fb9-89b638be58a9
-version: 2
-date: '2022-08-30'
+version: 3
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the Windows Explorer process with a
-  URL within the command-line. Explorer.exe is known Windows process that handles
-  start menu, taskbar, desktop and file manager. Many adversaries abuse this process,
-  like DCRat malware, where it attempts to open the URL with the default browser application
-  on the target host by putting the URL as a parameter on explorer.exe process. This
-  anomaly detection might be a good pivot to check which user and how this process
-  was executed, what is the parent process and what is the URL link. This technique
-  is not commonly used to open an URL.
+description: The following analytic identifies instances where the Windows Explorer
+  process (explorer.exe) is executed with a URL in its command line. This detection
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  execution logs. This activity is significant because adversaries, such as those
+  using DCRat malware, may abuse explorer.exe to open URLs with the default browser,
+  which is an uncommon and suspicious behavior. If confirmed malicious, this technique
+  could allow attackers to download and execute malicious payloads, leading to potential
+  system compromise and further malicious activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
@@ -85,7 +85,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_explorer_url/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_explorer_url/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

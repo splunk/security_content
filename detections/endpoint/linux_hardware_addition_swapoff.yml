@@ -1,15 +1,18 @@
 name: Linux Hardware Addition SwapOff
 id: c1eea697-99ed-44c2-9b70-d8935464c499
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic looks for process execution to disable the swapping of
-  paging devices. This technique was seen in Awfulshred malware that disables the
-  swapping of the specified devices and files. This anomaly detection can be a good
-  indicator that a process or a user tries to disable this Linux feature in a targeted
-  host.
+description: The following analytic detects the execution of the "swapoff" command,
+  which disables the swapping of paging devices on a Linux system. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs. This activity is significant because disabling swap can be a tactic used by
+  malware, such as Awfulshred, to evade detection and hinder forensic analysis. If
+  confirmed malicious, this action could allow an attacker to manipulate system memory
+  management, potentially leading to data corruption, system instability, or evasion
+  of memory-based detection mechanisms.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test1/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

@@ -1,30 +1,26 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 2
-date: '2023-07-10'
+version: 3
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the use of default or publicly known
-  named pipes used with Cobalt Strike. A named pipe is a named, one-way or duplex
-  pipe for communication between the pipe server and one or more pipe clients. Cobalt
-  Strike uses named pipes in many ways and has default values used with the Artifact
-  Kit and Malleable C2 Profiles. The following query assists with identifying these
-  default named pipes. Each EDR product presents named pipes a little different. Consider
-  taking the values and generating a query based on the product of choice. 
-
-  Upon triage, review the process performing the named pipe. If it is explorer.exe,
-  It is possible it was injected into by another process. Review recent parallel processes
-  to identify suspicious patterns or behaviors. A parallel process may have a network
-  connection, review and follow the connection back to identify any file modifications.'
+description: 'The following analytic detects the use of default or publicly known
+  named pipes associated with Cobalt Strike. It leverages Sysmon EventID 17 and 18
+  to identify specific named pipes commonly used by Cobalt Strike''s Artifact Kit
+  and Malleable C2 Profiles. This activity is significant because Cobalt Strike is
+  a popular tool for adversaries to conduct post-exploitation tasks, and identifying
+  its named pipes can reveal potential malicious activity. If confirmed malicious,
+  this could indicate an active Cobalt Strike beacon, leading to unauthorized access,
+  data exfiltration, or further lateral movement within the network.'
 data_source:
 - Sysmon EventID 17
 - Sysmon EventID 18
 search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*,
   \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*,
   \\winsock*, \\UIA_PIPE*)  | stats count min(_time) as firstTime max(_time) as lastTime
-  by dest, process_name, process_id process_path, PipeName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `cobalt_strike_named_pipes_filter`'
+  by dest, process_name, process_id process_path, PipeName | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -50,7 +46,8 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $dest$ accessing known suspicious named pipes related to Cobalt Strike.
+  message: An instance of $process_name$ was identified on endpoint $dest$ accessing
+    known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
   observable:
@@ -79,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

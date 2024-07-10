@@ -1,16 +1,18 @@
 name: Windows Impair Defenses Disable Win Defender Auto Logging
 id: 76406a0f-f5e0-4167-8e1f-337fdc0f1b0c
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The search looks for the Registry Key DefenderApiLogger or DefenderAuditLogger
-  set to disable. This is consistent with RAT malware across a fleet of endpoints.
-  This particular behavior is typically executed when an adversary gains access to
-  an endpoint and beings to perform execution. Usually, a batch (.bat) will be executed
-  and multiple registry and scheduled task modifications will occur. During triage,
-  review parallel processes and identify any further file modifications.
+description: The following analytic detects the disabling of Windows Defender logging
+  by identifying changes to the Registry keys DefenderApiLogger or DefenderAuditLogger
+  set to disable. It leverages data from the Endpoint.Registry datamodel to monitor
+  specific registry paths and values. This activity is significant as it is commonly
+  associated with Remote Access Trojan (RAT) malware attempting to evade detection.
+  If confirmed malicious, this action could allow an attacker to conceal their activities,
+  making it harder to detect further malicious actions and maintain persistence on
+  the compromised endpoint.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -64,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_defender_logging/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_defender_logging/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,24 +1,23 @@
 name: Windows Abused Web Services
 id: 01f0aef4-8591-4daa-a53d-0ed49823b681
-version: 1
-date: '2023-09-20'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 22
-description: The following analytic detects a suspicious process making a DNS query via known,
-  abused text-paste web services, VoIP, internet via secure tunneling,instant messaging, and digital distribution
-  platforms used to download external files. This technique is abused by adversaries,
-  malware actors, and red teams to download a malicious file on the target host. This
-  is a good TTP indicator for possible initial access techniques. A user will experience
-  false positives if the following instant messaging is allowed or common applications
-  like telegram or discord are allowed in the corporate network.
-search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*",""*textbin*"", "*ngrok.io*", "*discord*", "*duckdns.org*", "*pasteio.com*") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults Computer
-  | rename Computer as dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+description: The following analytic detects a suspicious process making DNS queries
+  to known, abused web services such as text-paste sites, VoIP, secure tunneling,
+  instant messaging, and digital distribution platforms. This detection leverages
+  Sysmon logs with Event ID 22, focusing on specific query names. This activity is
+  significant as it may indicate an adversary attempting to download malicious files,
+  a common initial access technique. If confirmed malicious, this could lead to unauthorized
+  code execution, data exfiltration, or further compromise of the target host.
+search: '`sysmon` EventCode=22 QueryName IN ("*pastebin*",""*textbin*"", "*ngrok.io*",
+  "*discord*", "*duckdns.org*", "*pasteio.com*") | stats count min(_time) as firstTime
+  max(_time) as lastTime by Image QueryName QueryStatus process_name QueryResults
+  Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_abused_web_services_filter`'
 how_to_implement: This detection relies on sysmon logs with the Event ID 22, DNS Query.
   We suggest you run this detection at least once a day over the last 14 days.
@@ -62,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102/njrat_ngrok_connection/ngrok.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102/njrat_ngrok_connection/ngrok.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,29 +1,30 @@
 name: Windows Unsigned DLL Side-Loading
 id: 5a83ce44-8e0f-4786-a775-8249a525c879
-version: 1
-date: '2023-07-26'
+version: 2
+date: '2024-05-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 7
-description: This analytic focuses on detecting potentially malicious unsigned DLLs created in either the c:\windows\system32 or c:\windows\syswow64 folders. 
-  This particular technique was observed in the context of the Warzone (Ave Maria) RAT, where it employed a method known as DLL hijacking (dll-side-loading) 
-  by dropping the "dismcore.dll" to achieve privilege escalation.
-  DLL hijacking is a stealthy attack technique used by cybercriminals to exploit the way Windows searches and loads DLLs. By placing a malicious DLL with the 
-  same name as one that a legitimate application is expected to load, the attacker can gain unauthorized access and execute malicious code.
-  In the case of Warzone RAT (Ave Maria), the dropped "dismcore.dll" was intended to deceive the system into loading the rogue DLL instead of the legitimate version, 
-  thereby granting the malware elevated privileges and enabling further compromise of the target system.
-  Detecting such suspicious DLLs is crucial in preventing privilege escalation attacks and other potential security breaches. Regular security assessments, thorough monitoring, 
-  and implementing security best practices are essential in safeguarding systems from such threats.
-search: '`sysmon` EventCode=7 Signed=false OriginalFileName = "-" SignatureStatus="unavailable" ImageLoaded IN ("*:\\windows\\system32\\*", "*:\\windows\\syswow64\\*") 
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed SignatureStatus OriginalFileName process_name dest EventCode ProcessId Hashes IMPHASH 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_unsigned_dll_side_loading_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. 
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: It is possible some Administrative utilities will load dismcore.dll outside of normal system paths, filter as needed.
+description: The following analytic detects the creation of potentially malicious
+  unsigned DLLs in the c:\windows\system32 or c:\windows\syswow64 folders. It leverages
+  Sysmon EventCode 7 logs to identify unsigned DLLs with unavailable signatures loaded
+  in these critical directories. This activity is significant as it may indicate a
+  DLL hijacking attempt, a technique used by attackers to gain unauthorized access
+  and execute malicious code. If confirmed malicious, this could lead to privilege
+  escalation, allowing the attacker to gain elevated privileges and further compromise
+  the target system.
+search: '`sysmon` EventCode=7 Signed=false OriginalFileName = "-" SignatureStatus="unavailable"
+  ImageLoaded IN ("*:\\windows\\system32\\*", "*:\\windows\\syswow64\\*") | stats
+  count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded Signed
+  SignatureStatus OriginalFileName process_name dest EventCode ProcessId Hashes IMPHASH
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_unsigned_dll_side_loading_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible some Administrative utilities will load dismcore.dll
+  outside of normal system paths, filter as needed.
 references:
 - https://asec.ahnlab.com/en/17692/
 - https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
@@ -49,21 +50,22 @@ tags:
   risk_score: 49
   required_fields:
   - _time
-  - Image 
-  - ImageLoaded 
-  - Signed 
-  - SignatureStatus 
-  - OriginalFileName 
-  - process_name 
-  - dest 
-  - EventCode 
-  - ProcessId 
-  - Hashes 
-  - IMPHASH 
+  - Image
+  - ImageLoaded
+  - Signed
+  - SignatureStatus
+  - OriginalFileName
+  - process_name
+  - dest
+  - EventCode
+  - ProcessId
+  - Hashes
+  - IMPHASH
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/unsigned_dll_loaded/loaded_unsigned_dll.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/unsigned_dll_loaded/loaded_unsigned_dll.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

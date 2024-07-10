@@ -1,16 +1,18 @@
 name: Screensaver Event Trigger Execution
 id: 58cea3ec-1f6d-11ec-8560-acde48001122
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is developed to detect possible event trigger execution
-  through screensaver registry entry modification for persistence or privilege escalation.
-  This technique was seen in several APT and malware where they put the malicious
-  payload path to the SCRNSAVE.EXE registry key to redirect the execution to their
-  malicious payload path. This TTP is a good indicator that some attacker may modify
-  this entry for their persistence and privilege escalation.
+description: The following analytic detects modifications to the SCRNSAVE.EXE registry
+  entry, indicating potential event trigger execution via screensaver settings for
+  persistence or privilege escalation. It leverages registry activity data from the
+  Endpoint data model to identify changes to the specified registry path. This activity
+  is significant as it is a known technique used by APT groups and malware to maintain
+  persistence or escalate privileges. If confirmed malicious, this could allow an
+  attacker to execute arbitrary code with elevated privileges, leading to further
+  system compromise and persistent access.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -68,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.002/scrnsave_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

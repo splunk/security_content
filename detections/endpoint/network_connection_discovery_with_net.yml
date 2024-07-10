@@ -1,14 +1,18 @@
 name: Network Connection Discovery With Net
 id: 640337e5-6e41-4b7f-af06-9d9eab5e1e2d
-version: 1
-date: '2021-09-10'
+version: 2
+date: '2024-05-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `net.exe` with command-line
-  arguments utilized to get a listing of network connections on a compromised system.
-  Red Teams and adversaries alike may use net.exe for situational awareness and Active
-  Directory Discovery.
+description: The following analytic identifies the execution of `net.exe` or `net1.exe`
+  with command-line arguments used to list network connections on a compromised system.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  process names and command-line executions. This activity is significant as it indicates
+  potential network reconnaissance by adversaries or Red Teams, aiming to gather situational
+  awareness and Active Directory information. If confirmed malicious, this behavior
+  could allow attackers to map the network, identify critical assets, and plan further
+  attacks, potentially leading to data exfiltration or lateral movement.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1049/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

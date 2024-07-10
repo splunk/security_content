@@ -1,21 +1,40 @@
 name: Windows Enable Win32 ScheduledJob via Registry
 id: 12c80db8-ef62-4456-92df-b23e1b3219f6
-version: 1
-date: '2023-03-27'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: 'This analytic searches for a registry modification that enables the use of the at.exe or wmi Win32_ScheduledJob command to add scheduled tasks on a Windows endpoint. Specifically, it looks for the creation of a new DWORD value named "EnableAt" in the following registry path: "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration". If this value is set to 1, it enables the at.exe and wmi Win32_ScheduledJob commands to schedule tasks on the system. Detecting this registry modification is important because it may indicate that an attacker has enabled the ability to add scheduled tasks to the system, which can be used to execute malicious code at specific times or intervals.'
+description: 'The following analytic detects the creation of a new DWORD value named
+  "EnableAt" in the registry path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration".
+  This modification enables the use of the at.exe or wmi Win32_ScheduledJob commands
+  to add scheduled tasks on a Windows endpoint. The detection leverages registry event
+  data from the Endpoint datamodel. This activity is significant because it may indicate
+  that an attacker is enabling the ability to schedule tasks, potentially to execute
+  malicious code at specific times or intervals. If confirmed malicious, this could
+  allow persistent code execution on the system.'
 search: '| tstats `security_content_summariesonly` count values(Registry.registry_key_name)
   as registry_key_name values(Registry.registry_path) as registry_path min(_time)
-  as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\CurrentVersion\\Schedule\\Configuration*" Registry.registry_value_name=EnableAt  by
-  Registry.dest, Registry.user, Registry.registry_value_name, Registry.registry_value_type | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\CurrentVersion\\Schedule\\Configuration*"
+  Registry.registry_value_name=EnableAt  by Registry.dest, Registry.user, Registry.registry_value_name,
+  Registry.registry_value_type | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
   | `drop_dm_object_name(Registry)` | `windows_enable_win32_scheduledjob_via_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: In some cases, an automated script or system may enable this setting continuously, leading to false positives. To avoid such situations, it is recommended to monitor the frequency and context of the registry modification and modify or filter the detection rules as needed. This can help to reduce the number of false positives and ensure that only genuine threats are identified. Additionally, it is important to investigate any detected instances of this modification and analyze them in the broader context of the system and network to determine if further action is necessary.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: In some cases, an automated script or system may enable this
+  setting continuously, leading to false positives. To avoid such situations, it is
+  recommended to monitor the frequency and context of the registry modification and
+  modify or filter the detection rules as needed. This can help to reduce the number
+  of false positives and ensure that only genuine threats are identified. Additionally,
+  it is important to investigate any detected instances of this modification and analyze
+  them in the broader context of the system and network to determine if further action
+  is necessary.
 references:
 - https://securityonline.info/wmiexec-regout-get-outputdata-response-from-registry/
 - https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-scheduledjob
@@ -26,7 +45,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A process has modified the schedule task registry value - EnableAt - on endpoint $dest$ by user $user$.
+  message: A process has modified the schedule task registry value - EnableAt - on
+    endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1053.005
   observable:
@@ -44,7 +64,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Registry.registry_path 
+  - Registry.registry_path
   - Registry.dest
   - Registry.user
   - Registry.registry_value_name
@@ -54,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/enableat_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/enableat_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

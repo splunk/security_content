@@ -1,27 +1,15 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4776
-date: '2022-09-22'
-description: 'The following analytic identifies one source endpoint failing to authenticate
-  with multiple valid users using the NTLM protocol. This behavior could represent
-  an adversary performing a Password Spraying attack against an Active Directory environment
-  using NTLM to obtain initial access or elevate privileges. Event 4776 is generated
-  on the computer that is authoritative for the provided credentials. For domain accounts,
-  the domain controller is authoritative. For local accounts, the local computer is
-  authoritative. Error code 0xC000006A means: misspelled or bad password (the attempted
-  user is a legitimate domain user).
-
-  The detection calculates the standard deviation for each host and leverages the
-  3-sigma statistical rule to identify an unusual number of users. To customize this
-  analytic, users can try different combinations of the `bucket` span time and the
-  calculation of the `upperBound` field. This logic can be used for real time security
-  monitoring as well as threat hunting exercises.
-
-  This detection will only trigger on domain controllers, not on member servers or
-  workstations.
-
-  The analytics returned fields allow analysts to investigate the event further by
-  providing fields like source workstation name and attempted user accounts.'
+date: '2024-05-12'
+description: 'The following analytic identifies a source endpoint failing to authenticate
+  multiple valid users using the NTLM protocol, potentially indicating a Password
+  Spraying attack. It leverages Event 4776 from Domain Controllers, calculating the
+  standard deviation for each host and applying the 3-sigma rule to detect anomalies.
+  This activity is significant as it may represent an adversary attempting to gain
+  initial access or elevate privileges. If confirmed malicious, the attacker could
+  compromise multiple accounts, leading to unauthorized access and potential lateral
+  movement within the network.'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `Audit Credential
   Validation` within `Account Logon` needs to be enabled.
@@ -73,9 +61,10 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_valid_users_ntlm_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 1
+version: 2

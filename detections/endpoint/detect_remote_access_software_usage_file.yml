@@ -1,22 +1,36 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 1
-date: '2024-02-22'
+version: 2
+date: '2024-05-13'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when a file from a known remote access software is written to disk within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
+description: The following analytic detects the writing of files from known remote
+  access software to disk within the environment. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on file path, file name, and user
+  information. This activity is significant as adversaries often use remote access
+  tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access.
+  If confirmed malicious, this could allow attackers to persist in the environment,
+  potentially leading to data exfiltration, further compromise, or complete control
+  over affected systems.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count, min(_time) as firstTime, max(_time) as lastTime, values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.dest, Filesystem.user, Filesystem.file_name
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `drop_dm_object_name(Filesystem)` 
-  | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category
-  | search isutility = TRUE
-  | `detect_remote_access_software_usage_file_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the file path, file name, and the user that created the file. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Known or approved applications used by the organization or usage of built-in functions.
+search: '| tstats `security_content_summariesonly` count, min(_time) as firstTime,
+  max(_time) as lastTime, values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem
+  by Filesystem.dest, Filesystem.user, Filesystem.file_name | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Filesystem)` | lookup
+  remote_access_software remote_utility AS file_name OUTPUT isutility, description
+  as signature, comment_reference as desc, category | search isutility = TRUE | `detect_remote_access_software_usage_file_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the file path, file name, and the user that created
+  the file. These logs must be processed using the appropriate Splunk Technology Add-ons
+  that are specific to the EDR product. The logs must also be mapped to the `Filesystem`
+  node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
+  to normalize the field names and speed up the data modeling process.
+known_false_positives: Known or approved applications used by the organization or
+  usage of built-in functions.
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -29,7 +43,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A file for known a remote access software [$file_name$] was created on $dest$ by $user$.
+  message: A file for known a remote access software [$file_name$] was created on
+    $dest$ by $user$.
   mitre_attack_id:
   - T1219
   observable:
@@ -51,7 +66,7 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  - Filesystem.dest 
+  - Filesystem.dest
   - Filesystem.user
   - Filesystem.file_name
   risk_score: 25
@@ -59,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

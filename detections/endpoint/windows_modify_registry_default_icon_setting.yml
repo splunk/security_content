@@ -1,17 +1,18 @@
 name: Windows Modify Registry Default Icon Setting
 id: a7a7afdb-3c58-45b6-9bff-63e5acfd9d40
-version: 1
-date: '2023-01-16'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is developed to detect suspicious registry modification
-  to change the default icon association of windows to ransomware . This technique
-  was seen in Lockbit ransomware where it modified the default icon association of
-  the compromised Windows OS  host with its dropped ransomware icon file as part of
-  its  defacement payload. This registry is not commonly modified by a normal user
-  so having this anomaly detection may help to catch possible lockbit ransomware infection
-  or other malware.
+description: The following analytic detects suspicious modifications to the Windows
+  registry's default icon settings, a technique associated with Lockbit ransomware.
+  It leverages data from the Endpoint Registry data model, focusing on changes to
+  registry paths under "*HKCR\\*\\defaultIcon\\(Default)*". This activity is significant
+  as it is uncommon for normal users to modify these settings, and such changes can
+  indicate ransomware infection or other malware. If confirmed malicious, this could
+  lead to system defacement and signal a broader ransomware attack, potentially compromising
+  sensitive data and system integrity.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -67,7 +68,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lockbit_ransomware/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lockbit_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

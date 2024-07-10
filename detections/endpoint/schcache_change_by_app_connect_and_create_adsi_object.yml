@@ -1,19 +1,18 @@
 name: SchCache Change By App Connect And Create ADSI Object
 id: 991eb510-0fc6-11ec-82d3-acde48001122
-version: 1
-date: '2021-09-07'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect an application try to connect and create ADSI
-  Object to do LDAP query. Every time an application connects to the directory and
-  attempts to create an ADSI object, the Active Directory Schema is checked for changes.
-  If it has changed since the last connection, the schema is downloaded and stored
-  in a cache on the local computer either in %LOCALAPPDATA%\Microsoft\Windows\SchCache
-  or %systemroot%\SchCache. We found this a good anomaly use case to detect suspicious
-  application like blackmatter ransomware that use ADS object api to execute ldap
-  query. having a good list of ldap or normal AD query tool used within the network
-  is a good start to reduce the noise.
+description: The following analytic detects an application attempting to connect and
+  create an ADSI object to perform an LDAP query. It leverages Sysmon EventCode 11
+  to identify changes in the Active Directory Schema cache files located in %LOCALAPPDATA%\Microsoft\Windows\SchCache
+  or %systemroot%\SchCache. This activity is significant as it can indicate the presence
+  of suspicious applications, such as ransomware, using ADSI object APIs for LDAP
+  queries. If confirmed malicious, this behavior could allow attackers to gather sensitive
+  directory information, potentially leading to further exploitation or lateral movement
+  within the network.
 data_source:
 - Sysmon EventID 11
 search: '`sysmon` EventCode=11  TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
@@ -62,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

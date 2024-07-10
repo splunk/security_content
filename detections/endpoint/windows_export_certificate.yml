@@ -1,17 +1,16 @@
 name: Windows Export Certificate
 id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
-version: 2
-date: '2023-02-11'
+version: 3
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies when a certificate is exported from
-  the Windows Certificate Store. This analytic utilizes the Certificates Lifecycle
-  log channel event ID 1007. EventID 1007 is focused on the Export of a certificate
-  from the local certificate store. In addition, review the ProcessName field as it
-  will help to determine automation/Admin or adversary extracting the certificate.
-  Depending on the organization, the certificate may be used for authentication to
-  the VPN or private resources.
+description: The following analytic detects the export of a certificate from the Windows
+  Certificate Store. It leverages the Certificates Lifecycle log channel, specifically
+  event ID 1007, to identify this activity. Monitoring certificate exports is crucial
+  as certificates can be used for authentication to VPNs or private resources. If
+  malicious actors export certificates, they could potentially gain unauthorized access
+  to sensitive systems or data, leading to significant security breaches.
 data_source:
 - Windows Event Log CertificateServicesClient 1007
 search: '`certificateservices_lifecycle` EventCode=1007 | xmlkv UserData_Xml | stats
@@ -55,7 +54,9 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certificateservices-lifecycle.log
-    source: XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certificateservices-lifecycle.log
+    source: 
+      XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
     sourcetype: XmlWinEventLog
     update_timestamp: true

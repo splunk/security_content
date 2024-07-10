@@ -1,27 +1,27 @@
 name: Windows Impair Defense Disable Defender Protocol Recognition
 id: b2215bfb-6171-4137-af17-1a02fdd8d043
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  protocol recognition feature. The DisableProtocolRecognition setting in Windows Defender is not a commonly known 
-  or documented registry setting. It's possible that this specific setting might not exist within the standard 
-  Windows Defender configurations or that it might be specific to certain environments, versions, or configurations.
-  It might potentially control or influence the antivirus software's ability to recognize and handle specific protocols 
-  or communication methods used by malware or suspicious software.
+description: The following analytic detects modifications to the Windows registry
+  that disable the Windows Defender protocol recognition feature. It leverages data
+  from the Endpoint.Registry data model, specifically looking for changes to the "DisableProtocolRecognition"
+  setting. This activity is significant because disabling protocol recognition can
+  hinder Windows Defender's ability to detect and respond to malware or suspicious
+  software. If confirmed malicious, this action could allow an attacker to bypass
+  antivirus defenses, facilitating further malicious activities such as data exfiltration
+  or system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\NIS\\DisableProtocolRecognition" 
-  Registry.registry_value_data="0x00000001"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_defender_protocol_recognition_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\NIS\\DisableProtocolRecognition" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_defender_protocol_recognition_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -65,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

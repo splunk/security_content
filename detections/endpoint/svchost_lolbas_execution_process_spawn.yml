@@ -1,21 +1,18 @@
 name: Svchost LOLBAS Execution Process Spawn
 id: 09e5c72a-4c0d-11ec-aa29-3e22fbd008af
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic is designed to spot instances of 'svchost.exe'
-  initiating a Living Off The Land Binaries and Scripts (LOLBAS) execution process.
-  Often, adversaries manipulate Task Scheduler to execute code on remote endpoints,
-  resulting in the spawning of a malicious command as a child process of 'svchost.exe'.
-  By tracking child processes of 'svchost.exe' that align with the LOLBAS project,
-  potential lateral movement activity can be detected. The analytic examines process
-  details, including the process name, parent process, and command-line executions.
-  A comprehensive list of LOLBAS processes is included in the search parameters. Although
-  the analytic might catch legitimate applications exhibiting this behavior, these
-  instances should be filtered accordingly. The findings from this analytic offer
-  valuable insight into potentially malicious activities on an endpoint.
+description: The following analytic detects instances of 'svchost.exe' spawning Living
+  Off The Land Binaries and Scripts (LOLBAS) processes. It leverages Endpoint Detection
+  and Response (EDR) data to monitor child processes of 'svchost.exe' that match known
+  LOLBAS executables. This activity is significant as adversaries often use LOLBAS
+  techniques to execute malicious code stealthily, potentially indicating lateral
+  movement or code execution attempts. If confirmed malicious, this behavior could
+  allow attackers to execute arbitrary commands, escalate privileges, or maintain
+  persistence within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -87,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/svchost_lolbas_execution_process_spawn/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/svchost_lolbas_execution_process_spawn/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

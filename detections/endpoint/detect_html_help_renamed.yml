@@ -1,21 +1,18 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 4
-date: '2022-04-07'
+version: 5
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies a renamed instance of hh.exe (HTML
-  Help) executing a Compiled HTML Help (CHM). This particular technique will load
-  Windows script code from a compiled help file. CHM files may contain nearly any
-  file type embedded, but only execute html/htm. Upon a successful execution, the
-  following script engines may be used for execution - JScript, VBScript, VBScript.Encode,
-  JScript.Encode, JScript.Compact. Analyst may identify vbscript.dll or jscript.dll
-  loading into hh.exe upon execution. The "htm" and "html" file extensions were the
-  only extensions observed to be supported for the execution of Shortcut commands
-  or WSH script code. During investigation, identify script content origination. Validate
-  it is the legitimate version of hh.exe by reviewing the PE metadata. hh.exe is natively
-  found in C:\Windows\system32 and C:\Windows\syswow64.
+description: The following analytic detects instances where hh.exe (HTML Help) has
+  been renamed and is executing a Compiled HTML Help (CHM) file. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process names
+  and original file names. This activity is significant because attackers can use
+  renamed hh.exe to execute malicious scripts embedded in CHM files, potentially leading
+  to code execution. If confirmed malicious, this technique could allow attackers
+  to run arbitrary scripts, escalate privileges, or persist within the environment,
+  posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -46,7 +43,8 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ executed by $user$
+  message: The following $process_name$ has been identified as renamed, spawning from
+    $parent_process_name$ on $dest$ executed by $user$
   mitre_attack_id:
   - T1218
   - T1218.001
@@ -89,6 +87,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

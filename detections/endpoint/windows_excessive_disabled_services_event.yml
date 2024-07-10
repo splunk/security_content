@@ -1,23 +1,24 @@
 name: Windows Excessive Disabled Services Event
 id: c3f85976-94a5-11ec-9a58-acde48001122
-version: 3
-date: '2024-04-26'
+version: 4
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic will identify suspicious excessive number of system events
-  of services that was modified from start to disabled. This technique is seen where
-  the adversary attempts to disable security app services, other malware services
-  oer serve as an destructive impact to complete the objective on the compromised
-  system. One good example for this scenario is Olympic destroyer where it disable
-  all active services in the compromised host as part of its destructive impact and
-  defense evasion.
+description: The following analytic identifies an excessive number of system events
+  where services are modified from start to disabled. It leverages Windows Event Logs
+  (EventCode 7040) to detect multiple service state changes on a single host. This
+  activity is significant as it may indicate an adversary attempting to disable security
+  applications or other critical services, potentially leading to defense evasion
+  or destructive actions. If confirmed malicious, this behavior could allow attackers
+  to disable security defenses, disrupt system operations, and achieve their objectives
+  on the compromised system.
 data_source:
 - Windows Event Log System 7040
-search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime by Computer EventCode UserID | rename Computer as dest
-  | where count >=10 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml)
+  as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time)
+  as lastTime by Computer EventCode UserID | rename Computer as dest | where count
+  >=10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_excessive_disabled_services_event_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the Service name, Service File Name Service Start type, and Service Type
@@ -32,7 +33,8 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: An excessive number (Count - $MessageCount$) of Windows services were disabled on dest - $dest$.
+  message: An excessive number (Count - $MessageCount$) of Windows services were disabled
+    on dest - $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -58,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog

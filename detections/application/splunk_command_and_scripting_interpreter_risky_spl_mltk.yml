@@ -1,18 +1,19 @@
 name: Splunk Command and Scripting Interpreter Risky SPL MLTK
 id: 19d0146c-2eae-4e53-8d39-1198a78fa9ca
-version: 1
-date: '2022-05-27'
+version: 2
+date: '2024-05-15'
 author: Abhinav Mishra, Kumar Sharad and Xiao Lin, Splunk
 status: production
 type: Anomaly
-description: This detection utilizes machine learning model named "risky_command_abuse"
-  trained from "Splunk Command and Scripting Interpreter Risky SPL MLTK Baseline".
-  It should be scheduled to run hourly to detect whether a user has run searches containing
-  risky SPL from this list https://docs.splunk.com/Documentation/Splunk/latest/Security/SPLsafeguards#Commands_that_trigger_the_warninga
-  with abnormally long running time in the past one hour, comparing with his/her past
-  seven days history. This search uses the trained baseline to infer whether a search
-  is an outlier (isOutlier ~= 1.0) or not (isOutlier~= 0.0)
-data_source: 
+description: The following analytic identifies the execution of risky SPL commands
+  with abnormally long run times by leveraging a machine learning model named "risky_command_abuse."
+  It uses the Splunk Audit data model to compare current search activities against
+  a baseline of the past seven days. This activity is significant for a SOC as it
+  can indicate potential misuse or abuse of powerful SPL commands, which could lead
+  to unauthorized data access or system manipulation. If confirmed malicious, this
+  activity could allow an attacker to execute arbitrary scripts, delete data, or exfiltrate
+  sensitive information.
+data_source:
 - Splunk
 search: '| tstats sum(Search_Activity.total_run_time) AS run_time, values(Search_Activity.search)
   as searches, count FROM datamodel=Splunk_Audit.Search_Activity WHERE (Search_Activity.user!="")
@@ -65,7 +66,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
+  - data: 
+      https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
     source: audittrail
     sourcetype: audittrail
     update_timestamp: true

@@ -1,19 +1,28 @@
 name: Unknown Process Using The Kerberos Protocol
 id: c91a0852-9fbb-11ec-af44-acde48001122
-version: 2
-date: '2024-01-23'
+version: 3
+date: '2024-05-19'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a process performing an outbound connection
-  on port 88 used by default by the network authentication protocol Kerberos. Typically,
-  on a regular Windows endpoint, only the lsass.exe process is the one tasked with
-  connecting to the Kerberos Distribution Center to obtain Kerberos tickets. Identifying
-  an unknown process using this protocol may be evidence of an adversary abusing the
-  Kerberos protocol.
+description: The following analytic identifies a non-lsass.exe process making an outbound
+  connection on port 88, which is typically used by the Kerberos authentication protocol.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process and network traffic logs. This activity is significant because,
+  under normal circumstances, only the lsass.exe process should interact with the
+  Kerberos Distribution Center. If confirmed malicious, this behavior could indicate
+  an adversary attempting to abuse the Kerberos protocol, potentially leading to unauthorized
+  access or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id dest [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 88 by All_Traffic.src All_Traffic.process_id  All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename src as dest ] |  table _time dest parent_process_name process_name process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+  where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name
+  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join  process_id dest [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+  where All_Traffic.dest_port = 88 by All_Traffic.src All_Traffic.process_id  All_Traffic.dest_port
+  | `drop_dm_object_name(All_Traffic)` | rename src as dest ] |  table _time dest
+  parent_process_name process_name process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -34,7 +43,8 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: Unknown process $process_name$ using the kerberos protocol detected on host $dest$
+  message: Unknown process $process_name$ using the kerberos protocol detected on
+    host $dest$
   mitre_attack_id:
   - T1550
   observable:
@@ -62,9 +72,11 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550/rubeus/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,17 +1,18 @@
 name: Windows Vulnerable Driver Loaded
 id: a2b1f1ef-221f-4187-b2a4-d4b08ec745f4
 version: 2
-date: "2022-12-12"
+date: "2024-05-18"
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting
-description:
-  The following analytic utilizes a known list of vulnerable Windows drivers
-  to help defenders find potential persistence or privelege escalation via a vulnerable
-  driver. This analytic uses Sysmon EventCode 6, driver loading. A known gap with
-  this lookup is that it does not use the hash or known signer of the vulnerable driver
-  therefore it is up to the defender to identify version and signing info and confirm
-  it is a vulnerable driver.
+description: The following analytic detects the loading of known vulnerable Windows
+  drivers, which may indicate potential persistence or privilege escalation attempts.
+  It leverages Sysmon EventCode 6 to identify driver loading events and cross-references
+  them with a list of vulnerable drivers. This activity is significant as attackers
+  often exploit vulnerable drivers to gain elevated privileges or maintain persistence
+  on a system. If confirmed malicious, this could allow attackers to execute arbitrary
+  code with high privileges, leading to further system compromise and potential data
+  exfiltration.
 data_source:
   - Sysmon EventID 6
 search:
@@ -19,60 +20,58 @@ search:
   max(_time) as lastTime count by dest ImageLoaded | lookup loldrivers driver_name AS ImageLoaded OUTPUT
   is_driver driver_description | search is_driver = TRUE | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_vulnerable_driver_loaded_filter`"
-how_to_implement:
-  Sysmon collects driver loads via EventID 6, however you may modify
+how_to_implement: Sysmon collects driver loads via EventID 6, however you may modify
   the query to utilize this lookup to identify potentially persistent drivers that
   are known to be vulnerable.
-known_false_positives:
-  False positives will be present. Drill down into the driver
+known_false_positives: False positives will be present. Drill down into the driver
   further by version number and cross reference by signer. Review the reference material
   in the lookup. In addition, modify the query to look within specific paths, which
   will remove a lot of "normal" drivers.
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/driver_load/driver_load_vuln_drivers_names.yml
-  - https://github.com/eclypsium/Screwed-Drivers/blob/master/DRIVERS.md
-  - https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/microsoft-recommended-driver-block-rules
-  - https://www.rapid7.com/blog/post/2021/12/13/driver-based-attacks-past-and-present/
-  - https://github.com/jbaines-r7/dellicious
-  - https://github.com/MicrosoftDocs/windows-itpro-docs/blob/public/windows/security/threat-protection/windows-defender-application-control/microsoft-recommended-driver-block-rules.md
-  - https://github.com/namazso/physmem_drivers
-  - https://github.com/stong/CVE-2020-15368
-  - https://github.com/CaledoniaProject/drivers-binaries
-  - https://github.com/Chigusa0w0/AsusDriversPrivEscala
-  - https://www.welivesecurity.com/2022/01/11/signed-kernel-drivers-unguarded-gateway-windows-core/
-  - https://eclypsium.com/2019/11/12/mother-of-all-drivers/
-  - https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-37969
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/driver_load/driver_load_vuln_drivers_names.yml
+- https://github.com/eclypsium/Screwed-Drivers/blob/master/DRIVERS.md
+- https://docs.microsoft.com/en-us/windows/security/threat-protection/windows-defender-application-control/microsoft-recommended-driver-block-rules
+- https://www.rapid7.com/blog/post/2021/12/13/driver-based-attacks-past-and-present/
+- https://github.com/jbaines-r7/dellicious
+- https://github.com/MicrosoftDocs/windows-itpro-docs/blob/public/windows/security/threat-protection/windows-defender-application-control/microsoft-recommended-driver-block-rules.md
+- https://github.com/namazso/physmem_drivers
+- https://github.com/stong/CVE-2020-15368
+- https://github.com/CaledoniaProject/drivers-binaries
+- https://github.com/Chigusa0w0/AsusDriversPrivEscala
+- https://www.welivesecurity.com/2022/01/11/signed-kernel-drivers-unguarded-gateway-windows-core/
+- https://eclypsium.com/2019/11/12/mother-of-all-drivers/
+- https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-37969
 tags:
   analytic_story:
-    - Windows Drivers
-    - BlackByte Ransomware
+  - Windows Drivers
+  - BlackByte Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message:
-    An process has loaded a possible vulnerable driver on $dest$. Review and
+  message: An process has loaded a possible vulnerable driver on $dest$. Review and
     escalate as needed.
   mitre_attack_id:
-    - T1543.003
+  - T1543.003
   observable:
-    - name: dest
-      type: Hostname
-      role:
-        - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _time
-    - dest
-    - ImageLoaded
+  - _time
+  - dest
+  - ImageLoaded
   risk_score: 25
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: xmlwineventlog
-        update_timestamp: true
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
+    update_timestamp: true

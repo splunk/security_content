@@ -1,12 +1,12 @@
 name: Creation of Shadow Copy with wmic and powershell
 id: 2ed8b538-d284-449a-be1d-82ad1dbd186b
-version: 3
-date: '2021-09-16'
+version: 4
+date: '2024-05-18'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: |-
-  The following analytic detects the use of two specific tools, wmic and Powershell, to create a shadow copy to identify potential threats earlier and take appropriate actions to mitigate the risks. This detection is made by a Splunk query that searches for processes in the Endpoint.Processes data model where either the process name contains "wmic" or "Powershell" and the process command contains "shadowcopy" and "create". This detection is important because it suggests that an attacker is attempting to manipulate or access data in an unauthorized manner, which can lead to data theft, data manipulation, or other malicious activities. Attackers might use shadow copies to backup and exfiltrate sensitive data or to hide their tracks by restoring files to a previous state after an attack. Next steps include reviewing the user associated with the process, the process name, the original file name, the process command, and the destination of the process. Additionally, examine any relevant on-disk artifacts and review other concurrent processes to determine the source of the attack.
+  The following analytic detects the creation of shadow copies using "wmic" or "Powershell" commands. It leverages the Endpoint.Processes data model in Splunk to identify processes where the command includes "shadowcopy" and "create". This activity is significant because it may indicate an attacker attempting to manipulate or access data unauthorizedly, potentially leading to data theft or manipulation. If confirmed malicious, this behavior could allow attackers to backup and exfiltrate sensitive data or hide their tracks by restoring files to a previous state after an attack.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

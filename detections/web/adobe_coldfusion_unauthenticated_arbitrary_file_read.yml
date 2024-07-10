@@ -1,27 +1,34 @@
 name: Adobe ColdFusion Unauthenticated Arbitrary File Read
 id: 695aceae-21db-4e7f-93ac-a52e39d02b93
-version: 1
-date: '2023-08-23'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: The following analytic detects potential exploitation of the critical Adobe ColdFusion vulnerability, CVE-2023-26360. This flaw, rooted in the deserialization of untrusted data, enables Unauthenticated Arbitrary File Read. Exploitation often targets specific ColdFusion paths, especially related to CKEditor's file manager. 
-
-  Our analytic pinpoints exploitation by monitoring web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path. This focus helps differentiate malicious activity from standard ColdFusion traffic. For SOCs, detecting such attempts is vital given the vulnerability's CVSS score of 9.8, signaling its severity. Successful exploitation can lead to unauthorized data access, further attacks, or severe operational disruptions. 
-
-  If a true positive arises, it indicates an active breach attempt, potentially causing data theft, operational disruption, or reputational damage. In essence, this analytic provides a targeted approach to identify attempts exploiting a high-risk ColdFusion vulnerability. While false positives may occur from legitimate accesses, any alerts should be treated as high-priority, warranting immediate investigation to ensure security.
-search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/cf_scripts/scripts/ajax/ckeditor/*") Web.status=200
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` | `adobe_coldfusion_unauthenticated_arbitrary_file_read_filter`'
+description: The following analytic detects potential exploitation of the Adobe ColdFusion
+  vulnerability, CVE-2023-26360, which allows unauthenticated arbitrary file read.
+  It monitors web requests to the "/cf_scripts/scripts/ajax/ckeditor/*" path using
+  the Web datamodel, focusing on specific ColdFusion paths to differentiate malicious
+  activity from normal traffic. This activity is significant due to the vulnerability's
+  high CVSS score of 9.8, indicating severe risk. If confirmed malicious, it could
+  lead to unauthorized data access, further attacks, or severe operational disruptions,
+  necessitating immediate investigation.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("/cf_scripts/scripts/ajax/ckeditor/*") Web.status=200 by Web.http_user_agent,
+  Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `adobe_coldfusion_unauthenticated_arbitrary_file_read_filter`'
 how_to_implement: This detection requires the Web datamodel to be populated from a
   supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
   for Palo Alto.
-known_false_positives: 'In the wild, we have observed three different types of attempts that could potentially trigger false positives if the HTTP status code is not in the query. Please check this github gist for the specific URIs : https://gist.github.com/patel-bhavin/d10830f3f375a2397233f6a4fe38d5c9 . These could be legitimate requests depending on the context of your organization. Therefore, it is recommended to modify the analytic as needed to suit your specific environment.'
+known_false_positives: 'In the wild, we have observed three different types of attempts
+  that could potentially trigger false positives if the HTTP status code is not in
+  the query. Please check this github gist for the specific URIs : https://gist.github.com/patel-bhavin/d10830f3f375a2397233f6a4fe38d5c9
+  . These could be legitimate requests depending on the context of your organization.
+  Therefore, it is recommended to modify the analytic as needed to suit your specific
+  environment.'
 references:
 - https://www.rapid7.com/db/modules/auxiliary/gather/adobe_coldfusion_fileread_cve_2023_26360/
 - https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2023/CVE-2023-26360.yaml
@@ -34,7 +41,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 90
-  message: Possible exploitation of CVE-2023-26360 against $dest$. 
+  message: Possible exploitation of CVE-2023-26360 against $dest$.
   mitre_attack_id:
   - T1190
   observable:
@@ -65,6 +72,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/adobe/cve_2023_29360_coldfusion.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/adobe/cve_2023_29360_coldfusion.log
     source: suricata
     sourcetype: suricata

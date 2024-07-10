@@ -1,24 +1,28 @@
 name: Azure AD Successful Single-Factor Authentication
 id: a560e7f6-1711-4353-885b-40be53101fcd
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-23'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a successful authentication event against
-  Azure Active Directory for an account without Multi-Factor Authentication enabled.
-  This could be evidence of a missconfiguration, a policy violation or an account
-  take over attempt that should be investigated
-data_source: 
+description: The following analytic identifies a successful single-factor authentication
+  event against Azure Active Directory. It leverages Azure SignInLogs data, specifically
+  focusing on events where single-factor authentication succeeded. This activity is
+  significant as it may indicate a misconfiguration, policy violation, or potential
+  account takeover attempt. If confirmed malicious, an attacker could gain unauthorized
+  access to the account, potentially leading to data breaches, privilege escalation,
+  or further exploitation within the environment.
+data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
-   | rename properties.* as * 
-   | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip, appDisplayName, authenticationRequirement
-   | `azure_ad_successful_single_factor_authentication_filter`'
+search: ' `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication
+  properties.authenticationDetails{}.succeeded=true | rename properties.* as * | stats
+  count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip,
+  appDisplayName, authenticationRequirement | `azure_ad_successful_single_factor_authentication_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the Signin log category.
 known_false_positives: Although not recommended, certain users may be required without
   multi-factor authentication. Filter as needed
 references:
@@ -31,8 +35,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 90
   impact: 50
-  message: Successful authentication for user $user$
-    without MFA
+  message: Successful authentication for user $user$ without MFA
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -64,7 +67,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

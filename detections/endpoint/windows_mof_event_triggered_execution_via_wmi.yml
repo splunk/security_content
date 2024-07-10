@@ -1,25 +1,25 @@
 name: Windows MOF Event Triggered Execution via WMI
 id: e59b5a73-32bf-4467-a585-452c36ae10c1
-version: 2
-date: '2024-04-29'
+version: 3
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following anaytic identifies MOFComp.exe loading a MOF file. The
-  Managed Object Format (MOF) compiler parses a file containing MOF statements and
-  adds the classes and class instances defined in the file to the WMI repository.
-  Typically, MOFComp.exe does not reach out to the public internet or load a MOF file
-  from User Profile paths. A filter and consumer is typically registered in WMI. Review
-  parallel processes and query WMI subscriptions to gather artifacts. The default
-  path of mofcomp.exe is C:\Windows\System32\wbem.
+description: The following analytic detects the execution of MOFComp.exe loading a
+  MOF file, often triggered by cmd.exe or powershell.exe, or from unusual paths like
+  User Profile directories. It leverages Endpoint Detection and Response (EDR) data,
+  focusing on process names, parent processes, and command-line executions. This activity
+  is significant as it may indicate an attacker using WMI for persistence or lateral
+  movement. If confirmed malicious, it could allow the attacker to execute arbitrary
+  code, maintain persistence, or escalate privileges within the environment.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
   IN ("cmd.exe", "powershell.exe") Processes.process_name=mofcomp.exe) OR (Processes.process_name=mofcomp.exe
-  Processes.process IN ("*\\AppData\\Local\\*","*\\Users\\Public\\*"))
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  Processes.process IN ("*\\AppData\\Local\\*","*\\Users\\Public\\*")) by Processes.dest
+  Processes.user Processes.parent_process_name Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mof_event_triggered_execution_via_wmi_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -88,7 +88,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/mofcomp.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/mofcomp.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

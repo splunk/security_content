@@ -10,7 +10,7 @@ data_source: []
 search: '`okta` eventType=app.generic.unauth_app_access_attempt | stats min(_time)
   as firstTime max(_time) as lastTime values(app) as Apps count by src_user, result
   ,displayMessage, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `okta_failed_sso_attempts_filter` '
+  | `okta_failed_sso_attempts_filter`'
 how_to_implement: This search is specific to Okta and requires Okta logs are being
   ingested in your Splunk deployment.
 known_false_positives: There may be a faulty config preventing legitmate users from

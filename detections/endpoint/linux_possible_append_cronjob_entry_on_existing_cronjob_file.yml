@@ -1,26 +1,18 @@
 name: Linux Possible Append Cronjob Entry on Existing Cronjob File
 id: b5b91200-5f27-11ec-bb4e-acde48001122
-version: 1
-date: '2021-12-17'
+version: 2
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: 'The following analytic is designed to detect potential tampering with
-  cronjob files on a Linux system. It specifically searches for command lines that
-  may be used to append code to existing cronjob files, a technique often employed
-  by adversaries, malware, and red teamers for persistence or privilege escalation.
-  Altering existing or sometimes normal cronjob script files allows malicious code
-  to be executed automatically.
-
-  The analytic operates by monitoring logs for specific process names, parent processes,
-  and command-line executions from your endpoints. It specifically checks for any
-  ''echo'' command which modifies files in directories commonly associated with cron
-  jobs such as ''/etc/cron*'', ''/var/spool/cron/'', and ''/etc/anacrontab''. If such
-  activity is detected, an alert is triggered.
-
-  This behavior is worth identifying for a SOC because malicious cron jobs can lead
-  to system compromises and unauthorized data access, impacting business operations
-  and data integrity.'
+description: 'The following analytic detects potential tampering with cronjob files
+  on a Linux system by identifying ''echo'' commands that append code to existing
+  cronjob files. It leverages logs from Endpoint Detection and Response (EDR) agents,
+  focusing on process names, parent processes, and command-line executions. This activity
+  is significant because adversaries often use it for persistence or privilege escalation.
+  If confirmed malicious, this could allow attackers to execute unauthorized code
+  automatically, leading to system compromises and unauthorized data access, thereby
+  impacting business operations and data integrity.'
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
@@ -81,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/cronjobs_entry/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

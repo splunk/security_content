@@ -1,14 +1,18 @@
 name: Office Document Spawned Child Process To Download
 id: 6fed27d2-9ec7-11eb-8fe4-aa665a019aa3
-version: 6
-date: '2023-07-11'
+version: 7
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect potential malicious office document executing
-  lolbin child process to download payload or other malware. Since most of the attacker
-  abused the capability of office document to execute living on land application to
-  blend it to the normal noise in the infected machine to cover its track.
+description: The following analytic identifies Office applications spawning child
+  processes to download content via HTTP/HTTPS. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on process creation events where Office applications
+  like Word or Excel initiate network connections, excluding common browsers. This
+  activity is significant as it often indicates the use of malicious documents to
+  execute living-off-the-land binaries (LOLBins) for payload delivery. If confirmed
+  malicious, this behavior could lead to unauthorized code execution, data exfiltration,
+  or further malware deployment, posing a severe threat to the organization's security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +77,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

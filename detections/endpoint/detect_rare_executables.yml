@@ -1,23 +1,24 @@
 name: Detect Rare Executables
 id: 44fddcb2-8d3b-454c-874e-7c6de5a4f7ac
-version: 4
-date: '2024-03-12'
+version: 5
+date: '2024-05-21'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the occurrence of rare processes that appear only once across the network within a specified timeframe. 
-  It operates by compiling a list of process executions. This detection is crucial for a Security Operations Center (SOC) as it helps in identifying 
-  potentially malicious activities or unauthorized software that could indicate a security breach or an ongoing attack. Identifying such rare processes 
-  allows for early detection of threats, minimizing the potential impact of an attack which could range from data theft to complete system compromise.
+description: The following analytic detects the execution of rare processes that appear
+  only once across the network within a specified timeframe. It leverages data from
+  Endpoint Detection and Response (EDR) agents, focusing on process execution logs.
+  This activity is significant for a SOC as it helps identify potentially malicious
+  activities or unauthorized software, which could indicate a security breach or ongoing
+  attack. If confirmed malicious, such rare processes could lead to data theft, privilege
+  escalation, or complete system compromise, making early detection crucial for minimizing
+  impact.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` dc(Processes.dest) as dc_dest values(Processes.dest) as
-    dest values(Processes.user) as user min(_time) as firstTime max(_time) as lastTime
-    from datamodel=Endpoint.Processes by Processes.process_name 
-  | `drop_dm_object_name(Processes)`
-  | search dc_dest < 10  
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+search: '| tstats `security_content_summariesonly` dc(Processes.dest) as dc_dest values(Processes.dest)
+  as dest values(Processes.user) as user min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Endpoint.Processes by Processes.process_name | `drop_dm_object_name(Processes)`
+  | search dc_dest < 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_rare_executables_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -29,7 +30,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
 known_false_positives: Some legitimate processes may be only rarely executed in your
-  environment. 
+  environment.
 references: []
 tags:
   analytic_story:
@@ -38,7 +39,8 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A rare process - [$process_name$] has been detected on less than 10 hosts in your environment. 
+  message: A rare process - [$process_name$] has been detected on less than 10 hosts
+    in your environment.
   mitre_attack_id:
   - T1204
   observable:
@@ -60,6 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/rare_executables/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/rare_executables/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

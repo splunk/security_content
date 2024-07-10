@@ -1,14 +1,18 @@
 name: Suspicious mshta child process
 id: 60023bb6-5500-11eb-ae93-0242ac130002
-version: 2
-date: '2024-01-01'
+version: 3
+date: '2024-05-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies child processes spawning from  "mshta.exe".
-  The search will return the first time and last time these command-line arguments
-  were used for these executions, as well as the target system, the user, parent process
-  "mshta.exe" and its child process.
+description: The following analytic identifies child processes spawned from "mshta.exe".
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+  specific child processes like "powershell.exe" and "cmd.exe". This activity is significant
+  because "mshta.exe" is often exploited by attackers to execute malicious scripts
+  or commands. If confirmed malicious, this behavior could allow an attacker to execute
+  arbitrary code, escalate privileges, or maintain persistence within the environment.
+  Monitoring this activity helps in early detection of potential threats leveraging
+  "mshta.exe" for malicious purposes.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -76,7 +80,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

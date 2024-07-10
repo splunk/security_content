@@ -1,14 +1,17 @@
 name: Rundll32 LockWorkStation
 id: fa90f372-f91d-11eb-816c-acde48001122
-version: 2
-date: '2021-08-09'
+version: 3
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This search is to detect a suspicious rundll32 commandline to lock the
-  workstation through command line. This technique was seen in CONTI leak tooling
-  and script as part of its defense evasion. This technique is not a common practice
-  to lock a screen and maybe a good indicator of compromise.
+description: The following analytic detects the execution of the rundll32.exe command
+  with the user32.dll,LockWorkStation parameter, which is used to lock the workstation
+  via command line. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names and command-line executions. This activity
+  is significant as it is an uncommon method to lock a screen and has been observed
+  in CONTI ransomware tooling for defense evasion. If confirmed malicious, this technique
+  could indicate an attempt to evade detection and hinder incident response efforts.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/conti/conti_leak/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

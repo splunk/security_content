@@ -25,7 +25,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   where Processes.parent_process_name=cmd.exe Processes.process_name= reg.exe by Processes.parent_process_id
   Processes.dest Processes.process_name | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | rename parent_process_id as process_id |dedup
-  process_id| table process_id dest] | `suspicious_reg_exe_process_filter` '
+  process_id| table process_id dest] | `suspicious_reg_exe_process_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

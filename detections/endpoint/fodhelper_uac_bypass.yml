@@ -1,31 +1,26 @@
 name: FodHelper UAC Bypass
 id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
-version: 2
-date: '2023-11-07'
+version: 3
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'Fodhelper.exe has a known UAC bypass as it attempts to look for specific
-  registry keys upon execution, that do not exist. Therefore, an attacker can write
-  its malicious commands in these registry keys to be executed by fodhelper.exe with
-  the highest privilege.
-
-  * `HKCU:\Software\Classes\ms-settings\shell\open\command`
-
-  * `HKCU:\Software\Classes\ms-settings\shell\open\command\DelegateExecute`
-
-  * `HKCU:\Software\Classes\ms-settings\shell\open\command\(default)`
-
-  Upon triage, fodhelper.exe will have a child process and read access will occur
-  on the registry keys. Isolate the endpoint and review parallel processes for additional
-  behavior.'
+description: 'The following analytic detects the execution of fodhelper.exe, which
+  is known to exploit a User Account Control (UAC) bypass by leveraging specific registry
+  keys. The detection method uses Endpoint Detection and Response (EDR) telemetry
+  to identify when fodhelper.exe spawns a child process and accesses the registry
+  keys. This activity is significant because it indicates a potential privilege escalation
+  attempt by an attacker. If confirmed malicious, the attacker could execute commands
+  with elevated privileges, leading to unauthorized system changes and potential full
+  system compromise.'
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=fodhelper.exe
-  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `fodhelper_uac_bypass_filter`'
+  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
+  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `fodhelper_uac_bypass_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -48,9 +43,8 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: Suspicious registy keys added by process fodhelper.exe
-    with a parent_process of $parent_process_name$ that has been executed on $dest$
-    by $user$.
+  message: Suspicious registy keys added by process fodhelper.exe with a parent_process
+    of $parent_process_name$ that has been executed on $dest$ by $user$.
   mitre_attack_id:
   - T1112
   - T1548.002
@@ -87,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

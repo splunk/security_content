@@ -1,15 +1,18 @@
 name: Linux Sqlite3 Privilege Escalation
 id: ab75dbb7-c3ba-4689-9c1b-8d2717bdcba1
-version: 1
-date: '2022-08-11'
+version: 2
+date: '2024-05-13'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: sqlite3 is a terminal-based front-end to the SQLite library that can
-  evaluate queries interactively and display the results in multiple formats. sqlite3
-  can also be used within shell scripts and other applications to provide batch processing
-  features. If sudo right is given to this application for the user, then the user
-  can run system commands as root and possibly get a root shell.
+description: The following analytic detects the execution of the sqlite3 command with
+  elevated privileges, which can be exploited for privilege escalation. It leverages
+  Endpoint Detection and Response (EDR) telemetry to identify instances where sqlite3
+  is used in conjunction with shell commands and sudo. This activity is significant
+  because it indicates a potential attempt to gain root access, which could lead to
+  full system compromise. If confirmed malicious, an attacker could execute arbitrary
+  commands as root, leading to unauthorized access, data exfiltration, or further
+  lateral movement within the network.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -74,7 +77,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/sqlite3/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/sqlite3/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

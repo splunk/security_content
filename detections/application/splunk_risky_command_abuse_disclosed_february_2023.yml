@@ -1,7 +1,7 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
-version: 3
-date: '2024-05-05'
+version: 4
+date: '2024-07-01'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
@@ -26,7 +26,7 @@ search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) 
 how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
 known_false_positives: This search encompasses many commands.
 references:
-- https://www.splunk.com/en_us/product-security.html
+- https://advisory.splunk.com/advisories
 tags:
   analytic_story:
   - Splunk Vulnerabilities
@@ -43,6 +43,7 @@ tags:
   - CVE-2023-40598
   - CVE-2023-46214
   - CVE-2024-23676
+  - CVE-2024-36984
   impact: 50
   message: Use of risky splunk command $splunk_risky_command$ detected by $user$
   mitre_attack_id:

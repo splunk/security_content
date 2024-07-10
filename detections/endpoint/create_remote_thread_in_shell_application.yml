@@ -1,20 +1,25 @@
 name: Create Remote Thread In Shell Application
 id: 10399c1e-f51e-11eb-b920-acde48001122
-version: 2
-date: '2024-01-31'
+version: 3
+date: '2024-05-21'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect suspicious process injection in command shell.
-  This technique was seen in IcedID where it execute cmd.exe process to inject its
-  shellcode as part of its execution as banking trojan. It is really uncommon to have
-  a create remote thread execution in the following application.
+description: The following analytic detects suspicious process injection in command
+  shell applications, specifically targeting `cmd.exe` and `powershell.exe`. It leverages
+  Sysmon EventCode 8 to identify the creation of remote threads within these shell
+  processes. This activity is significant because it is a common technique used by
+  malware, such as IcedID, to inject malicious code and execute it within legitimate
+  processes. If confirmed malicious, this behavior could allow an attacker to execute
+  arbitrary code, escalate privileges, or maintain persistence within the environment,
+  posing a severe threat to system security.
 data_source:
 - Sysmon EventID 8
 search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
   count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
-  SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as process_name| `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `create_remote_thread_in_shell_application_filter`'
+  SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as
+  process_name| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `create_remote_thread_in_shell_application_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -61,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

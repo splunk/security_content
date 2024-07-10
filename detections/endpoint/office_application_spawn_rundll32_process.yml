@@ -1,14 +1,17 @@
 name: Office Application Spawn rundll32 process
 id: 958751e4-9c5f-11eb-b103-acde48001122
-version: 4
-date: '2023-02-15'
+version: 5
+date: '2024-05-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This detection was designed to identify suspicious spawned processes
-  of known MS office applications due to macro or malicious code. this technique can
-  be seen in so many malware like trickbot that used MS office as its weapon or attack
-  vector to initially infect the machines.
+description: The following analytic identifies instances where an Office application
+  spawns a rundll32 process, which is often indicative of macro execution or malicious
+  code. This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process creation events where the parent process is a known Office application.
+  This activity is significant because it is a common technique used by malware, such
+  as Trickbot, to initiate infections. If confirmed malicious, this behavior could
+  lead to code execution, further system compromise, and potential data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

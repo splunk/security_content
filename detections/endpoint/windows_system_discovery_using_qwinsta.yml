@@ -1,16 +1,18 @@
 name: Windows System Discovery Using Qwinsta
 id: 2e765c1b-144a-49f0-93d0-1df4287cca04
-version: 1
-date: '2022-10-21'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the execution of qwinsta.exe executable
-  in Windows Operating System. This Windows executable file can display information
-  about sessions on a remote desktop session host server. The information includes
-  servername, sessionname, username and many more. This tool is being abused of Qakbot
-  malware to gather information to the targeted or compromised host that will be send
-  back to its Command And Control server.
+description: The following analytic detects the execution of "qwinsta.exe" on a Windows
+  operating system. This detection leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process execution logs. The "qwinsta.exe" tool is significant
+  because it can display detailed session information on a remote desktop session
+  host server. This behavior is noteworthy as it is commonly abused by Qakbot malware
+  to gather system information and send it back to its Command and Control (C2) server.
+  If confirmed malicious, this activity could lead to unauthorized data exfiltration
+  and further compromise of the host.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/qakbot_discovery_cmdline/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/qakbot_discovery_cmdline/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

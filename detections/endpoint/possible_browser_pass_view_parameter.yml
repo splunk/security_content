@@ -1,18 +1,18 @@
 name: Possible Browser Pass View Parameter
 id: 8ba484e8-4b97-11ec-b19a-acde48001122
-version: 1
-date: '2021-11-22'
+version: 2
+date: '2024-05-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: This analytic will detect if a suspicious process contains a commandline
-  parameter related to a web browser credential dumper. This technique is used by
-  Remcos RAT malware which uses the Nirsoft webbrowserpassview.exe application to
-  dump web browser credentials. Remcos uses the "/stext" command line to dump the
-  credentials in text format. This Hunting query is a good indicator of hosts suffering
-  from possible Remcos RAT infection. Since the hunting query is based on the parameter
-  command and the possible path where it will save the text credential information,
-  it may catch normal tools that are using the same command and behavior.
+description: The following analytic identifies processes with command-line parameters
+  associated with web browser credential dumping tools, specifically targeting behaviors
+  used by Remcos RAT malware. It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on command-line executions and specific file paths. This
+  activity is significant as it indicates potential credential theft, a common tactic
+  in broader cyber-espionage campaigns. If confirmed malicious, attackers could gain
+  unauthorized access to sensitive web credentials, leading to further system compromise
+  and data breaches.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -79,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/web_browser_pass_view/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,23 +1,26 @@
 name: Active Setup Registry Autostart
 id: f64579c0-203f-11ec-abcc-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-27'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious modification of the active setup
-  registry for persistence and privilege escalation. This technique was seen in several
-  malware (poisonIvy), adware and APT to gain persistence to the compromised machine
-  upon boot up. This TTP is a good indicator to further check the process id that
-  do the modification since modification of this registry is not commonly done. check
-  the legitimacy of the file and process involve in this rules to check if it is a
-  valid setup installer that creating or modifying this registry.
+description: The following analytic detects suspicious modifications to the Active
+  Setup registry for persistence and privilege escalation. It leverages data from
+  the Endpoint.Registry data model, focusing on changes to the "StubPath" value within
+  the "SOFTWARE\\Microsoft\\Active Setup\\Installed Components" path. This activity
+  is significant as it is commonly used by malware, adware, and APTs to maintain persistence
+  on compromised machines. If confirmed malicious, this could allow attackers to execute
+  code upon system startup, potentially leading to further system compromise and unauthorized
+  access.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest Registry.user 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` 
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_value_name= "StubPath" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Active
+  Setup\\Installed Components*") BY _time span=1h Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
+  Registry.dest Registry.user | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `active_setup_registry_autostart_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -66,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1547.014/active_setup_stubpath/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

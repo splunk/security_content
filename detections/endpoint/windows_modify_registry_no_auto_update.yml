@@ -1,20 +1,20 @@
 name: Windows Modify Registry No Auto Update
 id: fbd4f333-17bb-4eab-89cb-860fa2e0600e
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a suspicious registry modification
-  of Windows auto update configuration. This technique was being abused by several
-  adversaries, malware authors and also red-teamers to bypass detection or to be able
-  to compromise the target host with zero day exploit or as an additional defense
-  evasion technique. RedLine Stealer is one of the malware we've seen that uses this
-  technique to evade detection and add more payload on the target host. This detection
-  looks for registry modification that will "Disable Automatic Updates".
+description: The following analytic identifies a suspicious modification to the Windows
+  registry that disables automatic updates. It detects changes to the registry path
+  `SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU\NoAutoUpdate` with a value
+  of `0x00000001`. This activity is significant as it is commonly used by adversaries,
+  including malware like RedLine Stealer, to evade detection and maintain persistence.
+  If confirmed malicious, this could allow attackers to bypass security updates, leaving
+  the system vulnerable to further exploitation and potential zero-day attacks.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Policies\\Microsoft\\Windows\\WindowsUpdate\\AU\\NoAutoUpdate"
   AND Registry.registry_value_data="0x00000001" by Registry.dest Registry.user Registry.registry_path
@@ -64,6 +64,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/modify_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

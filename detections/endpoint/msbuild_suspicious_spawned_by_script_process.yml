@@ -1,16 +1,19 @@
 name: MSBuild Suspicious Spawned By Script Process
 id: 213b3148-24ea-11ec-93a2-acde48001122
-version: 1
-date: '2021-10-04'
+version: 2
+date: '2024-05-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious child process of MSBuild spawned
-  by Windows Script Host - cscript or wscript. This behavior or event are commonly
-  seen and used by malware or adversaries to execute malicious msbuild process using
-  malicious script in the compromised host. During triage, review parallel processes
-  and identify any file modifications. MSBuild may load a script from the same path
-  without having command-line arguments.
+description: The following analytic detects the suspicious spawning of MSBuild.exe
+  by Windows Script Host processes (cscript.exe or wscript.exe). This behavior is
+  often associated with malware or adversaries executing malicious MSBuild processes
+  via scripts on compromised hosts. The detection leverages Endpoint Detection and
+  Response (EDR) telemetry, focusing on process creation events where MSBuild is a
+  child of script hosts. This activity is significant as it may indicate an attempt
+  to execute malicious code. If confirmed malicious, it could lead to unauthorized
+  code execution, potentially compromising the host and allowing further malicious
+  activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
@@ -70,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1127.001/regsvr32_silent/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

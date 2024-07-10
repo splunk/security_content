@@ -1,16 +1,19 @@
 name: Detect Renamed 7-Zip
 id: 4057291a-b8cf-11eb-95fe-acde48001122
-version: 2
-date: '2021-09-16'
+version: 3
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies renamed 7-Zip usage using Sysmon. At
-  this stage of an attack, review parallel processes and file modifications for data
-  that is staged or potentially have been exfiltrated. This analytic utilizes the
-  OriginalFileName to capture the renamed process. During triage, validate this is
-  the legitimate version of `7zip` by reviewing the PE metadata. In addition, review
-  parallel processes for further suspicious behavior.
+description: The following analytic detects the usage of a renamed 7-Zip executable
+  using Sysmon data. It leverages the OriginalFileName field to identify instances
+  where the 7-Zip process has been renamed. This activity is significant as attackers
+  often rename legitimate tools to evade detection while staging or exfiltrating data.
+  If confirmed malicious, this behavior could indicate data exfiltration attempts
+  or other unauthorized data manipulation, potentially leading to significant data
+  breaches or loss of sensitive information. Analysts should validate the legitimacy
+  of the 7-Zip executable and investigate parallel processes for further suspicious
+  activities.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -82,6 +85,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

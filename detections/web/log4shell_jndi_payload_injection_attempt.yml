@@ -1,28 +1,19 @@
 name: Log4Shell JNDI Payload Injection Attempt
 id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 1
-date: '2021-12-13'
+version: 2
+date: '2024-05-25'
 author: Jose Hernandez
 status: production
 type: Anomaly
-description: CVE-2021-44228 Log4Shell payloads can be injected via various methods,
-  but on of the most common vectors injection is via Web calls. Many of the vulnerable
-  java web applications that are using log4j have a web component to them are specially
-  targets of this injection, specifically projects like Apache Struts, Flink, Druid,
-  and Solr. The exploit is triggered by a LDAP lookup function in the log4j package,
-  its invocation is similar to `${jndi:ldap://PAYLOAD_INJECTED}`, when executed against
-  vulnerable web applications the invocation can be seen in various part of web logs.
-  Specifically it has been successfully exploited via headers like X-Forwarded-For,
-  User-Agent, Referer, and X-Api-Version. In this detection we first limit the scope
-  of our search to the Web Datamodel and use the `| from datamodel` function to benefit
-  from schema accelerated searching capabilities, mainly because the second part of
-  the detection is pretty heavy, it runs a regex across all _raw events that looks
-  for `${jndi:ldap://` pattern across all potential web fields available to the raw
-  data, like http headers for example. If you see results for this detection, it means
-  that there was a attempt at a injection, which could be a reconnaissance activity
-  or a valid expliotation attempt, but this does not exactly mean that the host was
-  indeed successfully exploited.
-data_source: 
+description: The following analytic identifies attempts to inject Log4Shell JNDI payloads
+  via web calls. It leverages the Web datamodel and uses regex to detect patterns
+  like `${jndi:ldap://` in raw web event data, including HTTP headers. This activity
+  is significant because it targets vulnerabilities in Java web applications using
+  Log4j, such as Apache Struts and Solr. If confirmed malicious, this could allow
+  attackers to execute arbitrary code, potentially leading to full system compromise.
+  Immediate investigation is required to determine if the attempt was successful and
+  to mitigate any potential exploitation.
+data_source:
 - Nginx Access
 search: '| from datamodel Web.Web | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
   | fillnull | stats count by action, category, dest, dest_port, http_content_type,
@@ -80,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
     source: nginx
     sourcetype: nginx:plus:kv

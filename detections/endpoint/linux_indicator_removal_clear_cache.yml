@@ -1,15 +1,17 @@
 name: Linux Indicator Removal Clear Cache
 id: e0940505-0b73-4719-84e6-cb94c44a5245
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic looks for processes that clear or free page cache in Linux
-  system host. This technique was seen in Awfulshred malware wiper that tries to clear
-  the cache using kernel system request drop_caches while wiping all files in the
-  targeted host. This TTP detection can be a good indicator of user or process tries
-  to clear page cache to delete tracks or might be a wiper like Awfulshred.
+description: The following analytic detects processes that clear or free page cache
+  on a Linux system. It leverages Endpoint Detection and Response (EDR) data, focusing
+  on specific command-line executions involving the kernel system request `drop_caches`.
+  This activity is significant as it may indicate an attempt to delete forensic evidence
+  or the presence of wiper malware like Awfulshred. If confirmed malicious, this behavior
+  could allow an attacker to cover their tracks, making it difficult to investigate
+  other malicious activities or system compromises.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test3/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/awfulshred/test3/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux
     update_timestamp: true

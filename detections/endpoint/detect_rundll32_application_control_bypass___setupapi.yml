@@ -1,19 +1,18 @@
 name: Detect Rundll32 Application Control Bypass - setupapi
 id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
-version: 2
-date: '2021-02-04'
+version: 3
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies rundll32.exe loading setupapi.dll and
-  iesetupapi.dll by calling the LaunchINFSection function on the command line. This
-  particular technique will load script code from a file. Upon a successful execution,
-  the following module loads may occur - clr.dll, jscript.dll and scrobj.dll. During
-  investigation, identify script content origination. Generally, a child process will
-  spawn from rundll32.exe, but that may be bypassed based on script code contents.
-  Rundll32.exe is natively found in C:\Windows\system32 and C:\Windows\syswow64. During
-  investigation, review any network connections and obtain the script content executed.
-  It's possible other files are on disk.
+description: The following analytic detects the execution of rundll32.exe loading
+  setupapi.dll and iesetupapi.dll via the LaunchINFSection function. This behavior
+  is identified using Endpoint Detection and Response (EDR) telemetry, focusing on
+  process creation events and command-line arguments. This activity is significant
+  as it indicates a potential application control bypass, allowing an attacker to
+  execute arbitrary script code. If confirmed malicious, this technique could enable
+  code execution, privilege escalation, or persistence within the environment, posing
+  a severe threat to system integrity and security.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -91,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,20 +1,24 @@
 name: Kubernetes Falco Shell Spawned
 id: d2feef92-d54a-4a19-8306-b47c6ceba5b2
-version: 1
-date: '2023-12-13'
+version: 2
+date: '2024-05-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects instances where a shell is spawned within a Kubernetes container, a behavior often indicative of an attacker gaining unauthorized access. 
-  Leveraging Falco, a cloud-native runtime security tool, this analytic monitors system calls within the Kubernetes environment, flagging when a shell is spawned in a container. 
-  This behavior is worth identifying for a SOC as it could potentially allow an attacker to execute arbitrary commands, manipulate container processes, or escalate privileges, posing a significant threat to the integrity and security of the Kubernetes infrastructure. 
-  The impact of such an attack could be severe, leading to data breaches, service disruptions, or unauthorized access to sensitive information.
-data_source: 
+description: The following analytic detects instances where a shell is spawned within
+  a Kubernetes container. Leveraging Falco, a cloud-native runtime security tool,
+  this analytic monitors system calls within the Kubernetes environment and flags
+  when a shell is spawned. This activity is significant for a SOC as it may indicate
+  unauthorized access, allowing an attacker to execute arbitrary commands, manipulate
+  container processes, or escalate privileges. If confirmed malicious, this could
+  lead to data breaches, service disruptions, or unauthorized access to sensitive
+  information, severely impacting the Kubernetes infrastructure's integrity and security.
+data_source:
 - Kubernetes Falco
 search: '`kube_container_falco` "A shell was spawned in a container"
   |  fillnull
   | stats count by container_image container_image_tag container_name parent proc_exepath process user
-  | `kubernetes_falco_shell_spawned_filter` '
+  | `kubernetes_falco_shell_spawned_filter`'
 how_to_implement: The detection is based on data that originates from Falco, a cloud native runtime security tool. 
   Falco is designed to detect anomalous activity in your applications and is a crucial component of this detection rule. 
   To implement this detection rule, you need to install and configure Falco in your Kubernetes environment. 
@@ -42,18 +46,19 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - container_image 
-  - container_image_tag 
-  - container_name 
-  - parent 
-  - proc_exepath 
-  - process 
+  - container_image
+  - container_image_tag
+  - container_name
+  - parent
+  - proc_exepath
+  - process
   - user
   risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_falco_shell_spawned/kubernetes_falco_shell_spawned.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/kubernetes_falco_shell_spawned/kubernetes_falco_shell_spawned.log
     sourcetype: kube:container:falco
     source: kubernetes

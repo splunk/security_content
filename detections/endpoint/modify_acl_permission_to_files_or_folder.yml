@@ -1,16 +1,17 @@
 name: Modify ACL permission To Files Or Folder
 id: 7e8458cc-acca-11eb-9e3f-acde48001122
-version: 2
-date: '2022-03-17'
+version: 3
+date: '2024-05-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic identifies suspicious modification of ACL permission to
-  a files or folder to make it available to everyone. This technique may be used by
-  the adversary to evade ACLs or protected files access. This changes is commonly
-  configured by the file or directory owner with appropriate permission. This behavior
-  is a good indicator if this command seen on a machine utilized by an account with
-  no permission to do so.
+description: The following analytic detects the modification of ACL permissions to
+  files or folders, making them accessible to everyone. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on processes like "cacls.exe," "icacls.exe,"
+  and "xcacls.exe" with specific command-line arguments. This activity is significant
+  as it may indicate an adversary attempting to evade ACLs or access protected files.
+  If confirmed malicious, this could allow unauthorized access to sensitive data,
+  potentially leading to data breaches or further system compromise.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
@@ -64,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

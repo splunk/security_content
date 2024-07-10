@@ -1,16 +1,18 @@
 name: Suspicious Image Creation In Appdata Folder
 id: f6f904c4-1ac0-11ec-806b-acde48001122
-version: 2
-date: '2022-07-07'
+version: 3
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious creation of image in appdata folder
-  made by process that also has a file reference in appdata folder. This technique
-  was seen in remcos rat that capture screenshot of the compromised machine and place
-  it in the appdata and will be send to its C2 server. This TTP is really a good indicator
-  to check that process because it is in suspicious folder path and image files are
-  not commonly created by user in this folder path.
+description: The following analytic detects the creation of image files in the AppData
+  folder by processes that also have a file reference in the same folder. It leverages
+  data from the Endpoint.Processes and Endpoint.Filesystem datamodels to identify
+  this behavior. This activity is significant because it is commonly associated with
+  malware, such as the Remcos RAT, which captures screenshots and stores them in the
+  AppData folder before exfiltrating them to a command-and-control server. If confirmed
+  malicious, this activity could indicate unauthorized data capture and exfiltration,
+  compromising sensitive information and user privacy.
 data_source:
 - Sysmon EventID 1
 - Sysmon EventID 11
@@ -69,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_agent/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

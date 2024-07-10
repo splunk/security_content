@@ -1,14 +1,18 @@
 name: Domain Account Discovery with Dsquery
 id: b1a8ce04-04c2-11ec-bea7-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2024-05-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: This analytic looks for the execution of `dsquery.exe` with command-line
-  arguments utilized to discover  domain users. The `user` argument returns a list
-  of all users registered in the domain. Red Teams and adversaries alike engage in
-  remote system discovery for situational awareness and Active Directory Discovery.
+description: The following analytic identifies the execution of `dsquery.exe` with
+  command-line arguments used to discover domain users. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process names and command-line
+  executions. This activity is significant as it indicates potential reconnaissance
+  efforts by adversaries to map out domain users, which is a common precursor to further
+  attacks. If confirmed malicious, this behavior could allow attackers to gain insights
+  into user accounts, facilitating subsequent actions like privilege escalation or
+  lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -72,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

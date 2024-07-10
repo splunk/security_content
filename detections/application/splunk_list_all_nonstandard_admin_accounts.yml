@@ -1,18 +1,18 @@
 name: Splunk list all nonstandard admin accounts
 id: 401d689c-8596-4c6b-a710-7b6fdca296d3
-version: 1
-date: '2023-02-07'
+version: 2
+date: '2024-05-21'
 author: Rod Soto
 status: experimental
 type: Hunting
-description: 'This search will enumerate all Splunk Accounts with administrative rights
-  on this instance.  It deliberately ignores the default admin account since this
-  is assumed to be present.  This search may help in a detection the Cross-Site Scripting
-  Attack listed: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, a
-  View allows for Cross-Site Scripting in an XML View through the ''layoutPanel''
-  attribute in the ''module'' tag. The vulnerability affects instances with Splunk
-  Web enabled.'
-data_source: 
+description: 'The following analytic identifies nonstandard Splunk accounts with administrative
+  rights on the instance, excluding the default admin account. It uses REST API calls
+  to retrieve user data and filters for accounts with admin capabilities. This activity
+  is significant as unauthorized admin accounts can indicate potential security breaches
+  or misconfigurations. If confirmed malicious, attackers could leverage these accounts
+  to execute commands, escalate privileges, or persist within the environment, posing
+  a significant risk to the integrity and security of the Splunk instance.'
+data_source:
 - Splunk
 search: '| rest splunk_server=local /services/authentication/users |search capabilities=admin*
   OR imported_capabilities=admin* title!=admin | table title roles capabilities splunk_server

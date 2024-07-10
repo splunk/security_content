@@ -1,16 +1,19 @@
 name: Windows DisableAntiSpyware Registry
 id: 23150a40-9301-4195-b802-5bb4f43067fb
-version: 2
-date: '2023-12-27'
+version: 3
+date: '2024-05-28'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
-description: The search looks for the Registry Key DisableAntiSpyware set to disable.
-  This is consistent with Ryuk infections across a fleet of endpoints. This particular
-  behavior is typically executed when an ransomware actor gains access to an endpoint
-  and beings to perform execution. Usually, a batch (.bat) will be executed and multiple
-  registry and scheduled task modifications will occur. During triage, review parallel
-  processes and identify any further file modifications. Endpoint should be isolated.
+description: The following analytic detects the modification of the Windows Registry
+  key "DisableAntiSpyware" being set to disable. This detection leverages data from
+  the Endpoint.Registry datamodel, specifically looking for the registry value name
+  "DisableAntiSpyware" with a value of "0x00000001". This activity is significant
+  as it is commonly associated with Ryuk ransomware infections, indicating potential
+  malicious intent to disable Windows Defender. If confirmed malicious, this action
+  could allow attackers to disable critical security defenses, facilitating further
+  malicious activities such as data encryption, exfiltration, or additional system
+  compromise.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -65,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

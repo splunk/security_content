@@ -1,24 +1,24 @@
 name: Kubernetes AWS detect suspicious kubectl calls
 id: 042a3d32-8318-4763-9679-09db2644a8f2
-version: 2
-date: '2023-12-19'
+version: 3
+date: '2024-05-18'
 author: Rod Soto, Patrick Bareiss, Splunk
 status: experimental
 type: Anomaly
-description: 'The following analytic detects anonymous and unauthenticated requests to a Kubernetes cluster. 
-  It identifies this behavior by monitoring for API calls from users who have not provided any token or password in their request. 
-  This is a significant behavior to identify for a SOC as it indicates a severe misconfiguration that allows unfettered access to a cluster 
-  with no traceability to a user or service. The impact of such an attack could be substantial, 
-  potentially granting an attacker access to sensitive data or control over the cluster. 
-  This detection rule is crucial for maintaining the security and integrity of your Kubernetes infrastructure.'
-data_source: 
+description: 'The following analytic detects anonymous and unauthenticated requests
+  to a Kubernetes cluster. It identifies this behavior by monitoring API calls from
+  users who have not provided any token or password in their request, using data from
+  `kube_audit` logs. This activity is significant for a SOC as it indicates a severe
+  misconfiguration, allowing unfettered access to the cluster with no traceability.
+  If confirmed malicious, an attacker could gain access to sensitive data or control
+  over the cluster, posing a substantial security risk.'
+data_source:
 - Kubernetes Audit
 search: '`kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
-  | fillnull
-  | stats count by objectRef.name objectRef.namespace objectRef.resource requestReceivedTimestamp requestURI 
-  responseStatus.code sourceIPs{} stage user.groups{} user.uid user.username userAgent verb
-  | rename sourceIPs{} as src_ip, user.username as user
-  |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`'
+  | fillnull | stats count by objectRef.name objectRef.namespace objectRef.resource
+  requestReceivedTimestamp requestURI responseStatus.code sourceIPs{} stage user.groups{}
+  user.uid user.username userAgent verb | rename sourceIPs{} as src_ip, user.username
+  as user |`kubernetes_aws_detect_suspicious_kubectl_calls_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with cloudwatch logs.
 known_false_positives: Kubectl calls are not malicious by nature. However source IP,

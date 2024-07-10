@@ -1,17 +1,18 @@
 name: Linux Shred Overwrite Command
 id: c1952cf1-643c-4965-82de-11c067cbae76
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a shred process to overwrite a files in a
-  linux machine. Shred Linux application is designed to overwrite file to hide its
-  contents or make the deleted file un-recoverable. Weve seen this technique in industroyer2
-  malware that tries to wipe energy facilities of targeted sector as part of its destructive
-  attack. It might be some normal user may use this command for valid purposes but
-  it is recommended to check what files, disk or folder it tries to shred that might
-  be good pivot for incident response in this type of destructive malware.
+description: The following analytic detects the execution of the 'shred' command on
+  a Linux machine, which is used to overwrite files to make them unrecoverable. It
+  leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
+  names and command-line arguments. This activity is significant because the 'shred'
+  command can be used in destructive attacks, such as those seen in the Industroyer2
+  malware targeting energy facilities. If confirmed malicious, this activity could
+  lead to the permanent destruction of critical files, severely impacting system integrity
+  and data availability.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -70,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_shred_critical_dir/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/rm_shred_critical_dir/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

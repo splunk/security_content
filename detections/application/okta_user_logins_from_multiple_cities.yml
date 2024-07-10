@@ -1,21 +1,34 @@
 name: Okta User Logins from Multiple Cities
 id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
-version: 1
-date: '2024-03-07'
+version: 2
+date: '2024-05-09'
 author: 'Bhavin Patel, Splunk'
 data_source: []
 type: Anomaly
 status: production
-description: This search identifies instances where the same user logs in from different cities within a 24-hour period, potentially indicating a compromised account. Such behavior may be indicative of an attacker attempting to gain unauthorized access to an Okta account from multiple locations. Investigating and responding to such incidents promptly is crucial to prevent account takeovers and data breaches.
-search: '| tstats  `security_content_summariesonly` values(Authentication.app) as app values(Authentication.action) as action values(Authentication.user) as user values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature) as signature  values(Authentication.method) as method  from datamodel=Authentication where  Authentication.signature=user.session.start by _time Authentication.src 
-  | `drop_dm_object_name("Authentication")` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | iplocation src
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(src) as distinct_src dc(City) as distinct_city values(src) as src values(City) as City values(Country) as Country values(action) as action by user  
-  | where distinct_city > 1 | `okta_user_logins_from_multiple_cities_filter`'
-how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: It is uncommon for a user to log in from multiple cities simultaneously, which may indicate a false positive.
+description: The following analytic identifies instances where the same Okta user
+  logs in from different cities within a 24-hour period. This detection leverages
+  Okta Identity Management logs, analyzing login events and their geographic locations.
+  Such behavior is significant as it may indicate a compromised account, with an attacker
+  attempting unauthorized access from multiple locations. If confirmed malicious,
+  this activity could lead to account takeovers and data breaches, allowing attackers
+  to access sensitive information and potentially escalate their privileges within
+  the environment.
+search: '| tstats  `security_content_summariesonly` values(Authentication.app) as
+  app values(Authentication.action) as action values(Authentication.user) as user
+  values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature)
+  as signature  values(Authentication.method) as method  from datamodel=Authentication
+  where  Authentication.signature=user.session.start by _time Authentication.src |
+  `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | iplocation src | stats count min(_time) as
+  firstTime max(_time) as lastTime dc(src) as distinct_src dc(City) as distinct_city
+  values(src) as src values(City) as City values(Country) as Country values(action)
+  as action by user | where distinct_city > 1 | `okta_user_logins_from_multiple_cities_filter`'
+how_to_implement: This detection utilizes logs from Okta Identity Management (IM)
+  environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on
+  for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: It is uncommon for a user to log in from multiple cities simultaneously,
+  which may indicate a false positive.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 tags:
@@ -24,7 +37,8 @@ tags:
   asset_type: Okta Tenant
   confidence: 90
   impact: 90
-  message: A user [$user$] has logged in from multiple cities [$City$] from IP Address - [$src$]. Investigate further to determine if this was authorized.
+  message: A user [$user$] has logged in from multiple cities [$City$] from IP Address
+    - [$src$]. Investigate further to determine if this was authorized.
   mitre_attack_id:
   - T1586.003
   observable:
@@ -55,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
     source: Okta
     sourcetype: OktaIM2:log

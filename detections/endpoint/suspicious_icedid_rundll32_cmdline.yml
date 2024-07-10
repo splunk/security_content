@@ -1,13 +1,17 @@
 name: Suspicious IcedID Rundll32 Cmdline
 id: bed761f8-ee29-11eb-8bf3-acde48001122
-version: 2
-date: '2021-07-26'
+version: 3
+date: '2024-05-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This search is to detect a suspicious rundll32.exe commandline to execute
-  dll file. This technique was seen in IcedID malware to load its payload dll with
-  the following parameter to load encrypted dll payload which is the license.dat.
+description: The following analytic detects a suspicious `rundll32.exe` command line
+  used to execute a DLL file, a technique associated with IcedID malware. It leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
+  executions containing the pattern `*/i:*`. This activity is significant as it indicates
+  potential malware attempting to load an encrypted DLL payload, often named `license.dat`.
+  If confirmed malicious, this could allow attackers to execute arbitrary code, leading
+  to further system compromise and potential data exfiltration.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -71,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

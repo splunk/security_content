@@ -1,23 +1,19 @@
 name: GCP Unusual Number of Failed Authentications From Ip
 id: bd8097ed-958a-4873-87d9-44f2b4d85705
-version: 1
-date: '2022-10-13'
+version: 2
+date: '2024-05-24'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies one source IP failing to authenticate
-  into the Google Workspace with multiple valid users. This behavior could represent
-  an adversary performing a Password Spraying attack against a Google Workspace enviroment
-  to obtain initial access or elevate privileges. The detection calculates the standard
-  deviation for source IP and leverages the 3-sigma statistical rule to identify an
-  unusual number of failed authentication attempts. To customize this analytic, users
-  can try different combinations of the bucket span time and the calculation of the
-  upperBound field. This logic can be used for real time security monitoring as well
-  as threat hunting exercises.  While looking for anomalies using statistical methods
-  like the standard deviation can have benefits, we also recommend using threshold-based
-  detections to complement coverage. A similar analytic following the threshold model
-  is `GCP Multiple Users Failing To Authenticate From Ip`
-data_source: 
+description: The following analytic identifies a single source IP failing to authenticate
+  into Google Workspace with multiple valid users, potentially indicating a Password
+  Spraying attack. It uses Google Workspace login failure events and calculates the
+  standard deviation for source IPs, applying the 3-sigma rule to detect unusual failed
+  authentication attempts. This activity is significant as it may signal an adversary
+  attempting to gain initial access or elevate privileges. If confirmed malicious,
+  this could lead to unauthorized access, data breaches, or further exploitation within
+  the environment.
+data_source:
 - Google Workspace login_failure
 search: '`gws_reports_login` event.type = login event.name = login_failure| bucket
   span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts
@@ -44,7 +40,8 @@ tags:
   asset_type: Google Cloud Platform tenant
   confidence: 90
   impact: 60
-  message: 'Unusual number of failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
+  message: 'Unusual number of failed console login attempts (Count: $unique_accounts$)
+    against users from IP Address - $src$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -75,7 +72,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
     source: gws_login
     sourcetype: gws:reports:login
     update_timestamp: true

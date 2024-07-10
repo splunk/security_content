@@ -1,21 +1,28 @@
 name: Okta Multiple Failed MFA Requests For User
 id: 826dbaae-a1e6-4c8c-b384-d16898956e73
-version: 1
-date: '2024-03-05'
+version: 2
+date: '2024-05-20'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic identifies multiple failed multi-factor authentication requests for a single user within an Okta tenant. Specifically, the analytic triggers when more than 10 MFA user prompts fail within 10 minutes. The reasons for these failure could be several, like the user not responding in time or receiving multiple duplicate MFA requests. Okta tenants can be very different depending on the organization, Security teams should test this detection and customize these arbitrary thresholds. The detected behavior may represent an adversary who has obtained legitimate credentials for a user and continuously repeats login attempts in order to bombard users with MFA push notifications, SMS messages, and phone calls potentially resulting in the user finally accepting the authentication request. Threat actors like the Lapsus team and APT29 have leveraged this technique to bypass multi-factor authentication controls as reported by Mandiant and others.
-search: ' `okta` eventType=user.authentication.auth_via_mfa outcome.result=FAILURE debugContext.debugData.factor!=PASSWORD_AS_FACTOR
-  | bucket _time span=5m
-  | stats count min(_time) as firstTime max(_time) as lastTime values(displayMessage) values(src_ip) as src_ip values(debugContext.debugData.factor) by _time src_user 
-  | where count >= 5
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies multiple failed multi-factor authentication
+  (MFA) requests for a single user within an Okta tenant. It triggers when more than
+  10 MFA attempts fail within 5 minutes, using Okta event logs to detect this pattern.
+  This activity is significant as it may indicate an adversary attempting to bypass
+  MFA by bombarding the user with repeated authentication requests, a technique used
+  by threat actors like Lapsus and APT29. If confirmed malicious, this could lead
+  to unauthorized access, potentially compromising sensitive information and systems.
+search: ' `okta` eventType=user.authentication.auth_via_mfa outcome.result=FAILURE
+  debugContext.debugData.factor!=PASSWORD_AS_FACTOR | bucket _time span=5m | stats
+  count min(_time) as firstTime max(_time) as lastTime values(displayMessage) values(src_ip)
+  as src_ip values(debugContext.debugData.factor) by _time src_user | where count
+  >= 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `okta_multiple_failed_mfa_requests_for_user_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: Multiple Failed MFA requests may also be a sign of authentication or application issues. Filter as needed and monitor for any unusual activity.
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
+  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
+  or application issues. Filter as needed and monitor for any unusual activity.
 references:
 - https://attack.mitre.org/techniques/T1621/
 tags:
@@ -24,7 +31,7 @@ tags:
   asset_type: Okta Tenant
   confidence: 70
   impact: 60
-  message: Multiple failed MFA requests for user [$src_user$] from IP Address - [$src_ip$]. Investigate further to determine if this was authorized.
+  message: Multiple failed MFA requests for user $src_user$ from IP Address - $src_ip$
   mitre_attack_id:
   - T1621
   observable:
@@ -53,6 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_requests/okta_multiple_failed_mfa_requests.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_requests/okta_multiple_failed_mfa_requests.log
     source: Okta
     sourcetype: OktaIM2:log

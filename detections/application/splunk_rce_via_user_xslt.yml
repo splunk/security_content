@@ -20,8 +20,8 @@ search: '`splunkd_ui` ((uri="*NO_BINARY_CHECK=1*" AND "*input.path=*.xsl*") OR u
   | stats count min(_time) as firstTime max(_time) as lastTime by clientip useragent
   uri decoded_field action host | rename clientip as src, uri as dest_uri | iplocation
   src | fillnull value="N/A" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | table firstTime, lastTime src, useragent, action, count, Country, Region, City,
-  dest_uri, decoded_field'
+  | table firstTime, lastTime src, useragent, action, count, Country, Region, City, dest_uri, decoded_field
+  | `splunk_rce_via_user_xslt_filter`'
 how_to_implement: This detection does not require you to ingest any new data. The
   detection does require the ability to search the _internal index.
 known_false_positives: This search will provide information for investigation and

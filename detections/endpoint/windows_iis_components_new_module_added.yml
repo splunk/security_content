@@ -1,19 +1,17 @@
 name: Windows IIS Components New Module Added
 id: 55f22929-cfd3-4388-ba5c-4d01fac7ee7e
-version: 1
-date: '2022-12-19'
+version: 2
+date: '2024-05-12'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic uses the Windows Event log - Microsoft-IIS-Configuration/Operational
-  - which must be enabled and logged on Windows IIS servers before it can be Splunked.
-  The following analytic identifies newly installed IIS modules. Per Microsoft, IIS
-  modules are not commonly added to a production IIS server, so alerting on this event
-  ID should be enabled.IIS modules can be installed at a global level or at a site
-  level. In detecting malicious IIS modules, it is important to check both the global
-  and site level for unauthorized modules. Regular monitoring of these locations for
-  such modules and comparing against a known good list can help detect and identify
-  malicious IIS modules.
+description: The following analytic detects the addition of new IIS modules on a Windows
+  IIS server. It leverages the Windows Event log - Microsoft-IIS-Configuration/Operational,
+  specifically EventCode 29, to identify this activity. This behavior is significant
+  because IIS modules are rarely added to production servers, and unauthorized modules
+  could indicate malicious activity. If confirmed malicious, an attacker could use
+  these modules to execute arbitrary code, escalate privileges, or maintain persistence
+  within the environment, potentially compromising the server and sensitive data.
 data_source:
 - Windows IIS 29
 search: '`iis_operational_logs` EventCode=29 | stats  count min(_time) as firstTime
@@ -62,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
     source: IIS:Configuration:Operational
     sourcetype: IIS:Configuration:Operational
     update_timestamp: true

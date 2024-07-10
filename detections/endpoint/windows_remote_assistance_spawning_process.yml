@@ -1,16 +1,18 @@
 name: Windows Remote Assistance Spawning Process
 id: ced50492-8849-11ec-9f68-acde48001122
-version: 1
-date: '2022-02-07'
+version: 2
+date: '2024-05-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of Microsoft Remote Assistance,
-  msra.exe, spawning PowerShell.exe or cmd.exe as a child process. Msra.exe by default
-  has no command-line arguments and typically spawns itself. It will generate a network
-  connection to the remote system that is connected. This behavior is indicative of
-  another process injected into msra.exe. Review the parent process or cross process
-  events to identify source.
+description: The following analytic detects Microsoft Remote Assistance (msra.exe)
+  spawning PowerShell.exe or cmd.exe as a child process. This detection leverages
+  data from Endpoint Detection and Response (EDR) agents, focusing on process creation
+  events where msra.exe is the parent process. This activity is significant because
+  msra.exe typically does not spawn command-line interfaces, indicating potential
+  process injection or misuse. If confirmed malicious, an attacker could use this
+  technique to execute arbitrary commands, escalate privileges, or maintain persistence
+  on the compromised system.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -78,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/msra/msra-windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/msra/msra-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

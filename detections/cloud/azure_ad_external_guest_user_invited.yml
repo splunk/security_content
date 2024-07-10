@@ -1,31 +1,28 @@
 name: Azure AD External Guest User Invited
 id: c1fb4edb-cab1-4359-9b40-925ffd797fb5
-version: 2
-date: '2023-12-20'
+version: 3
+date: '2024-05-11'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the invitation of an external guest
-  user within Azure AD. With Azure AD B2B collaboration, users and administrators
-  can invite external users to collaborate with internal users. External guest account
-  invitations should be monitored by security teams as they could potentially lead
-  to unauthorized access. An example of this attack vector was described at BlackHat
-  2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking
-  Azure AD Accounts by Abusing External Identities`
-data_source: 
+description: The following analytic detects the invitation of an external guest user
+  within Azure AD. It leverages Azure AD AuditLogs to identify events where an external
+  user is invited, using fields such as operationName and initiatedBy. Monitoring
+  these invitations is crucial as they can lead to unauthorized access if abused.
+  If confirmed malicious, this activity could allow attackers to gain access to internal
+  resources, potentially leading to data breaches or further exploitation of the environment.
+data_source:
 - Azure Active Directory Invite external user
-search: '`azure_monitor_aad` operationName="Invite external user" 
-  | rename properties.*  as *
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.type as type
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by type, initiatedBy, result, operationName
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_external_guest_user_invited_filter`'
+search: '`azure_monitor_aad` operationName="Invite external user" | rename properties.*  as
+  * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.type
+  as type | stats count min(_time) as firstTime max(_time) as lastTime values(user)
+  as user by type, initiatedBy, result, operationName | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `azure_ad_external_guest_user_invited_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
+  the AuditLogs log category.
 known_false_positives: Administrator may legitimately invite external guest users.
   Filter as needed.
 references:
@@ -66,7 +63,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_external_guest_user_invited/azure-audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_external_guest_user_invited/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

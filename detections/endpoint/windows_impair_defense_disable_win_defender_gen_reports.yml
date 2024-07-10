@@ -1,27 +1,27 @@
 name: Windows Impair Defense Disable Win Defender Gen reports
 id: 93f114f6-cb1e-419b-ac3f-9e11a3045e70
-version: 1
-date: '2024-01-08'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic identifies a modification in the Windows registry to disable Windows Defender 
-  generic ports. This registry can disable the sending of Watson events in Windows Defender. This is by preventing 
-  the transmission of generic or non-specific error reports to Microsoft's Windows Error Reporting service, 
-  commonly known as Watson. This kind of setting could potentially be employed to limit or control the data sent to 
-  Microsoft for error analysis, often in scenarios where privacy or specific reporting requirements are in place.
-  This registry setting is being abuse by several threat actors, adversaries and red teamers to bypasses Windows defender detections. 
+description: The following analytic detects modifications in the Windows registry
+  to disable Windows Defender generic reports. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the "DisableGenericRePorts" registry
+  value. This activity is significant as it can prevent the transmission of error
+  reports to Microsoft's Windows Error Reporting service, potentially hiding malicious
+  activities. If confirmed malicious, this action could allow attackers to bypass
+  Windows Defender detections, reducing the visibility of their activities and increasing
+  the risk of undetected system compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\Reporting\\DisableGenericRePorts"
-  Registry.registry_value_data="0x00000001"
-  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defense_disable_win_defender_gen_reports_filter`'
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
+  Defender\\Reporting\\DisableGenericRePorts" Registry.registry_value_data="0x00000001"
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data
+  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_impair_defense_disable_win_defender_gen_reports_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Registry` node.
@@ -65,6 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

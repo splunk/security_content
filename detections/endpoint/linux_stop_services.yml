@@ -1,15 +1,18 @@
 name: Linux Stop Services
 id: d05204a5-9f1c-4946-a7f3-4fa58d76d5fd
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic is to detect events that attempt to stop or clear
-  a service. This is typically identified in parallel with other instances of service
-  enumeration of attempts to stop a service and then delete it. Adversaries utilize
-  this technique like industroyer2 malware to terminate security services or other
-  related services to continue there objective as a destructive payload.
+description: The following analytic detects attempts to stop or clear a service on
+  Linux systems. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on processes like "systemctl," "service," and "svcadm" executing stop commands.
+  This activity is significant as adversaries often terminate security or critical
+  services to disable defenses or disrupt operations, as seen in malware like Industroyer2.
+  If confirmed malicious, this could lead to the disabling of security mechanisms,
+  allowing attackers to persist, escalate privileges, or deploy destructive payloads,
+  severely impacting system integrity and availability.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -67,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/linux_service_stop_disable/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/linux_service_stop_disable/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

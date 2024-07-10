@@ -1,21 +1,32 @@
 name: ConnectWise ScreenConnect Path Traversal Windows SACL
 id: 4e127857-1fc9-4c95-9d69-ba24c91d52d7
-version: 1
-date: '2024-02-21'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 data_source:
 - Windows Event Log Security 4663
 type: TTP
 status: production
-description: This analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability utilizing Windows SACL EventCode 4663, which allows an attacker to perform path traversal attacks by manipulating the file_path and file_name parameters in the URL. The vulnerability, identified as critical with a CVSS score of 9.8, enables unauthorized users to access sensitive files and directories on the host system, potentially leading to the exfiltration of sensitive data or the execution of arbitrary code. The search query provided looks for file system events that could indicate exploitation attempts. This detection is crucial for identifying and responding to active exploitation of this vulnerability in environments running affected versions of ScreenConnect (23.9.7 and prior). It is recommended to update to version 23.9.8 or above immediately to remediate the issue, as detailed in the ConnectWise security advisory and further analyzed by Huntress researchers.
-search: '`wineventlog_security` EventCode=4663  ProcessName=*\\ScreenConnect.Service.exe file_path IN ("*\\ScreenConnect\\App_Extensions\\*") file_name IN ("*.aspx","*.ashx")
-  | stats count min(_time) as firstTime max(_time) as lastTime by  ObjectName ObjectType ProcessName AccessMask process_id EventCode Computer Caller_User_Name 
-  | rename Computer as dest Caller_User_Name as user ProcessName as process_name
-  |  `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `connectwise_screenconnect_path_traversal_windows_sacl_filter`'
-how_to_implement: To implement the following query, enable SACL auditing for the ScreenConnect directory(ies). With this data, the following analytic will work correctly. A GIST is provided in the references to assist with enabling SACL Auditing.
-known_false_positives: False positives should be limited as the analytic is specific to ScreenConnect path traversal attempts. Tune as needed, or restrict to specific hosts if false positives are encountered.
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect
+  CVE-2024-1708 vulnerability using Windows SACL EventCode 4663. It identifies path
+  traversal attacks by monitoring file system events related to the ScreenConnect
+  service. This activity is significant as it allows unauthorized access to sensitive
+  files and directories, potentially leading to data exfiltration or arbitrary code
+  execution. If confirmed malicious, attackers could gain unauthorized access to critical
+  data or execute harmful code, compromising the integrity and security of the affected
+  system. Immediate remediation by updating to version 23.9.8 or above is recommended.
+search: '`wineventlog_security` EventCode=4663  ProcessName=*\\ScreenConnect.Service.exe
+  file_path IN ("*\\ScreenConnect\\App_Extensions\\*") file_name IN ("*.aspx","*.ashx")
+  | stats count min(_time) as firstTime max(_time) as lastTime by  ObjectName ObjectType
+  ProcessName AccessMask process_id EventCode Computer Caller_User_Name | rename Computer
+  as dest Caller_User_Name as user ProcessName as process_name |  `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `connectwise_screenconnect_path_traversal_windows_sacl_filter`'
+how_to_implement: To implement the following query, enable SACL auditing for the ScreenConnect
+  directory(ies). With this data, the following analytic will work correctly. A GIST
+  is provided in the references to assist with enabling SACL Auditing.
+known_false_positives: False positives should be limited as the analytic is specific
+  to ScreenConnect path traversal attempts. Tune as needed, or restrict to specific
+  hosts if false positives are encountered.
 references:
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
 - https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass
@@ -52,10 +63,11 @@ tags:
   security_domain: endpoint
   cve:
   - CVE-2024-1708
-  - CVE-2024-1709 
+  - CVE-2024-1709
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/4663_connectwise_aspx_app_extensions.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/4663_connectwise_aspx_app_extensions.log
     sourcetype: XmlWinEventLog
     source: XmlWinEventLog:Security

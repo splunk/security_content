@@ -1,28 +1,18 @@
 name: Suspicious PlistBuddy Usage via OSquery
 id: 20ba6c32-c733-4a32-b64e-2688cf231399
-version: 1
-date: '2021-02-22'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: 'The following analytic identifies the use of a native MacOS utility,
-  PlistBuddy, creating or modifying a properly list (.plist) file. In the instance
-  of Silver Sparrow, the following commands were executed:
-
-  * PlistBuddy -c "Add :Label string init_verx" ~/Library/Launchagents/init_verx.plist
-
-  * PlistBuddy -c "Add :RunAtLoad bool true" ~/Library/Launchagents/init_verx.plist
-
-  * PlistBuddy -c "Add :StartInterval integer 3600" ~/Library/Launchagents/init_verx.plist
-
-  * PlistBuddy -c "Add :ProgramArguments array" ~/Library/Launchagents/init_verx.plist
-
-  * PlistBuddy -c "Add :ProgramArguments:0 string /bin/sh" ~/Library/Launchagents/init_verx.plist
-
-  * PlistBuddy -c "Add :ProgramArguments:1 string -c" ~/Library/Launchagents/init_verx.plist
-
-  Upon triage, capture the property list file being written to disk and review for
-  further indicators. Contain the endpoint and triage further.'
+description: 'The following analytic detects the use of the PlistBuddy utility on
+  macOS to create or modify property list (.plist) files. It leverages OSQuery to
+  monitor process events, specifically looking for commands that interact with LaunchAgents
+  and set properties like RunAtLoad. This activity is significant because PlistBuddy
+  can be used to establish persistence mechanisms, as seen in malware like Silver
+  Sparrow. If confirmed malicious, this could allow an attacker to maintain persistence,
+  execute arbitrary commands, and potentially escalate privileges on the compromised
+  system.'
 data_source: []
 search: '`osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*"
   OR "columns.cmdline"="*true*" |  `suspicious_plistbuddy_usage_via_osquery_filter`'

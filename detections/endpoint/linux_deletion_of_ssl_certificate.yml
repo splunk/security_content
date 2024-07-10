@@ -1,26 +1,25 @@
 name: Linux Deletion of SSL Certificate
 id: 839ab790-a60a-4f81-bfb3-02567063f615
-version: 2
-date: '2023-04-27'
+version: 3
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This analytic is to detect a deletion of ssl certificate in a linux machine.
-  attacker may delete or modify ssl certificate to impair some security features or
-  act as defense evasion in compromised linux machine. This Anomaly can be also a
-  good indicator of a malware trying to wipe or delete several files in a compromised
-  host as part of its destructive payload like what acidrain malware does in linux
-  or router machines. This detection can be a good pivot to check what process and
-  user tries to delete this type of files which is not so common and need further
-  investigation.
+description: The following analytic detects the deletion of SSL certificates on a
+  Linux machine. It leverages filesystem event logs to identify when files with extensions
+  .pem or .crt are deleted from the /etc/ssl/certs/ directory. This activity is significant
+  because attackers may delete or modify SSL certificates to disable security features
+  or evade defenses on a compromised system. If confirmed malicious, this behavior
+  could indicate an attempt to disrupt secure communications, evade detection, or
+  execute a destructive payload, potentially leading to significant security breaches
+  and data loss.
 data_source:
 - Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path
   = "/etc/ssl/certs/*" Filesystem.file_path IN ("*.pem", "*.crt") by _time span=1h
   Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid
-  Filesystem.action | `drop_dm_object_name(Filesystem)`  
-  | `security_content_ctime(firstTime)`
+  Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_deletion_of_ssl_certificate_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -67,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

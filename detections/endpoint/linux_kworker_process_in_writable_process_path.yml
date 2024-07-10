@@ -1,19 +1,20 @@
 name: Linux Kworker Process In Writable Process Path
 id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
-version: 2
-date: '2023-04-12'
+version: 3
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 datamodel:
 - Endpoint
-description: This analytic looks for suspicious process kworker commandline in a linux
-  machine. kworker process name or thread are common names of kernel threads in linux
-  process. This hunting detections can lead to investigate process contains process
-  path in writable directory in linux like /home/, /var/log and /tmp/. This technique
-  was seen in cyclopsblink malware to blend its core and other of its child process
-  as normal kworker on the compromised machine. This detection might be a good pivot
-  to look for other IOC related to cyclopsblink malware or attacks.
+description: The following analytic detects the execution of a kworker process with
+  a command line in writable directories such as /home/, /var/log, and /tmp on a Linux
+  machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
+  on process and parent process paths. This activity is significant as kworker processes
+  are typically kernel threads, and their presence in writable directories is unusual
+  and indicative of potential malware, such as CyclopsBlink. If confirmed malicious,
+  this could allow attackers to blend malicious processes with legitimate ones, leading
+  to persistent access and further system compromise.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -73,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/cyclopsblink/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

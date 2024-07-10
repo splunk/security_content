@@ -1,21 +1,37 @@
 name: Windows MSIExec Spawn WinDBG
 id: 9a18f7c2-1fe3-47b8-9467-8b3976770a30
-version: 1
-date: '2023-10-31'
+version: 2
+date: '2024-05-28'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: This analytic identifies the unusual behavior of MSIExec spawning WinDBG. It is designed to detect potential malicious activities. The search specifically looks for instances where the parent process name is 'msiexec.exe' and the process name is 'windbg.exe'. During the triage process, it is recommended to review the file path for additional artifacts that may provide further insights into the event.
+description: The following analytic identifies the unusual behavior of MSIExec spawning
+  WinDBG. It detects this activity by analyzing endpoint telemetry data, specifically
+  looking for instances where 'msiexec.exe' is the parent process of 'windbg.exe'.
+  This behavior is significant as it may indicate an attempt to debug or tamper with
+  system processes, which is uncommon in typical user activity and could signify malicious
+  intent. If confirmed malicious, this activity could allow an attacker to manipulate
+  or inspect running processes, potentially leading to privilege escalation or persistence
+  within the environment.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msiexec.exe Processes.process_name=windbg.exe by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process_path Processes.parent_process Processes.process_name Processes.process_path
-  Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `windows_msiexec_spawn_windbg_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: False positives will only be present if the MSIExec process legitimately spawns WinDBG. Filter as needed.
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msiexec.exe
+  Processes.process_name=windbg.exe by Processes.dest Processes.user Processes.parent_process_name
+  Processes.parent_process_path Processes.parent_process Processes.process_name Processes.process_path
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_msiexec_spawn_windbg_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives will only be present if the MSIExec process
+  legitimately spawns WinDBG. Filter as needed.
 references:
 - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
 tags:
@@ -66,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windbg_msiexec.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windbg_msiexec.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

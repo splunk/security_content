@@ -1,22 +1,30 @@
 name: Microsoft SharePoint Server Elevation of Privilege
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859d
-version: 1
-date: '2023-09-27'
+version: 2
+date: '2024-05-19'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-data_source: 
+data_source:
 - Suricata
-description: The following analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357. This vulnerability pertains to an elevation of privilege due to improper handling of authentication tokens. By monitoring for suspicious activities related to SharePoint Server, the analytic identifies attempts to exploit this vulnerability. If a true positive is detected, it indicates a serious security breach where an attacker might have gained privileged access to the SharePoint environment, potentially leading to data theft or other malicious activities.
-search: '| tstats count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") Web.status=200 Web.http_method=GET
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype
-  | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `microsoft_sharepoint_server_elevation_of_privilege_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Microsoft SharePoint.
-known_false_positives: False positives may occur if there are legitimate activities that mimic the exploitation pattern. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
+description: The following analytic detects potential exploitation attempts against
+  Microsoft SharePoint Server vulnerability CVE-2023-29357. It leverages the Web datamodel
+  to monitor for specific API calls and HTTP methods indicative of privilege escalation
+  attempts. This activity is significant as it may indicate an attacker is trying
+  to gain unauthorized privileged access to the SharePoint environment. If confirmed
+  malicious, the impact could include unauthorized access to sensitive data, potential
+  data theft, and further compromise of the SharePoint server, leading to a broader
+  security breach.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") Web.status=200
+  Web.http_method=GET by Web.http_user_agent, Web.status Web.http_method, Web.url,
+  Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `microsoft_sharepoint_server_elevation_of_privilege_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a
+  supported Technology Add-On like Splunk for Microsoft SharePoint.
+known_false_positives: False positives may occur if there are legitimate activities
+  that mimic the exploitation pattern. It's recommended to review the context of the
+  alerts and adjust the analytic parameters to better fit the specific environment.
 references:
 - https://socradar.io/microsoft-sharepoint-server-elevation-of-privilege-vulnerability-exploit-cve-2023-29357/
 - https://github.com/LuemmelSec/CVE-2023-29357/blob/main/CVE-2023-29357/Program.cs
@@ -29,7 +37,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 90
-  message: Possible exploitation of CVE-2023-29357 against $dest$ from $src$. 
+  message: Possible exploitation of CVE-2023-29357 against $dest$ from $src$.
   mitre_attack_id:
   - T1068
   observable:
@@ -60,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/sharepointeop.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/sharepointeop.log
     source: suricata
     sourcetype: suricata

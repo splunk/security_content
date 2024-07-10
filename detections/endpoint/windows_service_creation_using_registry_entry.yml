@@ -1,23 +1,17 @@
 name: Windows Service Creation Using Registry Entry
 id: 25212358-948e-11ec-ad47-acde48001122
-version: 3
-date: '2023-04-27'
+version: 4
+date: '2024-05-30'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects when reg.exe modify registry keys that
-  define Windows services and their configurations in Windows to detect potential
-  threats earlier and mitigate the risks. This detection is made by a Splunk query
-  that searches for specific keywords in the process name, parent process name, user,
-  and process ID. This detection is important because it suggests that an attacker
-  has modified the registry keys that define Windows services and their configurations,
-  which can allow them to maintain access to the system and potentially move laterally
-  within the network. It is a common technique used by attackers to gain persistence
-  on a compromised system and its impact can lead to data theft, ransomware, or other
-  damaging outcomes. False positives can occur since legitimate uses of reg.exe to
-  modify registry keys for Windows services can also trigger this alert. Next steps
-  include reviewing the process and user context of the reg.exe activity and identify
-  any other concurrent processes that might be associated with the attack upon triage.
+description: The following analytic detects the modification of registry keys that
+  define Windows services using reg.exe. This detection leverages Splunk to search
+  for specific keywords in the registry path, value name, and value data fields. This
+  activity is significant because it indicates potential unauthorized changes to service
+  configurations, a common persistence technique used by attackers. If confirmed malicious,
+  this could allow an attacker to maintain access, escalate privileges, or move laterally
+  within the network, leading to data theft, ransomware, or other damaging outcomes.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -73,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

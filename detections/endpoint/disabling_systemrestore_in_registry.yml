@@ -1,14 +1,18 @@
 name: Disabling SystemRestore In Registry
 id: f4f837e2-91fb-11eb-8bf6-acde48001122
-version: 5
-date: '2024-02-14'
+version: 6
+date: '2024-05-22'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following search identifies the modification of registry related
-  in disabling the system restore of a machine. This event or behavior are seen in
-  some RAT malware to make the restore of the infected machine  difficult and keep
-  their infection on the box.
+description: The following analytic detects the modification of registry keys to disable
+  System Restore on a machine. It leverages data from the Endpoint.Registry data model,
+  specifically monitoring changes to registry paths associated with System Restore
+  settings. This activity is significant because disabling System Restore can hinder
+  recovery efforts and is a tactic often used by Remote Access Trojans (RATs) to maintain
+  persistence on an infected system. If confirmed malicious, this action could prevent
+  system recovery, allowing the attacker to sustain their foothold and potentially
+  cause further damage or data loss.
 data_source:
 - Sysmon EventID 12
 - Sysmon EventID 13
@@ -17,8 +21,8 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableConfig"
   OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableSR"
   OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows NT\\SystemRestore\\DisableConfig"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h  Registry.dest Registry.user Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.registry_value_data = "0x00000001") BY _time span=1h  Registry.dest Registry.user
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_systemrestore_in_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -66,15 +70,19 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

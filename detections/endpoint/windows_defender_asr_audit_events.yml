@@ -1,7 +1,7 @@
 name: Windows Defender ASR Audit Events
 id: 0e4d46b1-22bd-4f0e-8337-ca6f60ad4bea
-version: 1
-date: '2023-11-27'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -9,7 +9,7 @@ data_source:
 - Windows Event Log Defender 1122
 - Windows Event Log Defender 1125
 - Windows Event Log Defender 1126
-- Windows Event Log Defender 1132 
+- Windows Event Log Defender 1132
 - Windows Event Log Defender 1134
 description: 'This detection searches for Windows Defender ASR audit events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR audit events that are generated when a process or application attempts to perform an action that would be blocked by an ASR rule, but is allowed to proceed for auditing purposes.'
 search: '`ms_defender` EventCode IN (1122, 1125, 1126, 1132, 1134)
@@ -28,7 +28,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 10
-  message:  ASR audit event, $ASR_Rule$, was triggered on $dest$.
+  message: ASR audit event, $ASR_Rule$, was triggered on $dest$.
   mitre_attack_id:
   - T1059
   - T1566.001
@@ -58,6 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_audit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/defender/asr_audit.log
     source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
     sourcetype: xmlwineventlog

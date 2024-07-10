@@ -1,19 +1,18 @@
 name: Ryuk Wake on LAN Command
 id: 538d0152-7aaa-11eb-beaa-acde48001122
-version: 1
-date: '2021-03-01'
+version: 2
+date: '2024-05-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This Splunk query identifies the use of Wake-on-LAN utilized by Ryuk
-  ransomware. The Ryuk Ransomware uses the Wake-on-Lan feature to turn on powered
-  off devices on a compromised network to have greater success encrypting them. This
-  is a high fidelity indicator of Ryuk ransomware executing on an endpoint. Upon triage,
-  isolate the endpoint. Additional file modification events will be within the users
-  profile (\appdata\roaming) and in public directories (users\public\). Review all
-  Scheduled Tasks on the isolated endpoint and across the fleet. Suspicious Scheduled
-  Tasks will include a path to a unknown binary and those endpoints should be isolated
-  until triaged.
+description: The following analytic detects the use of Wake-on-LAN commands associated
+  with Ryuk ransomware. It leverages data from Endpoint Detection and Response (EDR)
+  agents, focusing on specific process and command-line activities. This behavior
+  is significant as Ryuk ransomware uses Wake-on-LAN to power on devices in a compromised
+  network, increasing its encryption success rate. If confirmed malicious, this activity
+  could lead to widespread ransomware encryption across multiple endpoints, causing
+  significant operational disruption and data loss. Immediate isolation and thorough
+  investigation of the affected endpoints are crucial to mitigate the impact.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +74,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/ryuk/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

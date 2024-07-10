@@ -11,7 +11,7 @@ data_source: []
 search: '| tstats `security_content_summariesonly` count, values(DNS.dest) AS dest
   dc(DNS.dest) as dest_count from datamodel=Network_Resolution where DNS.message_type=QUERY
   by DNS.src | `drop_dm_object_name("Network_Resolution")` |where dest_count > 5 |
-  `clients_connecting_to_multiple_dns_servers_filter` '
+  `clients_connecting_to_multiple_dns_servers_filter`'
 how_to_implement: 'This search requires that DNS data is being ingested and populating
   the `Network_Resolution` data model. This data can come from DNS logs or from solutions
   that parse network traffic for this data, such as Splunk Stream or Bro.

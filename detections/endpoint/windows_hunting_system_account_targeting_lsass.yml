@@ -1,15 +1,17 @@
 name: Windows Hunting System Account Targeting Lsass
 id: 1c6abb08-73d1-11ec-9ca0-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-20'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following hunting analytic identifies all processes requesting access
-  into Lsass.exe. his behavior may be related to credential dumping or applications
-  requiring access to credentials. Triaging this event will require understanding
-  the GrantedAccess from the SourceImage. In addition, whether the account is privileged
-  or not. Review the process requesting permissions and review parallel processes.
+description: The following analytic identifies processes attempting to access Lsass.exe,
+  which may indicate credential dumping or applications needing credential access.
+  It leverages Sysmon EventCode 10 to detect such activities by analyzing fields like
+  TargetImage, GrantedAccess, and SourceImage. This behavior is significant as unauthorized
+  access to Lsass.exe can lead to credential theft, posing a severe security risk.
+  If confirmed malicious, attackers could gain access to sensitive credentials, potentially
+  leading to privilege escalation and further compromise of the environment.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) as
@@ -68,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

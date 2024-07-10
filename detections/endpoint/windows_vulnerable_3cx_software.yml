@@ -1,27 +1,35 @@
 name: Windows Vulnerable 3CX Software
 id: f2cc1584-46ee-485b-b905-977c067f36de
-version: 1
-date: '2023-03-30'
+version: 2
+date: '2024-05-18'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
-description: The following analytic leverages Sysmon, a powerful system monitoring and logging tool, to pinpoint instances of the 3CXDesktopApp.exe with a FileVersion of 18.12.x.Recently, 3CX has discovered a vulnerability specifically in versions 18.12.407 and 18.12.416 of the desktop app.
-search: '`sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.* | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,process_name, OriginalFileName, CommandLine 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`| `windows_vulnerable_3cx_software_filter`'
+description: The following analytic detects instances of the 3CXDesktopApp.exe with
+  a FileVersion of 18.12.x, leveraging Sysmon logs. This detection focuses on identifying
+  vulnerable versions 18.12.407 and 18.12.416 of the 3CX desktop app. Monitoring this
+  activity is crucial as these specific versions have known vulnerabilities that could
+  be exploited by attackers. If confirmed malicious, exploitation of this vulnerability
+  could lead to unauthorized access, code execution, or further compromise of the
+  affected system, posing significant security risks.
+search: '`sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.*
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,process_name,
+  OriginalFileName, CommandLine | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `windows_vulnerable_3cx_software_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: False positives may be present based on file version, modify the analytic to only look for version between 18.12.407 and 18.12.416 as needed.
+known_false_positives: False positives may be present based on file version, modify
+  the analytic to only look for version between 18.12.407 and 18.12.416 as needed.
 references:
-  - https://www.sentinelone.com/blog/smoothoperator-ongoing-campaign-trojanizes-3cx-software-in-software-supply-chain-attack/
-  - https://www.cisa.gov/news-events/alerts/2023/03/30/supply-chain-attack-against-3cxdesktopapp
-  - https://www.reddit.com/r/crowdstrike/comments/125r3uu/20230329_situational_awareness_crowdstrike/
-  - https://www.3cx.com/community/threads/crowdstrike-endpoint-security-detection-re-3cx-desktop-app.119934/page-2#post-558898
-  - https://www.3cx.com/community/threads/3cx-desktopapp-security-alert.119951/
+- https://www.sentinelone.com/blog/smoothoperator-ongoing-campaign-trojanizes-3cx-software-in-software-supply-chain-attack/
+- https://www.cisa.gov/news-events/alerts/2023/03/30/supply-chain-attack-against-3cxdesktopapp
+- https://www.reddit.com/r/crowdstrike/comments/125r3uu/20230329_situational_awareness_crowdstrike/
+- https://www.3cx.com/community/threads/crowdstrike-endpoint-security-detection-re-3cx-desktop-app.119934/page-2#post-558898
+- https://www.3cx.com/community/threads/3cx-desktopapp-security-alert.119951/
 tags:
   analytic_story:
   - 3CX Supply Chain Attack
@@ -30,7 +38,8 @@ tags:
   cve:
   - CVE-2023-29059
   impact: 100
-  message: A known vulnerable instance of 3CX Software $process_name$ ran on $dest$, related to a supply chain attack.
+  message: A known vulnerable instance of 3CX Software $process_name$ ran on $dest$,
+    related to a supply chain attack.
   mitre_attack_id:
   - T1195.002
   observable:
@@ -59,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

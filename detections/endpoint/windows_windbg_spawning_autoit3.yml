@@ -1,21 +1,39 @@
 name: Windows WinDBG Spawning AutoIt3
 id: 7aec015b-cd69-46c3-85ed-dac152056aa4
-version: 1
-date: '2023-10-31'
+version: 2
+date: '2024-05-11'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies instances of the WinDBG process spawning AutoIt3. This behavior may indicate malicious activity as AutoIt3 is often used by threat actors for scripting malicious automation. The search specifically looks for instances where the parent process name is 'windbg.exe' and the process name is 'autoit3.exe' or 'autoit*.exe'. During the triage process, it is recommended to review the file path for additional artifacts that may provide further insights into the event.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes  where Processes.parent_process_name=windbg.exe  AND (Processes.process_name IN ("autoit3.exe", "autoit*.exe") OR Processes.original_file_name IN ("autoit3.exe", "autoit*.exe")) by Processes.dest, Processes.user, Processes.parent_process_name, Processes.process_name, Processes.original_file_name, Processes.process, Processes.process_id, Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | eval matches_extension=if(match(process, "\\.(au3|a3x|exe|aut|aup)$"), "Yes", "No")
-  | search matches_extension="Yes" | `windows_windbg_spawning_autoit3_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: False positives will only be present if the WinDBG process legitimately spawns AutoIt3. Filter as needed.
+description: The following analytic identifies instances of the WinDBG process spawning
+  AutoIt3. This behavior is detected by monitoring endpoint telemetry for processes
+  where 'windbg.exe' is the parent process and 'autoit3.exe' or similar is the child
+  process. This activity is significant because AutoIt3 is frequently used by threat
+  actors for scripting malicious automation, potentially indicating an ongoing attack.
+  If confirmed malicious, this could allow attackers to automate tasks, execute arbitrary
+  code, and further compromise the system, leading to data exfiltration or additional
+  malware deployment.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes  where Processes.parent_process_name=windbg.exe  AND
+  (Processes.process_name IN ("autoit3.exe", "autoit*.exe") OR Processes.original_file_name
+  IN ("autoit3.exe", "autoit*.exe")) by Processes.dest, Processes.user, Processes.parent_process_name,
+  Processes.process_name, Processes.original_file_name, Processes.process, Processes.process_id,
+  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | eval matches_extension=if(match(process,
+  "\\.(au3|a3x|exe|aut|aup)$"), "Yes", "No") | search matches_extension="Yes" | `windows_windbg_spawning_autoit3_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives will only be present if the WinDBG process
+  legitimately spawns AutoIt3. Filter as needed.
 references:
 - https://github.com/PaloAltoNetworks/Unit42-timely-threat-intel/blob/main/2023-10-25-IOCs-from-DarkGate-activity.txt
 tags:
@@ -64,6 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/autoit/windbg_autoit.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/autoit/windbg_autoit.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,32 +1,18 @@
 name: Short Lived Scheduled Task
 id: 6fa31414-546e-11ec-adfa-acde48001122
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: 'The following analytic utilizes Windows Security EventCode 4698, "A
-  scheduled task was created," and EventCode 4699, "A scheduled task was deleted,"
-  to identify scheduled tasks that are created and deleted within a short time frame
-  of less than 30 seconds. This behavior is indicative of a potential lateral movement
-  attack where the Task Scheduler is abused to achieve code execution. Both red teams
-  and adversaries may exploit the Task Scheduler for lateral movement and remote code
-  execution.
-
-  To implement this analytic, ensure that you are ingesting Windows Security Event
-  Logs with EventCode 4698 enabled. Additionally, the Windows TA (Technology Add-on)
-  is required to parse and extract the necessary information from the logs.
-
-  It''s important to note that while uncommon, legitimate applications may create
-  and delete scheduled tasks within a short duration. Analysts should filter the results
-  based on the specific context and environment to reduce false positives.
-
-  Identifying short-lived scheduled tasks is valuable for a SOC as it can indicate
-  malicious activities attempting to move laterally or execute unauthorized code on
-  Windows systems. By detecting and investigating these events, security analysts
-  can respond promptly to prevent further compromise and mitigate potential risks.
-  The impact of a true positive could range from unauthorized access to data exfiltration
-  or the execution of malicious payloads.'
+description: 'The following analytic detects the creation and deletion of scheduled
+  tasks within a short time frame (less than 30 seconds) using Windows Security EventCodes
+  4698 and 4699. This behavior is identified by analyzing Windows Security Event Logs
+  and leveraging the Windows TA for parsing. Such activity is significant as it may
+  indicate lateral movement or remote code execution attempts by adversaries. If confirmed
+  malicious, this could lead to unauthorized access, data exfiltration, or execution
+  of malicious payloads, necessitating prompt investigation and response by security
+  analysts.'
 data_source:
 - Windows Event Log Security 4698
 - Windows Event Log Security 4699
@@ -34,7 +20,7 @@ search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Messag
   | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
   eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename
   ComputerName as dest| table _time, dest, Account_Name, Command, Task_Name, short_lived
-  | `short_lived_scheduled_task_filter` '
+  | `short_lived_scheduled_task_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
   required.
@@ -77,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog

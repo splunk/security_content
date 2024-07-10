@@ -1,26 +1,26 @@
 name: Windows Process Injection In Non-Service SearchIndexer
 id: d131673f-ede1-47f2-93a1-0108d3e7fafd
-version: 1
-date: '2024-01-03'
+version: 2
+date: '2024-05-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies a non-service searchindexer.exe process. 
-  QakBot, a notorious banking trojan and information stealer, often deploys a process named "searchindexer.exe" 
-  as part of its malicious activities. This legitimate Windows process, "Search Indexer," is manipulated by 
-  QakBot to masquerade and evade detection within the system. The malware uses this deceptive tactic to 
-  camouflage its presence, remaining inconspicuous while performing unauthorized actions like data exfiltration, 
-  keystroke logging, and communication with command and control servers. By adopting the guise of a genuine system process, 
-  the malicious "searchindexer.exe" process helps QakBot evade scrutiny and continue its malevolent operations without arousing suspicion.
+description: The following analytic identifies instances of the searchindexer.exe
+  process that are not spawned by services.exe, indicating potential process injection.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and parent processes. This activity is significant because
+  QakBot malware often uses a fake searchindexer.exe to evade detection and perform
+  malicious actions such as data exfiltration and keystroke logging. If confirmed
+  malicious, this activity could allow attackers to maintain persistence, steal sensitive
+  information, and communicate with command and control servers.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name != services.exe Processes.process_name=searchindexer.exe 
-  by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_process_injection_in_non_service_searchindexer_filter`'
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
+  != services.exe Processes.process_name=searchindexer.exe by Processes.dest Processes.user
+  Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process
+  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_in_non_service_searchindexer_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -71,6 +71,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/non-service-searchindexer/seaarch-indexer-non-service.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/non-service-searchindexer/seaarch-indexer-non-service.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

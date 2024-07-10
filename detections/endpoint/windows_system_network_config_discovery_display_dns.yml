@@ -1,18 +1,18 @@
 name: Windows System Network Config Discovery Display DNS
 id: e24f0a0e-41a9-419f-9999-eacab15efc36
-version: 1
-date: '2022-11-30'
+version: 2
+date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a process command line that retrieves
-  dns reply information using Windows OS built-in tool IPConfig. This technique is
-  being abused by threat actors, adversaries and post exploitation tools like WINPEAS
-  to retrieve DNS information for the targeted host. This IPConfig parameter (/displaydns)
-  can show dns server resource record, record name, record type, time to live data
-  length and dns reply. This hunting detection can be a good pivot to check which
-  process is executing this command line in specific host system that may lead to
-  malware or adversaries gathering network information.
+description: The following analytic identifies the execution of the "ipconfig /displaydns"
+  command, which retrieves DNS reply information using the built-in Windows tool IPConfig.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process command-line executions. Monitoring this activity is significant
+  as threat actors and post-exploitation tools like WINPEAS often abuse this command
+  to gather network information. If confirmed malicious, this activity could allow
+  attackers to map the network, identify DNS servers, and potentially facilitate further
+  network-based attacks or lateral movement.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,7 +75,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

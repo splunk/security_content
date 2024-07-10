@@ -1,15 +1,18 @@
 name: Vbscript Execution Using Wscript App
 id: 35159940-228f-11ec-8a49-acde48001122
-version: 1
-date: '2021-10-01'
+version: 2
+date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is to detect a suspicious wscript commandline to execute
-  vbscript. This technique was seen in several malware to execute malicious vbs file
-  using wscript application. commonly vbs script is associated to cscript process
-  and this can be a technique to evade process parent child detections or even some
-  av script emulation system.
+description: The following analytic detects the execution of VBScript using the wscript.exe
+  application. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process and command-line telemetry. This activity is significant because
+  wscript.exe is typically not used to execute VBScript, which is usually associated
+  with cscript.exe. This deviation can indicate an attempt to evade traditional process
+  monitoring and antivirus defenses. If confirmed malicious, this technique could
+  allow attackers to execute arbitrary code, potentially leading to system compromise,
+  data exfiltration, or further lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -75,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/vbs_wscript/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

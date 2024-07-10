@@ -1,15 +1,18 @@
 name: Windows Apache Benchmark Binary
 id: 894f48ea-8d85-4dcd-9132-c66cdb407c9b
-version: 1
-date: '2022-11-21'
+version: 2
+date: '2024-05-17'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a default behavior of a MetaSploit
-  payload. MetaSploit uses Apache Benchmark to generate payloads. The payloads contain
-  standard artifacts including "Apache Benchmark" and the original file name is always
-  ab.exe. During triage, review the process and it's path. It is possible network
-  connections spawned from it. Review parallel processes for further behaviors.
+description: The following analytic detects the execution of the Apache Benchmark
+  binary (ab.exe), commonly used by MetaSploit payloads. It leverages data from Endpoint
+  Detection and Response (EDR) agents, focusing on process creation events where the
+  original file name is ab.exe. This activity is significant as it may indicate the
+  presence of a MetaSploit attack, which uses Apache Benchmark to generate malicious
+  payloads. If confirmed malicious, this could lead to unauthorized network connections,
+  further system compromise, and potential data exfiltration. Immediate investigation
+  is required to determine the intent and scope of the activity.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -80,7 +83,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/apachebench_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/apachebench_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true
