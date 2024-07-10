@@ -5,8 +5,6 @@ on:
 jobs:
   unit-testing:
     runs-on: ubuntu-latest
-    outputs:
-      has_detections: ${{ steps.check_detections.outputs.has_detections }}
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
     steps: 
@@ -20,10 +18,8 @@ jobs:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
 
-        - name: Install System Packages and contentctl 
+        - name: Install Python Dependencies and ContentCTL
           run: |
-            sudo apt update -qq
-            sudo apt install jq -qq
             python -m pip install --upgrade pip
             pip install contentctl
            
