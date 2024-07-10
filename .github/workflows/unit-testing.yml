@@ -11,8 +11,9 @@ jobs:
         #For fork PRs, always check out security_content and the PR target in security content!
         - name: Check out the repository code
           uses: actions/checkout@v4
-          repository: 'https://github.com/splunk/security_content'
-          ref: ${{ github.base_ref }}
+          with:
+            repository: 'https://github.com/splunk/security_content'
+            ref: ${{ github.base_ref }}
           
 
         - uses: actions/setup-python@v5
