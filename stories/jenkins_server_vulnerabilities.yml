@@ -1,0 +1,17 @@
+name: Jenkins Server Vulnerabilities
+id: 789e76e6-4b5e-4af3-ab8c-46578d84ccff
+version: 1
+date: '2024-01-29'
+author: Michael Haag, Splunk
+description: This analytic story provides a comprehensive view of Jenkins server vulnerabilities and associated detection analytics.
+narrative: The following analytic story provides a comprehensive view of Jenkins server vulnerabilities and associated detection analytics. Jenkins is a popular open-source automation server that is used to automate tasks associated with building, testing, and deploying software. Jenkins is often used in DevOps environments and is a critical component of the software development lifecycle. As a result, Jenkins servers are often targeted by adversaries to gain access to sensitive information, credentials, and other critical assets. This analytic story provides a comprehensive view of Jenkins server vulnerabilities and associated detection analytics.
+references:
+- https://www.jenkins.io/security/advisory/2024-01-24/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

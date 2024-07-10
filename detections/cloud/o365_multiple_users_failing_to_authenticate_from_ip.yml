@@ -1,0 +1,78 @@
+name: O365 Multiple Users Failing To Authenticate From Ip
+id: 8d486e2e-3235-4cfe-ac35-0d042e24ecb4
+version: 3
+date: '2024-05-23'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- O365 UserLoginFailed
+description: The following analytic identifies instances where more than 10 unique
+  user accounts fail to authenticate from a single IP address within a 5-minute window.
+  This detection leverages O365 audit logs, specifically Azure Active Directory login
+  failures (AzureActiveDirectoryStsLogon). Such activity is significant as it may
+  indicate brute-force attacks or password spraying attempts. If confirmed malicious,
+  this behavior suggests an external entity is attempting to breach security by targeting
+  multiple accounts, potentially leading to unauthorized access. Immediate action
+  is required to block or monitor the suspicious IP and notify affected users to enhance
+  their security measures.
+search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
+  ErrorNumber=50126 |  bucket span=5m _time |  stats dc(user) as unique_accounts values(user)
+  as user values(LogonError) as LogonError values(signature) as signature values(UserAgent)
+  as UserAgent by _time, src_ip |  where unique_accounts > 10 | `o365_multiple_users_failing_to_authenticate_from_ip_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: A source Ip failing to authenticate with multiple users in
+  a short period of time is not common legitimate behavior.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+tags:
+  analytic_story:
+  - Office 365 Account Takeover
+  - NOBELIUM Group
+  asset_type: O365 Tenant
+  confidence: 90
+  impact: 70
+  message: Source Ip $src_ip$ failed to authenticate with 20 users within 5 minutes.
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  - T1110.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 63
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - record_type
+  - user
+  - LogonError
+  - signature
+  - UserAgent
+  - ErrorNumber
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_multiple_users_from_ip/o365_multiple_users_from_ip.log
+    source: o365
+    sourcetype: o365:management:activity
+

@@ -1,6 +1,6 @@
 name: Deleting Shadow Copies
 id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
-version: 1
+version: 5
 date: '2023-10-03'
 author: Bhavin Patel, Splunk
 type: TTP
@@ -17,9 +17,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="vssadmin.exe"
-  OR process_file_name="wmic.exe") AND process_cmd_line LIKE "%delete%" AND process_cmd_line
-  LIKE "%shadow%" --finding_report--'
+  | eval device_hostname = device.hostname | where (process_file_name IN ("vssadmin.exe",
+  "wmic.exe")) AND process_cmd_line LIKE "%delete%" AND process_cmd_line LIKE "%shadow%"
+  --finding_report--'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -39,9 +39,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An instance of shadow copy was deleted was deleted using command line -  $process.cmd_line$
-    with process name `vssadmin.exe` or `wmic.exe` on host machine - $device.hostname$
-    by user $actor.user.name$.
   mitre_attack_id:
   - T1490
   observable:
@@ -63,6 +60,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of shadow copy was deleted was deleted using command line -  $process.cmd_line$
+    with process name `vssadmin.exe` or `wmic.exe` on host machine - $device.hostname$
+    by user $actor.user.name$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

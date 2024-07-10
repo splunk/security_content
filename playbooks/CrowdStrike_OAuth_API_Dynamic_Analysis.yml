@@ -27,4 +27,5 @@ tags:
   - Enrichment
   - Phishing
   - Endpoint
-  defend_technique_id: D3-DA
+  defend_technique_id: 
+  - D3-DA

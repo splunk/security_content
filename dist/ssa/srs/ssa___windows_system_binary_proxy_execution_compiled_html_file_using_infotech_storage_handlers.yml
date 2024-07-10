@@ -1,8 +1,9 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage
   Handlers
 id: ba0c2450-caea-4086-ac3a-a71e2659754b
-version: 1
+version: 4
 status: production
+detection_type: STREAMING
 description: The following analytic identifies hh.exe (HTML Help) execution of a Compiled
   HTML Help (CHM) file using InfoTech Storage Handlers. This particular technique
   will load Windows script code from a compiled help file, using InfoTech Storage
@@ -27,9 +28,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   OR process_cmd_line LIKE "%its:%") AND process_file_name="hh.exe" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows System Binary Proxy Execution Compiled HTML File Using InfoTech Storage Handlers has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Suspicious Compiled HTML Activity", "Living Off The Land"],

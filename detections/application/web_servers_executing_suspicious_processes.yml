@@ -1,12 +1,12 @@
 name: Web Servers Executing Suspicious Processes
 id: ec3b7601-689a-4463-94e0-c9f45638efb9
-version: 1
-date: '2019-04-01'
+version: 2
+date: '2024-05-11'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
 description: |-
-  The following analytic detects suspicious processes on systems labeled as web servers. This detection is made by a Splunk query that searches for specific process names that might indicate malicious activity. These suspicious processes include "whoami", "ping", "iptables", "wget", "service", and "curl". Uses the Splunk data model "Endpoint.Processes" and filters the results to only include systems categorized as web servers. This detection is important because it indicates unauthorized or malicious activity on web servers since these processes are commonly used by attackers to perform reconnaissance, establish persistence, or exfiltrate data from compromised systems. The impact of such an attack can be significant, ranging from data theft to the deployment of additional malicious payloads, potentially leading to ransomware or other damaging outcomes. False positives might occur since the legitimate use of these processes on web servers can trigger the analytic. Next steps include triaging and investigating to determine the legitimacy of the activity. Also, review the source and command of the suspicious process. You must also examine any relevant on-disk artifacts and look for concurrent processes to identify the source of the attack.
+  The following analytic detects the execution of suspicious processes on systems identified as web servers. It leverages the Splunk data model "Endpoint.Processes" to search for specific process names such as "whoami", "ping", "iptables", "wget", "service", and "curl". This activity is significant because these processes are often used by attackers for reconnaissance, persistence, or data exfiltration. If confirmed malicious, this could lead to data theft, deployment of additional malware, or even ransomware attacks. Immediate investigation is required to determine the legitimacy of the activity and mitigate potential threats.
 data_source:
 - Sysmon Event ID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)

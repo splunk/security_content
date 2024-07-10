@@ -1,5 +1,6 @@
 # Ignore example files from contentctl tool
 apps/
+dist/
 test_results/
 detections/*/.yml.example
 stories/*.yml.example
@@ -10,7 +11,7 @@ dist/DA-ESS-ContentUpdate-*.tar.gz
 dist/DA-ESS-ContentUpdate.tar.gz
 dist/ContentPack-*.appinspect_api_results.html
 dist/ContentPack-*.appinspect_api_results.json
-
+atomic-red-team/
 
 # IDE
 .vscode/

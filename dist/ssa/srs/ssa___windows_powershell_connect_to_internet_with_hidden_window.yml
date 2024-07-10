@@ -1,7 +1,8 @@
 name: Windows Powershell Connect to Internet With Hidden Window
 id: 477e068e-8b6d-11ec-b6c1-81af21670352
-version: 2
+version: 6
 status: production
+detection_type: STREAMING
 description: The following hunting analytic identifies PowerShell commands utilizing
   the WindowStyle parameter to hide the window on the compromised endpoint. This combination
   of command-line options is suspicious because it is overriding the default PowerShell
@@ -18,15 +19,14 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process = actor.process | eval actor_process_pid = actor_process.pid
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
-  | eval device_hostname = device.hostname | where (process_file_name="powershell_ise.exe"
-  OR process_file_name="powershell.exe" OR process_file_name="sqltoolsps.exe" OR process_file_name="sqlps.exe"
-  OR process_file_name="pwsh.exe") AND match(process_cmd_line, /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true
-  
+  | eval device_hostname = device.hostname | where (process_file_name IN ("powershell_ise.exe",
+  "powershell.exe", "sqltoolsps.exe", "sqlps.exe", "pwsh.exe")) AND match(process_cmd_line,
+  /(?i)[\-|\/]w(in*d*o*w*s*t*y*l*e*)*\s+h(i*d*d*e*n*)\s+/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows Powershell Connect to Internet With Hidden Window has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Malicious PowerShell", "Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns", "HAFNIUM Group", "Log4Shell CVE-2021-44228"],
@@ -60,7 +60,7 @@ known_false_positives: Legitimate process can have this combination of command-l
   options, but it's not common.
 references:
 - https://regexr.com/663rr
-- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
+- https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/Windows/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
 - https://ss64.com/ps/powershell.html
 - https://twitter.com/M_haggis/status/1440758396534214658?s=20
 - https://blog.netlab.360.com/ten-families-of-malicious-samples-are-spreading-using-the-log4j2-vulnerability-now/

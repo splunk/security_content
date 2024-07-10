@@ -1,14 +1,16 @@
 name: Windows CertUtil URLCache Download
 id: 8cb1ad38-8f6d-11ec-87a3-acde48001122
-version: 1
+version: 4
 status: production
-description: Certutil.exe may download a file from a remote destination using `-urlcache`.
+detection_type: STREAMING
+description: 'Certutil.exe may download a file from a remote destination using `-urlcache`.
   This behavior does require a URL to be passed on the command-line. In addition,
   `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
   be used. It is not entirely common for `certutil.exe` to contact public IP space.
-  However, it is uncommon for `certutil.exe` to write files to world writeable paths.\
+  However, it is uncommon for `certutil.exe` to write files to world writeable paths.
+
   During triage, capture any files on disk and review. Review the reputation of the
-  remote IP or domain in question.
+  remote IP or domain in question.'
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
   = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
@@ -21,9 +23,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   LIKE "%urlcache%" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows CertUtil URLCache Download has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Ingress Tool Transfer", "DarkSide Ransomware", "Living Off The Land", "Forest Blizzard"],
@@ -33,7 +35,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 90,
     impact_id = 5,
-    kill_chain = [{"phase": "Command And Control", "phase_id": 6}],
+    kill_chain = [{"phase": "Command and Control", "phase_id": 6}],
     nist = ["DE.AE"], 
     risk_level = "Critical", 
     category_uid = 2,
@@ -101,7 +103,7 @@ tags:
     cis20:
     - CIS 10
     kill_chain_phases:
-    - Command And Control
+    - Command and Control
     mitre_attack_id:
     - T1105
     nist:

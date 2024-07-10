@@ -1,0 +1,26 @@
+name: G Suite for Gmail Message Eviction
+id: 5299d3ad-e9c4-4afa-b051-92cacd0ff916
+version: 1
+date: '2024-01-21'
+author: Lou Stella, Splunk
+type: Response
+description: Accepts a gmail email ID, and then attempts to delete the email from the mailbox. GMail does not have a "soft-delete" option, messages run through the Message Eviction playbook will be permanently deleted.
+playbook: G_Suite_for_Gmail_Message_Eviction
+how_to_implement: This input playbook requires the G Suite for GMail connector to be configured. It is designed to work in environments that posess a maximum of 500 mailboxes at this time, due to a limitation in the G Suite for GMail connector. 
+references: []
+app_list: 
+  - G Suite for GMail
+tags:
+  platform_tags:
+    - message_eviction
+    - gmail_email_id
+    - gsuite_for_gmail
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+  - D3-ER

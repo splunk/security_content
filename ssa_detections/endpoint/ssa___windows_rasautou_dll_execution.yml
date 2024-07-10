@@ -1,6 +1,6 @@
 name: Windows Rasautou DLL Execution
 id: 6f42b8ce-1e15-11ec-ad5a-acde48001122
-version: 1
+version: 4
 date: '2022-02-15'
 author: Michael Haag, Splunk
 type: TTP
@@ -40,8 +40,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ attempting to load a DLL in a suspicious manner.
   mitre_attack_id:
   - T1055.001
   - T1218
@@ -65,6 +63,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ attempting to load a DLL in a suspicious manner.
   product:
   - Splunk Behavioral Analytics
   required_fields:

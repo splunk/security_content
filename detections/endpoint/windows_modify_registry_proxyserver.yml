@@ -1,0 +1,66 @@
+name: Windows Modify Registry ProxyServer
+id: 12bdaa0b-3c59-4489-aae1-bff6d67746ef
+version: 2
+date: '2024-05-11'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+description: The following analytic detects modifications to the Windows registry
+  key for setting up a proxy server. It leverages data from the Endpoint.Registry
+  datamodel, focusing on changes to the "Internet Settings\\ProxyServer" registry
+  path. This activity is significant as it can indicate malware or adversaries configuring
+  a proxy to facilitate unauthorized communication with Command and Control (C2) servers.
+  If confirmed malicious, this could allow attackers to establish persistent, covert
+  channels for data exfiltration or further exploitation of the compromised host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Internet
+  Settings\\ProxyServer" by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.action Registry.user Registry.dest | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_modify_registry_proxyserver_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: Administrators may enable or disable this feature that may
+  cause some false positive, however is not common. Filter as needed.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.darkgate
+tags:
+  analytic_story:
+  - DarkGate Malware
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: the registry settings was modified to setup proxy server on $dest$.
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 49
+  required_fields:
+  - _time
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.user
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.action
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/proxy_server/ProxyServer_sys.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

@@ -1,23 +1,26 @@
 name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
-version: 2
-date: '2022-05-02'
+version: 4
+date: '2024-05-11'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-WmiObject` commandlet. The `DS_User` class
-  parameter leverages WMI to query for all domain users. Red Teams and adversaries
-  may leverage this commandlet to enumerate domain users for situational awareness
-  and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-WmiObject` cmdlet
+  with the `DS_User` class parameter via PowerShell Script Block Logging (EventCode=4104).
+  It leverages logs to identify attempts to query all domain users using WMI. This
+  activity is significant as it may indicate an adversary or Red Team operation attempting
+  to enumerate domain users for situational awareness and Active Directory discovery.
+  If confirmed malicious, this behavior could lead to further reconnaissance, enabling
+  attackers to map out the network and identify potential targets for privilege escalation
+  or lateral movement.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText
   = "*ds_user*" ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*"
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `getwmiobject_ds_user_with_powershell_script_block_filter`'
-how_to_implement: he following Hunting analytic requires PowerShell operational logs
+  UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user|
+  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command for troubleshooting.
@@ -30,16 +33,17 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell process having commandline $ScriptBlockText$ for user enumeration
+  message: powershell process having commandline for user enumeration detected on
+    host - $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
   observable:
-  - name: Computer
+  - name: dest
     type: Hostname
     role:
     - Victim
-  - name: User
+  - name: user
     type: User
     role:
     - Victim
@@ -59,6 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

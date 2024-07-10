@@ -18,7 +18,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | join [| tstats `security_content_summariesonly` values(Registry.registry_path)
   as registry_path count from datamodel=Endpoint.Registry where Registry.registry_path=*\\Explorer\\FileExts*
   by Registry.process_id Registry.dest | `drop_dm_object_name("Registry")` | table
-  process_id dest registry_path]| `suspicious_changes_to_file_associations_filter` '
+  process_id dest registry_path]| `suspicious_changes_to_file_associations_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

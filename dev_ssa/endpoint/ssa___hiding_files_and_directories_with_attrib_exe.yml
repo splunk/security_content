@@ -1,6 +1,6 @@
 name: Hiding Files And Directories With Attrib exe
 id: 028e4406-6176-11ec-aec2-acde48001122
-version: 1
+version: 4
 date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 status: production

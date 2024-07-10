@@ -1,6 +1,6 @@
 name: Windows Remote Create Service
 id: 0259ff91-a6f3-4af1-af83-6360eff7fd80
-version: 1
+version: 4
 date: '2023-05-18'
 author: Michael Haag, Splunk
 status: experimental

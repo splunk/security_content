@@ -1,17 +1,21 @@
 name: Get DomainUser with PowerShell
 id: 9a5a41d6-04e7-11ec-923c-acde48001122
-version: 1
-date: '2021-08-24'
+version: 2
+date: '2024-05-22'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: This analytic looks for the execution of `powershell.exe` with command-line
-  arguments utilized to enumerate domain users. `Get-DomainUser` is part of PowerView,
-  a PowerShell tool used to perform enumeration on Windows domains. Red Teams and
-  adversaries alike may leverage PowerView to enumerate domain users for situational
-  awareness and Active Directory Discovery.
+description: The following analytic detects the execution of `powershell.exe` with
+  command-line arguments used to enumerate domain users via the `Get-DomainUser` command.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and command-line executions mapped to the `Processes`
+  node of the `Endpoint` data model. This activity is significant as it indicates
+  potential reconnaissance efforts by adversaries or Red Teams using PowerView for
+  Active Directory discovery. If confirmed malicious, this could allow attackers to
+  gain situational awareness and identify valuable targets within the domain, potentially
+  leading to further exploitation.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
   OR Processes.process_name="powershell*") AND Processes.process = "*Get-DomainUser*"
@@ -34,6 +38,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 50
@@ -73,6 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

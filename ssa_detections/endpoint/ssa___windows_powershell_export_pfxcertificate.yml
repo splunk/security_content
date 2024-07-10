@@ -1,9 +1,9 @@
 name: Windows PowerShell Export PFXCertificate
 id: 0c93bb7a-df21-477e-a623-b0c37c1c6661
-version: 1
+version: 3
 date: '2023-05-18'
 author: Michael Haag, Splunk
-type: anomaly
+type: Anomaly
 status: experimental
 description: The following analytic identifies the PowerShell Cmdlet export-pfxcertificate
   utilizing Script Block Logging. This particular behavior is related to an adversary
@@ -30,8 +30,6 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: A PowerShell Cmdlet related to exporting a Certificate was ran on $dest_device_id$,
-    attempting to export a pfxcertificate.
   mitre_attack_id:
   - T1552.004
   - T1552
@@ -47,6 +45,8 @@ tags:
     type: Other
   - name: actor.user.uid
     type: Other
+  message: A PowerShell Cmdlet related to exporting a Certificate was ran on $dest_device_id$,
+    attempting to export a pfxcertificate.
   product:
   - Splunk Behavioral Analytics
   required_fields:

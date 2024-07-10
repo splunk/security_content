@@ -1,0 +1,89 @@
+name: Azure AD Multi-Source Failed Authentications Spike
+id: 116e11a9-63ea-41eb-a66a-6a13bdc7d2c7
+version: 3
+date: '2024-05-14'
+author: Mauricio Velazco, Splunk
+status: production
+type: Hunting
+data_source:
+- Azure Active Directory
+description: The following analytic detects potential distributed password spraying
+  attacks in an Azure AD environment. It identifies a spike in failed authentication
+  attempts across various user-and-IP combinations from multiple source IPs and countries,
+  using different user agents. This detection leverages Azure AD SignInLogs, focusing
+  on error code 50126 for failed authentications. This activity is significant as
+  it indicates an adversary's attempt to bypass security controls by distributing
+  login attempts. If confirmed malicious, this could lead to unauthorized access,
+  data breaches, privilege escalation, and lateral movement within the organization's
+  infrastructure.
+search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126
+  properties.authenticationDetails{}.succeeded=false | rename properties.* as * |
+  bucket span=5m _time | eval uniqueIPUserCombo = src_ip . "-" . user | stats count
+  min(_time) as firstTime max(_time) as lastTime dc(uniqueIPUserCombo) as uniqueIpUserCombinations,
+  dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, dc(user_agent) as uniqueUserAgents,
+  dc(location.countryOrRegion) as uniqueCountries values(user) as user, values(src_ip)
+  as ips, values(user_agent) as user_agents, values(location.countryOrRegion) as countries
+  | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20 AND
+  uniqueUserAgents = 1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `azure_ad_multi_source_failed_authentications_spike_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
+  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
+  You must be ingesting Azure Active Directory events into your Splunk environment
+  through an EventHub. This analytic was written to be used with the azure:monitor:aad
+  sourcetype leveraging the SignInLogs log category. The thresholds set within the
+  analytic (such as unique IPs, unique users, etc.) are initial guidelines and should
+  be customized based on the organization's user behavior and risk profile. Security
+  teams are encouraged to adjust these thresholds to optimize the balance between
+  detecting genuine threats and minimizing false positives, ensuring the detection
+  is tailored to their specific environment.
+known_false_positives: This detection may yield false positives in scenarios where
+  legitimate bulk sign-in activities occur, such as during company-wide system updates
+  or when users are accessing resources from varying locations in a short time frame,
+  such as in the case of VPNs or cloud services that rotate IP addresses. Filter as
+  needed.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+tags:
+  analytic_story:
+  - Azure Active Directory Account Takeover
+  - NOBELIUM Group
+  asset_type: Azure Tenant
+  atomic_guid: []
+  confidence: 60
+  impact: 70
+  message: An anomalous multi source authentication spike ocurred at $_time$
+  mitre_attack_id:
+  - T1586
+  - T1586.003
+  - T1110
+  - T1110.003
+  - T1110.004
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 42
+  required_fields:
+  - _time
+  - category
+  - properties.authenticationDetails{}.succeeded
+  - properties.location.countryOrRegion
+  - user_agent
+  - src_ip
+  - user
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azure_ad_distributed_spray/azure_ad_distributed_spray.log
+    source: Azure AD
+    sourcetype: azure:monitor:aad

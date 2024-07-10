@@ -1,21 +1,22 @@
 name: Windows Exchange PowerShell Module Usage
 id: 1118bc65-b0c7-4589-bc2f-ad6802fd0909
-version: 1
+version: 4
 status: production
+detection_type: STREAMING
 description: 'The following analytic identifies the usage of Exchange PowerShell modules
   that were recently used for a proof of concept related to ProxyShell. Currently,
   there is no active data shared or data we could re-produce relate to this part of
-  the ProxyShell chain of exploits.  \
+  the ProxyShell chain of exploits.
 
   Inherently, the usage of the modules is not malicious, but reviewing parallel processes,
-  and user, of the session will assist with determining the intent. \
+  and user, of the session will assist with determining the intent.
 
   Module - New-MailboxExportRequest will begin the process of exporting contents of
-  a primary mailbox or archive to a .pst file. \
+  a primary mailbox or archive to a .pst file.
 
   Module - New-managementroleassignment can assign a management role to a management
   role group, management role assignment policy, user, or universal security group
-  (USG). \
+  (USG).
 
   Module - New-MailboxSearch cmdlet to create a mailbox search and either get an estimate
   of search results, place search results on In-Place Hold or copy them to a Discovery
@@ -33,9 +34,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   OR match(process_cmd_line, /(?i)new-mailboxexportrequest/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows Exchange PowerShell Module Usage has been triggered on " + device_hostname + " by " + "Unknown" + ".",
-    users = [{"name": "Unknown", "uid": actor_user.uid}],
+    users = [{"name": "Unknown", "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["ProxyShell", "CISA AA22-264A"],

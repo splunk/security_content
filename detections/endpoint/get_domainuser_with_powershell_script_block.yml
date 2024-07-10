@@ -1,21 +1,24 @@
 name: Get DomainUser with PowerShell Script Block
 id: 61994268-04f4-11ec-865c-acde48001122
-version: 3
-date: '2022-11-13'
+version: 4
+date: '2024-05-09'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
-  to identify the execution of the `Get-DomainUser` commandlet. `GetDomainUser` is
-  part of PowerView, a PowerShell tool used to perform enumeration on Windows domains.
-  Red Teams and adversaries alike may use PowerView to enumerate domain users for
-  situational awareness and Active Directory Discovery.
+description: The following analytic detects the execution of the `Get-DomainUser`
+  cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is part
+  of PowerView, a tool often used for domain enumeration. The detection leverages
+  PowerShell operational logs to identify instances where this command is executed.
+  Monitoring this activity is crucial as it may indicate an adversary's attempt to
+  gather information about domain users, which is a common step in Active Directory
+  Discovery. If confirmed malicious, this activity could lead to further reconnaissance
+  and potential exploitation of domain resources.
 data_source:
-- Powershell 4104
+- Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainUser*" | stats
   count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | rename Computer as dest, UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `get_domainuser_with_powershell_script_block_filter`'
+  Computer UserID | rename Computer as dest, UserID as user| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `get_domainuser_with_powershell_script_block_filter`'
 how_to_implement: The following Hunting analytic requires PowerShell operational logs
   to be imported. Modify the powershell macro as needed to match the sourcetype or
   add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
@@ -25,10 +28,12 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Powershell process having commandline "*Get-DomainUser*" for user enumeration on $dest$
+  message: Powershell process having commandline "*Get-DomainUser*" for user enumeration
+    on $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
@@ -56,6 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,6 +1,6 @@
 name: Windows Rundll32 Inline HTA Execution
 id: 0caa1dd6-94f5-11ec-9786-acde48001122
-version: 1
+version: 4
 date: '2022-02-23'
 author: Michael Haag, Splunk
 type: TTP
@@ -43,7 +43,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Suspicious $process_name$ inline HTA execution on $dest_device_id$.
   mitre_attack_id:
   - T1218
   - T1218.005
@@ -66,6 +65,7 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: Suspicious $process_name$ inline HTA execution on $dest_device_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

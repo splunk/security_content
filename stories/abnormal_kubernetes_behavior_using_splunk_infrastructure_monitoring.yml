@@ -1,0 +1,26 @@
+name: Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
+id: 7589023b-3d98-42b3-ab1c-bb498e68fc2d
+version: 1
+date: '2024-01-08'
+author: 'Matthew Moore, Patrick Bareiss, Splunk'
+description: Kubernetes, a complex container orchestration system, is susceptible to a variety of security threats. 
+  This story delves into the different strategies and methods adversaries employ to exploit Kubernetes environments. 
+  These include attacks on the control plane, exploitation of misconfigurations, and breaches of containerized applications. 
+  Observability data, such as metrics, play a crucial role in identifying abnormal and potentially malicious behavior within these environments.
+narrative: 
+  Kubernetes, a complex container orchestration system, is a prime target for adversaries due to its widespread use and inherent complexity. This story focuses on the abnormal behavior within Kubernetes environments that can be indicative of security threats. 
+  Key areas of concern include the control plane, worker nodes, and network communication, all of which can be exploited by attackers. 
+  Observability data, such as metrics, play a crucial role in identifying these abnormal behaviors. These behaviors could be a result of attacks on the control plane, exploitation of misconfigurations, or breaches of containerized applications. 
+  For instance, attackers may attempt to exploit vulnerabilities in the Kubernetes API, misconfigured containers, or insecure network policies. The control plane, which manages cluster operations, is a prime target and its compromise can give attackers control over the entire cluster. 
+  Worker nodes, which run the containerized applications, can also be targeted to disrupt services or to gain access to sensitive data. 
+references:
+  - https://kubernetes.io/docs/concepts/security/
+  - https://splunkbase.splunk.com/app/5247
+tags:
+  category:
+  - Cloud Security
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

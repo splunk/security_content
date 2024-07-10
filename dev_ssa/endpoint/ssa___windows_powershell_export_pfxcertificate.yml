@@ -1,10 +1,10 @@
 name: Windows PowerShell Export PFXCertificate
 id: 0c93bb7a-df21-477e-a623-b0c37c1c6661
-version: 1
+version: 3
 date: '2023-05-18'
 author: Michael Haag, Splunk
 status: experimental
-type: anomaly
+type: Anomaly
 description: The following analytic identifies the PowerShell Cmdlet export-pfxcertificate
   utilizing Script Block Logging. This particular behavior is related to an adversary
   attempting to steal certificates local to the Windows endpoint within the Certificate

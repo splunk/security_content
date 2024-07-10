@@ -1,0 +1,17 @@
+name: Confluence Data Center and Confluence Server Vulnerabilities
+id: 509387a5-ab53-4656-8bb5-4bc8c2c074d9
+version: 1
+date: '2024-01-22'
+author: Michael Haag, Splunk
+description: The following analytic story covers use cases for detecting and investigating potential attacks against Confluence Data Center and Confluence Server.
+narrative: The analytic story of Confluence Data Center and Confluence Server encompasses a comprehensive approach to safeguarding these platforms from a variety of threats. By leveraging the analytics created in the project, security teams are equipped to detect, investigate, and respond to potential attacks that target Confluence environments.
+references:
+- https://confluence.atlassian.com/security/cve-2023-22527-rce-remote-code-execution-vulnerability-in-confluence-data-center-and-confluence-server-1333990257.html
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,0 +1,18 @@
+name: Windows Attack Surface Reduction
+id: 1d61c474-3cd6-4c23-8c68-f128ac4b209b
+version: 1
+date: '2023-11-27'
+author: Michael Haag, Splunk
+description: 'This story contains detections for Windows Attack Surface Reduction (ASR) events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This story contains detections for ASR events that are generated when a process or application attempts to perform an action that is blocked by an ASR rule.'
+narrative: 'This story contains detections for Windows Attack Surface Reduction (ASR) events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This story contains detections for ASR events that are generated when a process or application attempts to perform an action that is blocked by an ASR rule. It includes detections for both block and audit event IDs. Block event IDs are generated when an action is blocked by an ASR rule, while audit event IDs are generated when an action that would be blocked by an ASR rule is allowed to proceed for auditing purposes.'
+references: 
+- https://asrgen.streamlit.app/
+- https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction?view=o365-worldwide
+tags:
+  category:
+  - Best Practices
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

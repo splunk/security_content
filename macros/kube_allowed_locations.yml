@@ -1,0 +1,3 @@
+definition: Country="United States"
+description: Define your locations which are allowed to connect to your kubernetes cluster.
+name: kube_allowed_locations

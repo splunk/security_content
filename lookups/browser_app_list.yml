@@ -1,0 +1,7 @@
+default_match: 'false'
+description: A list of known browser application being targeted for credential extraction.
+filename: browser_app_list.csv
+match_type: WILDCARD(browser_process_name), WILDCARD(browser_object_path)
+min_matches: 1
+name: browser_app_list
+case_sensitive_match: 'false'

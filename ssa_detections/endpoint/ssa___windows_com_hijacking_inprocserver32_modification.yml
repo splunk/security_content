@@ -1,6 +1,6 @@
 name: Windows COM Hijacking InprocServer32 Modification
 id: 0ae05a0f-bc84-456b-822a-a5b9c081c7ca
-version: 1
+version: 4
 date: '2022-10-12'
 author: Michael Haag, Splunk
 type: TTP
@@ -39,8 +39,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An instance of $parent_process_name$ has spawned $process_name$ attempting
-    to modify InProcServer32 within the registry on $dest_device_id$ by $dest_user_id$.
   mitre_attack_id:
   - T1546.015
   - T1546
@@ -63,6 +61,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ has spawned $process_name$ attempting
+    to modify InProcServer32 within the registry on $dest_device_id$ by $dest_user_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

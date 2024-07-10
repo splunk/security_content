@@ -1,6 +1,6 @@
 name: Windows MSHTA Child Process
 id: f63f7e9c-9526-11ec-9fc7-acde48001122
-version: 2
+version: 6
 date: '2022-02-23'
 author: Michael Haag, Splunk
 status: production

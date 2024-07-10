@@ -1,22 +1,29 @@
 name: Disable AMSI Through Registry
 id: 9c27ec42-d338-11eb-9044-acde48001122
-version: 4
-date: '2023-04-11'
+version: 5
+date: '2024-05-29'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: this search is to identify modification in registry to disable AMSI windows
-  feature to evade detections. This technique was seen in several ransomware, RAT
-  and even APT to impaire defenses of the compromise machine and to be able to execute
-  payload with minimal alert as much as possible.  
+description: The following analytic detects modifications to the Windows registry
+  that disable the Antimalware Scan Interface (AMSI) by setting the "AmsiEnable" value
+  to "0x00000000". This detection leverages data from the Endpoint.Registry data model,
+  specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows
+  Script\\Settings\\AmsiEnable". Disabling AMSI is significant as it is a common technique
+  used by ransomware, Remote Access Trojans (RATs), and Advanced Persistent Threats
+  (APTs) to evade detection and impair defenses. If confirmed malicious, this activity
+  could allow attackers to execute payloads with minimal alerts, leading to potential
+  system compromise and data exfiltration.
 data_source:
-- Sysmon Event ID 1
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable" Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.dest Registry.user
- | `drop_dm_object_name(Registry)`
- | where isnotnull(registry_value_data)
- | `security_content_ctime(firstTime)` 
- | `security_content_ctime(lastTime)`
- | `disable_amsi_through_registry_filter`'
+- Sysmon EventID 12
+- Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable"
+  Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.registry_path
+  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
+  Registry.process_guid Registry.dest Registry.user | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `disable_amsi_through_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -29,6 +36,7 @@ references:
 tags:
   analytic_story:
   - Ransomware
+  - CISA AA23-347A
   - Windows Registry Abuse
   asset_type: Endpoint
   confidence: 50
@@ -59,6 +67,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

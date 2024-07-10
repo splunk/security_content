@@ -1,24 +1,21 @@
 name: Windows Curl Upload to Remote Destination
 id: cc8d046a-543b-11ec-b864-acde48001122
-version: 1
+version: 4
 date: '2021-12-03'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
-  a file to a remote destination. \
+  a file to a remote destination. 
 
   `-T` or `--upload-file` is used when a file is to be uploaded to a remotge destination.
-  \
-
+  
   `-d` or `--data` POST is the HTTP method that was invented to send data to a receiving
   web application, and it is, for example, how most common HTML forms on the web work.
-  \
-
+  
   HTTP multipart formposts are done with `-F`, but this appears to not be compatible
   with the Windows version of Curl. Will update if identified adversary tradecraft.
-  \
-
+  
   Adversaries may use one of the three methods based on the remote destination and
   what they are attempting to upload (zip vs txt). During triage, review parallel
   processes for further behavior. In addition, identify if the upload was successful
@@ -52,9 +49,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ uploading a file to a remote
-    destination.
   mitre_attack_id:
   - T1105
   observable:
@@ -76,6 +70,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ uploading a file to a remote
+    destination.
   product:
   - Splunk Behavioral Analytics
   required_fields:

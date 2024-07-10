@@ -1,14 +1,18 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2024-05-11'
 author: Rico Valdez, Splunk
-status: experimental
+status: production
 type: TTP
-description: This search looks for network traffic defined by port and transport layer
-  protocol in the Enterprise Security lookup table "lookup_interesting_ports", that
-  is marked as prohibited, and has an associated 'allow' action in the Network_Traffic
-  data model. This could be indicative of a misconfigured network device.
+description: The following analytic detects instances where network traffic, identified
+  by port and transport layer protocol as prohibited in the "lookup_interesting_ports"
+  table, is allowed. It uses the Network_Traffic data model to cross-reference traffic
+  data against predefined security policies. This activity is significant for a SOC
+  as it highlights potential misconfigurations or policy violations that could lead
+  to unauthorized access or data exfiltration. If confirmed malicious, this could
+  allow attackers to bypass network defenses, leading to potential data breaches and
+  compromising the organization's security posture.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by
@@ -35,10 +39,14 @@ tags:
   mitre_attack_id:
   - T1048
   observable:
-  - name: dest
-    type: Hostname
+  - name: src_ip
+    type: IP Address
     role:
     - Victim
+  - name: dest_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -51,3 +59,11 @@ tags:
   - All_Traffic.dest_port
   risk_score: 25
   security_domain: network
+  manual_test: This detection uses builtin lookup from Enterprise Security.
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048/ftp_connection/zeek_conn.log
+    sourcetype: bro:conn:json
+    source: conn.log

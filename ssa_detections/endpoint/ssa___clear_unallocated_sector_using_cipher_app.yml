@@ -1,6 +1,6 @@
 name: Clear Unallocated Sector Using Cipher App
 id: 8f907d90-6173-11ec-9c23-acde48001122
-version: 1
+version: 4
 date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -33,9 +33,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors
-    of a specific disk.
   mitre_attack_id:
   - T1070.004
   - T1070
@@ -58,6 +55,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$ attempting to clear the unallocated sectors
+    of a specific disk.
   product:
   - Splunk Behavioral Analytics
   required_fields:

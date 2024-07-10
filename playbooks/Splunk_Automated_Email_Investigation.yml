@@ -1,0 +1,26 @@
+name: Splunk Automated Email Investigation
+id: c69e3310-a819-4d16-a615-348fa8d88b0b
+version: 1
+date: '2023-12-23'
+author: Kelby Shelton, Splunk
+type: Investigation
+description: "Leverages Splunk technologies to determine if a .eml or .msg file in the vault is malicious, whether or not it contained suspect URLs or Files, and who may have interacted with the IoCs (email, URLs, or Files)."
+playbook: Splunk_Automated_Email_Investigation
+how_to_implement: "Ensure the four input playbooks are loaded onto the system. The input playbooks are designed to be swappable within the same category (e.g., Message Activity Analysis) with minimal to no changes downstream."
+references: []
+app_list: []
+tags:
+  platform_tags:
+    - "D3-DA"
+    - "D3-SRA"
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+  - D3-DA
+  - D3-SRA
+  

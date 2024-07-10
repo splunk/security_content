@@ -1,0 +1,152 @@
+{
+    "version": "4.3",
+    "name": "DarkCrystal RAT Detection Coverage",
+    "description": "security_content detection coverage for DarkCrystal RAT",
+    "domain": "mitre-enterprise",
+    "techniques": [
+        {
+            "techniqueID": "T1222",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml"
+        },
+        {
+            "techniqueID": "T1049",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml"
+        },
+        {
+            "techniqueID": "T1033",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml"
+        },
+        {
+            "techniqueID": "T1529",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_system_reboot_commandline.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_system_shutdown_commandline.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_system_logoff_commandline.yml"
+        },
+        {
+            "techniqueID": "T1016",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml"
+        },
+        {
+            "techniqueID": "T1059",
+            "score": 5,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_common_abused_cmd_shell_risk_behavior.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_command_shell_dcrat_forkbomb_payload.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/any_powershell_downloadfile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/malicious_powershell_process_-_execution_policy_bypass.yml"
+        },
+        {
+            "techniqueID": "T1566",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/winword_spawning_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_product_spawn_cmd_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winword_spawning_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_document_executing_macro_code.yml"
+        },
+        {
+            "techniqueID": "T1566.001",
+            "score": 4,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/winword_spawning_powershell.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_product_spawn_cmd_process.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winword_spawning_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/office_document_executing_macro_code.yml"
+        },
+        {
+            "techniqueID": "T1124",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_system_time_discovery_w32tm_delay.yml"
+        },
+        {
+            "techniqueID": "T1027",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/malicious_powershell_process_-_encoded_command.yml"
+        },
+        {
+            "techniqueID": "T1053.005",
+            "score": 3,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_scheduled_task_from_public_directory.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/winevent_windows_task_scheduler_event_action_started.yml"
+        },
+        {
+            "techniqueID": "T1053",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_scheduled_task_from_public_directory.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/scheduled_task_deleted_or_created_via_cmd.yml"
+        },
+        {
+            "techniqueID": "T1485",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_high_file_deletion_frequency.yml"
+        },
+        {
+            "techniqueID": "T1105",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_ingress_tool_transfer_using_explorer.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/any_powershell_downloadfile.yml"
+        },
+        {
+            "techniqueID": "T1059.003",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/cmd_carry_out_string_command_parameter.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/windows_command_shell_dcrat_forkbomb_payload.yml"
+        },
+        {
+            "techniqueID": "T1543",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/suspicious_process_file_path.yml"
+        },
+        {
+            "techniqueID": "T1590.005",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_gather_victim_network_info_through_ip_check_web_services.yml"
+        },
+        {
+            "techniqueID": "T1590",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_gather_victim_network_info_through_ip_check_web_services.yml"
+        },
+        {
+            "techniqueID": "T1592.001",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_gather_victim_host_information_camera.yml"
+        },
+        {
+            "techniqueID": "T1592",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/windows_gather_victim_host_information_camera.yml"
+        },
+        {
+            "techniqueID": "T1059.001",
+            "score": 2,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/any_powershell_downloadfile.yml\n\nhttps://github.com/splunk/security_content/blob/develop/detections/malicious_powershell_process_-_execution_policy_bypass.yml"
+        },
+        {
+            "techniqueID": "T1036",
+            "score": 1,
+            "comment": "https://github.com/splunk/security_content/blob/develop/detections/executables_or_script_creation_in_suspicious_path.yml"
+        }
+    ],
+    "gradient": {
+        "colors": [
+            "#ffffff",
+            "#66b1ff",
+            "#096ed7"
+        ],
+        "minValue": 0,
+        "maxValue": 5
+    },
+    "filters": {
+        "platforms": [
+            "Windows",
+            "Linux",
+            "macOS",
+            "AWS",
+            "GCP",
+            "Azure",
+            "Office 365",
+            "SaaS"
+        ]
+    },
+    "legendItems": [
+        {
+            "label": "NO available detections",
+            "color": "#ffffff"
+        },
+        {
+            "label": "Some detections available",
+            "color": "#66b1ff"
+        }
+    ],
+    "showTacticRowBackground": true,
+    "tacticRowBackground": "#dddddd",
+    "sorting": 3
+}

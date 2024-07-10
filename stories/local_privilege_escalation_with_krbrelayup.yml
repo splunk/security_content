@@ -16,7 +16,6 @@ references:
   - https://dirkjanm.io/relaying-kerberos-over-dns-with-krbrelayx-and-mitm6/
   - https://github.com/cube0x0/KrbRelay
 tags:
-  analytic_story: Local Privilege Escalation With KrbRelayUp
   category:
   - Privilege Escalation
   product:

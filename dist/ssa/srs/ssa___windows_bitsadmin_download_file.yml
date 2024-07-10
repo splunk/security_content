@@ -1,7 +1,8 @@
 name: Windows Bitsadmin Download File
 id: d76e8188-8f5a-11ec-ace4-acde48001122
-version: 1
+version: 4
 status: production
+detection_type: STREAMING
 description: The following query identifies Microsoft Background Intelligent Transfer
   Service utility `bitsadmin.exe` using the `transfer` parameter to download a remote
   object. In addition, look for `download` or `upload` on the command-line, the switches
@@ -25,9 +26,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   AND process_file_name="bitsadmin.exe" 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows Bitsadmin Download File has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Ingress Tool Transfer", "BITS Jobs", "DarkSide Ransomware", "Living Off The Land"],
@@ -37,7 +38,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 70,
     impact_id = 4,
-    kill_chain = [{"phase": "Exploitation", "phase_id": 4}, {"phase": "Installation", "phase_id": 5}, {"phase": "Command And Control", "phase_id": 6}],
+    kill_chain = [{"phase": "Exploitation", "phase_id": 4}, {"phase": "Installation", "phase_id": 5}, {"phase": "Command and Control", "phase_id": 6}],
     nist = ["DE.AE"], 
     risk_level = "Medium", 
     category_uid = 2,
@@ -110,7 +111,7 @@ tags:
     kill_chain_phases:
     - Exploitation
     - Installation
-    - Command And Control
+    - Command and Control
     mitre_attack_id:
     - T1197
     - T1105

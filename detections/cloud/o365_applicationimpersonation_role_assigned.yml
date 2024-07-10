@@ -1,0 +1,71 @@
+name: O365 ApplicationImpersonation Role Assigned
+id: 49cdce75-f814-4d56-a7a4-c64ec3a481f2
+version: 2
+date: '2024-05-23'
+author: Mauricio Velazco, Splunk
+status: production
+type: TTP
+data_source:
+- O365
+description: The following analytic detects the assignment of the ApplicationImpersonation
+  role in Office 365 to a user or application. It uses the Office 365 Management Activity
+  API to monitor Azure Active Directory audit logs for role assignment events. This
+  activity is significant because the ApplicationImpersonation role allows impersonation
+  of any user, enabling access to and modification of their mailbox. If confirmed
+  malicious, an attacker could gain unauthorized access to sensitive information,
+  manipulate mailbox data, and perform actions as a legitimate user, posing a severe
+  security risk to the organization.
+search: '`o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment"  Role=ApplicationImpersonation
+  |  rename User as target_user | stats  max(_time) as lastTime by Operation, user,
+  object, ObjectId, Role, target_user | `security_content_ctime(lastTime)` | `o365_applicationimpersonation_role_assigned_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: While infrequent, the ApplicationImpersonation role may be
+  granted for leigimate reasons, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/002/
+- https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
+- https://www.mandiant.com/media/17656
+tags:
+  analytic_story:
+  - Office 365 Persistence Mechanisms
+  - Office 365 Collection Techniques
+  - NOBELIUM Group
+  asset_type: O365 Tenant
+  confidence: 70
+  impact: 80
+  message: $user$ granted the ApplicationImpersonation role to $target_user$
+  mitre_attack_id:
+  - T1098
+  - T1098.002
+  observable:
+  - name: target_user
+    type: User
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 56
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - Role
+  - user
+  - User
+  - object
+  - ObjectId
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/application_impersonation_role_assigned/application_impersonation_role_assigned.log
+    source: O365
+    sourcetype: o365:management:activity

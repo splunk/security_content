@@ -12,7 +12,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter` '
+  | `drop_dm_object_name(Processes)` | `uncommon_processes` |`uncommon_processes_on_endpoint_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

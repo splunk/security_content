@@ -1,0 +1,20 @@
+name: Office 365 Detections
+id: 1a51dd71-effc-48b2-abc4-3e9cdb61e5b9
+version: 2
+date: '2020-12-16'
+author: Patrick Bareiss, Mauricio Velazco, Splunk
+description: Monitor for activities and anomalies indicative of potential threats within Office 365 environments.
+narrative: Office 365 (O365) is Microsoft's cloud-based suite of productivity tools, encompassing email, collaboration platforms, and office applications, all integrated with Azure Active Directory for identity and access management. Given the centralized storage of sensitive organizational data within O365 and its widespread adoption, it has become a focal point for cybersecurity efforts. The platform's complexity, combined with its ubiquity, makes it both a valuable asset and a prime target for potential threats. As O365's importance grows, it increasingly becomes a target for attackers seeking to exploit organizational data and systems. Security teams should prioritize monitoring O365 not just because of the sensitive data it often holds, but also due to the myriad ways the platform can be exploited. Understanding and monitoring O365's security landscape is crucial for organizations to detect, respond to, and mitigate potential threats in a timely manner.
+references:
+- https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
+- https://attack.mitre.org/matrices/enterprise/cloud/office365/
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-120a
+tags:
+  category:
+  - Cloud Security
+  product:
+  - Splunk Security Analytics for AWS
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Security Monitoring

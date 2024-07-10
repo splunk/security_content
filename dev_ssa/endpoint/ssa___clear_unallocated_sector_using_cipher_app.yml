@@ -1,6 +1,6 @@
 name: Clear Unallocated Sector Using Cipher App
 id: 8f907d90-6173-11ec-9c23-acde48001122
-version: 1
+version: 4
 date: '2021-12-20'
 author: Teoderick Contreras, Splunk
 status: production

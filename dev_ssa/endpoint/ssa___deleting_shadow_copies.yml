@@ -1,7 +1,7 @@
 name: Deleting Shadow Copies
 id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
 date: '2023-10-03'
-version: 1
+version: 5
 author: Bhavin Patel, Splunk
 status: validation
 type: TTP

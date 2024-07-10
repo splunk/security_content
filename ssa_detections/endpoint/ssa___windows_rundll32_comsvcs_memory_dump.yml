@@ -1,6 +1,6 @@
 name: Windows Rundll32 Comsvcs Memory Dump
 id: 76bb9e35-f314-4c3d-a385-83c72a13ce4e
-version: 5
+version: 8
 date: '2022-04-14'
 author: Jose Hernandez, Michael Haag, Splunk
 type: TTP
@@ -35,8 +35,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 40
-  message: A dump of a process was attempted using comsvcs.dll with the minidump function
-    on endpoint $dest_device_id$ by user $dest_device_user$.
   mitre_attack_id:
   - T1003.003
   - T1003
@@ -59,6 +57,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A dump of a process was attempted using comsvcs.dll with the minidump function
+    on endpoint $dest_device_id$ by user $dest_device_user$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

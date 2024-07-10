@@ -1,70 +1,84 @@
 name: Windows AD Domain Replication ACL Addition
 id: 8c372853-f459-4995-afdc-280c114d33ab
-version: 1
-date: "2022-11-18"
+version: 2
+date: "2024-05-16"
 author: Dean Luxton
 type: TTP
 status: experimental
 data_source: []
-description:
-  The following analytic detects the addition of the permissions necessary to perform a DCSync attack.
-  In order to replicate AD objects, the initiating user or computer must have the following permissions on the domain.
-  - DS-Replication-Get-Changes
-  - DS-Replication-Get-Changes-All
-  Certain Sync operations may require the additional permission of DS-Replication-Get-Changes-In-Filtered-Set.
-  By default, adding DCSync permissions via the Powerview Add-ObjectACL operation adds all 3. This alert identifies where this trifecta has been met, and also where just the base level requirements have been met.
-search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"| table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid| mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"), fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")| where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded  objectSid as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
-how_to_implement:
-  To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting
-  `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties`
-  applied to the domain root and all descendant objects. Once the necessary logging has been enabled, enumerate the domain policy to verify if existing
-  accounts with access need to be whitelisted, or revoked. Assets and Identities is also leveraged to automatically translate the objectSid into username.
-  Ensure your identities lookup is configured with the sAMAccountName and objectSid of all AD user and computer objects.
-known_false_positives:
-  When there is a change to nTSecurityDescriptor, Windows logs the entire ACL with the newly added components.
-  If existing accounts are present with this permission, they will raise an alert each time the nTSecurityDescriptor is updated unless whitelisted.
+description: The following analytic detects the addition of permissions required for
+  a DCSync attack, specifically DS-Replication-Get-Changes, DS-Replication-Get-Changes-All,
+  and DS-Replication-Get-Changes-In-Filtered-Set. It leverages EventCode 5136 from
+  the Windows Security Event Log to identify when these permissions are granted. This
+  activity is significant because it indicates potential preparation for a DCSync
+  attack, which can be used to replicate AD objects and exfiltrate sensitive data.
+  If confirmed malicious, an attacker could gain extensive access to Active Directory,
+  leading to severe data breaches and privilege escalation.
+search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"|
+  table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid|
+  mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"),
+  fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")|
+  where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded  objectSid
+  as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid
+  as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid
+  minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  the eventcode 5136. The Advanced Security Audit policy setting `Audit Directory
+  Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody`
+  to  `Write All Properties` applied to the domain root and all descendant objects.
+  Once the necessary logging has been enabled, enumerate the domain policy to verify
+  if existing accounts with access need to be whitelisted, or revoked. Assets and
+  Identities is also leveraged to automatically translate the objectSid into username.
+  Ensure your identities lookup is configured with the sAMAccountName and objectSid
+  of all AD user and computer objects.
+known_false_positives: When there is a change to nTSecurityDescriptor, Windows logs
+  the entire ACL with the newly added components. If existing accounts are present
+  with this permission, they will raise an alert each time the nTSecurityDescriptor
+  is updated unless whitelisted.
 references:
-  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
-  - https://github.com/SigmaHQ/sigma/blob/29a5c62784faf986dc03952ae3e90e3df3294284/rules/windows/builtin/security/win_security_account_backdoor_dcsync_rights.yml
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+- https://github.com/SigmaHQ/sigma/blob/29a5c62784faf986dc03952ae3e90e3df3294284/rules/windows/builtin/security/win_security_account_backdoor_dcsync_rights.yml
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 80
   impact: 100
   message: $src_user$ has granted $user$ permission to replicate AD objects
   mitre_attack_id:
-    - T1484
+  - T1484
   observable:
-    - name: user
-      type: User
-      role:
-        - Victim
-    - name: src_user
-      type: User
-      role:
-        - Victim
-    - name: dest
-      type: Hostname
-      role:
-        - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   required_fields:
-    - _time
-    - dest
-    - src_user
-    - AttributeLDAPDisplayName
-    - AttributeValue
-    - ObjectClass
+  - _time
+  - dest
+  - src_user
+  - AttributeLDAPDisplayName
+  - AttributeValue
+  - ObjectClass
   risk_score: 80
   security_domain: endpoint
-  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
+  manual_test: This search uses a lookup provided by Enterprise Security and needs
+    to be manually tested.
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/aclmodification/windows-security-xml.log
-        source: XmlWinEventLog:Security
-        sourcetype: xmlwineventlog
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484/aclmodification/windows-security-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: xmlwineventlog

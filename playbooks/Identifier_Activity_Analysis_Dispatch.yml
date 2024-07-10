@@ -18,4 +18,5 @@ tags:
   - Splunk SOAR
   use_cases:
   - Enrichment
-  defend_technique_id: D3-IAA
+  defend_technique_id: 
+  - D3-IAA

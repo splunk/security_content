@@ -1,15 +1,17 @@
 name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: dc3f2af7-ca69-47ce-a122-9f9787e19417
-version: 1
+version: 4
 status: production
-description: The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
+detection_type: STREAMING
+description: 'The following analytic utilizes PowerShell Script Block Logging (EventCode=4104)
   to identify the execution of the `Get-DomainUser` commandlet with specific parameters.
   `Get-DomainUser` is part of PowerView, a PowerShell tool used to perform enumeration
   on Windows Active Directory networks. As the name suggests, `Get-DomainUser` is
   used to identify domain users and combining it with `-PreauthNotRequired` allows
-  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.\
+  adversaries to discover domain accounts with Kerberos Pre Authentication disabled.
+
   Red Teams and adversaries alike use may leverage PowerView to enumerate these accounts
-  and attempt to crack their passwords offline.
+  and attempt to crack their passwords offline.'
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval device_hostname = device.hostname | eval process_file = process.file | eval
   process_file_path = process_file.path | eval process_uid = process.uid | eval process_cmd_line
@@ -18,9 +20,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   /(?i)get-domainuser/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid},
+    evidence = {"device.hostname": device_hostname, "process.file.path": process_file_path, "process.uid": process_uid, "process.cmd_line": process_cmd_line, "actor.user.uid": actor_user_uid, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows PowerShell Disabled Kerberos Pre-Authentication Discovery With PowerView has been triggered on " + device_hostname + " by " + "Unknown" + ".",
-    users = [{"name": "Unknown", "uid": actor_user.uid}],
+    users = [{"name": "Unknown", "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Active Directory Kerberos Attacks"],

@@ -1,6 +1,6 @@
 name: Detect RClone Command-Line Usage
 id: e8b74268-5454-11ec-a799-acde48001122
-version: 1
+version: 4
 date: '2021-12-03'
 author: Michael Haag, Splunk
 type: TTP
@@ -46,9 +46,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to connect to a
-    remote cloud service to move files or folders.
   mitre_attack_id:
   - T1020
   observable:
@@ -70,6 +67,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to connect to a
+    remote cloud service to move files or folders.
   product:
   - Splunk Behavioral Analytics
   required_fields:

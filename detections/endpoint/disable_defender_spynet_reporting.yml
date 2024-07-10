@@ -1,22 +1,28 @@
 name: Disable Defender Spynet Reporting
 id: 898debf4-3021-11ec-ba7c-acde48001122
-version: 4
-date: '2023-04-27'
+version: 5
+date: '2024-05-07'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic is intended to detect a suspicious modification of registry
-  to disable Windows Defender feature. This technique is intended to bypass or evade
-  detection from Windows Defender AV product, specifically the spynet reporting for
-  Defender telemetry.
+description: The following analytic detects the modification of the registry to disable
+  Windows Defender SpyNet reporting. It leverages data from the Endpoint.Registry
+  data model, specifically monitoring changes to the registry path associated with
+  Windows Defender SpyNet settings. This activity is significant because disabling
+  SpyNet reporting can prevent Windows Defender from sending telemetry data, potentially
+  allowing malicious activities to go undetected. If confirmed malicious, this action
+  could enable an attacker to evade detection, maintain persistence, and carry out
+  further attacks without being flagged by Windows Defender.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 12
+- Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
   = SpynetReporting Registry.registry_value_data = 0x00000000) BY _time span=1h Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid Registry.user Registry.dest  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_defender_spynet_reporting_filter`'
+  Registry.process_guid Registry.user Registry.dest  | `drop_dm_object_name(Registry)`
+  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `disable_defender_spynet_reporting_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
@@ -26,10 +32,11 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - IcedID
-  - Windows Registry Abuse
   - Azorult
+  - Windows Registry Abuse
   - Qakbot
+  - IcedID
+  - CISA AA23-347A
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -63,6 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

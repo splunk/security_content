@@ -1,20 +1,20 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
-version: 1
-date: '2023-06-13'
+version: 2
+date: '2024-05-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: This analytic identifies a suspicious processes running in file paths
-  that are not typically associated with legitimate software. Adversaries often employ
-  this technique to drop and execute malicious executables in accessible locations
-  that do not require administrative privileges. By monitoring for processes running
-  in such unconventional file paths, we can identify potential indicators of compromise
-  and proactively respond to malicious activity. This analytic plays a crucial role
-  in enhancing system security by pinpointing suspicious behaviors commonly associated
-  with malware and unauthorized software execution.
+description: The following analytic identifies processes running from file paths not
+  typically associated with legitimate software. It leverages data from Endpoint Detection
+  and Response (EDR) agents, focusing on specific process paths within the Endpoint
+  data model. This activity is significant because adversaries often use unconventional
+  file paths to execute malicious code without requiring administrative privileges.
+  If confirmed malicious, this behavior could indicate an attempt to bypass security
+  controls, leading to unauthorized software execution, potential system compromise,
+  and further malicious activities within the environment.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*\\windows\\fonts\\*"
@@ -46,32 +46,36 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - WhisperGate
-  - XMRig
-  - Industroyer2
-  - Remcos
-  - Data Destruction
-  - Hermetic Wiper
-  - Azorult
-  - DarkCrystal RAT
-  - Graceful Wipe Out Attack
-  - IcedID
-  - Swift Slicer
-  - Qakbot
-  - RedLine Stealer
-  - Brute Ratel C4
-  - Prestige Ransomware
-  - AsyncRAT
-  - LockBit Ransomware
-  - AgentTesla
   - Double Zero Destructor
-  - Volt Typhoon
+  - Graceful Wipe Out Attack
+  - AsyncRAT
+  - WhisperGate
+  - Prestige Ransomware
+  - DarkGate Malware
+  - AgentTesla
+  - Brute Ratel C4
+  - RedLine Stealer
+  - Rhysida Ransomware
+  - Swift Slicer
+  - IcedID
+  - DarkCrystal RAT
   - Chaos Ransomware
+  - PlugX
+  - Industroyer2
+  - Azorult
+  - Remcos
+  - XMRig
+  - Qakbot
+  - Volt Typhoon
+  - Hermetic Wiper
+  - Warzone RAT
   - Trickbot
   - Amadey
   - BlackByte Ransomware
-  - Warzone RAT
-  - PlugX
+  - LockBit Ransomware
+  - CISA AA23-347A
+  - Data Destruction
+  - Phemedrone Stealer
   asset_type: Endpoint
   confidence: 50
   impact: 70
@@ -106,6 +110,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

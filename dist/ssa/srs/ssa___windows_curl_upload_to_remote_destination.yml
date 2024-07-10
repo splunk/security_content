@@ -1,20 +1,18 @@
 name: Windows Curl Upload to Remote Destination
 id: cc8d046a-543b-11ec-b864-acde48001122
-version: 1
+version: 4
 status: production
+detection_type: STREAMING
 description: 'The following analytic identifies the use of Windows Curl.exe uploading
-  a file to a remote destination. \
+  a file to a remote destination.
 
   `-T` or `--upload-file` is used when a file is to be uploaded to a remotge destination.
-  \
 
   `-d` or `--data` POST is the HTTP method that was invented to send data to a receiving
   web application, and it is, for example, how most common HTML forms on the web work.
-  \
 
   HTTP multipart formposts are done with `-F`, but this appears to not be compatible
   with the Windows version of Curl. Will update if identified adversary tradecraft.
-  \
 
   Adversaries may use one of the three methods based on the remote destination and
   what they are attempting to upload (zip vs txt). During triage, review parallel
@@ -33,9 +31,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   /(?i)curl.exe/)=true 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows Curl Upload to Remote Destination has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Ingress Tool Transfer", "Insider Threat"],
@@ -45,7 +43,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 80,
     impact_id = 5,
-    kill_chain = [{"phase": "Command And Control", "phase_id": 6}],
+    kill_chain = [{"phase": "Command and Control", "phase_id": 6}],
     nist = ["DE.AE"], 
     risk_level = "Critical", 
     category_uid = 2,
@@ -111,7 +109,7 @@ tags:
     cis20:
     - CIS 10
     kill_chain_phases:
-    - Command And Control
+    - Command and Control
     mitre_attack_id:
     - T1105
     nist:

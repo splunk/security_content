@@ -1,11 +1,13 @@
 name: Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard Path
 id: d75cc561-3828-4d0a-92c4-0eb93bfe0929
-version: 1
+version: 5
 status: production
+detection_type: STREAMING
 description: The following analytic identifies Aspnet_Compiler.exe which is a native
   living off the land binary or script (LOLBAS) within the Windows operating system
   that may be abused by adversaries by moving it to a new directory. The list of binaries
-  was derived from the https://lolbas-project.github.io site.
+  was derived from the https://lolbas-project.github.io site. The specific default
+  filepath for the Aspnet_compiler.exe should be in "C:\Windows\Microsoft.NET\Framework\".
 search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = metadata.uid  |
   eval process_pid = process.pid | eval process_file = process.file | eval process_file_path
   = process_file.path | eval process_file_name = lower(process_file.name) | eval process_cmd_line
@@ -14,13 +16,13 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_file_name="aspnet_compiler.exe"
-  AND (NOT match(process_file_path, /(?i)\\windows\\microsoft.net\\framework64\\v4.0.30319/)=true)
+  AND (NOT match(process_file_path, /(?i)\\windows\\microsoft.net\\(framework|framework64)\\v[0-9]+\.[0-9]+\.[0-9]+\\/)=true)
   
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Windows Rename System Utilities Aspnet compiler exe LOLBAS in Non Standard Path has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Unusual Processes", "Living Off The Land"],
@@ -54,7 +56,7 @@ known_false_positives: False positives may be present and filtering may be requi
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
 - https://attack.mitre.org/techniques/T1036/003/
-- https://lolbas-project.github.io/
+- https://lolbas-project.github.io/lolbas/Binaries/Aspnet_Compiler/
 tags:
   required_fields:
   - process.pid

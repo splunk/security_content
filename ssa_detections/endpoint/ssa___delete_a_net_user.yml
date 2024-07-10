@@ -1,6 +1,6 @@
 name: Delete A Net User
 id: 8776d79c-d26e-11eb-9a56-acde48001122
-version: 4
+version: 8
 date: '2022-03-17'
 author: Teoderick Contreras, Splunk
 type: Anomaly
@@ -21,7 +21,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   | eval actor_process_file = actor_process.file | eval actor_process_file_path =
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where process_cmd_line LIKE "%user%"
-  AND process_cmd_line LIKE "%/delete%" AND (process_file_name="net.exe" OR process_file_name="net1.exe")
+  AND process_cmd_line LIKE "%/delete%" AND (process_file_name IN ("net.exe", "net1.exe"))
   --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
@@ -38,9 +38,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to delete a user
-    account.
   mitre_attack_id:
   - T1531
   observable:
@@ -62,6 +59,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to delete a user
+    account.
   product:
   - Splunk Behavioral Analytics
   required_fields:

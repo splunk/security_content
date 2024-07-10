@@ -13,7 +13,6 @@ references:
   - https://research.splunk.com/stories/proxyshell/
   - https://www.inversecos.com/2022/07/hunting-for-apt-abuse-of-exchange.html
 tags:
-  analytic_story: ProxyNotShell
   category:
   - Adversary Tactics
   product:

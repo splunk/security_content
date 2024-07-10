@@ -1,6 +1,6 @@
 name: Wevtutil Usage To Disable Logs
 id: a4bdc944-cdd9-11eb-ac97-acde48001122
-version: 2
+version: 5
 date: '2021-06-15'
 author: Teoderick Contreras, Splunk
 type: TTP
@@ -37,8 +37,6 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A wevtutil process $process_name$ with commandline $process$ to disable
-    event logs in host $dest_device_id$
   mitre_attack_id:
   - T1070
   - T1070.001
@@ -61,6 +59,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A wevtutil process $process_name$ with commandline $process$ to disable
+    event logs in host $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

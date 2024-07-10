@@ -1,6 +1,6 @@
 name: Windows Findstr GPP Discovery
 id: 73ed0f19-080e-4917-b7c6-56e1760a50d4
-version: 1
+version: 4
 date: '2023-05-02'
 author: Mauricio Velazco, Splunk
 type: TTP
@@ -42,7 +42,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Findstr was executed to discover GPP credentials on $dest$
   mitre_attack_id:
   - T1552
   - T1552.006
@@ -65,6 +64,7 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: Findstr was executed to discover GPP credentials on $dest$
   product:
   - Splunk Behavioral Analytics
   required_fields:

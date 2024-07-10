@@ -1,0 +1,63 @@
+name: CrushFTP Server Side Template Injection
+id: ccf6b7a3-bd39-4bc9-a949-143a8d640dbc
+version: 1
+date: '2024-05-16'
+author: Michael Haag, Splunk
+data_source: []
+type: TTP
+status: production
+description: This analytic is designed to identify attempts to exploit a server-side template injection vulnerability in CrushFTP, designated as CVE-2024-4040. This severe vulnerability enables unauthenticated remote attackers to access and read files beyond the VFS Sandbox, circumvent authentication protocols, and execute arbitrary commands on the affected server. The issue impacts all versions of CrushFTP up to 10.7.1 and 11.1.0 on all supported platforms. It is highly recommended to apply patches immediately to prevent unauthorized access to the system and avoid potential data compromises. The search specifically looks for patterns in the raw log data that match the exploitation attempts, including READ or WRITE actions, and extracts relevant information such as the protocol, session ID, user, IP address, HTTP method, and the URI queried. It then evaluates these logs to confirm traces of exploitation based on the presence of specific keywords and the originating IP address, counting and sorting these events for further analysis.
+search: '`crushftp`
+  | rex field=_raw "\[(?<protocol>HTTPS|HTTP):(?<session_id>[^\:]+):(?<user>[^\:]+):(?<src_ip>\d+\.\d+\.\d+\.\d+)\] (?<action>READ|WROTE): \*(?<http_method>[A-Z]+) (?<uri_query>[^\s]+) HTTP/[^\*]+\*"
+  | eval message=if(match(_raw, "INCLUDE") and isnotnull(src_ip), "traces of exploitation by " . src_ip, "false")
+  | search message!=false
+  | rename host as dest
+  | stats count by _time, dest, source, message, src_ip, http_method, uri_query, user, action
+  | sort -_time| `crushftp_server_side_template_injection_filter`'
+how_to_implement: CrushFTP Session logs, from Windows or Linux, must be ingested to Splunk. Currently, there is no TA for CrushFTP, so the data must be extracted from the raw logs. 
+known_false_positives: False positives should be limited, however tune or filter as needed.
+references:
+- https://github.com/airbus-cert/CVE-2024-4040
+- https://www.bleepingcomputer.com/news/security/crushftp-warns-users-to-patch-exploited-zero-day-immediately/
+tags:
+  analytic_story:
+  - CrushFTP Vulnerabilities
+  asset_type: Web Application
+  confidence: 80
+  impact: 80
+  message: Potential exploitation of CrushFTP Server Side Template Injection Vulnerability on $dest$ by $src_ip$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: IP Address
+    role:
+    - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - source
+  - src_ip
+  - http_method
+  - uri_query
+  - user
+  - action
+  - message
+  risk_score: 64
+  security_domain: network
+  cve:
+  - CVE-2024-4040
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp.log
+    sourcetype: crushftp:sessionlogs
+    source: crushftp

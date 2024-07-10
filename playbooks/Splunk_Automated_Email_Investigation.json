@@ -1,0 +1,1294 @@
+{
+  "blockly": false,
+  "blockly_xml": "<xml></xml>",
+  "category": "Phishing",
+  "coa": {
+    "data": {
+      "description": "Leverages Splunk technologies to determine if a .eml or .msg file in the vault is malicious, whether or not it contained suspect URLs or Files, and who may have interacted with the IoCs (email, URLs, or Files).",
+      "edges": [
+        {
+          "id": "port_0_to_port_3",
+          "sourceNode": "0",
+          "sourcePort": "0_out",
+          "targetNode": "3",
+          "targetPort": "3_in"
+        },
+        {
+          "id": "port_3_to_port_4",
+          "sourceNode": "3",
+          "sourcePort": "3_out",
+          "targetNode": "4",
+          "targetPort": "4_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_4_to_port_2",
+          "sourceNode": "4",
+          "sourcePort": "4_out",
+          "targetNode": "2",
+          "targetPort": "2_in"
+        },
+        {
+          "id": "port_2_to_port_14",
+          "sourceNode": "2",
+          "sourcePort": "2_out",
+          "targetNode": "14",
+          "targetPort": "14_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 1
+            }
+          ],
+          "id": "port_14_to_port_16",
+          "sourceNode": "14",
+          "sourcePort": "14_out",
+          "targetNode": "16",
+          "targetPort": "16_in"
+        },
+        {
+          "id": "port_7_to_port_16",
+          "sourceNode": "7",
+          "sourcePort": "7_out",
+          "targetNode": "16",
+          "targetPort": "16_in"
+        },
+        {
+          "id": "port_20_to_port_19",
+          "sourceNode": "20",
+          "sourcePort": "20_out",
+          "targetNode": "19",
+          "targetPort": "19_in"
+        },
+        {
+          "id": "port_21_to_port_1",
+          "sourceNode": "21",
+          "sourcePort": "21_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "id": "port_19_to_port_1",
+          "sourceNode": "19",
+          "sourcePort": "19_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_22_to_port_7",
+          "sourceNode": "22",
+          "sourcePort": "22_out",
+          "targetNode": "7",
+          "targetPort": "7_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 1
+            }
+          ],
+          "id": "port_22_to_port_23",
+          "sourceNode": "22",
+          "sourcePort": "22_out",
+          "targetNode": "23",
+          "targetPort": "23_in"
+        },
+        {
+          "id": "port_23_to_port_16",
+          "sourceNode": "23",
+          "sourcePort": "23_out",
+          "targetNode": "16",
+          "targetPort": "16_in"
+        },
+        {
+          "id": "port_24_to_port_22",
+          "sourceNode": "24",
+          "sourcePort": "24_out",
+          "targetNode": "22",
+          "targetPort": "22_in"
+        },
+        {
+          "id": "port_16_to_port_20",
+          "sourceNode": "16",
+          "sourcePort": "16_out",
+          "targetNode": "20",
+          "targetPort": "20_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 0
+            }
+          ],
+          "id": "port_14_to_port_24",
+          "sourceNode": "14",
+          "sourcePort": "14_out",
+          "targetNode": "24",
+          "targetPort": "24_in"
+        },
+        {
+          "id": "port_25_to_port_26",
+          "sourceNode": "25",
+          "sourcePort": "25_out",
+          "targetNode": "26",
+          "targetPort": "26_in"
+        },
+        {
+          "id": "port_26_to_port_1",
+          "sourceNode": "26",
+          "sourcePort": "26_out",
+          "targetNode": "1",
+          "targetPort": "1_in"
+        },
+        {
+          "id": "port_16_to_port_25",
+          "sourceNode": "16",
+          "sourcePort": "16_out",
+          "targetNode": "25",
+          "targetPort": "25_in"
+        },
+        {
+          "conditions": [
+            {
+              "index": 2
+            }
+          ],
+          "id": "port_14_to_port_27",
+          "sourceNode": "14",
+          "sourcePort": "14_out",
+          "targetNode": "27",
+          "targetPort": "27_in"
+        },
+        {
+          "id": "port_27_to_port_21",
+          "sourceNode": "27",
+          "sourcePort": "27_out",
+          "targetNode": "21",
+          "targetPort": "21_in"
+        }
+      ],
+      "hash": "f8687c0dc65bdfa081387f52282128e97f77b26b",
+      "nodes": {
+        "0": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_start",
+            "id": "0",
+            "type": "start"
+          },
+          "errors": {},
+          "id": "0",
+          "type": "start",
+          "warnings": {},
+          "x": 450,
+          "y": -5.755396159656812e-13
+        },
+        "1": {
+          "data": {
+            "advanced": {
+              "join": []
+            },
+            "functionName": "on_finish",
+            "id": "1",
+            "type": "end"
+          },
+          "errors": {},
+          "id": "1",
+          "type": "end",
+          "warnings": {},
+          "x": 340,
+          "y": 2040
+        },
+        "14": {
+          "data": {
+            "advanced": {
+              "customName": "high score indicator decision",
+              "customNameId": 0,
+              "join": [],
+              "note": "Determines which path to go based on the reputation score of the email and the presence of additional indicators."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": ">",
+                    "param": "splunk_attack_analyzer:playbook_output:observable.related_observables.*.reputation.score_id",
+                    "value": "5"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "malicious indicators exist",
+                "display": "If",
+                "logic": "and",
+                "type": "if"
+              },
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 1,
+                    "op": ">",
+                    "param": "splunk_attack_analyzer:playbook_output:observable.reputation.score_id",
+                    "value": "5"
+                  }
+                ],
+                "conditionIndex": 1,
+                "customName": "phish email",
+                "display": "Else If",
+                "logic": "and",
+                "type": "elif"
+              },
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 2,
+                    "op": "==",
+                    "param": "",
+                    "value": ""
+                  }
+                ],
+                "conditionIndex": 2,
+                "customName": "not high threat",
+                "display": "Else",
+                "logic": "and",
+                "type": "else"
+              }
+            ],
+            "customDatapaths": {
+              "splunk_attack_analyzer": {
+                "outputs:observable.related_observables": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "isDatapathArray": true,
+                  "label": "outputs:observable.related_observables",
+                  "value": "splunk_attack_analyzer:playbook_output:observable.related_observables"
+                },
+                "outputs:observable.related_observables.*.reputation": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "outputs:observable.related_observables.*.reputation",
+                  "value": "splunk_attack_analyzer:playbook_output:observable.related_observables.*.reputation"
+                },
+                "outputs:observable.related_observables.*.reputation.score_id": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "outputs:observable.related_observables.*.reputation.score_id",
+                  "value": "splunk_attack_analyzer:playbook_output:observable.related_observables.*.reputation.score_id"
+                },
+                "outputs:observable.reputation.score_id": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "outputs:observable.reputation.score_id",
+                  "value": "splunk_attack_analyzer:playbook_output:observable.reputation.score_id"
+                }
+              }
+            },
+            "functionId": 1,
+            "functionName": "high_score_indicator_decision",
+            "id": "14",
+            "type": "decision"
+          },
+          "errors": {},
+          "id": "14",
+          "type": "decision",
+          "warnings": {},
+          "x": 510,
+          "y": 654
+        },
+        "16": {
+          "data": {
+            "advanced": {
+              "customName": "who received email",
+              "customNameId": 0,
+              "join": [],
+              "notRequiredJoins": [
+                "who_interacted_with_urls",
+                "who_interacted_with_files"
+              ],
+              "scope": "all"
+            },
+            "customDatapaths": {
+              "artifacts": {
+                "artifact:*.cef.internetMessageId": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "artifact:*.cef.internetMessageId",
+                  "value": "artifact:*.cef.internetMessageId"
+                },
+                "artifact:*.cef.message-id": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "artifact:*.cef.message-id",
+                  "value": "artifact:*.cef.message-id"
+                }
+              }
+            },
+            "functionId": 1,
+            "functionName": "who_received_email",
+            "id": "16",
+            "inputs": {
+              "message_id": {
+                "datapaths": [
+                  "artifact:*.cef.emailHeaders.Message-ID"
+                ],
+                "deduplicate": false
+              },
+              "sender": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "subject": {
+                "datapaths": [],
+                "deduplicate": false
+              }
+            },
+            "playbookName": "Splunk_Message_Identifier_Activity_Analysis",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "16",
+          "type": "playbook",
+          "warnings": {},
+          "x": 520,
+          "y": 1522
+        },
+        "19": {
+          "data": {
+            "advanced": {
+              "customName": "add artifacts",
+              "customNameId": 0,
+              "join": [],
+              "note": "Add artifacts to the incident. Contains custom code to loop through the preceding custom code output properly."
+            },
+            "customFunction": {
+              "draftMode": false,
+              "name": "artifact_create",
+              "repoName": "community"
+            },
+            "functionId": 6,
+            "functionName": "add_artifacts",
+            "id": "19",
+            "selectMore": false,
+            "tab": "customFunctions",
+            "type": "utility",
+            "utilities": {
+              "artifact_create": {
+                "description": "Create a new artifact with the specified attributes. Supports all fields available in /rest/artifact. Add any unlisted inputs as dictionary keys in input_json. Unsupported keys will automatically be dropped.",
+                "fields": [
+                  {
+                    "dataTypes": [
+                      "phantom container id"
+                    ],
+                    "description": "Container which the artifact will be added to.",
+                    "inputType": "item",
+                    "label": "container",
+                    "name": "container",
+                    "placeholder": "container:id",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "The name of the new artifact, which is optional and defaults to \"artifact\".",
+                    "inputType": "item",
+                    "label": "name",
+                    "name": "name",
+                    "placeholder": "artifact",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "The label of the new artifact, which is optional and defaults to \"events\"",
+                    "inputType": "item",
+                    "label": "label",
+                    "name": "label",
+                    "placeholder": "events",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      ""
+                    ],
+                    "description": "The severity of the new artifact, which is optional and defaults to \"Medium\". Typically this is either \"High\", \"Medium\", or \"Low\".",
+                    "inputType": "item",
+                    "label": "severity",
+                    "name": "severity",
+                    "placeholder": "Medium",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "The name of the CEF field to populate in the artifact, such as \"destinationAddress\" or \"sourceDnsDomain\". Required only if cef_value is provided.",
+                    "inputType": "item",
+                    "label": "cef_field",
+                    "name": "cef_field",
+                    "placeholder": "destinationAddress",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "The value of the CEF field to populate in the artifact, such as the IP address, domain name, or file hash. Required only if cef_field is provided.",
+                    "inputType": "item",
+                    "label": "cef_value",
+                    "name": "cef_value",
+                    "placeholder": "192.0.2.192",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "The CEF data type of the data in cef_value. For example, this could be \"ip\", \"hash\", or \"domain\". Optional.",
+                    "inputType": "item",
+                    "label": "cef_data_type",
+                    "name": "cef_data_type",
+                    "placeholder": "ip",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "A comma-separated list of tags to apply to the created artifact, which is optional.",
+                    "inputType": "item",
+                    "label": "tags",
+                    "name": "tags",
+                    "placeholder": "tag1, tag2, tag3",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "Either \"true\" or \"false\", depending on whether or not the new artifact should trigger the execution of any playbooks that are set to active on the label of the container the artifact will be added to. Optional and defaults to \"false\".",
+                    "inputType": "item",
+                    "label": "run_automation",
+                    "name": "run_automation",
+                    "placeholder": "false",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [],
+                    "description": "Optional parameter to modify any extra attributes of the artifact. Input_json will be merged with other inputs. In the event of a conflict, input_json will take precedence.",
+                    "inputType": "item",
+                    "label": "input_json",
+                    "name": "input_json",
+                    "placeholder": "{\"source_data_identifier\": \"1234\", \"data\": \"5678\"}",
+                    "renderType": "datapath",
+                    "required": false
+                  }
+                ],
+                "label": "artifact_create",
+                "name": "artifact_create"
+              }
+            },
+            "utilityType": "custom_function",
+            "values": {
+              "artifact_create": {
+                "cef_data_type": null,
+                "cef_field": null,
+                "cef_value": null,
+                "container": "container:id",
+                "input_json": "convert_to_artifacts:custom_function:json",
+                "label": "",
+                "name": "",
+                "run_automation": null,
+                "severity": null,
+                "tags": null
+              }
+            }
+          },
+          "errors": {},
+          "id": "19",
+          "type": "utility",
+          "userCode": "\n    parameters = []\n    for artifact_json in convert_to_artifacts__json:\n\n        parameters.append({\n            \"name\": \"Interaction with phish indicators\",\n            \"tags\": None,\n            \"label\": None,\n            \"severity\": None,\n            \"cef_field\": None,\n            \"cef_value\": None,\n            \"container\": id_value,\n            \"input_json\": artifact_json,\n            \"cef_data_type\": None,\n            \"run_automation\": None,\n        })\n\n\n",
+          "warnings": {},
+          "x": 520,
+          "y": 1820
+        },
+        "2": {
+          "data": {
+            "advanced": {
+              "customName": "splunk attack analyzer",
+              "customNameId": 0,
+              "join": []
+            },
+            "functionId": 1,
+            "functionName": "splunk_attack_analyzer",
+            "id": "2",
+            "inputs": {
+              "url": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "vault_id": {
+                "datapaths": [
+                  "filtered-data:fiter_email_items:condition_1:get_emails_from_vault:custom_function_result.data.vault_id"
+                ],
+                "deduplicate": false
+              }
+            },
+            "playbookName": "Splunk_Attack_Analyzer_Dynamic_Analysis",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "2",
+          "type": "playbook",
+          "warnings": {},
+          "x": 430,
+          "y": 506
+        },
+        "20": {
+          "data": {
+            "advanced": {
+              "customName": "convert to artifacts",
+              "customNameId": 0,
+              "join": [],
+              "notRequiredJoins": [
+                "playbook_Splunk_Identifier_Activity_Analysis_1",
+                "playbook_Splunk_Message_Identifier_Activity_Analysis_1"
+              ],
+              "note": "Convert the output of the Playbooks into artifacts. Change labels and artifact structure as needed."
+            },
+            "customDatapaths": {
+              "who_received_email": {
+                "outputs:observable.message_identifier_activity": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "outputs:observable.message_identifier_activity",
+                  "value": "who_received_email:playbook_output:observable.message_identifier_activity"
+                }
+              }
+            },
+            "functionId": 2,
+            "functionName": "convert_to_artifacts",
+            "id": "20",
+            "inputParameters": [
+              "who_received_email:playbook_output:observable",
+              "who_interacted_with_urls:playbook_output:observable",
+              "who_interacted_with_files:playbook_output:observable",
+              "filtered-data:filter_malicious_indicators:condition_1:split_related_observables:custom_function_result.data.output",
+              "filtered-data:filter_malicious_indicators:condition_2:split_related_observables:custom_function_result.data.output",
+              "splunk_attack_analyzer:playbook_output:observable"
+            ],
+            "outputVariables": [
+              "json"
+            ],
+            "type": "code"
+          },
+          "errors": {},
+          "id": "20",
+          "type": "code",
+          "userCode": "    \n    aggregate_data__json = []\n    suspect_urls = filtered_cf_result_0_data_output\n    suspect_files = filtered_cf_result_1_data_output\n    suspect_emails = [item for item in splunk_attack_analyzer_output_observable_values if item]\n    url_activity_list = [item for item in who_interacted_with_urls_output_observable_values if item]\n    file_activity_list = [item for item in who_interacted_with_files_output_observable_values if item]\n    message_activity_list = [item for item in who_received_email_output_observable_values if item]\n    \n    # Change labels here based on desired artifact labeling.\n    # By default, the label is based on the vendor technology and IoC involved.\n    email_interaction_label = \"splunk_email_interaction\"\n    file_interaction_label = \"splunk_file_interaction\"\n    url_interaction_label = \"splunk_url_interaction\"\n    suspect_url_label = \"saa_url_report\"\n    suspect_file_label = \"saa_file_report\"\n    suspect_email_label = \"saa_email_report\"\n\n    for email in suspect_emails:\n        email.pop('related_observables', None)\n        artifact = {'cef': email, 'name': f'{email[\"source\"]} reputation', 'label': suspect_email_label, 'cef_types': {'value': [email['type']]} }\n        aggregate_data__json.append(artifact)  \n    \n    for url in suspect_urls:\n        artifact = {'cef': url, 'name': f'{url[\"source\"]} reputation', 'label': suspect_url_label, 'cef_types': {'value': [url['type']]}}\n        aggregate_data__json.append(artifact)  \n    \n    for file in suspect_files:\n        artifact = {'cef': file, 'name': f'{file[\"source\"]} reputation', 'label': suspect_file_label, 'cef_types': {'value': [file['type']]} }\n        aggregate_data__json.append(artifact)  \n\n    for message_activity in message_activity_list:\n        aggregate_data__json.append({'cef': message_activity, 'label': email_interaction_label, 'name': 'Received suspect email', 'cef_types': {'value': [message_activity['type']]}})\n        \n    for url_act in url_activity_list:\n        artifact = {'label': url_interaction_label, 'name': 'Interaction with suspect url', 'cef_types': {'value': [url_act['type']]}}\n        identifier_activity = url_act.pop('identifier_activity', [])\n        url_act.pop('total_count', None)\n        artifact['cef'] = url_act\n        # future proofing in case the identifier_activity changes type to dict\n        if isinstance(identifier_activity, list):\n            for item in identifier_activity:\n                sub_artifact = artifact.copy()\n                sub_artifact['cef']['identifier_activity'] = item\n                aggregate_data__json.append(sub_artifact)  \n        else:\n            artifact['cef']['identifier_activity'] = identifier_activity\n            aggregate_data__json.append(artifact) \n    \n    for file_act in file_activity_list:\n        artifact = {'label': file_interaction_label, 'name': 'Interaction with suspect file', 'cef_types': {'value': [file_act['type']]}}\n        identifier_activity = file_act.pop('identifier_activity', [])\n        file_act.pop('total_count', None)\n        artifact['cef'] = file_act\n        # future proofing in case the identifier_activity changes type to dict\n        if isinstance(identifier_activity, list):\n            for item in identifier_activity:\n                sub_artifact = artifact.copy()\n                sub_artifact['cef']['identifier_activity'] = item\n                aggregate_data__json.append(sub_artifact)  \n        else:\n            artifact['cef']['identifier_activity'] = identifier_activity\n            aggregate_data__json.append(artifact) \n        \n    convert_to_artifacts__json = aggregate_data__json\n",
+          "warnings": {},
+          "x": 520,
+          "y": 1670
+        },
+        "21": {
+          "data": {
+            "advanced": {
+              "customName": "add analysis note",
+              "customNameId": 0,
+              "join": [],
+              "note": "Adds a note from the dynamic analysis when the reputation score of the email is not high enough to be considered suspicious."
+            },
+            "functionId": 7,
+            "functionName": "add_analysis_note",
+            "id": "21",
+            "selectMore": false,
+            "tab": "apis",
+            "type": "utility",
+            "utilities": {
+              "add_note": {
+                "description": "",
+                "fields": [
+                  {
+                    "description": "",
+                    "label": "title",
+                    "name": "title",
+                    "placeholder": "Enter a note title",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "description": "",
+                    "label": "content",
+                    "name": "content",
+                    "placeholder": "Enter the note content",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "choices": [
+                      "markdown",
+                      "html"
+                    ],
+                    "default": "markdown",
+                    "description": "",
+                    "label": "note format",
+                    "name": "note_format",
+                    "placeholder": "Enter the note content",
+                    "renderType": "dropdown",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "container",
+                    "required": false
+                  },
+                  {
+                    "default": "general",
+                    "hidden": true,
+                    "name": "note_type",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "author",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "event_id",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "task_id",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "trace",
+                    "required": false
+                  }
+                ],
+                "label": "add note",
+                "name": "add_note"
+              }
+            },
+            "utilityType": "api",
+            "values": {
+              "add_note": {
+                "_internal": [
+                  "container",
+                  "note_type",
+                  "author",
+                  "event_id",
+                  "task_id",
+                  "trace"
+                ],
+                "content": "format_analyst_note:formatted_data",
+                "note_format": "markdown",
+                "note_type": "general",
+                "title": "Final analysis"
+              }
+            }
+          },
+          "errors": {},
+          "id": "21",
+          "type": "utility",
+          "userCode": "\n    \n",
+          "warnings": {},
+          "x": 0,
+          "y": 1818
+        },
+        "22": {
+          "data": {
+            "advanced": {
+              "customName": "filter malicious indicators",
+              "customNameId": 0,
+              "join": [],
+              "note": "Filters and creates two data sets, one for URLs greater than 5, and one for Files greater than 5."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "==",
+                    "param": "split_related_observables:custom_function_result.data.output.type",
+                    "value": "url"
+                  },
+                  {
+                    "conditionIndex": 0,
+                    "op": ">",
+                    "param": "split_related_observables:custom_function_result.data.output.reputation.score_id",
+                    "value": "5"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "urls",
+                "logic": "and"
+              },
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 1,
+                    "op": "==",
+                    "param": "split_related_observables:custom_function_result.data.output.type",
+                    "value": "file"
+                  },
+                  {
+                    "conditionIndex": 1,
+                    "op": ">",
+                    "param": "split_related_observables:custom_function_result.data.output.reputation.score_id",
+                    "value": "5"
+                  }
+                ],
+                "conditionIndex": 1,
+                "customName": "files",
+                "logic": "and"
+              }
+            ],
+            "customDatapaths": {
+              "split_related_observables": {
+                "data.output.reputation.score_id": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.reputation.score_id",
+                  "value": "split_related_observables:custom_function_result.data.output.reputation.score_id"
+                },
+                "data.output.type": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.type",
+                  "value": "split_related_observables:custom_function_result.data.output.type"
+                }
+              }
+            },
+            "functionId": 5,
+            "functionName": "filter_malicious_indicators",
+            "id": "22",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "22",
+          "type": "filter",
+          "warnings": {},
+          "x": 490,
+          "y": 1178
+        },
+        "23": {
+          "data": {
+            "advanced": {
+              "customName": "who interacted with files",
+              "customNameId": 0,
+              "join": []
+            },
+            "customDatapaths": {
+              "split_related_observables": {
+                "data.output.attributes": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.attributes",
+                  "value": "split_related_observables:custom_function_result.data.output.attributes"
+                },
+                "data.output.attributes.sha256": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.attributes.sha256",
+                  "value": "split_related_observables:custom_function_result.data.output.attributes.sha256"
+                },
+                "data.output.value": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.value",
+                  "value": "split_related_observables:custom_function_result.data.output.value"
+                }
+              }
+            },
+            "functionId": 1,
+            "functionName": "who_interacted_with_files",
+            "id": "23",
+            "inputs": {
+              "domain": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "file": {
+                "datapaths": [
+                  "split_related_observables:custom_function_result.data.output.attributes.sha256"
+                ],
+                "deduplicate": false
+              },
+              "ip": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "url": {
+                "datapaths": [],
+                "deduplicate": false
+              }
+            },
+            "playbookName": "Splunk_Identifier_Activity_Analysis",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "23",
+          "type": "playbook",
+          "warnings": {},
+          "x": 520,
+          "y": 1358
+        },
+        "24": {
+          "data": {
+            "advanced": {
+              "customName": "split related observables",
+              "customNameId": 0,
+              "join": [],
+              "note": "Converts the related observable array into custom function results that are filterable and callable downstream without custom code."
+            },
+            "customDatapaths": {
+              "splunk_attack_analyzer": {
+                "outputs:observable.related_observables": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "outputs:observable.related_observables",
+                  "value": "splunk_attack_analyzer:playbook_output:observable.related_observables"
+                }
+              }
+            },
+            "customFunction": {
+              "draftMode": false,
+              "name": "list_demux",
+              "repoName": "community"
+            },
+            "functionId": 2,
+            "functionName": "split_related_observables",
+            "id": "24",
+            "selectMore": false,
+            "type": "utility",
+            "utilities": {
+              "list_demux": {
+                "description": "Accepts a single list and converts it into multiple custom function output results. All output will be placed in the \"output\" datapath. Sub-items and sub-item variable names are dependent on the input.",
+                "fields": [
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "A list of objects. Nested lists are not unpacked.",
+                    "inputType": "item",
+                    "label": "input_list",
+                    "name": "input_list",
+                    "placeholder": "[\"list_item_1\", \"list_item_2\", \"list_item_3\"]",
+                    "renderType": "datapath",
+                    "required": false
+                  }
+                ],
+                "label": "list_demux",
+                "name": "list_demux"
+              }
+            },
+            "utilityType": "custom_function",
+            "values": {
+              "list_demux": {
+                "input_list": "splunk_attack_analyzer:playbook_output:observable.related_observables"
+              }
+            }
+          },
+          "errors": {},
+          "id": "24",
+          "type": "utility",
+          "warnings": {},
+          "x": 430,
+          "y": 1014
+        },
+        "25": {
+          "data": {
+            "advanced": {
+              "customName": "merge playbook reports",
+              "customNameId": 0,
+              "drop_none": true,
+              "join": [],
+              "note": "Loop through all of the playbook output markdown reports to generate a unified note, while dropping None."
+            },
+            "functionId": 1,
+            "functionName": "merge_playbook_reports",
+            "id": "25",
+            "parameters": [
+              "splunk_attack_analyzer:playbook_output:report",
+              "who_interacted_with_urls:playbook_output:markdown_report",
+              "who_interacted_with_files:playbook_output:markdown_report",
+              "who_received_email:playbook_output:markdown_report"
+            ],
+            "template": "%%\n{0}\n%%\n\n&nbsp;\n&nbsp;\n\n%%\n{1}\n%%\n\n&nbsp;\n&nbsp;\n\n%%\n{2}\n%%\n\n&nbsp;\n&nbsp;\n\n%%\n{3}\n%%",
+            "type": "format"
+          },
+          "errors": {},
+          "id": "25",
+          "type": "format",
+          "warnings": {},
+          "x": 840,
+          "y": 1660
+        },
+        "26": {
+          "data": {
+            "advanced": {
+              "join": [],
+              "note": "Add a note with all of the playbook outputs."
+            },
+            "functionId": 3,
+            "functionName": "add_note_3",
+            "id": "26",
+            "selectMore": false,
+            "tab": "apis",
+            "type": "utility",
+            "utilities": {
+              "add_note": {
+                "description": "",
+                "fields": [
+                  {
+                    "description": "",
+                    "label": "title",
+                    "name": "title",
+                    "placeholder": "Enter a note title",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "description": "",
+                    "label": "content",
+                    "name": "content",
+                    "placeholder": "Enter the note content",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "choices": [
+                      "markdown",
+                      "html"
+                    ],
+                    "default": "markdown",
+                    "description": "",
+                    "label": "note format",
+                    "name": "note_format",
+                    "placeholder": "Enter the note content",
+                    "renderType": "dropdown",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "container",
+                    "required": false
+                  },
+                  {
+                    "default": "general",
+                    "hidden": true,
+                    "name": "note_type",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "author",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "event_id",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "task_id",
+                    "required": false
+                  },
+                  {
+                    "hidden": true,
+                    "name": "trace",
+                    "required": false
+                  }
+                ],
+                "label": "add note",
+                "name": "add_note"
+              }
+            },
+            "utilityType": "api",
+            "values": {
+              "add_note": {
+                "_internal": [
+                  "container",
+                  "note_type",
+                  "author",
+                  "event_id",
+                  "task_id",
+                  "trace"
+                ],
+                "content": "merge_playbook_reports:formatted_data",
+                "note_format": "markdown",
+                "note_type": "general",
+                "title": "Analysis report"
+              }
+            }
+          },
+          "errors": {},
+          "id": "26",
+          "type": "utility",
+          "warnings": {},
+          "x": 840,
+          "y": 1820
+        },
+        "27": {
+          "data": {
+            "advanced": {
+              "customName": "format analyst note",
+              "customNameId": 0,
+              "drop_none": true,
+              "join": [],
+              "notRequiredJoins": [],
+              "note": "Loops through the markdown reports from the previous input playbook while dropping None."
+            },
+            "functionId": 2,
+            "functionName": "format_analyst_note",
+            "id": "27",
+            "parameters": [
+              "splunk_attack_analyzer:playbook_output:report"
+            ],
+            "template": "%%\n{0}\n%%\n",
+            "type": "format"
+          },
+          "errors": {},
+          "id": "27",
+          "type": "format",
+          "warnings": {},
+          "x": 0,
+          "y": 1620
+        },
+        "3": {
+          "data": {
+            "advanced": {
+              "customName": "get emails from vault",
+              "customNameId": 0,
+              "join": [],
+              "note": "This block lists all of the files from the vault so they can be filtered downstream."
+            },
+            "customFunction": {
+              "draftMode": false,
+              "name": "vault_list",
+              "repoName": "community"
+            },
+            "functionId": 1,
+            "functionName": "get_emails_from_vault",
+            "id": "3",
+            "selectMore": false,
+            "type": "utility",
+            "utilities": {
+              "vault_list": {
+                "description": "List all of the vault items based on the provided criteria such as a vault id, container id, and file name. If no inputs provided, it will default to current container. Returns a list of items. May return more variables than listed in outputs.",
+                "fields": [
+                  {
+                    "dataTypes": [
+                      "phantom container id"
+                    ],
+                    "description": "Optional parameter to filter vault items from this specific container. Defaults to current container if no inputs provided.",
+                    "inputType": "item",
+                    "label": "container_id",
+                    "name": "container_id",
+                    "placeholder": "container:id",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "vault id"
+                    ],
+                    "description": "Optional parameter to filter vault items matching this vault ID. Defaults to None.",
+                    "inputType": "item",
+                    "label": "vault_id",
+                    "name": "vault_id",
+                    "placeholder": "artifact:*.cef.vault_id",
+                    "renderType": "datapath",
+                    "required": false
+                  },
+                  {
+                    "dataTypes": [
+                      "*"
+                    ],
+                    "description": "Optional parameter to filter vault items matching this file name. Defaults to None.",
+                    "inputType": "item",
+                    "label": "file_name",
+                    "name": "file_name",
+                    "placeholder": "artifact:*.cef.file_name",
+                    "renderType": "datapath",
+                    "required": false
+                  }
+                ],
+                "label": "vault_list",
+                "name": "vault_list"
+              }
+            },
+            "utilityType": "custom_function",
+            "values": {
+              "vault_list": {
+                "container_id": null,
+                "file_name": null,
+                "vault_id": null
+              }
+            }
+          },
+          "errors": {},
+          "id": "3",
+          "type": "utility",
+          "warnings": {},
+          "x": 430,
+          "y": 148
+        },
+        "4": {
+          "data": {
+            "advanced": {
+              "customName": "fiter email items",
+              "customNameId": 0,
+              "join": [],
+              "note": "Filters on .eml or .msg vault items."
+            },
+            "conditions": [
+              {
+                "comparisons": [
+                  {
+                    "conditionIndex": 0,
+                    "op": "in",
+                    "param": ".eml",
+                    "value": "get_emails_from_vault:custom_function_result.data.file_name"
+                  },
+                  {
+                    "conditionIndex": 0,
+                    "op": "in",
+                    "param": ".msg",
+                    "value": "get_emails_from_vault:custom_function_result.data.file_name"
+                  }
+                ],
+                "conditionIndex": 0,
+                "customName": "email objects",
+                "logic": "or"
+              }
+            ],
+            "functionId": 1,
+            "functionName": "fiter_email_items",
+            "id": "4",
+            "type": "filter"
+          },
+          "errors": {},
+          "id": "4",
+          "type": "filter",
+          "warnings": {},
+          "x": 490,
+          "y": 326
+        },
+        "7": {
+          "data": {
+            "advanced": {
+              "customName": "who interacted with urls",
+              "customNameId": 0,
+              "join": []
+            },
+            "customDatapaths": {
+              "filter_2": {
+                "condition_1:related_observables:result.data.output.value": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "condition_1:related_observables:result.data.output.value",
+                  "value": "filtered-data:filter_2:condition_1:related_observables:custom_function_result.data.output.value"
+                }
+              },
+              "filter_malicious_indicators": {
+                "condition_1:split_related_observables:result.data.output.value": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "condition_1:split_related_observables:result.data.output.value",
+                  "value": "filtered-data:filter_malicious_indicators:condition_1:split_related_observables:custom_function_result.data.output.value"
+                }
+              },
+              "related_observables": {
+                "data.output.value": {
+                  "contains": [],
+                  "isCustomDatapath": true,
+                  "label": "data.output.value",
+                  "value": "related_observables:custom_function_result.data.output.value"
+                }
+              }
+            },
+            "functionId": 1,
+            "functionName": "who_interacted_with_urls",
+            "id": "7",
+            "inputs": {
+              "domain": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "file": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "ip": {
+                "datapaths": [],
+                "deduplicate": false
+              },
+              "url": {
+                "datapaths": [
+                  "filtered-data:filter_malicious_indicators:condition_1:split_related_observables:custom_function_result.data.output.value"
+                ],
+                "deduplicate": false
+              }
+            },
+            "playbookName": "Splunk_Identifier_Activity_Analysis",
+            "playbookRepo": 2,
+            "playbookRepoName": "local",
+            "playbookType": "data",
+            "synchronous": true,
+            "type": "playbook"
+          },
+          "errors": {},
+          "id": "7",
+          "type": "playbook",
+          "warnings": {},
+          "x": 180,
+          "y": 1358
+        }
+      },
+      "notes": "Ensure the four input playbooks are loaded onto the system. The input playbooks are designed to be swappable within the same category (e.g., Message Activity Analysis) with minimal to no changes downstream."
+    },
+    "input_spec": null,
+    "output_spec": null,
+    "playbook_type": "automation",
+    "python_version": "3",
+    "schema": "5.0.10",
+    "version": "6.1.1.211"
+  },
+  "create_time": "2023-12-14T16:26:50.722446+00:00",
+  "draft_mode": false,
+  "labels": [
+    "email"
+  ],
+  "tags": [
+    "D3-DA",
+    "D3-SRA"
+  ]
+}

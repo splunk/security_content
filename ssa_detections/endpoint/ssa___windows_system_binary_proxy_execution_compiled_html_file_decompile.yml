@@ -1,6 +1,6 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 11c32b19-05a6-48a8-ab28-18dbd9ec5d50
-version: 1
+version: 4
 date: '2022-09-02'
 author: Michael Haag, Splunk
 type: TTP
@@ -39,8 +39,6 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 100
-  message: $process_name$ has been identified using decompile against a CHM on $dest_device_id$
-    under user $dest_user_id$.
   mitre_attack_id:
   - T1218.001
   - T1218
@@ -63,6 +61,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: $process_name$ has been identified using decompile against a CHM on $dest_device_id$
+    under user $dest_user_id$.
   product:
   - Splunk Behavioral Analytics
   required_fields:

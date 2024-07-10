@@ -17,7 +17,7 @@ tags:
     - sandbox
     - ip
     - vault_id
-  playbook_type: Automatic
+  playbook_type: Automation
   vpe_type: Modern
   playbook_fields: []
   product:
@@ -26,4 +26,5 @@ tags:
   - Enrichment
   - Phishing
   - Endpoint
-  defend_technique_id: D3-DA
+  defend_technique_id: 
+  - D3-DA

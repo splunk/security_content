@@ -1,6 +1,6 @@
 name: Windows Odbcconf Load Response File
 id: 7b6c3fac-0c37-4efc-a85e-de88f42b6763
-version: 1
+version: 4
 date: '2022-09-15'
 author: Michael Haag, Splunk
 type: TTP
@@ -37,8 +37,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 60
-  message: $process_name$ has been identified on $dest_device_id$ under user $dest_user_id$
-    attempting to circumvent controls.
   mitre_attack_id:
   - T1218.008
   - T1218
@@ -61,6 +59,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: $process_name$ has been identified on $dest_device_id$ under user $dest_user_id$
+    attempting to circumvent controls.
   product:
   - Splunk Behavioral Analytics
   required_fields:

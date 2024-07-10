@@ -1,0 +1,3 @@
+definition: objectRef.name IN (*splunk*, *falco*)
+description: Define your images which are allowed to connect to your kubernetes cluster.
+name: kube_allowed_images

@@ -7,36 +7,43 @@ description: Detect and investigate suspected abuse of file extensions and Windo
   file associations. Some of the malicious behaviors involved may include inserting
   spaces before file extensions or prepending the file extension with a different
   one, among other techniques.
-narrative: "Attackers use a variety of techniques to entice users to run malicious\
-  \ code or to persist on an endpoint. One way to accomplish these goals is to leverage\
-  \ file extensions and the mechanism Windows uses to associate files with specific\
-  \ applications. \\\n Since its earliest days, Windows has used extensions to identify\
-  \ file types. Users have become familiar with these extensions and their application\
-  \ associations. For example, if users see that a file ends in `.doc` or `.docx`,\
-  \ they will assume that it is a Microsoft Word document and expect that double-clicking\
-  \ will open it using `winword.exe`. The user will typically also presume that the\
-  \ `.docx` file is safe. \\\n Attackers take advantage of this expectation by obfuscating\
-  \ the true file extension. They can accomplish this in a couple of ways. One technique\
-  \ involves inserting multiple spaces in the file name before the extension to hide\
-  \ the extension from the GUI, obscuring the true nature of the file. Another approach\
-  \ involves prepending the real extension with a different one. This is especially\
-  \ effective when Windows is configured to \"hide extensions for known file types.\"\
-  \ In this case, the real extension is not displayed, but the prepended one is, leading\
-  \ end users to believe the file is a different type than it actually is.\\\nChanging\
-  \ the association between a file extension and an application can allow an attacker\
-  \ to execute arbitrary code. The technique typically involves changing the association\
-  \ for an often-launched file type to associate instead with a malicious program\
-  \ the attacker has dropped on the endpoint. When the end user launches a file that\
-  \ has been manipulated in this way, it will execute the attacker's malware. It will\
-  \ also execute the application the end user expected to run, cleverly obscuring\
-  \ the fact that something suspicious has occurred.\\\nRun the searches in this story\
-  \ to detect and investigate suspicious behavior that may indicate abuse or manipulation\
-  \ of Windows file extensions and/or associations."
+narrative: "Attackers use a variety of techniques to entice users to run malicious
+  code or to persist on an endpoint. One way to accomplish these goals is to leverage
+  file extensions and the mechanism Windows uses to associate files with specific
+  applications.
+  
+  Since its earliest days, Windows has used extensions to identify
+  file types. Users have become familiar with these extensions and their application
+  associations. For example, if users see that a file ends in `.doc` or `.docx`,
+  they will assume that it is a Microsoft Word document and expect that double-clicking
+  will open it using `winword.exe`. The user will typically also presume that the
+  `.docx` file is safe.
+  
+  Attackers take advantage of this expectation by obfuscating
+  the true file extension. They can accomplish this in a couple of ways. One technique
+  involves inserting multiple spaces in the file name before the extension to hide
+  the extension from the GUI, obscuring the true nature of the file. Another approach
+  involves prepending the real extension with a different one. This is especially
+  effective when Windows is configured to \"hide extensions for known file types.\"
+  In this case, the real extension is not displayed, but the prepended one is, leading
+  end users to believe the file is a different type than it actually is.
+  
+  Changing
+  the association between a file extension and an application can allow an attacker
+  to execute arbitrary code. The technique typically involves changing the association
+  for an often-launched file type to associate instead with a malicious program
+  the attacker has dropped on the endpoint. When the end user launches a file that
+  has been manipulated in this way, it will execute the attacker's malware. It will
+  also execute the application the end user expected to run, cleverly obscuring
+  the fact that something suspicious has occurred.
+  
+  Run the searches in this story
+  to detect and investigate suspicious behavior that may indicate abuse or manipulation
+  of Windows file extensions and/or associations."
 references:
 - https://blog.malwarebytes.com/cybercrime/2013/12/file-extensions-2/
 - https://attack.mitre.org/wiki/Technique/T1042
 tags:
-  analytic_story: Windows File Extension and Association Abuse
   category:
   - Malware
   product:

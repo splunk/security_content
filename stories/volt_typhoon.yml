@@ -4,17 +4,20 @@ version: 1
 date: '2023-05-25'
 author: Teoderick Contreras, Splunk
 description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities that might relate to the "Volt Typhoon" group targeting critical infrastructure organizations in United States and Guam. The affected organizations include the communications, manufacturing, utility, transportation, construction, maritime, government, information technology, and education sectors. This Analytic story looks for suspicious process execution, lolbin execution, command-line activity, lsass dump and many more.
-narrative: Volt Typhoon is a state sponsored group typically focuses on espionage and information gathering.\
-  Based on Microsoft Threat Intelligence, This threat actor group puts strong emphasis on stealth in this campaign by relying almost exclusively on living-off-the-land techniques and hands-on-keyboard activity. \
-  They issue commands via the command line to :\
-  (1) collect data, including credentials from local and network systems, \
-  (2) put the data into an archive file to stage it for exfiltration, and then \
-  (3) use the stolen valid credentials to maintain persistence. \
-  In addition, Volt Typhoon tries to blend into normal network activity by routing traffic through compromised small office and home office (SOHO) network equipment, including routers, firewalls, and VPN hardware. They have also been observed using custom versions of open-source tools to establish a command and control (C2) channel over proxy to further stay under the radar.
+narrative: 'Volt Typhoon is a state sponsored group typically focuses on espionage and information gathering.
+  Based on Microsoft Threat Intelligence, This threat actor group puts strong emphasis on stealth in this campaign by relying almost exclusively on living-off-the-land techniques and hands-on-keyboard activity.
+
+  They issue commands via the command line to:
+  1. collect data, including credentials from local and network systems, 
+
+  2. put the data into an archive file to stage it for exfiltration, and then
+
+  3. use the stolen valid credentials to maintain persistence.
+
+  In addition, Volt Typhoon tries to blend into normal network activity by routing traffic through compromised small office and home office (SOHO) network equipment, including routers, firewalls, and VPN hardware. They have also been observed using custom versions of open-source tools to establish a command and control (C2) channel over proxy to further stay under the radar.'
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
-  analytic_story: Volt Typhoon
   category:
   - Data Destruction
   - Malware

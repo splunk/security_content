@@ -1,13 +1,21 @@
 name: O365 Disable MFA
 id: c783dd98-c703-4252-9e8a-f19d9f5c949e
-version: 1
-date: '2022-02-03'
+version: 3
+date: '2024-05-11'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search detects when multi factor authentication has been disabled,
-  what entitiy performed the action and against what user
-data_source: []
+description: The following analytic identifies instances where Multi-Factor Authentication
+  (MFA) is disabled for a user within the Office 365 environment. It leverages O365
+  audit logs, specifically focusing on events related to MFA settings. Disabling MFA
+  removes a critical security layer, making accounts more vulnerable to unauthorized
+  access. If confirmed malicious, this activity could indicate an attacker attempting
+  to maintain persistence or an insider threat, significantly increasing the risk
+  of unauthorized access. Immediate investigation is required to validate the reason
+  for disabling MFA, potentially re-enable it, and assess any other suspicious activities
+  related to the affected account.
+data_source:
+- O365 Disable Strong Authentication.
 search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
   count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
   UserId ResultStatus object | rename UserType AS user_type, Operation AS action,
@@ -21,8 +29,8 @@ references:
 - https://attack.mitre.org/techniques/T1556/
 tags:
   analytic_story:
-  - Office 365 Detections
-  asset_type: Office 365
+  - Office 365 Persistence Mechanisms
+  asset_type: O365 Tenant
   confidence: 80
   impact: 80
   message: User $src_user$ has executed an operation $action$ for user $user$
@@ -51,6 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
     sourcetype: o365:management:activity
     source: o365

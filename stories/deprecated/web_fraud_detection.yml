@@ -12,12 +12,12 @@ narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as
   are used to steal millions of dollars each year from victims and continue to plague
   the Internet through various methods. The agency includes phishing scams, data breaches,
   Denial of Service (DOS) attacks, email account compromise, malware, spoofing, and
-  ransomware in this category.\
+  ransomware in this category.
 
   These crimes are not the fraud itself, but rather the attack techniques commonly
   employed by fraudsters in their pursuit of data that enables them to commit malicious
   actssuch as obtaining and using stolen credit cards. They represent a serious problem
-  that is steadily increasing and not likely to go away anytime soon.\
+  that is steadily increasing and not likely to go away anytime soon.
 
   When developing a strategy for preventing fraud in your environment, its important
   to  look across all of your web services for evidence that attackers are abusing
@@ -25,16 +25,16 @@ narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as
   activity, or abuse terms of service.This Analytic Story looks for evidence of common
   Internet attack techniques that could be indicative of web fraud in your environmentincluding
   account harvesting, anomalous user clickspeed, and password sharing across accounts,
-  to name just a few.\
+  to name just a few.
 
   The account-harvesting search focuses on web pages used for user-account registration.
   It detects the creation of a large number of user accounts using the same email
-  domain name, a type of activity frequently seen in advance of a fraud campaign.\
+  domain name, a type of activity frequently seen in advance of a fraud campaign.
 
   The anomalous clickspeed search looks for users who are moving through your website
   at a faster-than-normal speed or with a perfect click cadence (high periodicity
   or low standard deviation), which could indicate that the user is a script, not
-  an actual human.\
+  an actual human.
 
   Another search detects incidents wherein a single password is used across multiple
   accounts, which may indicate that a fraudster has infiltrated your environment and
@@ -43,7 +43,6 @@ references:
 - https://www.fbi.gov/scams-and-safety/common-fraud-schemes/internet-fraud
 - https://www.fbi.gov/news/stories/2017-internet-crime-report-released-050718
 tags:
-  analytic_story: Web Fraud Detection
   category:
   - Abuse
   product:

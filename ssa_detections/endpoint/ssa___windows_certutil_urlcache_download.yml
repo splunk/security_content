@@ -1,6 +1,6 @@
 name: Windows CertUtil URLCache Download
 id: 8cb1ad38-8f6d-11ec-87a3-acde48001122
-version: 1
+version: 4
 date: '2022-02-16'
 author: Michael Haag, Splunk
 type: TTP
@@ -9,7 +9,8 @@ description: Certutil.exe may download a file from a remote destination using `-
   This behavior does require a URL to be passed on the command-line. In addition,
   `-f` (force) and `-split` (Split embedded ASN.1 elements, and save to files) will
   be used. It is not entirely common for `certutil.exe` to contact public IP space.
-  However, it is uncommon for `certutil.exe` to write files to world writeable paths.\
+  However, it is uncommon for `certutil.exe` to write files to world writeable paths.
+  
   During triage, capture any files on disk and review. Review the reputation of the
   remote IP or domain in question.
 data_source:
@@ -42,8 +43,6 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to download a file.
   mitre_attack_id:
   - T1105
   observable:
@@ -65,6 +64,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to download a file.
   product:
   - Splunk Behavioral Analytics
   required_fields:

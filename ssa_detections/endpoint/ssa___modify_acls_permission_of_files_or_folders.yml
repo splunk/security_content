@@ -1,6 +1,6 @@
 name: Modify ACLs Permission Of Files Or Folders
 id: 9ae9a48a-cdbe-11eb-875a-acde48001122
-version: 3
+version: 7
 date: '2022-03-17'
 author: Teoderick Contreras, Splunk
 type: Anomaly
@@ -22,8 +22,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   actor_process_file.path | eval actor_process_file_name = actor_process_file.name
   | eval device_hostname = device.hostname | where (match(process_cmd_line, /(?i)S-1-1-0:/)=true
   OR match(process_cmd_line, /(?i)SYSTEM:/)=true OR match(process_cmd_line, /(?i)everyone:/)=true)
-  AND (process_file_name="icacls.exe" OR process_file_name="xcacls.exe" OR process_file_name="cacls.exe")
-  --finding_report--'
+  AND (process_file_name IN ("icacls.exe", "xcacls.exe", "cacls.exe")) --finding_report--'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
@@ -38,8 +37,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: A cacls process $process_name$ with commandline $process$ try to modify
-    a permission of a file or directory in host $dest_device_id$
   mitre_attack_id:
   - T1222
   observable:
@@ -61,6 +58,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A cacls process $process_name$ with commandline $process$ try to modify
+    a permission of a file or directory in host $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

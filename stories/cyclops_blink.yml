@@ -1,7 +1,7 @@
-name: CyclopsBLink
+name: Cyclops Blink
 id: 7c75b1c8-dfff-46f1-8250-e58df91b6fd9
-version: 1
-date: '2022-04-07'
+version: 2
+date: '2024-03-14'
 author: Teoderick Contreras, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the cyclopsblink malware including firewall modification, spawning more process, botnet c2 communication, defense evasion and etc.
@@ -16,7 +16,6 @@ references:
 - https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
 tags:
-  analytic_story: Cyclops BLink
   category:
   - Malware
   product:

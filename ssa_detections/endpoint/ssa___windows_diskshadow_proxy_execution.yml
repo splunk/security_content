@@ -1,6 +1,6 @@
 name: Windows Diskshadow Proxy Execution
 id: aa502688-9037-11ec-842d-acde48001122
-version: 1
+version: 4
 date: '2022-02-17'
 author: Lou Stella, Splunk
 type: Anomaly
@@ -35,8 +35,6 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to run a script.
   mitre_attack_id:
   - T1218
   observable:
@@ -58,6 +56,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to run a script.
   product:
   - Splunk Behavioral Analytics
   required_fields:

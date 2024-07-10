@@ -1,6 +1,6 @@
 name: Fsutil Zeroing File
 id: f792cdc9-43ee-4429-a3c0-ffce4fed1a85
-version: 1
+version: 4
 date: '2021-12-07'
 author: Michael Haag, Splunk
 type: TTP
@@ -36,9 +36,6 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 60
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
-    deletion.
   mitre_attack_id:
   - T1070
   observable:
@@ -60,6 +57,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ atempting to perform file
+    deletion.
   product:
   - Splunk Behavioral Analytics
   required_fields:

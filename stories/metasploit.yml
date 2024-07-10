@@ -4,7 +4,7 @@ version: 1
 date: '2022-11-21'
 author: Michael Haag, Splunk
 description: The following analytic story highlights content related directly to MetaSploit, which may be default configurations attributed to MetaSploit or behaviors of known knowns that are related.
-narrative: 'The Metasploit framework is a very powerful tool which can be used by cybercriminals as well as ethical hackers to probe systematic vulnerabilities on networks and servers. Because it is an open-source framework, it can be easily customized and used with most operating systems.\
+narrative: 'The Metasploit framework is a very powerful tool which can be used by cybercriminals as well as ethical hackers to probe systematic vulnerabilities on networks and servers. Because it is an open-source framework, it can be easily customized and used with most operating systems.
 
 The Metasploit Project was undertaken in 2003 by H.D. Moore for use as a Perl-based portable network tool, with assistance from core developer Matt Miller. It was fully converted to Ruby by 2007, and the license was acquired by Rapid7 in 2009, where it remains as part of the Boston-based company repertoire of IDS signature development and targeted remote exploit, fuzzing, anti-forensic, and evasion tools.\ 
 
@@ -15,7 +15,6 @@ references:
   - https://github.com/rapid7/metasploit-framework
   - https://www.varonis.com/blog/what-is-metasploit
 tags:
-  analytic_story: MetaSploit
   category:
   - Adversary Tactics
   product:

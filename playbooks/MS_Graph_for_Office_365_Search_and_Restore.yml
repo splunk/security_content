@@ -1,0 +1,27 @@
+name: MS Graph for Office 365 Search and Restore
+id: 511236ad-a8c4-47ed-b631-928ab1dff71a
+version: 1
+date: '2024-02-15'
+author: Lou Stella, Splunk
+type: Response
+description: Accepts an Internet Message ID and an email mailbox, searches for the Message ID's presence in each mailbox's recoverable deleted items, and then restores the ones it finds. 
+playbook: MS_Graph_for_Office_365_Search_and_Restore
+how_to_implement: This input playbook requires the MS Graph for Office365 connector to be configured.  Careful attention should be paid to the documentation for this connector's required permissions.
+references: []
+app_list: 
+  - MS Graph for Office 365
+tags:
+  platform_tags:
+    - message_restore
+    - message_identifier_activity
+    - internet_message_id
+    - ms_graph_for_office_365
+  playbook_type: Automation
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+    - D3-RE

@@ -10,7 +10,6 @@ references:
   - https://www.bleepingcomputer.com/news/security/mfa-fatigue-hackers-new-favorite-tactic-in-high-profile-breaches/
   - https://www.csoonline.com/article/3674156/multi-factor-authentication-fatigue-attacks-are-on-the-rise-how-to-defend-against-them.html
 tags:
-  analytic_story: Okta MFA Exhaustion
   category: 
   - Adversary Tactics
   product:

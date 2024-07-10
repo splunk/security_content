@@ -1,0 +1,29 @@
+name: Snake Keylogger
+id: 0374f962-c66a-4a67-9a30-24b0708ef802
+version: 1
+date: '2024-02-12'
+author: Teoderick Contreras, Splunk
+description: SnakeKeylogger is a stealthy malware designed to secretly record keystrokes on infected devices. 
+  It operates covertly in the background, capturing sensitive information such as passwords and credit card details. 
+  This keylogging threat poses a significant risk to user privacy and security.
+narrative: SnakeKeylogger, a notorious malware, first emerged in the early 2010s, 
+  gaining infamy for its clandestine ability to capture keystrokes on compromised systems. 
+  As a stealthy threat, it infiltrates computers silently, recording every keystroke entered by users, 
+  including sensitive information like passwords and financial details. Over time, it has evolved to evade detection mechanisms,
+  posing a persistent threat to cybersecurity. Its widespread use in various cybercrime activities underscores its 
+  significance as a tool for espionage and data theft. Despite efforts to combat it, SnakeKeylogger continues to lurk in the shadows, 
+  perpetuating its malicious activities with devastating consequences.
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
+  - https://www.checkpoint.com/cyber-hub/threat-prevention/what-is-malware/snake-keylogger-malware/
+tags:
+  category: 
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

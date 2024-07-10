@@ -14,7 +14,6 @@ references:
   - https://www.elastic.co/security-labs/elastic-users-protected-from-suddenicon-supply-chain-attack
   - https://www.volexity.com/blog/2023/03/30/3cx-supply-chain-compromise-leads-to-iconic-incident/
 tags:
-  analytic_story: 3CX Supply Chain Attack
   cve:
   - CVE-2023-29059
   category:

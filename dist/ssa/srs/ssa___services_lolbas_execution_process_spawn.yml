@@ -1,7 +1,8 @@
 name: Services lolbas Execution Process Spawn
 id: 0d85fde3-0de9-4eec-b386-6a8ba70f3935
-version: 1
+version: 5
 status: validation
+detection_type: STREAMING
 description: The following analytic identifies services.exe spawning a LOLBAS execution
   process. When adversaries execute code on remote endpoints abusing the Service Control
   Manager and creating a remote malicious service, the executed command is spawned
@@ -30,9 +31,9 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   "verclsid.exe", "wab.exe", "wmic.exe", "wuauclt.exe", "xwizard.exe")) 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname},
+    evidence = {"process.pid": process_pid, "process.file.path": process_file_path, "process.file.name": process_file_name, "process.cmd_line": process_cmd_line, "actor.user.name": actor_user_name, "actor.process.pid": actor_process_pid, "actor.process.file.path": actor_process_file_path, "actor.process.file.name": actor_process_file_name, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Services lolbas Execution Process Spawn has been triggered on " + device_hostname + " by " + actor_user_name + ".",
-    users = [{"name": actor_user_name, "uid": actor_user.uid}],
+    users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
     cis_csc = [{"control": "CIS 10", "version": 8}], 
     analytic_stories = ["Suspicious Command-Line Executions", "Insider Threat"],

@@ -1,0 +1,26 @@
+name: MS Graph for Office 365 Message Identifier Activity Analysis
+id: 5292d6ad-e9c4-4bfd-b831-928ac1dff816
+version: 1
+date: '2024-02-03'
+author: Lou Stella, Splunk
+type: Investigation
+description: "Accepts an internet message id, and asks Microsoft for a list of users with mailboxes to search, and then searches each one to look for records that have a matching internet message id.  It then produces a normalized output and summary table."
+playbook: MS_Graph_for_Office_365_Message_Identifier_Activity_Analysis
+how_to_implement: This input playbook requires the MS Graph for Office 365 connector to be configured.  
+references: []
+app_list: 
+  - MS Graph for Office 365
+tags:
+  platform_tags:
+    - message_identifier_activity 
+    - internet_message_id
+    - ms_graph_for_o365
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+  - D3-IAA

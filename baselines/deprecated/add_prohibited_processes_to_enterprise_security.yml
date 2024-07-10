@@ -17,7 +17,7 @@ known_false_positives: none
 references: []
 tags:
   analytic_story:
-  - 'Emotet Malware  DHS Report TA18-201A '
+  - Emotet Malware DHS Report TA18-201A
   - Monitor for Unauthorized Software
   - SamSam Ransomware
   asset_type: Endpoint

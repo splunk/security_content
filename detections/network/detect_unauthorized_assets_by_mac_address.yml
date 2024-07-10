@@ -1,16 +1,18 @@
 name: Detect Unauthorized Assets by MAC address
 id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-version: 2
-date: '2017-09-13'
+version: 3
+date: '2024-05-10'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: By populating the organization's assets within the assets_by_str.csv,
-  we will be able to detect unauthorized devices that are trying to connect with the
-  organization's network by inspecting DHCP request packets, which are issued by devices
-  when they attempt to obtain an IP address from the DHCP server. The MAC address
-  associated with the source of the DHCP request is checked against the list of known
-  devices, and reports on those that are not found.
+description: The following analytic identifies unauthorized devices attempting to
+  connect to the organization's network by inspecting DHCP request packets. It detects
+  this activity by comparing the MAC addresses in DHCP requests against a list of
+  known authorized devices stored in the assets_by_str.csv file. This activity is
+  significant for a SOC because unauthorized devices can pose security risks, including
+  potential data breaches or network disruptions. If confirmed malicious, this activity
+  could allow an attacker to gain unauthorized network access, potentially leading
+  to further exploitation or data exfiltration.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
   where nodename=All_Sessions.DHCP All_Sessions.tag=dhcp by All_Sessions.dest_ip All_Sessions.dest_mac

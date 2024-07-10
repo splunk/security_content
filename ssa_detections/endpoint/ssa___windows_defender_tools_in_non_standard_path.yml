@@ -1,6 +1,6 @@
 name: Windows Defender Tools in Non Standard Path
 id: c205bd2e-cd5b-4224-8510-578a2a1f83d7
-version: 1
+version: 4
 date: '2022-07-18'
 author: Lou Stella, Splunk
 type: Anomaly
@@ -30,8 +30,6 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: Process $process_name$ with commandline $process$ spawn in non-default
-    folder path on host $dest_device_id$
   mitre_attack_id:
   - T1036
   - T1036.003
@@ -54,6 +52,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: Process $process_name$ with commandline $process$ spawn in non-default
+    folder path on host $dest_device_id$
   product:
   - Splunk Behavioral Analytics
   required_fields:

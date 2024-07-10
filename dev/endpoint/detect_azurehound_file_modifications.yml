@@ -31,7 +31,7 @@ known_false_positives: False positives should be limited as the analytic is spec
   to a filename with extension .zip. Filter as needed.
 references:
 - https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
-- https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/AzureHound.ps1
+- https://github.com/BloodHoundAD/Legacy-AzureHound.ps1/blob/master/AzureHound.ps1
 tags:
   analytic_story:
   - Discovery Techniques

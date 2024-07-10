@@ -1,6 +1,6 @@
 name: Windows Ingress Tool Transfer Using Explorer
 id: 695bfad6-9662-4f9e-a576-bf02a951aa60
-version: 1
+version: 4
 date: '2022-09-13'
 author: Michael Haag, Splunk
 type: TTP
@@ -37,9 +37,6 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to access a remote
-    destination to download an additional payload.
   mitre_attack_id:
   - T1105
   observable:
@@ -61,6 +58,9 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest_device_id$ by user $dest_user_id$ attempting to access a remote
+    destination to download an additional payload.
   product:
   - Splunk Behavioral Analytics
   required_fields:

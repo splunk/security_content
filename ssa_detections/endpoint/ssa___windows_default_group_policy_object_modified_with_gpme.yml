@@ -1,6 +1,6 @@
 name: Windows Default Group Policy Object Modified with GPME
 id: bcb55c13-067b-4648-98f3-627010f72520
-version: 1
+version: 5
 date: '2023-05-02'
 author: Mauricio Velazco, Splunk
 type: TTP
@@ -45,8 +45,6 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 100
-  message: A default group policy object was opened with Group Policy Manage Editor
-    on $dest$
   mitre_attack_id:
   - T1484
   - T1484.001
@@ -69,6 +67,8 @@ tags:
     type: File Name
   - name: device.hostname
     type: Hostname
+  message: A default group policy object was opened with Group Policy Manage Editor
+    on $dest$
   product:
   - Splunk Behavioral Analytics
   required_fields:

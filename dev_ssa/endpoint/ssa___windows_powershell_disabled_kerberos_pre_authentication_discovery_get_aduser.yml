@@ -1,6 +1,6 @@
 name: Windows PowerShell Disabled Kerberos Pre-Authentication Discovery Get-ADUser
 id: d57b4d91-fc91-4482-a325-47693cced1eb
-version: 1
+version: 4
 date: '2022-11-14'
 author: Michael Haag, Splunk
 status: production

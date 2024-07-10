@@ -13,7 +13,6 @@ references:
 - https://www.welivesecurity.com/wp-content/uploads/2021/01/ESET_Kobalos.pdf
 - https://researchcenter.paloaltonetworks.com/2018/09/unit42-xbash-combines-botnet-ransomware-coinmining-worm-targets-linux-windows/
 tags:
-  analytic_story: Network Discovery
   category:
   - Malware
   product:

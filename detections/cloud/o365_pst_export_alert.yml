@@ -1,14 +1,21 @@
 name: O365 PST export alert
 id: 5f694cc4-a678-4a60-9410-bffca1b647dc
-version: 1
-date: '2020-12-16'
+version: 3
+date: '2024-05-16'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: This search detects when a user has performed an Ediscovery search or
-  exported a PST file from the search. This PST file usually has sensitive information
-  including email body content
-data_source: []
+description: The following analytic detects instances where a user has initiated an
+  eDiscovery search or exported a PST file in an Office 365 environment. It leverages
+  Office 365 management activity logs, specifically filtering for events under ThreatManagement
+  with the name "eDiscovery search started or exported." This activity is significant
+  as it may indicate data exfiltration attempts or unauthorized access to sensitive
+  information. If confirmed malicious, it suggests an attacker or insider threat is
+  attempting to gather or exfiltrate data, potentially leading to data breaches, loss
+  of intellectual property, or unauthorized access to confidential communications.
+  Immediate investigation is required.
+data_source:
+- O365
 search: '`o365_management_activity` Category=ThreatManagement Name="eDiscovery search
   started or exported" | stats count earliest(_time) as firstTime latest(_time) as
   lastTime by Source Severity AlertEntityId Operation Name |`security_content_ctime(firstTime)`
@@ -21,9 +28,9 @@ references:
 - https://attack.mitre.org/techniques/T1114/
 tags:
   analytic_story:
-  - Office 365 Detections
+  - Office 365 Collection Techniques
   - Data Exfiltration
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $Source$ has exported a PST file from the search using this operation-
@@ -34,7 +41,7 @@ tags:
   - name: Source
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -52,6 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_export_pst_file/o365_export_pst_file.json
     sourcetype: o365:management:activity
     source: o365

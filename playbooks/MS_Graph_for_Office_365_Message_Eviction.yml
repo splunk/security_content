@@ -1,0 +1,26 @@
+name: MS Graph for Office 365 Message Eviction
+id: 5299d6dd-e9c4-4bfd-b031-928acd1ff816
+version: 1
+date: '2024-01-21'
+author: Lou Stella, Splunk
+type: Response
+description: Accepts message ID that needs to be evicted from provided email mailbox in Microsoft Office365. Generates an observable output based on the status of message eviction.
+playbook: MS_Graph_for_Office_365_Message_Eviction
+how_to_implement: This input playbook requires the MS Graph for Office 365 connector to be configured.  
+references: []
+app_list: 
+  - MS Graph for Office 365
+tags:
+  platform_tags:
+    - message_eviction 
+    - internet_message_id
+    - ms_graph_for_o365
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: []
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Phishing
+  defend_technique_id: 
+  - D3-ER
