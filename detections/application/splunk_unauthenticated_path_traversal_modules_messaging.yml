@@ -1,0 +1,57 @@
+name: Splunk Unauthenticated Path Traversal Modules Messaging
+id: e7c2b064-524e-4d65-8002-efce808567aa
+version: 1
+date: '2024-07-01'
+author: Rod Soto, Chase Franklin
+status: production
+type: Hunting
+data_source:
+- Splunk
+description: This hunting search provides information on exploitation attempts against /modules/messaging endpoint, the exploit can be clearly seen as the ../ which signals an attempt to traverse target directories.
+search: '`splunkd_web` method=GET uri_path="/*/modules/messaging/*..*" 
+  | stats min(_time) as firstTime max(_time) as lastTime values(method) as method values(uri_path) as uri_path by host 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `splunk_unauthenticated_path_traversal_modules_messaging_filter`'
+how_to_implement: Only applies to Microsoft Windows installations of Splunk.
+known_false_positives: May catch other exploitation attempts using path traversal related characters. 
+references:
+- https://advisory.splunk.com/SVD-2024-0711 
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  impact: 20
+  kill_chain_phases:
+  - Exploitation
+  message: Possible directory traversal attack against $host$
+  mitre_attack_id:
+  - T1083
+  nist:
+  - DE.CM
+  observable:
+  - name: host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  required_fields:
+  - method
+  - uri_path
+  - host 
+  risk_score: 20
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/splunk/SVD-2024-0711_web_access_splunk_web_access.log
+    source: C:\\Program Files\\Splunk\\var\\log\\splunk\\web_access.log
+    sourcetype: splunk_web_access
+    custom_index: _internal
+

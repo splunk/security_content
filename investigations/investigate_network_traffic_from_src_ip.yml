@@ -16,7 +16,6 @@ references: []
 tags:
   analytic_story:
   - ColdRoot MacOS RAT
-  - Splunk Enterprise Vulnerability CVE-2018-11409
   cve:
   - CVE-2018-11409
   product:

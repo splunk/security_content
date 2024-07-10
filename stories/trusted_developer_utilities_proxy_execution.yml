@@ -10,7 +10,7 @@ narrative: 'Adversaries may take advantage of trusted developer utilities to pro
   related tasks that can be used to execute code in various forms to assist in development,
   debugging, and reverse engineering. These utilities may often be signed with legitimate
   certificates that allow them to execute on a system and proxy execution of malicious
-  code through a trusted process that effectively bypasses application control solutions.\
+  code through a trusted process that effectively bypasses application control solutions.
 
   The searches in this story help you detect and investigate suspicious activity that
   may indicate that an adversary is leveraging microsoft.workflow.compiler.exe to
@@ -20,7 +20,6 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/T1218.md
 - https://lolbas-project.github.io/lolbas/Binaries/Microsoft.Workflow.Compiler/
 tags:
-  analytic_story: Trusted Developer Utilities Proxy Execution
   category:
   - Adversary Tactics
   product:

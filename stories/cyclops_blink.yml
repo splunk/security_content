@@ -16,7 +16,6 @@ references:
 - https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html
 tags:
-  analytic_story: Cyclops Blink
   category:
   - Malware
   product:

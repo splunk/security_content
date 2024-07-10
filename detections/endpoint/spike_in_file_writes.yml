@@ -1,21 +1,26 @@
 name: Spike in File Writes
 id: fdb0f805-74e4-4539-8c00-618927333aae
-version: 3
-date: '2020-03-16'
+version: 4
+date: '2024-05-16'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: The search looks for a sharp increase in the number of files written
-  to a particular host
+description: The following analytic detects a sharp increase in the number of files
+  written to a specific host. It leverages the Endpoint.Filesystem data model, focusing
+  on 'created' actions and comparing current file write counts against historical
+  averages and standard deviations. This activity is significant as a sudden spike
+  in file writes can indicate malicious activities such as ransomware encryption or
+  data exfiltration. If confirmed malicious, this behavior could lead to significant
+  data loss, system compromise, or further propagation of malware within the network.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
   where Filesystem.action=created by _time span=1h, Filesystem.dest | `drop_dm_object_name(Filesystem)`
   | eventstats max(_time) as maxtime | stats count as num_data_samples max(eval(if(_time
   >= relative_time(maxtime, "-1d@d"), count, null))) as "count" avg(eval(if(_time<relative_time(maxtime,
   "-1d@d"), count,null))) as avg stdev(eval(if(_time<relative_time(maxtime, "-1d@d"),
   count, null))) as stdev by "dest" | eval upperBound=(avg+stdev*4), isOutlier=if((count
-  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter` '
+  > upperBound) AND num_data_samples >=20, 1, 0) | search isOutlier=1 | `spike_in_file_writes_filter`'
 how_to_implement: In order to implement this search, you must populate the Endpoint
   file-system data model node. This is typically populated via endpoint detection
   and response product, such as Carbon Black or endpoint data sources such as Sysmon.

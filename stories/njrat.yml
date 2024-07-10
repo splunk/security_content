@@ -16,7 +16,6 @@ references:
   - https://www.checkpoint.com/cyber-hub/threat-prevention/what-is-malware/what-is-njrat-malware/#:~:text=NJRat%20%E2%80%94%20also%20known%20as%20Bladabindi,malware%20variant%20in%20March%202023.
   - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
 tags:
-  analytic_story: NjRAT
   category:
   - Malware
   product:

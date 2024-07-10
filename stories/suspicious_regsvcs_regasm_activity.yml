@@ -16,7 +16,6 @@ references:
 - https://github.com/rapid7/metasploit-framework/blob/master/documentation/modules/evasion/windows/applocker_evasion_regasm_regsvcs.md
 - https://oddvar.moe/2017/12/13/applocker-case-study-how-insecure-is-it-really-part-1/
 tags:
-  analytic_story: Suspicious Regsvcs Regasm Activity
   category:
   - Adversary Tactics
   product:

@@ -9,14 +9,14 @@ narrative: 'Adversaries may abuse Compiled HTML files (.chm) to conceal maliciou
   CHM files are compressed compilations of various content such as HTML documents,
   images, and scripting/web related programming languages such VBA, JScript, Java,
   and ActiveX. CHM content is displayed using underlying components of the Internet
-  Explorer browser loaded by the HTML Help executable program (hh.exe). \
+  Explorer browser loaded by the HTML Help executable program (hh.exe). 
 
   HH.exe relies upon hhctrl.ocx to load CHM topics.This will load upon execution of
-  a chm file. \
+  a chm file. 
 
   During investigation, review all parallel processes and child processes. It is possible
   for file modification events to occur and it is best to capture the CHM file and
-  decompile it for further analysis. \
+  decompile it for further analysis. 
 
   Upon usage of InfoTech Storage Handlers, ms-its, its, mk, itss.dll will load.'
 references:
@@ -24,7 +24,6 @@ references:
 - https://attack.mitre.org/techniques/T1218/001/
 - https://docs.microsoft.com/en-us/windows/win32/api/htmlhelp/nf-htmlhelp-htmlhelpa
 tags:
-  analytic_story: Suspicious Compiled HTML Activity
   category:
   - Adversary Tactics
   product:

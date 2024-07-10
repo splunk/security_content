@@ -1,0 +1,56 @@
+name: Splunk Unauthorized Notification Input by User
+id: 4b7f368f-4322-47f8-8363-2c466f0b7030
+version: 1
+date: '2024-07-01'
+author: Rod Soto
+status: experimental
+type: Hunting
+data_source:
+- Splunk
+description: This hunting search provides information to track possible exploitation of a lower privilege user able to push notifications that may include malicious code as notifications for all users in Splunk. 
+search: '| rest /services/messages | table title message severity timeCreated_iso published splunk_server author | `splunk_unauthorized_notification_input_by_user_filter`'
+how_to_implement: Requires access to Splunk rest data. 
+known_false_positives: This search will produce false positives which may include benign notifications from other Splunk entities, attention to suspicious or anomalous elements in notifications helps identify actual exploitation of this vulnerability.   
+references:
+- https://advisory.splunk.com/advisories/SVD-2024-0709
+cve:
+- CVE-2023-33733
+tags:
+  analytic_story:
+  - Splunk Vulnerabilities
+  asset_type: Splunk Server
+  cis20:
+  - CIS 3
+  - CIS 5
+  - CIS 16
+  confidence: 100
+  impact: 20
+  kill_chain_phases:
+  - Exploitation
+  message: Please review messages at $splunk_server for possible unauthorized notification input. 
+  mitre_attack_id:
+  - T1548
+  nist:
+  - DE.CM
+  observable:
+  - name: splunk_server
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  required_fields:
+  - message
+  - title
+  - splunk_server
+  - author
+  risk_score: 12
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/splunk/SVD-2024-0709_json_json.json
+    source: _json
+    sourcetype: _json
+    custom_index: _internal
+

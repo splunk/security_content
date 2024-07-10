@@ -13,7 +13,6 @@ narrative: AWS Security Hub collects and consolidates findings from AWS security
 references:
 - https://aws.amazon.com/security-hub/features/
 tags:
-  analytic_story: AWS Security Hub Alerts
   category:
   - Cloud Security
   product:

@@ -1,18 +1,17 @@
 name: Detect Risky SPL using Pretrained ML Model
 id: b4aefb5f-1037-410d-a149-1e091288ba33
-version: 1
-date: '2022-06-16'
+version: 2
+date: '2024-05-26'
 author: Abhinav Mishra, Kumar Sharad, Namratha Sreekanta and Xiao Lin, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic uses a pretrained machine learning text classifier
-  to detect potentially risky commands. The model is trained independently and then
-  the model file is packaged within ESCU for usage. A command is deemed risky based
-  on the presence of certain trigger keywords, along with the context and the role
-  of the user (please see references). The model uses custom features to predict whether
-  a SPL is risky using text classification. The model takes as input the command text,
-  user and search type and outputs a risk score between [0,1]. A high score indicates
-  higher likelihood of a command being risky. This model is on-prem only.
+description: The following analytic identifies potentially risky SPL commands executed
+  by users. It leverages a pretrained machine learning text classifier that analyzes
+  command text, user, and search type to assign a risk score between 0 and 1. This
+  detection is significant as it helps identify suspicious or unauthorized search
+  activities that could indicate malicious intent or misuse of the Splunk environment.
+  If confirmed malicious, such activity could lead to unauthorized data access, data
+  exfiltration, or further exploitation of the system.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Splunk_Audit.Search_Activity where Search_Activity.search_type=adhoc
@@ -62,7 +61,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
+  - data: 
+      https://github.com/splunk/attack_data/raw/master/datasets/attack_techniques/T1203/search_activity.txt
     source: audittrail
     sourcetype: audittrail
     update_timestamp: true

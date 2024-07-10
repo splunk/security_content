@@ -1,0 +1,3 @@
+definition: "true"
+description: Used inside security_content_summariesonly to adjust the allow_old_summaries configuration 
+name: oldsummaries_config

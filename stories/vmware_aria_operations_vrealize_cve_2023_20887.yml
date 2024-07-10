@@ -4,13 +4,13 @@ version: 1
 date: '2023-06-21'
 author: Michael Haag, Splunk
 description: CVE-2023-20887 is a critical vulnerability affecting VMware's vRealize Network Insight (also known as VMware Aria Operations for Networks). It allows a remote, unauthenticated attacker to execute arbitrary commands with root privileges via the Apache Thrift RPC interface. The exploit, which has a severity score of 9.8, targets an endpoint ("/saas./resttosaasservlet") in the application and delivers a malicious payload designed to create a reverse shell, granting the attacker control over the system. VMware has released an advisory recommending users to update to the latest version to mitigate this threat.
-narrative: CVE-2023-20887 is a highly critical vulnerability found in VMware's vRealize Network Insight. This software is widely used for intelligent operations management across physical, virtual, and cloud environments, so a vulnerability in it poses a significant risk to many organizations.\
+narrative: CVE-2023-20887 is a highly critical vulnerability found in VMware's vRealize Network Insight. This software is widely used for intelligent operations management across physical, virtual, and cloud environments, so a vulnerability in it poses a significant risk to many organizations.
 
-  This particular vulnerability lies in the application's Apache Thrift RPC interface. The exploit allows an attacker to inject commands that are executed with root privileges, leading to a potential total compromise of the system. The attacker does not need to be authenticated, which further increases the risk posed by this vulnerability.\
+  This particular vulnerability lies in the application's Apache Thrift RPC interface. The exploit allows an attacker to inject commands that are executed with root privileges, leading to a potential total compromise of the system. The attacker does not need to be authenticated, which further increases the risk posed by this vulnerability.
 
-  The exploit operates by sending a specially crafted payload to the "/saas./resttosaasservlet" endpoint. This payload contains a reverse shell command, which, when executed, allows the attacker to remotely control the victim's system. This control is obtained at the root level, providing the attacker with the ability to perform any action on the system.\
+  The exploit operates by sending a specially crafted payload to the "/saas./resttosaasservlet" endpoint. This payload contains a reverse shell command, which, when executed, allows the attacker to remotely control the victim's system. This control is obtained at the root level, providing the attacker with the ability to perform any action on the system.
 
-  What makes this vulnerability particularly dangerous is its high severity score of 9.8, indicating it is a critical threat. It's also noteworthy that the exploitation of this vulnerability leaves specific indicators such as abnormal traffic to the "/saas./resttosaasservlet" endpoint and suspicious ncat commands in network traffic, which can help in its detection.\
+  What makes this vulnerability particularly dangerous is its high severity score of 9.8, indicating it is a critical threat. It's also noteworthy that the exploitation of this vulnerability leaves specific indicators such as abnormal traffic to the "/saas./resttosaasservlet" endpoint and suspicious ncat commands in network traffic, which can help in its detection.
 
   VMware has acknowledged the vulnerability and has published a security advisory recommending that users update to the latest version of the software. This update effectively patches the vulnerability and protects systems from this exploit. It's crucial that all users of the affected versions of VMware's vRealize Network Insight promptly apply the update to mitigate the risk posed by CVE-2023-20887.
 references:
@@ -19,7 +19,6 @@ references:
 - https://viz.greynoise.io/tag/VMware-aria-operations-for-networks-rce-attempt?days=30
 - https://github.com/sinsinology/CVE-2023-20887
 tags:
-  analytic_story: VMware Aria Operations vRealize CVE-2023-20887
   category:
   - Adversary Tactics
   product:

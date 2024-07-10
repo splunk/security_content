@@ -24,7 +24,7 @@ references:
 - https://attack.mitre.org/software/S0521/
 - https://github.com/BloodHoundAD/BloodHound/tree/master/Collectors
 - https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
-- https://github.com/BloodHoundAD/BloodHound/blob/master/Collectors/AzureHound.ps1
+- https://github.com/BloodHoundAD/Legacy-AzureHound.ps1/blob/master/AzureHound.ps1
 tags:
   analytic_story:
   - Discovery Techniques
