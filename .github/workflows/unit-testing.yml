@@ -12,7 +12,7 @@ jobs:
         - name: Check out the repository code
           uses: actions/checkout@v4
           with:
-            repository: 'https://github.com/splunk/security_content'
+            repository: 'splunk/security_content'
             ref: ${{ github.base_ref }}
           
 
