@@ -13,7 +13,7 @@ app:
 enrichments: false
 build_app: true
 build_api: true
-build_ssa: true
+build_ssa: false
 build_path: dist
 test_instance:
   splunk_app_username: admin
