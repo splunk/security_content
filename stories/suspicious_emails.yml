@@ -9,14 +9,14 @@ description: Email remains one of the primary means for attackers to gain an ini
 narrative: 'It is a common practice for attackers of all types to leverage targeted
   spearphishing campaigns and mass mailers to deliver weaponized email messages and
   attachments. Fortunately, there are a number of ways to monitor email data in Splunk
-  to detect suspicious content.\
+  to detect suspicious content.
 
   Once a phishing message has been detected, the next steps are to answer the following
-  questions: \
+  questions: 
 
-  1. Which users have received this or a similar message in the past?\
+  1. Which users have received this or a similar message in the past?
 
-  1. When did the targeted campaign begin?\
+  1. When did the targeted campaign begin?
 
   1. Have any users interacted with the content of the messages (by downloading an
   attachment or clicking on a malicious URL)?This Analytic Story provides detection
@@ -25,7 +25,6 @@ narrative: 'It is a common practice for attackers of all types to leverage targe
 references:
 - https://www.splunk.com/blog/2015/06/26/phishing-hits-a-new-level-of-quality/
 tags:
-  analytic_story: Suspicious Emails
   category:
   - Adversary Tactics
   product:

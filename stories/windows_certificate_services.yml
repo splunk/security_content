@@ -8,7 +8,6 @@ narrative: The following analytic story focuses on remote and local endpoint cer
 references:
   - https://attack.mitre.org/techniques/T1649/
 tags:
-  analytic_story: Windows Certificate Services
   category:
   - Adversary Tactics
   product:

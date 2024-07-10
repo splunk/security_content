@@ -1,13 +1,18 @@
 name: aws detect sts assume role abuse
 id: 8e565314-b6a2-46d8-9f05-1a34a176a662
-version: 1
-date: '2020-07-27'
+version: 2
+date: '2024-05-20'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: This search provides detection of suspicious use of sts:AssumeRole. These
-  tokens can be created on the go and used by attackers to move laterally and escalate
-  privileges.
+description: The following analytic identifies suspicious use of the AWS STS AssumeRole
+  action. It leverages AWS CloudTrail logs to detect instances where roles are assumed,
+  focusing on specific fields like source IP address, user ARN, and role names. This
+  activity is significant because attackers can use assumed roles to move laterally
+  within the AWS environment and escalate privileges. If confirmed malicious, this
+  could allow attackers to gain unauthorized access to sensitive resources, execute
+  code, or further entrench themselves within the environment, leading to potential
+  data breaches or service disruptions.
 data_source: []
 search: '`cloudtrail` user_type=AssumedRole userIdentity.sessionContext.sessionIssuer.type=Role
   | table sourceIPAddress userIdentity.arn user_agent user_access_key status action

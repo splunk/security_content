@@ -22,7 +22,6 @@ references:
 - https://threatpost.com/fin7-windows-11-release/169206/
 - https://www.proofpoint.com/us/blog/threat-insight/jssloader-recoded-and-reloaded
 tags:
-  analytic_story: FIN7
   category:
   - Malware
   product:

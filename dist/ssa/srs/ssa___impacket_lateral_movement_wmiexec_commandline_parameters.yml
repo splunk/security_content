@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement WMIExec Commandline Parameters
-id: d99fb1c3-9934-4fb8-9d00-ab82fc2a01ee
+id: 9d07ff50-e968-456e-a3d9-c65c38ed0ab0
 version: 1
-status: validation
+status: production
 detection_type: STREAMING
 description: This analytic looks for the presence of suspicious commandline parameters
   typically present when using Impacket tools. Impacket is a collection of python
@@ -43,7 +43,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 3,
     risk_score = 63,
     severity_id = 0,
-    rule = {"name": "Impacket Lateral Movement WMIExec Commandline Parameters", "uid": "d99fb1c3-9934-4fb8-9d00-ab82fc2a01ee", "type": "Streaming"},
+    rule = {"name": "Impacket Lateral Movement WMIExec Commandline Parameters", "uid": "9d07ff50-e968-456e-a3d9-c65c38ed0ab0", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -86,7 +86,7 @@ tags:
   risk_score: 63
   security_domain: endpoint
   risk_severity: medium
-  research_site_url: https://research.splunk.com/endpoint/d99fb1c3-9934-4fb8-9d00-ab82fc2a01ee/
+  research_site_url: https://research.splunk.com/endpoint/9d07ff50-e968-456e-a3d9-c65c38ed0ab0/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid

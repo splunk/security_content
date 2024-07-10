@@ -1,0 +1,66 @@
+name: O365 Elevated Mailbox Permission Assigned
+id: 2246c142-a678-45f8-8546-aaed7e0efd30
+version: 2
+date: '2024-05-15'
+author: Patrick Bareiss, Mauricio Velazco, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic identifies the assignment of elevated mailbox
+  permissions in an Office 365 environment via the Add-MailboxPermission operation.
+  It leverages logs from the Exchange workload in the o365_management_activity data
+  source, focusing on permissions such as FullAccess, ChangePermission, or ChangeOwner.
+  This activity is significant as it indicates potential unauthorized access or control
+  over mailboxes, which could lead to data exfiltration or privilege escalation. If
+  confirmed malicious, attackers could gain extensive access to sensitive email data
+  and potentially manipulate mailbox settings, posing a severe security risk.
+search: ' `o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission
+  | search (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner)
+  | rename Identity AS dest_user | stats count earliest(_time) as firstTime latest(_time)
+  as lastTime by user dest_user Operation AccessRights |`security_content_ctime(firstTime)`
+  |`security_content_ctime(lastTime)` | `o365_elevated_mailbox_permission_assigned_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
+  Office 365 management activity events.
+known_false_positives: FullAccess mailbox delegation may be assigned for legitimate
+  purposes, filter as needed.
+references:
+- https://attack.mitre.org/techniques/T1098/002/
+- https://learn.microsoft.com/en-us/powershell/module/exchange/add-mailboxpermission
+- https://learn.microsoft.com/en-us/exchange/recipients/mailbox-permissions?view=exchserver-2019
+tags:
+  analytic_story:
+  - Office 365 Collection Techniques
+  asset_type: O365 Tenant
+  confidence: 70
+  impact: 60
+  message: Elevated mailbox permissions were assigned on $dest_user$
+  mitre_attack_id:
+  - T1098
+  - T1098.002
+  observable:
+  - name: dest_user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Workload
+  - Operation
+  - AccessRights
+  - user
+  - src_user
+  - dest_user
+  risk_score: 42
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/suspicious_rights_delegation/suspicious_rights_delegation.json
+    source: o365:management:activity
+    sourcetype: o365:management:activity
+

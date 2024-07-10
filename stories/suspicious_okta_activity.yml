@@ -12,11 +12,11 @@ narrative: 'Okta is the leading single sign on (SSO) provider, allowing users to
   once to Okta, and from there access a variety of web-based applications. These applications
   are assigned to users and allow administrators to centrally manage which users are
   allowed to access which applications. It also provides centralized logging to help
-  understand how the applications are used and by whom. \
+  understand how the applications are used and by whom. 
 
   While SSO is a major convenience for users, it also provides attackers with an opportunity.
   If the attacker can gain access to Okta, they can access a variety of applications.
-  As such monitoring the environment is important. \
+  As such monitoring the environment is important. 
 
   With people moving quickly to adopt web-based applications and ways to manage them,
   many are still struggling to understand how best to monitor these environments.
@@ -29,7 +29,6 @@ references:
 - https://owasp.org/www-community/attacks/Credential_stuffing
 - https://searchsecurity.techtarget.com/answer/What-is-a-password-spraying-attack-and-how-does-it-work
 tags:
-  analytic_story: Suspicious Okta Activity
   category:
   - Adversary Tactics
   product:

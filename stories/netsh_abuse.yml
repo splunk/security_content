@@ -12,7 +12,7 @@ narrative: 'It is a common practice for attackers of all types to leverage nativ
   to--either locally or remotely--display or modify the network configuration of a
   computer that is currently running. `Netsh.exe` can be used to discover and disable
   local firewall settings. It can also be used to set up a remote connection to a
-  host from an infected system.\
+  host from an infected system.
 
   To get started, run the detection search to identify parent processes of `netsh.exe`.'
 references:
@@ -20,7 +20,6 @@ references:
 - https://htmlpreview.github.io/?https://github.com/MatthewDemaske/blogbackup/blob/master/netshell.html
 - https://blogs.jpcert.or.jp/en/2016/01/windows-commands-abused-by-attackers.html
 tags:
-  analytic_story: Netsh Abuse
   category:
   - Abuse
   product:

@@ -10,7 +10,6 @@ references:
 - https://www.zscaler.com/blogs/security-research/steal-it-campaign
 - https://attack.mitre.org/groups/G0007/
 tags:
-  analytic_story: Forest Blizzard
   category:
   - Adversary Tactics
   product:

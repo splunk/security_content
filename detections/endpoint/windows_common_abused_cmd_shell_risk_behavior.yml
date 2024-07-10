@@ -1,21 +1,19 @@
 name: Windows Common Abused Cmd Shell Risk Behavior
 id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
-version: 1
-date: '2023-12-27'
+version: 2
+date: '2024-05-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
 data_source: []
-description: The following correlation identifies instances where four or more distinct
-  detection analytics are associated with malicious command line behavior that is
-  known to be exploited by multiple threat actors, adversaries, or red teamers on
-  a specific host. By leveraging the Command Line Interface (CLI), attackers can execute
-  malicious commands, gain access to sensitive data, install backdoors, and engage
-  in various nefarious activities. The impact of such compromise can be severe, as
-  attackers may gain unauthorized control over the compromised system, enabling them
-  to exfiltrate valuable information, escalate privileges, or launch further attacks
-  within the network. If this detection is triggered, there is a high level of confidence
-  in the occurrence of suspicious command line activities on the host.
+description: The following analytic identifies instances where four or more distinct
+  detection analytics are associated with malicious command line behavior on a specific
+  host. This detection leverages the Command Line Interface (CLI) data from various
+  sources to identify suspicious activities. This behavior is significant as it often
+  indicates attempts to execute malicious commands, access sensitive data, install
+  backdoors, or perform other nefarious actions. If confirmed malicious, attackers
+  could gain unauthorized control, exfiltrate information, escalate privileges, or
+  launch further attacks within the network, leading to severe compromise.
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
   as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
@@ -90,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/risk_behavior/abused_commandline/risk_recon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/risk_behavior/abused_commandline/risk_recon.log
     source: risk
     sourcetype: stash

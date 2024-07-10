@@ -17,7 +17,7 @@ narrative: 'Conventional wisdom holds that Apple''s MacOS operating system is si
   year before&#151;a 31% increase. In contrast, the independent research firm found
   that new Windows malware had increased from 65.17M to 76.86M during that same period,
   less than half the rate of growth. The bottom line is that while the numbers look
-  a lot smaller than Windows, it''s definitely time to take Mac security more seriously.\
+  a lot smaller than Windows, it''s definitely time to take Mac security more seriously.
 
   This Analytic Story addresses the ColdRoot remote access trojan (RAT), which was
   uploaded to Github in 2016, but was still escaping detection by the first quarter
@@ -27,7 +27,7 @@ narrative: 'Conventional wisdom holds that Apple''s MacOS operating system is si
   detection. In the initial report of his findings, Patrick Wardle, Chief Research
   Officer for Digita Security, explained that the new ColdRoot RAT could start and
   kill processes on the breached system, spawn new remote-desktop sessions, take screen
-  captures and assemble them into a live stream of the victim''s desktop, and more.\
+  captures and assemble them into a live stream of the victim''s desktop, and more.
 
   Searches in this Analytic Story leverage the capabilities of OSquery to address
   ColdRoot detection from several different angles, such as looking for the existence
@@ -37,7 +37,6 @@ references:
 - https://objective-see.com/blog/blog_0x2A.html
 - https://www.bleepingcomputer.com/news/security/coldroot-rat-still-undetectable-despite-being-uploaded-on-github-two-years-ago/
 tags:
-  analytic_story: ColdRoot MacOS RAT
   category:
   - Malware
   product:

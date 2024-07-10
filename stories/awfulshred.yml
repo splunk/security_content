@@ -12,7 +12,6 @@ references:
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
 - https://cert.gov.ua/article/3718487
 tags:
-  analytic_story: AwfulShred
   category:
   - Malware
   product:

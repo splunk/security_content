@@ -9,10 +9,10 @@ description: This search detects writes to the 'System Volume Information' folde
   by something other than the System process.
 data_source:
 - Sysmon Event ID 1
-search: (`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume\
+search: '(`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume
   Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `suspicious_writes_to_system_volume_information_filter`
+  | `suspicious_writes_to_system_volume_information_filter`'
 how_to_implement: You need to be ingesting logs with both the process name and command-line
   from your endpoints. If you are using Sysmon, you must have at least version 6.0.4
   of the Sysmon TA.

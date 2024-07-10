@@ -23,4 +23,4 @@ tags:
   required_fields:
   - _time
   - src_user
-  security_domain: networks
+  security_domain: network

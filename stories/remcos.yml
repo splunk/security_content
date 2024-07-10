@@ -15,7 +15,6 @@ references:
 - https://attack.mitre.org/software/S0332/
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.remcos#:~:text=Remcos%20(acronym%20of%20Remote%20Control,used%20to%20remotely%20control%20computers.&text=Remcos%20can%20be%20used%20for,been%20used%20in%20hacking%20campaigns.
 tags:
-  analytic_story: Remcos
   category:
   - Malware
   product:

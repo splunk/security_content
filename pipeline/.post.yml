@@ -40,6 +40,8 @@ send_pipeline_results:
       - extracto_config.json
   dependencies: []
   when: always
+  id_tokens: 
+    !reference [.creds-init, id_tokens]
   before_script:
     - !reference [.creds-init, before_script]
     - !reference [.generic-read, before_script]

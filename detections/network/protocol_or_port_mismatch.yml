@@ -1,16 +1,18 @@
 name: Protocol or Port Mismatch
 id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2024-05-29'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for network traffic on common ports where a higher
-  layer protocol does not match the port that is being used. For example, this search
-  should identify cases where protocols other than HTTP are running on TCP port 80.
-  This can be used by attackers to circumvent firewall restrictions, or as an attempt
-  to hide malicious communications over ports and protocols that are typically allowed
-  and not well inspected.
+description: The following analytic identifies network traffic where the higher layer
+  protocol does not match the expected port, such as non-HTTP traffic on TCP port
+  80. It leverages data from network traffic inspection technologies like Bro or Palo
+  Alto Networks firewalls. This activity is significant because it may indicate attempts
+  to bypass firewall restrictions or conceal malicious communications. If confirmed
+  malicious, this behavior could allow attackers to evade detection, maintain persistence,
+  or exfiltrate data through commonly allowed ports, posing a significant threat to
+  network security.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Network_Traffic where (All_Traffic.app=dns NOT All_Traffic.dest_port=53)

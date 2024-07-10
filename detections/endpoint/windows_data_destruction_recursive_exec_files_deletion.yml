@@ -1,30 +1,32 @@
 name: Windows Data Destruction Recursive Exec Files Deletion
 id: 3596a799-6320-4a2f-8772-a9e98ddb2960
-version: 1
-date: '2023-04-14'
-author: Teoderick Contreras, Splunk
+version: 3
+date: '2024-05-24'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies a suspicious process recursively deleting
-  files in a compromised host. This behavior was seen in several destructive malware,
-  wiper like caddy wiper, doublezero, and now swiftslicer that delete or overwrite
-  files with random generated strings to make it unrecoverable. This analytic can
-  also catch a possible recursive file write on multiple files using Sysmon Event
-  23. Sysmon treats the modified file as a deleted one as soon as it was overwritten.
-  This analytic can be a good indicator that a possible destructive malware is running
-  in a host machine or a big software application is being uninstalled.
+description: The following analytic identifies a suspicious process that is recursively
+  deleting executable files on a compromised host. It leverages Sysmon Event Codes
+  23 and 26 to detect this activity by monitoring for a high volume of deletions or
+  overwrites of files with extensions like .exe, .sys, and .dll. This behavior is
+  significant as it is commonly associated with destructive malware such as CaddyWiper,
+  DoubleZero, and SwiftSlicer, which aim to make file recovery impossible. If confirmed
+  malicious, this activity could lead to significant data loss and system instability,
+  severely impacting business operations.
 data_source:
-- Sysmon Event ID 23
-search: '`sysmon` EventCode=23  TargetFilename IN ("*.exe", "*.sys", "*.dll") | bin
-  _time span=2m | stats values(TargetFilename) as deleted_files min(_time) as firstTime
-  max(_time) as lastTime count by dest user EventCode Image ProcessID | where
-  count >=500 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_data_destruction_recursive_exec_files_deletion_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the deleted target file name, process name and process id  from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: uninstall a big software application may trigger this detection.
-  Filter is needed.
+- Sysmon EventID 23
+- Sysmon EventID 26
+search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.exe", "*.sys", "*.dll")
+  | bin _time span=2m | stats count, values(TargetFilename) as deleted_files, min(_time)
+  as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image,
+  process_name, process_guid | rename Image as process | where count >=500 | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_data_destruction_recursive_exec_files_deletion_filter`'
+how_to_implement: To successfully implement this search, you need to ingest logs that
+  include the process name, TargetFilename, and ProcessID executions from your endpoints.
+  If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: The uninstallation of a large software application or the use
+  of cleanmgr.exe may trigger this detection. A filter is necessary to reduce false
+  positives.
 references:
 - https://www.welivesecurity.com/2023/01/27/swiftslicer-new-destructive-wiper-malware-ukraine/
 tags:
@@ -34,7 +36,8 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: a big number of executable files being deleted in $dest$
+  message: The process $process_name$ has removed a significant quantity of executable
+    files, totaling [$count$], from the destination $dest$.
   mitre_attack_id:
   - T1485
   observable:
@@ -49,25 +52,26 @@ tags:
   - name: deleted_files
     type: File Name
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - EventCode
+  - _time
+  - Image
   - TargetFilename
   - dest
   - user
-  - Image
-  - ProcessID
-  - _time
+  - signature_id
+  - process_name
+  - process_guid
   risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/swift_slicer/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/swift_slicer/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

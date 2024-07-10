@@ -13,7 +13,6 @@ narrative: Kubernetes is the most used container orchestration platform, this or
 references:
 - https://github.com/splunk/cloud-datamodel-security-research
 tags:
-  analytic_story: Kubernetes Scanning Activity
   category:
   - Cloud Security
   product:

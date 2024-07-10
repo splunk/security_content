@@ -1,12 +1,12 @@
 name: Detect Windows DNS SIGRed via Zeek
 id: c5c622e4-d073-11ea-87d0-0242ac130003
-version: 1
-date: '2020-07-28'
+version: 2
+date: '2024-05-23'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
 description: |-
-  The following analytic detects the presence of SIGRed, a critical DNS vulnerability, using Zeek DNS and Zeek Conn data. SIGRed vulnerability allows attackers to run remote code on Windows DNS servers. By detecting SIGRed early, you can prevent further damage and protect the organization's network infrastructure. The detection is made by identifying specific DNS query types (SIG and KEY) in the Zeek DNS data and checks for high data transfer in the Zeek Conn data. If multiple instances of these indicators are found within a flow, it suggests the presence of SIGRed. The detection is important because it indicates a potential compromise of Windows DNS servers that suggests that an attacker might have gained unauthorized access to the DNS server and can run arbitrary code. The impact of this attack can be severe, leading to data exfiltration, unauthorized access, or disruption of critical services. Next steps include investigating the affected flow and taking immediate action to mitigate the vulnerability. This can involve patching the affected DNS server, isolating the server from the network, or conducting a forensic analysis to determine the extent of the compromise.
+  The following analytic detects the presence of SIGRed, a critical DNS vulnerability, using Zeek DNS and Zeek Conn data. It identifies specific DNS query types (SIG and KEY) and checks for high data transfer within a flow. This detection is significant because SIGRed allows attackers to execute remote code on Windows DNS servers, potentially leading to unauthorized access and control. If confirmed malicious, this activity could result in data exfiltration, service disruption, or further network compromise. Immediate investigation and mitigation, such as patching or isolating the affected server, are crucial.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where DNS.query_type IN (SIG,KEY) by DNS.flow_id | rename DNS.flow_id as flow_id
