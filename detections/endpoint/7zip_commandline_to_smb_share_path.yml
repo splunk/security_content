@@ -11,7 +11,7 @@ description: The following analytic detects the execution of 7z or 7za processes
   This activity is significant as it may indicate an attempt to archive and exfiltrate
   sensitive files to a network share, a technique observed in CONTI LEAK tools. If
   confirmed malicious, this behavior could lead to data exfiltration, compromising
-  sensitive information and potentially aiding further attacks.
+  sensitive information and potentially aiding further attacks. DO NOT MERGE
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
