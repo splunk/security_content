@@ -13,7 +13,6 @@ narrative: Adversaries may use this technique to maximize the impact on the targ
 references:
 - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
 tags:
-  analytic_story: AcidRain
   category:
   - Malware
   product:

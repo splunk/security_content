@@ -1,17 +1,16 @@
 name: SSL Certificates with Punycode
 id: 696694df-5706-495a-81f2-79501fa11b90
-version: 1
-date: '2022-11-01'
+version: 2
+date: '2024-05-29'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting
-description: The following analytic utilizes the Certificates Datamodel to look for
-  punycode domains, starting with xn--, found in the SSL issuer email domain. The
-  presence of punycode here does not equate to evil, therefore we need to decode the
-  punycode to determine what it translates to. Remove the CyberChef recipe as needed
-  and decode manually. Note that this is not the exact location of the malicious punycode
-  to trip CVE-2022-3602, but a method to at least identify fuzzing occurring on these
-  email paths. What does evil look like? it will start with
+description: The following analytic detects SSL certificates with Punycode domains
+  in the SSL issuer email domain, identified by the prefix "xn--". It leverages the
+  Certificates Datamodel to flag these domains and uses CyberChef for decoding. This
+  activity is significant as Punycode can be used for domain spoofing and phishing
+  attacks. If confirmed malicious, attackers could deceive users and systems, potentially
+  leading to unauthorized access and data breaches.
 data_source: []
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Certificates.All_Certificates by All_Certificates.SSL.ssl_issuer_email_domain

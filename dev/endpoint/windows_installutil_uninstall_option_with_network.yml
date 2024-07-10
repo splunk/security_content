@@ -7,19 +7,19 @@ status: production
 type: TTP
 description: 'The following analytic identifies the Windows InstallUtil.exe binary
   making a remote network connection. This technique may be used to download and execute
-  code while bypassing application control using the `/u` (uninstall) switch. \
+  code while bypassing application control using the `/u` (uninstall) switch. 
 
   InstallUtil uses the functions install and uninstall within the System.Configuration.Install
   namespace to process .net assembly. Install function requires admin privileges,
-  however, uninstall function can be run as an unprivileged user.\
+  however, uninstall function can be run as an unprivileged user.
 
   When `InstallUtil.exe` is used in a malicous manner, the path to an executable on
   the filesystem is typically specified. Take note of the parent process. In a suspicious
   instance, this will be spawned from a non-standard process like `Cmd.exe`, `PowerShell.exe`
-  or `Explorer.exe`. \
+  or `Explorer.exe`. 
 
   If used by a developer, typically this will be found with multiple command-line
-  switches/arguments and spawn from Visual Studio. \
+  switches/arguments and spawn from Visual Studio. 
 
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'

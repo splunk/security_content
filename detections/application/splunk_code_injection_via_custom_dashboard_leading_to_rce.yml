@@ -1,14 +1,18 @@
 name: Splunk Code Injection via custom dashboard leading to RCE
 id: b06b41d7-9570-4985-8137-0784f582a1b3
-version: 1
-date: '2022-10-11'
+version: 2
+date: '2024-05-24'
 author: Rod Soto
 status: experimental
 type: Hunting
-description: This hunting search provides information about a vulnerability in Splunk
-  Enterprise versions below 8.2.9, 8.1.12, 9.0.2, where an authenticated user can
-  execute arbitrary code via the dashboard pdf generation component. Please review
-  events with file=export in the _internal index for the potential targets of exploitation.
+description: The following analytic identifies attempts to exploit a vulnerability
+  in Splunk Enterprise versions below 8.2.9, 8.1.12, and 9.0.2, where an authenticated
+  user can execute arbitrary code via the dashboard PDF generation component. It detects
+  this activity by analyzing events in the _internal index with the file=export parameter.
+  This behavior is significant because it indicates a potential code injection attack,
+  which could lead to remote code execution (RCE). If confirmed malicious, an attacker
+  could gain unauthorized access, execute arbitrary commands, and potentially compromise
+  the entire Splunk environment.
 data_source: []
 search: '`splunkd_ui` uri_path=*/data/ui/views/* OR uri_path=*saved/searches/* | dedup
   uri_path | eval URL=urldecode("uri_path")| rex field=URL "\/saved\/searches\/(?<NAME>[^\/]*)"
@@ -56,7 +60,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
+  - data: 
+      https://raw.githubusercontent.com/splunk/attack_data/master/datasets/attack_techniques/T1210/splunk/splunk_code_injection_via_custom_dashboard_leading_to_rce.txt
     source: /opt/splunk/var/log/splunk/splunkd_ui_access.log
     sourcetype: splunkd_ui_access
     custom_index: _internal

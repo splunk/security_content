@@ -6,10 +6,10 @@ author: Michael Haag, Splunk
 status: production
 type: Hunting
 description: 'The following hunting analytic identifies the use of `wmic.exe` enumerating
-  local groups on the endpoint. \
+  local groups on the endpoint. 
 
   Typically, by itself, is not malicious but may raise suspicion based on time of
-  day, endpoint and username. \
+  day, endpoint and username. 
 
   During triage, review parallel processes and identify any further suspicious behavior.'
 data_source:

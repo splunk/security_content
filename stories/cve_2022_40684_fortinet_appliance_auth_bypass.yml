@@ -12,7 +12,6 @@ references:
   - https://attackerkb.com/topics/QWOxGIKkGx/cve-2022-40684/rapid7-analysis
   - https://www.greynoise.io/blog/fortios-authentication-bypass
 tags:
-  analytic_story: CVE-2022-40684 Fortinet Appliance Auth bypass
   category:
   - Adversary Tactics
   product:

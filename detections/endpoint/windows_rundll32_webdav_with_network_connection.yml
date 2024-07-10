@@ -1,15 +1,18 @@
 name: Windows Rundll32 WebDav With Network Connection
 id: f03355e0-28b5-4e9b-815a-6adffc63b38c
-version: 1
-date: '2024-01-30'
+version: 2
+date: '2024-05-11'
 author: Michael Haag, Splunk
 type: TTP
 status: experimental
 data_source: []
-description: The following analytic identifies rundll32.exe with the commandline arguments
-  loading davclnt.dll function - davsetcookie - to be used to access a remote WebDav
-  instance. The analytic attempts to use join from Processes and All_Traffic to identify
-  the network connection. This particular behavior was recently showcased in CVE-2023-23397.
+description: The following analytic detects the execution of rundll32.exe with command-line
+  arguments loading davclnt.dll and the davsetcookie function to access a remote WebDav
+  instance. It uses data from Endpoint Detection and Response (EDR) agents, correlating
+  process execution and network traffic data. This activity is significant as it may
+  indicate exploitation of CVE-2023-23397, a known vulnerability. If confirmed malicious,
+  this could allow an attacker to establish unauthorized remote connections, potentially
+  leading to data exfiltration or further network compromise.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.parent_process_name=svchost.exe
   `process_rundll32` Processes.process IN ("*\\windows\\system32\\davclnt.dll,*davsetcookie*",
@@ -93,6 +96,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/cve-2023-23397/webdav_windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/cve-2023-23397/webdav_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -9,7 +9,6 @@ references:
 - https://cert.gov.ua/article/3718487
 - https://attack.mitre.org/groups/G0034/
 tags:
-  analytic_story: Sandworm Tools
   category:
   - Data Destruction
   - Malware

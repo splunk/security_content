@@ -27,11 +27,12 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: None at the moment
 references: []
 tags:
+  asset_type: Endpoint
   analytic_story:
   - Windows Defense Evasion Tactics
   - Suspicious Windows Registry Activities
   - Windows Persistence Techniques
-  asset_type: ''
+  asset_type: Endpoint
   confidence: 50
   impact: 50
   message: tbd

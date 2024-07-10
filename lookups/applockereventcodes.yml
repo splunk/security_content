@@ -1,0 +1,7 @@
+description: A csv of the ID and rule name for AppLocker event codes.
+filename: applockereventcodes.csv
+name: applockereventcodes
+default_match: 'false'
+match_type: WILDCARD(AppLocker_Event_Code)
+min_matches: 1
+case_sensitive_match: 'false'

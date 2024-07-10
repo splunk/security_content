@@ -14,7 +14,7 @@ narrative: 'As most people know, these emails use fraudulent domains, [email scr
   attack technique requires a relatively low level of skill and allows adversaries
   to easily cast a wide net. Because phishing is a technique that relies on human
   psychology, you will never be able to eliminate this vulnerability 100%. But you
-  can use automated detection to significantly reduce the risks.\
+  can use automated detection to significantly reduce the risks.
 
   This Analytic Story focuses on detecting signs of MiTM attacks enabled by [EvilGinx2](https://github.com/kgretzky/evilginx2),
   a toolkit that sets up a transparent proxy between the targeted site and the user.
@@ -29,7 +29,6 @@ references:
 - https://attack.mitre.org/techniques/T1192/
 - https://breakdev.org/evilginx-advanced-phishing-with-two-factor-authentication-bypass/
 tags:
-  analytic_story: Common Phishing Frameworks
   category:
   - Adversary Tactics
   product:
