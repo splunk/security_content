@@ -5,7 +5,7 @@ date: '2024-05-16'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a login profile for
+description: This change was made in Github - The following analytic identifies the creation of a login profile for
   one AWS user by another, followed by a console login from the same source IP. It
   uses AWS CloudTrail logs to correlate the `CreateLoginProfile` and `ConsoleLogin`
   events based on the source IP and user identity. This activity is significant as

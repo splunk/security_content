@@ -5,7 +5,7 @@ date: '2024-05-12'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the creation of AWS IAM access keys
+description: This change was made in Github - The following analytic identifies the creation of AWS IAM access keys
   by a user for another user, which can indicate privilege escalation. It leverages
   AWS CloudTrail logs to detect instances where the user creating the access key is
   different from the user for whom the key is created. This activity is significant
