@@ -16,7 +16,7 @@ search: '`google_gcp_pubsub_message` data.protoPayload.requestMetadata.callerIp!
   values(data.protoPayload.resourceName) as resource_name values(data.protoPayload.requestMetadata.callerSuppliedUserAgent)
   as http_user_agent by src_ip data.resource.labels.cluster_name | rename data.resource.labels.cluster_name
   as cluster_name| `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`  |
-  `gcp_kubernetes_cluster_scan_detection_filter` '
+  `gcp_kubernetes_cluster_scan_detection_filter`'
 how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
   then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
   You must also install Cloud Infrastructure data model.Customize the macro kubernetes_gcp_scan_fingerprint_attack_detection

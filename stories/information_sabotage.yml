@@ -14,7 +14,6 @@ narrative: Information sabotage is the type of crime many people associate with 
 references:
 - https://insights.sei.cmu.edu/blog/insider-threat-deep-dive-it-sabotage/
 tags:
-  analytic_story: Information Sabotage
   category:
   - Abuse
   product:

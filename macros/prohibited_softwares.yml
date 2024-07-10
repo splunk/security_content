@@ -1,5 +1,3 @@
-definition: lookup prohibited_softwares app as process_name OUTPUT is_prohibited
-  | search is_prohibited=True
-description: This macro limits the output to process_names that have been marked as
-  prohibited
+definition: search *
+description: This macro is deprecated. Update this macro to look for prohibited softwares in your environment
 name: prohibited_softwares

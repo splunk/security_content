@@ -1,12 +1,18 @@
 name: AWS Cross Account Activity From Previously Unseen Account
 id: 21193641-cb96-4a2c-a707-d9b9a7f7792b
-version: 1
-date: '2020-05-28'
+version: 2
+date: '2024-05-16'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for AssumeRole events where an IAM role in a different
-  account is requested for the first time.
+description: The following analytic identifies AssumeRole events where an IAM role
+  in a different AWS account is accessed for the first time. It detects this activity
+  by analyzing authentication logs and comparing the requesting and requested account
+  IDs, flagging new cross-account activities. This behavior is significant because
+  unauthorized cross-account access can indicate potential lateral movement or privilege
+  escalation attempts. If confirmed malicious, an attacker could gain unauthorized
+  access to resources in another account, potentially leading to data exfiltration,
+  service disruption, or further compromise of the AWS environment.
 data_source: []
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
@@ -62,7 +68,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

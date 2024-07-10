@@ -17,26 +17,22 @@ search: '`cloudtrail` userIdentity.sessionContext.attributes.mfaAuthenticated=fa
   as user]| stats  count min(_time) as firstTime max(_time) as lastTime values(eventName)
   as eventName by userIdentity.arn userIdentity.type user | `security_content_ctime(firstTime)`  |
   `security_content_ctime(lastTime)` | `detect_api_activity_from_users_without_mfa_filter`'
-how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
-  inputs. Leverage the support search `Create a list of approved AWS service accounts`:
-  run it once every 30 days to create a list of service accounts and validate them.\
+
+how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS 
+  (version 4.4.0 or later), then configure your AWS CloudTrail inputs. Leverage the support search `Create 
+  a list of approved AWS service accounts`: run it once every 30 days to create a list of service accounts and validate them.
 
   This search produces fields (`eventName`,`userIdentity.type`,`userIdentity.arn`)
   that are not yet supported by ES Incident Review and therefore cannot be viewed
   when a notable event is raised. These fields contribute additional context to the
   notable. To see the additional metadata, add the following fields, if not already
-  present, to Incident Review - Event Attributes (Configure > Incident Management
-  > Incident Review Settings > Add New Entry):\\n1. **Label:** AWS Event Name, **Field:**
-  eventName\
+  present, to Incident Review - Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):
+  
+  * **Label:** AWS Event Name, **Field:** eventName
 
-  1. \
+  * **Label:** AWS User ARN, **Field:** userIdentity.arn
 
-  1. **Label:** AWS User ARN, **Field:** userIdentity.arn\
-
-  1. \
-
-  1. **Label:** AWS User Type, **Field:** userIdentity.type\
+  * **Label:** AWS User Type, **Field:** userIdentity.type
 
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'

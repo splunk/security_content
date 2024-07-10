@@ -13,7 +13,6 @@ references:
   - https://github.com/sliverarmory/armory
   - https://github.com/BishopFox/sliver
 tags:
-  analytic_story: BishopFox Sliver Adversary Emulation Framework
   category:
   - Adversary Tactics
   product:

@@ -1,20 +1,26 @@
 name: Splunk Improperly Formatted Parameter Crashes splunkd
 id: 08978eca-caff-44c1-84dc-53f17def4e14
-version: 1
-date: '2023-02-14'
+version: 2
+date: '2024-05-14'
 author: Chase Franklin, Rod Soto, Splunk
 status: experimental
 type: TTP
-description: In Splunk Enterprise versions below 8.1.13, 8.2.10, and 9.0.4, when the
-  INGEST\\_EVAL parameter is improperly formatted, it crashes splunkd. This hunting
-  search provides the user, timing and number of times the crashing command was executed.
+description: The following analytic detects the execution of improperly formatted
+  INGEST_EVAL parameters in Splunk Enterprise, which can crash the splunkd service.
+  It leverages the Splunk_Audit.Search_Activity datamodel to identify ad-hoc searches
+  containing specific keywords. This activity is significant because it can disrupt
+  Splunk operations, leading to potential data loss and service downtime. If confirmed
+  malicious, an attacker could exploit this to cause a denial of service, impacting
+  the availability and reliability of the Splunk environment.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-  from datamodel=Splunk_Audit.Search_Activity 
-  where (Search_Activity.search="*makeresults*"AND Search_Activity.search="*ingestpreview*transforms*") Search_Activity.search_type=adhoc Search_Activity.search!="*splunk_improperly_formatted_parameter_crashes_splunkd_filter*" Search_Activity.user!=splunk-system-user 
-  by Search_Activity.search, Search_Activity.info, Search_Activity.total_run_time, Search_Activity.user, Search_Activity.search_type
-  | `drop_dm_object_name(Search_Activity)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `splunk_improperly_formatted_parameter_crashes_splunkd_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Splunk_Audit.Search_Activity where (Search_Activity.search="*makeresults*"AND
+  Search_Activity.search="*ingestpreview*transforms*") Search_Activity.search_type=adhoc
+  Search_Activity.search!="*splunk_improperly_formatted_parameter_crashes_splunkd_filter*"
+  Search_Activity.user!=splunk-system-user by Search_Activity.search, Search_Activity.info,
+  Search_Activity.total_run_time, Search_Activity.user, Search_Activity.search_type
+  | `drop_dm_object_name(Search_Activity)` | `security_content_ctime(firstTime)` |
+  `security_content_ctime(lastTime)` | `splunk_improperly_formatted_parameter_crashes_splunkd_filter`'
 how_to_implement: Requires access to audittrail and use of Splunk_Audit.Search_Activity
   datamodel.
 known_false_positives: This is a hunting search it should be focused on affected products,

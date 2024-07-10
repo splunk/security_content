@@ -1,12 +1,17 @@
 name: aws detect attach to role policy
 id: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
-version: 1
-date: '2020-07-27'
+version: 2
+date: '2024-05-12'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: This search provides detection of an user attaching itself to a different
-  role trust policy. This can be used for lateral movement and escalation of privileges.
+description: The following analytic identifies a user attaching a policy to a different
+  role's trust policy in AWS. It leverages CloudWatch logs to detect the `attach policy`
+  event, extracting relevant fields such as `policyArn`, `sourceIPAddress`, and `userIdentity`.
+  This activity is significant as it can indicate attempts at lateral movement or
+  privilege escalation within the AWS environment. If confirmed malicious, an attacker
+  could gain elevated permissions, potentially compromising sensitive resources and
+  data within the AWS infrastructure.
 data_source: []
 search: '`aws_cloudwatchlogs_eks` attach policy| spath requestParameters.policyArn
   | table sourceIPAddress user_access_key userIdentity.arn userIdentity.sessionContext.sessionIssuer.arn

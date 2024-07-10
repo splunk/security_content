@@ -18,7 +18,6 @@ narrative: Ingress tool transfer is a Technique under tactic Command And Control
 references:
 - https://attack.mitre.org/techniques/T1105/
 tags:
-  analytic_story: Ingress Tool Transfer
   category:
   - Adversary Tactics
   product:

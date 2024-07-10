@@ -9,7 +9,6 @@ references:
 - https://asrgen.streamlit.app/
 - https://learn.microsoft.com/en-us/microsoft-365/security/defender-endpoint/attack-surface-reduction?view=o365-worldwide
 tags:
-  analytic_story: Windows Attack Surface Reduction
   category:
   - Best Practices
   product:

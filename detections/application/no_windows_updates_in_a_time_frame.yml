@@ -1,15 +1,18 @@
 name: No Windows Updates in a time frame
 id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
-version: 1
-date: '2017-09-15'
+version: 2
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Hunting
-description: This search looks for Windows endpoints that have not generated an event
-  indicating a successful Windows update in the last 60 days. Windows updates are
-  typically released monthly and applied shortly thereafter. An endpoint that has
-  not successfully applied an update in this time frame indicates the endpoint is
-  not regularly being patched for some reason.
+description: The following analytic identifies Windows endpoints that have not generated
+  an event indicating a successful Windows update in the last 60 days. It leverages
+  the 'Update' data model in Splunk, specifically looking for the latest 'Installed'
+  status events from Microsoft Windows. This activity is significant for a SOC because
+  endpoints that are not regularly patched are vulnerable to known exploits and security
+  vulnerabilities. If confirmed malicious, this could indicate a compromised endpoint
+  that is intentionally being kept unpatched, potentially allowing attackers to exploit
+  unpatched vulnerabilities and gain unauthorized access or control.
 data_source: []
 search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates
   where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest

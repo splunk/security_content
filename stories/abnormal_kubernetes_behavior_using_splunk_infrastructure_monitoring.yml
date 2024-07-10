@@ -17,7 +17,6 @@ references:
   - https://kubernetes.io/docs/concepts/security/
   - https://splunkbase.splunk.com/app/5247
 tags:
-  analytic_story: Abnormal Kubernetes Behavior using Splunk Infrastructure Monitoring
   category:
   - Cloud Security
   product:

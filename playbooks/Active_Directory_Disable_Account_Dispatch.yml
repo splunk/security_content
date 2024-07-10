@@ -17,7 +17,7 @@ tags:
     - user
     - D3-AL
     - disable_account
-  playbook_type: Automatic
+  playbook_type: Automation
   vpe_type: Modern
   playbook_fields: []
   product:
@@ -25,4 +25,5 @@ tags:
   use_cases:
   - Phishing
   - Endpoint
-  defend_technique_id: D3-AL
+  defend_technique_id: 
+  - D3-AL

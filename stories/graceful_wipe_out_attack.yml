@@ -13,7 +13,6 @@ narrative: Graceful Wipe Out Attack is a destructive malware campaign found by "
 references:
 - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
 tags:
-  analytic_story: Graceful Wipe Out Attack
   category:
   - Data Destruction
   - Malware

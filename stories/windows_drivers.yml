@@ -15,7 +15,6 @@ references:
   - https://media.kasperskycontenthub.com/wp-content/uploads/sites/43/2018/03/08064459/Equation_group_questions_and_answers.pdf
   - https://www.welivesecurity.com/2022/01/11/signed-kernel-drivers-unguarded-gateway-windows-core/
 tags:
-  analytic_story: Windows Drivers
   category: 
   - Adversary Tactics
   product:

@@ -10,7 +10,6 @@ references:
   - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
   - https://www.welivesecurity.com/2023/03/01/blacklotus-uefi-bootkit-myth-confirmed/
 tags:
-  analytic_story: BlackLotus Campaign
   category:
   - Adversary Tactics
   product:

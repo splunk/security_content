@@ -31,4 +31,9 @@ tags:
   - Splunk SOAR
   use_cases:
   - Enrichment
-  defend_technique_id: D3-IRA
+  defend_technique_id: 
+  - D3-IRA
+  - D3-URA
+  - D3-DNRA
+  - D3-IPRA
+  - D3-FHRA

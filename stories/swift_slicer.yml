@@ -11,7 +11,6 @@ references:
 - https://twitter.com/ESETresearch/status/1618960022150729728
 - https://www.welivesecurity.com/2023/01/27/swiftslicer-new-destructive-wiper-malware-ukraine/
 tags:
-  analytic_story: Swift Slicer
   category:
   - Data Destruction
   - Malware
