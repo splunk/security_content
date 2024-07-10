@@ -14,7 +14,7 @@ description: This change was made in Github - The following analytic identifies 
   access to AWS services, data exfiltration, and long-term persistence in the environment.
 data_source:
 - AWS CloudTrail CreateAccessKey
-search: '`cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com
+search: '`cloudtrail` change eventName = CreateAccessKey userAgent !=console.amazonaws.com
   errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),1,0)
   | search match=0 | stats count min(_time) as firstTime max(_time) as lastTime by
   requestParameters.userName src eventName eventSource aws_account_id errorCode userAgent
