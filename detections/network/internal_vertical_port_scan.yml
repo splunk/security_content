@@ -6,7 +6,12 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source: []
-description: This analytic detects an internal host has attempted to communicate with over 500 ports on a single destination IP. Additional filtering is performed on the number of privileged ports within the request to filter out applications performing port scans over ephemeral port ranges. 
+description: This analytic detects instances where an internal host attempts to communicate
+  with over 500 ports on a single destination IP address. It includes filtering
+  criteria to exclude applications performing scans over ephemeral port ranges,
+  focusing on potential reconnaissance or scanning activities. Monitoring network
+  traffic logs allows for timely detection and response to such behavior, enhancing
+  network security by identifying and mitigating potential threats promptly.
 search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action
   values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as
   dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
@@ -21,7 +26,9 @@ search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
   dest_ip transport gtime | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount,
   privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount| where
   (totalDestPortCount>=500 AND privilegedDestPortCount>=20) | fields - gtime | `internal_vertical_port_scan_filter`'
-how_to_implement: Ensure your network traffic data is populating the Network_Traffic data model.
+how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as 
+  firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to 
+  enable this search effectively.
 known_false_positives: Unknown
 references: []
 tags:

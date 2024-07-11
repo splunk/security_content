@@ -6,7 +6,12 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source: []
-description: This analytic detects where an internal host has attempted to communicate with 250 or more destination IP addresses using the same port / protocol.  
+description: This analytic identifies instances where an internal host has attempted to communicate
+  with 250 or more destination IP addresses using the same port and protocol. Horizontal
+  port scans from internal hosts can indicate reconnaissance or scanning activities,
+  potentially signaling malicious intent or misconfiguration. By monitoring network
+  traffic logs, this detection helps detect and respond to such behavior promptly,
+  enhancing network security and preventing potential threats.
 search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action
   values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as
   dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
@@ -19,7 +24,9 @@ search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
   min(_time) as _time values(action) as action sum(totalDestIPCount) as totalDestIPCount
   values(src_category) as src_category values(dest_port) as dest_ports values(dest_zone)
   as dest_zone values(src_zone) as src_zone by src_ip gtime | fields - gtime | `internal_horizontal_port_scan_filter`'
-how_to_implement: Ensure your network traffic data is populating the Network_Traffic data model.
+how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as 
+  firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to 
+  enable this search effectively.
 known_false_positives: Unknown
 references: []
 tags:
