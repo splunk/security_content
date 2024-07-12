@@ -5,7 +5,7 @@ date: '2024-05-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the modification of firewall settings
+description: New public change - The following analytic detects the modification of firewall settings
   to allow file and printer sharing. It leverages data from Endpoint Detection and
   Response (EDR) agents, focusing on command-line executions involving 'netsh' commands
   that enable file and printer sharing. This activity is significant because it can
