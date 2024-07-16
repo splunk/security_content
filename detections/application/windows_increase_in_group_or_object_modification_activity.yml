@@ -6,7 +6,7 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- XmlWinEventLog:Security
+- Windows Event Log Security 4663
 description: This analytic detects an increase in modifications to AD groups or objects.
   Frequent changes to AD groups or objects can indicate potential security risks,
   such as unauthorized access attempts, impairing defences or establishing persistence.

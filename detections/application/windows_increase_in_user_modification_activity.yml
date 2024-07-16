@@ -6,7 +6,7 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- XmlWinEventLog:Security
+- Windows Event Log Security 4720
 description: This analytic detects an increase in modifications to AD user objects.
   A large volume of changes to user objects can indicate potential security risks,
   such as unauthorized access attempts, impairing defences or establishing persistence.

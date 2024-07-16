@@ -6,7 +6,7 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- XmlWinEventLog System EventCode 7045
+- Windows Event Log System 7045
 description: The following analytic detects the loading of known vulnerable Windows
   drivers, which may indicate potential persistence or privilege escalation attempts.
   It leverages Windows System service install EventCode 7045 to identify driver loading 

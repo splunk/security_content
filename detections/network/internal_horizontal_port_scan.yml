@@ -5,7 +5,8 @@ date: '2023-10-20'
 author: Dean Luxton
 status: production
 type: TTP
-data_source: []
+data_source:
+- AWS CloudWatchLogs VPCflow
 description: This analytic identifies instances where an internal host has attempted to communicate
   with 250 or more destination IP addresses using the same port and protocol. Horizontal
   port scans from internal hosts can indicate reconnaissance or scanning activities,
