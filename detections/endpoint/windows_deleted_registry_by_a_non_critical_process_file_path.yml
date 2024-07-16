@@ -13,8 +13,8 @@ description: The following analytic detects the deletion of registry keys by non
   payload impacts. If confirmed malicious, this behavior could lead to significant
   system damage, loss of critical configurations, and potential disruption of services.
 data_source:
-- Sysmon EventID 12
-- Sysmon EventID 13
+- Sysmon EventID 1 AND Sysmon EventID 12 
+- Sysmon EventID 1 AND Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   WHERE Registry.action=deleted BY _time span=1h Registry.dest Registry.registry_path
   Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data

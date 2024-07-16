@@ -13,6 +13,8 @@ description: The following analytic detects any system integrity level process s
   execute arbitrary code, and potentially compromise the entire environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- Crowdstrike ProcessRollup2
 search: >-
   `sysmon` EventCode=1 IntegrityLevel="system" ParentUser=* NOT ParentUser IN ("*SYSTEM","*LOCAL
   SERVICE","*NETWORK SERVICE","*DWM-*","*$","-") | eval src_user = replace(ParentUser,"^[^\\\]+\\\\","")

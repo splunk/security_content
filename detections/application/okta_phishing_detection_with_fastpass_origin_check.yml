@@ -5,7 +5,8 @@ date: '2024-05-15'
 author: Okta, Inc, Michael Haag, Splunk
 type: TTP
 status: experimental
-data_source: []
+data_source: 
+- Okta
 description: The following analytic identifies failed user authentication attempts
   in Okta due to FastPass declining a phishing attempt. It leverages Okta logs, specifically
   looking for events where multi-factor authentication (MFA) fails with the reason

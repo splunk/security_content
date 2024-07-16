@@ -1,0 +1,16 @@
+name: Windows Event Log CAPI2
+id: b77e7a42-6bde-4ff5-971f-5115a8747b66
+author: Patrick Bareiss, Splunk
+source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
+sourcetype: xmlwineventlog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 8.8.0
+description: Data source object for Windows Event Log CAPI2
+event_names:
+- data_source: event_sources/Windows_Event_Log_CAPI2_70.yml
+  event_name: Windows Event Log CAPI2 70
+- data_source: event_sources/Windows_Event_Log_CAPI2_81.yml
+  event_name: Windows Event Log CAPI2 81

@@ -15,7 +15,7 @@ description: The following analytic detects registry modifications that disable 
   this could allow attackers to maintain control over the infected machine and prevent
   remediation efforts.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoControlPanel"

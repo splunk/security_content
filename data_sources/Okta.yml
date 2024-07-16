@@ -1,0 +1,11 @@
+name: Okta
+id: ec26febe-e760-4981-bbee-72e107c7b9d2
+author: Patrick Bareiss, Splunk
+source: Okta
+sourcetype: OktaIM2:log
+supported_TA:
+- name: Splunk Add-on for Okta Identity Cloud
+  url: https://splunkbase.splunk.com/app/6553
+  version: 2.2.0
+description: Data source object for Okta
+event_names: []

@@ -1,0 +1,16 @@
+name: Windows Event Log TaskScheduler
+id: 1f422461-5810-445d-a304-223b26841267
+author: Patrick Bareiss, Splunk
+source: WinEventLog:Microsoft-Windows-TaskScheduler/Operational
+sourcetype: wineventlog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 8.8.0
+description: Data source object for Windows Event Log TaskScheduler
+event_names:
+- data_source: event_sources/Windows_Event_Log_TaskScheduler_200.yml
+  event_name: Windows Event Log TaskScheduler 200
+- data_source: event_sources/Windows_Event_Log_TaskScheduler_201.yml
+  event_name: Windows Event Log TaskScheduler 201

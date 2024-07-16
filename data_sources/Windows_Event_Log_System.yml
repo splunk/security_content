@@ -1,0 +1,24 @@
+name: Windows Event Log System
+id: 5f303f66-1947-49b8-8b26-f61c8de11cc3
+author: Patrick Bareiss, Splunk
+source: XmlWinEventLog:System
+sourcetype: xmlwineventlog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 8.8.0
+description: Data source object for Windows Event Log System
+event_names:
+- data_source: event_sources/Windows_Event_Log_System_104.yml
+  event_name: Windows Event Log System 104
+- data_source: event_sources/Windows_Event_Log_System_4720.yml
+  event_name: Windows Event Log System 4720
+- data_source: event_sources/Windows_Event_Log_System_4726.yml
+  event_name: Windows Event Log System 4726
+- data_source: event_sources/Windows_Event_Log_System_7036.yml
+  event_name: Windows Event Log System 7036
+- data_source: event_sources/Windows_Event_Log_System_7040.yml
+  event_name: Windows Event Log System 7040
+- data_source: event_sources/Windows_Event_Log_System_7045.yml
+  event_name: Windows Event Log System 7045

@@ -12,7 +12,8 @@ description: The following analytic detects Google Drive or Google Docs files sh
   attacker or insider. If confirmed malicious, this could lead to unauthorized access
   to sensitive information, data leakage, and potential compliance violations. Monitoring
   this behavior helps in early detection and mitigation of data breaches.
-data_source: []
+data_source: 
+- G Suite Drive
 search: '`gsuite_drive` NOT (email IN("", "null")) | rex field=parameters.owner "[^@]+@(?<src_domain>[^@]+)"
   | rex field=email "[^@]+@(?<dest_domain>[^@]+)" | where src_domain = "internal_test_email.com"
   and not dest_domain = "internal_test_email.com" | eval phase="plan" | eval severity="low"
