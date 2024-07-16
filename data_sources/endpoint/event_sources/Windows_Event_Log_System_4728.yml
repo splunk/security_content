@@ -1,4 +1,3 @@
-
 event_name: Windows Event Log System 4728
 fields:
 - _time
