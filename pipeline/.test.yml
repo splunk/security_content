@@ -1,22 +1,7 @@
 include:
   - local: "pipeline/.install-contentctl.yml"
-
-# GitLab checks out the repo in a HEAD-less state, so we must checkout the source ref for dry-run 
-# to work
-.checkout_source_branch: &checkout_source_branch
-  - git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-  - git fetch origin $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
-  - git checkout $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-  - git checkout $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
-  - GIT_HEAD=$(git rev-parse HEAD)
-  - > 
-    if [ $GIT_HEAD = $CI_COMMIT_SHA ]; then
-      echo "HEAD ${GIT_HEAD} matches pipline commit sha ${CI_COMMIT_SHA}";
-    else
-      echo "HEAD ${GIT_HEAD} DOES NOT match pipline commit sha ${CI_COMMIT_SHA}";
-      exit 1;
-    fi
-
+  - local: "pipeline/.rsync.yml"
+  - local: "pipeline/.checkout-source-branch.yml"
 # Save pipeline ID to artifacts so the downstream can do a sanity check
 save_pipeline_id:
   stage: test
@@ -55,9 +40,13 @@ get_detections_changed:
       dotenv: build.env
     expire_in: 14 days
   before_script:
-    - *checkout_source_branch
+    - !reference [.checkout-source-branch, before_script]
     - !reference [.install-contentctl, before_script]
   script:
+   ### Skipping Rsync here since the files are already committed to a Gitlab Branch by a seperate job that is manual, need to stage changes by using git add and git commit if rsync is used. 
+    # - !reference [.rsync, before_script]
+    # - git status
+    # - git add .
     - contentctl test --plan-only mode:changes --mode.target-branch $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
     - deactivate
     - pip3 install virtualenv
