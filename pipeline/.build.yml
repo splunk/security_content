@@ -1,5 +1,7 @@
 include:
   - local: "pipeline/.install-contentctl.yml"
+  - local: "pipeline/.rsync.yml"
+  - local: "pipeline/.checkout-source-branch.yml"
  
 # This CI job validates and builds the ESCU/BA/API package
 build:
