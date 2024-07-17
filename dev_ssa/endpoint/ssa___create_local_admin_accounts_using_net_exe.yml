@@ -1,9 +1,9 @@
 name: Create Local Admin Accounts Using Net Exe
-id: 2dbdfc95-9c0f-433e-95f1-a376f1ae8bf7
+id: 890f0937-5a83-48fb-b793-68f792ded5db
 version: 3
 date: '2023-10-23'
 author: Teoderick Contreras, Splunk
-status: validation
+status: production
 type: Anomaly
 description: The following analytic detects the creation of local administrator accounts using the net.exe command 
   to mitigate the risks associated with unauthorized access and prevent further damage to the environment by responding 

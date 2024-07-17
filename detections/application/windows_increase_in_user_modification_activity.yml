@@ -1,0 +1,58 @@
+name: Windows Increase in User Modification Activity
+id: 0995fca1-f346-432f-b0bf-a66d14e6b428
+version: 1
+date: '2023-10-13'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Event Log Security 4720
+description: This analytic detects an increase in modifications to AD user objects.
+  A large volume of changes to user objects can indicate potential security risks,
+  such as unauthorized access attempts, impairing defences or establishing persistence.
+  By monitoring AD logs for unusual modification patterns, this detection helps identify
+  suspicious behavior that could compromise the integrity and security of the AD environment.
+search: >-
+  `wineventlog_security` EventCode IN (4720,4722,4723,4724,4725,4726,4728,4732,4733,4738,4743,4780)
+  | bucket span=5m _time 
+  | stats values(TargetDomainName) as TargetDomainName, values(user) as user, dc(user) as userCount, values(user_category) as user_category, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category by _time, src_user, signature, status
+  | eventstats avg(userCount) as comp_avg , stdev(userCount) as comp_std by src_user, signature
+  | eval upperBound=(comp_avg+comp_std*3)
+  | eval isOutlier=if(userCount > 10 and userCount >= upperBound, 1, 0) 
+  | search isOutlier=1
+  | stats values(TargetDomainName) as TargetDomainName, values(user) as user, dc(user) as userCount, values(user_category) as user_category, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category values(signature) as signature  by _time, src_user, status
+  | `windows_increase_in_user_modification_activity_filter`
+how_to_implement: Run this detection looking over a 7 day timeframe for best results. 
+known_false_positives: Genuine activity
+references: []
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 40
+  impact: 20
+  message: Spike in User Modification actions performed by $src_user$
+  mitre_attack_id:
+  - T1098
+  - T1562
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 8
+  required_fields:
+  - EventCode
+  - src_user
+  - signature
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
