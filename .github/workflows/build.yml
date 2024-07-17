@@ -2,6 +2,9 @@ name: build
 on:
   pull_request:
     types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - develop
 jobs:
   build:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
