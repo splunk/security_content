@@ -7,22 +7,25 @@ description: 'Monitor for and investigate activities--such as suspicious writes 
   the Windows Recycling Bin or email servers sending high amounts of traffic to specific
   hosts, for example--that may indicate that an adversary is harvesting and exfiltrating
   sensitive data. '
-narrative: "A common adversary goal is to identify and exfiltrate data of value from\
-  \ a target organization. This data may include email conversations and addresses,\
-  \ confidential company information, links to network design/infrastructure, important\
-  \ dates, and so on.\\\n Attacks are composed of three activities: identification,\
-  \ collection, and staging data for exfiltration. Identification typically involves\
-  \ scanning systems and observing user activity. Collection can involve the transfer\
-  \ of large amounts of data from various repositories. Staging/preparation includes\
-  \ moving data to a central location and compressing (and optionally encoding and/or\
-  \ encrypting) it. All of these activities provide opportunities for defenders to\
-  \ identify their presence. \\\nUse the searches to detect and monitor suspicious\
-  \ behavior related to these activities."
+narrative: "A common adversary goal is to identify and exfiltrate data of value from
+  a target organization. This data may include email conversations and addresses,
+  confidential company information, links to network design/infrastructure, important
+  dates, and so on.
+  
+  Attacks are composed of three activities: identification,
+  collection, and staging data for exfiltration. Identification typically involves
+  scanning systems and observing user activity. Collection can involve the transfer
+  of large amounts of data from various repositories. Staging/preparation includes
+  moving data to a central location and compressing (and optionally encoding and/or
+  encrypting) it. All of these activities provide opportunities for defenders to
+  identify their presence.
+  
+  Use the searches to detect and monitor suspicious
+  behavior related to these activities."
 references:
 - https://attack.mitre.org/wiki/Collection
 - https://attack.mitre.org/wiki/Technique/T1074
 tags:
-  analytic_story: Collection and Staging
   category:
   - Adversary Tactics
   product:

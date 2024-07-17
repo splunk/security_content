@@ -8,7 +8,8 @@ narrative: Kerberos, initially named after Cerberus, the three-headed dog in Gre
  users to prove their identity through a trusted third-party. This trusted third-party issues Kerberos tickets using symmetric encryption to allow users access
  to services and network resources based on their privilege level. Kerberos is the default authentication protocol used on Windows Active Directory networks since
  the introduction of Windows Server 2003. With Kerberos being the backbone of Windows authentication, it is commonly abused by adversaries across the different phases 
- of a breach including initial access, privilege escalation, defense evasion, credential access, lateral movement, etc.\
+ of a breach including initial access, privilege escalation, defense evasion, credential access, lateral movement, etc.
+ 
  This Analytic Story groups detection use cases in which the Kerberos protocol is abused. Defenders can leverage these analytics to detect and hunt for adversaries engaging in 
  Kerberos based attacks.
 references:
@@ -20,7 +21,6 @@ references:
 - https://attack.mitre.org/techniques/T1550/003/
 - https://attack.mitre.org/techniques/T1558/004/
 tags:
-  analytic_story: Active Directory Kerberos Attacks
   category:
   - Adversary Tactics
   - Account Compromise

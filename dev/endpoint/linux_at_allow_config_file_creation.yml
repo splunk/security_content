@@ -57,4 +57,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon_linux
+    sourcetype: sysmon:linux

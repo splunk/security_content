@@ -8,7 +8,6 @@ narrative: The following analytic story provides a comprehensive view of Jenkins
 references:
 - https://www.jenkins.io/security/advisory/2024-01-24/
 tags:
-  analytic_story: Jenkins Server Vulnerabilities
   category:
   - Adversary Tactics
   product:

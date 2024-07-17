@@ -8,7 +8,6 @@ narrative: Adversaries may abuse msiexec.exe to launch local or network accessib
 references: 
   - https://attack.mitre.org/techniques/T1218/007/
 tags:
-  analytic_story: Windows System Binary Proxy Execution MSIExec
   category:
   - Adversary Tactics
   product:

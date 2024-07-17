@@ -8,7 +8,6 @@ narrative: Flax Typhoon has been active since mid-2021, targeting government age
 references: 
 - https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
 tags:
-  analytic_story: Flax Typhoon
   category:
   - Adversary Tactics
   product:

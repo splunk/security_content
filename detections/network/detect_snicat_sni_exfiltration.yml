@@ -1,12 +1,17 @@
 name: Detect SNICat SNI Exfiltration
 id: 82d06410-134c-11eb-adc1-0242ac120002
-version: 1
-date: '2020-10-21'
+version: 2
+date: '2024-05-21'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: This search looks for commands that the SNICat tool uses in the TLS SNI
-  field.
+description: The following analytic identifies the use of SNICat tool commands within
+  the TLS SNI field, indicating potential data exfiltration attempts. It leverages
+  Zeek SSL data to detect specific SNICat commands such as LIST, LS, SIZE, LD, CB,
+  EX, ALIVE, EXIT, WHERE, and finito in the server_name field. This activity is significant
+  as SNICat is a known tool for covert data exfiltration using TLS. If confirmed malicious,
+  this could allow attackers to exfiltrate sensitive data undetected, posing a severe
+  threat to data confidentiality and integrity.
 data_source: []
 search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)"
   | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip

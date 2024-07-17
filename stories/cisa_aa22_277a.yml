@@ -9,7 +9,6 @@ references:
   - https://www.cisa.gov/uscert/ncas/alerts/aa22-277a
   - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-277a-impacket-and-exfiltration-tool-used-to-steal-sensitive-information-from-defense-industrial-base-organization.pdf
 tags:
-  analytic_story: CISA AA22-277A
   category:
   - Adversary Tactics
   product:

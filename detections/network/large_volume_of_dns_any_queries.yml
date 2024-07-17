@@ -1,12 +1,18 @@
 name: Large Volume of DNS ANY Queries
 id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
-version: 1
-date: '2017-09-20'
+version: 2
+date: '2024-05-15'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The search is used to identify attempts to use your DNS Infrastructure
-  for DDoS purposes via a DNS amplification attack leveraging ANY queries.
+description: The following analytic identifies a large volume of DNS ANY queries,
+  which may indicate a DNS amplification attack. It leverages the Network_Resolution
+  data model to count DNS queries of type "ANY" directed to specific destinations.
+  This activity is significant because DNS amplification attacks can overwhelm network
+  resources, leading to Denial of Service (DoS) conditions. If confirmed malicious,
+  this activity could disrupt services, degrade network performance, and potentially
+  be part of a larger Distributed Denial of Service (DDoS) attack, impacting the availability
+  of critical infrastructure.
 data_source: []
 search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
   where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"

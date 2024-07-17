@@ -10,7 +10,6 @@ narrative: Similar to Windows LOLBAS project, the GTFOBins project focuses solel
 references:
   - https://gtfobins.github.io/
 tags:
-  analytic_story: Linux Living Off The Land
   category:
     - Adversary Tactics
   product:

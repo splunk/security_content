@@ -1,20 +1,19 @@
 name: ProxyShell ProxyNotShell Behavior Detected
 id: c32fab32-6aaf-492d-bfaf-acbed8e50cdf
-version: 1
-date: '2023-07-10'
+version: 2
+date: '2024-05-21'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
-description: The following correlation will identify activity related to Windows Exchange
-  being actively exploited by adversaries related to ProxyShell or ProxyNotShell.
-  In addition, the analytic correlates post-exploitation Cobalt Strike analytic story.
-  Common post-exploitation behavior has been seen in the wild includes adversaries
-  running nltest, Cobalt Strike, Mimikatz and adding a new user. The correlation specifically
-  looks for 5 distinct analyticstories to trigger. Modify or tune as needed for your
-  organization. 5 analytics is an arbitrary number but was chosen to reduce the amount
-  of noise but also require the 2 analytic stories or a ProxyShell and CobaltStrike
-  to fire. Adversaries will exploit the vulnerable Exchange server, abuse SSRF, drop
-  a web shell, utilize the PowerShell Exchange modules and begin post-exploitation.
+description: The following analytic identifies potential exploitation of Windows Exchange
+  servers via ProxyShell or ProxyNotShell vulnerabilities, followed by post-exploitation
+  activities such as running nltest, Cobalt Strike, Mimikatz, and adding new users.
+  It leverages data from multiple analytic stories, requiring at least five distinct
+  sources to trigger, thus reducing noise. This activity is significant as it indicates
+  a high likelihood of an active compromise, potentially leading to unauthorized access,
+  privilege escalation, and persistent threats within the environment. If confirmed
+  malicious, attackers could gain control over the Exchange server, exfiltrate data,
+  and maintain long-term access.
 data_source: []
 search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
   as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
@@ -71,7 +70,8 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell-risk.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell-risk.log
     source: proxyshell
     sourcetype: stash
     update_timestamp: true

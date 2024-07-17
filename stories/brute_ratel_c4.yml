@@ -15,7 +15,6 @@ references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 - https://www.mdsec.co.uk/2022/08/part-3-how-i-met-your-beacon-brute-ratel/
 tags:
-  analytic_story: Brute Ratel C4
   category:
   - Data Destruction
   - Malware

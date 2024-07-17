@@ -7,15 +7,15 @@ status: production
 type: TTP
 description: 'The following analytic identifies the Windows InstallUtil.exe binary
   passing a HTTP request on the command-line. This technique may be used to download
-  and execute code while bypassing application control. \
+  and execute code while bypassing application control. 
 
   When `InstallUtil.exe` is used in a malicous manner, the path to an executable on
   the filesystem is typically specified. Take note of the parent process. In a suspicious
   instance, this will be spawned from a non-standard process like `Cmd.exe`, `PowerShell.exe`
-  or `Explorer.exe`. \
+  or `Explorer.exe`. 
 
   If used by a developer, typically this will be found with multiple command-line
-  switches/arguments and spawn from Visual Studio. \
+  switches/arguments and spawn from Visual Studio. 
 
   During triage review resulting network connections, file modifications, and parallel
   processes. Capture any artifacts and review further.'

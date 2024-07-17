@@ -17,7 +17,6 @@ references:
 - https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_NACLs.html
 - https://aws.amazon.com/blogs/security/how-to-help-prepare-for-ddos-attacks-by-reducing-your-attack-surface/
 tags:
-  analytic_story: AWS Network ACL Activity
   category:
   - Cloud Security
   product:

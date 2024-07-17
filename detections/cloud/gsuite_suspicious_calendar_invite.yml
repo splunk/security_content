@@ -1,13 +1,17 @@
 name: Gsuite suspicious calendar invite
 id: 03cdd68a-34fb-11ec-9bd3-acde48001122
-version: 1
-date: '2021-10-24'
+version: 2
+date: '2024-05-21'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting
-description: This search can help the detection of compromised accounts or internal
-  users sending suspcious calendar invites via GSuite calendar. These invites may
-  contain malicious links or attachments.
+description: The following analytic detects suspicious calendar invites sent via GSuite,
+  potentially indicating compromised accounts or malicious internal activity. It leverages
+  GSuite calendar logs, focusing on events where a high volume of invites (over 100)
+  is sent within a 5-minute window. This behavior is significant as it may involve
+  the distribution of malicious links or attachments, posing a security risk. If confirmed
+  malicious, this activity could lead to widespread phishing attacks, unauthorized
+  access, or malware distribution within the organization.
 data_source: []
 search: '`gsuite_calendar` |bin span=5m _time |rename parameters.* as * |search target_calendar_id!=null
   email="*yourdomain.com"| stats  count values(target_calendar_id) values(event_title)

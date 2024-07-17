@@ -15,7 +15,6 @@ narrative: Adversaries employ a variety of techniques in order to avoid detectio
 references:
 - https://attack.mitre.org/tactics/TA0005/
 tags:
-  analytic_story: AWS Defense Evasion
   category:
   - Cloud Security
   product:

@@ -1,19 +1,19 @@
 name: Amazon EKS Kubernetes Pod scan detection
 id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
-version: 1
-date: '2020-04-15'
+version: 2
+date: '2024-05-29'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
 description: |-
-  The following analytic detects unauthenticated requests made against the Kubernetes' Pods API through proactive monitoring to protect the Kubernetes environment from unauthorized access and potential security breaches. The detection is made by using the Splunk query `aws_cloudwatchlogs_eks` with specific filters to identify these requests. Identifies events where the `user.username` is set to "system:anonymous", the `verb` is set to "list", and the `objectRef.resource` is set to "pods". Additionally, the search checks if the `requestURI` is equal to "/api/v1/pods". Analyzing these events helps you to identify any unauthorized access attempts to the Kubernetes' Pods API. Unauthenticated requests can indicate potential security breaches or unauthorized access to sensitive resources within the Kubernetes environment. The detection is important because unauthorized access to Kubernetes' Pods API can lead to the compromise of sensitive data, unauthorized execution of commands, or even the potential for lateral movement within the Kubernetes cluster. False positives might occur since there might be legitimate use cases for unauthenticated requests in certain scenarios. Therefore, you must review and validate any detected events before taking any action.  Next steps include investigating the incident to mitigate any ongoing threats, and strengthening the security measures to prevent future unauthorized access attempts.
+  The following analytic detects unauthenticated requests made against the Kubernetes Pods API, indicating potential unauthorized access attempts. It leverages the `aws_cloudwatchlogs_eks` data source, filtering for events where `user.username` is "system:anonymous", `verb` is "list", and `objectRef.resource` is "pods", with `requestURI` set to "/api/v1/pods". This activity is significant as it may signal attempts to access sensitive resources or execute unauthorized commands within the Kubernetes environment. If confirmed malicious, such access could lead to data compromise, unauthorized command execution, or lateral movement within the cluster.
 data_source: []
 search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" verb=list objectRef.resource=pods
   requestURI="/api/v1/pods" | rename source as cluster_name sourceIPs{} as src_ip
   | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason)
   values(responseStatus.code) values(userAgent) values(verb) values(requestURI) by
   src_ip cluster_name user.username user.groups{} | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `amazon_eks_kubernetes_pod_scan_detection_filter` '
+  | `security_content_ctime(firstTime)` | `amazon_eks_kubernetes_pod_scan_detection_filter`'
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on forAWS (version 4.4.0 or later), then configure your AWS CloudWatch
   EKS Logs.Please also customize the `kubernetes_pods_aws_scan_fingerprint_detection`

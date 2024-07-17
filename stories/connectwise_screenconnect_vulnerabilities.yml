@@ -10,7 +10,6 @@ references:
   - https://www.huntress.com/blog/detection-guidance-for-connectwise-cwe-288-2
   - https://www.connectwise.com/company/trust/security-bulletins/connectwise-screenconnect-23.9.8
 tags:
-  analytic_story: ConnectWise ScreenConnect Vulnerabilities
   category:
   - Adversary Tactics
   product:

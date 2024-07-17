@@ -2,8 +2,8 @@
 <p align="center">
     <a href="https://github.com/splunk/security_content/releases">
         <img src="https://img.shields.io/github/v/release/splunk/security_content" /></a>
-    <a href="https://github.com/splunk/security_content/actions/workflows/validate-and-build.yml/badge.svg?branch=develop">
-        <img src="https://github.com/splunk/security_content/actions/workflows/validate-and-build.yml/badge.svg?branch=develop" /></a>
+    <a href="https://github.com/splunk/security_content/actions/workflows/build.yml/badge.svg?branch=develop">
+        <img src="https://github.com/splunk/security_content/actions/workflows/build.yml/badge.svg?branch=develop" /></a>
     <a href="https://github.com/splunk/security_content">
         <img src="https://security-content.s3-us-west-2.amazonaws.com/reporting/detection_count.svg" /></a>
     <a href="https://github.com/splunk/security_content">
@@ -33,7 +33,7 @@ This project gives you access to our repository of Analytic Stories, security gu
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
  
-### 🌐 [Website](https://www.notion.so/Splunk-c0afd5a0c59242a19f7ab555630b493d?pvs=21)
+### 🌐 [Website](https://research.splunk.com/)
 
 Best way to discover and access our content is by using the [research.splunk.com](https://research.splunk.com/) website.
 

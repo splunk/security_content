@@ -1,0 +1,6 @@
+definition: '| inputlookup prohibited_apps_launching_cmd | rename prohibited_applications
+  as parent_process_name | eval parent_process_name="*" . parent_process_name | table
+  parent_process_name'
+description: This macro outputs a list of process that should not be the parent process
+  of cmd.exe
+name: prohibited_apps_launching_cmd_macro
