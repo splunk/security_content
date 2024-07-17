@@ -1,10 +1,10 @@
 name: Deleting Shadow Copies
-id: fd40c537-53d0-4c28-9b7e-77cfd28a49c8
+id: 19c85f5e-24a5-4355-a430-db9a58d1dc15
 version: 5
 date: '2023-10-03'
 author: Bhavin Patel, Splunk
 type: TTP
-status: validation
+status: production
 description: The vssadmin.exe utility is used to interact with the Volume Shadow Copy
   Service. Wmic is an interface to the Windows Management Instrumentation.  This search
   looks for either of these tools being used to delete shadow copies.
