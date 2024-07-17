@@ -15,7 +15,7 @@ description: The following analytic detects a suspicious mshta.exe process spawn
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   = "mshta.exe"  `process_rundll32` OR `process_regsvr32` by  Processes.parent_process_name

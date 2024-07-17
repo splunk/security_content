@@ -1,4 +1,7 @@
-event_name: Windows Event Log Printservice 808
+name: Windows Event Log Printservice 808
+id: e3a26785-4389-4830-8d7b-3dad4252719e
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Printservice 808
 fields:
 - _time
 - ComputerName

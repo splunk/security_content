@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail ConsoleLogin
+name: AWS CloudTrail ConsoleLogin
+id: b68b3f26-bd21-4fa8-b593-616fe75ac0ae
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail ConsoleLogin
 fields:
 - _time
 - action
@@ -77,4 +80,14 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "accountId": "140429656527", "accessKeyId": "", "userName": "HIDDEN_DUE_TO_SECURITY_REASONS"}, "eventTime": "2022-10-19T20:33:38Z", "eventSource": "signin.amazonaws.com", "eventName": "ConsoleLogin", "awsRegion": "us-east-1", "sourceIPAddress": "142.254.89.27", "userAgent": "Go-http-client/1.1", "errorMessage": "No username found in supplied account", "requestParameters": null, "responseElements": {"ConsoleLogin": "Failure"}, "additionalEventData": {"LoginTo": "https://console.aws.amazon.com", "MobileVersion": "No", "MFAUsed": "No"}, "eventID": "9fcfb8c3-3fca-48db-85d2-7b107f9d95d0", "readOnly": false, "eventType": "AwsConsoleSignIn", "managementEvent": true, "recipientAccountId": "140429656527", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "signin.aws.amazon.com"}}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "accountId":
+  "140429656527", "accessKeyId": "", "userName": "HIDDEN_DUE_TO_SECURITY_REASONS"},
+  "eventTime": "2022-10-19T20:33:38Z", "eventSource": "signin.amazonaws.com", "eventName":
+  "ConsoleLogin", "awsRegion": "us-east-1", "sourceIPAddress": "142.254.89.27", "userAgent":
+  "Go-http-client/1.1", "errorMessage": "No username found in supplied account", "requestParameters":
+  null, "responseElements": {"ConsoleLogin": "Failure"}, "additionalEventData": {"LoginTo":
+  "https://console.aws.amazon.com", "MobileVersion": "No", "MFAUsed": "No"}, "eventID":
+  "9fcfb8c3-3fca-48db-85d2-7b107f9d95d0", "readOnly": false, "eventType": "AwsConsoleSignIn",
+  "managementEvent": true, "recipientAccountId": "140429656527", "eventCategory":
+  "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+  "clientProvidedHostHeader": "signin.aws.amazon.com"}}'

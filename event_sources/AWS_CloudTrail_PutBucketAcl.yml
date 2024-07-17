@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail PutBucketAcl
+name: AWS CloudTrail PutBucketAcl
+id: 28fffbfd-d98d-4a42-990b-b04ab47422eb
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail PutBucketAcl
 fields:
 - _time
 - action
@@ -87,4 +90,18 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLNALZHZ6KX", "arn": "arn:aws:iam::111111111111:user/patrick_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLJ2OYSF6E", "userName": "patrick_cli"}, "eventTime": "2021-01-12T14:03:17Z", "eventSource": "s3.amazonaws.com", "eventName": "PutBucketAcl", "awsRegion": "eu-central-1", "sourceIPAddress": "95.90.199.65", "userAgent": "[aws-cli/2.0.45 Python/3.7.4 Darwin/20.2.0 exe/x86_64 command/s3api.put-bucket-acl]", "requestParameters": {"bucketName": "patricktestbucket19", "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com", "acl": "", "accessControlList": {"x-amz-grant-write-acp": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"}}, "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 0, "AuthenticationMethod": "AuthHeader", "x-amz-id-2": "qb+xR18y4+4serdq8conds+tNROklOFRYciGHof4z1pcnTnT9SCrx6iYHuupPNaiMnZ9kdB43yE=", "bytesTransferredOut": 0}, "requestID": "23FAB394417ECFCD", "eventID": "9feee3c9-711f-4f7d-af4c-992907a2a521", "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::patricktestbucket19"}], "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLNALZHZ6KX", "arn": "arn:aws:iam::111111111111:user/patrick_cli", "accountId":
+  "111111111111", "accessKeyId": "AKIAYTOGP2RLJ2OYSF6E", "userName": "patrick_cli"},
+  "eventTime": "2021-01-12T14:03:17Z", "eventSource": "s3.amazonaws.com", "eventName":
+  "PutBucketAcl", "awsRegion": "eu-central-1", "sourceIPAddress": "95.90.199.65",
+  "userAgent": "[aws-cli/2.0.45 Python/3.7.4 Darwin/20.2.0 exe/x86_64 command/s3api.put-bucket-acl]",
+  "requestParameters": {"bucketName": "patricktestbucket19", "Host": "patricktestbucket19.s3.eu-central-1.amazonaws.com",
+  "acl": "", "accessControlList": {"x-amz-grant-write-acp": "uri=http://acs.amazonaws.com/groups/global/AuthenticatedUsers"}},
+  "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite":
+  "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 0, "AuthenticationMethod":
+  "AuthHeader", "x-amz-id-2": "qb+xR18y4+4serdq8conds+tNROklOFRYciGHof4z1pcnTnT9SCrx6iYHuupPNaiMnZ9kdB43yE=",
+  "bytesTransferredOut": 0}, "requestID": "23FAB394417ECFCD", "eventID": "9feee3c9-711f-4f7d-af4c-992907a2a521",
+  "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket",
+  "ARN": "arn:aws:s3:::patricktestbucket19"}], "eventType": "AwsApiCall", "managementEvent":
+  true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'

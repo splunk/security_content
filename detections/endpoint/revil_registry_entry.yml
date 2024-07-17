@@ -17,7 +17,7 @@ description: The following analytic identifies suspicious modifications in the r
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)

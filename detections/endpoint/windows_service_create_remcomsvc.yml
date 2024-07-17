@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Windows System 7045
+- Windows Event Log System 7045
 description: The following analytic detects the creation of the RemComSvc service
   on a Windows endpoint, typically indicating lateral movement using RemCom.exe. It
   leverages Windows EventCode 7045 from the System event log, specifically looking

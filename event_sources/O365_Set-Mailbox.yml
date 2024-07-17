@@ -1,4 +1,7 @@
-event_name: O365 Set-Mailbox
+name: O365 Set-Mailbox
+id: db798c5c-928c-4972-bb42-e5f90e35865f
+author: Patrick Bareiss, Splunk
+description: Event source object for O365 Set-Mailbox
 fields:
 - _time
 - AppId
@@ -70,4 +73,11 @@ fields:
 - user_id
 - vendor_account
 - vendor_product
-example_log: '{"AppId": "", "ClientAppId": "", "ClientIP": "18.192.200.190:52816", "CreationTime": "2020-12-16T12:32:28", "ExternalAccess": false, "Id": "a6a52406-0912-448d-36eb-08d8a1bea6be", "ObjectId": "bpatel", "Operation": "Set-Mailbox", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08", "OrganizationName": "rodsoto.onmicrosoft.com", "OriginatingServer": "PH0PR14MB4341 (15.20.3654.025)", "Parameters": [{"Name": "ForwardingAddress", "Value": ""}, {"Name": "Identity", "Value": "bpatel@rodsoto.onmicrosoft.com"}], "RecordType": 1, "ResultStatus": "True", "SessionId": "86a7cd7c-3f42-4b68-b670-4024b5461a80", "UserId": "pbareiss@rodsoto.onmicrosoft.com", "UserKey": "10032001020A3408", "UserType": 2, "Version": 1, "Workload": "Exchange"}'
+example_log: '{"AppId": "", "ClientAppId": "", "ClientIP": "18.192.200.190:52816",
+  "CreationTime": "2020-12-16T12:32:28", "ExternalAccess": false, "Id": "a6a52406-0912-448d-36eb-08d8a1bea6be",
+  "ObjectId": "bpatel", "Operation": "Set-Mailbox", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08",
+  "OrganizationName": "rodsoto.onmicrosoft.com", "OriginatingServer": "PH0PR14MB4341
+  (15.20.3654.025)", "Parameters": [{"Name": "ForwardingAddress", "Value": ""}, {"Name":
+  "Identity", "Value": "bpatel@rodsoto.onmicrosoft.com"}], "RecordType": 1, "ResultStatus":
+  "True", "SessionId": "86a7cd7c-3f42-4b68-b670-4024b5461a80", "UserId": "pbareiss@rodsoto.onmicrosoft.com",
+  "UserKey": "10032001020A3408", "UserType": 2, "Version": 1, "Workload": "Exchange"}'

@@ -16,7 +16,7 @@ description: The following analytic detects `spoolsv.exe` writing a `.dll` file,
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=spoolsv.exe by _time Processes.process_guid Processes.process_name

@@ -1,4 +1,7 @@
-event_name: Google Workspace login_failure
+name: Google Workspace login_failure
+id: cabec7cf-4008-4899-b47e-39c34a9a1255
+author: Patrick Bareiss, Splunk
+description: Event source object for Google Workspace login_failure
 fields:
 - _time
 - actor.email
@@ -35,4 +38,10 @@ fields:
 - tag::eventtype
 - timeendpos
 - timestartpos
-example_log: '{"kind": "admin#reports#activity", "id": {"time": "2022-10-12T01:05:35.119Z", "uniqueQualifier": "720229394436", "applicationName": "login", "customerId": "C046r85ir"}, "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/_lixtTooT11WXorGf6w6ElN0m0g\"", "actor": {"email": "user29@daftpunk.com", "profileId": "114679690119024644513"}, "ipAddress": "141.254.89.27", "event": {"type": "login", "name": "login_failure", "parameters": [{"name": "login_type", "value": "unknown"}, {"name": "login_challenge_method", "multiValue": ["password"]}]}}'
+example_log: '{"kind": "admin#reports#activity", "id": {"time": "2022-10-12T01:05:35.119Z",
+  "uniqueQualifier": "720229394436", "applicationName": "login", "customerId": "C046r85ir"},
+  "etag": "\"JCPRxFaiNR1s5TJ6ecIH8OpGdY4efiOYXbIB65itOzY/_lixtTooT11WXorGf6w6ElN0m0g\"",
+  "actor": {"email": "user29@daftpunk.com", "profileId": "114679690119024644513"},
+  "ipAddress": "141.254.89.27", "event": {"type": "login", "name": "login_failure",
+  "parameters": [{"name": "login_type", "value": "unknown"}, {"name": "login_challenge_method",
+  "multiValue": ["password"]}]}}'

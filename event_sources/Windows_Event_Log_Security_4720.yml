@@ -1,4 +1,7 @@
-event_name: Windows Event Log Security 4720
+name: Windows Event Log Security 4720
+id: 7ef1c9e5-691b-48c2-811b-eba91d2d2f1d
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Security 4720
 fields:
 - _time
 - Account_Domain
@@ -95,15 +98,4 @@ fields:
 - user_group_id
 - vendor
 - vendor_product
-field_mappings:
-  - data_model: ocsf
-    mapping:  
-      SubjectDomainName: actor.user.domain
-      SubjectUserName: actor.user.name
-      SubjectLogonId: actor.session.uid
-      SubjectUserSid: actor.user.uid
-      TargetDomainName: user.domain
-      TargetUserName: user.name
-      UserPrincipalName: user.email_addr
-      TargetSid: user.uid
 example_log: 10/09/2020 10:41:26 AM

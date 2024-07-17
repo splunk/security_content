@@ -1,4 +1,7 @@
-event_name: Azure Active Directory Update user
+name: Azure Active Directory Update user
+id: 5495c90a-047c-4b8e-b2fe-1db6282d3872
+author: Patrick Bareiss, Splunk
+description: Event source object for Azure Active Directory Update user
 fields:
 - _time
 - Level
@@ -52,4 +55,20 @@ fields:
 - time
 - timeendpos
 - timestartpos
-example_log: '{"time": "2023-07-24T14:28:15.2233481Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Update user", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "2601:646:a000:200:b0ee:600c:de8a:c7d5", "correlationId": "d34f6d2e-3120-4b96-b922-e06090f6a497", "Level": 4, "properties": {"id": "Directory_d34f6d2e-3120-4b96-b922-e06090f6a497_VPRLA_316413199", "category": "UserManagement", "correlationId": "d34f6d2e-3120-4b96-b922-e06090f6a497", "result": "success", "resultReason": "", "activityDisplayName": "Update user", "activityDateTime": "2023-07-24T14:28:15.2233481+00:00", "loggedByService": "Core Directory", "operationType": "Update", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName": "tommyr@splunkresearch.com", "ipAddress": "2601:646:a000:200:b0ee:600c:de8a:c7d5", "roles": []}}, "targetResources": [{"id": "83a3158c-1d08-4686-b5f9-72fb34cb606e", "displayName": null, "type": "User", "userPrincipalName": "testuser@splunkresearch.com", "modifiedProperties": [{"displayName": "AccountEnabled", "oldValue": "[false]", "newValue": "[true]"}, {"displayName": "Included Updated Properties", "oldValue": null, "newValue": "\"AccountEnabled\""}, {"displayName": "TargetId.UserType", "oldValue": null, "newValue": "\"Member\""}], "administrativeUnits": []}], "additionalDetails": [{"key": "UserType", "value": "Member"}]}}'
+example_log: '{"time": "2023-07-24T14:28:15.2233481Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam",
+  "operationName": "Update user", "operationVersion": "1.0", "category": "AuditLogs",
+  "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs":
+  0, "callerIpAddress": "2601:646:a000:200:b0ee:600c:de8a:c7d5", "correlationId":
+  "d34f6d2e-3120-4b96-b922-e06090f6a497", "Level": 4, "properties": {"id": "Directory_d34f6d2e-3120-4b96-b922-e06090f6a497_VPRLA_316413199",
+  "category": "UserManagement", "correlationId": "d34f6d2e-3120-4b96-b922-e06090f6a497",
+  "result": "success", "resultReason": "", "activityDisplayName": "Update user", "activityDateTime":
+  "2023-07-24T14:28:15.2233481+00:00", "loggedByService": "Core Directory", "operationType":
+  "Update", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce",
+  "displayName": null, "userPrincipalName": "tommyr@splunkresearch.com", "ipAddress":
+  "2601:646:a000:200:b0ee:600c:de8a:c7d5", "roles": []}}, "targetResources": [{"id":
+  "83a3158c-1d08-4686-b5f9-72fb34cb606e", "displayName": null, "type": "User", "userPrincipalName":
+  "testuser@splunkresearch.com", "modifiedProperties": [{"displayName": "AccountEnabled",
+  "oldValue": "[false]", "newValue": "[true]"}, {"displayName": "Included Updated
+  Properties", "oldValue": null, "newValue": "\"AccountEnabled\""}, {"displayName":
+  "TargetId.UserType", "oldValue": null, "newValue": "\"Member\""}], "administrativeUnits":
+  []}], "additionalDetails": [{"key": "UserType", "value": "Member"}]}}'

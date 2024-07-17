@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail UpdateLoginProfile
+name: AWS CloudTrail UpdateLoginProfile
+id: 1db79158-e5d3-4d35-9d3c-586e44e09f1c
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail UpdateLoginProfile
 fields:
 - _time
 - action
@@ -73,4 +76,13 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLLAA6NJUM", "userName": "bhavin_cli"}, "eventTime": "2021-03-05T01:02:59Z", "eventSource": "iam.amazonaws.com", "eventName": "UpdateLoginProfile", "awsRegion": "us-east-1", "sourceIPAddress": "73.15.72.101", "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/19.6.0 source/x86_64 command/iam.update-login-profile", "requestParameters": {"userName": "AtomicRedTeam"}, "responseElements": null, "requestID": "08f38478-1749-4fb5-b07c-469d3448777a", "eventID": "033580e7-bbba-4b70-be63-7eeddb04b842", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId":
+  "111111111111", "accessKeyId": "AKIAYTOGP2RLLAA6NJUM", "userName": "bhavin_cli"},
+  "eventTime": "2021-03-05T01:02:59Z", "eventSource": "iam.amazonaws.com", "eventName":
+  "UpdateLoginProfile", "awsRegion": "us-east-1", "sourceIPAddress": "73.15.72.101",
+  "userAgent": "aws-cli/2.0.62 Python/3.9.2 Darwin/19.6.0 source/x86_64 command/iam.update-login-profile",
+  "requestParameters": {"userName": "AtomicRedTeam"}, "responseElements": null, "requestID":
+  "08f38478-1749-4fb5-b07c-469d3448777a", "eventID": "033580e7-bbba-4b70-be63-7eeddb04b842",
+  "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory":
+  "Management", "recipientAccountId": "111111111111"}'

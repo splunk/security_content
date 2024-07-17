@@ -1,4 +1,7 @@
-event_name: Azure Active Directory Set domain authentication
+name: Azure Active Directory Set domain authentication
+id: e7bcdab9-908c-40ab-ba38-5db54fa87750
+author: Patrick Bareiss, Splunk
+description: Event source object for Azure Active Directory Set domain authentication
 fields:
 - _time
 - Level
@@ -50,4 +53,22 @@ fields:
 - time
 - timeendpos
 - timestartpos
-example_log: '{"time": "2023-07-26T13:44:59.0372448Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam", "operationName": "Set domain authentication", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature": "None", "durationMs": 0, "callerIpAddress": "2601:646:a000:200:6419:f55c:946d:17d1", "correlationId": "57e60ecc-17b8-4ab5-815e-d538e1ca32a4", "Level": 4, "properties": {"id": "Directory_57e60ecc-17b8-4ab5-815e-d538e1ca32a4_XDHHZ_434456733", "category": "DirectoryManagement", "correlationId": "57e60ecc-17b8-4ab5-815e-d538e1ca32a4", "result": "success", "resultReason": "", "activityDisplayName": "Add unverified domain", "activityDateTime": "2023-07-26T13:44:59.0372448+00:00", "loggedByService": "Core Directory", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName": "tommyr@splunkresearch.com", "ipAddress": "2601:646:a000:200:6419:f55c:946d:17d1", "roles": []}}, "targetResources": [{"id": null, "displayName": "newdomain.com", "modifiedProperties": [{"displayName": "Name", "oldValue": "[\"\"]", "newValue": "[\"newdomain.com\"]"}, {"displayName": "LiveType", "oldValue": "[\"None\"]", "newValue": "[\"Managed\"]"}, {"displayName": "Included Updated Properties", "oldValue": null, "newValue": "\"Name,LiveType\""}], "administrativeUnits": []}], "additionalDetails": [{"key": "User-Agent", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"}]}}'
+example_log: '{"time": "2023-07-26T13:44:59.0372448Z", "resourceId": "/tenants/fc69e276-e9e8-4af9-9002-1e410d77244e/providers/Microsoft.aadiam",
+  "operationName": "Set domain authentication", "operationVersion": "1.0", "category":
+  "AuditLogs", "tenantId": "fc69e276-e9e8-4af9-9002-1e410d77244e", "resultSignature":
+  "None", "durationMs": 0, "callerIpAddress": "2601:646:a000:200:6419:f55c:946d:17d1",
+  "correlationId": "57e60ecc-17b8-4ab5-815e-d538e1ca32a4", "Level": 4, "properties":
+  {"id": "Directory_57e60ecc-17b8-4ab5-815e-d538e1ca32a4_XDHHZ_434456733", "category":
+  "DirectoryManagement", "correlationId": "57e60ecc-17b8-4ab5-815e-d538e1ca32a4",
+  "result": "success", "resultReason": "", "activityDisplayName": "Add unverified
+  domain", "activityDateTime": "2023-07-26T13:44:59.0372448+00:00", "loggedByService":
+  "Core Directory", "operationType": "Add", "userAgent": null, "initiatedBy": {"user":
+  {"id": "728989f4-eb3d-45c2-8741-2f2af4e485ce", "displayName": null, "userPrincipalName":
+  "tommyr@splunkresearch.com", "ipAddress": "2601:646:a000:200:6419:f55c:946d:17d1",
+  "roles": []}}, "targetResources": [{"id": null, "displayName": "newdomain.com",
+  "modifiedProperties": [{"displayName": "Name", "oldValue": "[\"\"]", "newValue":
+  "[\"newdomain.com\"]"}, {"displayName": "LiveType", "oldValue": "[\"None\"]", "newValue":
+  "[\"Managed\"]"}, {"displayName": "Included Updated Properties", "oldValue": null,
+  "newValue": "\"Name,LiveType\""}], "administrativeUnits": []}], "additionalDetails":
+  [{"key": "User-Agent", "value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+  AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"}]}}'

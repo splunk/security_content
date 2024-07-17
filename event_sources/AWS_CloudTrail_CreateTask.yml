@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail CreateTask
+name: AWS CloudTrail CreateTask
+id: 6501e4fe-05b2-45f1-bd51-9e06a94fa7d9
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail CreateTask
 fields:
 - _time
 - app
@@ -85,4 +88,25 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WQQQQQ:abc@acme.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/abc@acme.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLOB2GM111", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WQQQQQ", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2023-03-14T21:53:15Z", "mfaAuthenticated": "false"}}}, "eventTime": "2023-03-14T22:05:36Z", "eventSource": "datasync.amazonaws.com", "eventName": "CreateTask", "awsRegion": "us-west-2", "sourceIPAddress": "1.1.1.1", "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36", "requestParameters": {"sourceLocationArn": "arn:aws:datasync:us-west-2:111111111111:location/loc-0921d426f7955d416", "destinationLocationArn": "arn:aws:datasync:us-west-1:111111111111:location/loc-0b94cf657c358ef06", "cloudWatchLogGroupArn": "arn:aws:logs:us-west-2:111111111111:log-group:/aws/datasync", "options": {"verifyMode": "ONLY_FILES_TRANSFERRED", "logLevel": "BASIC"}, "excludes": [], "schedule": {"scheduleExpression": "cron(6 * * * ? *)"}, "tags": [], "includes": []}, "responseElements": {"taskArn": "arn:aws:datasync:us-west-2:111111111111:task/task-0c77dc0d4b0792ce6"}, "requestID": "de5f4282-aa2b-49b8-8d1b-c3bdb11e2fba", "eventID": "def4cd05-f845-4aec-bc96-07d6ce420d16", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "datasync.us-west-2.amazonaws.com"}, "sessionCredentialFromConsole": "true"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLDF6WQQQQQ:abc@acme.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/abc@acme.com",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLOB2GM111", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WQQQQQ", "arn":
+  "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f",
+  "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"},
+  "webIdFederationData": {}, "attributes": {"creationDate": "2023-03-14T21:53:15Z",
+  "mfaAuthenticated": "false"}}}, "eventTime": "2023-03-14T22:05:36Z", "eventSource":
+  "datasync.amazonaws.com", "eventName": "CreateTask", "awsRegion": "us-west-2", "sourceIPAddress":
+  "1.1.1.1", "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+  (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36", "requestParameters": {"sourceLocationArn":
+  "arn:aws:datasync:us-west-2:111111111111:location/loc-0921d426f7955d416", "destinationLocationArn":
+  "arn:aws:datasync:us-west-1:111111111111:location/loc-0b94cf657c358ef06", "cloudWatchLogGroupArn":
+  "arn:aws:logs:us-west-2:111111111111:log-group:/aws/datasync", "options": {"verifyMode":
+  "ONLY_FILES_TRANSFERRED", "logLevel": "BASIC"}, "excludes": [], "schedule": {"scheduleExpression":
+  "cron(6 * * * ? *)"}, "tags": [], "includes": []}, "responseElements": {"taskArn":
+  "arn:aws:datasync:us-west-2:111111111111:task/task-0c77dc0d4b0792ce6"}, "requestID":
+  "de5f4282-aa2b-49b8-8d1b-c3bdb11e2fba", "eventID": "def4cd05-f845-4aec-bc96-07d6ce420d16",
+  "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId":
+  "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2",
+  "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "datasync.us-west-2.amazonaws.com"},
+  "sessionCredentialFromConsole": "true"}'

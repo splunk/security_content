@@ -1,4 +1,7 @@
-event_name: Windows Event Log Printservice 316
+name: Windows Event Log Printservice 316
+id: 12f0be8b-22c0-4fdf-9468-b7ccca824d1d
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Printservice 316
 fields:
 - _time
 - ComputerName

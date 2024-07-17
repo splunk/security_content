@@ -1,4 +1,7 @@
-event_name: Windows Event Log Security 4699
+name: Windows Event Log Security 4699
+id: 4727dead-d063-4333-9ddd-59823a416aff
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Security 4699
 fields:
 - _time
 - Account_Domain

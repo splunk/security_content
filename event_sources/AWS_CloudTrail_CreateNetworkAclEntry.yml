@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail CreateNetworkAclEntry
+name: AWS CloudTrail CreateNetworkAclEntry
+id: 45934028-10ec-4ab5-a7b1-a6349b833e67
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail CreateNetworkAclEntry
 fields:
 - _time
 - action
@@ -92,4 +95,18 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLF3F7BXZK", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn": "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName": "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false", "creationDate": "2021-01-12T08:36:15Z"}}}, "eventTime": "2021-01-12T08:38:39Z", "eventSource": "ec2.amazonaws.com", "eventName": "CreateNetworkAclEntry", "awsRegion": "eu-central-1", "sourceIPAddress": "95.90.199.65", "userAgent": "console.ec2.amazonaws.com", "requestParameters": {"networkAclId": "acl-078ccebebcbabe175", "ruleNumber": 10, "egress": false, "ruleAction": "allow", "icmpTypeCode": {}, "portRange": {}, "aclProtocol": "-1", "cidrBlock": "0.0.0.0/0"}, "responseElements": {"requestId": "d29c9c32-3a72-48d3-b612-6ba795e9ec64", "_return": true}, "requestID": "d29c9c32-3a72-48d3-b612-6ba795e9ec64", "eventID": "6d1ce00e-4099-463c-8a4d-2af2fb2178ba", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLF3F7BXZK", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn":
+  "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName":
+  "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated":
+  "false", "creationDate": "2021-01-12T08:36:15Z"}}}, "eventTime": "2021-01-12T08:38:39Z",
+  "eventSource": "ec2.amazonaws.com", "eventName": "CreateNetworkAclEntry", "awsRegion":
+  "eu-central-1", "sourceIPAddress": "95.90.199.65", "userAgent": "console.ec2.amazonaws.com",
+  "requestParameters": {"networkAclId": "acl-078ccebebcbabe175", "ruleNumber": 10,
+  "egress": false, "ruleAction": "allow", "icmpTypeCode": {}, "portRange": {}, "aclProtocol":
+  "-1", "cidrBlock": "0.0.0.0/0"}, "responseElements": {"requestId": "d29c9c32-3a72-48d3-b612-6ba795e9ec64",
+  "_return": true}, "requestID": "d29c9c32-3a72-48d3-b612-6ba795e9ec64", "eventID":
+  "6d1ce00e-4099-463c-8a4d-2af2fb2178ba", "readOnly": false, "eventType": "AwsApiCall",
+  "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'

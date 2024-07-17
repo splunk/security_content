@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail SetDefaultPolicyVersion
+name: AWS CloudTrail SetDefaultPolicyVersion
+id: 06e0b5a0-8d36-485e-befc-4ae79d77ef6c
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail SetDefaultPolicyVersion
 fields:
 - _time
 - action
@@ -74,4 +77,14 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLESDK2NOSX", "arn": "arn:aws:iam::111111111111:user/AtomicRedTeam", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKMZDMPVA", "userName": "AtomicRedTeam"}, "eventTime": "2021-03-02T21:05:49Z", "eventSource": "iam.amazonaws.com", "eventName": "SetDefaultPolicyVersion", "awsRegion": "us-east-1", "sourceIPAddress": "73.15.72.101", "userAgent": "aws-cli/2.0.62 Python/3.9.0 Darwin/19.6.0 source/x86_64 command/iam.set-default-policy-version", "requestParameters": {"policyArn": "arn:aws:iam::111111111111:policy/VulnerablePolicy", "versionId": "v1"}, "responseElements": null, "requestID": "3bdf8738-2eab-4ae8-a858-2e2a4ccfc66b", "eventID": "742f6e55-4bc7-49e2-965f-56ffbc46a980", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLESDK2NOSX", "arn": "arn:aws:iam::111111111111:user/AtomicRedTeam",
+  "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKMZDMPVA", "userName":
+  "AtomicRedTeam"}, "eventTime": "2021-03-02T21:05:49Z", "eventSource": "iam.amazonaws.com",
+  "eventName": "SetDefaultPolicyVersion", "awsRegion": "us-east-1", "sourceIPAddress":
+  "73.15.72.101", "userAgent": "aws-cli/2.0.62 Python/3.9.0 Darwin/19.6.0 source/x86_64
+  command/iam.set-default-policy-version", "requestParameters": {"policyArn": "arn:aws:iam::111111111111:policy/VulnerablePolicy",
+  "versionId": "v1"}, "responseElements": null, "requestID": "3bdf8738-2eab-4ae8-a858-2e2a4ccfc66b",
+  "eventID": "742f6e55-4bc7-49e2-965f-56ffbc46a980", "readOnly": false, "eventType":
+  "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId":
+  "111111111111"}'

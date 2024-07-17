@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail ModifyImageAttribute
+name: AWS CloudTrail ModifyImageAttribute
+id: 667c2115-8082-419e-b541-8150066bda4d
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail ModifyImageAttribute
 fields:
 - _time
 - app
@@ -78,4 +81,19 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WP4HD6:bonobo@bo.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/bonobo@bo.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLBHIEEEPN", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4HD6", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2023-03-23T19:27:44Z", "mfaAuthenticated": "false"}}}, "eventTime": "2023-03-23T21:47:28Z", "eventSource": "ec2.amazonaws.com", "eventName": "ModifyImageAttribute", "awsRegion": "us-west-2", "sourceIPAddress": "72.135.245.10", "userAgent": "AWS Internal", "requestParameters": {"imageId": "ami-06dac31db29508566", "launchPermission": {"add": {"items": [{"userId": "140429656527"}]}}, "attributeType": "launchPermission"}, "responseElements": {"requestId": "84c431ce-6268-4218-aaf8-b4cdc1cd4055", "_return": true}, "requestID": "84c431ce-6268-4218-aaf8-b4cdc1cd4055", "eventID": "957e1b12-ea17-4006-aefd-20677ace72b8", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "sessionCredentialFromConsole": "true"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLDF6WP4HD6:bonobo@bo.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/bonobo@bo.com",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLBHIEEEPN", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4HD6", "arn":
+  "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f",
+  "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"},
+  "webIdFederationData": {}, "attributes": {"creationDate": "2023-03-23T19:27:44Z",
+  "mfaAuthenticated": "false"}}}, "eventTime": "2023-03-23T21:47:28Z", "eventSource":
+  "ec2.amazonaws.com", "eventName": "ModifyImageAttribute", "awsRegion": "us-west-2",
+  "sourceIPAddress": "72.135.245.10", "userAgent": "AWS Internal", "requestParameters":
+  {"imageId": "ami-06dac31db29508566", "launchPermission": {"add": {"items": [{"userId":
+  "140429656527"}]}}, "attributeType": "launchPermission"}, "responseElements": {"requestId":
+  "84c431ce-6268-4218-aaf8-b4cdc1cd4055", "_return": true}, "requestID": "84c431ce-6268-4218-aaf8-b4cdc1cd4055",
+  "eventID": "957e1b12-ea17-4006-aefd-20677ace72b8", "readOnly": false, "eventType":
+  "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory":
+  "Management", "sessionCredentialFromConsole": "true"}'

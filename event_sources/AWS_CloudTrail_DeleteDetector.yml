@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail DeleteDetector
+name: AWS CloudTrail DeleteDetector
+id: 5d8bd475-c8bc-4447-b27f-efa508728b90
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail DeleteDetector
 fields:
 - _time
 - app
@@ -72,4 +75,15 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName": "gowthamaraj_cli"}, "eventTime": "2022-07-21T20:27:54Z", "eventSource": "guardduty.amazonaws.com", "eventName": "DeleteDetector", "awsRegion": "us-west-2", "sourceIPAddress": "67.171.71.185", "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off command/guardduty.delete-detector", "errorCode": "BadRequestException", "requestParameters": {"detectorId": "123"}, "responseElements": {"message": "The request is rejected because the parameter detectorId has an invalid value.", "__type": "InvalidInputException"}, "requestID": "1e832076-d7a8-432b-b0df-54ba62f6b62c", "eventID": "c1367a2f-8910-4e64-9256-a854d2e9f37d", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLI4PXTGCEU", "arn": "arn:aws:iam::111111111111:user/gowthamaraj_cli",
+  "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLFLKADUVG", "userName":
+  "gowthamaraj_cli"}, "eventTime": "2022-07-21T20:27:54Z", "eventSource": "guardduty.amazonaws.com",
+  "eventName": "DeleteDetector", "awsRegion": "us-west-2", "sourceIPAddress": "67.171.71.185",
+  "userAgent": "aws-cli/2.7.3 Python/3.9.13 Darwin/21.5.0 source/x86_64 prompt/off
+  command/guardduty.delete-detector", "errorCode": "BadRequestException", "requestParameters":
+  {"detectorId": "123"}, "responseElements": {"message": "The request is rejected
+  because the parameter detectorId has an invalid value.", "__type": "InvalidInputException"},
+  "requestID": "1e832076-d7a8-432b-b0df-54ba62f6b62c", "eventID": "c1367a2f-8910-4e64-9256-a854d2e9f37d",
+  "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId":
+  "111111111111", "eventCategory": "Management"}'

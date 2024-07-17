@@ -15,7 +15,7 @@ description: The following analytic detects the suspicious creation of msmpeng.e
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name = "msmpeng.exe" OR Filesystem.file_name = "mpsvc.dll")  AND

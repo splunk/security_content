@@ -1,4 +1,7 @@
-event_name: Windows Event Log System 4726
+name: Windows Event Log System 4726
+id: 05e6b2df-b50e-441b-8ac8-565f2e80d62f
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log System 4726
 fields:
 - _time
 - Account_Domain

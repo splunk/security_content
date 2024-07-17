@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail PutBucketReplication
+name: AWS CloudTrail PutBucketReplication
+id: 0e1362eb-e592-419f-8fa5-556d3a122417
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail PutBucketReplication
 fields:
 - _time
 - additionalEventData.AuthenticationMethod
@@ -101,4 +104,29 @@ fields:
 - vendor_product
 - vendor_region
 - vpcEndpointId
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WP4H11:bpatel@splunk.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/bpatel@splunk.com", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLJOVYQHW2", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4H11", "arn": "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"}, "webIdFederationData": {}, "attributes": {"creationDate": "2023-04-24T23:45:42Z", "mfaAuthenticated": "false"}}}, "eventTime": "2023-04-24T23:49:33Z", "eventSource": "s3.amazonaws.com", "eventName": "PutBucketReplication", "awsRegion": "us-west-2", "sourceIPAddress": "23.93.193.6", "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.1030 Linux/5.4.238-155.347.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.362-b10 java/1.8.0_362 vendor/Oracle_Corporation cfg/retry-mode/standard]", "requestParameters": {"replication": "", "bucketName": "git-wild-hunt-results", "Host": "s3.us-west-2.amazonaws.com", "ReplicationConfiguration": {"Role": "arn:aws:iam::111111111111:role/attack_range_bpatel", "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/", "Rule": {"Status": "Enabled", "Destination": {"Bucket": "arn:aws:s3:::badpublicbuckettest"}, "Filter": "", "Priority": 0, "ID": "replication_x_test", "DeleteMarkerReplication": {"Status": "Disabled"}}}}, "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 416, "AuthenticationMethod": "AuthHeader", "x-amz-id-2": "8UoliFe/sG2/v8qB2g763/g0Fy+kfaUqtKrzLHEILnHUisC3rL1dQfJ3NSIYcA/kzpIHQ955pGo=", "bytesTransferredOut": 0}, "requestID": "14SAVMJNEJMTZN91", "eventID": "fbe079d1-bc6b-4ee0-8893-d2b412c5550f", "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::git-wild-hunt-results"}], "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "vpcEndpointId": "vpce-a0d039c9", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "s3.us-west-2.amazonaws.com"}}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLDF6WP4H11:bpatel@splunk.com", "arn": "arn:aws:sts::111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/bpatel@splunk.com",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLJOVYQHW2", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WP4H11", "arn":
+  "arn:aws:iam::111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f",
+  "accountId": "111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f"},
+  "webIdFederationData": {}, "attributes": {"creationDate": "2023-04-24T23:45:42Z",
+  "mfaAuthenticated": "false"}}}, "eventTime": "2023-04-24T23:49:33Z", "eventSource":
+  "s3.amazonaws.com", "eventName": "PutBucketReplication", "awsRegion": "us-west-2",
+  "sourceIPAddress": "23.93.193.6", "userAgent": "[S3Console/0.4, aws-internal/3 aws-sdk-java/1.11.1030
+  Linux/5.4.238-155.347.amzn2int.x86_64 OpenJDK_64-Bit_Server_VM/25.362-b10 java/1.8.0_362
+  vendor/Oracle_Corporation cfg/retry-mode/standard]", "requestParameters": {"replication":
+  "", "bucketName": "git-wild-hunt-results", "Host": "s3.us-west-2.amazonaws.com",
+  "ReplicationConfiguration": {"Role": "arn:aws:iam::111111111111:role/attack_range_bpatel",
+  "xmlns": "http://s3.amazonaws.com/doc/2006-03-01/", "Rule": {"Status": "Enabled",
+  "Destination": {"Bucket": "arn:aws:s3:::badpublicbuckettest"}, "Filter": "", "Priority":
+  0, "ID": "replication_x_test", "DeleteMarkerReplication": {"Status": "Disabled"}}}},
+  "responseElements": null, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite":
+  "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 416, "AuthenticationMethod":
+  "AuthHeader", "x-amz-id-2": "8UoliFe/sG2/v8qB2g763/g0Fy+kfaUqtKrzLHEILnHUisC3rL1dQfJ3NSIYcA/kzpIHQ955pGo=",
+  "bytesTransferredOut": 0}, "requestID": "14SAVMJNEJMTZN91", "eventID": "fbe079d1-bc6b-4ee0-8893-d2b412c5550f",
+  "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::S3::Bucket",
+  "ARN": "arn:aws:s3:::git-wild-hunt-results"}], "eventType": "AwsApiCall", "managementEvent":
+  true, "recipientAccountId": "111111111111", "vpcEndpointId": "vpce-a0d039c9", "eventCategory":
+  "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+  "clientProvidedHostHeader": "s3.us-west-2.amazonaws.com"}}'

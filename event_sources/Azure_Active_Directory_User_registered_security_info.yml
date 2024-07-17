@@ -1,4 +1,8 @@
-event_name: Azure Active Directory User registered security info
+name: Azure Active Directory User registered security info
+id: b63240de-8a01-4ba8-8987-89d18d4b375d
+author: Patrick Bareiss, Splunk
+description: Event source object for Azure Active Directory User registered security
+  info
 fields:
 - _time
 - Level
@@ -48,4 +52,18 @@ fields:
 - time
 - timeendpos
 - timestartpos
-example_log: '{"time": "2023-01-30T21:11:30.8690619Z", "resourceId": "/tenants/91da745f-8abb-4a7d-ba94-5667c6f9e01a/providers/Microsoft.aadiam", "operationName": "User registered security info", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "91da745f-8abb-4a7d-ba94-5667c6f9e01a", "resultSignature": "None", "resultDescription": "User registered App Password", "durationMs": 0, "callerIpAddress": "72.1.2.43", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "Level": 4, "properties": {"id": "IAMUX_14279c94-7ebc-409f-be4e-7861f13c8a79_K2ATV_323947358", "category": "UserManagement", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "result": "success", "resultReason": "User registered App Password", "activityDisplayName": "User registered security info", "activityDateTime": "2023-01-30T21:11:30.8690619+00:00", "loggedByService": "Authentication Methods", "operationType": "Add", "userAgent": null, "initiatedBy": {"user": {"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": null, "userPrincipalName": "User30@splunkresearch.com", "ipAddress": "72.1.2.43", "roles": []}}, "targetResources": [{"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName": "User30", "type": "User", "userPrincipalName": "User30@splunkresearch.com", "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}'
+example_log: '{"time": "2023-01-30T21:11:30.8690619Z", "resourceId": "/tenants/91da745f-8abb-4a7d-ba94-5667c6f9e01a/providers/Microsoft.aadiam",
+  "operationName": "User registered security info", "operationVersion": "1.0", "category":
+  "AuditLogs", "tenantId": "91da745f-8abb-4a7d-ba94-5667c6f9e01a", "resultSignature":
+  "None", "resultDescription": "User registered App Password", "durationMs": 0, "callerIpAddress":
+  "72.1.2.43", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79", "Level": 4,
+  "properties": {"id": "IAMUX_14279c94-7ebc-409f-be4e-7861f13c8a79_K2ATV_323947358",
+  "category": "UserManagement", "correlationId": "14279c94-7ebc-409f-be4e-7861f13c8a79",
+  "result": "success", "resultReason": "User registered App Password", "activityDisplayName":
+  "User registered security info", "activityDateTime": "2023-01-30T21:11:30.8690619+00:00",
+  "loggedByService": "Authentication Methods", "operationType": "Add", "userAgent":
+  null, "initiatedBy": {"user": {"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998", "displayName":
+  null, "userPrincipalName": "User30@splunkresearch.com", "ipAddress": "72.1.2.43",
+  "roles": []}}, "targetResources": [{"id": "40b61050-e814-4ae5-8ffe-66b6f0c53998",
+  "displayName": "User30", "type": "User", "userPrincipalName": "User30@splunkresearch.com",
+  "modifiedProperties": [], "administrativeUnits": []}], "additionalDetails": []}}'

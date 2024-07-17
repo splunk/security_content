@@ -18,7 +18,7 @@ description: The following hunting analytic is an experimental query built again
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 - Windows Event Log Security 4688
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name from datamodel=Endpoint.Processes

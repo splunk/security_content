@@ -1,4 +1,7 @@
-event_name: Windows Event Log CertificateServicesClient 1007
+name: Windows Event Log CertificateServicesClient 1007
+id: c51444e3-479d-4c4a-b111-e8276a3acf39
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log CertificateServicesClient 1007
 fields:
 - _time
 - ActivityID
@@ -48,4 +51,13 @@ fields:
 - timestartpos
 - user_id
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-CertificateServicesClient-Lifecycle-System' Guid='{bc0669e1-a10d-4a78-834e-1ca3c806c93b}'/><EventID>1007</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2023-02-01T17:08:44.1466587Z'/><EventRecordID>2</EventRecordID><Correlation ActivityID='{3b615f97-365d-0000-130d-623b5d36d901}'/><Execution ProcessID='7716' ThreadID='8384'/><Channel>Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational</Channel><Computer>DESKTOP-92OQLA1</Computer><Security UserID='S-1-5-21-2334826781-4204571024-2242252149-1000'/></System><UserData><CertNotificationData ProcessName='powershell.exe' AccountName='DESKTOP-92OQLA1\Michael Haag' Context='Machine'><CertificateDetails Thumbprint='1ee3cb11c0937a0940d8633fbece475b76a04833'><SubjectNames><SubjectName>CN=test.atomic.com</SubjectName><SubjectName>test.atomic.com</SubjectName></SubjectNames><EKUs><EKU Name='Client Authentication' OID='1.3.6.1.5.5.7.3.2'/><EKU Name='Server Authentication' OID='1.3.6.1.5.5.7.3.1'/></EKUs><NotValidAfter>2024-02-01T17:18:09Z</NotValidAfter></CertificateDetails></CertNotificationData></UserData></Event>
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-CertificateServicesClient-Lifecycle-System' Guid='{bc0669e1-a10d-4a78-834e-1ca3c806c93b}'/><EventID>1007</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
+  SystemTime='2023-02-01T17:08:44.1466587Z'/><EventRecordID>2</EventRecordID><Correlation
+  ActivityID='{3b615f97-365d-0000-130d-623b5d36d901}'/><Execution ProcessID='7716'
+  ThreadID='8384'/><Channel>Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational</Channel><Computer>DESKTOP-92OQLA1</Computer><Security
+  UserID='S-1-5-21-2334826781-4204571024-2242252149-1000'/></System><UserData><CertNotificationData
+  ProcessName='powershell.exe' AccountName='DESKTOP-92OQLA1\Michael Haag' Context='Machine'><CertificateDetails
+  Thumbprint='1ee3cb11c0937a0940d8633fbece475b76a04833'><SubjectNames><SubjectName>CN=test.atomic.com</SubjectName><SubjectName>test.atomic.com</SubjectName></SubjectNames><EKUs><EKU
+  Name='Client Authentication' OID='1.3.6.1.5.5.7.3.2'/><EKU Name='Server Authentication'
+  OID='1.3.6.1.5.5.7.3.1'/></EKUs><NotValidAfter>2024-02-01T17:18:09Z</NotValidAfter></CertificateDetails></CertNotificationData></UserData></Event>

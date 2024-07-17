@@ -1,4 +1,7 @@
-event_name: Windows Event Log System 4720
+name: Windows Event Log System 4720
+id: f01d4758-05c8-4ac4-a9a5-33500dd5eb6c
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log System 4720
 fields:
 - _time
 - Account_Domain

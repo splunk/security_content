@@ -1,4 +1,7 @@
-event_name: Windows Event Log Security 4741
+name: Windows Event Log Security 4741
+id: ef87257f-e7d1-4856-abae-097b2cfdcdb4
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Security 4741
 fields:
 - _time
 - AccountExpires
@@ -102,4 +105,16 @@ fields:
 - user_type
 - vendor
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4741</EventID><Version>0</Version><Level>0</Level><Task>13825</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2024-04-08T18:48:04.618400500Z'/><EventRecordID>143475</EventRecordID><Correlation/><Execution ProcessID='636' ThreadID='1776'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='TargetUserName'>AR-WIN-2$</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>ATTACKRANGE\AR-WIN-2$</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0xd9f04</Data><Data Name='PrivilegeList'>-</Data><Data Name='SamAccountName'>AR-WIN-2$</Data><Data Name='DisplayName'>-</Data><Data Name='UserPrincipalName'>-</Data><Data Name='HomeDirectory'>-</Data><Data Name='HomePath'>-</Data><Data Name='ScriptPath'>-</Data><Data Name='ProfilePath'>-</Data><Data Name='UserWorkstations'>-</Data><Data Name='PasswordLastSet'>4/8/2024 6:48:04 PM</Data><Data Name='AccountExpires'>%%1794</Data><Data Name='PrimaryGroupId'>515</Data><Data Name='AllowedToDelegateTo'>-</Data><Data Name='OldUacValue'>0x0</Data><Data Name='NewUacValue'>0x80</Data><Data Name='UserAccountControl'>
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4741</EventID><Version>0</Version><Level>0</Level><Task>13825</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+  SystemTime='2024-04-08T18:48:04.618400500Z'/><EventRecordID>143475</EventRecordID><Correlation/><Execution
+  ProcessID='636' ThreadID='1776'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
+  Name='TargetUserName'>AR-WIN-2$</Data><Data Name='TargetDomainName'>ATTACKRANGE</Data><Data
+  Name='TargetSid'>ATTACKRANGE\AR-WIN-2$</Data><Data Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data
+  Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data
+  Name='SubjectLogonId'>0xd9f04</Data><Data Name='PrivilegeList'>-</Data><Data Name='SamAccountName'>AR-WIN-2$</Data><Data
+  Name='DisplayName'>-</Data><Data Name='UserPrincipalName'>-</Data><Data Name='HomeDirectory'>-</Data><Data
+  Name='HomePath'>-</Data><Data Name='ScriptPath'>-</Data><Data Name='ProfilePath'>-</Data><Data
+  Name='UserWorkstations'>-</Data><Data Name='PasswordLastSet'>4/8/2024 6:48:04 PM</Data><Data
+  Name='AccountExpires'>%%1794</Data><Data Name='PrimaryGroupId'>515</Data><Data Name='AllowedToDelegateTo'>-</Data><Data
+  Name='OldUacValue'>0x0</Data><Data Name='NewUacValue'>0x80</Data><Data Name='UserAccountControl'>

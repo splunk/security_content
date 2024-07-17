@@ -1,4 +1,7 @@
-event_name: Sysmon EventID 9
+name: Sysmon EventID 9
+id: ae4a6a24-9b8c-4386-a7ac-677d7ad5bf09
+author: Patrick Bareiss, Splunk
+description: Event source object for Sysmon EventID 9
 fields:
 - _time
 - Channel
@@ -66,4 +69,10 @@ fields:
 - timestartpos
 - user_id
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>9</EventID><Version>2</Version><Level>4</Level><Task>9</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2022-02-25T12:25:33.375618100Z'/><EventRecordID>190607</EventRecordID><Correlation/><Execution ProcessID='2724' ThreadID='2436'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-tcontreras-attack-range-478.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2022-02-25 12:25:33.359</Data><Data Name='ProcessGuid'>{414E8EDF-CABB-6218-F103-000000003702}</Data><Data Name='ProcessId'>6068</Data><Data Name='Image'>C:\Temp\c.exe</Data><Data Name='Device'>\Device\HarddiskVolume1</Data></EventData></Event>
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>9</EventID><Version>2</Version><Level>4</Level><Task>9</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
+  SystemTime='2022-02-25T12:25:33.375618100Z'/><EventRecordID>190607</EventRecordID><Correlation/><Execution
+  ProcessID='2724' ThreadID='2436'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-tcontreras-attack-range-478.attackrange.local</Computer><Security
+  UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2022-02-25
+  12:25:33.359</Data><Data Name='ProcessGuid'>{414E8EDF-CABB-6218-F103-000000003702}</Data><Data
+  Name='ProcessId'>6068</Data><Data Name='Image'>C:\Temp\c.exe</Data><Data Name='Device'>\Device\HarddiskVolume1</Data></EventData></Event>

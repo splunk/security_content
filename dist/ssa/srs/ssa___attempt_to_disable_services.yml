@@ -31,7 +31,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 60,
     impact_id = 4,
-    kill_chain = [{"phase": "Actions on Objectives", "phase_id": 7}],
+    kill_chain = [],
     nist = ["DE.AE"], 
     risk_level = "Low", 
     category_uid = 2,
@@ -97,8 +97,7 @@ tags:
     - Ransomware
     cis20:
     - CIS 10
-    kill_chain_phases:
-    - Actions on Objectives
+    kill_chain_phases: []
     mitre_attack_id:
     - T1489
     nist:

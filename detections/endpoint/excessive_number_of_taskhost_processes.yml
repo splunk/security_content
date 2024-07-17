@@ -16,7 +16,7 @@ description: The following analytic identifies an excessive number of taskhost.e
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process_id) as
   process_ids  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
   WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"

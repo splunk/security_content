@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail StopLogging
+name: AWS CloudTrail StopLogging
+id: c5de7c54-4809-4659-bf9f-3bacf8bdfd35
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail StopLogging
 fields:
 - _time
 - app
@@ -70,4 +73,14 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"}, "eventTime": "2022-06-30T21:26:49Z", "eventSource": "cloudtrail.amazonaws.com", "eventName": "StopLogging", "awsRegion": "us-west-2", "sourceIPAddress": "72.193.184.209", "userAgent": "stratus-red-team_a6a8f8f2-d560-4062-bd0d-c232130cfcc5", "requestParameters": {"name": "my-cloudtrail-trail"}, "responseElements": null, "requestID": "d8b79caa-08d2-4f7e-b93a-73bb7b85f260", "eventID": "9f8d2b82-6e9d-45b8-9055-78d8c00ca416", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "clientProvidedHostHeader": "cloudtrail.us-west-2.amazonaws.com"}}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLEHRX5YWNV", "arn": "arn:aws:iam::111111111111:user/bhavin_cli", "accountId":
+  "111111111111", "accessKeyId": "AKIAYTOGP2RLKQ3U2PDY", "userName": "bhavin_cli"},
+  "eventTime": "2022-06-30T21:26:49Z", "eventSource": "cloudtrail.amazonaws.com",
+  "eventName": "StopLogging", "awsRegion": "us-west-2", "sourceIPAddress": "72.193.184.209",
+  "userAgent": "stratus-red-team_a6a8f8f2-d560-4062-bd0d-c232130cfcc5", "requestParameters":
+  {"name": "my-cloudtrail-trail"}, "responseElements": null, "requestID": "d8b79caa-08d2-4f7e-b93a-73bb7b85f260",
+  "eventID": "9f8d2b82-6e9d-45b8-9055-78d8c00ca416", "readOnly": false, "eventType":
+  "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory":
+  "Management", "tlsDetails": {"tlsVersion": "TLSv1.2", "cipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+  "clientProvidedHostHeader": "cloudtrail.us-west-2.amazonaws.com"}}'

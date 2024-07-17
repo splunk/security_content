@@ -1,4 +1,7 @@
-event_name: O365 ModifyFolderPermissions
+name: O365 ModifyFolderPermissions
+id: 0a8c1080-68c2-46d7-8324-2e7d97bb6e2f
+author: Patrick Bareiss, Splunk
+description: Event source object for O365 ModifyFolderPermissions
 fields:
 - _time
 - AppId
@@ -80,4 +83,17 @@ fields:
 - user_type
 - vendor_account
 - vendor_product
-example_log: '{"CreationTime": "2023-09-07T18:19:07", "Id": "ff065c17-e638-4013-20ab-08dbafceeca1", "Operation": "ModifyFolderPermissions", "OrganizationId": "e17879dd-24ec-44a6-be92-9dcbf6969220", "RecordType": 2, "ResultStatus": "Succeeded", "UserKey": "10032002CC029AE9", "UserType": 0, "Version": 1, "Workload": "Exchange", "ClientIP": "22.23.21.25", "UserId": "user1@contoso.onmicrosoft.com", "AppId": "00000002-0000-0ff1-ce00-000000000000", "ClientIPAddress": "22.23.21.25", "ClientInfoString": "Client=OWA;Action=ViaProxy", "ExternalAccess": false, "InternalLogonType": 0, "LogonType": 0, "LogonUserSid": "S-1-5-21-1148582062-3132321681-773847816-45339891", "MailboxGuid": "8e942cc1-73d8-4483-9def-7d9579d615a7", "MailboxOwnerSid": "S-1-5-21-1148582062-3132321681-773847816-45339891", "MailboxOwnerUPN": "user1@contoso.onmicrosoft.com", "OrganizationName": "contoso.onmicrosoft.com", "OriginatingServer": "BYAPR18MB2728 (15.20.4200.000)\r\n", "SessionId": "d2a5a3ba-992b-431a-9b52-8c76210d17d9", "Item": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB", "ParentFolder": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB", "MemberRights": "FreeBusySimple", "MemberSid": "S-1-1-0", "MemberUpn": "Everyone", "Name": "Inbox", "Path": "\\Inbox"}}}'
+example_log: '{"CreationTime": "2023-09-07T18:19:07", "Id": "ff065c17-e638-4013-20ab-08dbafceeca1",
+  "Operation": "ModifyFolderPermissions", "OrganizationId": "e17879dd-24ec-44a6-be92-9dcbf6969220",
+  "RecordType": 2, "ResultStatus": "Succeeded", "UserKey": "10032002CC029AE9", "UserType":
+  0, "Version": 1, "Workload": "Exchange", "ClientIP": "22.23.21.25", "UserId": "user1@contoso.onmicrosoft.com",
+  "AppId": "00000002-0000-0ff1-ce00-000000000000", "ClientIPAddress": "22.23.21.25",
+  "ClientInfoString": "Client=OWA;Action=ViaProxy", "ExternalAccess": false, "InternalLogonType":
+  0, "LogonType": 0, "LogonUserSid": "S-1-5-21-1148582062-3132321681-773847816-45339891",
+  "MailboxGuid": "8e942cc1-73d8-4483-9def-7d9579d615a7", "MailboxOwnerSid": "S-1-5-21-1148582062-3132321681-773847816-45339891",
+  "MailboxOwnerUPN": "user1@contoso.onmicrosoft.com", "OrganizationName": "contoso.onmicrosoft.com",
+  "OriginatingServer": "BYAPR18MB2728 (15.20.4200.000)\r\n", "SessionId": "d2a5a3ba-992b-431a-9b52-8c76210d17d9",
+  "Item": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB",
+  "ParentFolder": {"Id": "LgAAAABKe+NY5HVjRYWDqaJ5IKKFAQBQ11dzmT6LS6bQbkNDtISsAAAAAAEMAAAB",
+  "MemberRights": "FreeBusySimple", "MemberSid": "S-1-1-0", "MemberUpn": "Everyone",
+  "Name": "Inbox", "Path": "\\Inbox"}}}'

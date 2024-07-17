@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail CopyObject
+name: AWS CloudTrail CopyObject
+id: 965083f4-64a8-403f-99cc-252e1a6bd3b6
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail CopyObject
 fields:
 - _time
 - additionalEventData.AuthenticationMethod
@@ -83,4 +86,25 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId": "AIDAYTOGP2RLNALZHZ6KX", "arn": "arn:aws:iam::111111111111:user/patrick_cli", "accountId": "111111111111", "accessKeyId": "AKIAYTOGP2RLJ2OYSF6E", "userName": "patrick_cli"}, "eventTime": "2021-01-11T12:40:47Z", "eventSource": "s3.amazonaws.com", "eventName": "CopyObject", "awsRegion": "us-west-2", "sourceIPAddress": "95.90.199.65", "userAgent": "[aws-cli/2.0.45 Python/3.7.4 Darwin/20.2.0 exe/x86_64 command/s3.cp]", "requestParameters": {"bucketName": "patricktestbucketencrypt", "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1", "Host": "patricktestbucketencrypt.s3.us-west-2.amazonaws.com", "x-amz-server-side-encryption": "aws:kms", "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json", "key": "kms_aws_events_encrypted.json"}, "responseElements": {"x-amz-server-side-encryption": "aws:kms", "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"}, "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256", "bytesTransferredIn": 0.0, "SSEApplied": "SSE_KMS", "AuthenticationMethod": "AuthHeader", "x-amz-id-2": "fqzX1iZV6ImDtkFxbGvziOE6fUwryRa+PhnLckfVAkLNHdbCAHNq4l/yckUd1a2HNJPL6NAS01U=", "bytesTransferredOut": 234.0}, "requestID": "6A7359F7A9414B02", "eventID": "b20d43de-175d-4443-acd7-f5f3e587ae00", "readOnly": false, "resources": [{"type": "AWS::S3::Object", "ARN": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events_encrypted.json"}, {"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::patricktestbucketencrypt"}, {"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::patricktestbucketencrypt"}, {"type": "AWS::S3::Object", "ARN": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events.json"}], "eventType": "AwsApiCall", "managementEvent": false, "recipientAccountId": "111111111111", "eventCategory": "Data"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "IAMUser", "principalId":
+  "AIDAYTOGP2RLNALZHZ6KX", "arn": "arn:aws:iam::111111111111:user/patrick_cli", "accountId":
+  "111111111111", "accessKeyId": "AKIAYTOGP2RLJ2OYSF6E", "userName": "patrick_cli"},
+  "eventTime": "2021-01-11T12:40:47Z", "eventSource": "s3.amazonaws.com", "eventName":
+  "CopyObject", "awsRegion": "us-west-2", "sourceIPAddress": "95.90.199.65", "userAgent":
+  "[aws-cli/2.0.45 Python/3.7.4 Darwin/20.2.0 exe/x86_64 command/s3.cp]", "requestParameters":
+  {"bucketName": "patricktestbucketencrypt", "x-amz-server-side-encryption-aws-kms-key-id":
+  "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1", "Host":
+  "patricktestbucketencrypt.s3.us-west-2.amazonaws.com", "x-amz-server-side-encryption":
+  "aws:kms", "x-amz-copy-source": "patricktestbucketencrypt/kms_aws_events.json",
+  "key": "kms_aws_events_encrypted.json"}, "responseElements": {"x-amz-server-side-encryption":
+  "aws:kms", "x-amz-server-side-encryption-aws-kms-key-id": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"},
+  "additionalEventData": {"SignatureVersion": "SigV4", "CipherSuite": "ECDHE-RSA-AES128-GCM-SHA256",
+  "bytesTransferredIn": 0.0, "SSEApplied": "SSE_KMS", "AuthenticationMethod": "AuthHeader",
+  "x-amz-id-2": "fqzX1iZV6ImDtkFxbGvziOE6fUwryRa+PhnLckfVAkLNHdbCAHNq4l/yckUd1a2HNJPL6NAS01U=",
+  "bytesTransferredOut": 234.0}, "requestID": "6A7359F7A9414B02", "eventID": "b20d43de-175d-4443-acd7-f5f3e587ae00",
+  "readOnly": false, "resources": [{"type": "AWS::S3::Object", "ARN": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events_encrypted.json"},
+  {"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::patricktestbucketencrypt"},
+  {"accountId": "111111111111", "type": "AWS::S3::Bucket", "ARN": "arn:aws:s3:::patricktestbucketencrypt"},
+  {"type": "AWS::S3::Object", "ARN": "arn:aws:s3:::patricktestbucketencrypt/kms_aws_events.json"}],
+  "eventType": "AwsApiCall", "managementEvent": false, "recipientAccountId": "111111111111",
+  "eventCategory": "Data"}'

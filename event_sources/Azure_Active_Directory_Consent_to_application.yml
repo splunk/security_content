@@ -1,4 +1,7 @@
-event_name: Azure Active Directory Consent to application
+name: Azure Active Directory Consent to application
+id: 4c5d6c49-53e3-4980-a4de-c63e26291ed0
+author: Patrick Bareiss, Splunk
+description: Event source object for Azure Active Directory Consent to application
 fields:
 - _time
 - Level
@@ -55,4 +58,32 @@ fields:
 - time
 - timeendpos
 - timestartpos
-example_log: '{"time": "2023-10-27T16:14:14.9747033Z", "resourceId": "/tenants/75243ab2-44f8-435c-a7a6-b479385df6d4/providers/Microsoft.aadiam", "operationName": "Consent to application", "operationVersion": "1.0", "category": "AuditLogs", "tenantId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "resultSignature": "None", "resultDescription": "Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException", "durationMs": 0, "callerIpAddress": "13.85.188.242", "correlationId": "864210f1-2950-47cb-9e12-1a71dcbdb1d5", "Level": 4, "properties": {"id": "Directory_864210f1-2950-47cb-9e12-1a71dcbdb1d5_DO21D_338329364", "category": "ApplicationManagement", "correlationId": "864210f1-2950-47cb-9e12-1a71dcbdb1d5", "result": "failure", "resultReason": "Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException", "activityDisplayName": "Consent to application", "activityDateTime": "2023-10-27T16:14:14.9747033+00:00", "loggedByService": "Core Directory", "operationType": "Assign", "userAgent": null, "initiatedBy": {"user": {"id": "57e4bd36-9722-4a4a-9729-7203d8e00b72", "displayName": null, "userPrincipalName": "user15@splunkresearch.onmicrosoft.com", "ipAddress": "13.85.188.242", "roles": []}}, "targetResources": [{"id": "6228c72e-8895-4681-bbda-238132dc4f3c", "displayName": "Bad App 1", "type": "Application", "modifiedProperties": [{"displayName": "ConsentContext.IsAdminConsent", "oldValue": null, "newValue": "\"False\""}, {"displayName": "ConsentContext.IsAppOnly", "oldValue": null, "newValue": "\"False\""}, {"displayName": "ConsentContext.OnBehalfOfAll", "oldValue": null, "newValue": "\"False\""}, {"displayName": "ConsentContext.Tags", "oldValue": null, "newValue": "\"WindowsAzureActiveDirectoryIntegratedApp\""}, {"displayName": "ConsentAction.Permissions", "oldValue": null, "newValue": "\"[] => [[Id: AAAAAAAAAAAAAAAAAAAAALSZcc5Sj_NGtUtP2B3pYeI2veRXIpdKSpcpcgPY4Aty, ClientId: 00000000-0000-0000-0000-000000000000, PrincipalId: 57e4bd36-9722-4a4a-9729-7203d8e00b72, ResourceId: ce7199b4-8f52-46f3-b54b-4fd81de961e2, ConsentType: Principal, Scope: Mail.Read Mail.Read.Shared Mail.ReadBasic Mail.ReadBasic.Shared Mail.ReadWrite Mail.ReadWrite.Shared Mail.Send Mail.Send.Shared User.Read, CreatedDateTime: , LastModifiedDateTime ]]; \""}, {"displayName": "ConsentAction.Reason", "oldValue": null, "newValue": "\"Risky application detected\""}, {"displayName": "MethodExecutionResult.", "oldValue": null, "newValue": "\"Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException\""}], "administrativeUnits": []}], "additionalDetails": [{"key": "User-Agent", "value": "EvoSTS"}, {"key": "AppId", "value": "96f6a3d6-d5aa-4af5-a77a-9319b5283712"}]}}'
+example_log: '{"time": "2023-10-27T16:14:14.9747033Z", "resourceId": "/tenants/75243ab2-44f8-435c-a7a6-b479385df6d4/providers/Microsoft.aadiam",
+  "operationName": "Consent to application", "operationVersion": "1.0", "category":
+  "AuditLogs", "tenantId": "75243ab2-44f8-435c-a7a6-b479385df6d4", "resultSignature":
+  "None", "resultDescription": "Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException",
+  "durationMs": 0, "callerIpAddress": "13.85.188.242", "correlationId": "864210f1-2950-47cb-9e12-1a71dcbdb1d5",
+  "Level": 4, "properties": {"id": "Directory_864210f1-2950-47cb-9e12-1a71dcbdb1d5_DO21D_338329364",
+  "category": "ApplicationManagement", "correlationId": "864210f1-2950-47cb-9e12-1a71dcbdb1d5",
+  "result": "failure", "resultReason": "Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException",
+  "activityDisplayName": "Consent to application", "activityDateTime": "2023-10-27T16:14:14.9747033+00:00",
+  "loggedByService": "Core Directory", "operationType": "Assign", "userAgent": null,
+  "initiatedBy": {"user": {"id": "57e4bd36-9722-4a4a-9729-7203d8e00b72", "displayName":
+  null, "userPrincipalName": "user15@splunkresearch.onmicrosoft.com", "ipAddress":
+  "13.85.188.242", "roles": []}}, "targetResources": [{"id": "6228c72e-8895-4681-bbda-238132dc4f3c",
+  "displayName": "Bad App 1", "type": "Application", "modifiedProperties": [{"displayName":
+  "ConsentContext.IsAdminConsent", "oldValue": null, "newValue": "\"False\""}, {"displayName":
+  "ConsentContext.IsAppOnly", "oldValue": null, "newValue": "\"False\""}, {"displayName":
+  "ConsentContext.OnBehalfOfAll", "oldValue": null, "newValue": "\"False\""}, {"displayName":
+  "ConsentContext.Tags", "oldValue": null, "newValue": "\"WindowsAzureActiveDirectoryIntegratedApp\""},
+  {"displayName": "ConsentAction.Permissions", "oldValue": null, "newValue": "\"[]
+  => [[Id: AAAAAAAAAAAAAAAAAAAAALSZcc5Sj_NGtUtP2B3pYeI2veRXIpdKSpcpcgPY4Aty, ClientId:
+  00000000-0000-0000-0000-000000000000, PrincipalId: 57e4bd36-9722-4a4a-9729-7203d8e00b72,
+  ResourceId: ce7199b4-8f52-46f3-b54b-4fd81de961e2, ConsentType: Principal, Scope:
+  Mail.Read Mail.Read.Shared Mail.ReadBasic Mail.ReadBasic.Shared Mail.ReadWrite Mail.ReadWrite.Shared
+  Mail.Send Mail.Send.Shared User.Read, CreatedDateTime: , LastModifiedDateTime ]];
+  \""}, {"displayName": "ConsentAction.Reason", "oldValue": null, "newValue": "\"Risky
+  application detected\""}, {"displayName": "MethodExecutionResult.", "oldValue":
+  null, "newValue": "\"Microsoft.Online.Security.UserConsentBlockedForRiskyAppsException\""}],
+  "administrativeUnits": []}], "additionalDetails": [{"key": "User-Agent", "value":
+  "EvoSTS"}, {"key": "AppId", "value": "96f6a3d6-d5aa-4af5-a77a-9319b5283712"}]}}'

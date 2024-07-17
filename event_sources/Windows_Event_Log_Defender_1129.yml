@@ -1,4 +1,7 @@
-event_name: Windows Event Log Defender 1129
+name: Windows Event Log Defender 1129
+id: 0572e119-a48a-4c70-bc58-90e453edacd2
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Defender 1129
 fields:
 - _time
 - ComputerName

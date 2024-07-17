@@ -34,7 +34,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     duration = 0, 
     impact = 90,
     impact_id = 5,
-    kill_chain = [{"phase": "Command and Control", "phase_id": 6}],
+    kill_chain = [],
     nist = ["DE.AE"], 
     risk_level = "Critical", 
     category_uid = 2,
@@ -101,8 +101,7 @@ tags:
     - Living Off The Land
     cis20:
     - CIS 10
-    kill_chain_phases:
-    - Command and Control
+    kill_chain_phases: []
     mitre_attack_id:
     - T1105
     nist:

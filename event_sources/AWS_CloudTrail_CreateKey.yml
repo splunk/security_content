@@ -1,4 +1,7 @@
-event_name: AWS CloudTrail CreateKey
+name: AWS CloudTrail CreateKey
+id: fcfc1593-b6b5-4a0f-91c5-3c395116a8b9
+author: Patrick Bareiss, Splunk
+description: Event source object for AWS CloudTrail CreateKey
 fields:
 - _time
 - app
@@ -95,4 +98,44 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLK74OPBDR", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn": "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName": "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated": "false", "creationDate": "2021-01-11T09:03:18Z"}}}, "eventTime": "2021-01-11T09:56:31Z", "eventSource": "kms.amazonaws.com", "eventName": "CreateKey", "awsRegion": "us-west-2", "sourceIPAddress": "95.90.199.65", "userAgent": "aws-internal/3 aws-sdk-java/1.11.893 Linux/4.9.230-0.1.ac.223.84.332.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.272-b10 java/1.8.0_272 vendor/Oracle_Corporation", "requestParameters": {"origin": "AWS_KMS", "policy": "{\n    \"Id\": \"key-consolepolicy-3\",\n    \"Version\": \"2012-10-17\",\n    \"Statement\": [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\": \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\": [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\": \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\": \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"*\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\"\n            ],\n            \"Resource\": \"*\"\n        }\n    ]\n}", "description": "", "customerMasterKeySpec": "SYMMETRIC_DEFAULT", "bypassPolicyLockoutSafetyCheck": false, "tags": [], "keyUsage": "ENCRYPT_DECRYPT"}, "responseElements": {"keyMetadata": {"aWSAccountId": "111111111111", "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1", "arn": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1", "creationDate": "Jan 11, 2021, 9:56:30 AM", "enabled": true, "description": "", "keyUsage": "ENCRYPT_DECRYPT", "keyState": "Enabled", "origin": "AWS_KMS", "keyManager": "CUSTOMER", "customerMasterKeySpec": "SYMMETRIC_DEFAULT", "encryptionAlgorithms": ["SYMMETRIC_DEFAULT"]}}, "requestID": "3356af25-a237-471f-ba5e-abb37d4a256f", "eventID": "f09518ac-5ae5-4214-80ee-4f23ccdedd4c", "readOnly": false, "resources": [{"accountId": "111111111111", "type": "AWS::KMS::Key", "ARN": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"}], "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management", "recipientAccountId": "111111111111"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAIJIESMXKGCJRCTPR6:pbareiss@splunk.local", "arn": "arn:aws:sts::111111111111:assumed-role/okta_adm_role/pbareiss@splunk.local",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLK74OPBDR", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAIJIESMXKGCJRCTPR6", "arn":
+  "arn:aws:iam::111111111111:role/okta_adm_role", "accountId": "111111111111", "userName":
+  "okta_adm_role"}, "webIdFederationData": {}, "attributes": {"mfaAuthenticated":
+  "false", "creationDate": "2021-01-11T09:03:18Z"}}}, "eventTime": "2021-01-11T09:56:31Z",
+  "eventSource": "kms.amazonaws.com", "eventName": "CreateKey", "awsRegion": "us-west-2",
+  "sourceIPAddress": "95.90.199.65", "userAgent": "aws-internal/3 aws-sdk-java/1.11.893
+  Linux/4.9.230-0.1.ac.223.84.332.metal1.x86_64 OpenJDK_64-Bit_Server_VM/25.272-b10
+  java/1.8.0_272 vendor/Oracle_Corporation", "requestParameters": {"origin": "AWS_KMS",
+  "policy": "{\n    \"Id\": \"key-consolepolicy-3\",\n    \"Version\": \"2012-10-17\",\n    \"Statement\":
+  [\n        {\n            \"Sid\": \"Enable IAM User Permissions\",\n            \"Effect\":
+  \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:root\"\n            },\n            \"Action\":
+  \"kms:*\",\n            \"Resource\": \"*\"\n        },\n        {\n            \"Sid\":
+  \"Allow access for Key Administrators\",\n            \"Effect\": \"Allow\",\n            \"Principal\":
+  {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\":
+  [\n                \"kms:Create*\",\n                \"kms:Describe*\",\n                \"kms:Enable*\",\n                \"kms:List*\",\n                \"kms:Put*\",\n                \"kms:Update*\",\n                \"kms:Revoke*\",\n                \"kms:Disable*\",\n                \"kms:Get*\",\n                \"kms:Delete*\",\n                \"kms:TagResource\",\n                \"kms:UntagResource\",\n                \"kms:ScheduleKeyDeletion\",\n                \"kms:CancelKeyDeletion\"\n            ],\n            \"Resource\":
+  \"*\"\n        },\n        {\n            \"Sid\": \"Allow use of the key\",\n            \"Effect\":
+  \"Allow\",\n            \"Principal\": {\n                \"AWS\": \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\":
+  [\n                \"kms:Encrypt\",\n                \"kms:Decrypt\",\n                \"kms:ReEncrypt*\",\n                \"kms:GenerateDataKey*\",\n                \"kms:DescribeKey\"\n            ],\n            \"Resource\":
+  \"*\"\n        },\n        {\n            \"Sid\": \"Allow attachment of persistent
+  resources\",\n            \"Effect\": \"Allow\",\n            \"Principal\": {\n                \"AWS\":
+  \"arn:aws:iam::111111111111:user/patrick_cli\"\n            },\n            \"Action\":
+  [\n                \"kms:CreateGrant\",\n                \"kms:ListGrants\",\n                \"kms:RevokeGrant\"\n            ],\n            \"Resource\":
+  \"*\",\n            \"Condition\": {\n                \"Bool\": {\n                    \"kms:GrantIsForAWSResource\":
+  \"true\"\n                }\n            }\n        },\n        {\n            \"Sid\":
+  \"Allow use of the key\",\n            \"Effect\": \"Allow\",\n            \"Principal\":
+  {\n                \"AWS\": \"*\"\n            },\n            \"Action\": [\n                \"kms:Encrypt\"\n            ],\n            \"Resource\":
+  \"*\"\n        }\n    ]\n}", "description": "", "customerMasterKeySpec": "SYMMETRIC_DEFAULT",
+  "bypassPolicyLockoutSafetyCheck": false, "tags": [], "keyUsage": "ENCRYPT_DECRYPT"},
+  "responseElements": {"keyMetadata": {"aWSAccountId": "111111111111", "keyId": "f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+  "arn": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1",
+  "creationDate": "Jan 11, 2021, 9:56:30 AM", "enabled": true, "description": "",
+  "keyUsage": "ENCRYPT_DECRYPT", "keyState": "Enabled", "origin": "AWS_KMS", "keyManager":
+  "CUSTOMER", "customerMasterKeySpec": "SYMMETRIC_DEFAULT", "encryptionAlgorithms":
+  ["SYMMETRIC_DEFAULT"]}}, "requestID": "3356af25-a237-471f-ba5e-abb37d4a256f", "eventID":
+  "f09518ac-5ae5-4214-80ee-4f23ccdedd4c", "readOnly": false, "resources": [{"accountId":
+  "111111111111", "type": "AWS::KMS::Key", "ARN": "arn:aws:kms:us-west-2:111111111111:key/f2a82583-a7d3-4c92-8787-fe2baab1cee1"}],
+  "eventType": "AwsApiCall", "managementEvent": true, "eventCategory": "Management",
+  "recipientAccountId": "111111111111"}'

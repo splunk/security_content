@@ -1,4 +1,7 @@
-event_name: Windows IIS 29
+name: Windows IIS 29
+id: 1d99ddd7-7fec-4dea-bf4f-1f4906142328
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows IIS 29
 fields:
 - _time
 - ComputerName

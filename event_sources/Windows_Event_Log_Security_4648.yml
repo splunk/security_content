@@ -1,4 +1,7 @@
-event_name: Windows Event Log Security 4648
+name: Windows Event Log Security 4648
+id: 6a367f8b-1ee0-463d-94a7-029757c6cd02
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log Security 4648
 fields:
 - _time
 - ActivityID
@@ -92,4 +95,15 @@ fields:
 - user_group
 - vendor
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4648</EventID><Version>0</Version><Level>0</Level><Task>12544</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2022-09-08T21:33:47.813673700Z'/><EventRecordID>336567</EventRecordID><Correlation ActivityID='{61CE8B0D-C305-0002-148B-CE6105C3D801}'/><Execution ProcessID='644' ThreadID='4476'/><Channel>Security</Channel><Computer>win-host-mvelazco-02713-447.attackrange.local</Computer><Security/></System><EventData><Data Name='SubjectUserSid'>ATTACKRANGE\REED_LARSEN</Data><Data Name='SubjectUserName'>reed_larsen</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x1360f2</Data><Data Name='LogonGuid'>{00000000-0000-0000-0000-000000000000}</Data><Data Name='TargetUserName'>STEVE_BRADFORD</Data><Data Name='TargetDomainName'>attackrange.local</Data><Data Name='TargetLogonGuid'>{00000000-0000-0000-0000-000000000000}</Data><Data Name='TargetServerName'>win-dc-mvelazco-02713-392.attackrange.local</Data><Data Name='TargetInfo'>win-dc-mvelazco-02713-392.attackrange.local</Data><Data Name='ProcessId'>0x4</Data><Data Name='ProcessName'></Data><Data Name='IpAddress'>10.0.1.14</Data><Data Name='IpPort'>445</Data></EventData></Event>
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4648</EventID><Version>0</Version><Level>0</Level><Task>12544</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+  SystemTime='2022-09-08T21:33:47.813673700Z'/><EventRecordID>336567</EventRecordID><Correlation
+  ActivityID='{61CE8B0D-C305-0002-148B-CE6105C3D801}'/><Execution ProcessID='644'
+  ThreadID='4476'/><Channel>Security</Channel><Computer>win-host-mvelazco-02713-447.attackrange.local</Computer><Security/></System><EventData><Data
+  Name='SubjectUserSid'>ATTACKRANGE\REED_LARSEN</Data><Data Name='SubjectUserName'>reed_larsen</Data><Data
+  Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x1360f2</Data><Data
+  Name='LogonGuid'>{00000000-0000-0000-0000-000000000000}</Data><Data Name='TargetUserName'>STEVE_BRADFORD</Data><Data
+  Name='TargetDomainName'>attackrange.local</Data><Data Name='TargetLogonGuid'>{00000000-0000-0000-0000-000000000000}</Data><Data
+  Name='TargetServerName'>win-dc-mvelazco-02713-392.attackrange.local</Data><Data
+  Name='TargetInfo'>win-dc-mvelazco-02713-392.attackrange.local</Data><Data Name='ProcessId'>0x4</Data><Data
+  Name='ProcessName'></Data><Data Name='IpAddress'>10.0.1.14</Data><Data Name='IpPort'>445</Data></EventData></Event>

@@ -16,7 +16,7 @@ description: The following analytic detects the creation of suspicious files nam
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
-- Crowdstrike ProcessRollup2
+- CrowdStrike ProcessRollup2
 search: '`sysmon` EventCode= 11  (TargetFilename = "*\\passff.tar" OR TargetFilename
   = "*\\cookie.tar") |stats count min(_time) as firstTime max(_time) as lastTime by
   TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`

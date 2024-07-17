@@ -1,4 +1,7 @@
-event_name: Windows Event Log System 7045
+name: Windows Event Log System 7045
+id: 614dedc8-8a14-4393-ba9b-6f093cbcd293
+author: Patrick Bareiss, Splunk
+description: Event source object for Windows Event Log System 7045
 fields:
 - _time
 - AccountName
@@ -60,4 +63,11 @@ fields:
 - user_id
 - vendor
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service Control Manager'/><EventID Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated SystemTime='2024-03-04T10:11:25.483986000Z'/><EventRecordID>168145</EventRecordID><Correlation/><Execution ProcessID='592' ThreadID='1712'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data Name='ServiceName'>KrbSCM</Data><Data Name='ImagePath'>powershell.exe -WindowStyle Hiddenestno'
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service
+  Control Manager'/><EventID Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
+  SystemTime='2024-03-04T10:11:25.483986000Z'/><EventRecordID>168145</EventRecordID><Correlation/><Execution
+  ProcessID='592' ThreadID='1712'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security
+  UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data
+  Name='ServiceName'>KrbSCM</Data><Data Name='ImagePath'>powershell.exe -WindowStyle
+  Hiddenestno'

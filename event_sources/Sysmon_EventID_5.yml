@@ -1,4 +1,7 @@
-event_name: Sysmon EventID 5
+name: Sysmon EventID 5
+id: 556471bf-44fa-44e6-97e2-eb25416aeb6d
+author: Patrick Bareiss, Splunk
+description: Event source object for Sysmon EventID 5
 fields:
 - _time
 - Channel
@@ -66,4 +69,10 @@ fields:
 - timestartpos
 - user_id
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>5</EventID><Version>3</Version><Level>4</Level><Task>5</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2021-03-16T14:01:44.008858500Z'/><EventRecordID>39965</EventRecordID><Correlation/><Execution ProcessID='2784' ThreadID='3256'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-654.attackrange.local</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2021-03-16 14:01:44.004</Data><Data Name='ProcessGuid'>{26337912-BA32-6050-3506-00000000AE01}</Data><Data Name='ProcessId'>8672</Data><Data Name='Image'>C:\Users\Public\steam.exe</Data></EventData></Event>
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>5</EventID><Version>3</Version><Level>4</Level><Task>5</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
+  SystemTime='2021-03-16T14:01:44.008858500Z'/><EventRecordID>39965</EventRecordID><Correlation/><Execution
+  ProcessID='2784' ThreadID='3256'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-654.attackrange.local</Computer><Security
+  UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2021-03-16
+  14:01:44.004</Data><Data Name='ProcessGuid'>{26337912-BA32-6050-3506-00000000AE01}</Data><Data
+  Name='ProcessId'>8672</Data><Data Name='Image'>C:\Users\Public\steam.exe</Data></EventData></Event>

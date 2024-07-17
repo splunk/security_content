@@ -1,4 +1,8 @@
-event_name: Azure Audit Create or Update an Azure Automation webhook
+name: Azure Audit Create or Update an Azure Automation webhook
+id: 575faeb2-09d0-4849-b1f6-eae241f26ff2
+author: Patrick Bareiss, Splunk
+description: Event source object for Azure Audit Create or Update an Azure Automation
+  webhook
 fields:
 - _time
 - authorization.action
@@ -97,4 +101,38 @@ fields:
 - vendor
 - vendor_product
 - vendor_res_code
-example_log: '{"authorization": {"action": "Microsoft.Automation/automationAccounts/webhooks/write", "scope": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook"}, "caller": "evilAdmin@contoso.com", "channels": "Operation", "claims": {"aud": "https://management.core.windows.net/", "iss": "https://sts.windows.net/ad251139-d600-4f45-a8ba-9f6ca1e5a93d/", "iat": "1661287859", "nbf": "1661287859", "exp": "1661293423", "http://schemas.microsoft.com/claims/authnclassreference": "1", "aio": "AWQAm/8TAAAAEendcgWjYQFuDhNNhoecwU3dpXjjenSsIvjamk77+TjLK/o1xkFGcFb1A+OVyuY+xefe0X39n8lx1iFWFqGo0GSNNKhm9OQcv/0UyXiaNIbKD7wisgQhAa9DoIyObMpO", "altsecid": "1:contoso.com:000161008492EF5F", "http://schemas.microsoft.com/claims/authnmethodsreferences": "pwd,mfa", "appid": "c44b4083-3bb0-49c1-b47d-974e53cbdf3c", "appidacr": "2", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress": "evilAdmin@contosol.com", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname": "Doe", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "John", "groups": "ecb1fc87-1938-45ff-aaf3-661cee183b11", "http://schemas.microsoft.com/identity/claims/identityprovider": "contoso.com", "ipaddr": "190.0.0.1", "name": "John Doe", "http://schemas.microsoft.com/identity/claims/objectidentifier": "74b87c49-c202-4101-a8aa-ef18ecc815e8", "puid": "1003200203ECE231", "rh": "0.AX0AORElrQDWRU-oup9soeWpPUZIf3kAutdPukPawfj2MBOaAIM.", "http://schemas.microsoft.com/identity/claims/scope": "user_impersonation", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier": "VVjyH6MJP7pqXTBGCn4NMckGNjX-aYB_Oh7LcI9kaDw", "http://schemas.microsoft.com/identity/claims/tenantid": "ad251139-d600-4f45-a8ba-9f6ca1e5a93d", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name": "contoso.com#evilAdmin@contoso.com", "uti": "epgtY-85CUeb6aJpaE0KAQ", "ver": "1.0", "wids": "62e90394-69f5-4237-9190-012177145e10", "xms_tcdt": "1654791641"}, "correlationId": "74e18a58-ee2e-40de-890d-de0c155f7086", "description": "", "eventDataId": "35b9db88-8041-413e-8dd7-f8dc243eafdd", "eventName": {"value": "EndRequest", "localizedValue": "End request"}, "eventSource": {"value": "Administrative", "localizedValue": "Administrative"}, "httpRequest": {"clientRequestId": "6934b40a-c11f-4379-9ef1-c6fa3cee5015", "clientIpAddress": "190.0.0.1", "method": "PUT"}, "id": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook/events/35b9db88-8041-413e-8dd7-f8dc243eafdd/ticks/637968850422707386", "level": "Informational", "resourceGroupName": "eventhub_rg", "resourceProviderName": {"value": "Microsoft.Automation", "localizedValue": "Microsoft.Automation"}, "resourceUri": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook", "operationId": "74e18a58-ee2e-40de-890d-de0c155f7086", "operationName": {"value": "Microsoft.Automation/automationAccounts/webhooks/write", "localizedValue": "Create or Update an Azure Automation webhook"}, "properties": {"statusCode": "Created", "serviceRequestId": null, "eventCategory": "Administrative", "entity": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook", "message": "Microsoft.Automation/automationAccounts/webhooks/write", "hierarchy": "e0c00901-96b2-4151-80f7-746e24c03e98"}, "status": {"value": "Succeeded", "localizedValue": "Succeeded"}, "subStatus": {"value": "Created", "localizedValue": "Created (HTTP Status Code: 201)"}, "eventTimestamp": "2022-08-23T20:57:22.2707386Z", "submissionTimestamp": "2022-08-23T20:58:54.2071536Z", "subscriptionId": "e0c00901-96b2-4151-80f7-746e24c03e98"}'
+example_log: '{"authorization": {"action": "Microsoft.Automation/automationAccounts/webhooks/write",
+  "scope": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook"},
+  "caller": "evilAdmin@contoso.com", "channels": "Operation", "claims": {"aud": "https://management.core.windows.net/",
+  "iss": "https://sts.windows.net/ad251139-d600-4f45-a8ba-9f6ca1e5a93d/", "iat": "1661287859",
+  "nbf": "1661287859", "exp": "1661293423", "http://schemas.microsoft.com/claims/authnclassreference":
+  "1", "aio": "AWQAm/8TAAAAEendcgWjYQFuDhNNhoecwU3dpXjjenSsIvjamk77+TjLK/o1xkFGcFb1A+OVyuY+xefe0X39n8lx1iFWFqGo0GSNNKhm9OQcv/0UyXiaNIbKD7wisgQhAa9DoIyObMpO",
+  "altsecid": "1:contoso.com:000161008492EF5F", "http://schemas.microsoft.com/claims/authnmethodsreferences":
+  "pwd,mfa", "appid": "c44b4083-3bb0-49c1-b47d-974e53cbdf3c", "appidacr": "2", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress":
+  "evilAdmin@contosol.com", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname":
+  "Doe", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname": "John",
+  "groups": "ecb1fc87-1938-45ff-aaf3-661cee183b11", "http://schemas.microsoft.com/identity/claims/identityprovider":
+  "contoso.com", "ipaddr": "190.0.0.1", "name": "John Doe", "http://schemas.microsoft.com/identity/claims/objectidentifier":
+  "74b87c49-c202-4101-a8aa-ef18ecc815e8", "puid": "1003200203ECE231", "rh": "0.AX0AORElrQDWRU-oup9soeWpPUZIf3kAutdPukPawfj2MBOaAIM.",
+  "http://schemas.microsoft.com/identity/claims/scope": "user_impersonation", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier":
+  "VVjyH6MJP7pqXTBGCn4NMckGNjX-aYB_Oh7LcI9kaDw", "http://schemas.microsoft.com/identity/claims/tenantid":
+  "ad251139-d600-4f45-a8ba-9f6ca1e5a93d", "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name":
+  "contoso.com#evilAdmin@contoso.com", "uti": "epgtY-85CUeb6aJpaE0KAQ", "ver": "1.0",
+  "wids": "62e90394-69f5-4237-9190-012177145e10", "xms_tcdt": "1654791641"}, "correlationId":
+  "74e18a58-ee2e-40de-890d-de0c155f7086", "description": "", "eventDataId": "35b9db88-8041-413e-8dd7-f8dc243eafdd",
+  "eventName": {"value": "EndRequest", "localizedValue": "End request"}, "eventSource":
+  {"value": "Administrative", "localizedValue": "Administrative"}, "httpRequest":
+  {"clientRequestId": "6934b40a-c11f-4379-9ef1-c6fa3cee5015", "clientIpAddress": "190.0.0.1",
+  "method": "PUT"}, "id": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook/events/35b9db88-8041-413e-8dd7-f8dc243eafdd/ticks/637968850422707386",
+  "level": "Informational", "resourceGroupName": "eventhub_rg", "resourceProviderName":
+  {"value": "Microsoft.Automation", "localizedValue": "Microsoft.Automation"}, "resourceUri":
+  "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook",
+  "operationId": "74e18a58-ee2e-40de-890d-de0c155f7086", "operationName": {"value":
+  "Microsoft.Automation/automationAccounts/webhooks/write", "localizedValue": "Create
+  or Update an Azure Automation webhook"}, "properties": {"statusCode": "Created",
+  "serviceRequestId": null, "eventCategory": "Administrative", "entity": "/subscriptions/e0c00901-96b2-4151-80f7-746e24c03e98/resourceGroups/resourceGroup1providers/Microsoft.Automation/automationAccounts/SuspiciousAutomationAccount/webhooks/MaliciousWebHook",
+  "message": "Microsoft.Automation/automationAccounts/webhooks/write", "hierarchy":
+  "e0c00901-96b2-4151-80f7-746e24c03e98"}, "status": {"value": "Succeeded", "localizedValue":
+  "Succeeded"}, "subStatus": {"value": "Created", "localizedValue": "Created (HTTP
+  Status Code: 201)"}, "eventTimestamp": "2022-08-23T20:57:22.2707386Z", "submissionTimestamp":
+  "2022-08-23T20:58:54.2071536Z", "subscriptionId": "e0c00901-96b2-4151-80f7-746e24c03e98"}'
