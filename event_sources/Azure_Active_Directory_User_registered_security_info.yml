@@ -1,5 +1,7 @@
 name: Azure Active Directory User registered security info
 id: b63240de-8a01-4ba8-8987-89d18d4b375d
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Active Directory User registered security
   info

@@ -1,5 +1,7 @@
 name: AWS CloudTrail JobCreated
 id: 6473289b-d097-4c86-a837-3cc5ae408155
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail JobCreated
 fields:

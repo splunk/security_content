@@ -1,5 +1,7 @@
 name: AWS CloudTrail DeleteVirtualMFADevice
 id: 84a08d6b-3d59-4260-8cab-84278ada262f
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DeleteVirtualMFADevice
 fields:

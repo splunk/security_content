@@ -1,5 +1,7 @@
 name: AWS CloudTrail PutKeyPolicy
 id: 9c54c86b-43b9-4bb8-915d-6838beb7f07c
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail PutKeyPolicy
 fields:

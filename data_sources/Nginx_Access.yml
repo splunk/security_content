@@ -1,12 +1,14 @@
 name: Nginx Access
 id: c716a418-eab3-4df5-9dff-5420174e3068
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: /var/log/nginx/access.log
 sourcetype: nginx:plus:kv
 supported_TA:
 - {}
 description: Data source object for Nginx Access
-event_names: []
+event_sources: []
 fields:
 - _time
 - action

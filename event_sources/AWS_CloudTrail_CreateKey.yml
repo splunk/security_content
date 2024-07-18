@@ -1,5 +1,7 @@
 name: AWS CloudTrail CreateKey
 id: fcfc1593-b6b5-4a0f-91c5-3c395116a8b9
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CreateKey
 fields:

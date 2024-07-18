@@ -1,5 +1,7 @@
 name: AWS CloudTrail ConsoleLogin
 id: b68b3f26-bd21-4fa8-b593-616fe75ac0ae
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail ConsoleLogin
 fields:

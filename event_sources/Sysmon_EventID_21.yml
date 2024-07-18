@@ -1,5 +1,7 @@
 name: Sysmon EventID 21
 id: 304384bc-715e-4958-988b-a8051a91349a
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 21
 fields:

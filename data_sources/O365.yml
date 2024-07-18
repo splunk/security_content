@@ -1,5 +1,7 @@
 name: O365
 id: 11c0eed5-3f3f-42e4-bf72-30f11295a686
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: o365
 sourcetype: o365:management:activity
@@ -9,45 +11,26 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/4055
   version: 4.5.1
 description: Data source object for O365
-event_names:
-- data_source: event_sources/O365.yml
-  event_name: O365
-- data_source: event_sources/O365_Add_app_role_assignment_grant_to_user..yml
-  event_name: O365 Add app role assignment grant to user.
-- data_source: event_sources/O365_Add_app_role_assignment_to_service_principal..yml
-  event_name: O365 Add app role assignment to service principal.
-- data_source: event_sources/O365_Add_member_to_role..yml
-  event_name: O365 Add member to role.
-- data_source: event_sources/O365_Add_owner_to_application..yml
-  event_name: O365 Add owner to application.
-- data_source: event_sources/O365_Add_service_principal..yml
-  event_name: O365 Add service principal.
-- data_source: event_sources/O365_Add-MailboxPermission.yml
-  event_name: O365 Add-MailboxPermission
-- data_source: event_sources/O365_Change_user_license..yml
-  event_name: O365 Change user license.
-- data_source: event_sources/O365_Consent_to_application..yml
-  event_name: O365 Consent to application.
-- data_source: event_sources/O365_Disable_Strong_Authentication..yml
-  event_name: O365 Disable Strong Authentication.
-- data_source: event_sources/O365_MailItemsAccessed.yml
-  event_name: O365 MailItemsAccessed
-- data_source: event_sources/O365_ModifyFolderPermissions.yml
-  event_name: O365 ModifyFolderPermissions
-- data_source: event_sources/O365_Set_Company_Information..yml
-  event_name: O365 Set Company Information.
-- data_source: event_sources/O365_Set-Mailbox.yml
-  event_name: O365 Set-Mailbox
-- data_source: event_sources/O365_Update_application..yml
-  event_name: O365 Update application.
-- data_source: event_sources/O365_Update_authorization_policy..yml
-  event_name: O365 Update authorization policy.
-- data_source: event_sources/O365_Update_user..yml
-  event_name: O365 Update user.
-- data_source: event_sources/O365_UserLoggedIn.yml
-  event_name: O365 UserLoggedIn
-- data_source: event_sources/O365_UserLoginFailed.yml
-  event_name: O365 UserLoginFailed
+event_sources:
+- O365
+- O365 Add app role assignment grant to user.
+- O365 Add app role assignment to service principal.
+- O365 Add member to role.
+- O365 Add owner to application.
+- O365 Add service principal.
+- O365 Add-MailboxPermission
+- O365 Change user license.
+- O365 Consent to application.
+- O365 Disable Strong Authentication.
+- O365 MailItemsAccessed
+- O365 ModifyFolderPermissions
+- O365 Set Company Information.
+- O365 Set-Mailbox
+- O365 Update application.
+- O365 Update authorization policy.
+- O365 Update user.
+- O365 UserLoggedIn
+- O365 UserLoginFailed
 fields:
 - _time
 - AppAccessContext.IssuedAtTime

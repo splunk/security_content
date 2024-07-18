@@ -1,5 +1,7 @@
 name: Azure Active Directory Consent to application
 id: 4c5d6c49-53e3-4980-a4de-c63e26291ed0
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Active Directory Consent to application
 fields:

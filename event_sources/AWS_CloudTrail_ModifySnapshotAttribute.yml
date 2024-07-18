@@ -1,5 +1,7 @@
 name: AWS CloudTrail ModifySnapshotAttribute
 id: 7e5aa947-3a0d-4ee5-b800-0c10b555da05
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail ModifySnapshotAttribute
 fields:

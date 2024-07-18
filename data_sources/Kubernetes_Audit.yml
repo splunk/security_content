@@ -1,12 +1,14 @@
 name: Kubernetes Audit
 id: 6c25181a-0c07-4aaf-90e6-77ab1f0e6699
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: kubernetes
 sourcetype: _json
 supported_TA:
 - {}
 description: Data source object for Kubernetes Audit
-event_names: []
+event_sources: []
 fields:
 - _time
 - annotations.authorization.k8s.io/decision

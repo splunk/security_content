@@ -1,5 +1,7 @@
 name: Azure Active Directory
 id: 7c12d2b2-2679-4806-b258-c17eaffbc66d
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: Azure AD
 sourcetype: azure:monitor:aad
@@ -9,41 +11,24 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/3110
   version: 5.2.2
 description: Data source object for Azure Active Directory
-event_names:
-- data_source: event_sources/Azure_Active_Directory.yml
-  event_name: Azure Active Directory
-- data_source: event_sources/Azure_Active_Directory_Add_app_role_assignment_to_service_principal.yml
-  event_name: Azure Active Directory Add app role assignment to service principal
-- data_source: event_sources/Azure_Active_Directory_Add_member_to_role.yml
-  event_name: Azure Active Directory Add member to role
-- data_source: event_sources/Azure_Active_Directory_Add_owner_to_application.yml
-  event_name: Azure Active Directory Add owner to application
-- data_source: event_sources/Azure_Active_Directory_Add_service_principal.yml
-  event_name: Azure Active Directory Add service principal
-- data_source: event_sources/Azure_Active_Directory_Add_unverified_domain.yml
-  event_name: Azure Active Directory Add unverified domain
-- data_source: event_sources/Azure_Active_Directory_Consent_to_application.yml
-  event_name: Azure Active Directory Consent to application
-- data_source: event_sources/Azure_Active_Directory_Disable_Strong_Authentication.yml
-  event_name: Azure Active Directory Disable Strong Authentication
-- data_source: event_sources/Azure_Active_Directory_Enable_account.yml
-  event_name: Azure Active Directory Enable account
-- data_source: event_sources/Azure_Active_Directory_Invite_external_user.yml
-  event_name: Azure Active Directory Invite external user
-- data_source: event_sources/Azure_Active_Directory_Reset_password_(by_admin).yml
-  event_name: Azure Active Directory Reset password (by admin)
-- data_source: event_sources/Azure_Active_Directory_Set_domain_authentication.yml
-  event_name: Azure Active Directory Set domain authentication
-- data_source: event_sources/Azure_Active_Directory_Sign-in_activity.yml
-  event_name: Azure Active Directory Sign-in activity
-- data_source: event_sources/Azure_Active_Directory_Update_application.yml
-  event_name: Azure Active Directory Update application
-- data_source: event_sources/Azure_Active_Directory_Update_authorization_policy.yml
-  event_name: Azure Active Directory Update authorization policy
-- data_source: event_sources/Azure_Active_Directory_Update_user.yml
-  event_name: Azure Active Directory Update user
-- data_source: event_sources/Azure_Active_Directory_User_registered_security_info.yml
-  event_name: Azure Active Directory User registered security info
+event_sources:
+- Azure Active Directory
+- Azure Active Directory Add app role assignment to service principal
+- Azure Active Directory Add member to role
+- Azure Active Directory Add owner to application
+- Azure Active Directory Add service principal
+- Azure Active Directory Add unverified domain
+- Azure Active Directory Consent to application
+- Azure Active Directory Disable Strong Authentication
+- Azure Active Directory Enable account
+- Azure Active Directory Invite external user
+- Azure Active Directory Reset password (by admin)
+- Azure Active Directory Set domain authentication
+- Azure Active Directory Sign-in activity
+- Azure Active Directory Update application
+- Azure Active Directory Update authorization policy
+- Azure Active Directory Update user
+- Azure Active Directory User registered security info
 fields:
 - _time
 - Level

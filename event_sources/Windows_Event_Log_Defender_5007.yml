@@ -1,5 +1,7 @@
 name: Windows Event Log Defender 5007
 id: 27f18792-8d95-4871-8853-874b7faf023f
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Windows Event Log Defender 5007
 fields:

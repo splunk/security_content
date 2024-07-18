@@ -1,5 +1,7 @@
 name: Azure Active Directory Add member to role
 id: 1660d196-127f-4678-81b2-472d51711b07
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Active Directory Add member to role
 fields:

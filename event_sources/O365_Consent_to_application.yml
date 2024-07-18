@@ -1,5 +1,7 @@
 name: O365 Consent to application.
 id: 0a15a464-ef51-4614-9a07-a216eb9817db
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for O365 Consent to application.
 fields:

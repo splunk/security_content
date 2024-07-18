@@ -1,5 +1,7 @@
 name: AWS CloudTrail CreatePolicyVersion
 id: f9f0f3da-37ec-4164-9ea0-0ae46645a86b
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CreatePolicyVersion
 fields:

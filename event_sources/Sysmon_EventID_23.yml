@@ -1,5 +1,7 @@
 name: Sysmon EventID 23
 id: 5ea2721d-f60c-4f48-a047-47d514e327c3
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 23
 fields:

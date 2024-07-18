@@ -1,5 +1,7 @@
 name: Sysmon for Linux EventID 1
 id: 93643652-30fe-4941-a1f7-6454f2948660
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon for Linux EventID 1
 fields:

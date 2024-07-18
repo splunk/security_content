@@ -1,5 +1,7 @@
 name: AWS Cloudfront
 id: 780086dc-2384-45b6-ade7-56cb00105464
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: aws
 sourcetype: aws:cloudfront:accesslogs
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/1876
   version: 7.4.1
 description: Data source object for AWS Cloudfront
-event_names: []
+event_sources: []
 fields:
 - _time
 - action

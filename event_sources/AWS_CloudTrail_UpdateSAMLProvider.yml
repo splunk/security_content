@@ -1,5 +1,7 @@
 name: AWS CloudTrail UpdateSAMLProvider
 id: e5eb628d-711e-499c-87d9-8fa5dee419ec
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail UpdateSAMLProvider
 fields:

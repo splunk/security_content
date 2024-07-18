@@ -1,5 +1,7 @@
 name: Sysmon for Linux EventID
 id: da9fc0c9-4b15-4537-aa91-19ca0cb1eba5
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: Syslog:Linux-Sysmon/Operational
 sourcetype: sysmon:linux
@@ -9,8 +11,6 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/6652
   version: 1.0.0
 description: Data source object for Sysmon for Linux EventID
-event_names:
-- data_source: event_sources/Sysmon_for_Linux_EventID_1.yml
-  event_name: Sysmon for Linux EventID 1
-- data_source: event_sources/Sysmon_for_Linux_EventID_11.yml
-  event_name: Sysmon for Linux EventID 11
+event_sources:
+- Sysmon for Linux EventID 1
+- Sysmon for Linux EventID 11

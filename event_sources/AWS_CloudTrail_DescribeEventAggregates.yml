@@ -1,5 +1,7 @@
 name: AWS CloudTrail DescribeEventAggregates
 id: 7efe4afe-62ae-4f96-81d1-76598ea37fc2
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DescribeEventAggregates
 fields:

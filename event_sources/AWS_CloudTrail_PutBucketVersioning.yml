@@ -1,5 +1,7 @@
 name: AWS CloudTrail PutBucketVersioning
 id: 17b2fc7d-c8ce-487c-8815-f9a65a09e980
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail PutBucketVersioning
 fields:

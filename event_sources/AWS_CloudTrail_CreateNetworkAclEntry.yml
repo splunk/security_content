@@ -1,5 +1,7 @@
 name: AWS CloudTrail CreateNetworkAclEntry
 id: 45934028-10ec-4ab5-a7b1-a6349b833e67
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CreateNetworkAclEntry
 fields:

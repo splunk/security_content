@@ -1,5 +1,7 @@
 name: AWS Security Hub
 id: b02bfbf3-294f-478e-99a1-e24b8c692d7e
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: aws_securityhub_finding
 sourcetype: aws:securityhub:finding
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/1876
   version: 7.4.1
 description: Data source object for AWS Security Hub
-event_names: []
+event_sources: []
 fields:
 - _time
 - AwsAccountId

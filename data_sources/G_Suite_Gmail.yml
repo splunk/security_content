@@ -1,5 +1,7 @@
 name: G Suite Gmail
 id: 706c3978-41de-406b-b6e0-75bd01e12a5d
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: http:gsuite
 sourcetype: gsuite:gmail:bigquery
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/5556
   version: 2.6.3
 description: Data source object for G Suite Gmail
-event_names: []
+event_sources: []
 fields:
 - _time
 - action_type

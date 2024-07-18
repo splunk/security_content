@@ -1,5 +1,7 @@
 name: AWS CloudTrail ModifyImageAttribute
 id: 667c2115-8082-419e-b541-8150066bda4d
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail ModifyImageAttribute
 fields:

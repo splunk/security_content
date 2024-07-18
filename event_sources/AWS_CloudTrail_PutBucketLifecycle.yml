@@ -1,5 +1,7 @@
 name: AWS CloudTrail PutBucketLifecycle
 id: 1c73e954-87b6-4bd7-ac6a-5db7c4082b22
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail PutBucketLifecycle
 fields:

@@ -1,5 +1,7 @@
 name: Sysmon EventID
 id: 848aec1b-90aa-48a9-ae52-31d3a2e79697
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: xmlwineventlog
@@ -10,42 +12,23 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/5709/
   version: 4.0.0
 description: Data source object for Sysmon EventID
-event_names:
-- data_source: event_sources/Sysmon_EventID_1.yml
-  event_name: Sysmon EventID 1
-- data_source: event_sources/Sysmon_EventID_10.yml
-  event_name: Sysmon EventID 10
-- data_source: event_sources/Sysmon_EventID_11.yml
-  event_name: Sysmon EventID 11
-- data_source: event_sources/Sysmon_EventID_12.yml
-  event_name: Sysmon EventID 12
-- data_source: event_sources/Sysmon_EventID_13.yml
-  event_name: Sysmon EventID 13
-- data_source: event_sources/Sysmon_EventID_14.yml
-  event_name: Sysmon EventID 14
-- data_source: event_sources/Sysmon_EventID_15.yml
-  event_name: Sysmon EventID 15
-- data_source: event_sources/Sysmon_EventID_17.yml
-  event_name: Sysmon EventID 17
-- data_source: event_sources/Sysmon_EventID_18.yml
-  event_name: Sysmon EventID 18
-- data_source: event_sources/Sysmon_EventID_20.yml
-  event_name: Sysmon EventID 20
-- data_source: event_sources/Sysmon_EventID_21.yml
-  event_name: Sysmon EventID 21
-- data_source: event_sources/Sysmon_EventID_22.yml
-  event_name: Sysmon EventID 22
-- data_source: event_sources/Sysmon_EventID_23.yml
-  event_name: Sysmon EventID 23
-- data_source: event_sources/Sysmon_EventID_3.yml
-  event_name: Sysmon EventID 3
-- data_source: event_sources/Sysmon_EventID_5.yml
-  event_name: Sysmon EventID 5
-- data_source: event_sources/Sysmon_EventID_6.yml
-  event_name: Sysmon EventID 6
-- data_source: event_sources/Sysmon_EventID_7.yml
-  event_name: Sysmon EventID 7
-- data_source: event_sources/Sysmon_EventID_8.yml
-  event_name: Sysmon EventID 8
-- data_source: event_sources/Sysmon_EventID_9.yml
-  event_name: Sysmon EventID 9
+event_sources:
+- Sysmon EventID 1
+- Sysmon EventID 10
+- Sysmon EventID 11
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+- Sysmon EventID 15
+- Sysmon EventID 17
+- Sysmon EventID 18
+- Sysmon EventID 20
+- Sysmon EventID 21
+- Sysmon EventID 22
+- Sysmon EventID 23
+- Sysmon EventID 3
+- Sysmon EventID 5
+- Sysmon EventID 6
+- Sysmon EventID 7
+- Sysmon EventID 8
+- Sysmon EventID 9

@@ -1,5 +1,7 @@
 name: AWS CloudTrail AssumeRoleWithSAML
 id: 1e28f2a6-2db9-405f-b298-18734a293f77
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail AssumeRoleWithSAML
 fields:

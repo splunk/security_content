@@ -1,5 +1,7 @@
 name: AWS CloudTrail StopLogging
 id: c5de7c54-4809-4659-bf9f-3bacf8bdfd35
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail StopLogging
 fields:

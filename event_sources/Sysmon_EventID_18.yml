@@ -1,5 +1,7 @@
 name: Sysmon EventID 18
 id: 37eb3554-214e-4e66-af10-c3ffc5b8ca82
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 18
 fields:

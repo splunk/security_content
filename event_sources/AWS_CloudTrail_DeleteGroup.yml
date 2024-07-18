@@ -1,5 +1,7 @@
 name: AWS CloudTrail DeleteGroup
 id: c95308a4-a943-42ca-b112-f90a05c21bd3
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DeleteGroup
 fields:

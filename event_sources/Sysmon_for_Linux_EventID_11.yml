@@ -1,5 +1,7 @@
 name: Sysmon for Linux EventID 11
 id: 14672fed-235a-411f-8062-ace9696fb2af
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon for Linux EventID 11
 fields:

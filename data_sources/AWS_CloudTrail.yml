@@ -1,5 +1,7 @@
 name: AWS CloudTrail
 id: aa8d90bf-8ab1-4a9f-8c1b-24a67b1cd0b0
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: aws_cloudtrail
 sourcetype: aws:cloudtrail
@@ -9,109 +11,58 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/1876
   version: 7.4.1
 description: Data source object for AWS CloudTrail
-event_names:
-- data_source: event_sources/AWS_CloudTrail_AssumeRoleWithSAML.yml
-  event_name: AWS CloudTrail AssumeRoleWithSAML
-- data_source: event_sources/AWS_CloudTrail_ConsoleLogin.yml
-  event_name: AWS CloudTrail ConsoleLogin
-- data_source: event_sources/AWS_CloudTrail_CopyObject.yml
-  event_name: AWS CloudTrail CopyObject
-- data_source: event_sources/AWS_CloudTrail_CreateAccessKey.yml
-  event_name: AWS CloudTrail CreateAccessKey
-- data_source: event_sources/AWS_CloudTrail_CreateKey.yml
-  event_name: AWS CloudTrail CreateKey
-- data_source: event_sources/AWS_CloudTrail_CreateLoginProfile.yml
-  event_name: AWS CloudTrail CreateLoginProfile
-- data_source: event_sources/AWS_CloudTrail_CreateNetworkAclEntry.yml
-  event_name: AWS CloudTrail CreateNetworkAclEntry
-- data_source: event_sources/AWS_CloudTrail_CreatePolicyVersion.yml
-  event_name: AWS CloudTrail CreatePolicyVersion
-- data_source: event_sources/AWS_CloudTrail_CreateSnapshot.yml
-  event_name: AWS CloudTrail CreateSnapshot
-- data_source: event_sources/AWS_CloudTrail_CreateTask.yml
-  event_name: AWS CloudTrail CreateTask
-- data_source: event_sources/AWS_CloudTrail_CreateVirtualMFADevice.yml
-  event_name: AWS CloudTrail CreateVirtualMFADevice
-- data_source: event_sources/AWS_CloudTrail_DeactivateMFADevice.yml
-  event_name: AWS CloudTrail DeactivateMFADevice
-- data_source: event_sources/AWS_CloudTrail_DeleteAccountPasswordPolicy.yml
-  event_name: AWS CloudTrail DeleteAccountPasswordPolicy
-- data_source: event_sources/AWS_CloudTrail_DeleteAlarms.yml
-  event_name: AWS CloudTrail DeleteAlarms
-- data_source: event_sources/AWS_CloudTrail_DeleteDetector.yml
-  event_name: AWS CloudTrail DeleteDetector
-- data_source: event_sources/AWS_CloudTrail_DeleteGroup.yml
-  event_name: AWS CloudTrail DeleteGroup
-- data_source: event_sources/AWS_CloudTrail_DeleteIPSet.yml
-  event_name: AWS CloudTrail DeleteIPSet
-- data_source: event_sources/AWS_CloudTrail_DeleteLogGroup.yml
-  event_name: AWS CloudTrail DeleteLogGroup
-- data_source: event_sources/AWS_CloudTrail_DeleteLogStream.yml
-  event_name: AWS CloudTrail DeleteLogStream
-- data_source: event_sources/AWS_CloudTrail_DeleteLoggingConfiguration.yml
-  event_name: AWS CloudTrail DeleteLoggingConfiguration
-- data_source: event_sources/AWS_CloudTrail_DeleteNetworkAclEntry.yml
-  event_name: AWS CloudTrail DeleteNetworkAclEntry
-- data_source: event_sources/AWS_CloudTrail_DeletePolicy.yml
-  event_name: AWS CloudTrail DeletePolicy
-- data_source: event_sources/AWS_CloudTrail_DeleteRule.yml
-  event_name: AWS CloudTrail DeleteRule
-- data_source: event_sources/AWS_CloudTrail_DeleteRuleGroup.yml
-  event_name: AWS CloudTrail DeleteRuleGroup
-- data_source: event_sources/AWS_CloudTrail_DeleteSnapshot.yml
-  event_name: AWS CloudTrail DeleteSnapshot
-- data_source: event_sources/AWS_CloudTrail_DeleteTrail.yml
-  event_name: AWS CloudTrail DeleteTrail
-- data_source: event_sources/AWS_CloudTrail_DeleteVirtualMFADevice.yml
-  event_name: AWS CloudTrail DeleteVirtualMFADevice
-- data_source: event_sources/AWS_CloudTrail_DeleteWebACL.yml
-  event_name: AWS CloudTrail DeleteWebACL
-- data_source: event_sources/AWS_CloudTrail_DescribeEventAggregates.yml
-  event_name: AWS CloudTrail DescribeEventAggregates
-- data_source: event_sources/AWS_CloudTrail_DescribeImageScanFindings.yml
-  event_name: AWS CloudTrail DescribeImageScanFindings
-- data_source: event_sources/AWS_CloudTrail_DescribeSnapshotAttribute.yml
-  event_name: AWS CloudTrail DescribeSnapshotAttribute
-- data_source: event_sources/AWS_CloudTrail_GetAccountPasswordPolicy.yml
-  event_name: AWS CloudTrail GetAccountPasswordPolicy
-- data_source: event_sources/AWS_CloudTrail_GetObject.yml
-  event_name: AWS CloudTrail GetObject
-- data_source: event_sources/AWS_CloudTrail_GetPasswordData.yml
-  event_name: AWS CloudTrail GetPasswordData
-- data_source: event_sources/AWS_CloudTrail_JobCreated.yml
-  event_name: AWS CloudTrail JobCreated
-- data_source: event_sources/AWS_CloudTrail_ModifyDBInstance.yml
-  event_name: AWS CloudTrail ModifyDBInstance
-- data_source: event_sources/AWS_CloudTrail_ModifyImageAttribute.yml
-  event_name: AWS CloudTrail ModifyImageAttribute
-- data_source: event_sources/AWS_CloudTrail_ModifySnapshotAttribute.yml
-  event_name: AWS CloudTrail ModifySnapshotAttribute
-- data_source: event_sources/AWS_CloudTrail_PutBucketAcl.yml
-  event_name: AWS CloudTrail PutBucketAcl
-- data_source: event_sources/AWS_CloudTrail_PutBucketLifecycle.yml
-  event_name: AWS CloudTrail PutBucketLifecycle
-- data_source: event_sources/AWS_CloudTrail_PutBucketReplication.yml
-  event_name: AWS CloudTrail PutBucketReplication
-- data_source: event_sources/AWS_CloudTrail_PutBucketVersioning.yml
-  event_name: AWS CloudTrail PutBucketVersioning
-- data_source: event_sources/AWS_CloudTrail_PutImage.yml
-  event_name: AWS CloudTrail PutImage
-- data_source: event_sources/AWS_CloudTrail_PutKeyPolicy.yml
-  event_name: AWS CloudTrail PutKeyPolicy
-- data_source: event_sources/AWS_CloudTrail_ReplaceNetworkAclEntry.yml
-  event_name: AWS CloudTrail ReplaceNetworkAclEntry
-- data_source: event_sources/AWS_CloudTrail_SetDefaultPolicyVersion.yml
-  event_name: AWS CloudTrail SetDefaultPolicyVersion
-- data_source: event_sources/AWS_CloudTrail_StopLogging.yml
-  event_name: AWS CloudTrail StopLogging
-- data_source: event_sources/AWS_CloudTrail_UpdateAccountPasswordPolicy.yml
-  event_name: AWS CloudTrail UpdateAccountPasswordPolicy
-- data_source: event_sources/AWS_CloudTrail_UpdateLoginProfile.yml
-  event_name: AWS CloudTrail UpdateLoginProfile
-- data_source: event_sources/AWS_CloudTrail_UpdateSAMLProvider.yml
-  event_name: AWS CloudTrail UpdateSAMLProvider
-- data_source: event_sources/AWS_CloudTrail_UpdateTrail.yml
-  event_name: AWS CloudTrail UpdateTrail
+event_sources:
+- AWS CloudTrail AssumeRoleWithSAML
+- AWS CloudTrail ConsoleLogin
+- AWS CloudTrail CopyObject
+- AWS CloudTrail CreateAccessKey
+- AWS CloudTrail CreateKey
+- AWS CloudTrail CreateLoginProfile
+- AWS CloudTrail CreateNetworkAclEntry
+- AWS CloudTrail CreatePolicyVersion
+- AWS CloudTrail CreateSnapshot
+- AWS CloudTrail CreateTask
+- AWS CloudTrail CreateVirtualMFADevice
+- AWS CloudTrail DeactivateMFADevice
+- AWS CloudTrail DeleteAccountPasswordPolicy
+- AWS CloudTrail DeleteAlarms
+- AWS CloudTrail DeleteDetector
+- AWS CloudTrail DeleteGroup
+- AWS CloudTrail DeleteIPSet
+- AWS CloudTrail DeleteLogGroup
+- AWS CloudTrail DeleteLogStream
+- AWS CloudTrail DeleteLoggingConfiguration
+- AWS CloudTrail DeleteNetworkAclEntry
+- AWS CloudTrail DeletePolicy
+- AWS CloudTrail DeleteRule
+- AWS CloudTrail DeleteRuleGroup
+- AWS CloudTrail DeleteSnapshot
+- AWS CloudTrail DeleteTrail
+- AWS CloudTrail DeleteVirtualMFADevice
+- AWS CloudTrail DeleteWebACL
+- AWS CloudTrail DescribeEventAggregates
+- AWS CloudTrail DescribeImageScanFindings
+- AWS CloudTrail DescribeSnapshotAttribute
+- AWS CloudTrail GetAccountPasswordPolicy
+- AWS CloudTrail GetObject
+- AWS CloudTrail GetPasswordData
+- AWS CloudTrail JobCreated
+- AWS CloudTrail ModifyDBInstance
+- AWS CloudTrail ModifyImageAttribute
+- AWS CloudTrail ModifySnapshotAttribute
+- AWS CloudTrail PutBucketAcl
+- AWS CloudTrail PutBucketLifecycle
+- AWS CloudTrail PutBucketReplication
+- AWS CloudTrail PutBucketVersioning
+- AWS CloudTrail PutImage
+- AWS CloudTrail PutKeyPolicy
+- AWS CloudTrail ReplaceNetworkAclEntry
+- AWS CloudTrail SetDefaultPolicyVersion
+- AWS CloudTrail StopLogging
+- AWS CloudTrail UpdateAccountPasswordPolicy
+- AWS CloudTrail UpdateLoginProfile
+- AWS CloudTrail UpdateSAMLProvider
+- AWS CloudTrail UpdateTrail
 fields:
 - _time
 - action

@@ -1,5 +1,7 @@
 name: Sysmon EventID 9
 id: ae4a6a24-9b8c-4386-a7ac-677d7ad5bf09
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 9
 fields:

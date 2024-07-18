@@ -1,5 +1,7 @@
 name: Windows Event Log CertificateServicesClient
 id: dc953ea6-b9f0-4bb6-8f33-6f0c918cdfd2
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
 sourcetype: XmlWinEventLog
@@ -9,6 +11,5 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/742
   version: 8.8.0
 description: Data source object for Windows Event Log CertificateServicesClient
-event_names:
-- data_source: event_sources/Windows_Event_Log_CertificateServicesClient_1007.yml
-  event_name: Windows Event Log CertificateServicesClient 1007
+event_sources:
+- Windows Event Log CertificateServicesClient 1007

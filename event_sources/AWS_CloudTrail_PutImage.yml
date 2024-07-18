@@ -1,5 +1,7 @@
 name: AWS CloudTrail PutImage
 id: bb13f10d-0d8c-4fde-9136-b7cfd930e87c
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail PutImage
 fields:

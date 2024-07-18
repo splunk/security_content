@@ -1,12 +1,14 @@
 name: Suricata
 id: 64b245d4-a4d1-4865-a718-c83d3b939f2e
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: suricata
 sourcetype: suricata
 supported_TA:
 - {}
 description: Data source object for Suricata
-event_names: []
+event_sources: []
 fields:
 - _time
 - app_proto

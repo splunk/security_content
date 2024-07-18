@@ -1,5 +1,7 @@
 name: AWS CloudTrail DeleteWebACL
 id: 90da5f08-7961-4c29-8de8-01364982aadf
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DeleteWebACL
 fields:

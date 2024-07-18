@@ -1,5 +1,7 @@
 name: Sysmon EventID 6
 id: eadc297a-c20c-45a1-8fac-74ad54019767
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 6
 fields:

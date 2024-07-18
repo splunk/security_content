@@ -1,5 +1,7 @@
 name: G Suite Drive
 id: 5f79120f-a235-4468-bd0d-55203758ac22
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: http:gsuite
 sourcetype: gsuite:drive:json
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/5556
   version: 2.6.3
 description: Data source object for G Suite Drive
-event_names: []
+event_sources: []
 fields:
 - _time
 - email

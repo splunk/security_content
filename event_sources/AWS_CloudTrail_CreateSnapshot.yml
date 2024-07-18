@@ -1,5 +1,7 @@
 name: AWS CloudTrail CreateSnapshot
 id: 514135a2-f4b2-4d32-8f31-d87824887f9f
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CreateSnapshot
 fields:

@@ -1,5 +1,7 @@
 name: Sysmon EventID 1
 id: b375f4d1-d7ca-4bc0-9103-294825c0af17
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 1
 fields:

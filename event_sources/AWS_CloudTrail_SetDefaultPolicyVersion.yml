@@ -1,5 +1,7 @@
 name: AWS CloudTrail SetDefaultPolicyVersion
 id: 06e0b5a0-8d36-485e-befc-4ae79d77ef6c
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail SetDefaultPolicyVersion
 fields:

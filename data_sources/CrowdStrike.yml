@@ -1,5 +1,7 @@
 name: CrowdStrike
 id: 1064b9f3-82cd-4e4f-ac1e-322ec54569a7
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: crowdstrike
 sourcetype: crowdstrike:events:sensor
@@ -9,6 +11,5 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/5082
   version: 3.2.1
 description: Data source object for CrowdStrike
-event_names:
-- data_source: event_sources/Crowdstrike_ProcessRollup2.yml
-  event_name: Crowdstrike ProcessRollup2
+event_sources:
+- Crowdstrike ProcessRollup2

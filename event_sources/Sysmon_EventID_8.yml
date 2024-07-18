@@ -1,5 +1,7 @@
 name: Sysmon EventID 8
 id: df7a786c-ade0-48f0-8596-26f10d169f7d
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 8
 fields:

@@ -1,5 +1,7 @@
 name: Sysmon EventID 7
 id: 45512fa5-4d55-4088-9d51-f4dedc16fdff
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 7
 fields:

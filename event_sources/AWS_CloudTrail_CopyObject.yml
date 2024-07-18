@@ -1,5 +1,7 @@
 name: AWS CloudTrail CopyObject
 id: 965083f4-64a8-403f-99cc-252e1a6bd3b6
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CopyObject
 fields:

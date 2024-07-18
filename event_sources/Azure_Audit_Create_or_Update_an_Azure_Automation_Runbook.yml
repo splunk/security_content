@@ -1,5 +1,7 @@
 name: Azure Audit Create or Update an Azure Automation Runbook
 id: 2bd83221-7a8b-436f-9b2b-efa1d44d009e
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Audit Create or Update an Azure Automation
   Runbook

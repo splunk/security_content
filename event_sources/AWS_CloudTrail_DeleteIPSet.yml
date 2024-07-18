@@ -1,5 +1,7 @@
 name: AWS CloudTrail DeleteIPSet
 id: ebdeeb63-77a0-4808-a6fe-549956731377
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DeleteIPSet
 fields:

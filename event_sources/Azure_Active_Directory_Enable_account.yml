@@ -1,5 +1,7 @@
 name: Azure Active Directory Enable account
 id: cb49f3cd-04ad-415c-a5ed-9b27b2829fa7
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Active Directory Enable account
 fields:

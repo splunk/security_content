@@ -1,5 +1,7 @@
 name: Sysmon EventID 3
 id: 01d84dff-4e26-422c-9389-6a579ee6e75b
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 3
 fields:

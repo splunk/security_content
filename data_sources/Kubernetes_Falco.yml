@@ -1,12 +1,14 @@
 name: Kubernetes Falco
 id: 23c0eeed-840a-4711-a41b-6819c1ffbba5
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: kubernetes
 sourcetype: kube:container:falco
 supported_TA:
 - {}
 description: Data source object for Kubernetes Falco
-event_names: []
+event_sources: []
 fields:
 - _time
 - command

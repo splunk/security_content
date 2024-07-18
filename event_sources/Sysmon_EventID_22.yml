@@ -1,5 +1,7 @@
 name: Sysmon EventID 22
 id: 911538b2-eba7-4d3e-85e8-d82d380c37bf
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 22
 fields:

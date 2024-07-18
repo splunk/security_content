@@ -1,5 +1,7 @@
 name: AWS CloudTrail UpdateTrail
 id: d5b7a1eb-711a-4c96-aa93-235fe3c8a939
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail UpdateTrail
 fields:

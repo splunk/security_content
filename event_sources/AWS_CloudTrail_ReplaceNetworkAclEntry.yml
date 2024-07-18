@@ -1,5 +1,7 @@
 name: AWS CloudTrail ReplaceNetworkAclEntry
 id: db0c240e-3754-40e4-86ef-cde018ee9f65
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail ReplaceNetworkAclEntry
 fields:

@@ -1,5 +1,7 @@
 name: Google Workspace
 id: 9ef3a321-c641-4798-8a92-9c10c714a004
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: gws:reports:admin
 sourcetype: gws:reports:admin
@@ -9,10 +11,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/5556
   version: 2.6.3
 description: Data source object for Google Workspace
-event_names:
-- data_source: event_sources/Google_Workspace.yml
-  event_name: Google Workspace
-- data_source: event_sources/Google_Workspace_login_failure.yml
-  event_name: Google Workspace login_failure
-- data_source: event_sources/Google_Workspace_login_success.yml
-  event_name: Google Workspace login_success
+event_sources:
+- Google Workspace
+- Google Workspace login_failure
+- Google Workspace login_success

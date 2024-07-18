@@ -1,5 +1,7 @@
 name: Azure Audit Create or Update an Azure Automation account
 id: 2ab182e7-feda-4249-9418-32710b55a885
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Audit Create or Update an Azure Automation
   account

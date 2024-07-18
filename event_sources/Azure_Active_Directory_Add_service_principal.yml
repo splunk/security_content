@@ -1,5 +1,7 @@
 name: Azure Active Directory Add service principal
 id: fd89d337-e4c0-4162-ad13-bca36f096fe6
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Azure Active Directory Add service principal
 fields:

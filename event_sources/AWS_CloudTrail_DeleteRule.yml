@@ -1,5 +1,7 @@
 name: AWS CloudTrail DeleteRule
 id: b5760623-f3ca-492d-a372-d5c2b3567dfc
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail DeleteRule
 fields:

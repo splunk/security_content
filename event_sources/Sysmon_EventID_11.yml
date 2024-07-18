@@ -1,5 +1,7 @@
 name: Sysmon EventID 11
 id: f3db9179-f4f5-416d-bc03-39f4d4ff699e
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 11
 fields:

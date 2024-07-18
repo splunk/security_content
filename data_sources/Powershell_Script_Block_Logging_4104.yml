@@ -1,5 +1,7 @@
 name: Powershell Script Block Logging 4104
 id: 5cfd0c72-d989-47a0-92f9-6edc6f8d3564
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
 sourcetype: xmlwineventlog
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/742
   version: 8.8.0
 description: Data source object for Powershell Script Block Logging 4104
-event_names: []
+event_sources: []
 fields:
 - _time
 - ActivityID

@@ -1,5 +1,7 @@
 name: Sysmon EventID 17
 id: 08924246-c8e8-4c95-a9fc-633c43cc82df
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 17
 fields:

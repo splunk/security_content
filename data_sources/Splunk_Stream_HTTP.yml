@@ -1,5 +1,7 @@
 name: Splunk Stream HTTP
 id: b0070a33-92ed-49e5-8f38-576cdf300710
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 source: stream:http
 sourcetype: stream:http
@@ -8,7 +10,7 @@ supported_TA:
   url: https://splunkbase.splunk.com/app/1809
   version: 8.1.1
 description: Data source object for Splunk Stream HTTP
-event_names: []
+event_sources: []
 fields:
 - _time
 - bytes

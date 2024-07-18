@@ -1,5 +1,7 @@
 name: AWS CloudTrail PutBucketAcl
 id: 28fffbfd-d98d-4a42-990b-b04ab47422eb
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail PutBucketAcl
 fields:

@@ -1,5 +1,7 @@
 name: O365 UserLoggedIn
 id: ed29c8c4-4053-419c-b133-16abf2a1c4c9
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for O365 UserLoggedIn
 fields:

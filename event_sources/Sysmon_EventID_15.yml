@@ -1,5 +1,7 @@
 name: Sysmon EventID 15
 id: 95785e02-93b4-47e2-81f1-be326295348e
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for Sysmon EventID 15
 fields:

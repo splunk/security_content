@@ -1,5 +1,7 @@
 name: AWS CloudTrail CreateAccessKey
 id: 0460f7da-3254-4d90-b8c0-2ca657d0cea0
+version: 1
+date: '2024-07-18'
 author: Patrick Bareiss, Splunk
 description: Event source object for AWS CloudTrail CreateAccessKey
 fields:
