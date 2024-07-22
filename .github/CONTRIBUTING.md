@@ -125,4 +125,8 @@ If you need help, feel free to tag one of the active maintainers of this project
 (*) Jose Hernandez
 (*) Lou Stella
 (*) Patrick Bareib
+(*) Eric McGinnis
+(*) Rod Soto
+(*) Teoderick Contreras
+(*) Gowtham Rajendran
 ```
