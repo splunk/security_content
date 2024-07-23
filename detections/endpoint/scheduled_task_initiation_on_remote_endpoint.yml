@@ -2,7 +2,7 @@ name: Scheduled Task Initiation on Remote Endpoint
 id: 95cf4608-4302-11ec-8194-3e22fbd008af
 version: 4
 date: '2024-07-23'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Splunk, Badoodish, Github Community
 status: production
 type: TTP
 description: The following analytic detects the use of 'schtasks.exe' to start a Scheduled
