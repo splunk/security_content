@@ -1,6 +1,6 @@
 name: Windows Service Creation on Remote Endpoint
 id: e0eea4fa-4274-11ec-882b-3e22fbd008af
-version: 4
+version: 3
 date: '2024-07-23'
 author: Mauricio Velazco, Splunk
 status: production

@@ -1,6 +1,6 @@
 name: Remote Process Instantiation via WinRM and Winrs
 id: 0dd296a2-4338-11ec-ba02-3e22fbd008af
-version: 4
+version: 3
 date: '2024-07-23'
 author: Mauricio Velazco, Splunk
 status: production
