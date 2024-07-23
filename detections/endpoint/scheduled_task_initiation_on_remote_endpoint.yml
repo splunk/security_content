@@ -1,7 +1,7 @@
 name: Scheduled Task Initiation on Remote Endpoint
 id: 95cf4608-4302-11ec-8194-3e22fbd008af
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-07-23'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 90
-  message: A Windows Scheduled Task was ran on a remote endpoint from $dest
+  message: A Windows Scheduled Task was ran on a remote endpoint from $dest$
   mitre_attack_id:
   - T1053
   - T1053.005
@@ -77,3 +77,4 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/lateral_movement/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
+# version bumped by pre-commit hook
