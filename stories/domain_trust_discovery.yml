@@ -16,7 +16,6 @@ narrative: Domain trusts provide a mechanism for a domain to allow access to res
 references:
 - https://attack.mitre.org/techniques/T1482/
 tags:
-  analytic_story: Domain Trust Discovery
   category:
   - Adversary Tactics
   product:

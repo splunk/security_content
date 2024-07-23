@@ -8,7 +8,6 @@ narrative: Living Off The Land refers to an adversary methodology of using nativ
 references:
 - https://lolbas-project.github.io/
 tags:
-  analytic_story: Living Off The Land
   category:
   - Adversary Tactics
   - Unauthorized Software

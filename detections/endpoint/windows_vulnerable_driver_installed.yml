@@ -1,0 +1,60 @@
+name: Windows Vulnerable Driver Installed
+id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
+version: 1
+date: '2023-09-27'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Event Log System 7045
+description: The following analytic detects the loading of known vulnerable Windows
+  drivers, which may indicate potential persistence or privilege escalation attempts.
+  It leverages Windows System service install EventCode 7045 to identify driver loading 
+  events and cross-references them with a list of vulnerable drivers. This activity is 
+  significant as attackers often exploit vulnerable drivers to gain elevated privileges 
+  or maintain persistence on a system. If confirmed malicious, this could allow attackers 
+  to execute arbitrary code with high privileges, leading to further system compromise 
+  and potential data exfiltration. This detection is a Windows Event Log adaptation of 
+  the Sysmon driver loaded detection written by Michael Haag.
+search: '`wineventlog_system` EventCode=7045 ServiceType="kernel mode driver" | table _time dest EventCode ImagePath ServiceName ServiceType | lookup loldrivers driver_name AS ImagePath OUTPUT is_driver driver_description | search is_driver = TRUE  | `windows_vulnerable_driver_installed_filter`'
+how_to_implement: Ensure the Splunk is collecting XmlWinEventLog:System events and the EventCode 7045 is being ingested. 
+known_false_positives: False positives will be present. Drill down into the driver
+  further by version number and cross reference by signer. Review the reference material
+  in the lookup. In addition, modify the query to look within specific paths, which
+  will remove a lot of "normal" drivers.
+references:
+- https://loldrivers.io/
+- https://github.com/SpikySabra/Kernel-Cactus
+- https://github.com/wavestone-cdt/EDRSandblast
+- https://research.splunk.com/endpoint/a2b1f1ef-221f-4187-b2a4-d4b08ec745f4/
+- https://www.splunk.com/en_us/blog/security/these-are-the-drivers-you-are-looking-for-detect-and-prevent-malicious-drivers.html
+tags:
+  analytic_story:
+  - Windows Drivers
+  asset_type: Endpoint
+  confidence: 50
+  impact: 100
+  message: Potentially vulnerable/malicious driver ($driver_name$) has been installed on $dest$
+  mitre_attack_id:
+  - T1543.003
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 50
+  required_fields:
+  - ServiceType
+  - driver_name
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-system.log
+        source: XmlWinEventLog:System
+        sourcetype: XmlWinEventLog
+        update_timestamp: true

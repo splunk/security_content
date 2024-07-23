@@ -1,20 +1,17 @@
 name: Detect Port Security Violation
 id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
-version: 1
-date: '2020-10-28'
+version: 2
+date: '2024-05-13'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: By enabling Port Security on a Cisco switch you can restrict input to
-  an interface by limiting and identifying MAC addresses of the workstations that
-  are allowed to access the port. When you assign secure MAC addresses to a secure
-  port, the port does not forward packets with source addresses outside the group
-  of defined addresses. If you limit the number of secure MAC addresses to one and
-  assign a single secure MAC address, the workstation attached to that port is assured
-  the full bandwidth of the port. If a port is configured as a secure port and the
-  maximum number of secure MAC addresses is reached, when the MAC address of a workstation
-  attempting to access the port is different from any of the identified secure MAC
-  addresses, a security violation occurs.
+description: The following analytic detects port security violations on Cisco switches.
+  It leverages logs from Cisco network devices, specifically looking for events with
+  mnemonics indicating port security violations. This activity is significant because
+  it indicates an unauthorized device attempting to connect to a secured port, potentially
+  bypassing network access controls. If confirmed malicious, this could allow an attacker
+  to gain unauthorized access to the network, leading to data exfiltration, network
+  disruption, or further lateral movement within the environment.
 data_source: []
 search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="psecure-violation")
   OR (facility="PORT_SECURITY" mnemonic="PSECURE_VIOLATION" OR mnemonic="PSECURE_VIOLATION_VLAN")
@@ -24,7 +21,8 @@ search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="p
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_port_security_violation_filter`'
 how_to_implement: This search uses a standard SPL query on logs from Cisco Network
   devices. The network devices must be configured with Port Security and Error Disable
-  for this to work (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html)
+  for this to work (see 
+  https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html)
   and log with a severity level of minimum "5 - notification". The search also requires
   that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
   is used to parse the logs from the Cisco network devices.

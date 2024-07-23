@@ -13,7 +13,6 @@ references:
   - https://github.com/mattifestation/PoCSubjectInterfacePackage
   - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
 tags:
-  analytic_story: Subvert Trust Controls SIP and Trust Provider Hijacking
   category:
   - Adversary Tactics
   product:

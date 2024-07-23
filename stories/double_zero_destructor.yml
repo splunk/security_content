@@ -9,7 +9,6 @@ references:
 - https://cert.gov.ua/article/38088
 - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
 tags:
-  analytic_story: Double Zero Destructor
   category:
   - Data Destruction
   - Malware

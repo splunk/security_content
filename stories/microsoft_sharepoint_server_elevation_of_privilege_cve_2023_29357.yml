@@ -9,7 +9,6 @@ references:
 - https://socradar.io/microsoft-sharepoint-server-elevation-of-privilege-vulnerability-exploit-cve-2023-29357/
 - https://github.com/Chocapikk/CVE-2023-29357
 tags:
-  analytic_story: Microsoft SharePoint Server Elevation of Privilege CVE-2023-29357
   category: 
   - Vulnerability
   - Adversary Tactics

@@ -1,0 +1,638 @@
+mitre_id,technique,tactics,groups
+T1059.010,AutoHotKey & AutoIT,Execution,APT39
+T1564.012,File/Path Exclusions,Defense Evasion,no
+T1027.013,Encrypted/Encoded File,Defense Evasion,APT18|APT19|APT28|APT32|APT33|APT39|BITTER|Blue Mockingbird|Dark Caracal|Darkhotel|Elderwood|Fox Kitten|Group5|Higaisa|Inception|Lazarus Group|Leviathan|Magic Hound|Malteiro|Metador|Mofang|Molerats|Moses Staff|OilRig|Putter Panda|Sidewinder|TA2541|TA505|TeamTNT|Threat Group-3390|Transparent Tribe|Tropic Trooper|Whitefly|menuPass
+T1574.014,AppDomainManager,Defense Evasion|Persistence|Privilege Escalation,no
+T1584.008,Network Devices,Resource Development,APT28|Volt Typhoon
+T1548.006,TCC Manipulation,Defense Evasion|Privilege Escalation,no
+T1588.007,Artificial Intelligence,Resource Development,no
+T1218.015,Electron Applications,Defense Evasion,no
+T1543.005,Container Service,Persistence|Privilege Escalation,no
+T1665,Hide Infrastructure,Command And Control,APT29
+T1216.002,SyncAppvPublishingServer,Defense Evasion,no
+T1556.009,Conditional Access Policies,Credential Access|Defense Evasion|Persistence,Scattered Spider
+T1027.012,LNK Icon Smuggling,Defense Evasion,no
+T1036.009,Break Process Trees,Defense Evasion,no
+T1555.006,Cloud Secrets Management Stores,Credential Access,no
+T1016.002,Wi-Fi Discovery,Discovery,Magic Hound
+T1566.004,Spearphishing Voice,Initial Access,no
+T1598.004,Spearphishing Voice,Reconnaissance,LAPSUS$|Scattered Spider
+T1578.005,Modify Cloud Compute Configurations,Defense Evasion,no
+T1659,Content Injection,Command And Control|Initial Access,MoustachedBouncer
+T1564.011,Ignore Process Interrupts,Defense Evasion,no
+T1657,Financial Theft,Impact,Akira|Cinnamon Tempest|FIN13|Malteiro|Scattered Spider|SilverTerrier
+T1656,Impersonation,Defense Evasion,LAPSUS$|Scattered Spider
+T1567.004,Exfiltration Over Webhook,Exfiltration,no
+T1098.006,Additional Container Cluster Roles,Persistence|Privilege Escalation,no
+T1654,Log Enumeration,Discovery,APT5|Volt Typhoon
+T1548.005,Temporary Elevated Cloud Access,Defense Evasion|Privilege Escalation,no
+T1653,Power Settings,Persistence,no
+T1021.008,Direct Cloud VM Connections,Lateral Movement,no
+T1562.012,Disable or Modify Linux Audit System,Defense Evasion,no
+T1556.008,Network Provider DLL,Credential Access|Defense Evasion|Persistence,no
+T1652,Device Driver Discovery,Discovery,no
+T1027.011,Fileless Storage,Defense Evasion,APT32|Turla
+T1027.010,Command Obfuscation,Defense Evasion,APT19|APT32|Aquatic Panda|Chimera|Cobalt Group|Ember Bear|FIN6|FIN7|FIN8|Fox Kitten|GOLD SOUTHFIELD|Gamaredon Group|HEXANE|LazyScripter|Leafminer|Magic Hound|MuddyWater|Patchwork|Sandworm Team|Sidewinder|Silence|TA505|TA551|Turla|Wizard Spider
+T1562.011,Spoof Security Alerting,Defense Evasion,no
+T1552.008,Chat Messages,Credential Access,LAPSUS$
+T1651,Cloud Administration Command,Execution,APT29
+T1650,Acquire Access,Resource Development,no
+T1036.008,Masquerade File Type,Defense Evasion,Volt Typhoon
+T1567.003,Exfiltration to Text Storage Sites,Exfiltration,no
+T1583.008,Malvertising,Resource Development,Mustard Tempest
+T1021.007,Cloud Services,Lateral Movement,APT29|Scattered Spider
+T1205.002,Socket Filters,Command And Control|Defense Evasion|Persistence,no
+T1608.006,SEO Poisoning,Resource Development,Mustard Tempest
+T1027.009,Embedded Payloads,Defense Evasion,no
+T1027.008,Stripped Payloads,Defense Evasion,no
+T1556.007,Hybrid Identity,Credential Access|Defense Evasion|Persistence,APT29
+T1546.016,Installer Packages,Persistence|Privilege Escalation,no
+T1027.007,Dynamic API Resolution,Defense Evasion,Lazarus Group
+T1593.003,Code Repositories,Reconnaissance,LAPSUS$
+T1649,Steal or Forge Authentication Certificates,Credential Access,APT29
+T1070.009,Clear Persistence,Defense Evasion,no
+T1070.008,Clear Mailbox Data,Defense Evasion,no
+T1584.007,Serverless,Resource Development,no
+T1583.007,Serverless,Resource Development,no
+T1070.007,Clear Network Connection History and Configurations,Defense Evasion,Volt Typhoon
+T1556.006,Multi-Factor Authentication,Credential Access|Defense Evasion|Persistence,Scattered Spider
+T1586.003,Cloud Accounts,Resource Development,APT29
+T1585.003,Cloud Accounts,Resource Development,no
+T1648,Serverless Execution,Execution,no
+T1647,Plist File Modification,Defense Evasion,no
+T1622,Debugger Evasion,Defense Evasion|Discovery,no
+T1621,Multi-Factor Authentication Request Generation,Credential Access,APT29|LAPSUS$|Scattered Spider
+T1505.005,Terminal Services DLL,Persistence,no
+T1557.003,DHCP Spoofing,Collection|Credential Access,no
+T1059.009,Cloud API,Execution,APT29|TeamTNT
+T1595.003,Wordlist Scanning,Reconnaissance,APT41|Volatile Cedar
+T1098.005,Device Registration,Persistence|Privilege Escalation,APT29
+T1574.013,KernelCallbackTable,Defense Evasion|Persistence|Privilege Escalation,Lazarus Group
+T1556.005,Reversible Encryption,Credential Access|Defense Evasion|Persistence,no
+T1055.015,ListPlanting,Defense Evasion|Privilege Escalation,no
+T1564.010,Process Argument Spoofing,Defense Evasion,no
+T1564.009,Resource Forking,Defense Evasion,no
+T1559.003,XPC Services,Execution,no
+T1562.010,Downgrade Attack,Defense Evasion,no
+T1547.015,Login Items,Persistence|Privilege Escalation,no
+T1620,Reflective Code Loading,Defense Evasion,Lazarus Group
+T1619,Cloud Storage Object Discovery,Discovery,no
+T1218.014,MMC,Defense Evasion,no
+T1218.013,Mavinject,Defense Evasion,no
+T1614.001,System Language Discovery,Discovery,Ke3chang|Malteiro
+T1615,Group Policy Discovery,Discovery,Turla
+T1036.007,Double File Extension,Defense Evasion,Mustang Panda
+T1562.009,Safe Mode Boot,Defense Evasion,no
+T1564.008,Email Hiding Rules,Defense Evasion,FIN4|Scattered Spider
+T1505.004,IIS Components,Persistence,no
+T1027.006,HTML Smuggling,Defense Evasion,APT29
+T1213.003,Code Repositories,Collection,APT41|LAPSUS$|Scattered Spider
+T1553.006,Code Signing Policy Modification,Defense Evasion,APT39|Turla
+T1614,System Location Discovery,Discovery,SideCopy
+T1613,Container and Resource Discovery,Discovery,TeamTNT
+T1552.007,Container API,Credential Access,no
+T1612,Build Image on Host,Defense Evasion,no
+T1611,Escape to Host,Privilege Escalation,TeamTNT
+T1204.003,Malicious Image,Execution,TeamTNT
+T1053.007,Container Orchestration Job,Execution|Persistence|Privilege Escalation,no
+T1610,Deploy Container,Defense Evasion|Execution,TeamTNT
+T1609,Container Administration Command,Execution,TeamTNT
+T1608.005,Link Target,Resource Development,LuminousMoth|Silent Librarian
+T1608.004,Drive-by Target,Resource Development,APT32|Dragonfly|FIN7|LuminousMoth|Mustard Tempest|Threat Group-3390|Transparent Tribe
+T1608.003,Install Digital Certificate,Resource Development,no
+T1608.002,Upload Tool,Resource Development,Threat Group-3390
+T1608.001,Upload Malware,Resource Development,APT32|BITTER|EXOTIC LILY|Earth Lusca|FIN7|Gamaredon Group|HEXANE|Kimsuky|LazyScripter|LuminousMoth|Mustang Panda|Mustard Tempest|SideCopy|TA2541|TA505|TeamTNT|Threat Group-3390
+T1608,Stage Capabilities,Resource Development,Mustang Panda
+T1016.001,Internet Connection Discovery,Discovery,APT29|FIN13|FIN8|Gamaredon Group|HAFNIUM|HEXANE|Magic Hound|TA2541|Turla
+T1553.005,Mark-of-the-Web Bypass,Defense Evasion,APT29|TA505
+T1555.005,Password Managers,Credential Access,Fox Kitten|LAPSUS$|Threat Group-3390
+T1484.002,Trust Modification,Defense Evasion|Privilege Escalation,Scattered Spider
+T1484.001,Group Policy Modification,Defense Evasion|Privilege Escalation,Cinnamon Tempest|Indrik Spider
+T1547.014,Active Setup,Persistence|Privilege Escalation,no
+T1606.002,SAML Tokens,Credential Access,no
+T1606.001,Web Cookies,Credential Access,no
+T1606,Forge Web Credentials,Credential Access,no
+T1555.004,Windows Credential Manager,Credential Access,OilRig|Stealth Falcon|Turla|Wizard Spider
+T1059.008,Network Device CLI,Execution,no
+T1602.002,Network Device Configuration Dump,Collection,no
+T1542.005,TFTP Boot,Defense Evasion|Persistence,no
+T1542.004,ROMMONkit,Defense Evasion|Persistence,no
+T1602.001,SNMP (MIB Dump),Collection,no
+T1602,Data from Configuration Repository,Collection,no
+T1601.002,Downgrade System Image,Defense Evasion,no
+T1601.001,Patch System Image,Defense Evasion,no
+T1601,Modify System Image,Defense Evasion,no
+T1600.002,Disable Crypto Hardware,Defense Evasion,no
+T1600.001,Reduce Key Space,Defense Evasion,no
+T1600,Weaken Encryption,Defense Evasion,no
+T1556.004,Network Device Authentication,Credential Access|Defense Evasion|Persistence,no
+T1599.001,Network Address Translation Traversal,Defense Evasion,no
+T1599,Network Boundary Bridging,Defense Evasion,no
+T1020.001,Traffic Duplication,Exfiltration,no
+T1557.002,ARP Cache Poisoning,Collection|Credential Access,Cleaver|LuminousMoth
+T1588.006,Vulnerabilities,Resource Development,Sandworm Team
+T1053.006,Systemd Timers,Execution|Persistence|Privilege Escalation,no
+T1562.008,Disable or Modify Cloud Logs,Defense Evasion,APT29
+T1547.012,Print Processors,Persistence|Privilege Escalation,Earth Lusca
+T1598.003,Spearphishing Link,Reconnaissance,APT28|APT32|Dragonfly|Kimsuky|Magic Hound|Mustang Panda|Patchwork|Sandworm Team|Sidewinder|Silent Librarian|ZIRCONIUM
+T1598.002,Spearphishing Attachment,Reconnaissance,Dragonfly|SideCopy|Sidewinder
+T1598.001,Spearphishing Service,Reconnaissance,no
+T1598,Phishing for Information,Reconnaissance,APT28|Scattered Spider|ZIRCONIUM
+T1597.002,Purchase Technical Data,Reconnaissance,LAPSUS$
+T1597.001,Threat Intel Vendors,Reconnaissance,no
+T1597,Search Closed Sources,Reconnaissance,EXOTIC LILY
+T1596.005,Scan Databases,Reconnaissance,APT41
+T1596.004,CDNs,Reconnaissance,no
+T1596.003,Digital Certificates,Reconnaissance,no
+T1596.001,DNS/Passive DNS,Reconnaissance,no
+T1596.002,WHOIS,Reconnaissance,no
+T1596,Search Open Technical Databases,Reconnaissance,no
+T1595.002,Vulnerability Scanning,Reconnaissance,APT28|APT29|APT41|Aquatic Panda|Dragonfly|Earth Lusca|Magic Hound|Sandworm Team|TeamTNT|Volatile Cedar
+T1595.001,Scanning IP Blocks,Reconnaissance,TeamTNT
+T1595,Active Scanning,Reconnaissance,no
+T1594,Search Victim-Owned Websites,Reconnaissance,EXOTIC LILY|Kimsuky|Sandworm Team|Silent Librarian
+T1593.002,Search Engines,Reconnaissance,Kimsuky
+T1593.001,Social Media,Reconnaissance,EXOTIC LILY|Kimsuky
+T1593,Search Open Websites/Domains,Reconnaissance,Sandworm Team
+T1592.004,Client Configurations,Reconnaissance,HAFNIUM
+T1592.003,Firmware,Reconnaissance,no
+T1592.002,Software,Reconnaissance,Andariel|Magic Hound|Sandworm Team
+T1592.001,Hardware,Reconnaissance,no
+T1592,Gather Victim Host Information,Reconnaissance,no
+T1591.004,Identify Roles,Reconnaissance,HEXANE|LAPSUS$
+T1591.003,Identify Business Tempo,Reconnaissance,no
+T1591.001,Determine Physical Locations,Reconnaissance,Magic Hound
+T1591.002,Business Relationships,Reconnaissance,Dragonfly|LAPSUS$|Sandworm Team
+T1591,Gather Victim Org Information,Reconnaissance,Kimsuky|Lazarus Group
+T1590.006,Network Security Appliances,Reconnaissance,no
+T1590.005,IP Addresses,Reconnaissance,Andariel|HAFNIUM|Magic Hound
+T1590.004,Network Topology,Reconnaissance,FIN13
+T1590.003,Network Trust Dependencies,Reconnaissance,no
+T1590.002,DNS,Reconnaissance,no
+T1590.001,Domain Properties,Reconnaissance,Sandworm Team
+T1590,Gather Victim Network Information,Reconnaissance,HAFNIUM
+T1589.003,Employee Names,Reconnaissance,APT41|Kimsuky|Sandworm Team|Silent Librarian
+T1589.002,Email Addresses,Reconnaissance,APT32|EXOTIC LILY|HAFNIUM|HEXANE|Kimsuky|LAPSUS$|Lazarus Group|Magic Hound|Sandworm Team|Silent Librarian|TA551
+T1589.001,Credentials,Reconnaissance,APT28|APT41|Chimera|LAPSUS$|Leviathan|Magic Hound
+T1589,Gather Victim Identity Information,Reconnaissance,APT32|FIN13|HEXANE|LAPSUS$|Magic Hound
+T1588.005,Exploits,Resource Development,Kimsuky
+T1588.004,Digital Certificates,Resource Development,BlackTech|Lazarus Group|LuminousMoth|Silent Librarian
+T1588.003,Code Signing Certificates,Resource Development,BlackTech|Ember Bear|FIN8|Threat Group-3390|Wizard Spider
+T1588.002,Tool,Resource Development,APT-C-36|APT1|APT19|APT28|APT29|APT32|APT33|APT38|APT39|APT41|Aoqin Dragon|Aquatic Panda|BITTER|BRONZE BUTLER|BackdoorDiplomacy|BlackTech|Blue Mockingbird|Carbanak|Chimera|Cinnamon Tempest|Cleaver|Cobalt Group|CopyKittens|DarkHydrus|DarkVishnya|Dragonfly|Earth Lusca|Ember Bear|FIN10|FIN13|FIN5|FIN6|FIN7|FIN8|Ferocious Kitten|GALLIUM|Gorgon Group|HEXANE|Inception|IndigoZebra|Ke3chang|Kimsuky|LAPSUS$|Lazarus Group|Leafminer|LuminousMoth|Magic Hound|Metador|Moses Staff|MuddyWater|POLONIUM|Patchwork|PittyTiger|Sandworm Team|Silence|Silent Librarian|TA2541|TA505|Threat Group-3390|Thrip|Turla|Volt Typhoon|WIRTE|Whitefly|Wizard Spider|menuPass
+T1588.001,Malware,Resource Development,APT1|Andariel|Aquatic Panda|BackdoorDiplomacy|Earth Lusca|LAPSUS$|LazyScripter|LuminousMoth|Metador|TA2541|TA505|Turla
+T1588,Obtain Capabilities,Resource Development,no
+T1587.004,Exploits,Resource Development,no
+T1587.003,Digital Certificates,Resource Development,APT29|PROMETHIUM
+T1587.002,Code Signing Certificates,Resource Development,PROMETHIUM|Patchwork
+T1587.001,Malware,Resource Development,APT29|Aoqin Dragon|Cleaver|FIN13|FIN7|Indrik Spider|Ke3chang|Kimsuky|Lazarus Group|LuminousMoth|Moses Staff|Sandworm Team|TeamTNT|Turla
+T1587,Develop Capabilities,Resource Development,Kimsuky
+T1586.002,Email Accounts,Resource Development,APT28|APT29|HEXANE|IndigoZebra|Kimsuky|LAPSUS$|Leviathan|Magic Hound
+T1586.001,Social Media Accounts,Resource Development,Leviathan|Sandworm Team
+T1586,Compromise Accounts,Resource Development,no
+T1585.002,Email Accounts,Resource Development,APT1|EXOTIC LILY|HEXANE|Indrik Spider|Kimsuky|Lazarus Group|Leviathan|Magic Hound|Mustang Panda|Sandworm Team|Silent Librarian|Wizard Spider
+T1585.001,Social Media Accounts,Resource Development,APT32|CURIUM|Cleaver|EXOTIC LILY|Fox Kitten|HEXANE|Kimsuky|Lazarus Group|Leviathan|Magic Hound|Sandworm Team
+T1585,Establish Accounts,Resource Development,APT17|Fox Kitten
+T1584.006,Web Services,Resource Development,Earth Lusca|Turla
+T1584.005,Botnet,Resource Development,Axiom|Sandworm Team
+T1584.004,Server,Resource Development,APT16|Dragonfly|Earth Lusca|Indrik Spider|Lazarus Group|Sandworm Team|Turla|Volt Typhoon
+T1584.003,Virtual Private Server,Resource Development,Turla
+T1584.002,DNS Server,Resource Development,LAPSUS$
+T1584.001,Domains,Resource Development,APT1|Kimsuky|Magic Hound|Mustard Tempest|SideCopy|Transparent Tribe
+T1583.006,Web Services,Resource Development,APT17|APT28|APT29|APT32|Confucius|Earth Lusca|FIN7|HAFNIUM|IndigoZebra|Kimsuky|Lazarus Group|LazyScripter|Magic Hound|MuddyWater|POLONIUM|TA2541|Turla|ZIRCONIUM
+T1583.005,Botnet,Resource Development,no
+T1583.004,Server,Resource Development,Earth Lusca|GALLIUM|Kimsuky|Mustard Tempest|Sandworm Team
+T1583.003,Virtual Private Server,Resource Development,APT28|Axiom|Dragonfly|HAFNIUM|LAPSUS$
+T1583.002,DNS Server,Resource Development,Axiom|HEXANE
+T1584,Compromise Infrastructure,Resource Development,no
+T1583.001,Domains,Resource Development,APT1|APT28|APT32|BITTER|Dragonfly|EXOTIC LILY|Earth Lusca|FIN7|Ferocious Kitten|Gamaredon Group|HEXANE|IndigoZebra|Kimsuky|Lazarus Group|LazyScripter|Leviathan|Magic Hound|Mustang Panda|Sandworm Team|Silent Librarian|TA2541|TA505|TeamTNT|Threat Group-3390|Transparent Tribe|Winnti Group|ZIRCONIUM|menuPass
+T1583,Acquire Infrastructure,Resource Development,Sandworm Team
+T1564.007,VBA Stomping,Defense Evasion,no
+T1558.004,AS-REP Roasting,Credential Access,no
+T1580,Cloud Infrastructure Discovery,Discovery,Scattered Spider
+T1218.012,Verclsid,Defense Evasion,no
+T1205.001,Port Knocking,Command And Control|Defense Evasion|Persistence,PROMETHIUM
+T1564.006,Run Virtual Instance,Defense Evasion,no
+T1564.005,Hidden File System,Defense Evasion,Equation|Strider
+T1556.003,Pluggable Authentication Modules,Credential Access|Defense Evasion|Persistence,no
+T1574.012,COR_PROFILER,Defense Evasion|Persistence|Privilege Escalation,Blue Mockingbird
+T1562.007,Disable or Modify Cloud Firewall,Defense Evasion,no
+T1098.004,SSH Authorized Keys,Persistence|Privilege Escalation,Earth Lusca|TeamTNT
+T1480.001,Environmental Keying,Defense Evasion,APT41|Equation
+T1059.007,JavaScript,Execution,APT32|Cobalt Group|Earth Lusca|Ember Bear|Evilnum|FIN6|FIN7|Higaisa|Indrik Spider|Kimsuky|LazyScripter|Leafminer|Molerats|MoustachedBouncer|MuddyWater|Sidewinder|Silence|TA505|Turla
+T1578.004,Revert Cloud Instance,Defense Evasion,no
+T1578.003,Delete Cloud Instance,Defense Evasion,LAPSUS$
+T1578.001,Create Snapshot,Defense Evasion,no
+T1578.002,Create Cloud Instance,Defense Evasion,LAPSUS$|Scattered Spider
+T1127.001,MSBuild,Defense Evasion,no
+T1027.005,Indicator Removal from Tools,Defense Evasion,APT3|Deep Panda|GALLIUM|OilRig|Patchwork|Turla
+T1562.006,Indicator Blocking,Defense Evasion,APT41|APT5
+T1573.002,Asymmetric Cryptography,Command And Control,Cobalt Group|FIN6|FIN8|OilRig|TA2541|Tropic Trooper
+T1573.001,Symmetric Cryptography,Command And Control,APT28|APT33|BRONZE BUTLER|Darkhotel|Higaisa|Inception|Lazarus Group|MuddyWater|Mustang Panda|Stealth Falcon|Volt Typhoon|ZIRCONIUM
+T1573,Encrypted Channel,Command And Control,APT29|BITTER|Magic Hound|Tropic Trooper
+T1027.004,Compile After Delivery,Defense Evasion,Gamaredon Group|MuddyWater|Rocke
+T1574.004,Dylib Hijacking,Defense Evasion|Persistence|Privilege Escalation,no
+T1546.015,Component Object Model Hijacking,Persistence|Privilege Escalation,APT28
+T1071.004,DNS,Command And Control,APT18|APT39|APT41|Chimera|Cobalt Group|FIN7|Ke3chang|LazyScripter|OilRig|Tropic Trooper
+T1071.003,Mail Protocols,Command And Control,APT28|APT32|Kimsuky|SilverTerrier|Turla
+T1071.002,File Transfer Protocols,Command And Control,APT41|Dragonfly|Kimsuky|SilverTerrier
+T1071.001,Web Protocols,Command And Control,APT18|APT19|APT28|APT32|APT33|APT37|APT38|APT39|APT41|BITTER|BRONZE BUTLER|Chimera|Cobalt Group|Confucius|Dark Caracal|FIN13|FIN4|FIN8|Gamaredon Group|HAFNIUM|Higaisa|Inception|Ke3chang|Kimsuky|Lazarus Group|LuminousMoth|Magic Hound|Metador|MuddyWater|Mustang Panda|OilRig|Orangeworm|Rancor|Rocke|Sandworm Team|Sidewinder|SilverTerrier|Stealth Falcon|TA505|TA551|TeamTNT|Threat Group-3390|Tropic Trooper|Turla|WIRTE|Windshift|Wizard Spider
+T1572,Protocol Tunneling,Command And Control,Chimera|Cinnamon Tempest|Cobalt Group|FIN13|FIN6|Fox Kitten|Leviathan|Magic Hound|OilRig
+T1048.003,Exfiltration Over Unencrypted Non-C2 Protocol,Exfiltration,APT32|APT33|FIN6|FIN8|Lazarus Group|OilRig|Thrip|Wizard Spider
+T1048.002,Exfiltration Over Asymmetric Encrypted Non-C2 Protocol,Exfiltration,APT28
+T1048.001,Exfiltration Over Symmetric Encrypted Non-C2 Protocol,Exfiltration,no
+T1001.003,Protocol Impersonation,Command And Control,Higaisa|Lazarus Group
+T1001.002,Steganography,Command And Control,Axiom
+T1001.001,Junk Data,Command And Control,APT28
+T1132.002,Non-Standard Encoding,Command And Control,no
+T1132.001,Standard Encoding,Command And Control,APT19|APT33|BRONZE BUTLER|HAFNIUM|Lazarus Group|MuddyWater|Patchwork|Sandworm Team|TA551|Tropic Trooper
+T1090.004,Domain Fronting,Command And Control,APT29
+T1090.003,Multi-hop Proxy,Command And Control,APT28|APT29|FIN4|Inception|Leviathan
+T1090.002,External Proxy,Command And Control,APT28|APT29|APT3|APT39|FIN5|GALLIUM|Lazarus Group|MuddyWater|Silence|Tonto Team|menuPass
+T1090.001,Internal Proxy,Command And Control,APT39|FIN13|Higaisa|Lazarus Group|Strider|Turla|Volt Typhoon
+T1102.003,One-Way Communication,Command And Control,Leviathan
+T1102.002,Bidirectional Communication,Command And Control,APT12|APT28|APT37|APT39|Carbanak|FIN7|HEXANE|Kimsuky|Lazarus Group|Magic Hound|MuddyWater|POLONIUM|Sandworm Team|Turla|ZIRCONIUM
+T1102.001,Dead Drop Resolver,Command And Control,APT41|BRONZE BUTLER|Patchwork|RTM|Rocke
+T1571,Non-Standard Port,Command And Control,APT-C-36|APT32|APT33|DarkVishnya|FIN7|Lazarus Group|Magic Hound|Rocke|Sandworm Team|Silence|WIRTE
+T1074.002,Remote Data Staging,Collection,APT28|Chimera|FIN6|FIN8|Leviathan|MoustachedBouncer|Threat Group-3390|ToddyCat|menuPass
+T1074.001,Local Data Staging,Collection,APT28|APT3|APT39|APT5|BackdoorDiplomacy|Chimera|Dragonfly|FIN13|FIN5|GALLIUM|Indrik Spider|Kimsuky|Lazarus Group|Leviathan|MuddyWater|Mustang Panda|Patchwork|Sidewinder|TeamTNT|Threat Group-3390|Volt Typhoon|Wizard Spider|menuPass
+T1078.004,Cloud Accounts,Defense Evasion|Initial Access|Persistence|Privilege Escalation,APT28|APT29|APT33|APT5|Ke3chang|LAPSUS$
+T1564.004,NTFS File Attributes,Defense Evasion,APT32
+T1564.003,Hidden Window,Defense Evasion,APT19|APT28|APT3|APT32|CopyKittens|DarkHydrus|Deep Panda|Gamaredon Group|Gorgon Group|Higaisa|Kimsuky|Magic Hound|Nomadic Octopus|ToddyCat
+T1078.003,Local Accounts,Defense Evasion|Initial Access|Persistence|Privilege Escalation,APT29|APT32|FIN10|FIN7|HAFNIUM|Kimsuky|PROMETHIUM|Tropic Trooper|Turla
+T1078.002,Domain Accounts,Defense Evasion|Initial Access|Persistence|Privilege Escalation,APT3|APT5|Chimera|Cinnamon Tempest|Indrik Spider|Magic Hound|Naikon|Sandworm Team|TA505|Threat Group-1314|ToddyCat|Volt Typhoon|Wizard Spider
+T1078.001,Default Accounts,Defense Evasion|Initial Access|Persistence|Privilege Escalation,FIN13|Magic Hound
+T1564.002,Hidden Users,Defense Evasion,Dragonfly|Kimsuky
+T1574.006,Dynamic Linker Hijacking,Defense Evasion|Persistence|Privilege Escalation,APT41|Rocke
+T1574.002,DLL Side-Loading,Defense Evasion|Persistence|Privilege Escalation,APT19|APT3|APT32|APT41|BRONZE BUTLER|BlackTech|Chimera|Cinnamon Tempest|Earth Lusca|FIN13|GALLIUM|Higaisa|Lazarus Group|LuminousMoth|MuddyWater|Mustang Panda|Naikon|Patchwork|SideCopy|Sidewinder|Threat Group-3390|Tropic Trooper|menuPass
+T1574.001,DLL Search Order Hijacking,Defense Evasion|Persistence|Privilege Escalation,APT41|Aquatic Panda|BackdoorDiplomacy|Cinnamon Tempest|Evilnum|RTM|Threat Group-3390|Tonto Team|Whitefly|menuPass
+T1574.008,Path Interception by Search Order Hijacking,Defense Evasion|Persistence|Privilege Escalation,no
+T1574.007,Path Interception by PATH Environment Variable,Defense Evasion|Persistence|Privilege Escalation,no
+T1574.009,Path Interception by Unquoted Path,Defense Evasion|Persistence|Privilege Escalation,no
+T1574.011,Services Registry Permissions Weakness,Defense Evasion|Persistence|Privilege Escalation,no
+T1574.005,Executable Installer File Permissions Weakness,Defense Evasion|Persistence|Privilege Escalation,no
+T1574.010,Services File Permissions Weakness,Defense Evasion|Persistence|Privilege Escalation,no
+T1574,Hijack Execution Flow,Defense Evasion|Persistence|Privilege Escalation,no
+T1069.001,Local Groups,Discovery,Chimera|HEXANE|OilRig|Tonto Team|Turla|Volt Typhoon|admin@338
+T1570,Lateral Tool Transfer,Lateral Movement,APT32|APT41|Aoqin Dragon|Chimera|FIN10|GALLIUM|Magic Hound|Sandworm Team|Turla|Volt Typhoon|Wizard Spider
+T1568.003,DNS Calculation,Command And Control,APT12
+T1204.002,Malicious File,Execution,APT-C-36|APT12|APT19|APT28|APT29|APT30|APT32|APT33|APT37|APT38|APT39|Ajax Security Team|Andariel|Aoqin Dragon|BITTER|BRONZE BUTLER|BlackTech|CURIUM|Cobalt Group|Confucius|Dark Caracal|DarkHydrus|Darkhotel|Dragonfly|EXOTIC LILY|Earth Lusca|Elderwood|Ember Bear|FIN4|FIN6|FIN7|FIN8|Ferocious Kitten|Gallmaker|Gamaredon Group|Gorgon Group|HEXANE|Higaisa|Inception|IndigoZebra|Indrik Spider|Kimsuky|Lazarus Group|LazyScripter|Leviathan|Machete|Magic Hound|Malteiro|Mofang|Molerats|MuddyWater|Mustang Panda|Naikon|Nomadic Octopus|OilRig|PLATINUM|PROMETHIUM|Patchwork|RTM|Rancor|Sandworm Team|SideCopy|Sidewinder|Silence|TA2541|TA459|TA505|TA551|The White Company|Threat Group-3390|Tonto Team|Transparent Tribe|Tropic Trooper|WIRTE|Whitefly|Windshift|Wizard Spider|admin@338|menuPass
+T1204.001,Malicious Link,Execution,APT28|APT29|APT3|APT32|APT33|APT39|BlackTech|Cobalt Group|Confucius|EXOTIC LILY|Earth Lusca|Elderwood|Ember Bear|Evilnum|FIN4|FIN7|FIN8|Kimsuky|LazyScripter|Leviathan|LuminousMoth|Machete|Magic Hound|Mofang|Molerats|MuddyWater|Mustang Panda|Mustard Tempest|OilRig|Patchwork|Sandworm Team|Sidewinder|TA2541|TA505|Transparent Tribe|Turla|Windshift|Wizard Spider|ZIRCONIUM
+T1195.003,Compromise Hardware Supply Chain,Initial Access,no
+T1195.002,Compromise Software Supply Chain,Initial Access,APT41|Cobalt Group|Dragonfly|FIN7|GOLD SOUTHFIELD|Sandworm Team|Threat Group-3390
+T1195.001,Compromise Software Dependencies and Development Tools,Initial Access,no
+T1568.001,Fast Flux DNS,Command And Control,TA505|menuPass
+T1052.001,Exfiltration over USB,Exfiltration,Mustang Panda|Tropic Trooper
+T1569.002,Service Execution,Execution,APT32|APT38|APT39|APT41|Blue Mockingbird|Chimera|FIN6|Ke3chang|Silence|Wizard Spider
+T1569.001,Launchctl,Execution,no
+T1569,System Services,Execution,TeamTNT
+T1568.002,Domain Generation Algorithms,Command And Control,APT41|TA551
+T1568,Dynamic Resolution,Command And Control,APT29|BITTER|Gamaredon Group|TA2541|Transparent Tribe
+T1011.001,Exfiltration Over Bluetooth,Exfiltration,no
+T1567.002,Exfiltration to Cloud Storage,Exfiltration,Akira|Chimera|Cinnamon Tempest|Confucius|Earth Lusca|FIN7|HAFNIUM|HEXANE|Kimsuky|Leviathan|LuminousMoth|POLONIUM|Scattered Spider|Threat Group-3390|ToddyCat|Turla|Wizard Spider|ZIRCONIUM
+T1567.001,Exfiltration to Code Repository,Exfiltration,no
+T1059.006,Python,Execution,APT29|APT37|APT39|BRONZE BUTLER|Cinnamon Tempest|Dragonfly|Earth Lusca|Kimsuky|Machete|MuddyWater|Rocke|Tonto Team|Turla|ZIRCONIUM
+T1059.005,Visual Basic,Execution,APT-C-36|APT32|APT33|APT37|APT38|APT39|BRONZE BUTLER|Cobalt Group|Confucius|Earth Lusca|FIN13|FIN4|FIN7|Gamaredon Group|Gorgon Group|HEXANE|Higaisa|Inception|Kimsuky|Lazarus Group|LazyScripter|Leviathan|Machete|Magic Hound|Malteiro|Molerats|MuddyWater|Mustang Panda|OilRig|Patchwork|Rancor|Sandworm Team|SideCopy|Sidewinder|Silence|TA2541|TA459|TA505|Transparent Tribe|Turla|WIRTE|Windshift
+T1059.004,Unix Shell,Execution,APT41|Rocke|TeamTNT
+T1059.003,Windows Command Shell,Execution,APT1|APT18|APT28|APT3|APT32|APT37|APT38|APT41|APT5|Aquatic Panda|BRONZE BUTLER|Blue Mockingbird|Chimera|Cinnamon Tempest|Cobalt Group|Dark Caracal|Darkhotel|Dragonfly|Ember Bear|FIN10|FIN13|FIN6|FIN7|FIN8|Fox Kitten|GALLIUM|Gamaredon Group|Gorgon Group|HAFNIUM|Higaisa|Indrik Spider|Ke3chang|Kimsuky|Lazarus Group|LazyScripter|Machete|Magic Hound|Metador|MuddyWater|Mustang Panda|Nomadic Octopus|OilRig|Patchwork|Rancor|Silence|Sowbug|Suckfly|TA505|TA551|TeamTNT|Threat Group-1314|Threat Group-3390|ToddyCat|Tropic Trooper|Turla|Volt Typhoon|Wizard Spider|ZIRCONIUM|admin@338|menuPass
+T1059.002,AppleScript,Execution,no
+T1059.001,PowerShell,Execution,APT19|APT28|APT29|APT3|APT32|APT33|APT38|APT39|APT41|APT5|Aquatic Panda|BRONZE BUTLER|Blue Mockingbird|Chimera|Cinnamon Tempest|Cobalt Group|Confucius|CopyKittens|DarkHydrus|DarkVishnya|Deep Panda|Dragonfly|Earth Lusca|Ember Bear|FIN10|FIN13|FIN6|FIN7|FIN8|Fox Kitten|GALLIUM|GOLD SOUTHFIELD|Gallmaker|Gamaredon Group|Gorgon Group|HAFNIUM|HEXANE|Inception|Indrik Spider|Kimsuky|Lazarus Group|LazyScripter|Leviathan|Magic Hound|Molerats|MoustachedBouncer|MuddyWater|Mustang Panda|Nomadic Octopus|OilRig|Patchwork|Poseidon Group|Sandworm Team|Sidewinder|Silence|Stealth Falcon|TA2541|TA459|TA505|TeamTNT|Threat Group-3390|Thrip|ToddyCat|Tonto Team|Turla|Volt Typhoon|WIRTE|Wizard Spider|menuPass
+T1567,Exfiltration Over Web Service,Exfiltration,APT28|Magic Hound
+T1497.003,Time Based Evasion,Defense Evasion|Discovery,no
+T1497.002,User Activity Based Checks,Defense Evasion|Discovery,Darkhotel|FIN7
+T1497.001,System Checks,Defense Evasion|Discovery,Darkhotel|Evilnum|OilRig|Volt Typhoon
+T1498.002,Reflection Amplification,Impact,no
+T1498.001,Direct Network Flood,Impact,no
+T1566.003,Spearphishing via Service,Initial Access,APT29|Ajax Security Team|CURIUM|Dark Caracal|EXOTIC LILY|FIN6|Lazarus Group|Magic Hound|OilRig|ToddyCat|Windshift
+T1566.002,Spearphishing Link,Initial Access,APT1|APT28|APT29|APT3|APT32|APT33|APT39|BlackTech|Cobalt Group|Confucius|EXOTIC LILY|Earth Lusca|Elderwood|Ember Bear|Evilnum|FIN4|FIN7|FIN8|Kimsuky|Lazarus Group|LazyScripter|Leviathan|LuminousMoth|Machete|Magic Hound|Mofang|Molerats|MuddyWater|Mustang Panda|Mustard Tempest|OilRig|Patchwork|Sandworm Team|Sidewinder|TA2541|TA505|Transparent Tribe|Turla|Windshift|Wizard Spider|ZIRCONIUM
+T1566.001,Spearphishing Attachment,Initial Access,APT-C-36|APT1|APT12|APT19|APT28|APT29|APT30|APT32|APT33|APT37|APT38|APT39|APT41|Ajax Security Team|Andariel|BITTER|BRONZE BUTLER|BlackTech|Cobalt Group|Confucius|DarkHydrus|Darkhotel|Dragonfly|EXOTIC LILY|Elderwood|Ember Bear|FIN4|FIN6|FIN7|FIN8|Ferocious Kitten|Gallmaker|Gamaredon Group|Gorgon Group|Higaisa|Inception|IndigoZebra|Kimsuky|Lazarus Group|LazyScripter|Leviathan|Machete|Malteiro|Mofang|Molerats|MuddyWater|Mustang Panda|Naikon|Nomadic Octopus|OilRig|PLATINUM|Patchwork|RTM|Rancor|Sandworm Team|SideCopy|Sidewinder|Silence|TA2541|TA459|TA505|TA551|The White Company|Threat Group-3390|Tonto Team|Transparent Tribe|Tropic Trooper|WIRTE|Windshift|Wizard Spider|admin@338|menuPass
+T1566,Phishing,Initial Access,Axiom|GOLD SOUTHFIELD
+T1565.003,Runtime Data Manipulation,Impact,APT38
+T1565.002,Transmitted Data Manipulation,Impact,APT38
+T1565.001,Stored Data Manipulation,Impact,APT38
+T1565,Data Manipulation,Impact,FIN13
+T1564.001,Hidden Files and Directories,Defense Evasion,APT28|APT32|FIN13|HAFNIUM|Lazarus Group|LuminousMoth|Mustang Panda|Rocke|Transparent Tribe|Tropic Trooper
+T1564,Hide Artifacts,Defense Evasion,no
+T1563.002,RDP Hijacking,Lateral Movement,Axiom
+T1563.001,SSH Hijacking,Lateral Movement,no
+T1563,Remote Service Session Hijacking,Lateral Movement,no
+T1518.001,Security Software Discovery,Discovery,APT38|Aquatic Panda|Cobalt Group|Darkhotel|FIN8|Kimsuky|Malteiro|MuddyWater|Naikon|Patchwork|Rocke|SideCopy|Sidewinder|TA2541|TeamTNT|The White Company|ToddyCat|Tropic Trooper|Turla|Windshift|Wizard Spider
+T1069.003,Cloud Groups,Discovery,no
+T1069.002,Domain Groups,Discovery,Dragonfly|FIN7|Inception|Ke3chang|LAPSUS$|OilRig|ToddyCat|Turla|Volt Typhoon
+T1087.004,Cloud Account,Discovery,APT29
+T1087.003,Email Account,Discovery,Magic Hound|Sandworm Team|TA505
+T1087.002,Domain Account,Discovery,APT41|BRONZE BUTLER|Chimera|Dragonfly|FIN13|FIN6|Fox Kitten|Ke3chang|LAPSUS$|MuddyWater|OilRig|Poseidon Group|Sandworm Team|Scattered Spider|ToddyCat|Turla|Volt Typhoon|Wizard Spider|menuPass
+T1087.001,Local Account,Discovery,APT1|APT3|APT32|APT41|Chimera|Fox Kitten|Ke3chang|Moses Staff|OilRig|Poseidon Group|Threat Group-3390|Turla|admin@338
+T1553.004,Install Root Certificate,Defense Evasion,no
+T1562.004,Disable or Modify System Firewall,Defense Evasion,APT38|Carbanak|Dragonfly|Kimsuky|Lazarus Group|Magic Hound|Moses Staff|Rocke|TeamTNT|ToddyCat
+T1562.003,Impair Command History Logging,Defense Evasion,APT38
+T1562.002,Disable Windows Event Logging,Defense Evasion,Magic Hound|Threat Group-3390
+T1562.001,Disable or Modify Tools,Defense Evasion,Aquatic Panda|BRONZE BUTLER|Ember Bear|FIN6|Gamaredon Group|Gorgon Group|Indrik Spider|Kimsuky|Lazarus Group|Magic Hound|MuddyWater|Putter Panda|Rocke|TA2541|TA505|TeamTNT|Turla|Wizard Spider
+T1562,Impair Defenses,Defense Evasion,Magic Hound
+T1003.004,LSA Secrets,Credential Access,APT29|APT33|Dragonfly|Ke3chang|Leafminer|MuddyWater|OilRig|Threat Group-3390|menuPass
+T1003.005,Cached Domain Credentials,Credential Access,APT33|Leafminer|MuddyWater|OilRig
+T1561.002,Disk Structure Wipe,Impact,APT37|APT38|Lazarus Group|Sandworm Team
+T1561.001,Disk Content Wipe,Impact,Lazarus Group
+T1561,Disk Wipe,Impact,no
+T1560.003,Archive via Custom Method,Collection,CopyKittens|FIN6|Kimsuky|Lazarus Group|Mustang Panda
+T1560.002,Archive via Library,Collection,Lazarus Group|Threat Group-3390
+T1560.001,Archive via Utility,Collection,APT1|APT28|APT3|APT33|APT39|APT41|APT5|Akira|Aquatic Panda|BRONZE BUTLER|Chimera|CopyKittens|Earth Lusca|FIN13|FIN8|Fox Kitten|GALLIUM|Gallmaker|HAFNIUM|Ke3chang|Kimsuky|Magic Hound|MuddyWater|Mustang Panda|Sowbug|ToddyCat|Turla|Volt Typhoon|Wizard Spider|menuPass
+T1560,Archive Collected Data,Collection,APT28|APT32|Axiom|Dragonfly|FIN6|Ke3chang|Lazarus Group|Leviathan|LuminousMoth|Patchwork|menuPass
+T1499.004,Application or System Exploitation,Impact,no
+T1499.003,Application Exhaustion Flood,Impact,no
+T1499.002,Service Exhaustion Flood,Impact,no
+T1499.001,OS Exhaustion Flood,Impact,no
+T1491.002,External Defacement,Impact,Sandworm Team
+T1491.001,Internal Defacement,Impact,Gamaredon Group|Lazarus Group
+T1114.003,Email Forwarding Rule,Collection,Kimsuky|LAPSUS$|Silent Librarian
+T1114.002,Remote Email Collection,Collection,APT1|APT28|APT29|Chimera|Dragonfly|FIN4|HAFNIUM|Ke3chang|Kimsuky|Leafminer|Magic Hound
+T1114.001,Local Email Collection,Collection,APT1|Chimera|Magic Hound
+T1134.005,SID-History Injection,Defense Evasion|Privilege Escalation,no
+T1134.004,Parent PID Spoofing,Defense Evasion|Privilege Escalation,no
+T1134.003,Make and Impersonate Token,Defense Evasion|Privilege Escalation,FIN13
+T1134.002,Create Process with Token,Defense Evasion|Privilege Escalation,Lazarus Group|Turla
+T1134.001,Token Impersonation/Theft,Defense Evasion|Privilege Escalation,APT28|FIN8
+T1213.002,Sharepoint,Collection,APT28|Akira|Chimera|Ke3chang|LAPSUS$
+T1213.001,Confluence,Collection,LAPSUS$
+T1555.003,Credentials from Web Browsers,Credential Access,APT3|APT33|APT37|APT41|Ajax Security Team|FIN6|HEXANE|Inception|Kimsuky|LAPSUS$|Leafminer|Malteiro|Molerats|MuddyWater|OilRig|Patchwork|Sandworm Team|Stealth Falcon|TA505|ZIRCONIUM
+T1555.002,Securityd Memory,Credential Access,no
+T1555.001,Keychain,Credential Access,no
+T1559.002,Dynamic Data Exchange,Execution,APT28|APT37|BITTER|Cobalt Group|FIN7|Gallmaker|Leviathan|MuddyWater|Patchwork|Sidewinder|TA505
+T1559.001,Component Object Model,Execution,Gamaredon Group|MuddyWater
+T1559,Inter-Process Communication,Execution,no
+T1558.002,Silver Ticket,Credential Access,no
+T1558.001,Golden Ticket,Credential Access,Ke3chang
+T1558,Steal or Forge Kerberos Tickets,Credential Access,no
+T1557.001,LLMNR/NBT-NS Poisoning and SMB Relay,Collection|Credential Access,Lazarus Group|Wizard Spider
+T1557,Adversary-in-the-Middle,Collection|Credential Access,Kimsuky
+T1556.002,Password Filter DLL,Credential Access|Defense Evasion|Persistence,Strider
+T1556.001,Domain Controller Authentication,Credential Access|Defense Evasion|Persistence,Chimera
+T1556,Modify Authentication Process,Credential Access|Defense Evasion|Persistence,FIN13
+T1056.004,Credential API Hooking,Collection|Credential Access,PLATINUM
+T1056.003,Web Portal Capture,Collection|Credential Access,no
+T1056.002,GUI Input Capture,Collection|Credential Access,FIN4
+T1056.001,Keylogging,Collection|Credential Access,APT28|APT3|APT32|APT38|APT39|APT41|APT5|Ajax Security Team|Darkhotel|FIN13|FIN4|Group5|HEXANE|Ke3chang|Kimsuky|Lazarus Group|Magic Hound|OilRig|PLATINUM|Sandworm Team|Sowbug|Threat Group-3390|Tonto Team|menuPass
+T1555,Credentials from Password Stores,Credential Access,APT33|APT39|Evilnum|FIN6|HEXANE|Leafminer|Malteiro|MuddyWater|OilRig|Stealth Falcon|Volt Typhoon
+T1552.005,Cloud Instance Metadata API,Credential Access,TeamTNT
+T1003.008,/etc/passwd and /etc/shadow,Credential Access,no
+T1003.007,Proc Filesystem,Credential Access,no
+T1003.006,DCSync,Credential Access,Earth Lusca|LAPSUS$
+T1558.003,Kerberoasting,Credential Access,FIN7|Wizard Spider
+T1552.006,Group Policy Preferences,Credential Access,APT33|Wizard Spider
+T1003.003,NTDS,Credential Access,APT28|APT41|Chimera|Dragonfly|FIN13|FIN6|Fox Kitten|HAFNIUM|Ke3chang|LAPSUS$|Mustang Panda|Sandworm Team|Scattered Spider|Volt Typhoon|Wizard Spider|menuPass
+T1003.002,Security Account Manager,Credential Access,APT29|APT41|APT5|Dragonfly|FIN13|GALLIUM|Ke3chang|Threat Group-3390|Wizard Spider|menuPass
+T1003.001,LSASS Memory,Credential Access,APT1|APT28|APT3|APT32|APT33|APT39|APT41|APT5|Aquatic Panda|BRONZE BUTLER|Blue Mockingbird|Cleaver|Earth Lusca|FIN13|FIN6|FIN8|Fox Kitten|GALLIUM|HAFNIUM|Indrik Spider|Ke3chang|Kimsuky|Leafminer|Leviathan|Magic Hound|MuddyWater|OilRig|PLATINUM|Sandworm Team|Silence|Threat Group-3390|Volt Typhoon|Whitefly|Wizard Spider
+T1110.004,Credential Stuffing,Credential Access,Chimera
+T1110.003,Password Spraying,Credential Access,APT28|APT29|APT33|Chimera|HEXANE|Lazarus Group|Leafminer|Silent Librarian
+T1110.002,Password Cracking,Credential Access,APT3|APT41|Dragonfly|FIN6
+T1110.001,Password Guessing,Credential Access,APT28|APT29
+T1021.006,Windows Remote Management,Lateral Movement,Chimera|FIN13|Threat Group-3390|Wizard Spider
+T1021.005,VNC,Lateral Movement,FIN7|Fox Kitten|GCMAN|Gamaredon Group
+T1021.004,SSH,Lateral Movement,APT39|APT5|BlackTech|FIN13|FIN7|Fox Kitten|GCMAN|Lazarus Group|Leviathan|OilRig|Rocke|TeamTNT|menuPass
+T1021.003,Distributed Component Object Model,Lateral Movement,no
+T1021.002,SMB/Windows Admin Shares,Lateral Movement,APT28|APT3|APT32|APT39|APT41|Blue Mockingbird|Chimera|Cinnamon Tempest|Deep Panda|FIN13|FIN8|Fox Kitten|Ke3chang|Lazarus Group|Moses Staff|Orangeworm|Sandworm Team|Threat Group-1314|ToddyCat|Turla|Wizard Spider
+T1021.001,Remote Desktop Protocol,Lateral Movement,APT1|APT3|APT39|APT41|APT5|Axiom|Blue Mockingbird|Chimera|Cobalt Group|Dragonfly|FIN10|FIN13|FIN6|FIN7|FIN8|Fox Kitten|HEXANE|Kimsuky|Lazarus Group|Leviathan|Magic Hound|OilRig|Patchwork|Silence|Wizard Spider|menuPass
+T1554,Compromise Host Software Binary,Persistence,APT5
+T1036.006,Space after Filename,Defense Evasion,no
+T1036.005,Match Legitimate Name or Location,Defense Evasion,APT1|APT28|APT29|APT32|APT39|APT41|APT5|Aoqin Dragon|BRONZE BUTLER|BackdoorDiplomacy|Blue Mockingbird|Carbanak|Chimera|Darkhotel|Earth Lusca|FIN13|FIN7|Ferocious Kitten|Fox Kitten|Gamaredon Group|Indrik Spider|Ke3chang|Kimsuky|Lazarus Group|LuminousMoth|Machete|Magic Hound|MuddyWater|Mustang Panda|Mustard Tempest|Naikon|PROMETHIUM|Patchwork|Poseidon Group|Rocke|Sandworm Team|SideCopy|Sidewinder|Silence|Sowbug|TA2541|TeamTNT|ToddyCat|Transparent Tribe|Tropic Trooper|Volt Typhoon|WIRTE|Whitefly|admin@338|menuPass
+T1036.004,Masquerade Task or Service,Defense Evasion,APT-C-36|APT32|APT41|BITTER|BackdoorDiplomacy|Carbanak|FIN13|FIN6|FIN7|Fox Kitten|Higaisa|Kimsuky|Lazarus Group|Magic Hound|Naikon|PROMETHIUM|Wizard Spider|ZIRCONIUM
+T1036.003,Rename System Utilities,Defense Evasion,APT32|GALLIUM|Lazarus Group|menuPass
+T1036.002,Right-to-Left Override,Defense Evasion,BRONZE BUTLER|BlackTech|Ferocious Kitten|Ke3chang|Scarlet Mimic
+T1036.001,Invalid Code Signature,Defense Evasion,APT37|Windshift
+T1553.003,SIP and Trust Provider Hijacking,Defense Evasion,no
+T1553.002,Code Signing,Defense Evasion,APT41|CopyKittens|Darkhotel|Ember Bear|FIN6|FIN7|GALLIUM|Kimsuky|Lazarus Group|Leviathan|LuminousMoth|Molerats|Moses Staff|PROMETHIUM|Patchwork|Scattered Spider|Silence|Suckfly|TA505|Winnti Group|Wizard Spider|menuPass
+T1553.001,Gatekeeper Bypass,Defense Evasion,no
+T1553,Subvert Trust Controls,Defense Evasion,Axiom
+T1027.003,Steganography,Defense Evasion,APT37|Andariel|BRONZE BUTLER|Earth Lusca|Leviathan|MuddyWater|TA551|Tropic Trooper
+T1027.002,Software Packing,Defense Evasion,APT29|APT3|APT38|APT39|APT41|Aoqin Dragon|Dark Caracal|Elderwood|Ember Bear|GALLIUM|Kimsuky|MoustachedBouncer|Patchwork|Rocke|TA2541|TA505|TeamTNT|The White Company|Threat Group-3390|ZIRCONIUM
+T1027.001,Binary Padding,Defense Evasion,APT29|APT32|BRONZE BUTLER|Ember Bear|FIN7|Gamaredon Group|Higaisa|Leviathan|Moafee|Mustang Panda|Patchwork
+T1222.002,Linux and Mac File and Directory Permissions Modification,Defense Evasion,APT32|Rocke|TeamTNT
+T1222.001,Windows File and Directory Permissions Modification,Defense Evasion,Wizard Spider
+T1552.004,Private Keys,Credential Access,Rocke|Scattered Spider|TeamTNT
+T1552.003,Bash History,Credential Access,no
+T1552.002,Credentials in Registry,Credential Access,APT32
+T1552.001,Credentials In Files,Credential Access,APT3|APT33|FIN13|Fox Kitten|Kimsuky|Leafminer|MuddyWater|OilRig|Scattered Spider|TA505|TeamTNT
+T1552,Unsecured Credentials,Credential Access,no
+T1216.001,PubPrn,Defense Evasion,APT32
+T1070.006,Timestomp,Defense Evasion,APT28|APT29|APT32|APT38|APT5|Chimera|Kimsuky|Lazarus Group|Rocke
+T1070.005,Network Share Connection Removal,Defense Evasion,Threat Group-3390
+T1070.004,File Deletion,Defense Evasion,APT18|APT28|APT29|APT3|APT32|APT38|APT39|APT41|APT5|Aquatic Panda|BRONZE BUTLER|Chimera|Cobalt Group|Dragonfly|Evilnum|FIN10|FIN5|FIN6|FIN8|Gamaredon Group|Group5|Kimsuky|Lazarus Group|Magic Hound|Metador|Mustang Panda|OilRig|Patchwork|Rocke|Sandworm Team|Silence|TeamTNT|The White Company|Threat Group-3390|Tropic Trooper|Volt Typhoon|Wizard Spider|menuPass
+T1070.003,Clear Command History,Defense Evasion,APT41|APT5|Lazarus Group|Magic Hound|TeamTNT|menuPass
+T1550.004,Web Session Cookie,Defense Evasion|Lateral Movement,no
+T1550.001,Application Access Token,Defense Evasion|Lateral Movement,APT28
+T1550.003,Pass the Ticket,Defense Evasion|Lateral Movement,APT29|APT32|BRONZE BUTLER
+T1550.002,Pass the Hash,Defense Evasion|Lateral Movement,APT1|APT28|APT32|APT41|Chimera|FIN13|GALLIUM|Kimsuky|Wizard Spider
+T1550,Use Alternate Authentication Material,Defense Evasion|Lateral Movement,no
+T1548.004,Elevated Execution with Prompt,Defense Evasion|Privilege Escalation,no
+T1548.003,Sudo and Sudo Caching,Defense Evasion|Privilege Escalation,no
+T1548.002,Bypass User Account Control,Defense Evasion|Privilege Escalation,APT29|APT37|BRONZE BUTLER|Cobalt Group|Earth Lusca|Evilnum|MuddyWater|Patchwork|Threat Group-3390
+T1548.001,Setuid and Setgid,Defense Evasion|Privilege Escalation,no
+T1548,Abuse Elevation Control Mechanism,Defense Evasion|Privilege Escalation,no
+T1136.003,Cloud Account,Persistence,APT29|LAPSUS$
+T1070.002,Clear Linux or Mac System Logs,Defense Evasion,Rocke|TeamTNT
+T1070.001,Clear Windows Event Logs,Defense Evasion,APT28|APT32|APT38|APT41|Chimera|Dragonfly|FIN5|FIN8|Indrik Spider
+T1136.002,Domain Account,Persistence,GALLIUM|HAFNIUM|Wizard Spider
+T1136.001,Local Account,Persistence,APT3|APT39|APT41|APT5|Dragonfly|FIN13|Fox Kitten|Kimsuky|Leafminer|Magic Hound|TeamTNT|Wizard Spider
+T1547.010,Port Monitors,Persistence|Privilege Escalation,no
+T1547.009,Shortcut Modification,Persistence|Privilege Escalation,APT39|Gorgon Group|Lazarus Group|Leviathan
+T1547.008,LSASS Driver,Persistence|Privilege Escalation,no
+T1547.007,Re-opened Applications,Persistence|Privilege Escalation,no
+T1547.006,Kernel Modules and Extensions,Persistence|Privilege Escalation,no
+T1547.005,Security Support Provider,Persistence|Privilege Escalation,no
+T1547.004,Winlogon Helper DLL,Persistence|Privilege Escalation,Tropic Trooper|Turla|Wizard Spider
+T1547.003,Time Providers,Persistence|Privilege Escalation,no
+T1546.014,Emond,Persistence|Privilege Escalation,no
+T1546.013,PowerShell Profile,Persistence|Privilege Escalation,Turla
+T1546.012,Image File Execution Options Injection,Persistence|Privilege Escalation,no
+T1218.008,Odbcconf,Defense Evasion,Cobalt Group
+T1546.011,Application Shimming,Persistence|Privilege Escalation,FIN7
+T1547.002,Authentication Package,Persistence|Privilege Escalation,no
+T1546.010,AppInit DLLs,Persistence|Privilege Escalation,APT39
+T1546.009,AppCert DLLs,Persistence|Privilege Escalation,no
+T1218.007,Msiexec,Defense Evasion,Machete|Molerats|Rancor|TA505|ZIRCONIUM
+T1546.008,Accessibility Features,Persistence|Privilege Escalation,APT29|APT3|APT41|Axiom|Deep Panda|Fox Kitten
+T1546.007,Netsh Helper DLL,Persistence|Privilege Escalation,no
+T1546.006,LC_LOAD_DYLIB Addition,Persistence|Privilege Escalation,no
+T1546.005,Trap,Persistence|Privilege Escalation,no
+T1546.004,Unix Shell Configuration Modification,Persistence|Privilege Escalation,no
+T1546.003,Windows Management Instrumentation Event Subscription,Persistence|Privilege Escalation,APT29|APT33|Blue Mockingbird|FIN8|HEXANE|Leviathan|Metador|Mustang Panda|Rancor|Turla
+T1546.002,Screensaver,Persistence|Privilege Escalation,no
+T1546.001,Change Default File Association,Persistence|Privilege Escalation,Kimsuky
+T1547.001,Registry Run Keys / Startup Folder,Persistence|Privilege Escalation,APT18|APT19|APT28|APT29|APT3|APT32|APT33|APT37|APT39|APT41|BRONZE BUTLER|Cobalt Group|Confucius|Dark Caracal|Darkhotel|Dragonfly|FIN10|FIN13|FIN6|FIN7|Gamaredon Group|Gorgon Group|Higaisa|Inception|Ke3chang|Kimsuky|Lazarus Group|LazyScripter|Leviathan|LuminousMoth|Magic Hound|Molerats|MuddyWater|Mustang Panda|Naikon|PROMETHIUM|Patchwork|Putter Panda|RTM|Rocke|Sidewinder|Silence|TA2541|TeamTNT|Threat Group-3390|Tropic Trooper|Turla|Windshift|Wizard Spider|ZIRCONIUM
+T1218.002,Control Panel,Defense Evasion,Ember Bear
+T1218.010,Regsvr32,Defense Evasion,APT19|APT32|Blue Mockingbird|Cobalt Group|Deep Panda|Inception|Kimsuky|Leviathan|TA551|WIRTE
+T1218.009,Regsvcs/Regasm,Defense Evasion,no
+T1218.005,Mshta,Defense Evasion,APT29|APT32|Confucius|Earth Lusca|FIN7|Gamaredon Group|Inception|Kimsuky|Lazarus Group|LazyScripter|MuddyWater|Mustang Panda|SideCopy|Sidewinder|TA2541|TA551
+T1218.004,InstallUtil,Defense Evasion,Mustang Panda|menuPass
+T1218.001,Compiled HTML File,Defense Evasion,APT38|APT41|Dark Caracal|OilRig|Silence
+T1218.003,CMSTP,Defense Evasion,Cobalt Group|MuddyWater
+T1218.011,Rundll32,Defense Evasion,APT19|APT28|APT3|APT32|APT38|APT41|Blue Mockingbird|Carbanak|CopyKittens|FIN7|Gamaredon Group|HAFNIUM|Kimsuky|Lazarus Group|LazyScripter|Magic Hound|MuddyWater|Sandworm Team|TA505|TA551|Wizard Spider
+T1547,Boot or Logon Autostart Execution,Persistence|Privilege Escalation,no
+T1546,Event Triggered Execution,Persistence|Privilege Escalation,no
+T1098.003,Additional Cloud Roles,Persistence|Privilege Escalation,LAPSUS$|Scattered Spider
+T1098.002,Additional Email Delegate Permissions,Persistence|Privilege Escalation,APT28|APT29|Magic Hound
+T1098.001,Additional Cloud Credentials,Persistence|Privilege Escalation,no
+T1543.004,Launch Daemon,Persistence|Privilege Escalation,no
+T1543.003,Windows Service,Persistence|Privilege Escalation,APT19|APT3|APT32|APT38|APT41|Blue Mockingbird|Carbanak|Cinnamon Tempest|Cobalt Group|DarkVishnya|Earth Lusca|FIN7|Ke3chang|Kimsuky|Lazarus Group|PROMETHIUM|TeamTNT|Threat Group-3390|Tropic Trooper|Wizard Spider
+T1543.002,Systemd Service,Persistence|Privilege Escalation,Rocke|TeamTNT
+T1543.001,Launch Agent,Persistence|Privilege Escalation,no
+T1037.005,Startup Items,Persistence|Privilege Escalation,no
+T1037.004,RC Scripts,Persistence|Privilege Escalation,APT29
+T1055.012,Process Hollowing,Defense Evasion|Privilege Escalation,Gorgon Group|Kimsuky|Patchwork|TA2541|Threat Group-3390|menuPass
+T1055.013,Process Doppelgänging,Defense Evasion|Privilege Escalation,Leafminer
+T1055.011,Extra Window Memory Injection,Defense Evasion|Privilege Escalation,no
+T1055.014,VDSO Hijacking,Defense Evasion|Privilege Escalation,no
+T1055.009,Proc Memory,Defense Evasion|Privilege Escalation,no
+T1055.008,Ptrace System Calls,Defense Evasion|Privilege Escalation,no
+T1055.005,Thread Local Storage,Defense Evasion|Privilege Escalation,no
+T1055.004,Asynchronous Procedure Call,Defense Evasion|Privilege Escalation,FIN8
+T1055.003,Thread Execution Hijacking,Defense Evasion|Privilege Escalation,no
+T1055.002,Portable Executable Injection,Defense Evasion|Privilege Escalation,Gorgon Group|Rocke
+T1055.001,Dynamic-link Library Injection,Defense Evasion|Privilege Escalation,BackdoorDiplomacy|Lazarus Group|Leviathan|Malteiro|Putter Panda|TA505|Tropic Trooper|Turla|Wizard Spider
+T1037.003,Network Logon Script,Persistence|Privilege Escalation,no
+T1543,Create or Modify System Process,Persistence|Privilege Escalation,no
+T1037.002,Login Hook,Persistence|Privilege Escalation,no
+T1037.001,Logon Script (Windows),Persistence|Privilege Escalation,APT28|Cobalt Group
+T1542.003,Bootkit,Defense Evasion|Persistence,APT28|APT41|Lazarus Group
+T1542.002,Component Firmware,Defense Evasion|Persistence,Equation
+T1542.001,System Firmware,Defense Evasion|Persistence,no
+T1505.003,Web Shell,Persistence,APT28|APT29|APT32|APT38|APT39|APT5|BackdoorDiplomacy|Deep Panda|Dragonfly|FIN13|Fox Kitten|GALLIUM|HAFNIUM|Kimsuky|Leviathan|Magic Hound|Moses Staff|OilRig|Sandworm Team|Threat Group-3390|Tonto Team|Tropic Trooper|Volatile Cedar|Volt Typhoon
+T1505.002,Transport Agent,Persistence,no
+T1505.001,SQL Stored Procedures,Persistence,no
+T1053.003,Cron,Execution|Persistence|Privilege Escalation,APT38|APT5|Rocke
+T1053.005,Scheduled Task,Execution|Persistence|Privilege Escalation,APT-C-36|APT29|APT3|APT32|APT33|APT37|APT38|APT39|APT41|BITTER|BRONZE BUTLER|Blue Mockingbird|Chimera|Cobalt Group|Confucius|Dragonfly|FIN10|FIN13|FIN6|FIN7|FIN8|Fox Kitten|GALLIUM|Gamaredon Group|HEXANE|Higaisa|Kimsuky|Lazarus Group|LuminousMoth|Machete|Magic Hound|Molerats|MuddyWater|Mustang Panda|Naikon|OilRig|Patchwork|Rancor|Silence|Stealth Falcon|TA2541|ToddyCat|Wizard Spider|menuPass
+T1053.002,At,Execution|Persistence|Privilege Escalation,APT18|BRONZE BUTLER|Threat Group-3390
+T1542,Pre-OS Boot,Defense Evasion|Persistence,no
+T1137.001,Office Template Macros,Persistence,MuddyWater
+T1137.004,Outlook Home Page,Persistence,OilRig
+T1137.003,Outlook Forms,Persistence,no
+T1137.005,Outlook Rules,Persistence,no
+T1137.006,Add-ins,Persistence,Naikon
+T1137.002,Office Test,Persistence,APT28
+T1531,Account Access Removal,Impact,Akira|LAPSUS$
+T1539,Steal Web Session Cookie,Credential Access,Evilnum|LuminousMoth|Sandworm Team|Scattered Spider
+T1529,System Shutdown/Reboot,Impact,APT37|APT38|Lazarus Group
+T1518,Software Discovery,Discovery,BRONZE BUTLER|HEXANE|Inception|MuddyWater|Mustang Panda|SideCopy|Sidewinder|Tropic Trooper|Volt Typhoon|Windigo|Windshift|Wizard Spider
+T1547.013,XDG Autostart Entries,Persistence|Privilege Escalation,no
+T1534,Internal Spearphishing,Lateral Movement,Gamaredon Group|HEXANE|Kimsuky|Leviathan
+T1528,Steal Application Access Token,Credential Access,APT28|APT29
+T1535,Unused/Unsupported Cloud Regions,Defense Evasion,no
+T1525,Implant Internal Image,Persistence,no
+T1538,Cloud Service Dashboard,Discovery,Scattered Spider
+T1530,Data from Cloud Storage,Collection,Fox Kitten|Scattered Spider
+T1578,Modify Cloud Compute Infrastructure,Defense Evasion,no
+T1537,Transfer Data to Cloud Account,Exfiltration,no
+T1526,Cloud Service Discovery,Discovery,no
+T1505,Server Software Component,Persistence,no
+T1499,Endpoint Denial of Service,Impact,Sandworm Team
+T1497,Virtualization/Sandbox Evasion,Defense Evasion|Discovery,Darkhotel
+T1498,Network Denial of Service,Impact,APT28
+T1496,Resource Hijacking,Impact,APT41|Blue Mockingbird|Rocke|TeamTNT
+T1495,Firmware Corruption,Impact,no
+T1491,Defacement,Impact,no
+T1490,Inhibit System Recovery,Impact,Wizard Spider
+T1489,Service Stop,Impact,Indrik Spider|LAPSUS$|Lazarus Group|Wizard Spider
+T1486,Data Encrypted for Impact,Impact,APT38|APT41|Akira|FIN7|FIN8|Indrik Spider|Magic Hound|Sandworm Team|Scattered Spider|TA505
+T1485,Data Destruction,Impact,APT38|Gamaredon Group|LAPSUS$|Lazarus Group|Sandworm Team
+T1484,Domain or Tenant Policy Modification,Defense Evasion|Privilege Escalation,no
+T1482,Domain Trust Discovery,Discovery,Akira|Chimera|Earth Lusca|FIN8|Magic Hound
+T1480,Execution Guardrails,Defense Evasion,no
+T1222,File and Directory Permissions Modification,Defense Evasion,no
+T1220,XSL Script Processing,Defense Evasion,Cobalt Group|Higaisa
+T1221,Template Injection,Defense Evasion,APT28|Confucius|DarkHydrus|Dragonfly|Gamaredon Group|Inception|Tropic Trooper
+T1190,Exploit Public-Facing Application,Initial Access,APT28|APT29|APT39|APT41|APT5|Axiom|BackdoorDiplomacy|BlackTech|Blue Mockingbird|Cinnamon Tempest|Dragonfly|Earth Lusca|FIN13|FIN7|Fox Kitten|GALLIUM|GOLD SOUTHFIELD|HAFNIUM|Ke3chang|Kimsuky|Magic Hound|Moses Staff|MuddyWater|Rocke|Sandworm Team|Threat Group-3390|ToddyCat|Volatile Cedar|Volt Typhoon|menuPass
+T1213,Data from Information Repositories,Collection,APT28|FIN6|Fox Kitten|LAPSUS$|Sandworm Team|Turla
+T1202,Indirect Command Execution,Defense Evasion,Lazarus Group
+T1207,Rogue Domain Controller,Defense Evasion,no
+T1212,Exploitation for Credential Access,Credential Access,no
+T1201,Password Policy Discovery,Discovery,Chimera|OilRig|Turla
+T1197,BITS Jobs,Defense Evasion|Persistence,APT39|APT41|Leviathan|Patchwork|Wizard Spider
+T1189,Drive-by Compromise,Initial Access,APT19|APT28|APT32|APT37|APT38|Andariel|Axiom|BRONZE BUTLER|Dark Caracal|Darkhotel|Dragonfly|Earth Lusca|Elderwood|Lazarus Group|Leafminer|Leviathan|Machete|Magic Hound|Mustard Tempest|PLATINUM|PROMETHIUM|Patchwork|RTM|Threat Group-3390|Transparent Tribe|Turla|Windigo|Windshift
+T1218,System Binary Proxy Execution,Defense Evasion,Lazarus Group
+T1210,Exploitation of Remote Services,Lateral Movement,APT28|Dragonfly|Earth Lusca|FIN7|Fox Kitten|MuddyWater|Threat Group-3390|Tonto Team|Wizard Spider|menuPass
+T1203,Exploitation for Client Execution,Execution,APT12|APT28|APT29|APT3|APT32|APT33|APT37|APT41|Andariel|Aoqin Dragon|Axiom|BITTER|BRONZE BUTLER|BlackTech|Cobalt Group|Confucius|Darkhotel|Dragonfly|EXOTIC LILY|Elderwood|Ember Bear|Higaisa|Inception|Lazarus Group|Leviathan|MuddyWater|Mustang Panda|Patchwork|Sandworm Team|Sidewinder|TA459|The White Company|Threat Group-3390|Tonto Team|Transparent Tribe|Tropic Trooper|admin@338
+T1211,Exploitation for Defense Evasion,Defense Evasion,APT28
+T1216,System Script Proxy Execution,Defense Evasion,no
+T1195,Supply Chain Compromise,Initial Access,no
+T1219,Remote Access Software,Command And Control,Akira|Carbanak|Cobalt Group|DarkVishnya|Evilnum|FIN7|GOLD SOUTHFIELD|Kimsuky|MuddyWater|Mustang Panda|RTM|Sandworm Team|Scattered Spider|TeamTNT|Thrip
+T1205,Traffic Signaling,Command And Control|Defense Evasion|Persistence,no
+T1204,User Execution,Execution,LAPSUS$|Scattered Spider
+T1199,Trusted Relationship,Initial Access,APT28|APT29|GOLD SOUTHFIELD|LAPSUS$|POLONIUM|Sandworm Team|Threat Group-3390|menuPass
+T1217,Browser Information Discovery,Discovery,APT38|Chimera|Fox Kitten|Scattered Spider
+T1200,Hardware Additions,Initial Access,DarkVishnya
+T1176,Browser Extensions,Persistence,Kimsuky
+T1185,Browser Session Hijacking,Collection,no
+T1187,Forced Authentication,Credential Access,DarkHydrus|Dragonfly
+T1137,Office Application Startup,Persistence,APT32|Gamaredon Group
+T1140,Deobfuscate/Decode Files or Information,Defense Evasion,APT19|APT28|APT39|BRONZE BUTLER|Cinnamon Tempest|Darkhotel|Earth Lusca|FIN13|Gamaredon Group|Gorgon Group|Higaisa|Ke3chang|Kimsuky|Lazarus Group|Leviathan|Malteiro|Molerats|MuddyWater|OilRig|Rocke|Sandworm Team|TA505|TeamTNT|Threat Group-3390|Tropic Trooper|Turla|WIRTE|ZIRCONIUM|menuPass
+T1136,Create Account,Persistence,Indrik Spider|Scattered Spider
+T1135,Network Share Discovery,Discovery,APT1|APT32|APT38|APT39|APT41|Chimera|DarkVishnya|Dragonfly|FIN13|Sowbug|Tonto Team|Tropic Trooper|Wizard Spider
+T1134,Access Token Manipulation,Defense Evasion|Privilege Escalation,Blue Mockingbird|FIN6
+T1133,External Remote Services,Initial Access|Persistence,APT18|APT28|APT29|APT41|Akira|Chimera|Dragonfly|FIN13|FIN5|GALLIUM|GOLD SOUTHFIELD|Ke3chang|Kimsuky|LAPSUS$|Leviathan|OilRig|Sandworm Team|Scattered Spider|TeamTNT|Threat Group-3390|Wizard Spider
+T1132,Data Encoding,Command And Control,no
+T1129,Shared Modules,Execution,no
+T1127,Trusted Developer Utilities Proxy Execution,Defense Evasion,no
+T1125,Video Capture,Collection,FIN7|Silence
+T1124,System Time Discovery,Discovery,BRONZE BUTLER|Chimera|Darkhotel|Higaisa|Lazarus Group|Sidewinder|The White Company|Turla|ZIRCONIUM
+T1123,Audio Capture,Collection,APT37
+T1120,Peripheral Device Discovery,Discovery,APT28|APT37|BackdoorDiplomacy|Equation|Gamaredon Group|OilRig|TeamTNT|Turla
+T1119,Automated Collection,Collection,APT1|APT28|Chimera|Confucius|FIN5|FIN6|Gamaredon Group|Ke3chang|Mustang Panda|OilRig|Patchwork|Sidewinder|Threat Group-3390|Tropic Trooper|menuPass
+T1115,Clipboard Data,Collection,APT38|APT39
+T1114,Email Collection,Collection,Magic Hound|Silent Librarian
+T1113,Screen Capture,Collection,APT28|APT39|BRONZE BUTLER|Dark Caracal|Dragonfly|FIN7|GOLD SOUTHFIELD|Gamaredon Group|Group5|Magic Hound|MoustachedBouncer|MuddyWater|OilRig|Silence
+T1112,Modify Registry,Defense Evasion,APT19|APT32|APT38|APT41|Blue Mockingbird|Dragonfly|Earth Lusca|Ember Bear|FIN8|Gamaredon Group|Gorgon Group|Kimsuky|LuminousMoth|Magic Hound|Patchwork|Silence|TA505|Threat Group-3390|Turla|Wizard Spider
+T1111,Multi-Factor Authentication Interception,Credential Access,Chimera|Kimsuky|LAPSUS$
+T1110,Brute Force,Credential Access,APT28|APT38|APT39|DarkVishnya|Dragonfly|FIN5|Fox Kitten|HEXANE|OilRig|Turla
+T1106,Native API,Execution,APT37|APT38|BlackTech|Chimera|Gamaredon Group|Gorgon Group|Higaisa|Lazarus Group|SideCopy|Silence|TA505|ToddyCat|Tropic Trooper|Turla|menuPass
+T1105,Ingress Tool Transfer,Command And Control,APT-C-36|APT18|APT28|APT29|APT3|APT32|APT33|APT37|APT38|APT39|APT41|Ajax Security Team|Andariel|Aquatic Panda|BITTER|BRONZE BUTLER|BackdoorDiplomacy|Chimera|Cinnamon Tempest|Cobalt Group|Confucius|Darkhotel|Dragonfly|Elderwood|Ember Bear|Evilnum|FIN13|FIN7|FIN8|Fox Kitten|GALLIUM|Gamaredon Group|Gorgon Group|HAFNIUM|HEXANE|IndigoZebra|Indrik Spider|Ke3chang|Kimsuky|Lazarus Group|LazyScripter|Leviathan|LuminousMoth|Magic Hound|Metador|Molerats|Moses Staff|MuddyWater|Mustang Panda|Mustard Tempest|Nomadic Octopus|OilRig|PLATINUM|Patchwork|Rancor|Rocke|Sandworm Team|SideCopy|Sidewinder|Silence|TA2541|TA505|TA551|TeamTNT|Threat Group-3390|Tonto Team|Tropic Trooper|Turla|Volatile Cedar|WIRTE|Whitefly|Windshift|Winnti Group|Wizard Spider|ZIRCONIUM|menuPass
+T1104,Multi-Stage Channels,Command And Control,APT3|APT41|Lazarus Group|MuddyWater
+T1102,Web Service,Command And Control,APT32|EXOTIC LILY|Ember Bear|FIN6|FIN8|Fox Kitten|Gamaredon Group|Inception|LazyScripter|Mustang Panda|Rocke|TeamTNT|Turla
+T1098,Account Manipulation,Persistence|Privilege Escalation,APT3|APT41|APT5|Dragonfly|FIN13|HAFNIUM|Kimsuky|Lazarus Group|Magic Hound
+T1095,Non-Application Layer Protocol,Command And Control,APT3|BITTER|BackdoorDiplomacy|FIN6|HAFNIUM|Metador|PLATINUM|ToddyCat
+T1092,Communication Through Removable Media,Command And Control,APT28
+T1091,Replication Through Removable Media,Initial Access|Lateral Movement,APT28|Aoqin Dragon|Darkhotel|FIN7|LuminousMoth|Mustang Panda|Tropic Trooper
+T1090,Proxy,Command And Control,APT41|Blue Mockingbird|Cinnamon Tempest|CopyKittens|Earth Lusca|Fox Kitten|LAPSUS$|Magic Hound|MoustachedBouncer|POLONIUM|Sandworm Team|Turla|Volt Typhoon|Windigo
+T1087,Account Discovery,Discovery,FIN13
+T1083,File and Directory Discovery,Discovery,APT18|APT28|APT3|APT32|APT38|APT39|APT41|APT5|Aoqin Dragon|BRONZE BUTLER|Chimera|Confucius|Dark Caracal|Darkhotel|Dragonfly|FIN13|Fox Kitten|Gamaredon Group|HAFNIUM|Inception|Ke3chang|Kimsuky|Lazarus Group|Leafminer|LuminousMoth|Magic Hound|MuddyWater|Mustang Panda|Patchwork|Sandworm Team|Scattered Spider|Sidewinder|Sowbug|TeamTNT|ToddyCat|Tropic Trooper|Turla|Windigo|Winnti Group|admin@338|menuPass
+T1082,System Information Discovery,Discovery,APT18|APT19|APT3|APT32|APT37|APT38|APT41|Aquatic Panda|Blue Mockingbird|Chimera|Confucius|Darkhotel|FIN13|FIN8|Gamaredon Group|HEXANE|Higaisa|Inception|Ke3chang|Kimsuky|Lazarus Group|Magic Hound|Malteiro|Moses Staff|MuddyWater|Mustang Panda|Mustard Tempest|OilRig|Patchwork|Rocke|Sandworm Team|SideCopy|Sidewinder|Sowbug|Stealth Falcon|TA2541|TeamTNT|ToddyCat|Tropic Trooper|Turla|Volt Typhoon|Windigo|Windshift|Wizard Spider|ZIRCONIUM|admin@338
+T1080,Taint Shared Content,Lateral Movement,BRONZE BUTLER|Cinnamon Tempest|Darkhotel|Gamaredon Group
+T1078,Valid Accounts,Defense Evasion|Initial Access|Persistence|Privilege Escalation,APT18|APT28|APT29|APT33|APT39|APT41|Akira|Axiom|Carbanak|Chimera|Cinnamon Tempest|Dragonfly|FIN10|FIN4|FIN5|FIN6|FIN7|FIN8|Fox Kitten|GALLIUM|Ke3chang|LAPSUS$|Lazarus Group|Leviathan|OilRig|POLONIUM|PittyTiger|Sandworm Team|Silence|Silent Librarian|Suckfly|Threat Group-3390|Wizard Spider|menuPass
+T1074,Data Staged,Collection,Scattered Spider|Volt Typhoon|Wizard Spider
+T1072,Software Deployment Tools,Execution|Lateral Movement,APT32|Sandworm Team|Silence|Threat Group-1314
+T1071,Application Layer Protocol,Command And Control,Magic Hound|Rocke|TeamTNT
+T1070,Indicator Removal,Defense Evasion,APT5|Lazarus Group
+T1069,Permission Groups Discovery,Discovery,APT3|APT41|FIN13|TA505
+T1068,Exploitation for Privilege Escalation,Privilege Escalation,APT28|APT29|APT32|APT33|BITTER|Cobalt Group|FIN6|FIN8|LAPSUS$|MoustachedBouncer|PLATINUM|Scattered Spider|Threat Group-3390|Tonto Team|Turla|Whitefly|ZIRCONIUM
+T1059,Command and Scripting Interpreter,Execution,APT19|APT32|APT37|APT39|Dragonfly|FIN5|FIN6|FIN7|Fox Kitten|Ke3chang|OilRig|Stealth Falcon|Whitefly|Windigo
+T1057,Process Discovery,Discovery,APT1|APT28|APT3|APT37|APT38|APT5|Andariel|Chimera|Darkhotel|Deep Panda|Earth Lusca|Gamaredon Group|HAFNIUM|HEXANE|Higaisa|Inception|Ke3chang|Kimsuky|Lazarus Group|Magic Hound|Molerats|MuddyWater|Mustang Panda|OilRig|Poseidon Group|Rocke|Sidewinder|Stealth Falcon|TeamTNT|ToddyCat|Tropic Trooper|Turla|Volt Typhoon|Windshift|Winnti Group
+T1056,Input Capture,Collection|Credential Access,APT39
+T1055,Process Injection,Defense Evasion|Privilege Escalation,APT32|APT37|APT41|APT5|Cobalt Group|Kimsuky|PLATINUM|Silence|TA2541|Turla|Wizard Spider
+T1053,Scheduled Task/Job,Execution|Persistence|Privilege Escalation,Earth Lusca
+T1052,Exfiltration Over Physical Medium,Exfiltration,no
+T1049,System Network Connections Discovery,Discovery,APT1|APT3|APT32|APT38|APT41|APT5|Andariel|BackdoorDiplomacy|Chimera|Earth Lusca|FIN13|GALLIUM|HEXANE|Ke3chang|Lazarus Group|Magic Hound|MuddyWater|Mustang Panda|OilRig|Poseidon Group|Sandworm Team|TeamTNT|Threat Group-3390|ToddyCat|Tropic Trooper|Turla|Volt Typhoon|admin@338|menuPass
+T1048,Exfiltration Over Alternative Protocol,Exfiltration,TeamTNT
+T1047,Windows Management Instrumentation,Execution,APT29|APT32|APT41|Blue Mockingbird|Chimera|Cinnamon Tempest|Deep Panda|Earth Lusca|FIN13|FIN6|FIN7|FIN8|GALLIUM|Gamaredon Group|Indrik Spider|Lazarus Group|Leviathan|Magic Hound|MuddyWater|Mustang Panda|Naikon|OilRig|Sandworm Team|Stealth Falcon|TA2541|Threat Group-3390|ToddyCat|Volt Typhoon|Windshift|Wizard Spider|menuPass
+T1046,Network Service Discovery,Discovery,APT32|APT39|APT41|BackdoorDiplomacy|BlackTech|Chimera|Cobalt Group|DarkVishnya|FIN13|FIN6|Fox Kitten|Lazarus Group|Leafminer|Magic Hound|Naikon|OilRig|Rocke|Suckfly|TeamTNT|Threat Group-3390|Tropic Trooper|menuPass
+T1041,Exfiltration Over C2 Channel,Exfiltration,APT3|APT32|APT39|Chimera|Confucius|GALLIUM|Gamaredon Group|Higaisa|Ke3chang|Kimsuky|Lazarus Group|Leviathan|LuminousMoth|MuddyWater|Sandworm Team|Stealth Falcon|Wizard Spider|ZIRCONIUM
+T1040,Network Sniffing,Credential Access|Discovery,APT28|APT33|DarkVishnya|Kimsuky|Sandworm Team
+T1039,Data from Network Shared Drive,Collection,APT28|BRONZE BUTLER|Chimera|Fox Kitten|Gamaredon Group|Sowbug|menuPass
+T1037,Boot or Logon Initialization Scripts,Persistence|Privilege Escalation,APT29|Rocke
+T1036,Masquerading,Defense Evasion,APT28|APT32|BRONZE BUTLER|Dragonfly|FIN13|LazyScripter|Nomadic Octopus|OilRig|PLATINUM|Sandworm Team|TA551|TeamTNT|Windshift|ZIRCONIUM|menuPass
+T1033,System Owner/User Discovery,Discovery,APT19|APT3|APT32|APT37|APT38|APT39|APT41|Chimera|Dragonfly|Earth Lusca|FIN10|FIN7|FIN8|GALLIUM|Gamaredon Group|HAFNIUM|HEXANE|Ke3chang|Lazarus Group|LuminousMoth|Magic Hound|MuddyWater|OilRig|Patchwork|Sandworm Team|Sidewinder|Stealth Falcon|Threat Group-3390|Tropic Trooper|Volt Typhoon|Windshift|Wizard Spider|ZIRCONIUM
+T1030,Data Transfer Size Limits,Exfiltration,APT28|APT41|LuminousMoth|Threat Group-3390
+T1029,Scheduled Transfer,Exfiltration,Higaisa
+T1027,Obfuscated Files or Information,Defense Evasion,APT-C-36|APT3|APT37|APT41|BackdoorDiplomacy|BlackOasis|Earth Lusca|Ember Bear|GALLIUM|Gallmaker|Gamaredon Group|Ke3chang|Kimsuky|Mustang Panda|Rocke|Sandworm Team|Windshift
+T1025,Data from Removable Media,Collection,APT28|Gamaredon Group|Turla
+T1021,Remote Services,Lateral Movement,Wizard Spider
+T1020,Automated Exfiltration,Exfiltration,Gamaredon Group|Ke3chang|Sidewinder|Tropic Trooper
+T1018,Remote System Discovery,Discovery,APT3|APT32|APT39|Akira|BRONZE BUTLER|Chimera|Deep Panda|Dragonfly|Earth Lusca|FIN5|FIN6|FIN8|Fox Kitten|GALLIUM|HAFNIUM|HEXANE|Indrik Spider|Ke3chang|Leafminer|Magic Hound|Naikon|Rocke|Sandworm Team|Scattered Spider|Silence|Threat Group-3390|ToddyCat|Turla|Volt Typhoon|Wizard Spider|menuPass
+T1016,System Network Configuration Discovery,Discovery,APT1|APT19|APT3|APT32|APT41|Chimera|Darkhotel|Dragonfly|Earth Lusca|FIN13|GALLIUM|HAFNIUM|HEXANE|Higaisa|Ke3chang|Kimsuky|Lazarus Group|Magic Hound|Moses Staff|MuddyWater|Mustang Panda|Naikon|OilRig|SideCopy|Sidewinder|Stealth Falcon|TeamTNT|Threat Group-3390|Tropic Trooper|Turla|Volt Typhoon|Wizard Spider|ZIRCONIUM|admin@338|menuPass
+T1014,Rootkit,Defense Evasion,APT28|APT41|Rocke|TeamTNT|Winnti Group
+T1012,Query Registry,Discovery,APT32|APT39|APT41|Chimera|Dragonfly|Fox Kitten|Kimsuky|Lazarus Group|OilRig|Stealth Falcon|Threat Group-3390|Turla|Volt Typhoon|ZIRCONIUM
+T1011,Exfiltration Over Other Network Medium,Exfiltration,no
+T1010,Application Window Discovery,Discovery,HEXANE|Lazarus Group
+T1008,Fallback Channels,Command And Control,APT41|FIN7|Lazarus Group|OilRig
+T1007,System Service Discovery,Discovery,APT1|Aquatic Panda|BRONZE BUTLER|Chimera|Earth Lusca|Indrik Spider|Ke3chang|Kimsuky|OilRig|Poseidon Group|TeamTNT|Turla|admin@338
+T1006,Direct Volume Access,Defense Evasion,Scattered Spider
+T1005,Data from Local System,Collection,APT1|APT28|APT29|APT3|APT37|APT38|APT39|APT41|Andariel|Axiom|BRONZE BUTLER|CURIUM|Dark Caracal|Dragonfly|FIN13|FIN6|FIN7|Fox Kitten|GALLIUM|Gamaredon Group|HAFNIUM|Inception|Ke3chang|Kimsuky|LAPSUS$|Lazarus Group|LuminousMoth|Magic Hound|Patchwork|Sandworm Team|Stealth Falcon|Threat Group-3390|ToddyCat|Turla|Volt Typhoon|Windigo|Wizard Spider|menuPass
+T1003,OS Credential Dumping,Credential Access,APT28|APT32|APT39|Axiom|Leviathan|Poseidon Group|Sowbug|Suckfly|Tonto Team
+T1001,Data Obfuscation,Command And Control,no

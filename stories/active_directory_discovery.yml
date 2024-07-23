@@ -9,7 +9,7 @@ description: Monitor for activities and techniques associated with Discovery and
 narrative: 'Discovery consists of techniques an adversay uses to gain knowledge about
   an internal environment or network. These techniques provide adversaries with situational
   awareness and allows them to have the necessary information before deciding how
-  to act or who/what to target next.\
+  to act or who/what to target next.
 
   Once an attacker obtains an initial foothold in an Active Directory environment,
   she is forced to engage in Discovery techniques in the initial phases of a breach
@@ -30,7 +30,6 @@ references:
 - https://attack.mitre.org/techniques/T1049/
 - https://attack.mitre.org/techniques/T1033/
 tags:
-  analytic_story: Active Directory Discovery
   category:
   - Adversary Tactics
   product:

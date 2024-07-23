@@ -17,19 +17,23 @@ search: '| inputlookup discovered_dns_records | rename answer as discovered_answ
   | makemv delim=" " answer |  makemv delim=" " type | sort -count | table count,src,domain,type,query,current_answer,discovered_answer
   | makemv current_answer  | mvexpand current_answer | makemv discovered_answer |
   eval n=mvfind(discovered_answer, current_answer) | where isnull(n) | `dns_record_changed_filter`'
-how_to_implement: "To successfully implement this search you will need to ensure that\
-  \ DNS data is populating the `Network_Resolution` data model. It also requires that\
-  \ the `discover_dns_record` lookup table be populated by the included support search\
-  \ \"Discover DNS record\". \\\n **Splunk>Phantom Playbook Integration**\\\nIf Splunk>Phantom\
-  \ is also configured in your environment, a Playbook called \"DNS Hijack Enrichment\"\
-  \ can be configured to run when any results are found by this detection search.\
-  \ The playbook takes in the DNS record changed and uses Geoip, whois, Censys and\
-  \ PassiveTotal to detect if DNS issuers changed. To use this integration, install\
-  \ the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, add the\
-  \ correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions\
-  \ when configuring this detection search, and set the corresponding Playbook to\
-  \ active. \\\n(Playbook Link:`https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/`).\\\
-  \n"
+how_to_implement: 'To successfully implement this search you will need to ensure that
+  DNS data is populating the `Network_Resolution` data model. It also requires that
+  the `discover_dns_record` lookup table be populated by the included support search
+  "Discover DNS record".
+  
+  **Splunk>Phantom Playbook Integration**
+  
+  If Splunk>Phantom is also configured in your environment, a Playbook called "DNS Hijack Enrichment"
+  can be configured to run when any results are found by this detection search.
+  The playbook takes in the DNS record changed and uses Geoip, whois, Censys and
+  PassiveTotal to detect if DNS issuers changed. To use this integration, install
+  the Phantom App for Splunk `https://splunkbase.splunk.com/app/3411/`, add the
+  correct hostname to the \"Phantom Instance\" field in the Adaptive Response Actions
+  when configuring this detection search, and set the corresponding Playbook to
+  active.
+  
+  (Playbook Link:`https://my.phantom.us/4.2/playbook/dns-hijack-enrichment/`)'
 known_false_positives: Legitimate DNS changes can be detected in this search. Investigate,
   verify and update the list of provided current answers for the domains in question
   as appropriate.

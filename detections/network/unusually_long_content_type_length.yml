@@ -1,12 +1,18 @@
 name: Unusually Long Content-Type Length
 id: 57a0a2bf-353f-40c1-84dc-29293f3c35b7
-version: 1
-date: '2017-10-13'
+version: 2
+date: '2024-05-13'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: This search looks for unusually long strings in the Content-Type http
-  header that the client sends the server.
+description: The following analytic identifies unusually long strings in the Content-Type
+  HTTP header sent by the client to the server. It uses data from the Stream:HTTP
+  source, specifically evaluating the length of the `cs_content_type` field. This
+  activity is significant because excessively long Content-Type headers can indicate
+  attempts to exploit vulnerabilities or evade detection mechanisms. If confirmed
+  malicious, this behavior could allow attackers to execute code, manipulate data,
+  or bypass security controls, potentially leading to unauthorized access or data
+  breaches.
 data_source: []
 search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where
   cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length

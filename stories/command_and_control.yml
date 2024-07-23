@@ -15,7 +15,7 @@ narrative: 'Threat actors typically architect and implement an infrastructure to
   communicate with implants on compromised endpoints. These servers establish a command
   and control channel that is used to proxy data between the compromised endpoint
   and the attacker. These channels relay commands from the attacker to the compromised
-  endpoint and the output of those commands back to the attacker.\
+  endpoint and the output of those commands back to the attacker.
 
   Because this communication is so critical for an adversary, they often use techniques
   designed to hide the true nature of the communications. There are many different
@@ -27,7 +27,6 @@ references:
 - https://attack.mitre.org/wiki/Command_and_Control
 - https://searchsecurity.techtarget.com/feature/Command-and-control-servers-The-puppet-masters-that-govern-malware
 tags:
-  analytic_story: Command And Control
   category:
   - Adversary Tactics
   product:

@@ -21,8 +21,7 @@ known_false_positives: If the Identity_Management data model is not updated regu
   appropriately.
 references: []
 tags:
-  analytic_story:
-  - Account Monitoring and Controls
+  analytic_story: []
   asset_type: Domain Server
   confidence: 50
   impact: 50
