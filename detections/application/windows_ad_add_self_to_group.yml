@@ -1,0 +1,54 @@
+name: Windows AD add Self to Group
+id: 065f2701-b7ea-42f5-9ec4-fbc2261165f9
+version: 1
+date: '2023-12-18'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Event Log Security 4728
+description: This analytic detects instances where a user adds themselves to an Active Directory (AD) group. This activity
+  is a common indicator of privilege escalation, where a user attempts to gain unauthorized access to higher
+  privileges or sensitive resources. By monitoring AD logs, this detection identifies such suspicious behavior,
+  which could be part of a larger attack strategy aimed at compromising critical systems and data. 
+search: '`wineventlog_security` EventCode IN (4728) 
+  | where user=src_user 
+  | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc by signature, Group_Name, src_user 
+  | `windows_ad_add_self_to_group_filter`'
+how_to_implement: This analytic requires eventCode 4728 to be ingested.
+known_false_positives: Unknown
+references: []
+tags:
+  analytic_story:
+  - Active Directory Privilege Escalation
+  - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 50
+  message: $user$ added themselves to AD Group $Group_Name$
+  mitre_attack_id:
+  - T1098
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 50
+  required_fields:
+  - EventCode
+  - user
+  - src_user
+  - signature
+  - Group_Name
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
+    update_timestamp: true

@@ -7,11 +7,14 @@ jobs:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
     # needs: [validate-tag-if-present, quit-for-dependabot]
-    steps: 
+    steps:
+        #For fork PRs, always check out security_content and the PR target in security content!
         - name: Check out the repository code
           uses: actions/checkout@v4
           with:
-            ref: develop
+            repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
+            ref: ${{ github.base_ref }}
+          
 
         - uses: actions/setup-python@v5
           with:
@@ -24,13 +27,20 @@ jobs:
             pip install contentctl
            
         # Running contentctl test with a few arguments, before running the command make sure you checkout into the current branch of the pull request. This step only performs unit testing on all the changes against the target-branch. In most cases this target branch will be develop
+        # Make sure we check out the PR, even if it actually lives in a fork
+        # Instructions for pulling a PR were taken from: 
+        # https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/checking-out-pull-requests-locally
         - name: Run ContentCTL test for changes against target branch
           run: |
+            
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
             git pull > /dev/null 2>&1
-            git checkout ${{ github.head_ref }}
-            echo "The target branch for this PR is ${{ github.base_ref }}"
+            git fetch origin pull/${{ github.event.pull_request.number }}/head:${{ github.head_ref }}
+            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo
+            git switch ${{ github.head_ref }}
+            #git checkout ${{ github.head_ref }}
+            #echo "The target branch for this PR is ${{ github.base_ref }}"
             contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             echo "contentctl test - COMPLETED"
           continue-on-error: true
@@ -56,4 +66,3 @@ jobs:
             echo "This job will fail if there are failures in unit-testing"  
             python .github/workflows/format_test_results.py >> $GITHUB_STEP_SUMMARY
             echo "The Unit testing is completed. See details in the unit-testing job summary UI "
-            

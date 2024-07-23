@@ -45,6 +45,8 @@ event_names:
   data_source: data_sources/endpoint/event_sources/Windows_Event_Log_Security_4725.yml
 - event_name: Windows Event Log Security 4726
   data_source: data_sources/endpoint/event_sources/Windows_Event_Log_Security_4726.yml
+- event_name: Windows Event Log Security 4728
+  data_source: data_sources/endpoint/event_sources/Windows_Event_Log_Security_4728.yml
 - event_name: Windows Event Log Security 4732
   data_source: data_sources/endpoint/event_sources/Windows_Event_Log_Security_4732.yml
 - event_name: Windows Event Log Security 4738

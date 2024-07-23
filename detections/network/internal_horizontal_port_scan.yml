@@ -1,0 +1,65 @@
+name: Internal Horizontal Port Scan
+id: 1ff9eb9a-7d72-4993-a55e-59a839e607f1
+version: 1
+date: '2023-10-20'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- AWS CloudWatchLogs VPCflow
+description: This analytic identifies instances where an internal host has attempted to communicate
+  with 250 or more destination IP addresses using the same port and protocol. Horizontal
+  port scans from internal hosts can indicate reconnaissance or scanning activities,
+  potentially signaling malicious intent or misconfiguration. By monitoring network
+  traffic logs, this detection helps detect and respond to such behavior promptly,
+  enhancing network security and preventing potential threats.
+search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action
+  values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as
+  dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
+  where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by All_Traffic.src_ip All_Traffic.dest_port
+  All_Traffic.dest_ip span=1s _time All_Traffic.transport | `drop_dm_object_name("All_Traffic")`
+  | eval gtime=_time | bin span=1h gtime | stats min(_time) as _time values(action)
+  as action dc(dest_ip) as totalDestIPCount values(src_category) as src_category values(dest_zone)
+  as dest_zone values(src_zone) as src_zone by src_ip dest_port gtime transport |
+  where totalDestIPCount>=250 | eval dest_port=transport + "/" + dest_port | stats
+  min(_time) as _time values(action) as action sum(totalDestIPCount) as totalDestIPCount
+  values(src_category) as src_category values(dest_port) as dest_ports values(dest_zone)
+  as dest_zone values(src_zone) as src_zone by src_ip gtime | fields - gtime | `internal_horizontal_port_scan_filter`'
+how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as 
+  firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to 
+  enable this search effectively.
+known_false_positives: Unknown
+references: []
+tags:
+  analytic_story:
+  - Network Discovery
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: $src_ip$ has scanned for port $dest_port$ across $totalDestIPCount$ destination IPs
+  mitre_attack_id:
+  - T1046
+  observable:
+  - name: src_ip
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 64
+  required_fields:
+  - _time
+  - All_Traffic.action
+  - All_Traffic.src_ip
+  - All_Traffic.dest_ip
+  - All_Traffic.dest_port
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/horizontal.log
+    source: aws:cloudwatchlogs:vpcflow
+    sourcetype: aws:cloudwatchlogs:vpcflow
+    update_timestamp: true
