@@ -1,14 +1,16 @@
 name: aws detect role creation
 id: 5f04081e-ddee-4353-afe4-504f288de9ad
-version: 1
-date: '2020-07-27'
+version: 2
+date: '2024-05-15'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: This search provides detection of role creation by IAM users. Role creation
-  is an event by itself if user is creating a new role with trust policies different
-  than the available in AWS and it can be used for lateral movement and escalation
-  of privileges.
+description: The following analytic identifies the creation of new IAM roles by users
+  in AWS. It leverages CloudWatch logs to detect events where the `CreateRole` action
+  is performed, focusing on roles with specific trust policies. This activity is significant
+  as unauthorized role creation can facilitate lateral movement and privilege escalation
+  within the AWS environment. If confirmed malicious, attackers could gain elevated
+  permissions, potentially compromising sensitive resources and data.
 data_source: []
 search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole
   requestParameters.description=Allows* | table sourceIPAddress userIdentity.principalId

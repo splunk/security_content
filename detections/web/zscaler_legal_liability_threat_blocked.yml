@@ -1,21 +1,31 @@
 name: Zscaler Legal Liability Threat Blocked
 id: bbf55ebf-c416-4f62-94d9-4064f2a28014
-version: 1
-date: '2023-10-31'
+version: 2
+date: '2024-05-23'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: The analytic is aimed at identifying the most significant legal liability threats blocked by zcaler web proxy. It leverages web proxy logs to list the  destinations, device owners, users, URL categories, and actions that are associated with Legal Liability, by utilizing stats on unique fields, it ensures a precise focus on unique legal liability threats, thereby providing valuable insights for organizations to enforce legal compliance and risk management.
-search: '`zscaler_proxy` urlclass="Legal Liability" 
-  |  stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | dedup urlcategory | `zscaler_legal_liability_threat_blocked_filter`'
-how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
+description: The following analytic identifies significant legal liability threats
+  blocked by the Zscaler web proxy. It uses web proxy logs to track destinations,
+  device owners, users, URL categories, and actions associated with legal liability.
+  By leveraging statistics on unique fields, it ensures a precise focus on these threats.
+  This activity is significant for SOC as it helps enforce legal compliance and risk
+  management. If confirmed malicious, it could indicate attempts to access legally
+  sensitive or restricted content, potentially leading to legal repercussions and
+  compliance violations.
+search: '`zscaler_proxy` urlclass="Legal Liability" |  stats count min(_time) as firstTime
+  max(_time) as lastTime by action deviceowner user urlcategory url src dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | dedup urlcategory | `zscaler_legal_liability_threat_blocked_filter`'
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase.
+  You must be ingesting Zscaler events into your Splunk environment through an ingester.
+  This analytic was written to be used with the "zscalernss-web" sourcetype leveraging
+  the Zscaler proxy data. This enables the integration with Splunk Enterprise Security.
+  Security teams are encouraged to adjust the detection parameters, ensuring the detection
+  is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscaler configuration.
 references:
-- https://help.zscaler.com/zia/nss-feed-output-format-web-logs 
+- https://help.zscaler.com/zia/nss-feed-output-format-web-logs
 tags:
   analytic_story:
   - Zscaler Browser Proxy Threats
@@ -49,14 +59,15 @@ tags:
   - deviceowner
   - user
   - urlcategory
-  - url 
-  - dest 
-  - dest_ip 
+  - url
+  - dest
+  - dest_ip
   - action
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
     source: zscaler
     sourcetype: zscalernss-web

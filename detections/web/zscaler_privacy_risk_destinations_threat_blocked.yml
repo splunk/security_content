@@ -1,19 +1,29 @@
 name: Zscaler Privacy Risk Destinations Threat Blocked
 id: 5456bdef-d765-4565-8e1f-61ca027bc50d
-version: 1
-date: '2023-10-30'
+version: 2
+date: '2024-05-24'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: The analytic is designed to identify blocked destinations within a network deemed as privacy risks by Zscaler. Utilizing Splunk search functionality, it processes web proxy logs, focusing on entries marked as Privacy Risk. Key data points such as device owner, user, URL category, destination URL and IP, and action taken are analyzed to enumerate the privacy risk destinations. This anomaly-type detection aids in monitoring and managing privacy risks, promoting a secure network environment.
-search: '`zscaler_proxy` action=blocked urlclass="Privacy Risk" 
-  |  stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src dest
-  | dedup urlcategory 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+description: The following analytic identifies blocked destinations within a network
+  that are deemed privacy risks by Zscaler. It leverages web proxy logs, focusing
+  on entries marked as "Privacy Risk." Key data points such as device owner, user,
+  URL category, destination URL, and IP are analyzed. This activity is significant
+  for a SOC as it helps monitor and manage privacy risks, ensuring a secure network
+  environment. If confirmed malicious, this activity could indicate attempts to access
+  or exfiltrate sensitive information, posing a significant threat to data privacy
+  and security.
+search: '`zscaler_proxy` action=blocked urlclass="Privacy Risk" |  stats count min(_time)
+  as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src
+  dest | dedup urlcategory | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `zscaler_privacy_risk_destinations_threat_blocked_filter`'
-how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase.
+  You must be ingesting Zscaler events into your Splunk environment through an ingester.
+  This analytic was written to be used with the "zscalernss-web" sourcetype leveraging
+  the Zscaler proxy data. This enables the integration with Splunk Enterprise Security.
+  Security teams are encouraged to adjust the detection parameters, ensuring the detection
+  is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscaler configuration.
 references:
 - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
@@ -50,14 +60,15 @@ tags:
   - deviceowner
   - user
   - urlcategory
-  - url 
-  - dest 
-  - dest_ip 
+  - url
+  - dest
+  - dest_ip
   - action
   security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
     source: zscaler
     sourcetype: zscalernss-web

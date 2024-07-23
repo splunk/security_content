@@ -24,7 +24,7 @@ known_false_positives: It's possible that a user has legitimately deleted a netw
 references: []
 tags:
   analytic_story:
-  - Cloud Network ACL Activity
+  - AWS Network ACL Activity
   asset_type: Instance
   confidence: 50
   impact: 50

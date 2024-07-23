@@ -20,7 +20,7 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   | stats min(firstTime) as firstTime, max(lastTime) as lastTime by process | outputlookup
   previously_seen_cmd_line_arguments | eval newCmdLineArgument=if(firstTime >= relative_time(now(),
   "-70m@m"), 1, 0) | where newCmdLineArgument=1 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | table process] | `first_time_seen_command_line_argument_filter` '
+  | `security_content_ctime(lastTime)` | table process] | `first_time_seen_command_line_argument_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

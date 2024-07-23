@@ -21,7 +21,6 @@ references:
 - https://blog.malwarebytes.com/cybercrime/2015/11/vonteera-adware-uses-certificates-to-disable-anti-malware/
 - https://web.archive.org/web/20220425194457/https://www.operationblockbuster.com/wp-content/uploads/2016/02/Operation-Blockbuster-Tools-Report.pdf
 tags:
-  analytic_story: Disabling Security Tools
   category:
   - Adversary Tactics
   product:

@@ -1,0 +1,20 @@
+name: CrushFTP Vulnerabilities
+id: 933df821-3b75-4669-a58a-e85d2cd7b9b0
+version: 1
+date: '2024-05-16'
+author: Michael Haag, Splunk
+description: CVE-2024-4040 identifies a critical server-side template injection vulnerability in all versions of CrushFTP prior to 10.7.1 and 11.1.0, allowing unauthenticated remote attackers to execute arbitrary code, bypass authentication, and access files outside of the VFS Sandbox.
+narrative: CVE-2024-4040 exposes a severe server-side template injection vulnerability in all versions of CrushFTP prior to 10.7.1 and 11.1.0. This critical flaw allows unauthenticated remote attackers to execute arbitrary code, bypass authentication mechanisms, and access files outside of the VFS Sandbox. The vulnerability was urgently addressed by CrushFTP with a patch after it was actively exploited in the wild, highlighting the necessity for immediate updates to secure server environments. Users operating behind a DMZ are reported to have an additional layer of protection against this exploit. The discovery and subsequent reporting of this vulnerability by Simon Garrelou of Airbus CERT prompted a swift response from CrushFTP, underscoring the critical nature of the flaw and the potential risks associated with delayed patching. This incident serves as a stark reminder of the importance of maintaining up-to-date software to defend against evolving cybersecurity threats.
+references:
+- https://github.com/airbus-cert/CVE-2024-4040
+- https://www.bleepingcomputer.com/news/security/crushftp-warns-users-to-patch-exploited-zero-day-immediately/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-4040

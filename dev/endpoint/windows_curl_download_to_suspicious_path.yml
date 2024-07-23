@@ -6,10 +6,10 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: 'The following analytic identifies the use of Windows Curl.exe downloading
-  a file to a suspicious location. \
+  a file to a suspicious location. 
 
   -O or --output is used when a file is to be downloaded and placed in a specified
-  location. \
+  location. 
 
   During triage, review parallel processes for further behavior. In addition, identify
   if the download was successful. If a file was downloaded, capture and analyze.'

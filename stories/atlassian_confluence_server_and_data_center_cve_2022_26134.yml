@@ -12,7 +12,6 @@ references:
   - https://www.rapid7.com/blog/post/2022/06/02/active-exploitation-of-confluence-cve-2022-26134/
   - https://www.volexity.com/blog/2022/06/02/zero-day-exploitation-of-atlassian-confluence/
 tags:
-  analytic_story: Atlassian Confluence Server and Data Center CVE-2022-26134
   category: 
     - Adversary Tactics
   product:

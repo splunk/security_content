@@ -1,15 +1,18 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
-version: 1
-date: '2020-10-28'
+version: 2
+date: '2024-05-09'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: Adversaries may leverage traffic mirroring in order to automate data
-  exfiltration over compromised network infrastructure. Traffic mirroring is a native
-  feature for some network devices and used for network analysis and may be configured
-  to duplicate traffic and forward to one or more destinations for analysis by a network
-  analyzer or other monitoring device.
+description: The following analytic detects the initiation of traffic mirroring sessions
+  on Cisco network devices. It leverages logs with specific mnemonics and facilities
+  related to traffic mirroring, such as "ETH_SPAN_SESSION_UP" and "PKTCAP_START."
+  This activity is significant because adversaries may use traffic mirroring to exfiltrate
+  data by duplicating and forwarding network traffic to an external destination. If
+  confirmed malicious, this could allow attackers to capture sensitive information,
+  monitor network communications, and potentially compromise the integrity and confidentiality
+  of the network.
 data_source: []
 search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN"
   mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD"

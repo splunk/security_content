@@ -16,7 +16,6 @@ references:
 - https://gtfobins.github.io/gtfobins/at/
 - https://www.cert.ssi.gouv.fr/uploads/CERTFR-2021-CTI-005.pdf
 tags:
-  analytic_story: Linux Persistence Techniques
   category:
   - Adversary Tactics
   product:

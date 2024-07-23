@@ -8,7 +8,6 @@ narrative: The Winter Vivern malware, identified by CERT UA, is designed to down
 references:
 - https://cert.gov.ua/article/3761023
 tags:
-  analytic_story: Winter Vivern
   category:
   - Malware
   product:

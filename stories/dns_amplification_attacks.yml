@@ -19,7 +19,7 @@ narrative: 'The Domain Name System (DNS) is the protocol used to map domain name
   and associated IP addresses. A large volume of this traffic can result in a DOS
   on the victim''s machine. This misconfiguration leads to two possible victims, the
   first being the DNS servers participating in an attack and the other being the hosts
-  that are the targets of the DOS attack.\
+  that are the targets of the DOS attack.
 
   The search in this story can help you to detect if attackers are abusing your company''s
   DNS infrastructure to launch DNS amplification attacks causing Denial of Service
@@ -28,7 +28,6 @@ references:
 - https://www.us-cert.gov/ncas/alerts/TA13-088A
 - https://www.imperva.com/learn/application-security/dns-amplification/
 tags:
-  analytic_story: DNS Amplification Attacks
   category:
   - Abuse
   product:

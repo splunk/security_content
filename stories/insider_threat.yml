@@ -12,7 +12,6 @@ references:
 - https://github.com/Insider-Threat/Insider-Threat
 - https://ctid.mitre-engenuity.org/our-work/insider-ttp-kb/
 tags:
-  analytic_story: Insider Threat
   category:
   - Adversary Tactics
   - Account Compromise

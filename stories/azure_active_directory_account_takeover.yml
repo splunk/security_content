@@ -15,7 +15,6 @@ references:
 - https://www.varonis.com/blog/azure-active-directory
 - https://www.barracuda.com/glossary/account-takeover
 tags:
-  analytic_story: Azure Active Directory Account Takeover
   category:
   - Adversary Tactics
   - Account Compromise

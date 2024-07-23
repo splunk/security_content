@@ -22,7 +22,7 @@ references:
 tags:
   analytic_story:
   - Office 365 Collection Techniques
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 60
   impact: 80
   message: User $user$ has delegated suspicious rights $AccessRights$ to user $dest_user$
@@ -36,7 +36,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

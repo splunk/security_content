@@ -1,11 +1,18 @@
 name: Detect Baron Samedit CVE-2021-3156 via OSQuery
 id: 1de31d5d-8fa6-4ee0-af89-17069134118a
-version: 1
-date: '2021-01-28'
+version: 2
+date: '2024-05-13'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: "The following analytic detects the heap-based buffer overflow for the sudoedit command and identifies instances where the command \"sudoedit -s *\" is run using the osquery_process data source. This indicates that the sudoedit command is used with the \"-s\" flag, which is associated with the heap-based buffer overflow vulnerability. The detection is important because it indicates a potential security vulnerability, specifically Baron Samedit CVE-2021-3156, which helps to identify and respond to potential heap-based buffer overflow attacks to enhance the security posture of the organization. This vulnerability allows an attacker to escalate privileges and potentially gain unauthorized access to the system. If the attack is successful, the attacker can gain full control of the system, run arbitrary code, or access sensitive data. Such attacks can lead to data breaches, unauthorized access, and potential disruption of critical systems. False positives might occur since the legitimate use of the sudoedit command with the \"-s\" flag can also trigger this detection. You must carefully review and validate the findings before taking any action. Next steps include investigating all true positive detections promptly, reviewing the associated processes, gather relevant artifacts, identifying the source of the attack to contain the threat, mitigate the risks, and prevent further damage to the environment."
+description: "The following analytic detects the execution of the \"sudoedit -s *\"\
+  \ command, which is associated with the Baron Samedit CVE-2021-3156 heap-based buffer
+  overflow vulnerability. This detection leverages the `osquery_process` data source
+  to identify instances where this specific command is run. This activity is significant
+  because it indicates an attempt to exploit a known vulnerability that allows privilege
+  escalation. If confirmed malicious, an attacker could gain full control of the system,
+  execute arbitrary code, or access sensitive data, leading to potential data breaches
+  and system disruptions."
 data_source: []
 search: '`osquery_process` | search "columns.cmdline"="sudoedit -s \\*" | `detect_baron_samedit_cve_2021_3156_via_osquery_filter`'
 how_to_implement: OSQuery installed and configured to pick up process events (info

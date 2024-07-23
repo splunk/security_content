@@ -17,7 +17,6 @@ references:
   - https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
   - https://www.checkpoint.com/cyber-hub/threat-prevention/what-is-malware/snake-keylogger-malware/
 tags:
-  analytic_story: Snake Keylogger
   category: 
   - Adversary Tactics
   - Account Compromise

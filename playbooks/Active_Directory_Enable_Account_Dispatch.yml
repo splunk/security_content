@@ -18,7 +18,7 @@ tags:
     - D3-RUAA
     - enable_account
     - active_directory
-  playbook_type: Automatic
+  playbook_type: Automation
   vpe_type: Modern
   playbook_fields: []
   product:

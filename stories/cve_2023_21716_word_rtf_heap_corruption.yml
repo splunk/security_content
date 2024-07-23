@@ -13,7 +13,6 @@ narrative: This analytic story covers content that will assist organizations in 
 references:
   - https://www.bleepingcomputer.com/news/security/proof-of-concept-released-for-critical-microsoft-word-rce-bug/ 
 tags:
-  analytic_story: CVE-2023-21716 Word RTF Heap Corruption
   category:
   - Adversary Tactics
   product:

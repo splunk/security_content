@@ -17,7 +17,6 @@ references:
 - https://attack.mitre.org/techniques/T1112/
 - https://redcanary.com/blog/windows-registry-attacks-threat-detection/
 tags:
-  analytic_story: Windows Registry Abuse
   category:
   - Malware
   product:

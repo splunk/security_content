@@ -19,7 +19,6 @@ narrative: Phemedrone Stealer, spotlighted in a recent Trend Micro blog, unveils
 references:
   - https://www.trendmicro.com/en_vn/research/23/b/investigating-the-plugx-trojan-disguised-as-a-legitimate-windows.html
 tags:
-  analytic_story: Phemedrone Stealer
   category:
   - Malware
   product:

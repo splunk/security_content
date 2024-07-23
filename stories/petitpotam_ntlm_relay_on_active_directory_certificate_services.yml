@@ -24,7 +24,6 @@ references:
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-36942
 - https://attack.mitre.org/techniques/T1187/
 tags:
-  analytic_story: PetitPotam NTLM Relay on Active Directory Certificate Services
   category:
   - Adversary Tactics
   product:

@@ -1,21 +1,30 @@
 name: Windows BootLoader Inventory
 id: 4f7e3913-4db3-4ccd-afe4-31198982305d
-version: 1
-date: '2023-04-14'
+version: 2
+date: '2024-05-15'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting
 data_source: []
-description: The following hunting query utilizes a PowerShell Scripted input that captures the bootloader paths for each Windows endpoint it is deployed to. The template inputs.conf is located in the references link.
-  By default, it only captures the path, but may be modified to capture everything that BCDedit provides. It can be verbose, but may be worth it.
-search: '`bootloader_inventory` | stats count min(_time) as firstTime max(_time)
-  as lastTime values(_raw) by host | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_bootloader_inventory_filter`'
-how_to_implement: To implement this analytic, a new stanza will need to be added to a inputs.conf and deployed to all or some Windows endpoints. https://gist.github.com/MHaggis/26518cd2844b0e03de6126660bb45707 provides the stanza. If modifying the sourcetype, be sure to update the Macro for this analytic. Recommend running it daily, or weekly, depending on threat model.
-known_false_positives: No false positives here, only bootloaders. Filter as needed or create a lookup as a baseline.
+description: The following analytic identifies the bootloader paths on Windows endpoints.
+  It leverages a PowerShell Scripted input to capture this data, which is then processed
+  and aggregated using Splunk. Monitoring bootloader paths is significant for a SOC
+  as it helps detect unauthorized modifications that could indicate bootkits or other
+  persistent threats. If confirmed malicious, such activity could allow attackers
+  to maintain persistence, bypass security controls, and potentially control the boot
+  process, leading to full system compromise.
+search: '`bootloader_inventory` | stats count min(_time) as firstTime max(_time) as
+  lastTime values(_raw) by host | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_bootloader_inventory_filter`'
+how_to_implement: To implement this analytic, a new stanza will need to be added to
+  a inputs.conf and deployed to all or some Windows endpoints. https://gist.github.com/MHaggis/26518cd2844b0e03de6126660bb45707
+  provides the stanza. If modifying the sourcetype, be sure to update the Macro for
+  this analytic. Recommend running it daily, or weekly, depending on threat model.
+known_false_positives: No false positives here, only bootloaders. Filter as needed
+  or create a lookup as a baseline.
 references:
-  - https://gist.github.com/MHaggis/26518cd2844b0e03de6126660bb45707
-  - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
+- https://gist.github.com/MHaggis/26518cd2844b0e03de6126660bb45707
+- https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
 tags:
   analytic_story:
   - BlackLotus Campaign
