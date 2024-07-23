@@ -1,6 +1,6 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
-version: 4
+version: 5
 date: '2024-07-23'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
