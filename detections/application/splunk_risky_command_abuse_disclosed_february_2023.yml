@@ -1,7 +1,7 @@
 name: Splunk risky Command Abuse disclosed february 2023
 id: ee69374a-d27e-4136-adac-956a96ff60fd
 version: 4
-date: '2024-07-01'
+date: '2024-07-23'
 author: Chase Franklin, Rod Soto, Eric McGinnis, Splunk
 status: production
 type: Hunting
@@ -20,7 +20,7 @@ search: '| tstats fillnull_value="N/A" count min(_time) as firstTime max(_time) 
   Search_Activity.user!=splunk-system-user by Search_Activity.search Search_Activity.info
   Search_Activity.total_run_time Search_Activity.user Search_Activity.search_type
   | `drop_dm_object_name(Search_Activity)` | lookup splunk_risky_command splunk_risky_command
-  as search output splunk_risky_command description vulnerable_versions CVE other_metadata
+  as search output splunk_risky_command description vulnerable_versions CVE
   | where splunk_risky_command != "false" | `security_content_ctime(firstTime)` |
   `security_content_ctime(lastTime)` | `splunk_risky_command_abuse_disclosed_february_2023_filter`'
 how_to_implement: Requires implementation of Splunk_Audit.Search_Activity datamodel.
