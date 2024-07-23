@@ -1,7 +1,7 @@
 name: Windows New InProcServer32 Added
 id: 0fa86e31-0f73-4ec7-9ca3-dc88e117f1db
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-07-23'
 author: Michael Haag, Splunk
 data_source:
 - Sysmon EventID 13
@@ -57,7 +57,7 @@ tags:
   risk_score: 2
   security_domain: endpoint
   cve:
-  - cve-2024-21378
+  - CVE-2024-21378
 tests:
 - name: True Positive Test
   attack_data:
@@ -65,3 +65,4 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/cve-2024-21378/inprocserver32_windows-sysmon.log
     sourcetype: xmlwineventlog
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+# version bumped by pre-commit hook
