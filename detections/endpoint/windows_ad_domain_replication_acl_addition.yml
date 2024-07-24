@@ -14,11 +14,11 @@ description: The following analytic detects the addition of permissions required
   attack, which can be used to replicate AD objects and exfiltrate sensitive data.
   If confirmed malicious, an attacker could gain extensive access to Active Directory,
   leading to severe data breaches and privilege escalation.
-search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 \"OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)\"|
+search: '`wineventlog_security`  | rex field=AttributeValue max_match=10000 "OA;;CR;89e95b76-444d-4c62-991a-0facbeda640c;;(?P<DSRGetChangesFiltered_user_sid>S-1-[0-59]-\d{2}-\d{8,10}-\d{8,10}-\d{8,10}-[1-9]\d{3})\)"|
   table _time dest src_user DSRGetChanges_user_sid DSRGetChangesAll_user_sid DSRGetChangesFiltered_user_sid|
-  mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,\"true\",\"false\"),
-  fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,\"true\",\"false\")|
-  where minDCSyncPermissions=\"true\" | lookup identity_lookup_expanded  objectSid
+  mvexpand DSRGetChanges_user_sid| eval minDCSyncPermissions=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid,"true","false"),
+  fullSet=if(DSRGetChanges_user_sid=DSRGetChangesAll_user_sid AND DSRGetChanges_user_sid=DSRGetChangesFiltered_user_sid,"true","false")|
+  where minDCSyncPermissions="true" | lookup identity_lookup_expanded  objectSid
   as DSRGetChanges_user_sid OUTPUT sAMAccountName as user | rename DSRGetChanges_user_sid
   as userSid | stats min(_time) as _time values(user) as user by dest src_user userSid
   minDCSyncPermissions fullSet| `windows_ad_domain_replication_acl_addition_filter`'
