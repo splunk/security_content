@@ -1,7 +1,7 @@
 name: Create Local Admin Accounts Using Net Exe
-id: 2dbdfc95-9c0f-433e-95f1-a376f1ae8bf7
+id: 890f0937-5a83-48fb-b793-68f792ded5db
 version: 3
-status: validation
+status: production
 detection_type: STREAMING
 description: The following analytic detects the creation of local administrator accounts
   using the net.exe command to mitigate the risks associated with unauthorized access
@@ -55,7 +55,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 1,
     risk_score = 30,
     severity_id = 0,
-    rule = {"name": "Create Local Admin Accounts Using Net Exe", "uid": "2dbdfc95-9c0f-433e-95f1-a376f1ae8bf7", "type": "Streaming"},
+    rule = {"name": "Create Local Admin Accounts Using Net Exe", "uid": "890f0937-5a83-48fb-b793-68f792ded5db", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -84,7 +84,7 @@ tags:
   risk_score: 30
   security_domain: endpoint
   risk_severity: low
-  research_site_url: https://research.splunk.com/endpoint/2dbdfc95-9c0f-433e-95f1-a376f1ae8bf7/
+  research_site_url: https://research.splunk.com/endpoint/890f0937-5a83-48fb-b793-68f792ded5db/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid

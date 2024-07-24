@@ -1,7 +1,7 @@
 name: Create Local User Accounts Using Net Exe
-id: 1ee0fff0-9642-421b-8e13-9aa6fba4ace3
+id: 3e66edb4-b4dc-4b65-b57f-779a88d7d1d9
 version: 6
-status: validation
+status: production
 detection_type: STREAMING
 description: The following analytic detects the creation of local administrator accounts
   using the net.exe command to mitigate the risks associated with unauthorized access
@@ -51,7 +51,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
     risk_level_id = 0,
     risk_score = 9,
     severity_id = 0,
-    rule = {"name": "Create Local User Accounts Using Net Exe", "uid": "1ee0fff0-9642-421b-8e13-9aa6fba4ace3", "type": "Streaming"},
+    rule = {"name": "Create Local User Accounts Using Net Exe", "uid": "3e66edb4-b4dc-4b65-b57f-779a88d7d1d9", "type": "Streaming"},
     metadata = {"customer_uid": metadata.customer_uid, "product": {"name": "Behavior Analytics", "vendor_name": "Splunk"}, "version": "1.0.0-rc.2", "logged_time": time()},
     type_uid = 10200101,
     start_time = timestamp,
@@ -80,7 +80,7 @@ tags:
   risk_score: 9
   security_domain: endpoint
   risk_severity: low
-  research_site_url: https://research.splunk.com/endpoint/1ee0fff0-9642-421b-8e13-9aa6fba4ace3/
+  research_site_url: https://research.splunk.com/endpoint/3e66edb4-b4dc-4b65-b57f-779a88d7d1d9/
   event_schema: ocsf
   mappings:
   - ocsf: process.pid

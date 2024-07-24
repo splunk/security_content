@@ -8,9 +8,9 @@ source: aws_cloudwatchlogs_vpcflow
 sourcetype: aws:cloudwatchlogs:vpcflow
 separator: eventName
 supported_TA:
-  name: Splunk Add-on for Amazon Web Services (AWS)
-  version: 7.4.1
-  url: https://splunkbase.splunk.com/app/1876
+  - name: Splunk Add-on for Amazon Web Services (AWS)
+    version: 7.4.1
+    url: https://splunkbase.splunk.com/app/1876
 fields:
 - _raw
 - _time
