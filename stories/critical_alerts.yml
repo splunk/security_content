@@ -1,0 +1,15 @@
+name: Critical Alerts
+id: bc7056a5-c2b0-4b83-93ce-5f31739305c8
+date: '2024-06-21'
+author: Gowthamaraj Rajendran, Patrick Bareiss, Splunk
+description: Rule for sending alerts to risk index.
+narrative: This story has rules that integrates and assesses critical alerts from Endpoint, DLP, and firewall sources in Splunk. By correlating alerts and adding MITRE annotations, it provides a comprehensive view of customer risk. It triggers an alert when critical alerts are detected, preserving the source and assigning risk scores. This helps security analysts understand threats and respond effectively.
+references:
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
