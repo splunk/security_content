@@ -43,6 +43,7 @@ tags:
   - BlackByte Ransomware
   - Graceful Wipe Out Attack
   - LockBit Ransomware
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 90
   impact: 80

@@ -45,6 +45,7 @@ tags:
   - CISA AA22-277A
   - Prestige Ransomware
   - Volt Typhoon
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 70
   impact: 90

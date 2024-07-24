@@ -44,6 +44,7 @@ tags:
   - Azorult
   - Remcos
   - Warzone RAT
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 80
   impact: 50

@@ -54,6 +54,7 @@ tags:
   - Graceful Wipe Out Attack
   - Industroyer2
   - Data Destruction
+  - Gozi Malware
   asset_type: Endpoint
   atomic_guid: []
   confidence: 70

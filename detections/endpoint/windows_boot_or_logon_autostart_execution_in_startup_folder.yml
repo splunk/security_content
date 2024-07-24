@@ -33,6 +33,7 @@ tags:
   - Chaos Ransomware
   - NjRAT
   - RedLine Stealer
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 90
   impact: 90
