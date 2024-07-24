@@ -3,7 +3,7 @@ id: d61292d5-46e4-49ea-b23b-8049ea70b525
 version: 1
 date: '2024-07-24'
 author: Michael Haag, Splunk
-data_sources: []
+data_source: []
 type: Hunting
 status: experimental
 description: This detection identifies potential exploitation attempts of the CVE-2024-5806 vulnerability in Progress MOVEit Transfer. It looks for log entries indicating failures to access the certificate store, which can occur when an attacker attempts to exploit the authentication bypass vulnerability. This behavior is a key indicator of attempts to impersonate valid users without proper credentials. While certificate store access failures can occur during normal operations, an unusual increase in such events, especially from unexpected sources, may indicate malicious activity.
