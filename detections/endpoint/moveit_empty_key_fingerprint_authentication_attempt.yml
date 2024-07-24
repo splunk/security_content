@@ -5,7 +5,7 @@ date: '2024-07-24'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
-status: experimental
+status: production
 description: This detection identifies attempts to authenticate with an empty public key fingerprint in Progress MOVEit Transfer, which is a key indicator of potential exploitation of the CVE-2024-5806 vulnerability. Such attempts are characteristic of the authentication bypass technique used in this vulnerability, where attackers try to impersonate valid users without providing proper credentials. While occasional empty key fingerprint authentication attempts might occur due to misconfigurations, a sudden increase or attempts from unexpected sources could signify malicious activity. This analytic helps security teams identify and investigate potential exploitation attempts of the MOVEit Transfer authentication bypass vulnerability.
 search: '`moveit_sftp_logs` "UserAuthRequestHandler: SftpPublicKeyAuthenticator: Attempted to authenticate empty public key fingerprint" | stats count by source _raw | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `moveit_empty_key_fingerprint_authentication_attempt_filter`'
 how_to_implement: The MOVEit logs must be collected in Splunk. Currently, there is no TA available for MOVEit. Modify the analytic as needed to match the log format of your environment.

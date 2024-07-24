@@ -5,7 +5,7 @@ date: '2024-07-24'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
-status: experimental
+status: production
 description: This detection identifies potential exploitation attempts of the CVE-2024-5806 vulnerability in Progress MOVEit Transfer. It looks for log entries indicating failures to access the certificate store, which can occur when an attacker attempts to exploit the authentication bypass vulnerability. This behavior is a key indicator of attempts to impersonate valid users without proper credentials. While certificate store access failures can occur during normal operations, an unusual increase in such events, especially from unexpected sources, may indicate malicious activity.
 search: '`moveit_sftp_logs` "IpWorksKeyService: Caught exception of type IPWorksSSHException: The certificate store could not be opened"| stats count by source _raw | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `moveit_certificate_store_access_failure_filter`'
 how_to_implement: The MOVEit logs must be collected in Splunk. Currently, there is no TA available for MOVEit. Modify the analytic as needed to match the log format of your environment.
