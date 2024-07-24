@@ -3,14 +3,13 @@ id: 375c2b0e-d216-41ad-9406-200464595209
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for Palo Alto Network Threat
 source: pan:threat
 sourcetype: pan:threat
 supported_TA:
 - name: Palo Alto Networks Add-on for Splunk
   url: https://splunkbase.splunk.com/app/2757
   version: 8.1.1
-description: Data source object for Palo Alto Network Threat
-event_sources: []
 fields:
 - _time
 - date_hour

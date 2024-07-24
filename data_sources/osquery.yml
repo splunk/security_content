@@ -3,12 +3,11 @@ id: 7ec4d7c8-c1d0-423a-9169-261f6adb74c0
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for osquery
 source: osquery
 sourcetype: osquery:results
 supported_TA:
 - {}
-description: Data source object for osquery
-event_sources: []
 fields:
 - _time
 - calendarTime

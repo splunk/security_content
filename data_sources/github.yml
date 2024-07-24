@@ -3,14 +3,13 @@ id: 88aa4632-3c3e-43f6-a00a-998d71f558e3
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for GitHub
 source: github
 sourcetype: aws:firehose:json
 supported_TA:
 - name: Splunk Add-on for Github
   url: https://splunkbase.splunk.com/app/6254
   version: 2.2.1
-description: Data source object for GitHub
-event_sources: []
 fields:
 - _time
 - action

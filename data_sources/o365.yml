@@ -1,8 +1,9 @@
 name: O365
-id: 11c0eed5-3f3f-42e4-bf72-30f11295a686
+id: b32de97d-0074-4cca-853c-db22c392b6c0
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for O365.
 source: o365
 sourcetype: o365:management:activity
 separator: Operation
@@ -10,98 +11,3 @@ supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
   version: 4.5.1
-description: Data source object for O365
-event_sources:
-- O365
-- O365 Add app role assignment grant to user.
-- O365 Add app role assignment to service principal.
-- O365 Add member to role.
-- O365 Add owner to application.
-- O365 Add service principal.
-- O365 Add-MailboxPermission
-- O365 Change user license.
-- O365 Consent to application.
-- O365 Disable Strong Authentication.
-- O365 MailItemsAccessed
-- O365 ModifyFolderPermissions
-- O365 Set Company Information.
-- O365 Set-Mailbox
-- O365 Update application.
-- O365 Update authorization policy.
-- O365 Update user.
-- O365 UserLoggedIn
-- O365 UserLoginFailed
-fields:
-- _time
-- AppAccessContext.IssuedAtTime
-- AppAccessContext.UniqueTokenId
-- AppId
-- ClientAppId
-- ClientIP
-- CreationTime
-- ExternalAccess
-- Id
-- Name
-- ObjectId
-- Operation
-- OrganizationId
-- OrganizationName
-- OriginatingServer
-- Parameters{}.Name
-- Parameters{}.Value
-- RecordType
-- RequestId
-- ResultStatus
-- Role
-- SessionId
-- User
-- UserId
-- UserKey
-- UserType
-- Version
-- Workload
-- app
-- authentication_service
-- command
-- date_hour
-- date_mday
-- date_minute
-- date_month
-- date_second
-- date_wday
-- date_year
-- date_zone
-- dest
-- dest_name
-- dvc
-- host
-- index
-- linecount
-- object
-- punct
-- record_type
-- signature
-- source
-- sourcetype
-- splunk_server
-- src
-- src_ip
-- status
-- timeendpos
-- timestartpos
-- user
-- user_id
-- user_type
-- vendor_account
-- vendor_product
-example_log: '{"AppAccessContext": {"IssuedAtTime": "2023-10-17T19:13:05", "UniqueTokenId":
-  "g7oAmNhLoU-8qJVeWeAwAA"}, "CreationTime": "2023-10-17T19:19:59", "Id": "3d26a8cd-d8f4-42f9-1898-08dbcf460e5a",
-  "Operation": "New-ManagementRoleAssignment", "OrganizationId": "aeb12f6b-1ff3-4a18-9ea2-29aa57e2ae08",
-  "RecordType": 1, "ResultStatus": "True", "UserKey": "1003BFFD98415B4E", "UserType":
-  2, "Version": 1, "Workload": "Exchange", "ClientIP": "71.1.1.1:61528", "ObjectId":
-  "splunkresearch.onmicrosoft.com\\attack-test", "UserId": "compromisedAdmin@splunkresearch.onmicrosoft.com",
-  "AppId": "fb78d390-0c51-40cd-8e17-fdbfab77341b", "ClientAppId": "", "ExternalAccess":
-  false, "OrganizationName": "splunkresearch.onmicrosoft.com", "OriginatingServer":
-  "BYAPR18MB2408 (15.20.6863.047)", "Parameters": [{"Name": "User", "Value": "lowpriv@splunkresearch.onmicrosoft.com"},
-  {"Name": "Name", "Value": "attack-test"}, {"Name": "Role", "Value": "ApplicationImpersonation"}],
-  "RequestId": "53a50583-e429-63a4-c9f7-8fbb14437e8a", "SessionId": "e2a028f1-d0e1-4ddb-a5a7-ec57343457ad"}'

@@ -3,14 +3,13 @@ id: 22bbf4e4-d313-43c1-98ee-808b8775519d
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for Windows Active Directory Admon
 source: ActiveDirectory
 sourcetype: ActiveDirectory
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
   version: 8.8.0
-description: Data source object for Windows Active Directory Admon
-event_sources: []
 fields:
 - _time
 - Guid

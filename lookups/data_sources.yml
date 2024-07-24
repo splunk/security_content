@@ -1,3 +1,0 @@
-description: A lookup file that will contain the data source objects for detections.
-filename: data_sources.csv
-name: data_sources

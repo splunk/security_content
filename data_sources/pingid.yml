@@ -3,11 +3,10 @@ id: 17890675-61c1-40bd-a88e-6a8e9e246b43
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for PingID
 source: XmlWinEventLog:Security
 sourcetype: XmlWinEventLog
 supported_TA: []
-description: Data source object for PingID
-event_sources: []
 fields:
 - _time
 - actors{}.name

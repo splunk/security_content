@@ -1,3 +1,0 @@
-description: A lookup file that will contain the event source objects for detections.
-filename: event_sources.csv
-name: event_sources

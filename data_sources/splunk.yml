@@ -3,11 +3,10 @@ id: d8a2c791-460b-4756-a8e5-ecade77b21e3
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
+description: Data source object for Splunk
 source: splunkd_ui_access.log
 sourcetype: splunkd_ui_access
 supported_TA: []
-description: Data source object for Splunk
-event_sources: []
 fields:
 - _time
 - action
