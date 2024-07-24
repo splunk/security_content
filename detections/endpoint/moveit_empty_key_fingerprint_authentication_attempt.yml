@@ -40,6 +40,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: /Users/mhaag/Research/malware/GitHub/attack_data/datasets/attack_techniques/T1190/moveit/SftpServer.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/moveit/SftpServer.log
     sourcetype: sftp_server_logs
     source: sftp_server_logs
