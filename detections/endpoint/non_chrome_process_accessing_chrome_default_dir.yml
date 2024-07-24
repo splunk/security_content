@@ -23,7 +23,7 @@ search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.e
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: other browser not listed related to firefox may catch by this
+known_false_positives: other browser not listed related to chrome may catch by this
   rule.
 references: []
 tags:
