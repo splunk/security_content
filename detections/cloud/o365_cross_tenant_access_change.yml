@@ -8,13 +8,14 @@ type: TTP
 description: The following analytic identifies when cross-tenant access/synchronization policies are changed in an Azure tenant. Adversaries have been observed altering victim cross-tenant policies as a method of lateral movement or maintaining persistent access to compromised environments. These policies should be considered sensitive and monitored for changes and/or loose configuration.
 data_source: 
 - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
-| eval user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
-| stats values(Workload) as category, values(ClientIP) as src, values(ModifiedProperties{}.Name) as object_name, values(ModifiedProperties{}.NewValue) as object_attrs, count, min(_time) as firstTime, max(_time) as lastTime by Id,user,Operation
-| rename Operation as signature, Id as signature_id
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `o365_cross_tenant_access_change_filter`'
+search: > 
+  '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
+  | eval user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
+  | stats values(Workload) as category, values(ClientIP) as src, values(ModifiedProperties{}.Name) as object_name, values(ModifiedProperties{}.NewValue) as object_attrs, count, min(_time) as firstTime, max(_time) as lastTime by Id,user,Operation
+  | rename Operation as signature, Id as signature_id
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_cross_tenant_access_change_filter`'
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
 known_false_positives: Business approved changes by known administrators.
 references:
@@ -25,7 +26,7 @@ references:
 tags:
   analytic_story: 
   - Azure Active Directory Persistence
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 75
   impact: 75
   message: The user [$user$] changed the Azure cross-tenant access settings for $object_name$ $object_attrs$ [$signature$]
