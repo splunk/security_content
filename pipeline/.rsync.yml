@@ -1,0 +1,20 @@
+.rsync:
+  before_script: |
+      git config --global user.email "research@splunk.com"
+      git config --global user.name "research-bot"
+      apt-get update && apt-get install -y rsync > /dev/null 2>&1
+      git clone --depth=1 --single-branch --branch=develop https://github.com/splunk/security_content.git  > /dev/null 2>&1
+      rsync -av security_content/baselines/ baselines/  > /dev/null 2>&1
+      rsync -av security_content/detections/ detections/  > /dev/null 2>&1
+      rsync -av security_content/macros/ macros/  > /dev/null 2>&1
+      rsync -av security_content/stories/ stories/  > /dev/null 2>&1
+      rsync -av security_content/lookups/ lookups/  > /dev/null 2>&1
+      rsync -av security_content/playbooks/ playbooks/  > /dev/null 2>&1
+      rsync -av security_content/investigations/ investigations/  > /dev/null 2>&1
+      rsync -av security_content/notebooks/ notebooks/  > /dev/null 2>&1
+      rsync -av security_content/data_sources/ data_sources/  > /dev/null 2>&1
+      rsync -av security_content/dashboards/ dashboards/  > /dev/null 2>&1
+      rsync -av security_content/app_template/ app_template/  > /dev/null 2>&1
+      rsync -av security_content/README.md README.md  > /dev/null 2>&1
+      rm -rf security_content
+      git status

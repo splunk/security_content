@@ -21,7 +21,7 @@ search: ' $main = from source  | eval timestamp = time  | eval metadata_uid = me
   "\\%\\admin$") AND access_mask=2 
   | eval devices = [{"hostname": device_hostname, "type_id": 0, "uuid": device.uuid}],
     time = timestamp,
-    evidence = {"share": share, "file.type": file_type, "access_mask": access_mask, "actor.user.domain": actor_user_domain, "src_endpoint.ip": src_endpoint_ip, "access_result": access_result, "file.path": file_path, "src_endpoint.port": src_endpoint_port, "actor.user.name": actor_user_name, "actor.session.uid": actor_session_uid, "actor.user.uid": actor_user_uid, "access_list": access_list, "device.hostname": device_hostname, "sourceType": metadata.source_type, "source": metadata.source},
+    evidence = {, "sourceType": metadata.source_type, "source": metadata.source},
     message = "Executable File Written in Administrative SMB Share has been triggered on " + device_hostname + " by " + actor_user_name + ".",
     users = [{"name": actor_user_name, "uuid": actor_user.uuid, "uid": actor_user.uid}],
     activity_id = 1,
