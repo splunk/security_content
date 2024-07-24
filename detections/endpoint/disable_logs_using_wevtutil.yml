@@ -1,7 +1,7 @@
 name: Disable Logs Using WevtUtil
 id: 236e7c8e-c9d9-11eb-a824-acde48001122
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-07-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 30
-  message: WevtUtil.exe used to disable Event Logging on $dest
+  message: WevtUtil.exe used to disable Event Logging on $dest$
   mitre_attack_id:
   - T1070
   - T1070.001
@@ -73,3 +73,4 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/ransomware_ttp/data1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
+# version bumped by pre-commit hook

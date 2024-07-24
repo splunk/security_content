@@ -1,0 +1,71 @@
+name: Windows Network Share Interaction With Net
+id: 4dc3951f-b3f8-4f46-b412-76a483f72277
+version: 1
+date: '2023-04-21'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Sysmon EventID 1
+description: This analytic detects network share discovery and collection activities performed on Windows systems using the Net command.
+  Attackers often use network share discovery to identify accessible shared resources within a network,
+  which can be a precursor to privilege escalation or data exfiltration. By monitoring Windows Event Logs for
+  the usage of the Net command to list and interact with network shares, this detection helps identify potential reconnaissance and collection
+  activities. 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit) as user_bunit  FROM datamodel=Endpoint.Processes WHERE (Processes.process_name="net.exe" OR Processes.process_name="net1.exe" OR Processes.orig_process_name="net.exe" OR Processes.orig_process_name="net1net[\s\.ex1]+view|net[\s\.ex1]+share|net[\s\.ex1]+use\s.exe") BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec
+  Processes.process Processes.parent_process
+  | `drop_dm_object_name(Processes)`
+  | regex process="net[\s\.ex1]+view|net[\s\.ex1]+share|net[\s\.ex1]+use\s"
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_network_share_interaction_with_net_filter`'
+how_to_implement: The detection is based on data originating from either Endpoint Detection and Response (EDR) telemetry or EventCode 4688 with 
+  process command line logging enabled. These sources provide security-related telemetry from the endpoints. To implement this search, you must 
+  ingest logs that contain the process name, parent process, and complete command-line executions. These logs must be mapped to the Splunk Common 
+  Information Model (CIM) to normalize the field names capture the data within the datamodel schema.
+known_false_positives: Unknown
+references:
+- https://attack.mitre.org/techniques/T1135/
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Active Directory Privilege Escalation
+  - Network Discovery
+  asset_type: Endpoint
+  atomic_guid:
+  - ab39a04f-0c93-4540-9ff2-83f862c385ae
+  confidence: 100
+  impact: 20
+  message: User $user$ leveraged net.exe on $dest$ to interact with network shares, executed by parent process $parent_process$
+  mitre_attack_id:
+  - T1135
+  - T1039
+  required_fields:
+  - Processes.process_name
+  - Processes.user
+  - Processes.dest
+  - Processes.process_exec
+  - Processes.parent_process_exec
+  - Processes.process
+  - Processes.parent_process
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  risk_score: 20
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/net_share/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
