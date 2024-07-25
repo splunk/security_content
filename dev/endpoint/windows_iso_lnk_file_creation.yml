@@ -43,7 +43,6 @@ tags:
   - IcedID
   - Azorult
   - Remcos
-  - Gozi Malware
   asset_type: Endpoint
   confidence: 50
   impact: 80
