@@ -2,7 +2,6 @@ Detections:
 - changed-files:
   - any-glob-to-any-file: 
     - detections/**
-    - dev/**
 
 Stories:
 - changed-files:
