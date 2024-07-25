@@ -9,14 +9,14 @@ description: The following analytic identifies the assignment of sensitive and p
 data_source: 
 - Office 365 Universal Audit Log
 search: >
-  '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add member to role.","Add eligible member to role.")
+  `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add member to role.","Add eligible member to role.")
   | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.DisplayName")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.TemplateId")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2)
   | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, user, category, result, object_name, object_id, signature
   | lookup privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole
   | search isprvilegedadrole="TRUE" category="User"
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `o365_privileged_role_assigned_filter`'
+  | `o365_privileged_role_assigned_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
 known_false_positives: Administrators will legitimately assign the privileged roles users as part of administrative tasks. Microsoft Privileged Identity Management (PIM) may cause false positives / less accurate alerting.
 references:

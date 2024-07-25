@@ -9,13 +9,13 @@ description: The following analytic identifies when cross-tenant access/synchron
 data_source: 
 - Office 365 Universal Audit Log
 search: > 
-  '`o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
+  `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
   | eval user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
   | stats values(Workload) as category, values(ClientIP) as src, values(ModifiedProperties{}.Name) as object_name, values(ModifiedProperties{}.NewValue) as object_attrs, count, min(_time) as firstTime, max(_time) as lastTime by Id,user,Operation
   | rename Operation as signature, Id as signature_id
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `o365_cross_tenant_access_change_filter`'
+  | `o365_cross_tenant_access_change_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
 known_false_positives: Business approved changes by known administrators.
 references:
