@@ -1,7 +1,0 @@
-# Install contentctl w/ pip
-.install-contentctl:
-  before_script: |
-      python3.11 -m venv .venv
-      source .venv/bin/activate
-      pip install contentctl==4.0.5
-      git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
