@@ -5,8 +5,7 @@ date: '2024-04-01'
 author: Steven Dick
 status: production
 type: TTP
-description: ⁠
-The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
+description: The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
 data_source: 
 - O365 Universal Audit Log
 search: '`o365_management_activity` Workload=SecurityComplianceCenter  Operation=AlertEntityGenerated Name="Email reported by user as*" 
@@ -28,7 +27,7 @@ tags:
   analytic_story: 
   - Spearphishing Attachments
   - Suspicious Emails
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 100
   impact: 75
   message: The user $user$ reported an email classified as $result$ from $src_user$

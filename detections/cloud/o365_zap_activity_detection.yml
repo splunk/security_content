@@ -24,7 +24,7 @@ tags:
   analytic_story: 
   - Spearphishing Attachments
   - Suspicious Emails
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 50
   impact: 20
   message: User $user$ was included in a ZAP protection activity.

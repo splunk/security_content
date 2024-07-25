@@ -1,4 +1,4 @@
-name: O365 Security Feature Changed
+name: O365 Email Security Feature Changed
 id: 4d28013d-3a0f-4d65-a33f-4e8009fee0ae
 version: 1
 date: '2024-04-01'
@@ -23,7 +23,7 @@ tags:
   analytic_story: 
   - Office 365 Persistence Mechanisms
   - Office 365 Account Takeover
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 25
   impact: 100
   message: An O365 security object [$object$] was altered by user $user$ using $signature$

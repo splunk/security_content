@@ -23,7 +23,7 @@ tags:
   analytic_story: 
   - Spearphishing Attachments
   - Suspicious Emails
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 100
   impact: 20
   message: A suspicious email was delivered to $user$ by $src_user$ matching the $signature$ signature

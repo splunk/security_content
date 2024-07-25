@@ -23,7 +23,7 @@ tags:
   analytic_story: 
   - Spearphishing Attachments
   - Suspicious Emails
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 100
   impact: 50
   message: O365 security admin $o365_adminuser$ manually reported a suspicious email from $src_user$

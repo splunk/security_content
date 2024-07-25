@@ -24,7 +24,7 @@ tags:
   - Suspicious Emails
   - Office 365 Collection Techniques
   - Office 365 Account Takeover
-  asset_type: Office 365
+  asset_type: O365 Tenant
   confidence: 100
   impact: 90
   message: The user $user$ triggered the O365 security alert [$signature$]
