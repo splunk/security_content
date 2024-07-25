@@ -14,7 +14,7 @@ description: The following analytic detects suspicious modifications to the Wind
   lead to system defacement and signal a broader ransomware attack, potentially compromising
   sensitive data and system integrity.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path

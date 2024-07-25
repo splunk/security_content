@@ -9,6 +9,8 @@ description: |-
   The following analytic detects the presence of a registry key associated with the Remcos RAT agent on a host. It leverages data from the Endpoint.Processes and Endpoint.Registry data models in Splunk, focusing on instances where the "license" key is found in the "Software\Remcos" path. This behavior is significant as it indicates potential compromise by the Remcos RAT, a remote access Trojan used for unauthorized access and data exfiltration. If confirmed malicious, the attacker could gain control over the system, steal sensitive information, or use the compromised host for further attacks. Immediate investigation and remediation are required.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)

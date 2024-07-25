@@ -13,7 +13,7 @@ description: The following analytic detects outbound network connections from Ja
   JNDI lookups and retrieve malicious payloads. If confirmed malicious, this activity
   could lead to remote code execution and further compromise of the affected server.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
   Processes.process_name=javaw.exe) by _time Processes.process_id Processes.process_name

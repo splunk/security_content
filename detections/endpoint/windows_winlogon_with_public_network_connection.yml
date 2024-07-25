@@ -6,8 +6,7 @@ author: Michael Haag, Splunk
 status: experimental
 type: Hunting
 data_source:
-- Sysmon EventID 1
-- Sysmon EventID 3
+- Sysmon EventID 1 AND Sysmon EventID 3
 description: 'The following analytic detects instances of Winlogon.exe, a critical
   Windows process, connecting to public IP addresses. This behavior is identified
   using Endpoint Detection and Response (EDR) telemetry, focusing on network connections

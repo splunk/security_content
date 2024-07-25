@@ -1,7 +1,0 @@
-name: Powershell SIP Inventory
-id: 5ef5cb5d-1fa8-4567-b48f-27317662cd73
-author: Patrick Bareiss, Splunk
-source: powershell://SubjectInterfacePackage
-sourcetype: PwSh:SubjectInterfacePackage
-supported_TA: {}
-event_names: []

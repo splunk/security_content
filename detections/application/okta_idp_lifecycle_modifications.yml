@@ -3,7 +3,8 @@ id: e0be2c83-5526-4219-a14f-c3db2e763d15
 version: 2
 date: '2024-05-28'
 author: Bhavin Patel, Splunk
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic identifies modifications to Okta Identity Provider

@@ -13,7 +13,8 @@ description: The following analytic detects a spike in the number of API calls m
   confirmed malicious, this could lead to unauthorized access, data exfiltration,
   or disruption of cloud services, posing a significant risk to the organization's
   cloud environment.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats count as api_calls values(All_Changes.command) as command from datamodel=Change
   where All_Changes.user!=unknown All_Changes.status=success by All_Changes.user _time
   span=1h | `drop_dm_object_name("All_Changes")` | eval HourOfDay=strftime(_time,

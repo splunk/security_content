@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of the 'rmdir' command with
   '/s' and '/q' options to delete files and directory trees. This detection leverages
   data from Endpoint Detection and Response (EDR) agents, focusing on command-line

@@ -1,0 +1,171 @@
+name: Sysmon EventID 1
+id: b375f4d1-d7ca-4bc0-9103-294825c0af17
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Sysmon EventID 1
+source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+sourcetype: xmlwineventlog
+separator: EventID
+supported_TA:
+- name: Splunk Add-on for Sysmon
+  url: https://splunkbase.splunk.com/app/5709/
+  version: 4.0.0
+fields:
+- _time
+- Channel
+- CommandLine
+- Company
+- Computer
+- CurrentDirectory
+- Description
+- EventChannel
+- EventCode
+- EventData_Xml
+- EventDescription
+- EventID
+- EventRecordID
+- FileVersion
+- Guid
+- Hashes
+- IMPHASH
+- Image
+- IntegrityLevel
+- Keywords
+- Level
+- LogonGuid
+- LogonId
+- MD5
+- Name
+- Opcode
+- OriginalFileName
+- ParentCommandLine
+- ParentImage
+- ParentProcessGuid
+- ParentProcessId
+- ProcessGuid
+- ProcessID
+- ProcessId
+- Product
+- RecordID
+- RecordNumber
+- RuleName
+- SHA256
+- SecurityID
+- SystemTime
+- System_Props_Xml
+- Task
+- TerminalSessionId
+- ThreadID
+- TimeCreated
+- User
+- UserID
+- UtcTime
+- Version
+- action
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dvc_nt_host
+- event_id
+- eventtype
+- host
+- id
+- index
+- linecount
+- original_file_name
+- os
+- parent_process
+- parent_process_exec
+- parent_process_guid
+- parent_process_id
+- parent_process_name
+- parent_process_path
+- process
+- process_current_directory
+- process_exec
+- process_guid
+- process_hash
+- process_id
+- process_integrity_level
+- process_name
+- process_path
+- punct
+- signature
+- signature_id
+- source
+- sourcetype
+- splunk_server
+- tag
+- tag::eventtype
+- timeendpos
+- timestartpos
+- user
+- user_id
+- vendor_product
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      ProcessGuid: Processes.process_guid
+      ProcessId: Processes.process_id
+      Image: Processes.process_path
+      Image|endswith: Processes.process_name
+      CommandLine: Processes.process
+      CurrentDirectory: Processes.process_current_directory
+      User: Processes.user
+      IntegrityLevel: Processes.process_integrity_level
+      Hashes: Processes.process_hash
+      ParentProcessGuid: Processes.parent_process_guid
+      ParentProcessId: Processes.parent_process_id
+      ParentImage: Processes.parent_process_name
+      ParentCommandLine: Processes.parent_process
+      Computer: Processes.dest
+      OriginalFileName: Processes.original_file_name
+convert_to_log_source:
+  - data_source: Windows Event Log Security 4688
+    mapping:
+      ProcessId: NewProcessId
+      Image: NewProcessName
+      Image|endswith: NewProcessName|endswith
+      CommandLine: Process_Command_Line
+      User: SubjectUserSid
+      ParentProcessId: ProcessId
+      ParentImage: ParentProcessName
+      ParentImage|endswith: ParentProcessName|endswith
+      Computer: Computer
+      OriginalFileName: NewProcessName|endswith
+  - data_source: Crowdstrike Process
+    mapping:
+      ProcessId: RawProcessId
+      Image: ImageFileName
+      CommandLine: CommandLine
+      User: UserSid
+      ParentProcessId: ParentProcessId
+      ParentImage: ParentBaseFileName
+example_log: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider\
+  \ Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated\
+  \ SystemTime='2020-10-08T11:03:46.617920300Z'/><EventRecordID>4522</EventRecordID><Correlation/><Execution\
+  \ ProcessID='2912' ThreadID='3424'/><Channel>Microsoft-Windows-Sysmon/Operational</Channel><Computer>win-dc-6764986.attackrange.local</Computer><Security\
+  \ UserID='S-1-5-18'/></System><EventData><Data Name='RuleName'>-</Data><Data Name='UtcTime'>2020-10-08\
+  \ 11:03:46.615</Data><Data Name='ProcessGuid'>{96128EA2-F212-5F7E-E400-000000007F01}</Data><Data\
+  \ Name='ProcessId'>2296</Data><Data Name='Image'>C:\\Windows\\System32\\cmd.exe</Data><Data\
+  \ Name='FileVersion'>10.0.14393.0 (rs1_release.160715-1616)</Data><Data Name='Description'>Windows\
+  \ Command Processor</Data><Data Name='Product'>Microsoft\xAE Windows\xAE Operating\
+  \ System</Data><Data Name='Company'>Microsoft Corporation</Data><Data Name='OriginalFileName'>Cmd.Exe</Data><Data\
+  \ Name='CommandLine'>\"C:\\Windows\\system32\\cmd.exe\" /c \"reg save HKLM\\sam\
+  \ %%temp%%\\sam &amp; reg save HKLM\\system %%temp%%\\system &amp; reg save HKLM\\\
+  security %%temp%%\\security\" </Data><Data Name='CurrentDirectory'>C:\\Users\\ADMINI~1\\\
+  AppData\\Local\\Temp\\</Data><Data Name='User'>ATTACKRANGE\\Administrator</Data><Data\
+  \ Name='LogonGuid'>{96128EA2-F210-5F7E-ACD4-080000000000}</Data><Data Name='LogonId'>0x8d4ac</Data><Data\
+  \ Name='TerminalSessionId'>0</Data><Data Name='IntegrityLevel'>High</Data><Data\
+  \ Name='Hashes'>MD5=F4F684066175B77E0C3A000549D2922C,SHA256=935C1861DF1F4018D698E8B65ABFA02D7E9037D8F68CA3C2065B6CA165D44AD2,IMPHASH=3062ED732D4B25D1C64F084DAC97D37A</Data><Data\
+  \ Name='ParentProcessGuid'>{96128EA2-F211-5F7E-DF00-000000007F01}</Data><Data Name='ParentProcessId'>4624</Data><Data\
+  \ Name='ParentImage'>C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe</Data><Data\
+  \ Name='ParentCommandLine'>\"powershell.exe\" -noninteractive -encodedcommand WwBDAG8AbgBzAG8AbABlAF0AOgA6AEkAbgBwAHUAdABFAG4AYwBvAGQAaQBuAGcAIAA9ACAATgBlAHcALQBPAGIAagBlAGMAdAAgAFQAZQB4AHQALgBVAFQARgA4AEUAbgBjAG8AZABpAG4AZwAgACQAZgBhAGwAcwBlADsAIABJAG0AcABvAHIAdAAtAE0AbwBkAHUAbABlACAAIgBDADoAXABBAHQAbwBtAGkAYwBSAGUAZABUAGUAYQBtAFwAaQBuAHYAbwBrAGUALQBhAHQAbwBtAGkAYwByAGUAZAB0AGUAYQBtAFwASQBuAHYAbwBrAGUALQBBAHQAbwBtAGkAYwBSAGUAZABUAGUAYQBtAC4AcABzAGQAMQAiACAALQBGAG8AcgBjAGUACgBJAG4AdgBvAGsAZQAtAEEAdABvAG0AaQBjAFQAZQBzAHQAIAAiAFQAMQAwADAAMwAuADAAMAAyACIAIAAtAEMAbwBuAGYAaQByAG0AOgAkAGYAYQBsAHMAZQAgAC0AVABpAG0AZQBvAHUAdABTAGUAYwBvAG4AZABzACAAMwAwADAAIAAtAEUAeABlAGMAdQB0AGkAbwBuAEwAbwBnAFAAYQB0AGgAIABDADoAXABBAHQAbwBtAGkAYwBSAGUAZABUAGUAYQBtAFwAYQB0AGMAXwBlAHgAZQBjAHUAdABpAG8AbgAuAGMAcwB2AA==</Data></EventData></Event>"

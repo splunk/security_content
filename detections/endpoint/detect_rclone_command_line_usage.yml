@@ -15,6 +15,8 @@ description: The following analytic detects the usage of `rclone.exe` with speci
   the affected endpoint and further investigation are recommended.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rclone` Processes.process
   IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*",

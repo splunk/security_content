@@ -15,6 +15,8 @@ description: The following analytic detects when a process with low, medium, or 
   access to sensitive data, and further malicious activities.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: >-
   | tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes
   where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user

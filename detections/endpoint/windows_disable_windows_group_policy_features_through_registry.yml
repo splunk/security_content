@@ -14,7 +14,7 @@ description: The following analytic detects suspicious registry modifications ai
   analyze and respond to the attack, allowing the attacker to maintain control and
   persist within the compromised environment.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"

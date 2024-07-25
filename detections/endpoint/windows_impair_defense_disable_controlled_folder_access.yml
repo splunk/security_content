@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: The following analytic detects a modification in the Windows registry
   that disables the Windows Defender Controlled Folder Access feature. It leverages

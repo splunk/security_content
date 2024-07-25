@@ -6,7 +6,7 @@ author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 status: experimental
 data_source:
-- Sysmon Event Code 1
+- Sysmon EventID 1
 description: The following analytic identifies suspicious process names using a pre-trained
   Deep Learning model. It leverages Endpoint Detection and Response (EDR) telemetry
   to analyze process names and predict their likelihood of being malicious. The model,

@@ -9,7 +9,7 @@ description: This search looks for processes launched from files with at least f
   spaces in the name before the extension. This is typically done to obfuscate the
   file extension by pushing it outside of the default view.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process_path)
   as process_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process = "*     .*" by Processes.dest Processes.user Processes.process
