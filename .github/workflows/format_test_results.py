@@ -36,16 +36,14 @@ def main():
     for detection in data['tested_detections']:
         for test in detection['tests']:
             if test['test_type'].strip() == "unit":  # Check if the test type is "unit"
-                name = detection['name'].strip()
-                status = 'PASS' if test['success'] else 'FAIL'
-                test_type = test['test_type'].strip()
-                exception = test.get('exception', 'N/A')  # Get exception if exists, else 'N/A'
+                name = (detection.get('name') or 'N/A').strip()
+                status = 'PASS' if test.get('success') else 'FAIL'
+                test_type = (test.get('test_type') or 'N/A').strip()
+                exception = (test.get('exception') or 'N/A')  # Get exception if exists, else 'N/A'
                 if status == 'FAIL':
                     print(f"{name:<80} | 🔴 {status:<6}  | {test_type:<10} | {exception:<50}")
                 else:
                     print(f"{name:<80} | 🟢  {status:<6} | {test_type:<10} | {'-':<50}")
-    # Print table footer
-    # print(f"{'----':<80} | {'------':<6} | {'---------':<10} | {'---------':<50}")
 
     # Check if total_fail is a valid integer and greater than or equal to one
     print("\n")  # Print a newline for separation
