@@ -15,6 +15,8 @@ description: 'The following analytic detects the use of Windows Curl.exe to down
   compromise of the system.'
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_curl` Processes.process
   IN ("*-O *","*--output*") Processes.process IN ("*\\appdata\\*","*\\programdata\\*","*\\public\\*")

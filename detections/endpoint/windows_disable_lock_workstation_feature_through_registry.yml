@@ -15,7 +15,7 @@ description: The following analytic detects a suspicious registry modification t
   allow attackers to sustain their presence and execute further malicious actions
   without user interruption.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableLockWorkstation"

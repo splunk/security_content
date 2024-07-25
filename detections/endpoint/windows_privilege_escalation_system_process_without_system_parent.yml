@@ -6,13 +6,15 @@ author: Steven Dick
 status: production
 type: TTP
 description: The following analytic detects any system integrity level process spawned
-  by a non-system account. It leverages Sysmon Event ID 1, focusing on process integrity
+  by a non-system account. It leverages Sysmon EventID 1, focusing on process integrity
   and parent user data. This behavior is significant as it often indicates successful
   privilege escalation to SYSTEM from a user-controlled process or service. If confirmed
   malicious, this activity could allow an attacker to gain full control over the system,
   execute arbitrary code, and potentially compromise the entire environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: >-
   `sysmon` EventCode=1 IntegrityLevel="system" ParentUser=* NOT ParentUser IN ("*SYSTEM","*LOCAL
   SERVICE","*NETWORK SERVICE","*DWM-*","*$","-") | eval src_user = replace(ParentUser,"^[^\\\]+\\\\","")

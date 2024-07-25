@@ -14,7 +14,7 @@ description: The following analytic detects the creation of registry artifacts w
   an initial access attempt, potentially leading to further exploitation, persistence,
   or data exfiltration within the environment.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso"

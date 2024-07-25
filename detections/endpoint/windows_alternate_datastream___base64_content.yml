@@ -6,7 +6,7 @@ author: Steven Dick, Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic detects the creation of Alternate Data Streams
-  (ADS) with Base64 content on Windows systems. It leverages Sysmon Event ID 15, which
+  (ADS) with Base64 content on Windows systems. It leverages Sysmon EventID 15, which
   captures file creation events, including the content of named streams. ADS can conceal
   malicious payloads, making them significant for SOC monitoring. This detection identifies
   hidden streams that may contain executables, scripts, or configuration data, often

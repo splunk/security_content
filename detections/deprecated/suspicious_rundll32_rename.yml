@@ -12,7 +12,7 @@ description: The following hunting analytic identifies renamed instances of rund
   name from the PE meta data. Expand the query as needed by looking for specific command
   line arguments outlined in other analytics.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=RUNDLL32.exe
   AND Processes.process_name!=rundll32.exe by Processes.dest Processes.user Processes.parent_process_name

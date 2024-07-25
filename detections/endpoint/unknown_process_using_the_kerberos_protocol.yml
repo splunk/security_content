@@ -14,7 +14,7 @@ description: The following analytic identifies a non-lsass.exe process making an
   an adversary attempting to abuse the Kerberos protocol, potentially leading to unauthorized
   access or lateral movement within the network.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name!=lsass.exe by _time Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name

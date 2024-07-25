@@ -13,8 +13,7 @@ description: The following analytic identifies the creation of a login profile f
   to gain unauthorized access. If confirmed malicious, this could allow the attacker
   to escalate privileges and maintain persistent access to the AWS environment.
 data_source:
-- AWS CloudTrail CreateLoginProfile
-- AWS CloudTrail ConsoleLogin
+- AWS CloudTrail CreateLoginProfile AND AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName = CreateLoginProfile | rename requestParameters.userName
   as new_login_profile | table src_ip eventName new_login_profile userIdentity.userName  |
   join new_login_profile src_ip [| search `cloudtrail` eventName = ConsoleLogin |

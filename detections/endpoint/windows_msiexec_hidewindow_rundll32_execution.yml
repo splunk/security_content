@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of the msiexec.exe process
   with the /HideWindow and rundll32 command-line parameters. It leverages data from
   Endpoint Detection and Response (EDR) agents, focusing on process creation events

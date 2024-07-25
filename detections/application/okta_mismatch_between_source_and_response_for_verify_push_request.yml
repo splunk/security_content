@@ -5,7 +5,8 @@ date: '2024-05-19'
 author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Splunk
 type: TTP
 status: experimental
-data_source: []
+data_source: 
+- Okta
 description: 'The following analytic identifies discrepancies between the source and
   response events for Okta Verify Push requests, indicating potential suspicious behavior.
   It leverages Okta System Log events, specifically `system.push.send_factor_verify_push`

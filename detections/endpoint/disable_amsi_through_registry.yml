@@ -15,7 +15,7 @@ description: The following analytic detects modifications to the Windows registr
   could allow attackers to execute payloads with minimal alerts, leading to potential
   system compromise and data exfiltration.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows Script\\Settings\\AmsiEnable"

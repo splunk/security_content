@@ -12,7 +12,8 @@ description: The following analytic detects the creation of open/public S3 bucke
   unauthorized users, leading to data breaches. If confirmed malicious, an attacker
   could gain unauthorized access to potentially sensitive information stored in the
   S3 bucket, posing a significant security risk.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` eventSource="s3.amazonaws.com" (userAgent="[aws-cli*" OR userAgent=aws-cli*
   ) eventName=PutBucketAcl OR requestParameters.accessControlList.x-amz-grant-read-acp
   IN ("*AuthenticatedUsers","*AllUsers") OR requestParameters.accessControlList.x-amz-grant-write

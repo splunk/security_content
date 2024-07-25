@@ -15,6 +15,8 @@ description: The following analytic detects instances of searchprotocolhost.exe 
   credential dumping, or other malicious actions within the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=searchprotocolhost.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process

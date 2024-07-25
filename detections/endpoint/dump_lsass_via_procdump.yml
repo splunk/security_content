@@ -15,6 +15,8 @@ description: 'The following analytic detects the use of procdump.exe to dump the
   compromise of the environment.'
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_procdump` (Processes.process=*-ma*
   OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.user Processes.parent_process_name

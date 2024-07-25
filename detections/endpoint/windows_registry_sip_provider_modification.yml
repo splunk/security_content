@@ -6,10 +6,10 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: 'The following analytic detects modifications to the Windows Registry
-  SIP Provider. It leverages Sysmon Event ID 7 to monitor registry changes in paths
+  SIP Provider. It leverages Sysmon EventID 7 to monitor registry changes in paths
   and values related to Cryptography Providers and OID Encoding Types. This activity
   is significant as it may indicate an attempt to subvert trust controls, a common
   tactic for bypassing security measures and maintaining persistence. If confirmed

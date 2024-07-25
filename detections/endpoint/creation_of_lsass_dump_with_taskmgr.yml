@@ -13,7 +13,7 @@ description: The following analytic detects the creation of an lsass.exe process
   an attacker could use the lsass dump to extract credentials and escalate privileges,
   potentially compromising the entire network.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 11
 search: '`sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp |
   stats count min(_time) as firstTime max(_time) as lastTime by dest, object_category,
   process_name, TargetFilename  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

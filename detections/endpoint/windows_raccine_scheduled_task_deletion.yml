@@ -14,6 +14,8 @@ description: The following analytic identifies the deletion of the Raccine Rules
   to potential data encryption and loss.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   Processes.process="*delete*" AND Processes.process="*Raccine*" by Processes.dest

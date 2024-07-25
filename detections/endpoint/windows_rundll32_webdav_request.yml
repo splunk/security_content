@@ -7,6 +7,8 @@ type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the execution of rundll32.exe with
   command-line arguments loading davclnt.dll and the davsetcookie function to access
   a remote WebDAV instance. This detection leverages data from Endpoint Detection

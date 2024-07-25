@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies instances of the WinDBG process spawning
   AutoIt3. This behavior is detected by monitoring endpoint telemetry for processes
   where 'windbg.exe' is the parent process and 'autoit3.exe' or similar is the child
