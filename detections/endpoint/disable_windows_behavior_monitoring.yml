@@ -13,7 +13,7 @@ description: The following analytic identifies modifications in the registry to 
   If confirmed malicious, this action could allow an attacker to execute code, escalate
   privileges, or persist in the environment without being detected by antivirus software.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time

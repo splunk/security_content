@@ -13,7 +13,7 @@ description: The following analytic detects a suspicious registry modification a
   response efforts. If confirmed malicious, this technique can allow an attacker to
   maintain persistence and evade detection, complicating the remediation process.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Image File Execution

@@ -8,7 +8,7 @@ type: TTP
 description: This search detects loading of unsigned images by LSASS. Deprecated because
   too noisy.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
   as firstTime max(_time) as lastTime by dest, Image, ImageLoaded, Signed, SHA1
    | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

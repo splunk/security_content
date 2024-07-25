@@ -14,6 +14,8 @@ description: The following analytic detects the execution of the rundll32.exe co
   could indicate an attempt to evade detection and hinder incident response efforts.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=rundll32.exe
   Processes.process= "*user32.dll,LockWorkStation*" by Processes.dest Processes.user

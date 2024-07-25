@@ -14,7 +14,7 @@ description: The following analytic detects suspicious modifications to the time
   automatically upon system boot, potentially leading to further exploitation and
   control over the affected system.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\CurrentControlSet\\Services\\W32Time\\TimeProviders*")

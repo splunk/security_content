@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects `spoolsv.exe` writing a `.dll` file, which
   is unusual behavior and may indicate exploitation of vulnerabilities like CVE-2021-34527
-  (PrintNightmare). This detection leverages Sysmon Event ID 11 to monitor file creation
+  (PrintNightmare). This detection leverages Sysmon EventID 11 to monitor file creation
   events in the `\spool\drivers\x64\` directory. This activity is significant because
   `spoolsv.exe` typically does not write DLL files, and such behavior could signify
   an ongoing attack. If confirmed malicious, this could allow an attacker to execute

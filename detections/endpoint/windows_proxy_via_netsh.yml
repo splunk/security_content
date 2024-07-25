@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the use of netsh.exe to configure a
   connection proxy, which can be leveraged for persistence by executing a helper DLL.
   It detects this activity by analyzing process creation events from Endpoint Detection

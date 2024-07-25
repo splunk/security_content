@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the use of choice.exe in batch files as
   a delay tactic, a technique observed in SnakeKeylogger malware. It leverages data
   from Endpoint Detection and Response (EDR) agents, focusing on process names and

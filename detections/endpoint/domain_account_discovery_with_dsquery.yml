@@ -15,6 +15,8 @@ description: The following analytic identifies the execution of `dsquery.exe` wi
   lateral movement within the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name="dsquery.exe"
   AND Processes.process = "*user*" by Processes.dest Processes.user Processes.parent_process
