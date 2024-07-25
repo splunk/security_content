@@ -72,6 +72,7 @@ tags:
   - Web.url_domain
   risk_score: 25
   security_domain: network
+  manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
 - name: True Positive Test
   attack_data:
