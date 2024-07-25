@@ -9,3 +9,10 @@ _What does this PR have in it? Screenshots are worth 1000 words 😄_
 - [ ] Validated SPL logic.
 - [ ] Validated tags, description, and how to implement.
 - [ ] Verified references match analytic.
+- [ ] Confirm updates to lookups are handled properly.
+
+### Notes For Submitters and Reviewers
+
+- If you're submitting a PR from a fork, ensuring the box to allow updates from maintainers is checked will help speed up the process of getting it merged.
+- Checking the output of the `build` CI job when it fails will likely show an error about what is failing. You may have a very descriptive error of the specific field(s) in the specific file(s) that is causing an issue. In some cases, its also possible there is an issue with the YAML. Many of these can be caught with the pre-commit hooks if you set them up. These errors will be less descriptive as to what exactly is wrong, but will give you a column and row position in a specific file where the YAML processing breaks. If you're having trouble with this, feel free to add a comment to your PR tagging one of the maintainers and we'll be happy to help troubleshoot it.
+- Updates to existing lookup files can be tricky, because of how Splunk handles application updates and the differences between existing lookup files being updated vs new lookups. You can read more [here](https://docs.splunk.com/Documentation/SplunkCloud/8.2.2203/Admin/PrivateApps#Manage_lookups_in_Splunk_Cloud_Platform) but the short version is that any changes to lookup files need to bump the datestamp in the lookup CSV filename, and the reference to it in the YAML needs to be updated.
