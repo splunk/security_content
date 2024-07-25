@@ -1,0 +1,4 @@
+definition: sourcetype="sftp_server_logs"
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: moveit_sftp_logs
