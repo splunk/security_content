@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies a suspicious `explorer.exe` process
   with the `/root` command-line parameter. This detection leverages Endpoint Detection
   and Response (EDR) telemetry, focusing on process and command-line data. The presence

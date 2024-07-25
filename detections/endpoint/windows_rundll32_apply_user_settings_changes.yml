@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of a suspicious rundll32
   command line that updates user-specific system parameters, such as desktop backgrounds,
   display settings, and visual themes. It leverages data from Endpoint Detection and

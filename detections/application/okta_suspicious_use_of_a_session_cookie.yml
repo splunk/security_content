@@ -5,7 +5,8 @@ date: '2024-05-29'
 author: Scott Dermott, Felicity Robson, Okta, Michael Haag, Bhavin Patel, Splunk
 type: Anomaly
 status: production
-data_source: []
+data_source: 
+- Okta
 description: 'The following analytic identifies suspicious use of a session cookie
   by detecting multiple client values (IP, User Agent, etc.) changing for the same
   Device Token associated with a specific user. It leverages policy evaluation events

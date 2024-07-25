@@ -14,6 +14,8 @@ description: The following analytic detects suspicious processes spawned by WinR
   persistence, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=wsmprovhost.exe
   Processes.process_name IN ("cmd.exe","sh.exe","bash.exe","powershell.exe","pwsh.exe","schtasks.exe","certutil.exe","whoami.exe","bitsadmin.exe","scp.exe")

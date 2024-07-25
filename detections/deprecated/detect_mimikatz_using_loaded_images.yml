@@ -8,7 +8,7 @@ type: TTP
 description: This search looks for reading loaded Images unique to credential dumping
   with Mimikatz. Deprecated because mimikatz libraries changed and very noisy sysmon Event Code.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventCode=7 | stats values(ImageLoaded) as ImageLoaded values(ProcessId)
   as ProcessId by dest, Image | search ImageLoaded=*WinSCard.dll ImageLoaded=*cryptdll.dll
   ImageLoaded=*hid.dll ImageLoaded=*samlib.dll ImageLoaded=*vaultcli.dll | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

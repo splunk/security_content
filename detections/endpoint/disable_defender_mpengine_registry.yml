@@ -14,7 +14,7 @@ description: The following analytic detects the modification of the Windows Defe
   and further system compromise. Immediate investigation and endpoint isolation are
   recommended.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender\\MpEngine*"

@@ -6,9 +6,9 @@ author: Bhavin Patel, Splunk
 status: production
 type: TTP
 data_source:
-- AWS CloudTrail CreateSnapshot
-- AWS CloudTrail DescribeSnapshotAttribute
-- AWS CloudTrail ModifySnapshotAttribute
+- AWS CloudTrail CreateSnapshot 
+- AWS CloudTrail DescribeSnapshotAttribute 
+- AWS CloudTrail ModifySnapshotAttribute 
 - AWS CloudTrail DeleteSnapshot
 description: The following analytic detects a series of AWS API calls related to EC2
   snapshots within a short time window, indicating potential exfiltration via EC2

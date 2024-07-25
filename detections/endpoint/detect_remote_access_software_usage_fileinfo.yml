@@ -14,6 +14,8 @@ description: The following analytic detects the execution of processes with file
   potentially leading to data exfiltration or further compromise of the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '`sysmon` EventCode=1 | stats count min(_time) as firstTime max(_time) as
   lastTime, values(Company) as Company values(Product) as Product by dest, user, parent_process_name,
   process_name, process | lookup remote_access_software remote_utility_fileinfo AS

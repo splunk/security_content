@@ -15,6 +15,8 @@ description: The following analytic detects the use of PowerShell's `DownloadStr
   affected system.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` Processes.process=*.DownloadString*  by
   Processes.dest Processes.user Processes.parent_process Processes.parent_process_name

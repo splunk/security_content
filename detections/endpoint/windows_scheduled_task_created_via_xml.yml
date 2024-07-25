@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: 'The following analytic detects the creation of scheduled tasks in Windows
   using schtasks.exe with the -create flag and an XML parameter. This detection leverages
   data from Endpoint Detection and Response (EDR) agents, focusing on command-line
