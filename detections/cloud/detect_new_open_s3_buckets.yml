@@ -12,7 +12,8 @@ description: The following analytic identifies the creation of open/public S3 bu
   data to unauthorized access, leading to data breaches. If confirmed malicious, an
   attacker could read, write, or fully control the contents of the bucket, potentially
   leading to data exfiltration or tampering.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw
   "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
   | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI

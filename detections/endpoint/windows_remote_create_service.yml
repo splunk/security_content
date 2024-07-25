@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the creation of a new service on a
   remote endpoint using sc.exe. It leverages data from Endpoint Detection and Response
   (EDR) agents, specifically monitoring for EventCode 7045, which indicates a new

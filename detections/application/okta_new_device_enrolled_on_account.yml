@@ -13,7 +13,8 @@ description: The following analytic identifies when a new device is enrolled on 
   to potential account takeover, unauthorized access, and persistent control over
   the compromised Okta account. Monitoring this behavior is crucial for detecting
   and mitigating unauthorized access attempts.
-data_source: []
+data_source: 
+- Okta
 search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create
   by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype

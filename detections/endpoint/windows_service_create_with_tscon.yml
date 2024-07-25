@@ -7,6 +7,8 @@ type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects potential RDP Hijacking attempts by identifying
   the creation of a Windows service using sc.exe with a binary path that includes
   tscon.exe. This detection leverages data from Endpoint Detection and Response (EDR)

@@ -1,0 +1,92 @@
+name: O365 Set-Mailbox
+id: db798c5c-928c-4972-bb42-e5f90e35865f
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for O365 Set-Mailbox
+source: o365
+sourcetype: o365:management:activity
+separator: Operation
+supported_TA:
+- name: Splunk Add-on for Microsoft Office 365
+  url: https://splunkbase.splunk.com/app/4055
+  version: 4.5.1
+fields:
+- _time
+- AppId
+- ClientAppId
+- ClientIP
+- CreationTime
+- ExternalAccess
+- Id
+- Identity
+- ObjectId
+- Operation
+- OrganizationId
+- OrganizationName
+- OriginatingServer
+- Parameters{}.Name
+- Parameters{}.Value
+- Params
+- RecordType
+- ResultStatus
+- SessionId
+- UserId
+- UserKey
+- UserType
+- Version
+- Workload
+- action
+- app
+- authentication_service
+- change_type
+- command
+- dataset_name
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_name
+- dvc
+- eventtype
+- host
+- index
+- linecount
+- object
+- object_attrs
+- object_category
+- object_id
+- punct
+- record_type
+- result
+- signature
+- source
+- sourcetype
+- splunk_server
+- src
+- src_ip
+- src_user
+- src_user_type
+- status
+- tag
+- tag::eventtype
+- tenant_id
+- timeendpos
+- timestartpos
+- user
+- user_id
+- vendor_account
+- vendor_product
+example_log: '{"AppId": "", "ClientAppId": "", "ClientIP": "18.192.200.190:52816",
+  "CreationTime": "2020-12-16T12:32:28", "ExternalAccess": false, "Id": "a6a52406-0912-448d-36eb-08d8a1bea6be",
+  "ObjectId": "bpatel", "Operation": "Set-Mailbox", "OrganizationId": "0e8108b1-18e9-41a4-961b-dfcddf92ef08",
+  "OrganizationName": "rodsoto.onmicrosoft.com", "OriginatingServer": "PH0PR14MB4341
+  (15.20.3654.025)", "Parameters": [{"Name": "ForwardingAddress", "Value": ""}, {"Name":
+  "Identity", "Value": "bpatel@rodsoto.onmicrosoft.com"}], "RecordType": 1, "ResultStatus":
+  "True", "SessionId": "86a7cd7c-3f42-4b68-b670-4024b5461a80", "UserId": "pbareiss@rodsoto.onmicrosoft.com",
+  "UserKey": "10032001020A3408", "UserType": 2, "Version": 1, "Workload": "Exchange"}'

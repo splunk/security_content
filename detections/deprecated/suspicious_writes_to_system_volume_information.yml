@@ -8,7 +8,7 @@ type: Hunting
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '(`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume
   Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

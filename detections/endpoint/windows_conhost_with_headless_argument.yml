@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: 'The following analytic detects the unusual invocation of the Windows
   Console Host process (conhost.exe) with the undocumented --headless parameter. This
   detection leverages Endpoint Detection and Response (EDR) telemetry, specifically

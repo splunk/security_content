@@ -3,7 +3,8 @@ id: a511426e-184f-4de6-8711-cfd2af29d1e1
 version: 2
 date: '2024-05-11'
 author: Michael Haag, Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic detects multiple Okta accounts being locked out

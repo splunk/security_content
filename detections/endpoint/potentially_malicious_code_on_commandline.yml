@@ -16,6 +16,8 @@ description: The following analytic detects potentially malicious command lines 
   system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel="Endpoint.Processes" by Processes.parent_process_name
   Processes.process_name Processes.process Processes.user Processes.dest  | `drop_dm_object_name(Processes)`  |

@@ -6,7 +6,7 @@ author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
 data_source:
-- O365 UserLoggedIn
+- O365 UserLoggedIn 
 - O365 UserLoginFailed
 description: The following analytic identifies unusual authentication activity in
   an O365 environment, where a single user account experiences more than 8 authentication

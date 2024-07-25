@@ -14,6 +14,8 @@ description: The following analytic detects the execution of msbuild.exe from a 
   arbitrary code, potentially leading to system compromise and further malicious activities.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_msbuild` AND (Processes.process_path!=*\\framework*\\v*\\*)

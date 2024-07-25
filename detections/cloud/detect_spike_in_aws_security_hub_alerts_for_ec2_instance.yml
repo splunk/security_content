@@ -13,7 +13,8 @@ description: The following analytic identifies a spike in the number of AWS Secu
   attention. If confirmed malicious, this could signify an ongoing attack, leading
   to unauthorized access, data exfiltration, or disruption of services on the affected
   EC2 instance.
-data_source: []
+data_source:
+- AWS Security Hub
 search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket span=4h
   _time | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account)
   as vendor_account values(vendor_region) as vendor_region values(severity) as severity
@@ -57,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/security_hub_ec2_spike/security_hub_ec2_spike.json
     sourcetype: aws:securityhub:finding
     source: aws_securityhub_finding

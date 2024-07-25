@@ -13,7 +13,8 @@ description: The following analytic identifies an abnormally high number of clou
   to disrupt services. If confirmed malicious, this could lead to significant operational
   disruptions, data loss, and potential financial impact due to the destruction of
   critical cloud resources.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats count as instances_destroyed values(All_Changes.object_id) as object_id
   from datamodel=Change where All_Changes.action=deleted AND All_Changes.status=success
   AND All_Changes.object_category=instance by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")`

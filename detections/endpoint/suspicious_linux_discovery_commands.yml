@@ -15,6 +15,8 @@ description: 'The following analytic detects the execution of suspicious bash co
   a severe threat to the environment.'
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process)
   as distinct_commands dc(Processes.process_name) as distinct_process_names min(_time)

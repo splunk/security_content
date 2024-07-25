@@ -8,7 +8,7 @@ type: TTP
 description: |-
   The following analytic detects the creation of new accounts elevated to local administrators. It uses Windows event logs, specifically EventCode 4720 (user account creation) and EventCode 4732 (user added to Administrators group). This activity is significant as it indicates potential unauthorized privilege escalation, which is critical for SOC monitoring. If confirmed malicious, this could allow attackers to gain administrative access, leading to unauthorized data access, system modifications, and disruption of services. Immediate investigation is required to mitigate risks and prevent further unauthorized actions.
 data_source:
-- Windows Event Log Security 4732
+- Windows Event Log Security 4732 
 - Windows Event Log Security 4720
 search: '`wineventlog_security` EventCode=4720 OR (EventCode=4732 Group_Name=Administrators)
   | transaction src_user connected=false maxspan=180m | rename src_user as user |

@@ -14,6 +14,8 @@ description: The following analytic identifies excessive usage of `cacls.exe`, `
   critical files, aiding in the persistence and concealment of malicious activities.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.process_id) as process_id  values(Processes.process_name) as process_name
   count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes
