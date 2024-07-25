@@ -33,6 +33,7 @@ tags:
   - Ransomware
   - Clop Ransomware
   - CISA AA22-264A
+  - ShrinkLocker
   asset_type: Endpoint
   confidence: 100
   impact: 70
