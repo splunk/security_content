@@ -14,7 +14,7 @@ description: The following analytic detects the installation of a root CA certif
   attacker to intercept, decrypt, or manipulate sensitive data, leading to severe
   security breaches.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\certificates\\*") AND Registry.registry_value_name="Blob"

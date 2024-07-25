@@ -6,8 +6,8 @@ author: Dean Luxton
 type: TTP
 status: production
 data_source:
-- Sysmon EventID 12
-- Sysmon EventID 13
+- Sysmon EventID 1 AND Sysmon EventID 12 
+- Sysmon EventID 1 AND Sysmon EventID 13
 description: The following analytic identifies changes to the Directory Services Restore
   Mode (DSRM) account behavior via registry modifications. It detects alterations
   in the registry path "*\\System\\CurrentControlSet\\Control\\Lsa\\DSRMAdminLogonBehavior"

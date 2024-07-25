@@ -14,7 +14,7 @@ description: The following analytic detects a registry modification that disable
   undetected, potentially leading to further compromise and persistent access within
   the environment.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\SOFTWARE\\Microsoft\\.NETFramework*" Registry.registry_value_name

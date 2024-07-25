@@ -7,6 +7,8 @@ status: production
 type: Hunting
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of `whoami.exe` with the
   `/priv` parameter, which displays the privileges assigned to the current user account.
   It leverages data from Endpoint Detection and Response (EDR) agents, focusing on

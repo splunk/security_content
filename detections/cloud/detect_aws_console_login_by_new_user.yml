@@ -12,7 +12,8 @@ description: The following analytic detects AWS console login events by new user
   unauthorized access. If confirmed malicious, this activity could lead to unauthorized
   access to AWS resources, data exfiltration, or further exploitation within the cloud
   environment.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)`
   | join user type=outer [ | inputlookup previously_seen_users_console_logins | stats

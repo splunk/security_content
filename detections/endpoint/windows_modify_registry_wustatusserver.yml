@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: The following analytic identifies suspicious modifications to the Windows
   Update configuration registry, specifically targeting the WUStatusServer key. It

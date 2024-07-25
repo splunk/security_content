@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects headless browser activity accessing mockbin.org
   or mocky.io. It identifies processes with the "--headless" and "--disable-gpu" command
   line arguments, along with references to mockbin.org or mocky.io. This behavior

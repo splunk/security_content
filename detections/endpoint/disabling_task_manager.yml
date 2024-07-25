@@ -14,7 +14,7 @@ description: The following analytic identifies modifications to the Windows regi
   users from terminating malicious processes. If confirmed malicious, this could allow
   attackers to maintain persistence and control over the infected system.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableTaskMgr"

@@ -7,6 +7,8 @@ type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies instances where Notepad.exe is launched
   without any command line arguments, a behavior commonly associated with the SliverC2
   framework. This detection leverages process creation events from Endpoint Detection

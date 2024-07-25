@@ -1,0 +1,39 @@
+name: PingID
+id: 17890675-61c1-40bd-a88e-6a8e9e246b43
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for PingID
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+supported_TA: []
+fields:
+- _time
+- actors{}.name
+- actors{}.type
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- extracted_source
+- host
+- id
+- index
+- linecount
+- punct
+- recorded
+- resources{}.ipaddress
+- resources{}.websession
+- result.message
+- result.status
+- source
+- sourcetype
+- splunk_server
+- timeendpos
+- timestartpos
+example_log: '{"source":"PINGID","id":"b2eb1fef-651b-11ee-b38b-0ac7a554ed19","recorded":"2023-10-05T14:10:53.538Z","actors":[{"type":"user","name":"victim_user"}],"resources":[{"ipaddress":"174.235.80.142","websession":"webs_ijkF-T_bAC_G3w2TfvdpAEQeC545KFlqVFOsolCXdjo"}],"result":{"status":"SUCCESS","message":"Device
+  Paired SMS \"Mobile 1\""}}'

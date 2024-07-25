@@ -14,7 +14,7 @@ description: The following analytic detects suspicious registry modifications th
   this could impede system recovery efforts, making it difficult to restart the machine
   and remove other harmful modifications.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE ((Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\shutdownwithoutlogon"

@@ -15,6 +15,8 @@ description: The following analytic detects the execution of the Apache Benchmar
   is required to determine the intent and scope of the activity.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=ab.exe
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
