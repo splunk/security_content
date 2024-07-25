@@ -14,6 +14,8 @@ description: The following analytic detects the use of wget on Linux or MacOS to
   leading to system compromise and unauthorized access to sensitive data.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=wget
   (Processes.process="*-q *" OR Processes.process="*--quiet*"  AND Processes.process="*-O-

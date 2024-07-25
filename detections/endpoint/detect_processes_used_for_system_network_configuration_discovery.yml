@@ -16,6 +16,8 @@ description: The following analytic identifies the rapid execution of processes 
   system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user

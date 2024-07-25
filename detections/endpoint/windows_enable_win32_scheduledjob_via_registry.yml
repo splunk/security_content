@@ -6,7 +6,7 @@ author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: 'The following analytic detects the creation of a new DWORD value named
   "EnableAt" in the registry path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\Configuration".

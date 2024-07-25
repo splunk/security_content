@@ -14,7 +14,7 @@ description: The following analytic detects the deletion of the Windows Defender
   ability to detect and respond to further malicious activities, thereby compromising
   endpoint security.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Policies\\Microsoft\\Windows

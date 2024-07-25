@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies suspicious child processes spawned
   by calc.exe, indicative of DLL side-loading techniques. This detection leverages
   data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs,

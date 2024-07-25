@@ -15,7 +15,7 @@ description: The following analytic detects modifications to the Windows registr
   could hinder incident response efforts and allow the attacker to maintain control
   over the compromised system.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\DisableRegistryTools"

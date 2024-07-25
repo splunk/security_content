@@ -14,6 +14,8 @@ description: The following analytic identifies the execution of commonly used Ni
   could lead to unauthorized access, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name
   Processes.process_name Processes.process Processes.original_file_name Processes.process_path

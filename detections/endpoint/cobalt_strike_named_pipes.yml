@@ -14,7 +14,7 @@ description: 'The following analytic detects the use of default or publicly know
   this could indicate an active Cobalt Strike beacon, leading to unauthorized access,
   data exfiltration, or further lateral movement within the network.'
 data_source:
-- Sysmon EventID 17
+- Sysmon EventID 17 
 - Sysmon EventID 18
 search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*,
   \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*,

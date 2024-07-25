@@ -7,6 +7,8 @@ type: Anomaly
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the use of the dnscmd.exe command to enumerate
   DNS records. It leverages data from Endpoint Detection and Response (EDR) agents,
   focusing on process command-line executions. This activity is significant as it
