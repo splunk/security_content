@@ -3,7 +3,8 @@ id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
 version: 2
 date: '2024-05-09'
 author: 'Bhavin Patel, Splunk'
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic identifies instances where the same Okta user

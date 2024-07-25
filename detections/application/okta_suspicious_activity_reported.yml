@@ -13,7 +13,8 @@ description: The following analytic identifies when an associate reports a login
   malicious, the attacker could gain unauthorized access to sensitive systems and
   data, leading to data theft, privilege escalation, or further compromise of the
   environment.
-data_source: []
+data_source: 
+- Okta
 search: '`okta` eventType=user.account.report_suspicious_activity_by_enduser | stats
   count min(_time) as firstTime max(_time) as lastTime values(displayMessage) by user
   eventType client.userAgent.rawUserAgent client.userAgent.browser client.geographicalContext.city  client.geographicalContext.country

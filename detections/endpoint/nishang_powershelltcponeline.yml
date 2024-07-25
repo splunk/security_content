@@ -14,6 +14,8 @@ description: The following analytic detects the use of the Nishang Invoke-PowerS
   remote access, data theft, or further compromise of the affected system.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` (Processes.process=*Net.Sockets.TCPClient*
   AND Processes.process=*System.Text.ASCIIEncoding*) by Processes.dest Processes.user

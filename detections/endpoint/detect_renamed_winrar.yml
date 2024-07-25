@@ -14,6 +14,8 @@ description: The following analytic identifies instances where `WinRAR.exe` has 
   extraction or further system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=WinRAR.exe
   (Processes.process_name!=rar.exe OR Processes.process_name!=winrar.exe) by Processes.dest

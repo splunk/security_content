@@ -9,6 +9,8 @@ description: |-
   The following analytic detects unusually long command lines, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on the length of command lines executed on hosts. This behavior is significant because attackers often use obfuscated or complex command lines to evade detection and execute malicious payloads. If confirmed malicious, this activity could lead to data theft, ransomware deployment, or further system compromise. Analysts should investigate the source and content of the command line, inspect relevant artifacts, and review concurrent processes to identify potential threats.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
   Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|

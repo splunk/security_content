@@ -15,6 +15,8 @@ description: The following analytic identifies instances where Microsoft Excel s
   Immediate investigation and mitigation are recommended.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.parent_process_name="excel.exe" Processes.process_name IN ("cscript.exe",

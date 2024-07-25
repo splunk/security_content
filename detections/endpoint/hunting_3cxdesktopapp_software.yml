@@ -7,6 +7,8 @@ type: Hunting
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the presence of any version of the 3CXDesktopApp,
   also known as the 3CX Desktop App, on Mac or Windows systems. It leverages the Endpoint
   data model's Processes node to identify instances of the application running, although

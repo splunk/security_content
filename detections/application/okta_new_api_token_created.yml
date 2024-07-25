@@ -13,7 +13,8 @@ description: The following analytic detects the creation of a new API token with
   persistence. If confirmed malicious, this could enable attackers to execute API
   calls, access sensitive data, and perform administrative actions within the Okta
   environment.
-data_source: []
+data_source: 
+- Okta
 search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime from datamodel=Change where All_Changes.action=created AND
   All_Changes.command=system.api_token.create by _time span=5m All_Changes.user All_Changes.result

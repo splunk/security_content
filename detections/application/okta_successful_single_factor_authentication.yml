@@ -3,7 +3,8 @@ id: 98f6ad4f-4325-4096-9d69-45dc8e638e82
 version: 2
 date: '2024-05-26'
 author: Bhavin Patel, Splunk
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic identifies successful single-factor authentication

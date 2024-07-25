@@ -12,7 +12,8 @@ description: The following analytic identifies threats detected by Okta ThreatIn
   access attempts and credential-based attacks. If confirmed malicious, these activities
   could lead to unauthorized access, data breaches, and further exploitation of compromised
   accounts, posing a significant risk to the organization's security posture.
-data_source: []
+data_source: 
+- Okta
 search: '`okta` eventType = security.threat.detected | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
   as city | stats count min(_time) as firstTime max(_time) as lastTime by app src_ip

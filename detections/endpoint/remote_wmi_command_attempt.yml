@@ -14,6 +14,8 @@ description: The following analytic detects the execution of `wmic.exe` with the
   arbitrary commands, and potentially escalate privileges or persist within the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_wmic` Processes.process=*node*
   by Processes.dest Processes.user Processes.parent_process Processes.process_name

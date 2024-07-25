@@ -14,8 +14,7 @@ description: The following analytic detects the use of the Certipy tool to enume
   malicious, this could lead to unauthorized access to sensitive AD CS information,
   enabling further attacks or privilege escalation within the network.
 data_source:
-- Windows Event Log Security 4663
-- Sysmon EventID 11
+- Sysmon EventID 1 AND Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
   AS lastTime values(Processes.process_current_directory) as process_current_directory
   FROM datamodel=Endpoint.Processes where Processes.action="allowed" BY _time span=1h
