@@ -43,6 +43,7 @@ tags:
   analytic_story:
   - Suspicious MSHTA Activity
   - Living Off The Land
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 100
   impact: 90
