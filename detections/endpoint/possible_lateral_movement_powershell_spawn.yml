@@ -1,8 +1,8 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 3
-date: '2024-05-20'
-author: Mauricio Velazco, Splunk
+version: 5
+date: '2024-06-18'
+author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
 description: 'The following analytic detects the spawning of a PowerShell process
@@ -22,11 +22,10 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe
   OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe)
   (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*)
-  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*))
-  NOT (Processes.process IN ("*c:\windows\ccm\*")) by Processes.dest Processes.user
-  Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
+  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*)) NOT (Processes.process IN ("*c:\\windows\\ccm\\*"))
+  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -92,7 +91,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lateral_movement_powershell/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

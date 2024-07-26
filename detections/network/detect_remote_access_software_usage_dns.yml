@@ -5,13 +5,7 @@ date: '2024-07-09'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects DNS queries to known remote access software
-  domains from within the environment. It leverages DNS query logs mapped to the Network_Resolution
-  data model and cross-references them with a lookup table of remote access software
-  domains, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant
-  as adversaries often use remote access tools to maintain persistent access to compromised
-  systems. If confirmed malicious, this could allow attackers to control systems remotely,
-  exfiltrate data, or further infiltrate the network, posing a severe security risk.
+description: The following analytic detects DNS queries to domains associated with known remote access software such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This detection is crucial as adversaries often use these tools to maintain access and control over compromised environments. Identifying such behavior is vital for a Security Operations Center (SOC) because unauthorized remote access can lead to data breaches, ransomware attacks, and other severe impacts if these threats are not mitigated promptly.
 data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -40,8 +34,8 @@ tags:
   - Command And Control
   - Ransomware
   asset_type: Endpoint
-  confidence: 50
-  impact: 50
+  confidence: 20
+  impact: 20
   message: A domain for a known remote access software $query$ was contacted by $src$.
   mitre_attack_id:
   - T1219
@@ -63,7 +57,7 @@ tags:
   - DNS.src
   - DNS.query
   - DNS.answer
-  risk_score: 25
+  risk_score: 4
   security_domain: endpoint
   manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
