@@ -1,7 +1,7 @@
 name: Windows Event Log Cleared
 id: ad517544-aff9-4c96-bd99-d6eb43bfbb6a
-version: 8
-date: '2024-05-12'
+version: 9
+date: '2024-07-24'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ data_source:
 - Windows Event Log Security 1102
 - Windows Event Log System 104
 search: '(`wineventlog_security` EventCode=1102) OR (`wineventlog_system` EventCode=104)
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest object EventCode
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_log_cleared_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
@@ -36,7 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: Windows event logs cleared on $dest$ via EventCode $EventCode$
+  message: Windows $object$ cleared on $dest$ via EventCode $EventCode$
   mitre_attack_id:
   - T1070
   - T1070.001
