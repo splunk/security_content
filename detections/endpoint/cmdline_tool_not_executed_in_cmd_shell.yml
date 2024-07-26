@@ -54,6 +54,7 @@ tags:
   - Qakbot
   - CISA AA22-277A
   - CISA AA23-347A
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 80
   impact: 70
