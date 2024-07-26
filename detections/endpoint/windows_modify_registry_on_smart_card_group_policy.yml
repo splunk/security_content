@@ -4,7 +4,7 @@ version: 1
 date: '2024-06-19'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 13
 type: Anomaly
 status: production
 description: This analytic is developed to detect suspicious registry modifications targeting the "scforceoption" key. 

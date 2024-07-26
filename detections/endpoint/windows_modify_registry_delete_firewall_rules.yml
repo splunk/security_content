@@ -4,7 +4,7 @@ version: 1
 date: '2024-06-21'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon Event ID 12
+- Sysmon EventID 12
 type: TTP
 status: production
 description: The following analytic detects a potential deletion of firewall rules, indicating a possible security breach or unauthorized access attempt. 
