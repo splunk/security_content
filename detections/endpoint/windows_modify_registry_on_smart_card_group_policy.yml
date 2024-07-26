@@ -1,0 +1,66 @@
+name: Windows Modify Registry on Smart Card Group Policy
+id: 1522145a-8e86-4f83-89a8-baf62a8f489d
+version: 1
+date: '2024-06-19'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 13
+type: Anomaly
+status: production
+description: This analytic is developed to detect suspicious registry modifications targeting the "scforceoption" key. 
+  Altering this key enforces smart card login for all users, potentially disrupting normal access methods. Unauthorized 
+  changes to this setting could indicate an attempt to restrict access or force a specific authentication method, possibly 
+  signifying malicious intent to manipulate system security protocols.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  where Registry.registry_path= "*\\Windows\\CurrentVersion\\Policies\\System\\scforceoption*" Registry.registry_value_data="0x00000001" 
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_on_smart_card_group_policy_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: administrators may enable or disable this feature that may
+  cause some false positive.
+eferences:
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+tags:
+  analytic_story:
+  - ShrinkLocker
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: A registry modification in Windows Smart Card Group Policy registry settings on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.dest
+  - Registry.action
+  - Registry.registry_value_data 
+  - Registry.process_guid 
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/smart_card_group_policy/scforceoption-reg.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
