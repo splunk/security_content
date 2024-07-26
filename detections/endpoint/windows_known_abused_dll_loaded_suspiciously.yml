@@ -51,10 +51,6 @@ tags:
     type: Process
     role:
     - Attacker
-  - name: process
-    type: Process
-    role:
-    - Attacker	
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
