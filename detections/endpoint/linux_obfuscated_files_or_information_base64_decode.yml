@@ -1,7 +1,7 @@
 name: Linux Obfuscated Files or Information Base64 Decode
 id: 303b38b2-c03f-44e2-8f41-4594606fcfc7
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-06-25'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,9 +15,7 @@ description: The following analytic detects the use of the base64 decode command
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*base64
-  -d*","*base64 --decode*") by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_path="*/base64" Processes.process="*-d*" by Processes.process Processes.dest Processes.process_current_directory Processes.process_name Processes.process_integrity_level Processes.parent_process_name Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_obfuscated_files_or_information_base64_decode_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -84,8 +82,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027/atomic_red_team/linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
     update_timestamp: true
