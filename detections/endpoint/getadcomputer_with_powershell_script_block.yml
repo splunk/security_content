@@ -30,6 +30,7 @@ tags:
   analytic_story:
   - Active Directory Discovery
   - CISA AA22-320A
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 50
   impact: 30
