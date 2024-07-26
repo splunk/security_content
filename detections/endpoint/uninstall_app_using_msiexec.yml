@@ -15,6 +15,8 @@ description: The following analytic detects the uninstallation of applications u
   the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msiexec.exe
   Processes.process= "* /qn *" Processes.process= "*/X*" Processes.process= "*REBOOT=*"

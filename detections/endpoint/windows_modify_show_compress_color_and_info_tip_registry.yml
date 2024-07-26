@@ -14,7 +14,7 @@ description: The following analytic detects suspicious modifications to the Wind
   elements. If confirmed malicious, this could signify an attempt to manipulate file
   visibility and deceive users, potentially aiding in further malicious activities.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced*"

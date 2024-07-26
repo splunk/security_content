@@ -14,7 +14,7 @@ description: The following analytic detects the execution of rundll32.exe withou
   network connections, potentially leading to data exfiltration or further compromise
   of the system.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where `process_rundll32` AND Processes.action!="blocked"
   by host _time span=1h Processes.process_id Processes.process_name Processes.dest

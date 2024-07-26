@@ -8,8 +8,7 @@ type: TTP
 description: |-
   The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin. It leverages the Endpoint.Filesystem and Endpoint.Processes data models in Splunk to identify any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This activity is significant because it may indicate an attacker attempting to hide their actions, potentially leading to data theft, ransomware, or other malicious outcomes. If confirmed malicious, this behavior could allow an attacker to persist in the environment and evade detection by security tools.
 data_source:
-- Sysmon EventID 1
-- Sysmon EventID 11
+- Sysmon EventID 1 AND Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
   as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*"

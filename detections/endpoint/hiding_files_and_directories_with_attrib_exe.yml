@@ -15,6 +15,8 @@ description: The following analytic detects the use of the Windows binary attrib
   or data exfiltration.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) values(Processes.process)
   as process max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=attrib.exe
   (Processes.process=*+h*) by Processes.parent_process_name Processes.process_name

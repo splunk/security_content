@@ -13,7 +13,7 @@ description: The following analytic detects modifications in the Windows registr
   If confirmed malicious, this could allow attackers to operate undetected, potentially
   leading to prolonged persistence and further exploitation within the environment.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\Windows

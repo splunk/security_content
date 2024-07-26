@@ -3,7 +3,8 @@ id: de365ffa-42f5-46b5-b43f-fa72290b8218
 version: 2
 date: '2024-05-28'
 author: Michael Haag, Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic identifies instances where more than 10 unique

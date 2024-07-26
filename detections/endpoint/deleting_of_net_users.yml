@@ -14,6 +14,8 @@ description: The following analytic detects the use of net.exe or net1.exe comma
   of adversarial actions, complicating incident response and forensic investigations.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

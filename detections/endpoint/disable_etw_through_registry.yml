@@ -14,7 +14,7 @@ description: The following analytic detects modifications to the registry that d
   attackers to execute payloads with minimal alerts, impairing defenses and potentially
   leading to further compromise of the system.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"

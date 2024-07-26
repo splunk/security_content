@@ -14,6 +14,8 @@ description: The following analytic identifies the abuse of the right-to-left ov
   leading to unauthorized access, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process!=unknown AND
   Processes.action=allowed by Processes.dest Processes.user Processes.original_file_name

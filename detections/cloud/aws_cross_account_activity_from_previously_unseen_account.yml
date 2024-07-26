@@ -13,7 +13,8 @@ description: The following analytic identifies AssumeRole events where an IAM ro
   escalation attempts. If confirmed malicious, an attacker could gain unauthorized
   access to resources in another account, potentially leading to data exfiltration,
   service disruption, or further compromise of the AWS environment.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication
   where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
   Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)`

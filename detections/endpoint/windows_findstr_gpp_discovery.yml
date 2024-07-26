@@ -7,6 +7,8 @@ type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the use of the findstr command to search
   for unsecured credentials in Group Policy Preferences (GPP). It leverages data from
   Endpoint Detection and Response (EDR) agents, focusing on command-line executions

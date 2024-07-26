@@ -14,9 +14,8 @@ description: The following analytic detects the creation of a suspicious registr
   data. If confirmed malicious, this could allow attackers to maintain persistence
   and execute arbitrary code on the compromised system.
 data_source:
-- Sysmon EventID 1
-- Sysmon EventID 12
-- Sysmon EventID 13
+- Sysmon EventID 1 AND Sysmon EventID 12
+- Sysmon EventID 1 AND Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count dc(registry_value_name) as
   registry_value_name_count FROM datamodel=Endpoint.Registry where Registry.registry_path="*\\SOFTWARE\\Microsoft\\*"
   AND Registry.registry_value_data = "Binary Data" by _time span=1m Registry.dest

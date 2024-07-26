@@ -3,7 +3,8 @@ id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
 version: 2
 date: '2024-05-13'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source: 
+- Okta
 type: TTP
 status: production
 description: The following analytic identifies an attempt to disable multi-factor
