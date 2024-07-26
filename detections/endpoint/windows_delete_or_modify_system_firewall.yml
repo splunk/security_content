@@ -1,7 +1,7 @@
 name: Windows Delete or Modify System Firewall
 id: b188d11a-eba7-419d-b8b6-cc265b4f2c4f
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-07-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -16,12 +16,13 @@ description: The following analytic identifies 'netsh' processes that delete or 
   to alter firewall settings to evade detection or remove traces. If confirmed malicious,
   this behavior could allow an attacker to disable security measures, facilitating
   further compromise and persistence within the network.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process
-  = "* firewall *" Processes.process = "* delete *" by Processes.parent_process Processes.parent_process_name
-  Processes.process_name Processes.process_id Processes.process_guid Processes.process
-  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_delete_or_modify_system_firewall_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where `process_netsh` Processes.process = "* firewall *" Processes.process = "* del*"
+  by Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process_id Processes.process_guid Processes.process Processes.user Processes.dest
+  | `drop_dm_object_name("Processes")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_delete_or_modify_system_firewall_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -37,6 +38,7 @@ references:
 tags:
   analytic_story:
   - NjRAT
+  - ShrinkLocker
   asset_type: Endpoint
   confidence: 60
   impact: 60

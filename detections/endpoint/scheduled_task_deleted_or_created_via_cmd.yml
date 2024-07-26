@@ -62,6 +62,7 @@ tags:
   - DarkCrystal RAT
   - CISA AA23-347A
   - Phemedrone Stealer
+  - ShrinkLocker
   asset_type: Endpoint
   confidence: 80
   impact: 70

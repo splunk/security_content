@@ -1,0 +1,67 @@
+name: Windows Modify Registry Configure BitLocker
+id: bd1c770f-1b55-411e-b49e-20d07bcac5f8
+version: 1
+date: '2024-06-19'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 13
+type: TTP
+status: production
+description: This analytic is developed to detect suspicious registry modifications targeting BitLocker settings. 
+  The malware ShrinkLocker alters various registry keys to change how BitLocker handles encryption, potentially bypassing TPM requirements, 
+  enabling BitLocker without TPM, and enforcing specific startup key and PIN configurations. Such modifications can weaken system security, 
+  making it easier for unauthorized access and data breaches. Detecting these changes is crucial for maintaining robust encryption and data protection.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  where (Registry.registry_path= "*\\Policies\\Microsoft\\FVE\\*" Registry.registry_value_name IN("EnableBDEWithNoTPM", "EnableNonTPM", "UseAdvancedStartup") Registry.registry_value_data = 0x00000001) OR
+  (Registry.registry_path= "*\\Policies\\Microsoft\\FVE\\*" Registry.registry_value_name IN("UsePIN", "UsePartialEncryptionKey", "UseTPM", "UseTPMKey", "UseTPMKeyPIN", "UseTPMPIN") Registry.registry_value_data = 0x00000002)
+  by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest Registry.registry_value_name
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_configure_bitlocker_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: administrators may enable or disable this feature that may
+  cause some false positive.
+references:
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+tags:
+  analytic_story:
+  - ShrinkLocker
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A registry modification in Windows bitlocker registry settings on $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.registry_path
+  - Registry.registry_key_name
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.user
+  - Registry.dest
+  - Registry.action
+  - Registry.registry_value_data 
+  - Registry.process_guid 
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/bitlocker_registry_setting//fve-reg.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
