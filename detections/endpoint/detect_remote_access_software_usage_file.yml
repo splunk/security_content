@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-07-09'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -20,7 +20,8 @@ search: '| tstats `security_content_summariesonly` count, min(_time) as firstTim
   by Filesystem.dest, Filesystem.user, Filesystem.file_name | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `drop_dm_object_name(Filesystem)` | lookup
   remote_access_software remote_utility AS file_name OUTPUT isutility, description
-  as signature, comment_reference as desc, category | search isutility = TRUE | `detect_remote_access_software_usage_file_filter`'
+  as signature, comment_reference as desc, category | search isutility = TRUE 
+  | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_file_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -28,9 +29,14 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the file. These logs must be processed using the appropriate Splunk Technology Add-ons
   that are specific to the EDR product. The logs must also be mapped to the `Filesystem`
   node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
-  to normalize the field names and speed up the data modeling process.
+  to normalize the field names and speed up the data modeling process. The "exceptions" 
+  macro leverages both an Assets and Identities lookup, as well as a KVStore collection
+  called "remote_software_exceptions" that lets you track and maintain device-based 
+  exceptions for this set of detections. 
 known_false_positives: Known or approved applications used by the organization or
-  usage of built-in functions.
+  usage of built-in functions. Known false positives can be added to the 
+  remote_access_software_usage_exception.csv lookup to globally suppress these 
+  situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -72,6 +78,7 @@ tags:
   - Filesystem.file_name
   risk_score: 25
   security_domain: endpoint
+  manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
 - name: True Positive Test
   attack_data:

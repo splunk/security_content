@@ -1,0 +1,4 @@
+description: A list used to provide global exceptions to remote access monitoring content.
+collection: remote_access_software_exceptions
+name: remote_access_software_exceptions
+fields_list: _key, asset, software, exception_date, exception_ttl_days, exception, comment
