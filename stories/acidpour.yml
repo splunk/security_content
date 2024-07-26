@@ -1,0 +1,24 @@
+name: AcidPour
+id: 5992d9b3-f83c-48e8-8164-6cf8f19cfb42
+version: 1
+date: '2024-04-01'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities that might relate to AcidPour Wiper malware. 
+  AcidPour is a destructive variant designed to irreversibly delete data from targeted systems, rendering them inoperable. 
+  Unlike ransomware, AcidPour focuses on data destruction, targeting critical storage sectors and overwriting files to make recovery impossible. 
+  This malware is capable of wiping and deleting non-standard linux files and overwriting storage device files that might related to router, ssd card and many more.
+narrative: AcidPour Wiper is a destructive malware designed to irreversibly delete data from targeted systems, rendering them inoperable. 
+  Unlike typical ransomware, AcidPour focuses on data destruction rather than financial gain. It targets critical sectors of the storage media, 
+  overwriting files to make recovery nearly impossible. Often deployed in coordinated cyber-attacks, AcidPour poses a significant threat to 
+  both organizational and individual data integrity. Understanding its behavior and impact is crucial for developing effective defensive 
+  strategies against this malicious software.
+references:
+- https://www.sentinelone.com/labs/acidpour-new-embedded-wiper-variant-of-acidrain-appears-in-ukraine/
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

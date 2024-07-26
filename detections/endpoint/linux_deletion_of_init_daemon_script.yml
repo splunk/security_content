@@ -31,6 +31,7 @@ tags:
   analytic_story:
   - AcidRain
   - Data Destruction
+  - AcidPour
   asset_type: Endpoint
   confidence: 70
   impact: 70
