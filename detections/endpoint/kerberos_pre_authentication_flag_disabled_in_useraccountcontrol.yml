@@ -1,8 +1,8 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 2
-date: '2024-05-24'
-author: Mauricio Velazco, Splunk
+version: 3
+date: '2024-07-02'
+author: Mauricio Velazco, Dean Luxton, Splunk
 status: production
 type: TTP
 description: The following analytic detects when the Kerberos Pre-Authentication flag
@@ -15,9 +15,10 @@ description: The following analytic detects when the Kerberos Pre-Authentication
   of sensitive information.
 data_source:
 - Windows Event Log Security 4738
-search: ' `wineventlog_security` EventCode=4738 MSADChangedAttributes="*Don''t Require
-  Preauth'' - Enabled*" |rename Account_Name as user | table EventCode, user, dest,
-  Security_ID, MSADChangedAttributes | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
+search: '`wineventlog_security` EventCode=4738 (UserAccountControl="%%2096" OR MSADChangedAttributes="*Don''t Require Preauth'' - Enabled*")
+  | eval MSADChangedAttributes="''Don''t Require Preauth'' - Enabled"
+  | table _time, source, EventCode, src_user, src_user_category, user, user_category, MSADChangedAttributes 
+  | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `User Account
   Management` within `Account Management` needs to be enabled.
