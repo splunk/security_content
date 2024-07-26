@@ -1,5 +1,0 @@
-asset,software,exception_date,exception_ttl_days,exception,comment
-example_asset,Example_RMM_with_expiration,2024-01-01,30,TRUE,Example to show usage for a temporary exception for a single asset
-example_asset_2,Example_RMM_without_expiration,2024-01-01,,TRUE,Example to show usage for a permanent exception for a single asset
-example_asset_*,Example_RMM_wildcard_1,2024-01-01,,TRUE,Example to show usage for a permanent exception for a wildcard asset match
-*,Example_RMM_wildcard_2,2024-01-01,,TRUE,Example to show usage for a permanent exception for all detections/assets
