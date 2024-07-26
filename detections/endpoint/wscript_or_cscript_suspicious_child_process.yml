@@ -1,17 +1,16 @@
 name: Wscript Or Cscript Suspicious Child Process
 id: 1f35e1da-267b-11ec-90a9-acde48001122
 version: 2
-date: '2024-05-18'
+date: '2024-07-11'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies suspicious child processes spawned
-  by WScript or CScript. It leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on specific parent and child process names. This activity is significant
-  as adversaries often use WScript or CScript to execute Living Off The Land Binaries
-  (LOLBINs) or other scripts like PowerShell for defense evasion. If confirmed malicious,
-  this behavior could allow attackers to execute arbitrary code, escalate privileges,
-  or maintain persistence within the environment, posing a significant security risk.
+description: This analytic identifies a suspicious spawned process by WScript or CScript
+  process. This technique was a common technique used by adversaries and malware to
+  execute different LOLBIN, other scripts like PowerShell or spawn a suspended process
+  to inject its code as a defense evasion. This TTP may detect some normal script
+  that uses several application tools that are in the list of the child process it
+  detects but a good pivot and indicator that a script may execute suspicious code.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -45,6 +44,7 @@ tags:
   - Data Destruction
   - WhisperGate
   - NjRAT
+  - ShrinkLocker
   asset_type: Endpoint
   confidence: 70
   impact: 70
