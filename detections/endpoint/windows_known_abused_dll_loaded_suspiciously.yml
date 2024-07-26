@@ -51,7 +51,7 @@ tags:
     type: Process
     role:
     - Attacker
-  - name: process_path
+  - name: process
     type: Process
     role:
     - Attacker	
