@@ -14,7 +14,7 @@ description: The following analytic detects the dropping of a suspicious file na
   confirmed malicious, the attacker could gain unauthorized access to financial data,
   leading to significant financial loss and data breaches.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 11
 search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
   OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
   as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`

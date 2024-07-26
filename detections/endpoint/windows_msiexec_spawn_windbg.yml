@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the unusual behavior of MSIExec spawning
   WinDBG. It detects this activity by analyzing endpoint telemetry data, specifically
   looking for instances where 'msiexec.exe' is the parent process of 'windbg.exe'.

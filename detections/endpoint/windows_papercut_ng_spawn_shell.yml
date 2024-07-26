@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects instances where the PaperCut NG application
   (pc-app.exe) spawns a Windows shell, such as cmd.exe or PowerShell. This behavior
   is identified using Endpoint Detection and Response (EDR) telemetry, focusing on

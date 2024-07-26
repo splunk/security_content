@@ -13,8 +13,7 @@ description: The following analytic detects Log4Shell JNDI payload injections vi
   in Java web applications using log4j, potentially leading to remote code execution.
   If confirmed malicious, attackers could gain unauthorized access, execute arbitrary
   code, and compromise sensitive data within the affected environment.
-data_source:
-- Splunk Stream IP
+data_source: []
 search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
   | join affected_host type=inner [| tstats `security_content_summariesonly` count
   min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic

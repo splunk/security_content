@@ -14,6 +14,8 @@ description: The following analytic detects the execution of 7z or 7za processes
   sensitive information and potentially aiding further attacks.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name ="7z.exe"
   OR Processes.process_name = "7za.exe" OR Processes.original_file_name = "7z.exe"

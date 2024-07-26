@@ -15,6 +15,8 @@ description: The following analytic detects the execution of the Windows OS tool
   privileges.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name="quser.exe"
   OR Processes.original_file_name = "quser.exe" by Processes.process_name Processes.original_file_name

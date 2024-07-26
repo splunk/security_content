@@ -14,7 +14,7 @@ description: The following analytic detects modifications to the registry aimed 
   If confirmed malicious, this could allow an attacker to execute arbitrary code with
   elevated privileges, compromising system integrity.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_path= "*\\Environment\\COR_PROFILER_PATH"

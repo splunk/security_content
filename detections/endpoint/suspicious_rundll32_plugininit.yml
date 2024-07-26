@@ -14,6 +14,8 @@ description: The following analytic identifies the execution of the rundll32.exe
   further malware infections, data exfiltration, or complete system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*PluginInit*
   by  Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name

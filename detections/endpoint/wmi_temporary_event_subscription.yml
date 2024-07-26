@@ -13,8 +13,7 @@ description: "The following analytic detects the creation of WMI temporary event
   code, escalate privileges, or persist in the environment. Analysts should review
   the specific WMI queries and assess their intent, considering potential false positives
   from legitimate administrative tasks."
-data_source:
-- Windows Event Log WMI 5860
+data_source: []
 search: '`wmi` EventCode=5860 Temporary | rex field=Message "NotificationQuery =\s+(?<query>[^;|^$]+)"
   | search query!="SELECT * FROM Win32_ProcessStartTrace WHERE ProcessName = ''wsmprovhost.exe''"
   AND query!="SELECT * FROM __InstanceOperationEvent WHERE TargetInstance ISA ''AntiVirusProduct''

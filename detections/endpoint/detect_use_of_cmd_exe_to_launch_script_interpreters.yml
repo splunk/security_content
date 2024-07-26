@@ -14,6 +14,8 @@ description: The following analytic detects the execution of cscript.exe or wscr
   to code execution, privilege escalation, or persistence within the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name="cmd.exe"
   (Processes.process_name=cscript.exe OR Processes.process_name =wscript.exe) by Processes.parent_process

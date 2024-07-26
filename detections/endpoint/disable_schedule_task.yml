@@ -15,6 +15,8 @@ description: The following analytic detects the execution of a command to disabl
   security defenses, and further compromise the targeted host.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
   Processes.process=*/change*  Processes.process=*/disable* by Processes.user Processes.process_name

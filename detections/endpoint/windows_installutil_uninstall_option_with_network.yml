@@ -14,7 +14,7 @@ description: 'The following analytic identifies the use of Windows InstallUtil.e
   code, potentially leading to system compromise, data exfiltration, or further lateral
   movement within the network.'
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_installutil` Processes.process IN ("*/u*", "*uninstall*") by _time
   span=1h  Processes.user Processes.process_id Processes.process_name Processes.dest

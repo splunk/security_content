@@ -14,6 +14,8 @@ description: The following analytic identifies a suspicious process executed fro
   privileges, or persist within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where Processes.process IN ("*.ZIP\\*","*.ISO\\*","*.IMG\\*","*.CAB\\*","*.TAR\\*","*.GZ\\*","*.RAR\\*","*.7Z\\*")

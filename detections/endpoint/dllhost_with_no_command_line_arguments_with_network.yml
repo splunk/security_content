@@ -14,7 +14,7 @@ description: The following analytic detects instances of DLLHost.exe running wit
   to execute code, move laterally, or exfiltrate data, posing a severe threat to the
   network's security.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=dllhost.exe
   Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name

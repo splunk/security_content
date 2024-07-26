@@ -1,0 +1,32 @@
+name: MOVEit Transfer Authentication Bypass
+id: b4c0b91f-eee5-47fd-ab02-11f68a9c0858
+version: 1
+date: '2024-06-28'
+author: Michael Haag, Splunk
+description: 'This analytic story addresses the critical authentication bypass vulnerability (CVE-2024-5806) in Progress MOVEit Transfer. The vulnerability allows attackers to impersonate any valid user on the system without proper credentials, potentially leading to unauthorized access, data theft, and system compromise. This story includes detections for key indicators of exploitation attempts, helping security teams identify and respond to potential attacks leveraging this vulnerability.'
+narrative: 'In June 2024, a severe authentication bypass vulnerability (CVE-2024-5806) was discovered in Progress MOVEit Transfer, a widely used file transfer solution. This vulnerability allows attackers to bypass authentication and impersonate any valid user on the system, even without prior access or the ability to upload files.
+
+  The vulnerability stems from improper handling of SSH public key authentication in the SFTP module. Attackers can exploit this by providing a file path instead of a valid public key during the authentication process, tricking the server into reading a maliciously crafted public key from its own log files.
+
+  Exploitation requires only knowledge of a valid username, making it relatively easy to exploit. The vulnerability also allows for username enumeration, further increasing its potential impact.
+
+  Key indicators of exploitation attempts include:
+  1. Certificate store access failures
+  2. Empty key fingerprint authentication attempts
+  3. Unusual key fingerprint validation patterns
+  4. Authentication denials followed by key validations
+  5. Illegal characters in path exceptions
+
+  This analytic story provides detections for these indicators, helping security teams identify potential exploitation attempts. Given the severity of this vulnerability and its potential for unauthorized access and data exfiltration, it is crucial for organizations using MOVEit Transfer to implement these detections, monitor for suspicious activity, and ensure systems are patched to version 2024.0.2 or later.'
+references: 
+-  https://labs.watchtowr.com/auth-bypass-in-un-limited-scenarios-progress-moveit-transfer-cve-2024-5806/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-5806
