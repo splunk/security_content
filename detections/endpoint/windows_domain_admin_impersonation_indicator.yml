@@ -25,6 +25,7 @@ tags:
   analytic_story:
   - Active Directory Kerberos Attacks
   - Active Directory Privilege Escalation
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 100
   impact: 80

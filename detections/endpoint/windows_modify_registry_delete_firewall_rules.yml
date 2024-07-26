@@ -1,0 +1,65 @@
+name: Windows Modify Registry Delete Firewall Rules
+id: 41c61539-98ca-4750-b3ec-7c29a2f06343
+version: 1
+date: '2024-06-21'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 12
+type: TTP
+status: production
+description: The following analytic detects a potential deletion of firewall rules, indicating a possible security breach or unauthorized access attempt. 
+  It identifies actions where firewall rules are removed using commands like netsh advfirewall firewall delete rule, which can expose the network to external 
+  threats by disabling critical security measures. Monitoring these activities helps maintain network integrity and prevent malicious attacks.
+search: '`sysmon` EventCode=12 TargetObject = "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*" EventType=DeleteValue 
+  |  rename Computer as dest
+  |  rename User as user
+  |  stats count min(_time) as firstTime max(_time) as lastTime by EventCode EventType TargetObject Image user dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_delete_firewall_rules_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: network admin may add/remove/modify public inbound firewall
+  rule that may cause this rule to be triggered.
+references:
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+tags:
+  analytic_story:
+  - ShrinkLocker
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: firewall deletion found in registry in $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode 
+  - EventType 
+  - TargetObject 
+  - Image 
+  - user 
+  - dest
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/firewall_modify_delete/firewall_mod_delete.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

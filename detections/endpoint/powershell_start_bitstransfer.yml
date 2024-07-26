@@ -41,6 +41,7 @@ references:
 tags:
   analytic_story:
   - BITS Jobs
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 80
   impact: 70

@@ -45,6 +45,7 @@ tags:
   - Azorult
   - Volt Typhoon
   - Snake Keylogger
+  - ShrinkLocker
   asset_type: Endpoint
   confidence: 70
   impact: 20
