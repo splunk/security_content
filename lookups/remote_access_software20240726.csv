@@ -1,5 +1,10 @@
 description,remote_domain,remote_utility,remote_utility_fileinfo,remote_appid,isutility,category,comment_reference,last_update
 247ithelp.com (ConnectWise),*.247ithelp.com,Remote Workforce Client.exe,,,TRUE,RMM,Simlar / replaced by ScreenConnect,2/8/2024
+Absolute (Computrace),*search.namequery.com,rpcnet.exe,Absolute Software*,absolute-manage,TRUE,RMM,https://community.absolute.com/s/article/Understanding-Absolutes-Endpoint-Agents-Rpcnet-CTES-and-search-namequery-com,6/18/2024
+Absolute (Computrace),*server.absolute.com,ctes.exe,Absolute Persistence*,,TRUE,RMM,https://community.absolute.com/s/article/Understanding-Absolutes-Endpoint-Agents-Rpcnet-CTES-and-search-namequery-com,6/18/2024
+Absolute (Computrace),,ctespersitence.exe,CTES*,,TRUE,RMM,https://community.absolute.com/s/article/Understanding-Absolutes-Endpoint-Agents-Rpcnet-CTES-and-search-namequery-com,6/18/2024
+Absolute (Computrace),,cteshostsvc.exe,,,TRUE,RMM,https://community.absolute.com/s/article/Understanding-Absolutes-Endpoint-Agents-Rpcnet-CTES-and-search-namequery-com,6/18/2024
+Absolute (Computrace),,rpcld.exe,,,TRUE,RMM,https://community.absolute.com/s/article/Understanding-Absolutes-Endpoint-Agents-Rpcnet-CTES-and-search-namequery-com,6/18/2024
 Access Remote PC,,rpcgrab.exe,,,TRUE,RMM,,2/7/2024
 Access Remote PC,,rpcsetup.exe,,,TRUE,RMM,,2/7/2024
 Acronic Cyber Protect (Remotix),cloud.acronis.com,AcronisCyberProtectConnectQuickAssist*.exe,Acronis Cyber Protect Connect Quick Assist,remotix,TRUE,RMM,https://kb.acronis.com/content/47189,2/26/2024
