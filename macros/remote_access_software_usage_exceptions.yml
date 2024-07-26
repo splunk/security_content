@@ -6,4 +6,4 @@ definition: 'eval exception_asset = CASE(isnotnull(src),src,isnotnull(dest),dest
   | search NOT (rmm_exception = TRUE AND rmm_exception_end IN ("FALSE","UNLIMITED"))
   | fields - asset_temp_field,exception_asset'
 description: Macro used with remote access monitoring content to define exception lookup and usage. Returns filtered results based on contents of remote_access_software_usage_exception.csv
-name: remote_access_software_usage_exception_filter
+name: remote_access_software_usage_exceptions

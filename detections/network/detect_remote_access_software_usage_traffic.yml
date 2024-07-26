@@ -20,11 +20,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app |
   `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | lookup remote_access_software remote_appid AS app OUTPUT isutility, description
-  as signature, comment_reference as desc, category | search isutility = True | `remote_access_software_usage_exception_filter` | `detect_remote_access_software_usage_traffic_filter`'
+  as signature, comment_reference as desc, category | search isutility = True | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_traffic_filter`'
 how_to_implement: The following analytic was developed with Palo Alto traffic logs.
   Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+  names and speed up the data modeling process. The "exceptions" macro leverages 
+  both an Assets and Identities lookup, as well as a KVStore collection called 
+  "remote_software_exceptions" that lets you track and maintain device-
+  based exceptions for this set of detections.
 known_false_positives: It is possible that legitimate remote access software is used
   within the environment. Ensure that the lookup is reviewed and updated with any
   additional remote access software that is used within the environment.
