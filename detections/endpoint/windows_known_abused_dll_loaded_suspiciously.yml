@@ -1,0 +1,75 @@
+name: Windows Known Abused DLL Loaded Suspiciously
+id: dd6d1f16-adc0-4e87-9c34-06189516b803
+version: 2
+date: '2024-04-06'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when DLLs with known abuse history are loaded from an unusual location. This activity may represent an attacker performing a DLL search order or sideload hijacking technique. These techniques are used to gain persistence as well as elevate privileges on the target system. This detection relies on Sysmon EID7 and is compatible with all Officla Sysmon TA versions.
+data_source:
+- Sysmon 7
+search: '`sysmon` ImageLoaded EventCode=7 NOT ImageLoaded IN ("*\\Program Files*","*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*") 
+| stats latest(ProcessGuid) as process_guid, count, min(_time) as firstTime, max(_time) as lastTime by User, Computer, Image, ImageLoaded
+| rename User as user, Computer as dest, Image as process, ImageLoaded as loaded_file
+| eval process_name = case(isnotnull(process),replace(process,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")), loaded_file_path = case(isnotnull(loaded_file), replace(loaded_file, "(:[\w\. ]+)", "")), loaded_file = case(isnotnull(loaded_file),replace(loaded_file,"(.*\\\)(?=.*(\.\w*)$|(\w+)$)","")), user = case(NOT user IN ("-"), replace(user, "(.*)\\\(.+)$","\2"))
+| lookup hijacklibs_loaded library AS loaded_file OUTPUT islibrary comment as desc
+| lookup hijacklibs_loaded library AS loaded_file excludes as loaded_file_path OUTPUT islibrary as excluded
+| search islibrary = TRUE AND excluded = false
+| stats values(*) as * by dest, process_name, process, process_guid, loaded_file, loaded_file_path
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `windows_known_abused_dll_loaded_suspiciously_filter`'
+how_to_implement: The following analytic requires Sysmon operational logs to be imported, with EID7 being mapped to the process_name field. Modify the sysmon macro as needed to match the sourcetype or add index.
+known_false_positives: DLLs being loaded by user mode programs for legitimate reasons.
+references:
+- https://attack.mitre.org/techniques/T1574/002/
+- https://hijacklibs.net/api/
+- https://wietze.github.io/blog/hijacking-dlls-in-windows
+- https://github.com/olafhartong/sysmon-modular/pull/195/files
+tags:
+  analytic_story:
+  - Windows Defense Evasion Tactics
+  - Living Off The Land
+  asset_type: Endpoint
+  confidence: 25
+  impact: 40
+  message: The module [$loaded_file$] was loaded from an unusual location by [$process$]
+  mitre_attack_id:
+  - T1574.001
+  - T1574.002
+  - T1574
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: process
+    type: Process
+    role:
+    - Attacker
+  - name: process
+    type: Process
+    role:
+    - Attacker	
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - Computer
+  - ProcessGuid
+  risk_score: 10
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/hijacklibs/hijacklibs_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
