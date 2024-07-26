@@ -1,0 +1,69 @@
+name: Windows LOLBAS Executed Outside Expected Path
+id: 326fdf44-b90c-4d2e-adca-1fd140b10536
+version: 1
+date: '2024-04-29'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies a LOLBAS process being executed outside of it's expected location. Processes being executed outside of expected locations may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
+data_source: 
+- Sysmon EID 1
+- Windows Security EID 4688
+search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process) as parent_process, latest(Processes.process) as process, latest(Processes.process_guid) as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes where Processes.process != "unknown" AND NOT Processes.process_path IN ("*\\Program Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") BY Processes.user Processes.dest Processes.parent_process_name Processes.process_name Processes.process_path 
+|`drop_dm_object_name(Processes)`
+| lookup lolbas_file_path lolbas_file_name as process_name OUTPUT description as desc
+| lookup lolbas_file_path lolbas_file_name as process_name lolbas_file_path as process_path OUTPUT description as is_lolbas_path
+| search desc!="false" AND is_lolbas_path="false"
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `windows_lolbas_executed_outside_expected_path_filter`'
+how_to_implement: To implement this search, you must ingest logs that contain the process name and process path, such as with Sysmon EID 1.  
+known_false_positives: Vendors will often copy system exectables to a different path for application usage.
+references:
+- https://attack.mitre.org/techniques/T1036/
+- https://attack.mitre.org/techniques/T1036/005/
+tags:
+  analytic_story: 
+  - Living Off The Land
+  - Masquerading - Rename System Utilities
+  - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  confidence: 50
+  impact: 80
+  message: The user $user$ executed a LOLBAS [$process_name$] from an unexpected location on $dest$
+  mitre_attack_id: 
+  - T1036
+  - T1036.005
+  - T1218.011
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: process_name
+    type: Process Name
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - Processes.user
+  - Processes.dest
+  - Processes.parent_process_name
+  - Processes.process_name
+  - Processes.original_file_name
+  - Processes.process_path
+  risk_score: 40
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/cmd_lolbas_usage/cmd_lolbas_usage.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
