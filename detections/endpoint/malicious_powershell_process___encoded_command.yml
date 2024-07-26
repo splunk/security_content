@@ -1,8 +1,8 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 8
-date: '2024-05-19'
-author: David Dorsey, Michael Haag, Splunk
+version: 9
+date: '2024-07-26'
+author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
 description: 'The following analytic detects the use of the EncodedCommand parameter
@@ -22,8 +22,8 @@ search: "| tstats `security_content_summariesonly` count min(_time) as firstTime
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
   Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|– |—|―]e(nc*o*d*e*d*c*o*m*m*a*n*d*)*\\\
-  s+[^-]\") | `malicious_powershell_process___encoded_command_filter`"
+  | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|–|—|―][Ee^]{1,2}[NnCcOoDdEeMmAa^]+\\s+[\\\"]?[A-Za-z0-9+/=]{5,}[\\\"]?\")
+  | `malicious_powershell_process___encoded_command_filter`"
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
