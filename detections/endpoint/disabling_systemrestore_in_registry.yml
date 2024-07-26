@@ -14,7 +14,7 @@ description: The following analytic detects the modification of registry keys to
   system recovery, allowing the attacker to sustain their foothold and potentially
   cause further damage or data loss.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SystemRestore\\DisableSR"

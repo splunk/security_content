@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of Windows shell processes
   initiated by WinRAR, such as "cmd.exe", "powershell.exe", "certutil.exe", "mshta.exe",
   or "bitsadmin.exe". This detection leverages data from Endpoint Detection and Response

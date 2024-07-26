@@ -9,6 +9,8 @@ description: |-
   The following analytic detects attempts to stop security-related services on an endpoint, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for processes involving the "sc.exe" command with the "stop" parameter. This activity is significant because disabling security services can undermine the organization's security posture, potentially leading to unauthorized access, data exfiltration, or further attacks like malware installation or privilege escalation. If confirmed malicious, this behavior could compromise the endpoint and the entire network, necessitating immediate investigation and response.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_net` OR  Processes.process_name = sc.exe Processes.process="* stop

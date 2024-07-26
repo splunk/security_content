@@ -14,7 +14,7 @@ description: The following analytic detects registry activity related to the cre
   manipulate application behavior, posing a severe risk to the integrity and security
   of the affected systems.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*)

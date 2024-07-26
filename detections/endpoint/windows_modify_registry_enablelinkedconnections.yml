@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: The following analytic detects a suspicious modification to the Windows
   registry setting for EnableLinkedConnections. It leverages data from the Endpoint.Registry

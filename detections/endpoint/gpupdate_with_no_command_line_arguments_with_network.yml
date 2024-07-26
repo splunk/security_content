@@ -15,7 +15,7 @@ description: The following analytic detects the execution of gpupdate.exe withou
   lateral movement, command and control, or other nefarious purposes, potentially
   leading to system compromise.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process

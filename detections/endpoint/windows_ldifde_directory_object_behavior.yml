@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the use of Ldifde.exe, a command-line
   utility for creating, modifying, or deleting LDAP directory objects. This detection
   leverages data from Endpoint Detection and Response (EDR) agents, focusing on process

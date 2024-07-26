@@ -15,6 +15,8 @@ description: The following analytic identifies the use of remote access software
   any unauthorized utilities.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
   as parent_process from datamodel=Endpoint.Processes where Processes.dest!=unknown

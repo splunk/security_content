@@ -9,6 +9,8 @@ description: |-
   The following analytic detects the creation or deletion of Windows shares using the net.exe command. It leverages Endpoint Detection and Response (EDR) data to identify processes involving net.exe with actions related to share management. This activity is significant because it may indicate an attacker attempting to manipulate network shares for malicious purposes, such as data exfiltration, malware distribution, or establishing persistence. If confirmed malicious, this activity could lead to unauthorized access to sensitive information, service disruption, or malware introduction. Immediate investigation is required to determine the intent and mitigate potential threats.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
   user values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_net` by

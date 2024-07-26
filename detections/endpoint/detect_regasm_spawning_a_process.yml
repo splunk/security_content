@@ -16,6 +16,8 @@ description: The following analytic detects regasm.exe spawning a child process.
   activities.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=regasm.exe
   NOT (Processes.process_name IN ("conhost.exe")) by Processes.dest Processes.user

@@ -15,6 +15,8 @@ description: The following analytic detects the creation of .wav files in the Ap
   the affected system's confidentiality.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=*.exe Processes.process_path="*\\appdata\\Roaming\\*"

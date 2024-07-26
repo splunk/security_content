@@ -14,7 +14,7 @@ description: The following analytic detects modifications to registry keys under
   attackers to execute arbitrary code with elevated privileges, leading to potential
   system compromise and persistent access.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File

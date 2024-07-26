@@ -15,6 +15,8 @@ description: The following analytic identifies the execution of rundll32.exe wit
   maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*start*
   by Processes.dest Processes.user Processes.parent_process Processes.process_name

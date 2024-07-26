@@ -12,7 +12,7 @@ description: The following analytic detects excessive file deletion events in th
   If confirmed malicious, this activity could allow an attacker to disable endpoint
   protection, facilitating further malicious actions without detection.
 data_source:
-- Sysmon EventID 23
+- Sysmon EventID 23 
 - Sysmon EventID 26
 search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\ProgramData\\Microsoft\\Windows
   Defender\\*" | stats count, values(TargetFilename) as deleted_files, min(_time)

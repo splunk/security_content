@@ -14,6 +14,8 @@ description: The following analytic detects the loading of a DLL using the regsv
   arbitrary code, maintain persistence, and further compromise the system.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` AND Processes.process="*/i*"
   by Processes.dest Processes.parent_process Processes.process Processes.parent_process_name
