@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage URL
 id: 9296f515-073c-43a5-88ec-eda5a4626654
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-07-09'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -20,15 +20,20 @@ search: '| tstats count min(_time) as firstTime max(_time) as lastTime latest(We
   Web.src Web.category Web.url_domain | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `drop_dm_object_name("Web")` | lookup remote_access_software remote_domain AS
   url_domain OUTPUT isutility, description as signature, comment_reference as desc,
-  category | search isutility = True | `detect_remote_access_software_usage_url_filter`'
+  category | search isutility = True | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_url_filter`'
 how_to_implement: The detection is based on data that originates from network logs.
   These logs must be processed using the appropriate Splunk Technology Add-ons that
   are specific to the network logs. The logs must also be mapped to the `Web` data
   model. Use the Splunk Common Information Model (CIM) to normalize the field names
-  and speed up the data modeling process.
+  and speed up the data modeling process. The "exceptions" macro leverages 
+  both an Assets and Identities lookup, as well as a KVStore collection called 
+  "remote_software_exceptions" that lets you track and maintain device-
+  based exceptions for this set of detections.
 known_false_positives: It is possible that legitimate remote access software is used
   within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment.
+  additional remote access software that is used within the environment. 
+  Known false positives can be added to the remote_access_software_usage_exception.csv 
+  lookup to globally suppress these situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -70,6 +75,7 @@ tags:
   - Web.url_domain
   risk_score: 25
   security_domain: network
+  manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
 - name: True Positive Test
   attack_data:
