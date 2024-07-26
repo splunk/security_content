@@ -1,0 +1,476 @@
+lolbas_file_name,lolbas_file_path,description
+eventvwr.exe,c:\windows\system32\*,Displays Windows Event Logs in a GUI window.
+eventvwr.exe,c:\windows\syswow64\*,Displays Windows Event Logs in a GUI window.
+rasautou.exe,c:\windows\system32\*,Windows Remote Access Dialer
+regedit.exe,c:\windows\*,Used by Windows to manipulate registry
+regedit.exe,c:\windows\syswow64\*,Used by Windows to manipulate registry
+regsvr32.exe,c:\windows\system32\*,Used by Windows to register dlls
+regsvr32.exe,c:\windows\syswow64\*,Used by Windows to register dlls
+control.exe,c:\windows\system32\*,Binary used to launch controlpanel items in Windows
+control.exe,c:\windows\syswow64\*,Binary used to launch controlpanel items in Windows
+configsecuritypolicy.exe,c:\programdata\microsoft\windows defender\platform\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+configsecuritypolicy.exe,c:\program files\windows defender\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+configsecuritypolicy.exe,c:\program files\microsoft security client\*,Binary part of Windows Defender. Used to manage settings in Windows Defender. you can configure different pilot collections for each of the co-management workloads. Being able to use different pilot collections allows you to take a more granular approach when shifting workloads.
+scriptrunner.exe,c:\windows\system32\*,Execute binary through proxy binary to evade defensive counter measures
+scriptrunner.exe,c:\windows\syswow64\*,Execute binary through proxy binary to evade defensive counter measures
+offlinescannershell.exe,c:\program files\windows defender\offline\*,Windows Defender Offline Shell
+atbroker.exe,c:\windows\system32\*,Helper binary for Assistive Technology (AT)
+atbroker.exe,c:\windows\syswow64\*,Helper binary for Assistive Technology (AT)
+mmc.exe,c:\windows\system32\*,Load snap-ins to locally and remotely manage Windows systems
+mmc.exe,c:\windows\syswow64\*,Load snap-ins to locally and remotely manage Windows systems
+mavinject.exe,c:\windows\system32\*,Used by App-v in Windows
+mavinject.exe,c:\windows\syswow64\*,Used by App-v in Windows
+ftp.exe,c:\windows\system32\*,A binary designed for connecting to FTP servers
+ftp.exe,c:\windows\syswow64\*,A binary designed for connecting to FTP servers
+ttdinject.exe,c:\windows\system32\*,Used by Windows 1809 and newer to Debug Time Travel (Underlying call of tttracer.exe)
+ttdinject.exe,c:\windows\syswow64\*,Used by Windows 1809 and newer to Debug Time Travel (Underlying call of tttracer.exe)
+certoc.exe,c:\windows\system32\*,Used for installing certificates
+certoc.exe,c:\windows\syswow64\*,Used for installing certificates
+at.exe,c:\windows\system32\*,Schedule periodic tasks
+at.exe,c:\windows\syswow64\*,Schedule periodic tasks
+netsh.exe,c:\windows\system32\*,Netsh is a Windows tool used to manipulate network interface settings.
+netsh.exe,c:\windows\syswow64\*,Netsh is a Windows tool used to manipulate network interface settings.
+pnputil.exe,c:\windows\system32\*,Used for installing drivers
+ie4uinit.exe,c:\windows\system32\*,Executes commands from a specially prepared ie4uinit.inf file.
+ie4uinit.exe,c:\windows\syswow64\*,Executes commands from a specially prepared ie4uinit.inf file.
+infdefaultinstall.exe,c:\windows\system32\*,Binary used to perform installation based on content inside inf files
+infdefaultinstall.exe,c:\windows\syswow64\*,Binary used to perform installation based on content inside inf files
+forfiles.exe,c:\windows\system32\*,Selects and executes a command on a file or set of files. This command is useful for batch processing.
+forfiles.exe,c:\windows\syswow64\*,Selects and executes a command on a file or set of files. This command is useful for batch processing.
+register-cimprovider.exe,c:\windows\system32\*,Used to register new wmi providers
+register-cimprovider.exe,c:\windows\syswow64\*,Used to register new wmi providers
+tttracer.exe,c:\windows\system32\*,Used by Windows 1809 and newer to Debug Time Travel
+tttracer.exe,c:\windows\syswow64\*,Used by Windows 1809 and newer to Debug Time Travel
+xwizard.exe,c:\windows\system32\*,Execute custom class that has been added to the registry or download a file with Xwizard.exe
+xwizard.exe,c:\windows\syswow64\*,Execute custom class that has been added to the registry or download a file with Xwizard.exe
+pcalua.exe,c:\windows\system32\*,Program Compatibility Assistant
+print.exe,c:\windows\system32\*,Used by Windows to send files to the printer
+print.exe,c:\windows\syswow64\*,Used by Windows to send files to the printer
+runscripthelper.exe,c:\windows\winsxs\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.15_none_c2df1bba78111118\*,Execute target PowerShell script
+runscripthelper.exe,c:\windows\winsxs\amd64_microsoft-windows-u..ed-telemetry-client_31bf3856ad364e35_10.0.16299.192_none_ad4699b571e00c4a\*,Execute target PowerShell script
+regasm.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,Part of .NET
+regasm.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,Part of .NET
+regasm.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,Part of .NET
+regasm.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Part of .NET
+cmd.exe,c:\windows\system32\*,The command-line interpreter in Windows
+cmd.exe,c:\windows\syswow64\*,The command-line interpreter in Windows
+msbuild.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,Used to compile and execute code
+msbuild.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,Used to compile and execute code
+msbuild.exe,c:\windows\microsoft.net\framework\v3.5\*,Used to compile and execute code
+msbuild.exe,c:\windows\microsoft.net\framework64\v3.5\*,Used to compile and execute code
+msbuild.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,Used to compile and execute code
+msbuild.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Used to compile and execute code
+msbuild.exe,c:\program files (x86)\msbuild\14.0\bin\*,Used to compile and execute code
+certutil.exe,c:\windows\system32\*,Windows binary used for handling certificates
+certutil.exe,c:\windows\syswow64\*,Windows binary used for handling certificates
+vbc.exe,c:\windows\microsoft.net\framework\v*\*,Binary file used for compile vbs code
+vbc.exe,c:\windows\microsoft.net\framework64\v*\*,Binary file used for compile vbs code
+psr.exe,c:\windows\system32\*,"Windows Problem Steps Recorder, used to record screen and clicks."
+psr.exe,c:\windows\syswow64\*,"Windows Problem Steps Recorder, used to record screen and clicks."
+extexport.exe,c:\program files\internet explorer\*,Load a DLL located in the c:\test folder with a specific name.
+extexport.exe,c:\program files (x86)\internet explorer\*,Load a DLL located in the c:\test folder with a specific name.
+rpcping.exe,c:\windows\system32\*,Used to verify rpc connection
+rpcping.exe,c:\windows\syswow64\*,Used to verify rpc connection
+msdt.exe,c:\windows\system32\*,Microsoft diagnostics tool
+msdt.exe,c:\windows\syswow64\*,Microsoft diagnostics tool
+gfxdownloadwrapper.exe,c:\windows\system32\driverstore\filerepository\*,"Remote file download used by the Intel Graphics Control Panel, receives as first parameter a URL and a destination file path."
+dnscmd.exe,c:\windows\system32\*,A command-line interface for managing DNS servers
+dnscmd.exe,c:\windows\syswow64\*,A command-line interface for managing DNS servers
+wab.exe,c:\program files\windows mail\*,Windows address book manager
+wab.exe,c:\program files (x86)\windows mail\*,Windows address book manager
+msconfig.exe,c:\windows\system32\*,"MSConfig is a troubleshooting tool which is used to temporarily disable or re-enable software, device drivers or Windows services that run during startup process to help the user determine the cause of a problem with Windows"
+wscript.exe,c:\windows\system32\*,Used by Windows to execute scripts
+wscript.exe,c:\windows\syswow64\*,Used by Windows to execute scripts
+makecab.exe,c:\windows\system32\*,Binary to package existing files into a cabinet (.cab) file
+makecab.exe,c:\windows\syswow64\*,Binary to package existing files into a cabinet (.cab) file
+datasvcutil.exe,c:\windows\microsoft.net\framework64\v3.5\*,DataSvcUtil.exe is a command-line tool provided by WCF Data Services that consumes an Open Data Protocol (OData) feed and generates the client data service classes that are needed to access a data service from a .NET Framework client application.
+cmdl32.exe,c:\windows\system32\*,Microsoft Connection Manager Auto-Download
+cmdl32.exe,c:\windows\syswow64\*,Microsoft Connection Manager Auto-Download
+mshta.exe,c:\windows\system32\*,Used by Windows to execute html applications. (.hta)
+mshta.exe,c:\windows\syswow64\*,Used by Windows to execute html applications. (.hta)
+cmdkey.exe,c:\windows\system32\*,"creates, lists, and deletes stored user names and passwords or credentials."
+cmdkey.exe,c:\windows\syswow64\*,"creates, lists, and deletes stored user names and passwords or credentials."
+ilasm.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,used for compile c# code into dll or exe.
+ilasm.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,used for compile c# code into dll or exe.
+rdrleakdiag.exe,c:\windows\system32\*,Microsoft Windows resource leak diagnostic tool
+rdrleakdiag.exe,c:\windows\syswow64\*,Microsoft Windows resource leak diagnostic tool
+mpcmdrun.exe,c:\program files\windows defender\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+mpcmdrun.exe,c:\programdata\microsoft\windows defender\platform\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+mpcmdrun.exe,c:\program files\microsoft security client\*,Binary part of Windows Defender. Used to manage settings in Windows Defender
+jsc.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,Binary file used by .NET to compile javascript code to .exe or .dll format
+jsc.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,Binary file used by .NET to compile javascript code to .exe or .dll format
+jsc.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,Binary file used by .NET to compile javascript code to .exe or .dll format
+jsc.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,Binary file used by .NET to compile javascript code to .exe or .dll format
+cmstp.exe,c:\windows\system32\*,Installs or removes a Connection Manager service profile.
+cmstp.exe,c:\windows\syswow64\*,Installs or removes a Connection Manager service profile.
+stordiag.exe,c:\windows\system32\*,Storage diagnostic tool
+stordiag.exe,c:\windows\syswow64\*,Storage diagnostic tool
+odbcconf.exe,c:\windows\system32\*,Used in Windows for managing ODBC connections
+odbcconf.exe,c:\windows\syswow64\*,Used in Windows for managing ODBC connections
+wlrmdr.exe,c:\windows\system32\*,Windows Logon Reminder executable
+printbrm.exe,c:\windows\system32\spool\tools\*,Printer Migration Command-Line Tool
+dfsvc.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,ClickOnce engine in Windows used by .NET
+dfsvc.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,ClickOnce engine in Windows used by .NET
+dfsvc.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,ClickOnce engine in Windows used by .NET
+dfsvc.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,ClickOnce engine in Windows used by .NET
+extrac32.exe,c:\windows\system32\*,"Extract to ADS, copy or overwrite a file with Extrac32.exe"
+extrac32.exe,c:\windows\syswow64\*,"Extract to ADS, copy or overwrite a file with Extrac32.exe"
+rundll32.exe,c:\windows\system32\*,Used by Windows to execute dll files
+rundll32.exe,c:\windows\syswow64\*,Used by Windows to execute dll files
+runonce.exe,c:\windows\system32\*,Executes a Run Once Task that has been configured in the registry
+runonce.exe,c:\windows\syswow64\*,Executes a Run Once Task that has been configured in the registry
+explorer.exe,c:\windows\*,Binary used for managing files and system components within Windows
+explorer.exe,c:\windows\syswow64\*,Binary used for managing files and system components within Windows
+wuauclt.exe,c:\windows\system32\*,Windows Update Client
+wsreset.exe,c:\windows\system32\*,Used to reset Windows Store settings according to its manifest file
+finger.exe,c:\windows\system32\*,Displays information about a user or users on a specified remote computer that is running the Finger service or daemon
+finger.exe,c:\windows\syswow64\*,Displays information about a user or users on a specified remote computer that is running the Finger service or daemon
+regini.exe,c:\windows\system32\*,Used to manipulate the registry
+regini.exe,c:\windows\syswow64\*,Used to manipulate the registry
+reg.exe,c:\windows\system32\*,Used to manipulate the registry
+reg.exe,c:\windows\syswow64\*,Used to manipulate the registry
+syncappvpublishingserver.exe,c:\windows\system32\*,Used by App-v to get App-v server lists
+syncappvpublishingserver.exe,c:\windows\syswow64\*,Used by App-v to get App-v server lists
+bitsadmin.exe,c:\windows\system32\*,Used for managing background intelligent transfer
+bitsadmin.exe,c:\windows\syswow64\*,Used for managing background intelligent transfer
+msiexec.exe,c:\windows\system32\*,Used by Windows to execute msi files
+msiexec.exe,c:\windows\syswow64\*,Used by Windows to execute msi files
+regsvcs.exe,c:\windows\system32\*,Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies
+regsvcs.exe,c:\windows\syswow64\*,Regsvcs and Regasm are Windows command-line utilities that are used to register .NET Component Object Model (COM) assemblies
+gpscript.exe,c:\windows\system32\*,Used by group policy to process scripts
+gpscript.exe,c:\windows\syswow64\*,Used by group policy to process scripts
+diskshadow.exe,c:\windows\system32\*,Diskshadow.exe is a tool that exposes the functionality offered by the volume shadow copy Service (VSS).
+diskshadow.exe,c:\windows\syswow64\*,Diskshadow.exe is a tool that exposes the functionality offered by the volume shadow copy Service (VSS).
+ieexec.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,The IEExec.exe application is an undocumented Microsoft .NET Framework application that is included with the .NET Framework. You can use the IEExec.exe application as a host to run other managed applications that you start by using a URL.
+ieexec.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,The IEExec.exe application is an undocumented Microsoft .NET Framework application that is included with the .NET Framework. You can use the IEExec.exe application as a host to run other managed applications that you start by using a URL.
+diantz.exe,c:\windows\system32\*,Binary that package existing files into a cabinet (.cab) file
+diantz.exe,c:\windows\syswow64\*,Binary that package existing files into a cabinet (.cab) file
+desktopimgdownldr.exe,c:\windows\system32\*,Windows binary used to configure lockscreen/desktop image
+appinstaller.exe,c:\program files\windowsapps\microsoft.desktopappinstaller_1.11.2521.0_x64__8wekyb3d8bbwe\*,Tool used for installation of AppX/MSIX applications on Windows 10
+sc.exe,c:\windows\system32\*,Used by Windows to manage services
+sc.exe,c:\windows\syswow64\*,Used by Windows to manage services
+replace.exe,c:\windows\system32\*,Used to replace file with another file
+replace.exe,c:\windows\syswow64\*,Used to replace file with another file
+schtasks.exe,c:\windows\system32\*,Schedule periodic tasks
+schtasks.exe,c:\windows\syswow64\*,Schedule periodic tasks
+microsoft.workflow.compiler.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,A utility included with .NET that is capable of compiling and executing C# or VB.net code.
+expand.exe,c:\windows\system32\*,Binary that expands one or more compressed files
+expand.exe,c:\windows\syswow64\*,Binary that expands one or more compressed files
+conhost.exe,c:\windows\system32\*,Console Window host
+bash.exe,c:\windows\system32\*,File used by Windows subsystem for Linux
+bash.exe,c:\windows\syswow64\*,File used by Windows subsystem for Linux
+pcwrun.exe,c:\windows\system32\*,Program Compatibility Wizard
+fltmc.exe,c:\windows\system32\*,Filter Manager Control Program used by Windows
+wmic.exe,c:\windows\system32\wbem\*,The WMI command-line (WMIC) utility provides a command-line interface for WMI
+wmic.exe,c:\windows\syswow64\wbem\*,The WMI command-line (WMIC) utility provides a command-line interface for WMI
+workfolders.exe,c:\windows\system32\*,Work Folders
+settingsynchost.exe,c:\windows\system32\*,Host Process for Setting Synchronization
+settingsynchost.exe,c:\windows\syswow64\*,Host Process for Setting Synchronization
+pktmon.exe,c:\windows\system32\*,Capture Network Packets on the windows 10 with October 2018 Update or later.
+pktmon.exe,c:\windows\syswow64\*,Capture Network Packets on the windows 10 with October 2018 Update or later.
+aspnet_compiler.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,ASP.NET Compilation Tool
+aspnet_compiler.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,ASP.NET Compilation Tool
+cscript.exe,c:\windows\system32\*,Binary used to execute scripts in Windows
+cscript.exe,c:\windows\syswow64\*,Binary used to execute scripts in Windows
+installutil.exe,c:\windows\microsoft.net\framework\v2.0.50727\*,The Installer tool is a command-line utility that allows you to install and uninstall server resources by executing the installer components in specified assemblies
+installutil.exe,c:\windows\microsoft.net\framework64\v2.0.50727\*,The Installer tool is a command-line utility that allows you to install and uninstall server resources by executing the installer components in specified assemblies
+installutil.exe,c:\windows\microsoft.net\framework\v4.0.30319\*,The Installer tool is a command-line utility that allows you to install and uninstall server resources by executing the installer components in specified assemblies
+installutil.exe,c:\windows\microsoft.net\framework64\v4.0.30319\*,The Installer tool is a command-line utility that allows you to install and uninstall server resources by executing the installer components in specified assemblies
+esentutl.exe,c:\windows\system32\*,Binary for working with Microsoft Joint Engine Technology (JET) database
+esentutl.exe,c:\windows\syswow64\*,Binary for working with Microsoft Joint Engine Technology (JET) database
+hh.exe,c:\windows\*,Binary used for processing chm files in Windows
+hh.exe,c:\windows\syswow64\*,Binary used for processing chm files in Windows
+findstr.exe,c:\windows\system32\*,"Write to ADS, discover, or download files with Findstr.exe"
+findstr.exe,c:\windows\syswow64\*,"Write to ADS, discover, or download files with Findstr.exe"
+verclsid.exe,c:\windows\system32\*,Used to verify a COM object before it is instantiated by Windows Explorer
+verclsid.exe,c:\windows\syswow64\*,Used to verify a COM object before it is instantiated by Windows Explorer
+certreq.exe,c:\windows\system32\*,Used for requesting and managing certificates
+certreq.exe,c:\windows\syswow64\*,Used for requesting and managing certificates
+csc.exe,c:\windows\microsoft.net\framework\v*\*,Binary file used by .NET to compile C# code
+csc.exe,c:\windows\microsoft.net\framework64\v*\*,Binary file used by .NET to compile C# code
+imewdbld.exe,c:\windows\system32\ime\shared\*,Microsoft IME Open Extended Dictionary Module
+presentationhost.exe,c:\windows\system32\*,File is used for executing Browser applications
+presentationhost.exe,c:\windows\syswow64\*,File is used for executing Browser applications
+shell32.dll,c:\windows\system32\*,Windows Shell Common Dll
+shell32.dll,c:\windows\syswow64\*,Windows Shell Common Dll
+zipfldr.dll,c:\windows\system32\*,Compressed Folder library
+zipfldr.dll,c:\windows\syswow64\*,Compressed Folder library
+desk.cpl,c:\windows\system32\*,Desktop Settings Control Panel
+desk.cpl,c:\windows\syswow64\*,Desktop Settings Control Panel
+comsvcs.dll,c:\windows\system32\*,COM+ Services
+setupapi.dll,c:\windows\system32\*,Windows Setup Application Programming Interface
+setupapi.dll,c:\windows\syswow64\*,Windows Setup Application Programming Interface
+mshtml.dll,c:\windows\system32\*,Microsoft HTML Viewer
+mshtml.dll,c:\windows\syswow64\*,Microsoft HTML Viewer
+advpack.dll,c:\windows\system32\*,Utility for installing software and drivers with rundll32.exe
+advpack.dll,c:\windows\syswow64\*,Utility for installing software and drivers with rundll32.exe
+pcwutl.dll,c:\windows\system32\*,Microsoft HTML Viewer
+pcwutl.dll,c:\windows\syswow64\*,Microsoft HTML Viewer
+shdocvw.dll,c:\windows\system32\*,Shell Doc Object and Control Library.
+shdocvw.dll,c:\windows\syswow64\*,Shell Doc Object and Control Library.
+ieframe.dll,c:\windows\system32\*,Internet Browser DLL for translating HTML code.
+ieframe.dll,c:\windows\syswow64\*,Internet Browser DLL for translating HTML code.
+dfshim.dll,c:\windows\microsoft.net\framework\v2.0.50727\*,ClickOnce engine in Windows used by .NET
+dfshim.dll,c:\windows\microsoft.net\framework64\v2.0.50727\*,ClickOnce engine in Windows used by .NET
+dfshim.dll,c:\windows\microsoft.net\framework\v4.0.30319\*,ClickOnce engine in Windows used by .NET
+dfshim.dll,c:\windows\microsoft.net\framework64\v4.0.30319\*,ClickOnce engine in Windows used by .NET
+url.dll,c:\windows\system32\*,Internet Shortcut Shell Extension DLL.
+url.dll,c:\windows\syswow64\*,Internet Shortcut Shell Extension DLL.
+ieadvpack.dll,c:\windows\system32\*,INF installer for Internet Explorer. Has much of the same functionality as advpack.dll.
+ieadvpack.dll,c:\windows\syswow64\*,INF installer for Internet Explorer. Has much of the same functionality as advpack.dll.
+syssetup.dll,c:\windows\system32\*,Windows NT System Setup
+syssetup.dll,c:\windows\syswow64\*,Windows NT System Setup
+winrm.vbs,c:\windows\system32\*,Script used for manage Windows RM settings
+winrm.vbs,c:\windows\syswow64\*,Script used for manage Windows RM settings
+manage-bde.wsf,c:\windows\system32\*,Script for managing BitLocker
+cl_mutexverifiers.ps1,c:\windows\diagnostics\system\windowsupdate\*,Proxy execution with CL_Mutexverifiers.ps1
+cl_mutexverifiers.ps1,c:\windows\diagnostics\system\audio\*,Proxy execution with CL_Mutexverifiers.ps1
+cl_mutexverifiers.ps1,c:\windows\diagnostics\system\video\*,Proxy execution with CL_Mutexverifiers.ps1
+cl_mutexverifiers.ps1,c:\windows\diagnostics\system\speech\*,Proxy execution with CL_Mutexverifiers.ps1
+pubprn.vbs,c:\windows\system32\printing_admin_scripts\en-us\*,Proxy execution with Pubprn.vbs
+pubprn.vbs,c:\windows\syswow64\printing_admin_scripts\en-us\*,Proxy execution with Pubprn.vbs
+pester.bat,c:\program files\windowspowershell\modules\pester\3.4.0\bin\*,Used as part of the Powershell pester
+pester.bat,c:\program files\windowspowershell\modules\pester\*\bin\*,Used as part of the Powershell pester
+cl_loadassembly.ps1,c:\windows\diagnostics\system\audio\*,PowerShell Diagnostic Script
+syncappvpublishingserver.vbs,c:\windows\system32\*,Script used related to app-v and publishing server
+cl_invocation.ps1,c:\windows\diagnostics\system\aero\*,Aero diagnostics script
+cl_invocation.ps1,c:\windows\diagnostics\system\audio\*,Aero diagnostics script
+cl_invocation.ps1,c:\windows\diagnostics\system\windowsupdate\*,Aero diagnostics script
+utilityfunctions.ps1,c:\windows\diagnostics\system\networking\*,PowerShell Diagnostic Script
+coregen.exe,c:\program files\microsoft silverlight\5.1.50918.0\*,"Binary coregen.exe (Microsoft CoreCLR Native Image Generator) loads exported function GetCLRRuntimeHost from coreclr.dll or from .DLL in arbitrary path. Coregen is located within ""C:\Program Files (x86)\Microsoft Silverlight\5.1.50918.0\"" or another version of Silverlight. Coregen is signed by Microsoft and bundled with Microsoft Silverlight."
+coregen.exe,c:\program files (x86)\microsoft silverlight\5.1.50918.0\*,"Binary coregen.exe (Microsoft CoreCLR Native Image Generator) loads exported function GetCLRRuntimeHost from coreclr.dll or from .DLL in arbitrary path. Coregen is located within ""C:\Program Files (x86)\Microsoft Silverlight\5.1.50918.0\"" or another version of Silverlight. Coregen is signed by Microsoft and bundled with Microsoft Silverlight."
+fsi.exe,c:\program files\dotnet\sdk\[sdk version]\fsharp\*,64-bit FSharp (F#) Interpreter included with Visual Studio and DotNet Core SDK.
+fsi.exe,c:\program files (x86)\microsoft visual studio\2019\professional\common7\ide\commonextensions\microsoft\fsharp\*,64-bit FSharp (F#) Interpreter included with Visual Studio and DotNet Core SDK.
+visualuiaverifynative.exe,c:\program files (x86)\windows kits\10\bin\[sdk version]\arm64\uiaverify\*,A Windows SDK binary for manual and automated testing of Microsoft UI Automation implementation and controls.
+visualuiaverifynative.exe,c:\program files (x86)\windows kits\10\bin\[sdk version]\x64\uiaverify\*,A Windows SDK binary for manual and automated testing of Microsoft UI Automation implementation and controls.
+visualuiaverifynative.exe,c:\program files (x86)\windows kits\10\bin\[sdk version]\uiaverify\*,A Windows SDK binary for manual and automated testing of Microsoft UI Automation implementation and controls.
+ntdsutil.exe,c:\windows\system32\*,Command line utility used to export Active Directory.
+sqltoolsps.exe,c:\program files (x86)\microsoft sql server\130\tools\binn\*,Tool included with Microsoft SQL that loads SQL Server cmdlts. A replacement for sqlps.exe. Successor to sqlps.exe in SQL Server 2016+.
+dump64.exe,c:\program files (x86)\microsoft visual studio\installer\feedback\*,Memory dump tool that comes with Microsoft Visual Studio
+wsl.exe,c:\windows\system32\*,Windows subsystem for Linux executable
+csi.exe,c:\program files (x86)\microsoft visual studio\2017\community\msbuild\15.0\bin\roslyn\*,Command line interface included with Visual Studio.
+csi.exe,c:\program files (x86)\microsoft web tools\packages\microsoft.net.compilers.x.y.z\tools\*,Command line interface included with Visual Studio.
+mftrace.exe,c:\program files (x86)\windows kits\10\bin\10.0.16299.0\*,Trace log generation tool for Media Foundation Tools.
+mftrace.exe,c:\program files (x86)\windows kits\10\bin\*,Trace log generation tool for Media Foundation Tools.
+adplus.exe,c:\program files (x86)\windows kits\10\debuggers\x64\*,Debugging tool included with Windows Debugging Tools
+adplus.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool included with Windows Debugging Tools
+excel.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office\office16\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office\office15\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office\office14\*,Microsoft Office binary
+excel.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office binary
+excel.exe,c:\program files\microsoft office\office12\*,Microsoft Office binary
+dotnet.exe,c:\program files\dotnet\*,dotnet.exe comes with .NET Framework
+sqlps.exe,c:\program files (x86)\microsoft sql server\*\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
+sqlps.exe,c:\program files\microsoft sql server\*\tools\binn\*,"Tool included with Microsoft SQL Server that loads SQL Server cmdlets. Microsoft SQL Server\100 and 110 are Powershell v2. Microsoft SQL Server\120 and 130 are Powershell version 4. Replaced by SQLToolsPS.exe in SQL Server 2016, but will be included with installation for compatability reasons."
+acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\x86\accchecker\*,Verifies UI accessibility requirements
+acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\x64\accchecker\*,Verifies UI accessibility requirements
+acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\arm\accchecker\*,Verifies UI accessibility requirements
+acccheckconsole.exe,c:\program files (x86)\windows kits\10\bin\10.0.22000.0\arm64\accchecker\*,Verifies UI accessibility requirements
+powerpnt.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office\office16\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office\office15\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office\office14\*,Microsoft Office binary.
+powerpnt.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office binary.
+powerpnt.exe,c:\program files\microsoft office\office12\*,Microsoft Office binary.
+sqldumper.exe,c:\program files\microsoft sql server\*\shared\*,Debugging utility included with Microsoft SQL.
+sqldumper.exe,c:\program files (x86)\microsoft office\root\vfs\programfilesx86\microsoft analysis\as oledb\140\*,Debugging utility included with Microsoft SQL.
+remote.exe,c:\program files (x86)\windows kits\10\debuggers\x64\*,Debugging tool included with Windows Debugging Tools
+remote.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool included with Windows Debugging Tools
+appvlp.exe,c:\program files\microsoft office\root\client\*,Application Virtualization Utility Included with Microsoft Office 2016
+appvlp.exe,c:\program files (x86)\microsoft office\root\client\*,Application Virtualization Utility Included with Microsoft Office 2016
+agentexecutor.exe,c:\program files (x86)\*,Intune Management Extension included on Intune Managed Devices
+dxcap.exe,c:\windows\system32\*,DirectX diagnostics/debugger included with Visual Studio.
+dxcap.exe,c:\windows\syswow64\*,DirectX diagnostics/debugger included with Visual Studio.
+cdb.exe,c:\program files (x86)\windows kits\10\debuggers\x64\*,Debugging tool included with Windows Debugging Tools.
+cdb.exe,c:\program files (x86)\windows kits\10\debuggers\x86\*,Debugging tool included with Windows Debugging Tools.
+defaultpack.exe,c:\program files (x86)\microsoft\defaultpack\*,This binary can be downloaded along side multiple software downloads on the microsoft website. It gets downloaded when the user forgets to uncheck the option to set Bing as the default search provider.
+devtoolslauncher.exe,c:\windows\system32\*,Binary will execute specified binary. Part of VS/VScode installation.
+vsiisexelauncher.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\extensions\microsoft\web tools\projectsystem\*,Binary will execute specified binary. Part of VS/VScode installation.
+winword.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office\office16\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office\office15\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office\office14\*,Microsoft Office binary
+winword.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office binary
+winword.exe,c:\program files\microsoft office\office12\*,Microsoft Office binary
+fsianycpu.exe,c:\program files (x86)\microsoft visual studio\2019\professional\common7\ide\commonextensions\microsoft\fsharp\*,32/64-bit FSharp (F#) Interpreter included with Visual Studio.
+vsjitdebugger.exe,c:\windows\system32\*,Just-In-Time (JIT) debugger included with Visual Studio
+wfc.exe,c:\program files (x86)\microsoft sdks\windows\v10.0a\bin\netfx 4.8 tools\*,The Workflow Command-line Compiler tool is included with the Windows Software Development Kit (SDK).
+msdeploy.exe,c:\program files (x86)\iis\microsoft web deploy v3\*,Microsoft tool used to deploy Web Applications.
+addinutil.exe,c:\windows\microsoft.net\framework\*\*,.NET Tool used for updating cache files for Microsoft Office Add-Ins.
+addinutil.exe,c:\windows\microsoft.net\framework64\*\*,.NET Tool used for updating cache files for Microsoft Office Add-Ins.
+appcert.exe,c:\program files (x86)\windows kits\10\app certification kit\*,Windows App Certification Kit command-line tool.
+appcert.exe,c:\program files\windows kits\10\app certification kit\*,Windows App Certification Kit command-line tool.
+bginfo.exe,*,Background Information Utility included with SysInternals Suite
+code.exe,c:\users\*\appdata\local\programs\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+code.exe,c:\program files\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+code.exe,c:\program files (x86)\microsoft vs code\*,"VSCode binary, also portable (CLI) version"
+colorcpl.exe,c:\windows\system32\*,Binary that handles color management
+colorcpl.exe,c:\windows\syswow64\*,Binary that handles color management
+createdump.exe,c:\program files\dotnet\shared\microsoft.netcore.app\*\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files (x86)\dotnet\shared\microsoft.netcore.app\*\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files\microsoft visual studio\*\community\dotnet\runtime\shared\microsoft.netcore.app\6.0.0\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+createdump.exe,c:\program files (x86)\microsoft visual studio\*\community\dotnet\runtime\shared\microsoft.netcore.app\6.0.0\*,Microsoft .NET Runtime Crash Dump Generator (included in .NET Core)
+customshellhost.exe,c:\windows\system32\*,A host process that is used by custom shells when using Windows in Kiosk mode.
+devicecredentialdeployment.exe,c:\windows\system32\*,Device Credential Deployment
+devinit.exe,c:\program files\microsoft visual studio\*\community\common7\tools\devinit\*,Visual Studio 2019 tool
+devinit.exe,c:\program files (x86)\microsoft visual studio\*\community\common7\tools\devinit\*,Visual Studio 2019 tool
+devtunnel.exe,c:\users\*\appdata\local\temp\.net\devtunnel\*,Binary to enable forwarded ports on windows operating systems.
+devtunnel.exe,c:\users\*\appdata\local\temp\devtunnels\*,Binary to enable forwarded ports on windows operating systems.
+dnx.exe,*,.Net Execution environment file included with .Net.
+dsdbutil.exe,c:\windows\system32\*,Dsdbutil is a command-line tool that is built into Windows Server. It is available if you have the AD LDS server role installed. Can be used as a command line utility to export Active Directory.
+dsdbutil.exe,c:\windows\syswow64\*,Dsdbutil is a command-line tool that is built into Windows Server. It is available if you have the AD LDS server role installed. Can be used as a command line utility to export Active Directory.
+dumpminitool.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\extensions\testplatform\extensions\*,Dump tool part Visual Studio 2022
+fsutil.exe,c:\windows\system32\*,File System Utility
+fsutil.exe,c:\windows\syswow64\*,File System Utility
+iediagcmd.exe,c:\program files\internet explorer\*,Diagnostics Utility for Internet Explorer
+launch-vsdevshell.ps1,c:\program files (x86)\microsoft visual studio\2019\community\common7\tools\*,Locates and imports a Developer PowerShell module and calls the Enter-VsDevShell cmdlet
+launch-vsdevshell.ps1,c:\program files\microsoft visual studio\2022\community\common7\tools\*,Locates and imports a Developer PowerShell module and calls the Enter-VsDevShell cmdlet
+ldifde.exe,c:\windows\system32\*,"Creates, modifies, and deletes LDAP directory objects."
+ldifde.exe,c:\windows\syswow64\*,"Creates, modifies, and deletes LDAP directory objects."
+microsoft.nodejstools.pressanykey.exe,c:\program files\microsoft visual studio\*\community\common7\ide\extensions\microsoft\nodejstools\nodejstools\*,Part of the NodeJS Visual Studio tools.
+microsoft.nodejstools.pressanykey.exe,c:\program files (x86)\microsoft visual studio\*\community\common7\ide\extensions\microsoft\nodejstools\nodejstools\*,Part of the NodeJS Visual Studio tools.
+msaccess.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office16\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office15\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office14\*,Microsoft Office component
+msaccess.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office component
+msaccess.exe,c:\program files\microsoft office\office12\*,Microsoft Office component
+msedge.exe,c:\users\*\appdata\local\microsoft\edge\*,Microsoft Edge browser
+msedge.exe,c:\program files\microsoft\edge\application\*,Microsoft Edge browser
+msedge.exe,c:\program files (x86)\microsoft\edge\application\*,Microsoft Edge browser
+msedgewebview2.exe,c:\program files (x86)\microsoft\edge\application\*,"msedgewebview2.exe is the executable file for Microsoft Edge WebView2, which is a web browser control used by applications to display web content."
+msedge_proxy.exe,c:\\program files (x86)\microsoft\edge\application\*,Microsoft Edge Browser
+msohtmed.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office16\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office15\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office14\*,Microsoft Office component
+msohtmed.exe,c:\program files (x86)\microsoft office\office12\*,Microsoft Office component
+msohtmed.exe,c:\program files\microsoft office\office12\*,Microsoft Office component
+mspub.exe,c:\program files\microsoft office\root\office*\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office16\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office15\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office 14\clientx86\root\office14\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office 14\clientx64\root\office14\*,Microsoft Publisher
+mspub.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Publisher
+mspub.exe,c:\program files\microsoft office\office14\*,Microsoft Publisher
+msxsl.exe,*,Command line utility used to perform XSL transformations.
+onedrivestandaloneupdater.exe,c:\users\*\appdata\local\microsoft\onedrive\*,OneDrive Standalone Updater
+openconsole.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os64\*,Console Window host for Windows Terminal
+openconsole.exe,c:\program files (x86)\microsoft visual studio\2019\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os86\*,Console Window host for Windows Terminal
+openconsole.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\terminal\servicehub\os64\*,Console Window host for Windows Terminal
+procdump.exe,*,SysInternals Memory Dump Tool
+protocolhandler.exe,c:\program files\microsoft office\root\office*\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office 16\clientx86\root\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office 16\clientx64\root\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office\office16\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office 15\clientx86\root\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office 15\clientx64\root\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Office binary
+protocolhandler.exe,c:\program files\microsoft office\office15\*,Microsoft Office binary
+provlaunch.exe,c:\windows\system32\*,Launcher process
+rcsi.exe,*,Non-Interactive command line inerface included with Visual Studio.
+runexehelper.exe,c:\windows\system32\*,Launcher process
+scrobj.dll,c:\windows\system32\*,Windows Script Component Runtime
+scrobj.dll,c:\windows\syswow64\*,Windows Script Component Runtime
+setres.exe,c:\windows\system32\*,Configures display settings
+shimgvw.dll,c:\windows\system32\*,Photo Gallery Viewer
+shimgvw.dll,c:\windows\syswow64\*,Photo Gallery Viewer
+squirrel.exe,c:\users\*\appdata\local\microsoft\teams\current\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+squirrel.exe,c:\users\*\appdata\local\microsoft\teams\stage\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+squirrel.exe,c:\programdata\*\microsoft\teams\current\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+ssh.exe,c:\windows\system32\openssh\*,Ssh.exe is the OpenSSH compatible client can be used to connect to Windows 10 (build 1809 and later) and Windows Server 2019 devices.
+tar.exe,c:\windows\system32\*,Used by Windows to extract and create archives.
+tar.exe,c:\windows\syswow64\*,Used by Windows to extract and create archives.
+te.exe,*,Testing tool included with Microsoft Test Authoring and Execution Framework (TAEF).
+teams.exe,c:\users\*\appdata\local\microsoft\teams\current\*,Electron runtime binary which runs the Teams application
+teams.exe,c:\users\*\appdata\local\microsoft\teams\stage\*,Electron runtime binary which runs the Teams application
+teams.exe,c:\programdata\*\microsoft\teams\current\*,Electron runtime binary which runs the Teams application
+testwindowremoteagent.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\testwindow\remoteagent\*,TestWindowRemoteAgent.exe is the command-line tool to establish RPC
+tracker.exe,*,Tool included with Microsoft .Net Framework.
+unregmp2.exe,c:\windows\system32\*,Microsoft Windows Media Player Setup Utility
+unregmp2.exe,c:\windows\syswow64\*,Microsoft Windows Media Player Setup Utility
+update.exe,c:\users\*\appdata\local\microsoft\teams\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+update.exe,c:\users\*\appdata\local\squirreltemp\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+update.exe,c:\programdata\*\microsoft\teams\*,Binary to update the existing installed Nuget/squirrel package. Part of Microsoft Teams installation.
+vsdiagnostics.exe,c:\program files\microsoft visual studio\2022\community\team tools\diagnosticshub\collector\*,Command-line tool used for performing diagnostics.
+vshadow.exe,c:\program files (x86)\windows kits\10\bin\10.0.xxxxx.0\x64\*,VShadow is a command-line tool that can be used to create and manage volume shadow copies.
+vsls-agent.exe,c:\program files (x86)\microsoft visual studio\2019\professional\common7\ide\extensions\microsoft\liveshare\agent\*,Agent for Visual Studio Live Share (Code Collaboration)
+vstest.console.exe,c:\program files\microsoft visual studio\2022\community\common7\ide\commonextensions\microsoft\testwindow\*,VSTest.Console.exe is the command-line tool to run tests
+vstest.console.exe,c:\program files (x86)\microsoft visual studio\2022\testagent\common7\ide\commonextensions\microsoft\testwindow\*,VSTest.Console.exe is the command-line tool to run tests
+wbadmin.exe,c:\windows\system32\*,Windows Backup Administration utility
+winget.exe,c:\users\*\appdata\local\microsoft\windowsapps\*,Windows Package Manager tool
+winproj.exe,c:\program files\microsoft office\root\office*\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office*\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office14\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office15\*,Microsoft Project Executable
+winproj.exe,c:\program files (x86)\microsoft office\root\office16\*,Microsoft Project Executable
+winproj.exe,c:\program files\microsoft office\root\office16\*,Microsoft Project Executable
+wt.exe,c:\program files\windowsapps\microsoft.windowsterminal_*,Windows Terminal
