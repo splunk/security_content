@@ -1,26 +1,26 @@
 name: Windows Protocol Tunneling with Plink
 id: 8aac5e1e-0fab-4437-af0b-c6e60af23eed
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-07-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of Plink for protocol tunneling,
-  either for egress or lateral movement within an organization. It identifies specific
-  Plink command-line options (-R, -L, -D, -l) by analyzing process execution logs
-  from Endpoint Detection and Response (EDR) agents. This activity is significant
+description: This analytic detects the use of Plink (including renamed versions like pvhost.exe) for protocol tunneling,
+  which may be used for egress or lateral movement within an organization. It identifies specific
+  command-line options (-R, -L, -D, -l, -N, -P, -pw) commonly used for port forwarding and tunneling
+  by analyzing process execution logs from Endpoint Detection and Response (EDR) agents. This activity is significant
   as it may indicate an attempt to bypass network security controls or establish unauthorized
   connections. If confirmed malicious, this could allow an attacker to exfiltrate
   data, move laterally across the network, or maintain persistent access, posing a
-  severe threat to the organization's security.
+  severe threat to the organization's security. The detection covers both the original Plink executable
+  and potential renamed versions, enhancing its ability to catch evasion attempts.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=plink.exe
-  OR Processes.original_file_name=Plink Processes.process IN ("*-R *", "*-L *", "*-D
-  *", "*-l *") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
+  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=plink.exe OR Processes.process_name=pvhost.exe OR Processes.original_file_name=Plink) AND
+  Processes.process IN ("*-R *", "*-L *", "*-D *", "*-l *", "*-N *", "*-P *", "*-pw *") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
   Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `windows_protocol_tunneling_with_plink_filter`'
@@ -40,6 +40,8 @@ references:
 - https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 - https://attack.mitre.org/techniques/T1572/
 - https://documentation.help/PuTTY/using-cmdline-portfwd.html#S3.8.3.5
+- https://media.defense.gov/2024/Jul/25/2003510137/-1/-1/0/Joint-CSA-North-Korea-Cyber-Espionage-Advance-Military-Nuclear-Programs.PDF
+- https://blog.talosintelligence.com/lazarus-three-rats/
 tags:
   analytic_story:
   - CISA AA22-257A

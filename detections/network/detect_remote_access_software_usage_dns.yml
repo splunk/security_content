@@ -1,17 +1,11 @@
 name: Detect Remote Access Software Usage DNS
 id: a16b797d-e309-41bd-8ba0-5067dae2e4be
-version: 2
+version: 3
 date: '2024-05-27'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects DNS queries to known remote access software
-  domains from within the environment. It leverages DNS query logs mapped to the Network_Resolution
-  data model and cross-references them with a lookup table of remote access software
-  domains, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant
-  as adversaries often use remote access tools to maintain persistent access to compromised
-  systems. If confirmed malicious, this could allow attackers to control systems remotely,
-  exfiltrate data, or further infiltrate the network, posing a severe security risk.
+description: The following analytic detects DNS queries to domains associated with known remote access software such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This detection is crucial as adversaries often use these tools to maintain access and control over compromised environments. Identifying such behavior is vital for a Security Operations Center (SOC) because unauthorized remote access can lead to data breaches, ransomware attacks, and other severe impacts if these threats are not mitigated promptly.
 data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -20,14 +14,8 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   `security_content_ctime(lastTime)` | lookup remote_access_software remote_domain
   AS query OUTPUT isutility, description as signature, comment_reference as desc,
   category | eval dest = query | search isutility = True | `detect_remote_access_software_usage_dns_filter`'
-how_to_implement: To implement this search, you must ingest logs that contain the
-  DNS query and the source of the query. These logs must be processed using the appropriate
-  Splunk Technology Add-ons that are specific to the DNS logs. The logs must also
-  be mapped to the `Network_Resolution` data model. Use the Splunk Common Information
-  Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: It is possible that legitimate remote access software is used
-  within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment.
+how_to_implement: To implement this search, you must ingest logs that contain the DNS query and the source of the query. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the DNS logs. The logs must also be mapped to the `Network_Resolution` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. Once the analytic is tuned for your environment, modify the risk scores to be more appropriate.
+known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and legitimate remote access software is removed from it to not cause false positives.
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -38,8 +26,8 @@ tags:
   - Command And Control
   - Ransomware
   asset_type: Endpoint
-  confidence: 50
-  impact: 50
+  confidence: 20
+  impact: 20
   message: A domain for a known remote access software $query$ was contacted by $src$.
   mitre_attack_id:
   - T1219
@@ -61,7 +49,7 @@ tags:
   - DNS.src
   - DNS.query
   - DNS.answer
-  risk_score: 25
+  risk_score: 4
   security_domain: endpoint
 tests:
 - name: True Positive Test
