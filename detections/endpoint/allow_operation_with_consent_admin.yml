@@ -15,7 +15,7 @@ description: The following analytic detects a registry modification that allows 
   administrative access and control over the compromised machine, posing a severe
   security risk.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\Microsoft\\Windows\\CurrentVersion\\Policies\\System*"

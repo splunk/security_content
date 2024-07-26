@@ -9,6 +9,8 @@ description: |-
   The following analytic detects processes with names consisting of a single letter, which is often indicative of malware or an attacker attempting to evade detection. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because attackers use such techniques to obscure their presence and carry out malicious activities like data theft or ransomware attacks. If confirmed malicious, this behavior could lead to unauthorized access, data exfiltration, or system compromise. Immediate investigation is required to determine the legitimacy of the process.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest, Processes.user,
   Processes.process, Processes.process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)`

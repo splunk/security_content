@@ -15,6 +15,8 @@ description: The following analytic detects the execution of a DCRat "forkbomb" 
   disruption of services.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.parent_process_id)
   as parent_process_id values(Processes.process_id) as process_id dc(Processes.parent_process_id)

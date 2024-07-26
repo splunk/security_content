@@ -14,7 +14,7 @@ description: The following analytic detects suspicious modifications to firewall
   leading to further exploitation, data exfiltration, or lateral movement within the
   network.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"

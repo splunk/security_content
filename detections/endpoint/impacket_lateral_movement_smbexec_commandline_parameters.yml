@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies suspicious command-line parameters
   associated with the use of Impacket's smbexec.py for lateral movement. It leverages
   data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line

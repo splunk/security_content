@@ -14,7 +14,7 @@ description: The following analytic detects email files (.pst or .ost) being cre
   sensitive email content, leading to data breaches or further exploitation within
   the network.
 data_source:
-- Sysmon Event ID 11
+- Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)
   as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path

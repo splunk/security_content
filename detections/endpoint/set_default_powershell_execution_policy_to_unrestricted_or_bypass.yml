@@ -14,6 +14,8 @@ description: The following analytic detects changes to the PowerShell ExecutionP
   to further compromise of the system and potential escalation of privileges.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)

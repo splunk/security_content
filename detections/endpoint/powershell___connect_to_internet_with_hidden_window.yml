@@ -16,6 +16,8 @@ description: The following analytic detects PowerShell commands using the Window
   endpoint.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name

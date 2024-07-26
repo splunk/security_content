@@ -14,6 +14,8 @@ description: The following analytic identifies attempts to stop services on a sy
   or disrupt essential services, leading to potential data loss or system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime  from datamodel=Endpoint.Processes where `process_net` OR  Processes.process_name
   = "sc.exe" OR Processes.original_file_name= "sc.exe" AND Processes.process="*stop*"

@@ -15,6 +15,8 @@ description: The following analytic detects the modification of the Windows regi
   configurations, leading to potential system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where (Processes.process_name="regedit.exe" OR Processes.original_file_name="regedit.exe")

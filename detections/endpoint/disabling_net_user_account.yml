@@ -14,6 +14,8 @@ description: The following analytic detects the use of the `net.exe` utility to 
   attacker in maintaining control or covering their tracks.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

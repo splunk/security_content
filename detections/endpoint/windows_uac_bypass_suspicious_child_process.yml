@@ -8,13 +8,15 @@ type: TTP
 description: The following analytic detects when an executable known for User Account
   Control (UAC) bypass exploitation spawns a child process in a user-controlled location
   or a command shell executable (e.g., cmd.exe, powershell.exe). This detection leverages
-  Sysmon Event ID 1 data, focusing on high or system integrity level processes with
+  Sysmon EventID 1 data, focusing on high or system integrity level processes with
   specific parent-child process relationships. This activity is significant as it
   may indicate an attacker has successfully used a UAC bypass exploit to escalate
   privileges. If confirmed malicious, this could allow the attacker to execute arbitrary
   commands with elevated privileges, potentially compromising the entire system.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level
   IN ("high","system") AND Processes.parent_process_name IN (`uacbypass_process_name`)

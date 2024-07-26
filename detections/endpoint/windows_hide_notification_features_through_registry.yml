@@ -13,7 +13,7 @@ description: The following analytic detects suspicious registry modifications ai
   this could prevent users from noticing critical system alerts, thereby aiding the
   attacker in maintaining persistence and furthering their malicious activities undetected.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"

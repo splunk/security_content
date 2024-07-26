@@ -7,6 +7,8 @@ status: production
 type: Hunting
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the use of Windows Management Instrumentation
   Command-line (WMIC) to retrieve information about running processes, specifically
   targeting the command lines used to launch those processes. This detection leverages

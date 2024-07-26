@@ -14,7 +14,7 @@ description: The following analytic detects a suspicious registry modification a
   undetected, making it difficult to trace their actions and compromising the integrity
   of security audits.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path="*\\Control\\MiniNt\\*") BY _time span=1h  Registry.user

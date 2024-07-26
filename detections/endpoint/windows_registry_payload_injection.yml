@@ -14,7 +14,8 @@ description: The following analytic detects suspiciously long data written to th
   to maintain persistence, execute code, or manipulate system configurations without
   leaving a conventional file footprint.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 12
+- Sysmon EventID 1 AND Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
   AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
   Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name

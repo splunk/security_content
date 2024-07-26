@@ -13,7 +13,8 @@ description: The following correlation identifies when a user exceeds a risk thr
   tactics, techniques, and procedures (TTPs) within a 24-hour period. If confirmed
   malicious, this activity could indicate a serious security breach, allowing attackers
   to gain unauthorized access, escalate privileges, or persist within the environment.
-data_source: []
+data_source: 
+- Okta
 search: '| tstats `security_content_summariesonly` values(All_Risk.analyticstories)
   as analyticstories  sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
   as risk_event_count,values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
