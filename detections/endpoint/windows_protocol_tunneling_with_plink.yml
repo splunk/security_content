@@ -95,4 +95,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/plink/plink-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

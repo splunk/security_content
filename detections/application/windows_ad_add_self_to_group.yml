@@ -50,4 +50,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

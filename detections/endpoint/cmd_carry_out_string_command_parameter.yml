@@ -59,7 +59,6 @@ tags:
   - CISA AA23-347A
   - Data Destruction
   asset_type: Endpoint
-  automated_detection_testing: passed
   confidence: 50
   cve:
   - CVE-2021-44228

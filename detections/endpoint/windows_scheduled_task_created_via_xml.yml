@@ -44,8 +44,6 @@ tags:
   - Scheduled Tasks
   asset_type: Endpoint
   confidence: 70
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
   impact: 70
   message: A scheduled task process, $process_name$, with 'create' or 'delete' commands
     present in the command line.

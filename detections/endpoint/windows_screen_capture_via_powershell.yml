@@ -34,8 +34,6 @@ tags:
   context:
   - Source:Endpoint
   - Stage:Collection
-  dataset:
-  - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_exfiltration/windows-powershell-xml.log
   impact: 70
   message: A PowerShell script was identified possibly performing screen captures
     on $Computer$.

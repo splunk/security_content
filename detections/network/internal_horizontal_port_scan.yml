@@ -61,4 +61,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/horizontal.log
     source: aws:cloudwatchlogs:vpcflow
     sourcetype: aws:cloudwatchlogs:vpcflow
-    update_timestamp: true
