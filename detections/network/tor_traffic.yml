@@ -59,7 +59,6 @@ tags:
   - All_Traffic.src_ip
   - All_Traffic.dest_ip
   - All_Traffic.dest_port
-  risk_score: 80
   security_domain: network
 tests:
 - name: True Positive Test

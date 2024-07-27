@@ -51,7 +51,6 @@ tags:
   - file_create_time
   - file_name
   - file_path
-  risk_score: 100
   security_domain: endpoint
 tests:
 - name: True Positive Test

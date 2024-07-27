@@ -49,5 +49,4 @@ tags:
   - _time
   - src
   - dest
-  risk_score: 100
   security_domain: network

@@ -65,7 +65,6 @@ tags:
   - nodename
   - All_Changes.result
   - All_Changes.dest
-  risk_score: 36
   security_domain: access
 tests:
 - name: True Positive Test
@@ -74,14 +73,11 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: 
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
-    update_timestamp: true
   - data: 
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

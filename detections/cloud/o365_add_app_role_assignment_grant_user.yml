@@ -61,7 +61,6 @@ tags:
   - UserId
   - dest
   - ResultStatus
-  risk_score: 18
   security_domain: threat
 tests:
 - name: True Positive Test

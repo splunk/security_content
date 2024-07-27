@@ -51,7 +51,6 @@ tags:
   - Exit_Code
   - dest
   - EventCode
-  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -60,4 +59,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-application.log
     source: XmlWinEventLog:Application
     sourcetype: XmlWinEventLog
-    update_timestamp: true

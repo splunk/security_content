@@ -64,5 +64,4 @@ tags:
   - Processes.process
   - Processes.parent_process_name
   - Processes.dest
-  risk_score: 25
   security_domain: endpoint

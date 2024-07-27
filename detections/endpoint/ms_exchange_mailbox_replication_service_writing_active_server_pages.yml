@@ -80,5 +80,4 @@ tags:
   - Processes.process_id
   - Processes.process_name
   - Processes.process_guid
-  risk_score: 81
   security_domain: endpoint

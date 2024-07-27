@@ -53,7 +53,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  risk_score: 42
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -62,5 +61,4 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_multiple_service_principals_created/azure_ad_multiple_service_principals_created.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true
 

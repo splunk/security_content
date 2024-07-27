@@ -56,7 +56,6 @@ tags:
   - EventCode
   - Computer
   - ScriptBlockText
-  risk_score: 27
   security_domain: endpoint
 tests:
 - name: True Positive Test

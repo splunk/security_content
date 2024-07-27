@@ -103,7 +103,6 @@ tags:
   - TargetUserName
   - Computer
   - IpAddress
-  risk_score: 90
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -112,4 +111,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_winsecurity.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

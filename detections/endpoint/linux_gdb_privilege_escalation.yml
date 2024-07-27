@@ -71,7 +71,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 10
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -80,4 +79,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/gdb/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
-    update_timestamp: true

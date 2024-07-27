@@ -59,7 +59,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  risk_score: 48
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/full_access_as_app_permission_assigned/full_access_as_app_permission_assigned.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

@@ -44,7 +44,6 @@ tags:
   - _time
   - Operation
   - Parameters
-  risk_score: 48
   security_domain: threat
 tests:
 - name: True Positive Test

@@ -50,5 +50,4 @@ tags:
   - requestURI
   - responseStatus.reason
   - properties.pod
-  risk_score: 25
   security_domain: threat

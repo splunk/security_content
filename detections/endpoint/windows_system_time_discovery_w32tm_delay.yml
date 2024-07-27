@@ -71,7 +71,6 @@ tags:
   - Processes.parent_process_path
   - Processes.process_path
   - Processes.parent_process_id
-  risk_score: 36
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -80,4 +79,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_delay_execution/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

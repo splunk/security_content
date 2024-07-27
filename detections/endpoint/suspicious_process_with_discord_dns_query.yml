@@ -59,7 +59,6 @@ tags:
   - process_name
   - QueryResults
   - dest
-  risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test

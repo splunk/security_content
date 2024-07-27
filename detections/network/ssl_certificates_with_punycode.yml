@@ -58,5 +58,4 @@ tags:
   - All_Certificates.SSL.src
   - All_Certificates.SSL.sourcetype
   - All_Certificates.SSL.ssl_subject_email_domain
-  risk_score: 15
   security_domain: network

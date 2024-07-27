@@ -60,5 +60,4 @@ tags:
   - src_int_suffix
   - host
   - src_interface
-  risk_score: 25
   security_domain: network

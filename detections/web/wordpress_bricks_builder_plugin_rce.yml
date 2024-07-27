@@ -65,7 +65,6 @@ tags:
   - Web.http_method
   - sourcetype
   - source
-  risk_score: 100
   security_domain: network
   cve:
   - CVE-2024-25600

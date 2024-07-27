@@ -59,7 +59,6 @@ tags:
   - EventCode
   - Computer
   - Caller_User_Name
-  risk_score: 100
   security_domain: endpoint
   cve:
   - CVE-2024-1708

@@ -61,7 +61,6 @@ tags:
   - Registry.user
   - Registry.registry_path
   - Registry.action
-  risk_score: 24
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -70,4 +69,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_defender_logging/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

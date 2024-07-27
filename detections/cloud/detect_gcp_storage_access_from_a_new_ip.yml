@@ -65,5 +65,4 @@ tags:
   - c_ip_
   - cs_uri_
   - cs_method_
-  risk_score: 25
   security_domain: network

@@ -56,7 +56,6 @@ tags:
   - Computer
   - UserID
   - EventCode
-  risk_score: 49
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -65,4 +64,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/pwh_exfiltration/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

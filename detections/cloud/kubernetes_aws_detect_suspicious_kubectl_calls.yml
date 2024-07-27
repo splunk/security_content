@@ -56,5 +56,4 @@ tags:
   - user.username
   - userAgent
   - verb
-  risk_score: 25
   security_domain: threat

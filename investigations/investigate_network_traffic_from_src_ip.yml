@@ -16,8 +16,6 @@ references: []
 tags:
   analytic_story:
   - ColdRoot MacOS RAT
-  cve:
-  - CVE-2018-11409
   product:
   - Splunk Phantom
   required_fields:

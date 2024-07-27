@@ -43,7 +43,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 8
   required_fields:
   - EventCode
   - src_user

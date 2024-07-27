@@ -55,7 +55,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 81
   required_fields:
   - Web.src
   - Web.dest

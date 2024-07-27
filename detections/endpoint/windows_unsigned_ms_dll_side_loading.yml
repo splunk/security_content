@@ -72,7 +72,6 @@ tags:
   - user
   - Computer
   - EventCode
-  risk_score: 9
   security_domain: endpoint
   cve: []
 tests:

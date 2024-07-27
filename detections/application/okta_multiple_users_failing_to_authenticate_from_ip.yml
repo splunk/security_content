@@ -61,7 +61,6 @@ tags:
   - Authentication.authentication_method
   - Authentication.action
   - Authentication.src
-  risk_score: 54
   security_domain: identity
 tests:
 - name: True Positive Test

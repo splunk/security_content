@@ -62,7 +62,6 @@ tags:
   - ProcessId
   - dest
   - Image
-  risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test

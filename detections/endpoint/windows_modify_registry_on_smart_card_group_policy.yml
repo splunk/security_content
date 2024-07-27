@@ -56,7 +56,6 @@ tags:
   - Registry.action
   - Registry.registry_value_data 
   - Registry.process_guid 
-  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test

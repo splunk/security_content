@@ -63,5 +63,4 @@ tags:
   - action
   - host
   - src_interface
-  risk_score: 25
   security_domain: network

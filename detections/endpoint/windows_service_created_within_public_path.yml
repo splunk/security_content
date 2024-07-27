@@ -59,7 +59,6 @@ tags:
   - _time
   - Service_Name
   - Service_Start_Type
-  risk_score: 54
   security_domain: endpoint
 tests:
 - name: True Positive Test

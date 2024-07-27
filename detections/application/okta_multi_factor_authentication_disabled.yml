@@ -61,7 +61,6 @@ tags:
   - All_Changes.result
   - All_Changes.src
   - sourcetype
-  risk_score: 30
   security_domain: identity
 tests:
 - name: True Positive Test

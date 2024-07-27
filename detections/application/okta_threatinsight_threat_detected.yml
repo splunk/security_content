@@ -64,7 +64,6 @@ tags:
   - outcome.reason
   - outcome.result
   - severity
-  risk_score: 25
   security_domain: access
 tests:
 - name: True Positive Test

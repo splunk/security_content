@@ -69,5 +69,4 @@ tags:
   - Processes.dest
   - Processes.parent_process_name
   - Processes.user
-  risk_score: 25
   security_domain: network

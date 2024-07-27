@@ -55,7 +55,6 @@ tags:
   - Image 
   - user 
   - dest
-  risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test

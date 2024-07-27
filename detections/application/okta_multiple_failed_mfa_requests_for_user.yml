@@ -56,7 +56,6 @@ tags:
   - displayMessage
   - src_user
   - src_ip
-  risk_score: 42
   security_domain: identity
 tests:
 - name: True Positive Test

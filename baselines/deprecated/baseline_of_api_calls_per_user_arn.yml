@@ -33,16 +33,3 @@ tags:
   - eventType
   - userIdentity.arn
   security_domain: network
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown

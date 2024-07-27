@@ -59,7 +59,6 @@ tags:
   - dest
   - UserID
   - SecurityID
-  risk_score: 49
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

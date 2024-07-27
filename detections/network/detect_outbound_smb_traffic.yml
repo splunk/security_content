@@ -69,7 +69,6 @@ tags:
   - sourcetype
   - All_Traffic.src_ip
   - All_Traffic.direction
-  risk_score: 25
   security_domain: network
 tests:
 - name: True Positive Test

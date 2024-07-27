@@ -64,7 +64,6 @@ tags:
   - properties.status.additionalDetails
   - properties.appDisplayName
   - properties.userAgent
-  risk_score: 54
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

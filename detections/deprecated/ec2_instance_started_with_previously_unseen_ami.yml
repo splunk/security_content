@@ -49,5 +49,4 @@ tags:
   - eventName
   - errorCode
   - requestParameters.instancesSet.items{}.imageId
-  risk_score: 25
   security_domain: endpoint

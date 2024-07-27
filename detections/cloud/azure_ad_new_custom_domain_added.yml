@@ -60,7 +60,6 @@ tags:
   - src_ip
   - properties.targetResources{}.displayName
   - user
-  risk_score: 54
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -69,4 +68,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.002/new_federated_domain/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

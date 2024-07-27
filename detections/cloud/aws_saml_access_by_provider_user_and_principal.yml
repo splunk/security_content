@@ -66,7 +66,6 @@ tags:
   - responseElements.issuer
   - sourceIPAddress
   - userAgent
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -75,4 +74,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/assume_role_with_saml/assume_role_with_saml.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

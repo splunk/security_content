@@ -55,5 +55,4 @@ tags:
   - basic_constraints.ca
   - source
   - host
-  risk_score: 15
   security_domain: network

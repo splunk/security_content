@@ -63,7 +63,6 @@ tags:
   - Computer
   - EventCode
   security_domain: endpoint
-  risk_score: 25
 tests:
 - name: True Positive Test
   attack_data:

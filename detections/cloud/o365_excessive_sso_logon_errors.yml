@@ -60,7 +60,6 @@ tags:
   - authentication_service
   - authentication_method
   - Operation
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test

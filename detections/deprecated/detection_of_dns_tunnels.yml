@@ -70,5 +70,4 @@ tags:
   - DNS.message_type
   - DNS.src_category
   - DNS.src
-  risk_score: 25
   security_domain: network

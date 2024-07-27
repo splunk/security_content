@@ -56,7 +56,6 @@ tags:
   - FullFilePath
   - dest
   - user
-  risk_score: 49
   security_domain: endpoint
   cve: []
 tests:

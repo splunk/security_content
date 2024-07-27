@@ -53,7 +53,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 49
   required_fields:
   - _time
   - Registry.registry_key_name

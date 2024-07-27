@@ -58,5 +58,4 @@ tags:
   - http_status
   - bucket_name
   - remote_ip
-  risk_score: 25.0
   security_domain: network

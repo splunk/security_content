@@ -62,7 +62,6 @@ tags:
   - workflow_run.head_repository.owner.id
   - workflow_run.head_repository.owner.login
   - workflow_run.head_repository.owner.type
-  risk_score: 27
   security_domain: network
 tests:
 - name: True Positive Test

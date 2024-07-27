@@ -61,7 +61,6 @@ tags:
   - user
   - src_ip
   - login_challenge_method
-  risk_score: 45
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -70,4 +69,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/gcp_single_factor_auth/gws_login.log
     source: gws:reports:login
     sourcetype: gws:reports:login
-    update_timestamp: true

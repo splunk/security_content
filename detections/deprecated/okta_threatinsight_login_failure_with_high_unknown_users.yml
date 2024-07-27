@@ -45,5 +45,4 @@ tags:
   - client.userAgent.browser 
   - outcome.reason
   - displayMessage
-  risk_score: 50
   security_domain: access

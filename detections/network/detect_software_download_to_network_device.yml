@@ -58,5 +58,4 @@ tags:
   - All_Traffic.src_category
   - All_Traffic.src
   - All_Traffic.dest
-  risk_score: 25
   security_domain: network

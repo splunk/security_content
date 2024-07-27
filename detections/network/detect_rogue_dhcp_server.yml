@@ -54,5 +54,4 @@ tags:
   - message_type
   - src_mac
   - host
-  risk_score: 25
   security_domain: network

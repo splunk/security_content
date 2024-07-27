@@ -62,7 +62,6 @@ tags:
   - properties.targetResources{}.type
   - properties.initiatedBy.user.userPrincipalName
   - properties.result
-  risk_score: 45
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -71,4 +70,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/azuread/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

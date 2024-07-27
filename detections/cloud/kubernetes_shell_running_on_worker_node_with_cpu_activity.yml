@@ -82,5 +82,4 @@ tags:
   - k8s.cluster.name
   - k8s.node.name
   - process.pid
-  risk_score: 25
   security_domain: network

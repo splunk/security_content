@@ -62,7 +62,6 @@ tags:
   - http.url
   - http.status
   - http_method
-  risk_score: 81
   security_domain: network
   cve:
   - CVE-2024-27198

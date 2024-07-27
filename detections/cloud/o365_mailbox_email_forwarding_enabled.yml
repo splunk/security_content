@@ -58,7 +58,6 @@ tags:
   - src_user
   - DeliverToMailboxAndForward
   - ObjectId
-  risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test

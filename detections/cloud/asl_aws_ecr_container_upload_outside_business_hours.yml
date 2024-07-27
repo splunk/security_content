@@ -55,7 +55,6 @@ tags:
   - http_request.user_agent
   - src_endpoint.ip
   - cloud.region
-  risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test

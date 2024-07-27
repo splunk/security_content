@@ -43,5 +43,4 @@ tags:
   - src_user
   - result
   - src_ip
-  risk_score: 16
   security_domain: access

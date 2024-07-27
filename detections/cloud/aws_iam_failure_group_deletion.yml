@@ -59,7 +59,6 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.groupName
-  risk_score: 5
   security_domain: cloud
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_failure_group_deletion/aws_iam_failure_group_deletion.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

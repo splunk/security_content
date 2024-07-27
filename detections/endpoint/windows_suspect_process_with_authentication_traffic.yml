@@ -79,7 +79,6 @@ tags:
   - All_Traffic.dest
   - All_Traffic.dest_ip
   - All_Traffic.dest_port
-  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -88,4 +87,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

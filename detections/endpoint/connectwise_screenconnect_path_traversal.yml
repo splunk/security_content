@@ -60,7 +60,6 @@ tags:
   - Filesystem.file_name
   - Filesystem.file_path
   - Filesystem.dest
-  risk_score: 100
   security_domain: endpoint
   cve:
   - CVE-2024-1708

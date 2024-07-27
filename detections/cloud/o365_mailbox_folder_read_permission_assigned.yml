@@ -58,7 +58,6 @@ tags:
   - UserId
   - object
   - Item.ParentFolder.MemberRights
-  risk_score: 42
   security_domain: audit
 tests:
 - name: True Positive Test

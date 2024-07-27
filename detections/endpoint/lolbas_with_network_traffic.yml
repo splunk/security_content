@@ -83,7 +83,6 @@ tags:
   - All_Traffic.dest
   - All_Traffic.dest_ip
   - All_Traffic.process_id
-  risk_score: 25
   security_domain: network
 tests:
 - name: True Positive Test
@@ -92,4 +91,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

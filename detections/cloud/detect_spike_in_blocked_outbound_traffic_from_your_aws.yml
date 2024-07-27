@@ -67,5 +67,4 @@ tags:
   - action
   - src_ip
   - dest_ip
-  risk_score: 25.0
   security_domain: network

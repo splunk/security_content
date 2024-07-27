@@ -71,5 +71,4 @@ tags:
   - src_vlan
   - vendor_explanation
   - action
-  risk_score: 25
   security_domain: network

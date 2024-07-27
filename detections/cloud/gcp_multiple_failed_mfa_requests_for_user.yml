@@ -60,7 +60,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  risk_score: 54
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -69,4 +68,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_gws/gws_login.log
     source: gws:reports:login
     sourcetype: gws:reports:login
-    update_timestamp: true

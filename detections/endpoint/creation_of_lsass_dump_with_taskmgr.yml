@@ -58,7 +58,6 @@ tags:
   - TargetFilename
   - dest
   - object_category
-  risk_score: 80
   security_domain: endpoint
 tests:
 - name: True Positive Test

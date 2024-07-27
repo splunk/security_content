@@ -57,7 +57,6 @@ tags:
   - QueryResults
   - QueryStatus
   - dest
-  risk_score: 9
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -66,4 +65,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/office_doc_abuses_rels/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

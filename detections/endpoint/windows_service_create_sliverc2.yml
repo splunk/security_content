@@ -51,7 +51,6 @@ tags:
   - ServiceName
   - ImagePath
   - ServiceType
-  risk_score: 90
   security_domain: endpoint
 tests:
 - name: True Positive Test

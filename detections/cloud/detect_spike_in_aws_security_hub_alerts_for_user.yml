@@ -46,5 +46,4 @@ tags:
   - findings{}.Resources{}.Type
   - indings{}.Resources{}.Id
   - user
-  risk_score: 25
   security_domain: network

@@ -54,7 +54,6 @@ tags:
   - signature
   - dest
   - ResultStatus
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test

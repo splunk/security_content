@@ -75,7 +75,6 @@ tags:
   - Processes.parent_process_name
   - Processes.dest
   - Processes.user
-  risk_score: 80
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -84,4 +83,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

@@ -66,7 +66,6 @@ tags:
   - Filesystem.process_id
   - Filesystem.file_name
   - Filesystem.user
-  risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -75,4 +74,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/spread_in_root_drives/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

@@ -33,7 +33,6 @@ tags:
   required_fields:
   - source
   - _raw
-  risk_score: 9
   security_domain: endpoint
   cve:
   - CVE-2024-5806

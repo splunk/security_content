@@ -63,7 +63,6 @@ tags:
   - user_name
   - userIdentity.arn
   - _time
-  risk_score: 64
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -72,4 +71,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

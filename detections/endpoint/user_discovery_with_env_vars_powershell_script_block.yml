@@ -57,7 +57,6 @@ tags:
   - ComputerName
   - User
   - EventCode
-  risk_score: 15
   security_domain: endpoint
 tests:
 - name: True Positive Test

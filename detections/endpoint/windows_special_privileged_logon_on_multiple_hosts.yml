@@ -58,7 +58,6 @@ tags:
   - Caller_User_Name
   - Computer
   - PrivilegeList
-  risk_score: 64
   security_domain: endpoint
 tests:
 - name: True Positive Test

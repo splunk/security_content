@@ -46,5 +46,4 @@ tags:
   - identity.user.name
   - http_request.user_agent
   - src_endpoint.ip
-  risk_score: 18
   security_domain: network

@@ -44,5 +44,4 @@ tags:
   - Splunk Cloud
   required_fields:
   - _times
-  risk_score: 25
   security_domain: endpoint

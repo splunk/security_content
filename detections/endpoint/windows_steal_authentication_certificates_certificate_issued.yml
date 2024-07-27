@@ -50,7 +50,6 @@ tags:
   - Requester
   - action
   - Attributes
-  risk_score: 8
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -59,4 +58,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4887_windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

@@ -59,7 +59,6 @@ tags:
   - action
   - eventName
   - src_ip
-  risk_score: 54
   security_domain: threat
   manual_test: This search needs a specific number of events in a time window for
     the alert to trigger and events split up in CI testing while updating timestamp.

@@ -53,7 +53,6 @@ tags:
   - ScriptBlockText
   - Computer
   - user_id
-  risk_score: 63
   security_domain: endpoint
 tests:
 - name: True Positive Test

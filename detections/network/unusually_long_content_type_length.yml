@@ -46,5 +46,4 @@ tags:
   - src_ip
   - dest_ip
   - url
-  risk_score: 25
   security_domain: network

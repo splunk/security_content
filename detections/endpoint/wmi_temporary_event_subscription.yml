@@ -51,5 +51,4 @@ tags:
   - EventCode
   - Message
   - query
-  risk_score: 25
   security_domain: endpoint

@@ -62,7 +62,6 @@ tags:
   - Web.url
   - Web.status
   - Web.http_method
-  risk_score: 100
   security_domain: network
   cve:
   - CVE-2024-1708

@@ -63,5 +63,4 @@ tags:
   - All_Traffic.bytes_out
   - All_Traffic.src_category
   - All_Traffic.dest_ip
-  risk_score: 25
   security_domain: network

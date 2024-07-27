@@ -65,7 +65,6 @@ tags:
   - Web.src
   - Web.dest
   - sourcetype
-  risk_score: 81
   security_domain: network
 tests:
 - name: True Positive Test
@@ -74,4 +73,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
     source: pan:threat
     sourcetype: pan:threat
-    update_timestamp: true

@@ -54,5 +54,4 @@ tags:
   - cs_uri_query
   - cs_method
   - c_uri
-  risk_score: 80
   security_domain: endpoint

@@ -62,7 +62,6 @@ tags:
   - All_Changes.action
   - All_Changes.Instance_Changes.instance_type
   - All_Changes.user
-  risk_score: 30
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -71,4 +70,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

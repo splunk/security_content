@@ -56,7 +56,6 @@ tags:
   - src_ip
   - user
   - user_agent
-  risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -65,4 +64,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/o365_concurrent_sessions_from_different_ips/o365_concurrent_sessions_from_different_ips.log
     sourcetype: o365:management:activity
     source: o365
-    update_timestamp: true

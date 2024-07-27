@@ -58,5 +58,4 @@ tags:
   - Filesystem.action
   - Filesystem.process_id
   - Filesystem.dest
-  risk_score: 25
   security_domain: endpoint

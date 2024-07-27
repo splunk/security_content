@@ -65,5 +65,4 @@ tags:
   - userIdentity.arn
   - userIdentity.type
   - user
-  risk_score: 25.0
   security_domain: network

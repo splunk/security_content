@@ -59,7 +59,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 35
   required_fields:
   - _time
   - properties.targetResources{}.type
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

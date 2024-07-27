@@ -58,7 +58,6 @@ tags:
   - Account_Name
   - Subject_Account_Name
   - Subject_Account_Domain
-  risk_score: 30
   security_domain: endpoint
 tests:
 - name: True Positive Test

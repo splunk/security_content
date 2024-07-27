@@ -57,7 +57,6 @@ tags:
   - ScriptBlockText
   - Computer
   - EventCode
-  risk_score: 42
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -66,4 +65,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/dcrat_enum_camera/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

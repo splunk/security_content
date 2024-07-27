@@ -51,5 +51,4 @@ tags:
   - All_Sessions.signature
   - All_Sessions.src_ip
   - All_Sessions.dest_mac
-  risk_score: 25
   security_domain: network

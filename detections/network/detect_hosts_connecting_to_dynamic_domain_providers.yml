@@ -74,7 +74,6 @@ tags:
   - DNS.answer
   - DNS.query
   - host
-  risk_score: 56
   security_domain: network
 tests:
 - name: True Positive Test

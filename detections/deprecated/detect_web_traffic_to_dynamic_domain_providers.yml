@@ -57,5 +57,4 @@ tags:
   - Web.status
   - Web.src
   - Web.dest
-  risk_score: 25
   security_domain: network

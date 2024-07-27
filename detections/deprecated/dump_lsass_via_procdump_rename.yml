@@ -65,5 +65,4 @@ tags:
   - CommandLine
   - dest
   - parent_process_name
-  risk_score: 80
   security_domain: endpoint

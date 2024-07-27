@@ -68,7 +68,6 @@ tags:
   - ModifiedProperties{}.NewValue
   - src_user
   - dest_user
-  risk_score: 54
   security_domain: identity
 tests:
 - name: True Positive Test

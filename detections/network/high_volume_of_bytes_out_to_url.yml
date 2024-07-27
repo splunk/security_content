@@ -62,7 +62,6 @@ tags:
   - Web.src
   - Web.dest
   - Web.http_user_agent
-  risk_score: 9
   security_domain: network
 tests:
 - name: True Positive Test

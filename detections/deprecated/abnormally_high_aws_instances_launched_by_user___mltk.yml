@@ -45,5 +45,4 @@ tags:
   - eventName
   - errorCode
   - src_user
-  risk_score: 25.0
   security_domain: network

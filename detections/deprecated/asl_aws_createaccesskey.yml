@@ -75,7 +75,6 @@ tags:
   - src_endpoint.ip
   - unmapped{}.key
   - unmapped{}.value
-  risk_score: 63
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -83,5 +82,4 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/amazon_security_lake.json
     sourcetype: aws:asl
     source: aws_asl
-    update_timestamp: true
 

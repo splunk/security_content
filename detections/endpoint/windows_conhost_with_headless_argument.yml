@@ -62,7 +62,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 70
   required_fields:
   - Processes.dest
   - Processes.user

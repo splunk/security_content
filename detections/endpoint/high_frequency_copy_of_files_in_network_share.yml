@@ -64,7 +64,6 @@ tags:
   - user
   - src_port
   - Source_Address
-  risk_score: 9
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/high_frequency_copy_of_files_in_network_share/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

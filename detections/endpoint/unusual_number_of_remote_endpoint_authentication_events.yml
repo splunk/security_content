@@ -57,5 +57,4 @@ tags:
   - Security_ID
   - Account_Name
   - ComputerName
-  risk_score: 42
   security_domain: endpoint

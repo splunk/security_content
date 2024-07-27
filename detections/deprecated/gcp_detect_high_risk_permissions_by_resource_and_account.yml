@@ -50,5 +50,4 @@ tags:
   - data.protoPayload.authorizationInfo{}.permission
   - data.protoPayload.response.bindings{}.members{}
   - data.resource.labels.project_id
-  risk_score: 25
   security_domain: threat

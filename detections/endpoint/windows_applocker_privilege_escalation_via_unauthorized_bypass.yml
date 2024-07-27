@@ -41,7 +41,6 @@ tags:
   - Computer
   - FullFilePath
   - TargetUser
-  risk_score: 64
   security_domain: endpoint
   cve: []
 tests:

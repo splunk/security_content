@@ -68,7 +68,6 @@ tags:
   - Task_Name
   - Description
   - Command
-  risk_score: 70
   security_domain: endpoint
 tests:
 - name: True Positive Test

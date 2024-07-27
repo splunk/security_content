@@ -78,7 +78,6 @@ tags:
   - Processes.user
   - Processes.process
   - Processes.process_id
-  risk_score: 28
   security_domain: endpoint
 tests:
 - name: True Positive Test

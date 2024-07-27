@@ -54,5 +54,4 @@ tags:
   - data.protoPayload.authorizationInfo{}.permission
   - data.protoPayload.request.location
   - http_user_agent
-  risk_score: 25
   security_domain: threat

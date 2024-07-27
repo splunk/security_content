@@ -59,7 +59,6 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.policyArn
-  risk_score: 10
   security_domain: access
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

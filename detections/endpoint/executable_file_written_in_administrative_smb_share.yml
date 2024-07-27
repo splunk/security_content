@@ -69,7 +69,6 @@ tags:
   - user
   - src_port
   - Source_Address
-  risk_score: 70
   security_domain: endpoint
 tests:
 - name: True Positive Test

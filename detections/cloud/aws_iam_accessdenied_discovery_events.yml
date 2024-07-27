@@ -56,7 +56,6 @@ tags:
   - userAgent
   - errorCode
   - userIdentity.type
-  risk_score: 10
   security_domain: access
 tests:
 - name: True Positive Test
@@ -65,4 +64,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

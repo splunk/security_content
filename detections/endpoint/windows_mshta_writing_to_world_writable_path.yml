@@ -74,7 +74,6 @@ tags:
   - user
   - Image
   - TargetFilename
-  risk_score: 64
   security_domain: endpoint
   cve: []
 tests:

@@ -87,7 +87,6 @@ tags:
   - ObjectType
   - OperationType
   - status
-  risk_score: 100
   security_domain: endpoint
   manual_test: This detection runs correctly when run manually and given some time is given for data to settle in the splunk index. 
 tests:

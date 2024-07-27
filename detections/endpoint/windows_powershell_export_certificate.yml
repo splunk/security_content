@@ -53,7 +53,6 @@ tags:
   - ScriptBlockText
   - dest
   - EventCode
-  risk_score: 36
   security_domain: endpoint
 tests:
 - name: True Positive Test

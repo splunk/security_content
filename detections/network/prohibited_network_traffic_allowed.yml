@@ -57,7 +57,6 @@ tags:
   - All_Traffic.src_ip
   - All_Traffic.dest_ip
   - All_Traffic.dest_port
-  risk_score: 25
   security_domain: network
   manual_test: This detection uses builtin lookup from Enterprise Security.
 tests:

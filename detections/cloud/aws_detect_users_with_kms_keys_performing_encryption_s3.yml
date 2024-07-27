@@ -56,7 +56,6 @@ tags:
   - requestParameters.key
   - userAgent
   - region
-  risk_score: 15
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -65,4 +64,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

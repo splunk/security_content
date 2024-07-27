@@ -49,5 +49,4 @@ tags:
   - Authentication.dest_category
   - Authentication.dest
   - Authentication.user
-  risk_score: 25
   security_domain: network

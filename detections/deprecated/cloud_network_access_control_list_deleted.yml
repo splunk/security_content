@@ -48,5 +48,4 @@ tags:
   - src
   - userName
   - arn
-  risk_score: 25
   security_domain: network

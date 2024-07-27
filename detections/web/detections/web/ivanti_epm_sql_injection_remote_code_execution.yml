@@ -45,7 +45,6 @@ tags:
   - Web.src
   - Web.dest
   - sourcetype
-  risk_score: 80
   security_domain: network
   cve:
   - CVE-2024-29824

@@ -69,7 +69,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 80
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -78,4 +77,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
-    update_timestamp: true

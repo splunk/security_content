@@ -91,7 +91,6 @@ tags:
   - All_Traffic.dest_port
   - All_Traffic.dest_ip
   - All_Traffic.dest
-  risk_score: 48
   security_domain: endpoint
 tests:
 - name: True Positive Test
