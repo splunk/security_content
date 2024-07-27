@@ -3,7 +3,6 @@ id: 73de57ef-0dfc-411f-b1e7-fa24428aeae0
 version: 1
 date: '2018-04-09'
 author: David Dorsey, Splunk
-type: batch
 description: Identify unusual changes to your AWS EC2 instances that may indicate
   malicious activity. Modifications to your EC2 instances by previously unseen users
   is an example of an activity that may warrant further investigation.

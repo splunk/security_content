@@ -3,7 +3,6 @@ id: b71ba595-ef80-4e39-8b66-887578a7a71b
 version: 1
 date: '2021-11-17'
 author: Teoderick Contreras, Splunk
-type: Anomaly
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might correlate to insider threat specially in terms of information sabotage.
 narrative: Information sabotage is the type of crime many people associate with insider

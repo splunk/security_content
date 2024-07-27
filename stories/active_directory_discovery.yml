@@ -3,7 +3,6 @@ id: 8460679c-2b21-463e-b381-b813417c32f2
 version: 1
 date: '2021-08-20'
 author: Mauricio Velazco, Splunk
-type: batch
 description: Monitor for activities and techniques associated with Discovery and Reconnaissance
   within with Active Directory environments.
 narrative: 'Discovery consists of techniques an adversay uses to gain knowledge about

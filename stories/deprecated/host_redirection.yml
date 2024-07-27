@@ -3,7 +3,6 @@ id: 2e8948a5-5239-406b-b56b-6c50fe268af4
 version: 1
 date: '2017-09-14'
 author: Rico Valdez, Splunk
-type: batch
 description: Detect evidence of tactics used to redirect traffic from a host to a
   destination other than the one intended--potentially one that is part of an adversary's
   attack infrastructure. An example is redirecting communications regarding patches

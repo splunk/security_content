@@ -25,7 +25,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   endpoint product.
 known_false_positives: administrators may enable or disable this feature that may
   cause some false positive.
-eferences:
+references:
 - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
 tags:
   analytic_story:
