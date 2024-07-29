@@ -6,7 +6,7 @@ author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- Sysmon Event ID 13
+- Sysmon EventID 13 AND Sysmon EventID 1
 description: The following analytic identifies the deletion of registry keys that
   disable Local Security Authority (LSA) protection and Microsoft Defender Device
   Guard. It leverages data from Endpoint Detection and Response (EDR) agents, focusing

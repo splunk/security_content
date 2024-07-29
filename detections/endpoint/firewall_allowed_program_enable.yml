@@ -15,6 +15,8 @@ description: The following analytic detects the modification of a firewall rule 
   maintain persistence within the target environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process = "*firewall*"
   Processes.process = "*allow*" Processes.process = "*add*" Processes.process = "*ENABLE*"

@@ -15,6 +15,8 @@ description: The following analytic detects MSIExec spawning multiple discovery 
   within the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=msiexec.exe
   Processes.process_name IN ("powershell.exe","cmd.exe", "nltest.exe","ipconfig.exe","systeminfo.exe")

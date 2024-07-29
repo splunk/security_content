@@ -14,7 +14,7 @@ description: The following analytic detects modifications to the SCRNSAVE.EXE re
   attacker to execute arbitrary code with elevated privileges, leading to further
   system compromise and persistent access.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\Control

@@ -34,6 +34,7 @@ tags:
   analytic_story:
   - Data Destruction
   - Industroyer2
+  - AcidPour
   asset_type: Endpoint
   confidence: 80
   impact: 100

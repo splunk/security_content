@@ -14,6 +14,8 @@ description: The following analytic identifies suspicious Cmdlet usage in Exchan
   new roles, or search mailboxes, leading to data breaches and privilege escalation.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '`msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*",
   "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
   | stats count min(_time) as firstTime max(_time) as lastTime by host Message | `security_content_ctime(firstTime)`

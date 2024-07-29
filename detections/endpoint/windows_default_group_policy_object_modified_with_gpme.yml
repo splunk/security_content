@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects modifications to default Group Policy
   Objects (GPOs) using the Group Policy Management Editor (GPME). It leverages the
   Endpoint data model to identify processes where `mmc.exe` executes `gpme.msc` with

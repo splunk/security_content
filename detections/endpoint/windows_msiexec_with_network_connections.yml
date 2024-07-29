@@ -14,7 +14,7 @@ description: The following analytic detects MSIExec making network connections o
   potentially leading to data exfiltration, command and control (C2) communication,
   or further malware deployment.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name
   Processes.dest Processes.process_path Processes.process Processes.parent_process_name

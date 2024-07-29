@@ -7,7 +7,8 @@ status: experimental
 type: Anomaly
 description: |-
   The following analytic detects cloud API calls executed by user roles that have not previously run these commands. It leverages the Change data model in Splunk to identify commands executed by users with the user_type of AssumedRole and a status of success. This activity is significant because new commands from different user roles can indicate potential malicious activity or unauthorized actions. If confirmed malicious, this behavior could lead to unauthorized access, data breaches, or other damaging outcomes by exploiting new or unmonitored commands within the cloud environment.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
   where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
   All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` |

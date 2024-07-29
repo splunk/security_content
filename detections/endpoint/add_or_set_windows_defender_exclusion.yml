@@ -15,6 +15,8 @@ description: The following analytic detects the use of commands to add or set ex
   interference from Windows Defender.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*Add-MpPreference
   *" OR Processes.process = "*Set-MpPreference *") AND Processes.process="*-exclusion*"

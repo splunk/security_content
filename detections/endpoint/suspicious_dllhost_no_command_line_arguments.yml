@@ -15,6 +15,8 @@ description: The following analytic detects instances of DLLHost.exe executing w
   dumping or file manipulation, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where `process_dllhost` by _time span=1h  Processes.process_id Processes.process_name
   Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name

@@ -13,9 +13,8 @@ description: The following analytic detects a process modifying the registry wit
   malicious, this could allow an attacker to persist in the environment, execute arbitrary
   code, or escalate privileges, posing a severe threat to system integrity and security.
 data_source:
-- Sysmon EventID 1
-- Sysmon EventID 12
-- Sysmon EventID 13
+- Sysmon EventID 1 AND Sysmon EventID 12
+- Sysmon EventID 1 AND Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats

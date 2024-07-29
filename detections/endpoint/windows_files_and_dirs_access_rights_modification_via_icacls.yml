@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the modification of security permissions
   on files or directories using tools like icacls.exe, cacls.exe, or xcacls.exe. It
   leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific

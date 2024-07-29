@@ -3,7 +3,8 @@ id: 5f661629-9750-4cb9-897c-1f05d6db8727
 version: 2
 date: '2024-05-12'
 author: 'Bhavin Patel, Splunk'
-data_source: []
+data_source: 
+- Okta
 type: Anomaly
 status: production
 description: The following analytic identifies attempts by users to access Okta applications

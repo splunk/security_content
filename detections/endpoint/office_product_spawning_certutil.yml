@@ -15,6 +15,8 @@ description: The following analytic detects any Windows Office Product spawning 
   to prevent potential damage.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
   IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe",

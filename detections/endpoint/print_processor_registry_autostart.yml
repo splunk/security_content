@@ -13,7 +13,7 @@ description: The following analytic detects suspicious modifications or new entr
   this could allow an attacker to execute a malicious DLL payload by restarting the
   spoolsv.exe process, leading to potential control over the compromised machine.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
   max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
