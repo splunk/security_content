@@ -34,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 75
-  message: The device [$dest$] was the target of $count$ NTLM authentications from $src_count$ sources using $user_count$ unique user accounts.
+  message: The device [$dest$] was the target of $count$ NTLM authentications from $src_count$ sources using $unique_count$ unique user accounts.
   mitre_attack_id:
   - T1110
   - T1110.003
