@@ -7,7 +7,9 @@ status: production
 type: TTP
 description: The following analytic identifies a LOLBAS process being executed where it's process name does not match it's original file name attribute. Processes that have been renamed and executed may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
 data_source: 
-- Sysmon EID 1
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process) as parent_process, latest(Processes.process) as process, latest(Processes.process_guid) as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes where NOT Processes.original_file_name IN("-","unknown") AND NOT Processes.process_path IN ("*\\Program Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") BY Processes.user Processes.dest Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process_path 
 |`drop_dm_object_name(Processes)`
 | where NOT match(process_name, "(?i)".original_file_name) 
@@ -16,7 +18,15 @@ search: '|  tstats `security_content_summariesonly` latest(Processes.parent_proc
 | `security_content_ctime(firstTime)`
 | `security_content_ctime(lastTime)`
 | `windows_lolbas_executed_as_renamed_file_filter`'
-how_to_implement: To implement this search, you must ingest logs that contain the process name and process original file name, such as with Sysmon EID 1.  
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process. 
 known_false_positives: A certain amount of false positives are likely with this detection. MSI based installers often trigger for SETUPAPL.dll and vendors will often copy system exectables to a different path for application usage.
 references:
 - https://attack.mitre.org/techniques/T1036/
