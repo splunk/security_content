@@ -15,7 +15,7 @@ description: The following analytic detects the modification of the Windows regi
   If confirmed malicious, this could allow an attacker to hide their presence and
   malicious files, making detection and remediation more difficult.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoFolderOptions"

@@ -14,7 +14,7 @@ description: The following analytic detects the creation of AWS Network Access C
   this misconfiguration to gain unrestricted access to the network, potentially leading
   to data exfiltration, service disruption, or further compromise of the AWS environment.
 data_source:
-- AWS CloudTrail CreateNetworkAclEntry
+- AWS CloudTrail CreateNetworkAclEntry 
 - AWS CloudTrail ReplaceNetworkAclEntry
 search: '`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry
   requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1

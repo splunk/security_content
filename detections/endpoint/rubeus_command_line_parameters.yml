@@ -15,6 +15,8 @@ description: The following analytic detects the use of Rubeus command line param
   sensitive information within the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*ptt /ticket*"
   OR Processes.process = "* monitor /interval*" OR Processes.process ="* asktgt* /user:*"

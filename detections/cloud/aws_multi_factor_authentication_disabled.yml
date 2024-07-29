@@ -13,7 +13,7 @@ description: The following analytic detects attempts to disable multi-factor aut
   action could allow attackers to retain access to the AWS environment without detection,
   posing a significant risk to the security and integrity of the cloud infrastructure.
 data_source:
-- AWS CloudTrail DeleteVirtualMFADevice
+- AWS CloudTrail DeleteVirtualMFADevice 
 - AWS CloudTrail DeactivateMFADevice
 search: '`cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice)
   | stats count min(_time) as firstTime max(_time) as lastTime by src eventName eventSource

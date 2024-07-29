@@ -45,6 +45,7 @@ references:
 - https://adsecurity.org/?p=1729
 - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
 - https://github.com/SigmaHQ/sigma/blob/0.22-699-g29a5c6278/rules/windows/builtin/security/win_security_dcsync.yml
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
@@ -88,6 +89,7 @@ tags:
   - status
   risk_score: 100
   security_domain: endpoint
+  manual_test: This detection runs correctly when run manually and given some time is given for data to settle in the splunk index. 
 tests:
 - name: True Positive Test
   attack_data:

@@ -1,7 +1,0 @@
-name: Bro
-id: c5d9612b-0ffd-44d3-8247-3cf3486ec5e2
-author: Patrick Bareiss, Splunk
-source: bro:http:json
-sourcetype: bro:http:json
-supported_TA: {}
-event_names: []

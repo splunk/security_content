@@ -15,6 +15,8 @@ description: The following analytic identifies the execution of ping sleep batch
   exfiltration.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_ping` (Processes.parent_process
   = "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*"Processes.parent_process="*&gt;*")

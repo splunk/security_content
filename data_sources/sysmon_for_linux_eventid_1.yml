@@ -1,0 +1,116 @@
+name: Sysmon for Linux EventID 1
+id: 93643652-30fe-4941-a1f7-6454f2948660
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Sysmon for Linux EventID 1
+source: Syslog:Linux-Sysmon/Operational
+sourcetype: sysmon:linux
+separator: EventID
+supported_TA:
+- name: Splunk Add-on for Sysmon for Linux
+  url: https://splunkbase.splunk.com/app/6652
+  version: 1.0.0
+fields:
+- _time
+- Channel
+- CommandLine
+- Company
+- Computer
+- CurrentDirectory
+- Description
+- EventChannel
+- EventCode
+- EventData_Xml
+- EventDescription
+- EventID
+- EventRecordID
+- FileVersion
+- Guid
+- Hashes
+- Image
+- IntegrityLevel
+- Keywords
+- Level
+- LogonGuid
+- LogonId
+- Name
+- Opcode
+- OriginalFileName
+- ParentCommandLine
+- ParentImage
+- ParentProcessGuid
+- ParentProcessId
+- ParentUser
+- ProcessGuid
+- ProcessID
+- ProcessId
+- Product
+- RecordID
+- RuleName
+- SystemTime
+- System_Props_Xml
+- Task
+- TerminalSessionId
+- ThreadID
+- User
+- UserId
+- UtcTime
+- Version
+- action
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- eventtype
+- host
+- index
+- linecount
+- original_file_name
+- os
+- parent_process
+- parent_process_exec
+- parent_process_guid
+- parent_process_id
+- parent_process_name
+- parent_process_path
+- process
+- process_current_directory
+- process_exec
+- process_guid
+- process_hash
+- process_id
+- process_integrity_level
+- process_name
+- process_path
+- punct
+- signature
+- signature_id
+- source
+- sourcetype
+- splunk_server
+- tag
+- tag::eventtype
+- timeendpos
+- timestartpos
+- user
+- vendor_product
+example_log: <Event><System><Provider Name="Linux-Sysmon" Guid="{ff032593-a8d3-4f13-b0d6-01fc615a0f97}"/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
+  SystemTime="2022-08-09T10:42:47.749450000Z"/><EventRecordID>1926574</EventRecordID><Correlation/><Execution
+  ProcessID="1465" ThreadID="1465"/><Channel>Linux-Sysmon/Operational</Channel><Computer>ar-linux</Computer><Security
+  UserId="0"/></System><EventData><Data Name="RuleName">-</Data><Data Name="UtcTime">2022-08-09
+  10:42:47.757</Data><Data Name="ProcessGuid">{ec23eae3-3a27-62f2-085e-16549b550000}</Data><Data
+  Name="ProcessId">10268</Data><Data Name="Image">/usr/bin/sudo</Data><Data Name="FileVersion">-</Data><Data
+  Name="Description">-</Data><Data Name="Product">-</Data><Data Name="Company">-</Data><Data
+  Name="OriginalFileName">-</Data><Data Name="CommandLine">sudo gdb -nx -ex !sh -ex
+  quit</Data><Data Name="CurrentDirectory">/home/ubuntu</Data><Data Name="User">ubuntu</Data><Data
+  Name="LogonGuid">{ec23eae3-315b-62f2-e803-000000000000}</Data><Data Name="LogonId">1000</Data><Data
+  Name="TerminalSessionId">13</Data><Data Name="IntegrityLevel">no level</Data><Data
+  Name="Hashes">-</Data><Data Name="ParentProcessGuid">{ec23eae3-315b-62f2-4884-4ea587550000}</Data><Data
+  Name="ParentProcessId">15369</Data><Data Name="ParentImage">/bin/bash</Data><Data
+  Name="ParentCommandLine">-bash</Data><Data Name="ParentUser">ubuntu</Data></EventData></Event>

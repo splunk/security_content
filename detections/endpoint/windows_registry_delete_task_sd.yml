@@ -14,7 +14,7 @@ description: The following analytic detects a process attempting to delete a sch
   access trying to hide their tracks, potentially compromising system integrity and
   security. Immediate investigation is required.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
   where Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*") Registry.user="SYSTEM"

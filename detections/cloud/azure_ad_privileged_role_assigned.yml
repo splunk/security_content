@@ -1,8 +1,8 @@
 name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
-version: 3
-date: '2024-05-29'
-author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
+version: 4
+date: '2024-07-02'
+author: Mauricio Velazco, Gowthamaraj Rajendran, Dean Luxton, Splunk
 status: production
 type: TTP
 description: The following analytic detects the assignment of privileged Azure Active
@@ -14,8 +14,10 @@ description: The following analytic detects the assignment of privileged Azure A
   over the Azure AD infrastructure.
 data_source:
 - Azure Active Directory Add member to role
-search: ' `azure_monitor_aad`  "operationName"="Add member to role" | rename properties.*  as * 
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
+search: ' `azure_monitor_aad`  "operationName"="Add member to role" 
+  | rename properties.* as *, initiatedBy.user.userPrincipalName as userPrincipalName, targetResources{}.displayName as displayName
+  | eval  initiatedBy = coalesce(userPrincipalName,src_user)
+  | eval user = coalesce(user,mvfilter(displayName!="null"))
   | rename targetResources{}.modifiedProperties{}.newValue  as roles 
   | eval role=mvindex(roles,1)
   | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by initiatedBy, result, operationName, role

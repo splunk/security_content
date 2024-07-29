@@ -3,7 +3,8 @@ id: e2b99e7d-d956-411a-a120-2b14adfdde93
 version: 2
 date: '2024-05-29'
 author: Bhavin Patel, Splunk
-data_source: []
+data_source: 
+- Okta
 type: TTP
 status: production
 description: The following analytic identifies failed authentication attempts during
