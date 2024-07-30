@@ -18,9 +18,8 @@ description: If someone creates a security group in AD called 'ESX Admins'
   and puts themselves in it, VMWare ESXi will let them authenticate as admins
   automatically giving them full access. This detection looks for the creation
   of this group to alert upon.
-search: '`wineventlog_security` PrivilegeList SidHistory
-  SamAccountName TargetDomainName TargetUserName
-  |  search EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790)
+search: '`wineventlog_security` PrivilegeList SidHistory SamAccountName TargetDomainName TargetUserName
+  | search EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790)
   | eval object_category=case(
   EventCode=="4731", "Local Group (Security)",
   EventCode=="4744", "Local Group (Distribution)",
@@ -37,10 +36,9 @@ search: '`wineventlog_security` PrivilegeList SidHistory
   "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users",
   "Replicators", "Schema Admins", "Server Operators")
   | eval _time = strptime(SystemTime, "''%Y-%m-%dT%H:%M:%S.%9Q%Z''")
-  | table _time src_user object_category TargetUserName TargetSid dest result
-  status
-  | rename result AS change_type, TargetUserName AS object, TargetSid AS
-  object_path | `vmware_esxi_cve_2024_37085_filter`'
+  | table _time src_user object_category TargetUserName TargetSid dest result status
+  | rename result AS change_type, TargetUserName AS object, TargetSid AS object_path
+  | `vmware_esxi_cve_2024_37085_filter`'
 how_to_implement: To successfully implement this search you need to be ingesting Windows Security Events from a Domain Controller in regards to Active Directory modifications. In addition, confirm
   the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.
 known_false_positives: None
