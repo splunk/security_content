@@ -29,12 +29,7 @@ search: '`wineventlog_security` PrivilegeList SidHistory SamAccountName TargetDo
   EventCode=="4759", "Universal Group (Distribution)",
   EventCode=="4783", "Basic Application Group",
   EventCode=="4790", "LDAP Query Group")
-  | search TargetUserName IN ("Account Operators", "Administrators",
-  "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins",
-  "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", 
-  "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators",
-  "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users",
-  "Replicators", "Schema Admins", "Server Operators")
+  | search TargetUserName IN ("ESX Admins", "ESXi Admins")
   | eval _time = strptime(SystemTime, "''%Y-%m-%dT%H:%M:%S.%9Q%Z''")
   | table _time src_user object_category TargetUserName TargetSid dest result status
   | rename result AS change_type, TargetUserName AS object, TargetSid AS object_path
@@ -45,7 +40,6 @@ known_false_positives: None
 references:
 - https://nvd.nist.gov/vuln/detail/CVE-2024-37085
 - https://www.rapid7.com/blog/post/2024/07/30/vmware-esxi-cve-2024-37085-targeted-in-ransomware-campaigns/%5C
-- https://x.com/mthcht/status/1818196168515461431?s=12&t=kwffmj0KM1sZtg3MrqC0QQ
 tags:
   analytic_story:
   - Data Destruction
