@@ -1,0 +1,62 @@
+name: Windows PowerShell Create ESX Admins Group
+id: f48a5557-be06-4b96-b8e8-be563e387620
+version: 1
+date: '2024-07-30'
+author: Michael Haag, Splunk
+data_source:
+- Powershell 4104
+type: TTP
+status: production
+description: This analytic detects attempts to create an "ESX Admins" group using PowerShell commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the 'ESX Admins' group after its deletion from Active Directory.
+search: '`powershell` EventCode=4104 
+  (ScriptBlockText="*New-ADGroup*" OR ScriptBlockText="*New-LocalGroup*") 
+  ScriptBlockText="*ESX Admins*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID 
+  | rename Computer as dest 
+  | rename UserID as user 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_powershell_create_esx_admins_group_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. You can find additional setup instructions in the Splunk documentation for configuring PowerShell logging.
+known_false_positives: Legitimate administrators might create an "ESX Admins" group for valid reasons. Verify that the group creation is authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
+references:
+- https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505
+- https://www.microsoft.com/en-us/security/blog/2024/07/29/ransomware-operators-exploit-esxi-hypervisor-vulnerability-for-mass-encryption/
+- https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+tags:
+  analytic_story:
+  - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+  asset_type: Endpoint
+  confidence: 70
+  impact: 80
+  message: PowerShell command to create "ESX Admins" group detected on host $dest$ by user $user$.
+  mitre_attack_id:
+  - T1136.002
+  - T1136.001
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - Computer
+  - UserID
+  risk_score: 56
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-powershell-esxadmins.log
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+    sourcetype: xmlwineventlog
