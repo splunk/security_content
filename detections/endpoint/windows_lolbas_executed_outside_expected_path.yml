@@ -7,8 +7,8 @@ status: production
 type: TTP
 description: The following analytic identifies a LOLBAS process being executed outside of it's expected location. Processes being executed outside of expected locations may be an indicator that an adversary is attempting to evade defenses or execute malicious code. The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
 data_source: 
-- Sysmon EID 1
-- Windows Security EID 4688
+- Sysmon EventID 1
+- Windows Event Log Security 4688
 search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process) as parent_process, latest(Processes.process) as process, latest(Processes.process_guid) as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes where Processes.process != "unknown" AND NOT Processes.process_path IN ("*\\Program Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") BY Processes.user Processes.dest Processes.parent_process_name Processes.process_name Processes.process_path 
 |`drop_dm_object_name(Processes)`
 | lookup lolbas_file_path lolbas_file_name as process_name OUTPUT description as desc
