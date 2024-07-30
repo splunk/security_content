@@ -1,0 +1,68 @@
+name: Windows Security ESX Admins Group Event
+id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
+version: 1
+date: '2024-07-30'
+author: Michael Haag, Splunk
+data_source: []
+type: TTP
+status: production
+description: This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
+search: ' `wineventlog_security` EventCode IN (4727, 4730, 4737) 
+  (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode TargetUserName TargetDomainName SubjectUserName SubjectDomainName Computer
+  | rename Computer as dest
+  | eval EventCodeDescription=case(
+      EventCode=4727, "Security Enabled Global Group Created",
+      EventCode=4730, "Security Enabled Global Group Deleted",
+      EventCode=4737, "Security Enabled Global Group Modified"
+    )
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_security_esx_admins_group_event_filter`'
+how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
+known_false_positives: Legitimate administrators might create, delete, or modify an "ESX Admins" group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
+references:
+- https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505
+- https://www.microsoft.com/en-us/security/blog/2024/07/29/ransomware-operators-exploit-esxi-hypervisor-vulnerability-for-mass-encryption/
+- https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+tags:
+  analytic_story:
+  - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: ESX Admins group $EventCodeDescription$ on $dest$ by user $SubjectUserName$.
+  mitre_attack_id:
+  - T1136.001
+  - T1136.002
+  observable:
+  - name: SubjectUserName
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - TargetUserName
+  - TargetDomainName
+  - SubjectUserName
+  - SubjectDomainName
+  - Computer
+  risk_score: 25
+  security_domain: endpoint
+  cve:
+  - CVE-2024-37085
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security-esxadmins.log
+    sourcetype: XmlWinEventLog
+    source: Security
