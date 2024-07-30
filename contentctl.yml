@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 4.36.0
+  version: 4.37.1
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -15,8 +15,9 @@ build_app: true
 build_api: true
 build_ssa: false
 build_path: dist
-test_instance:
-  splunk_app_username: admin
+test_instances:
+- splunk_app_username: admin
+  instance_name: test_instance
   instance_address: localhost
   hec_port: 8088
   web_ui_port: 8000
@@ -29,12 +30,12 @@ mode: {}
 splunk_api_username: null
 post_test_behavior: pause_on_failure
 apps:
-# - uid: 263
-#   title: Splunk Enterprise Security
-#   appid: SplunkEnterpriseSecuritySuite
-#   version: 7.3.1
-#   description: description of app
-#   hardcoded_path: ~/Downloads/splunk-enterprise-security_731.spl
+#- uid: 263
+#  title: Splunk Enterprise Security
+#  appid: SplunkEnterpriseSecuritySuite
+#  version: 7.3.2
+#  description: description of app
+#  hardcoded_path: apps/splunk-enterprise-security_732.spl
 - uid: 1621
   title: Splunk Common Information Model (CIM)
   appid: Splunk_SA_CIM
@@ -182,4 +183,3 @@ apps:
   version: 1.9.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
-githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
