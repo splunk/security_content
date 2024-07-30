@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects when DLLs with known abuse history are loaded from an unusual location. This activity may represent an attacker performing a DLL search order or sideload hijacking technique. These techniques are used to gain persistence as well as elevate privileges on the target system. This detection relies on Sysmon EID7 and is compatible with all Officla Sysmon TA versions.
 data_source:
-- Sysmon 7
+- Sysmon EventID 7
 search: '`sysmon` ImageLoaded EventCode=7 NOT ImageLoaded IN ("*\\Program Files*","*\\system32\\*", "*\\syswow64\\*","*\\winsxs\\*","*\\wbem\\*") 
 | stats latest(ProcessGuid) as process_guid, count, min(_time) as firstTime, max(_time) as lastTime by User, Computer, Image, ImageLoaded
 | rename User as user, Computer as dest, Image as process, ImageLoaded as loaded_file
