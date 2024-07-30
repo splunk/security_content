@@ -1,0 +1,65 @@
+name: Windows Outlook WebView Registry Modification
+id: 6e1ad5d4-d9af-496a-96ec-f31c11cd09f2
+version: 1
+date: '2024-07-30'
+author: Michael Haag, Splunk
+data_source:
+- Sysmon EventID 13
+type: Anomaly
+status: production
+description: The following analytic identifies modifications to specific Outlook registry values related to WebView and Today features. It detects when a URL is set in these registry locations, which could indicate attempts to manipulate Outlook's web-based components. The analytic focusing on changes to the "URL" value within Outlook's WebView and Today registry paths. This activity is significant as it may represent an attacker's effort to redirect Outlook's web content or inject malicious URLs. If successful, this technique could lead to phishing attempts, data theft, or serve as a stepping stone for further compromise of the user's email client and potentially sensitive information.
+search: '| tstats `security_content_summariesonly` count values(Registry.registry_value_name) as registry_value_name values(Registry.registry_value_data) as registry_value_data min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where 
+  (Registry.registry_path="*\\Software\\Microsoft\\Office\\*\\Outlook\\WebView\\*" OR 
+  Registry.registry_path="*\\Software\\Microsoft\\Office\\*\\Outlook\\Today") AND
+  Registry.registry_value_name="URL" 
+  by Registry.dest, Registry.user, Registry.registry_path
+  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)`
+  | `drop_dm_object_name(Registry)` | `windows_outlook_webview_registry_modification_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: False positives may occur if legitimate Outlook processes are
+  modified.
+references:
+- https://gist.github.com/MHaggis/c6318acde2e2f691b550e3a491f49ff1
+- https://github.com/trustedsec/specula/wiki
+tags:
+  analytic_story:
+  - Suspicious Windows Registry Activities
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: Modification of Outlook WebView registry values on $dest$.
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Registry.dest
+  - Registry.user
+  - Registry.registry_path
+  - Registry.registry_value_name
+  - Registry.registry_value_data
+  risk_score: 100
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/atomic_red_team/windows-sysmon-webview.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
