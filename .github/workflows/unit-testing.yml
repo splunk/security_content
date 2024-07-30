@@ -36,11 +36,9 @@ jobs:
             echo "Current Branch (Head Ref): ${{ github.head_ref }}"
             echo "Target Branch (Base Ref): ${{ github.base_ref }}"
             git pull > /dev/null 2>&1
-            git fetch origin pull/${{ github.event.pull_request.number }}/head:${{ github.head_ref }}
-            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo
-            git switch ${{ github.head_ref }}
-            #git checkout ${{ github.head_ref }}
-            #echo "The target branch for this PR is ${{ github.base_ref }}"
+            git fetch origin pull/${{ github.event.pull_request.number }}/head:new_forked_branch
+            #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo           
+            git switch new_forked_branch
             contentctl test --disable-tqdm --no-enable-integration-testing --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             echo "contentctl test - COMPLETED"
           continue-on-error: true
