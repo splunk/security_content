@@ -14,27 +14,20 @@ data_sources:
 - Windows Event Log Security 4790
 type: TTP
 status: production
-description: This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.
-search: '`wineventlog_security` PrivilegeList SidHistory
-  SamAccountName TargetDomainName TargetUserName
-  |  search EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790)
+description: 'This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.'
+search: '`wineventlog_security` EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790) TargetUserName IN ("Account Operators", "Administrators", "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins", "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators", "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users", "Replicators", "Schema Admins", "Server Operators")
   | eval object_category=case(
-  EventCode=="4731", "Local Group (Security)",
-  EventCode=="4744", "Local Group (Distribution)",
-  EventCode=="4727", "Global Group (Security)",
-  EventCode=="4749", "Global Group (Distribution)",
-  EventCode=="4754", "Universal Group (Security)",
-  EventCode=="4759", "Universal Group (Distribution)",
-  EventCode=="4783", "Basic Application Group",
-  EventCode=="4790", "LDAP Query Group")
-  | search TargetUserName IN ("Account Operators", "Administrators",
-  "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins",
-  "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", 
-  "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators",
-  "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users",
-  "Replicators", "Schema Admins", "Server Operators")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode src_user object_category TargetUserName TargetSid dest result status
-  | rename Computer as dest result AS change_type, TargetUserName AS object, TargetSid AS object_path | `windows_privileged_group_modification_filter`'
+      EventCode="4731", "Local Group (Security)",
+      EventCode="4744", "Local Group (Distribution)",
+      EventCode="4727", "Global Group (Security)",
+      EventCode="4749", "Global Group (Distribution)",
+      EventCode="4754", "Universal Group (Security)",
+      EventCode="4759", "Universal Group (Distribution)",
+      EventCode="4783", "Basic Application Group",
+      EventCode="4790", "LDAP Query Group")
+  | rename Computer as dest, result AS change_type, TargetUserName AS object, TargetSid AS object_path
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode src_user object_category object object_path dest change_type status
+  | `windows_privileged_group_modification_filter`'
 how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
 known_false_positives: Legitimate administrators might create, delete, or modify an a privileged group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
