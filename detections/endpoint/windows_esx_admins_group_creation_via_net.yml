@@ -59,7 +59,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.original_file_name
-  risk_score: 56
   security_domain: endpoint
   cve:
   - CVE-2024-37085

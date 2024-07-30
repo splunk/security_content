@@ -54,7 +54,6 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_name
   - Registry.registry_value_data
-  risk_score: 100
   security_domain: endpoint
   cve: []
 tests:

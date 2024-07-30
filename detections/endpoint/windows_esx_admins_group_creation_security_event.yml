@@ -59,7 +59,6 @@ tags:
   - SubjectUserName
   - SubjectDomainName
   - Computer
-  risk_score: 25
   security_domain: endpoint
   cve:
   - CVE-2024-37085
