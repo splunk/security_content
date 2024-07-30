@@ -1,13 +1,13 @@
-name: Windows Net Creating of ESX Admins Group
+name: Windows ESX Admins Group Creation via Net
 id: 3d7df60b-3332-4667-8090-afe03e08dce0
 version: 1
 date: '2024-07-30'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon EventID  1
+- Sysmon EventID 1
 type: TTP
 status: production
-description: This analytic detects attempts to create an "ESX Admins" group using the Windows net.exe or net1.exe commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the 'ESX Admins' group after its deletion from Active Directory.
+description: This analytic detects attempts to create an "ESX Admins" group using the Windows net.exe or net1.exe commands. This activity may indicate an attempt to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). Attackers can use this method to gain unauthorized access to ESXi hosts by recreating the "ESX Admins" group after its deletion from Active Directory.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) 
     as lastTime from datamodel=Endpoint.Processes where 
     (Processes.process_name="net.exe" OR Processes.process_name="net1.exe") 
@@ -19,7 +19,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_net_creating_of_esx_admins_group_filter`'
+  | `windows_esx_admins_group_creation_via_net_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting data that records process activity from your hosts to populate the Endpoint data model in the Processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: Legitimate administrators might create an "ESX Admins" group for valid reasons. Verify that the group creation is authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:

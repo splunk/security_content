@@ -1,9 +1,12 @@
-name: Windows Security ESX Admins Group Event
+name: Windows ESX Admins Group Creation Security Event
 id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
 version: 1
 date: '2024-07-30'
 author: Michael Haag, Splunk
-data_source: []
+data_source:
+- Windows Event Log Security 4727
+- Windows Event Log Security 4730
+- Windows Event Log Security 4737
 type: TTP
 status: production
 description: This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
@@ -18,7 +21,7 @@ search: ' `wineventlog_security` EventCode IN (4727, 4730, 4737)
     )
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_security_esx_admins_group_event_filter`'
+  | `windows_esx_admins_group_creation_security_event_filter`'
 how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
 known_false_positives: Legitimate administrators might create, delete, or modify an "ESX Admins" group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
