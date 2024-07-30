@@ -1,0 +1,21 @@
+name: VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+id: cb77a38a-bc37-42f8-9e34-64ccc7985277
+version: 1
+date: '2024-07-30'
+author: Michael Haag, Splunk
+description: This analytic story addresses the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085). It detects attempts to exploit this flaw, which allows attackers with sufficient AD permissions to gain full access to ESXi hosts by recreating the 'ESX Admins' group after deletion. 
+narrative: VMware ESXi contains an authentication bypass vulnerability (CVE-2024-37085) that allows attackers to gain unauthorized access to ESXi hosts. Ransomware groups have been observed exploiting this flaw to deploy malware and encrypt virtual machines. This story focuses on detecting potential exploitation attempts, suspicious Active Directory group modifications. It aims to help defenders identify and respond to attacks leveraging this vulnerability in their virtualized environments.
+references:
+- https://support.broadcom.com/web/ecx/support-content-notification/-/external/content/SecurityAdvisories/0/24505
+- https://www.microsoft.com/en-us/security/blog/2024/07/29/ransomware-operators-exploit-esxi-hypervisor-vulnerability-for-mass-encryption/
+- https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-37085
