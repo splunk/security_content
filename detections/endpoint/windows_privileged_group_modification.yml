@@ -3,7 +3,15 @@ id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
 version: 1
 date: '2024-07-30'
 author: Brandon Sternfield, Optiv + ClearShark
-data_sources: []
+data_sources:
+- Windows Event Log Security 4727
+- Windows Event Log Security 4731
+- Windows Event Log Security 4744
+- Windows Event Log Security 4749
+- Windows Event Log Security 4754
+- Windows Event Log Security 4759
+- Windows Event Log Security 4783
+- Windows Event Log Security 4790
 type: TTP
 status: production
 description: This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.
