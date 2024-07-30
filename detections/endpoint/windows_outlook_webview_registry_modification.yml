@@ -3,7 +3,7 @@ id: 6e1ad5d4-d9af-496a-96ec-f31c11cd09f2
 version: 1
 date: '2024-07-30'
 author: Michael Haag, Splunk
-data_sources:
+data_source:
 - Sysmon Event ID 13
 type: Anomaly
 status: production

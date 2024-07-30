@@ -3,7 +3,7 @@ id: f48a5557-be06-4b96-b8e8-be563e387620
 version: 1
 date: '2024-07-30'
 author: Michael Haag, Splunk
-data_sources:
+data_source:
 - Powershell 4104
 type: TTP
 status: production

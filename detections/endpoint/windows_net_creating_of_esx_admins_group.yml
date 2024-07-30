@@ -3,7 +3,7 @@ id: 3d7df60b-3332-4667-8090-afe03e08dce0
 version: 1
 date: '2024-07-30'
 author: Michael Haag, Splunk
-data_sources:
+data_source:
 - Sysmon EventID  1
 type: TTP
 status: production
