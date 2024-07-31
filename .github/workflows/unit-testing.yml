@@ -6,7 +6,6 @@ jobs:
   unit-testing:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
-    environment: production
     env:
       CONTENTCTL_VERSION: ${{ vars.CONTENTCTL_VERSION }}
     steps:
