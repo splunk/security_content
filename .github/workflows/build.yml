@@ -11,6 +11,7 @@ jobs:
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
     runs-on: ubuntu-latest
+    environment: production
     env:
       CONTENTCTL_VERSION: ${{ vars.CONTENTCTL_VERSION }}  # Use the environment variable
     steps:
