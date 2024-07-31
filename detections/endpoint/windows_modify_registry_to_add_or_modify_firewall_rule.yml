@@ -1,0 +1,70 @@
+name: Windows Modify Registry to Add or Modify Firewall Rule
+id: 43254751-e2ce-409a-b6b4-4f851e8dcc26
+version: 1
+date: '2024-06-21'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+- Sysmon EventID 14
+type: Anomaly
+status: production
+description: The following analytic detects a potential addition or modification of firewall rules, 
+  signaling possible configuration changes or security policy adjustments. It tracks commands such as 
+  netsh advfirewall firewall add rule and netsh advfirewall firewall set rule, which may indicate attempts 
+  to alter network access controls. Monitoring these actions ensures the integrity of firewall settings and 
+  helps prevent unauthorized network access.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+  WHERE Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"  Registry.action = modified
+  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user Registry.action
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_modify_registry_to_add_or_modify_firewall_rule_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: network admin may add/remove/modify public inbound firewall
+  rule that may cause this rule to be triggered.
+references:
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+tags:
+  analytic_story:
+  - ShrinkLocker
+  asset_type: Endpoint
+  confidence: 50
+  impact: 50
+  message: firewall deletion found in registry in $dest$
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
+  - Registry.action
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/firewall_modify_delete/firewall_mod_delete.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
