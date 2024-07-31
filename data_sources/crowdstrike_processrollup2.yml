@@ -8,7 +8,7 @@ source: crowdstrike
 sourcetype: crowdstrike:events:sensor
 separator: event_simpleName
 supported_TA:
-- name: CrowdStrike Falcon Event Streams Technical Add-On
+- name: CrowdStrike Falcon Event Streams
   url: https://splunkbase.splunk.com/app/5082
   version: 3.2.1
 fields:

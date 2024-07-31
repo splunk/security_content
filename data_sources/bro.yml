@@ -6,5 +6,4 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Bro
 source: bro:http:json
 sourcetype: bro:http:json
-supported_TA:
-- {}
+supported_TA: []

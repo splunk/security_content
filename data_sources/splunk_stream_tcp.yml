@@ -7,6 +7,6 @@ description: Data source object for Splunk Stream TCP
 source: stream:tcp
 sourcetype: stream:tcp
 supported_TA:
-- name: Splunk App for Stream
+- name: Splunk Stream
   url: https://splunkbase.splunk.com/app/1809
-  version: 8.1.1
+  version: 8.1.3
