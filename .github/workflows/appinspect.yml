@@ -27,8 +27,12 @@ jobs:
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
       - name: Running build with enrichments
+        env:
+          SPLUNK_API_USERNAME: "${{ secrets.SPLUNK_API_USERNAME }}"
+          SPLUNK_API_PASSWORD: "${{ secrets.SPLUNK_API_PASSWORD }}"
         run: |
-          contentctl inspect --splunk-api-username ${{ secrets.APPINSPECTUSERNAME }} --splunk-api-password ${{ secrets.APPINSPECTPASSWORD }} --stack_type victoria --enrichments
+          echo $SPLUNK_API_USERNAME
+          contentctl inspect --splunk-api-username "$SPLUNK_API_USERNAME" --splunk-api-password "$SPLUNK_API_PASSWORD" --stack_type victoria --enrichments
           echo "done appinspect"
           mkdir -p artifacts/app_inspect_report
           cp -r dist/*.html artifacts/app_inspect_report
