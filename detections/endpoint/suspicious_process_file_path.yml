@@ -78,6 +78,7 @@ tags:
   - CISA AA23-347A
   - Data Destruction
   - Phemedrone Stealer
+  - Handala Wiper
   asset_type: Endpoint
   confidence: 50
   impact: 70

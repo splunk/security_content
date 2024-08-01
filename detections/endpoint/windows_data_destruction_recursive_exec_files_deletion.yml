@@ -19,7 +19,7 @@ data_source:
 search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.exe", "*.sys", "*.dll")
   | bin _time span=2m | stats count, values(TargetFilename) as deleted_files, min(_time)
   as firstTime, max(_time) as lastTime by user, dest, signature, signature_id, Image,
-  process_name, process_guid | rename Image as process | where count >=500 | `security_content_ctime(firstTime)`
+  process_name, process_guid | rename Image as process | where count >=100 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_data_destruction_recursive_exec_files_deletion_filter`'
 how_to_implement: To successfully implement this search, you need to ingest logs that
   include the process name, TargetFilename, and ProcessID executions from your endpoints.
@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Swift Slicer
   - Data Destruction
+  - Handala Wiper
   asset_type: Endpoint
   confidence: 80
   impact: 80

@@ -1,7 +1,7 @@
 name: Windows Gather Victim Network Info Through Ip Check Web Services
 id: 70f7c952-0758-46d6-9148-d8969c4481d1
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-07-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -18,7 +18,7 @@ search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.*", "*
   "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb",
   "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org",
   "*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net", "*iplogger.org*", "*ip-api.com*",
-  "*geoip.*") |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image
+  "*geoip.*", "*icanhazip.*") |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image
   ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer
   as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_gather_victim_network_info_through_ip_check_web_services_filter`'
@@ -36,6 +36,7 @@ tags:
   - DarkCrystal RAT
   - Phemedrone Stealer
   - Snake Keylogger
+  - Handala Wiper
   asset_type: Endpoint
   confidence: 50
   impact: 50
