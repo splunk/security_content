@@ -15,7 +15,7 @@ description: 'Detect a renamed instance of procdump.exe dumping the lsass proces
   the command line. Review other endpoint data sources for cross process (injection)
   into lsass.exe.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` OriginalFileName=procdump  process_name!=procdump*.exe  EventID=1
   (CommandLine=*-ma* OR CommandLine=*-mm*) CommandLine=*lsass* |  stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,
   process_name, OriginalFileName, CommandLine | `security_content_ctime(firstTime)`

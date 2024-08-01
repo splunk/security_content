@@ -14,6 +14,8 @@ description: The following analytic detects the use of Microsoft HTML Applicatio
   leading to system compromise, data exfiltration, or further network infiltration.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where `process_mshta` (Processes.process="*http://*"

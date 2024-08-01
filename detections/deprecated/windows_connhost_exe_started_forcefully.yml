@@ -11,7 +11,7 @@ description: 'The search looks for the Console Window Host process (connhost.exe
   seen in the windows 10 client of attack_range_local. After further testing we realized
   this is not specific to Ryuk. '
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process="*C:\\Windows\\system32\\conhost.exe*
   0xffffffff *-ForceV1*" by Processes.user Processes.process_name Processes.process

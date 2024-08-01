@@ -14,6 +14,8 @@ description: The following analytic detects the execution of `cipher.exe` with t
   critical data, thereby complicating the investigation and remediation process.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "cipher.exe"
   Processes.process = "*/w:*" by Processes.parent_process_name Processes.parent_process

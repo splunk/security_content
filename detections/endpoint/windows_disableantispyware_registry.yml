@@ -15,7 +15,7 @@ description: The following analytic detects the modification of the Windows Regi
   malicious activities such as data encryption, exfiltration, or additional system
   compromise.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Registry where Registry.registry_value_name="DisableAntiSpyware"

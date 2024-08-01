@@ -9,6 +9,8 @@ description: |-
   The following analytic detects the creation of local administrator accounts using the net.exe command. It leverages Endpoint Detection and Response (EDR) data to identify processes named net.exe or net1.exe with the "/add" parameter and keywords related to administrator accounts. This activity is significant as it may indicate an attacker attempting to gain persistent access or escalate privileges. If confirmed malicious, this could lead to unauthorized access, data theft, or further system compromise. Review the process details, user context, and related artifacts to determine the legitimacy of the activity.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.user) as
   user values(Processes.parent_process) as parent_process values(parent_process_name)
   as parent_process_name min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes

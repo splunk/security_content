@@ -7,6 +7,8 @@ status: experimental
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the use of certutil to download software,
   specifically when spawned by SQL-related processes. This detection leverages Endpoint
   Detection and Response (EDR) data, focusing on command-line executions involving

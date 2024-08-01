@@ -12,7 +12,8 @@ description: The following analytic identifies users with KMS keys performing en
   exfiltration or tampering efforts. If confirmed malicious, an attacker could be
   encrypting sensitive data to evade detection or preparing it for exfiltration, posing
   a significant risk to data integrity and confidentiality.
-data_source: []
+data_source: 
+- AWS CloudTrail
 search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
   | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source
   AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime

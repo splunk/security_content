@@ -7,6 +7,8 @@ status: production
 type: Hunting
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: 'The following analytic detects the usage of headless browsers within
   an organization. It identifies processes containing the "--headless" and "--disable-gpu"
   command line arguments, which are indicative of headless browsing. This detection

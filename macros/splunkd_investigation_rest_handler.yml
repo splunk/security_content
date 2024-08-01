@@ -1,4 +1,0 @@
-definition: index=_internal sourcetype=investigation_rest_handler
-description: customer specific splunk configurations(eg- index, source, sourcetype).
-  Replace the macro definition with configurations for your Splunk Environmnent.
-name: splunkd_investigation_rest_handler

@@ -1,7 +1,7 @@
 name: Azure AD Admin Consent Bypassed by Service Principal
 id: 9d4fea43-9182-4c5a-ada8-13701fd5615d
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-07-02'
 author: Mauricio Velazco, Splunk
 data_source:
 - Azure Active Directory Add app role assignment to service principal
@@ -17,17 +17,14 @@ description: The following analytic identifies instances where a service princip
   without proper oversight, potentially compromising the security of the Azure AD
   environment.
 search: >-
-  `azure_monitor_aad` operationName="Add app role assignment to service principal"
-  src_user_type=servicePrincipal
-  | rename properties.* as *  | eval roleId = mvindex('targetResources{}.modifiedProperties{}.newValue',
-  0)
-  | eval roleValue = mvindex('targetResources{}.modifiedProperties{}.newValue', 1)
-  | eval roleDescription = mvindex('targetResources{}.modifiedProperties{}.newValue',
-  2)
-  | eval dest_user = mvindex('targetResources{}.id', 0)
-  | rename initiatedBy.app.displayName as src_user
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by src_user
-  dest_user roleId roleValue roleDescription
+  `azure_monitor_aad` (operationName="Add app role assignment to service principal" OR operationName="Add member to role*") src_user_type=servicePrincipal 
+  | rename properties.* as *  
+  | eval roleId = mvindex('targetResources{}.modifiedProperties{}.newValue', 0) 
+  | eval roleValue = mvindex('targetResources{}.modifiedProperties{}.newValue', 1) 
+  | eval roleDescription = mvindex('targetResources{}.modifiedProperties{}.newValue', 2) 
+  | eval user_id = mvindex('targetResources{}.id', 0), user=coalesce(user,mvindex('targetResources{}.displayName', 0))
+  | rename initiatedBy.app.displayName as src_user 
+  | stats count earliest(_time) as firstTime latest(_time) as lastTime by src_user user user_id roleId roleValue roleDescription
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`  | `azure_ad_admin_consent_bypassed_by_service_principal_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
@@ -47,10 +44,14 @@ tags:
   confidence: 60
   impact: 90
   message: Service principal $src_user$ bypassed the admin consent process and granted
-    permissions to $dest_user$
+    permissions to $user$
   mitre_attack_id:
   - T1098.003
   observable:
+  - name: user
+    type: User
+    role:
+    - Victim
   - name: src_user
     type: User
     role:

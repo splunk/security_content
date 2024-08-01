@@ -6,7 +6,7 @@ author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: The following analytic detects the modification of the Windows registry
   to disable the Windows Defender BlockAtFirstSeen feature. It leverages data from

@@ -1,0 +1,91 @@
+name: Windows Privileged Group Modification
+id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
+version: 1
+date: '2024-07-30'
+author: Brandon Sternfield, Optiv + ClearShark
+data_sources:
+- Windows Event Log Security 4727
+- Windows Event Log Security 4731
+- Windows Event Log Security 4744
+- Windows Event Log Security 4749
+- Windows Event Log Security 4754
+- Windows Event Log Security 4759
+- Windows Event Log Security 4783
+- Windows Event Log Security 4790
+type: TTP
+status: production
+description: 'This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.'
+search: '`wineventlog_security` EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790) TargetUserName IN ("Account Operators", "Administrators", "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins", "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators", "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users", "Replicators", "Schema Admins", "Server Operators")
+  | eval object_category=case(
+      EventCode="4731", "Local Group (Security)",
+      EventCode="4744", "Local Group (Distribution)",
+      EventCode="4727", "Global Group (Security)",
+      EventCode="4749", "Global Group (Distribution)",
+      EventCode="4754", "Universal Group (Security)",
+      EventCode="4759", "Universal Group (Distribution)",
+      EventCode="4783", "Basic Application Group",
+      EventCode="4790", "LDAP Query Group")
+  | rename Computer as dest, result AS change_type, TargetUserName AS object, TargetSid AS object_path
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode src_user object_category object object_path dest change_type status
+  | `windows_privileged_group_modification_filter`'
+how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
+known_false_positives: Legitimate administrators might create, delete, or modify an a privileged group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
+references:
+- https://nvd.nist.gov/vuln/detail/CVE-2024-37085
+- https://www.rapid7.com/blog/post/2024/07/30/vmware-esxi-cve-2024-37085-targeted-in-ransomware-campaigns/%5C
+- https://x.com/mthcht/status/1818196168515461431?s=12&t=kwffmj0KM1sZtg3MrqC0QQ
+tags:
+  analytic_story:
+  - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085
+  asset_type: Endpoint
+  confidence: 80
+  impact: 100
+  message: A privileged group modification was detected. Group "$object$" ($object_category$) was $change_type$ on $dest$ by user $src_user$.
+  mitre_attack_id:
+  - T1136.001
+  - T1136.002
+  observable:
+  - name: src_user
+    type: User
+    role:
+    - Attacker
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: object
+    type: Other
+    role:
+    - Target
+  - name: object_category
+    type: Other
+    role:
+    - Other
+  - name: change_type
+    type: Other
+    role:
+    - Other
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - EventCode
+  - src_user
+  - object_category
+  - TargetUserName
+  - TargetSid
+  - dest
+  - result
+  - status
+  - _time
+  risk_score: 80
+  security_domain: endpoint
+  cve:
+  - CVE-2024-37085
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security-esxadmins.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

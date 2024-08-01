@@ -14,7 +14,7 @@ description: The following analytic detects multiple executions of Living off th
   arbitrary code, escalate privileges, or persist within the environment, posing a
   significant security risk.
 data_source: []
-search: '`osquery` name=es_process_events columns.cmdline IN ("find*", "crontab*",
+search: '`osquery_macro` name=es_process_events columns.cmdline IN ("find*", "crontab*",
   "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*") | rename
   columns.* as * | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline)
   as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path,

@@ -1,0 +1,59 @@
+data_source: []
+mitre_attack_ids: T1190
+security_domain: network
+name: Ivanti EPM SQL Injection Remote Code Execution
+id: e20564ca-c86c-4e30-acdb-a8486673426f
+version: 1
+date: '2024-06-18'
+author: Michael Haag
+type: TTP
+status: production
+description: This detection identifies potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824. The vulnerability, which has a CVSS score of 9.8, allows for remote code execution through the `RecordGoodApp` function in the `PatchBiz.dll` file. An attacker can exploit this vulnerability by manipulating the `goodApp.md5` value in an HTTP POST request to the `/WSStatusEvents/EventHandler.asmx` endpoint, leading to unauthorized command execution on the server. Monitoring for unusual SQL commands and HTTP requests to this endpoint can help identify exploitation attempts. Note that, the detection is focused on the URI path, HTTP method and status code of 200, indicating potential exploitation. To properly identify if this was successful, TLS inspection and additional network traffic analysis is required as the xp_cmdshell comes in via the request body.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/WSStatusEvents/EventHandler.asmx") Web.http_method=POST Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype 
+  | `drop_dm_object_name("Web")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `ivanti_epm_sql_injection_remote_code_execution_filter`'
+how_to_implement: The detection is based on monitoring HTTP POST requests to the `/WSStatusEvents/EventHandler.asmx` endpoint with a status code of 200. The detection is focused on the URI path, HTTP method, and status code, which can indicate potential exploitation of the CVE-2024-29824 vulnerability. To implement this detection, ensure that you have enabled the necessary data sources and are ingesting HTTP traffic data. The detection can be implemented using Splunk Enterprise Security and Splunk Cloud with the provided search query. The search query should be scheduled to run at regular intervals to detect potential exploitation attempts. Additionally, consider implementing TLS inspection or network traffic analysis (IDS/IPS) to identify successful exploitation attempts.
+known_false_positives: False positives are not expected, as this detection is based on monitoring HTTP POST requests to a specific endpoint with a status code of 200. However, ensure that legitimate requests to the `/WSStatusEvents/EventHandler.asmx` endpoint are accounted for in the environment to avoid false positives.
+references:
+- https://www.horizon3.ai/attack-research/attack-blogs/cve-2024-29824-deep-dive-ivanti-epm-sql-injection-remote-code-execution-vulnerability/
+- https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2024-29824
+- https://github.com/projectdiscovery/nuclei-templates/pull/10020/files
+tags:
+  analytic_story:
+  - Ivanti EPM Vulnerabilities 
+  asset_type: Web Server
+  confidence: 80
+  impact: 100
+  message: Potential exploitation of a critical SQL injection vulnerability in Ivanti Endpoint Manager (EPM), identified as CVE-2024-29824 against $dest$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Web.http_user_agent
+  - Web.status
+  - Web.http_method
+  - Web.url
+  - Web.url_length
+  - Web.src
+  - Web.dest
+  - sourcetype
+  risk_score: 80
+  security_domain: network
+  cve:
+  - CVE-2024-29824
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_epm.log
+    sourcetype: suricata
+    source: suricata

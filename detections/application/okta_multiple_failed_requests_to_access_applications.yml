@@ -5,7 +5,8 @@ date: "2024-05-30"
 author: John Murphy, Okta, Michael Haag, Splunk
 type: Hunting
 status: experimental
-data_source: []
+data_source: 
+- Okta
 description: 'The following analytic detects multiple failed attempts to access applications
   in Okta, potentially indicating the reuse of a stolen web session cookie. It leverages
   Okta logs to evaluate policy and SSO events, aggregating data by user, session,

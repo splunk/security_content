@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 description: The following analytic detects potentially malicious registry modifications
   characterized by MD5-like registry key names. It leverages the Endpoint data model

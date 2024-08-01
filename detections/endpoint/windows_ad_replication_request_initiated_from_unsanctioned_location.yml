@@ -88,6 +88,7 @@ tags:
   - status
   risk_score: 100
   security_domain: endpoint
+  manual_test: This detection runs correctly when run manually and given some time is given for data to settle in the splunk index. 
 tests:
 - name: True Positive Test
   attack_data:
