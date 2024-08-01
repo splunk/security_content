@@ -39,6 +39,7 @@ references:
 tags:
   analytic_story:
   - DarkGate Malware
+  - Handala Wiper
   asset_type: Endpoint
   atomic_guid: []
   confidence: 100
