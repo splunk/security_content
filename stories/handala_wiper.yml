@@ -1,0 +1,20 @@
+name: Handala Wiper
+id: 1590c46a-e976-4b4b-a166-d9be06ab0056
+version: 1
+date: '2024-07-31'
+author: Teoderick Contreras, Splunk
+description: Handala Destructive Wiper detection involves monitoring for suspicious activities such as unexpected `regasm` processes, unauthorized AutoIt script executions, and the dropping of malicious drivers. Indicators such as abrupt system slowdowns, and the creation of unknown files or processes. Early detection of these signs is crucial for mitigating the severe impact of this destructive malware.
+narrative: Handala Destructive Wiper is a potent malware strain known for its destructive capabilities. It targets and irreversibly wipes data from infected systems, rendering them inoperable. This malware is often used in cyber-attacks against critical infrastructure and organizations, causing significant disruption and data loss. This Wiper employs techniques to evade detection and spread rapidly across networks. Its deployment can lead to extensive downtime, financial loss, and compromised sensitive information, making it a severe threat in the cybersecurity landscape.
+references:
+- https://www.trellix.com/blogs/research/handalas-wiper-targets-israel/
+- https://cyberint.com/blog/threat-intelligence/handala-hack-what-we-know-about-the-rising-threat-actor/
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
