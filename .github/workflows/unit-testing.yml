@@ -1,9 +1,7 @@
 name: unit-testing
 on:
-  pull_request_target:
-  push:
-    branches:
-      - develop
+- pull_request_target
+
 jobs:
   unit-testing:
     runs-on: ubuntu-latest
