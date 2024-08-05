@@ -12,4 +12,4 @@ jobs:
         uses: cognitedata/auto-approve-dependabot-action@v3.0.1
         if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.SECURITY_CONTENT_ADMIN_TASKS }}
