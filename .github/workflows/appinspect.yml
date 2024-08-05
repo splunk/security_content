@@ -1,12 +1,12 @@
-name: build
+name: appinspect
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  pull_request_target:
   push:
     branches:
       - develop
+
 jobs:
-  build:
+  appinspect:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
@@ -19,6 +19,7 @@ jobs:
         with:
           python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+
       
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
@@ -26,10 +27,16 @@ jobs:
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
       - name: Running build with enrichments
+        env:
+          APPINSPECTUSERNAME: "${{ secrets.APPINSPECTUSERNAME }}"
+          APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
         run: |
-          contentctl build --enrichments
-          mkdir artifacts
-          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+          echo $APPINSPECTUSERNAME
+          contentctl inspect --splunk-api-username "$APPINSPECTUSERNAME" --splunk-api-password "$APPINSPECTPASSWORD" --stack_type victoria --enrichments
+          echo "done appinspect"
+          mkdir -p artifacts/app_inspect_report
+          cp -r dist/*.html artifacts/app_inspect_report
+          cp -r dist/*.tar.gz artifacts/
 
       - name: store_artifacts
         uses: actions/upload-artifact@v4
@@ -37,3 +44,4 @@ jobs:
           name: content-latest
           path: |
             artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+            artifacts/app_inspect_report
