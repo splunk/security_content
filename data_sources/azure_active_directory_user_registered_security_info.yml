@@ -11,7 +11,7 @@ separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 5.3.1
+  version: 5.3.2
 fields:
 - _time
 - Level
