@@ -43,6 +43,7 @@ tags:
   analytic_story:
   - Suspicious Regsvcs Regasm Activity
   - Living Off The Land
+  - Handala Wiper
   asset_type: Endpoint
   confidence: 70
   impact: 70
