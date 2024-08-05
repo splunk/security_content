@@ -1,4 +1,4 @@
-name: Critical Alerts To Risk Index
+name: Detect Critical Alerts from Security Tools
 id: 483e8a68-f2f7-45be-8fc9-bf725f0e22fd
 version: 1
 date: '2024-06-04'
@@ -9,8 +9,8 @@ data_source: []
 description: The primary objective of this rule is to integrate and assess critical alerts from Endpoint, DLP, and firewall sources within the splunk system. By correlating these alerts and incorporating MITRE annotations, the rule provides a comprehensive view of customer risk. It triggers an alert when critical alerts from these categories are detected, preserving the originating source and assigning risk scores. The rule helps security analysts better understand potential threats, enabling timely and effective responses to mitigate risks. The results are collected in the risk index for continuous monitoring and analysis.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Alerts where Alerts.severity IN ("high","critical") by Alerts.signature Alerts.app, Alerts.severity, Alerts.description, source, Alerts.id, Alerts.dest 
   | `drop_dm_object_name("Alerts")`
-  | `critical_alerts_to_risk_index_filter`'
-how_to_implement: In order to properly run this search, Splunk needs to ingest data from other security products. 
+  | `detect_critical_alerts_from_security_tools_filter`'
+how_to_implement: In order to properly run this search, Splunk needs to ingest data from other security products such as crowdstrike, microsoft defender, or carbon black. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
 known_false_positives: False positives may vary by endpoint protection tool; monitor and adjust the risk scores as needed.
 references:
   - https://attack.mitre.org/tactics/
@@ -28,7 +28,7 @@ tags:
   - name: dest
     type: Other
     role:
-    - Victim
+    - Endpoint
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
