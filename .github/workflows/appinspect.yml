@@ -1,8 +1,7 @@
 name: appinspect
 on:
-  pull_request_target:
-    branches:
-      - develop
+- pull_request_target
+
 jobs:
   appinspect:
     #Note that the CircleCI job used a Container.  The way to do this with Github Actions
