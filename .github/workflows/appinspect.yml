@@ -1,6 +1,9 @@
 name: appinspect
 on:
-- pull_request_target
+  pull_request_target:
+  push:
+    branches:
+      - develop
 
 jobs:
   appinspect:
@@ -8,8 +11,6 @@ jobs:
     #is to first start up a Virtual Machine, then we can by following:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idcontainer
     runs-on: ubuntu-latest
-    env:
-      CONTENTCTL_VERSION: ${{ vars.CONTENTCTL_VERSION }}
     steps:
       - name: Check out the repository code
         uses: actions/checkout@v4
@@ -22,8 +23,7 @@ jobs:
       
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          echo "CONTENTCTL_VERSION is set to ${{ env.CONTENTCTL_VERSION }}"
-          pip install contentctl==${{ env.CONTENTCTL_VERSION }}
+          pip install contentctl>=4.0.0
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
       - name: Running build with enrichments
