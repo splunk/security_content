@@ -1,7 +1,8 @@
 name: unit-testing
 on:
-- pull_request_target
-
+  pull_request_target:
+  pull_request:
+    types: [opened, reopened, synchronize]
 jobs:
   unit-testing:
     runs-on: ubuntu-latest

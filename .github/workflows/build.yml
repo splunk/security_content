@@ -1,8 +1,8 @@
 name: build
 on:
   pull_request_target:
-    branches:
-      - develop
+  pull_request:
+    types: [opened, reopened, synchronize]
   push:
     branches:
       - develop
