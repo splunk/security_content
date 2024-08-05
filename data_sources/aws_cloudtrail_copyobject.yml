@@ -10,7 +10,7 @@ separator: eventName
 supported_TA:
 - name: Splunk Add-on for Amazon Web Services (AWS)
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.4.1
+  version: 7.6.0
 fields:
 - _time
 - additionalEventData.AuthenticationMethod

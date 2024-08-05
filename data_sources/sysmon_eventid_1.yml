@@ -1,7 +1,7 @@
 name: Sysmon EventID 1
 id: b375f4d1-d7ca-4bc0-9103-294825c0af17
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for Sysmon EventID 1
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
@@ -10,7 +10,7 @@ separator: EventID
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709/
-  version: 4.0.0
+  version: 4.0.1
 fields:
 - _time
 - Channel

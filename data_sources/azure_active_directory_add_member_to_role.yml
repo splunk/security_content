@@ -1,7 +1,7 @@
 name: Azure Active Directory Add member to role
 id: 1660d196-127f-4678-81b2-472d51711b07
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for Azure Active Directory Add member to role
 source: Azure AD
@@ -10,7 +10,7 @@ separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 5.2.2
+  version: 5.3.2
 fields:
 - _time
 - Level

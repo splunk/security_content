@@ -1,7 +1,7 @@
 name: AWS CloudTrail ConsoleLogin
 id: b68b3f26-bd21-4fa8-b593-616fe75ac0ae
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for AWS CloudTrail ConsoleLogin
 source: aws_cloudtrail
@@ -10,7 +10,7 @@ separator: eventName
 supported_TA:
 - name: Splunk Add-on for Amazon Web Services (AWS)
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.4.1
+  version: 7.6.0
 fields:
 - _time
 - action

@@ -1,7 +1,7 @@
 name: Palo Alto Network Traffic
 id: 182a83bc-c31a-4817-8c7a-263744cec52a
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for Palo Alto Network Traffic
 source: screenconnect_palo_traffic
@@ -9,7 +9,7 @@ sourcetype: pan:traffic
 supported_TA:
 - name: Palo Alto Networks Add-on for Splunk
   url: https://splunkbase.splunk.com/app/2757
-  version: 8.1.1
+  version: 8.1.3
 fields:
 - _time
 - date_hour

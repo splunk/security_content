@@ -1,7 +1,7 @@
 name: AWS CloudTrail AssumeRoleWithSAML
 id: 1e28f2a6-2db9-405f-b298-18734a293f77
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for AWS CloudTrail AssumeRoleWithSAML
 source: aws_cloudtrail
@@ -10,7 +10,7 @@ separator: eventName
 supported_TA:
 - name: Splunk Add-on for Amazon Web Services (AWS)
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.4.1
+  version: 7.6.0
 fields:
 - _time
 - action

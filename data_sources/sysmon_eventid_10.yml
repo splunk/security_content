@@ -10,7 +10,7 @@ separator: EventID
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709/
-  version: 4.0.0
+  version: 4.0.1
 fields:
 - _time
 - CallTrace

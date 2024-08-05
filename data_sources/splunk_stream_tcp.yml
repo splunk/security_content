@@ -9,4 +9,4 @@ sourcetype: stream:tcp
 supported_TA:
 - name: Splunk App for Stream
   url: https://splunkbase.splunk.com/app/1809
-  version: 8.1.1
+  version: 8.1.3

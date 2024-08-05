@@ -1,7 +1,7 @@
 name: CrowdStrike ProcessRollup2
 id: cbb06880-9dd9-4542-ac60-bd6e5d3c3e4e
 version: 1
-date: '2024-07-18'
+date: '2024-08-05'
 author: Patrick Bareiss, Splunk
 description: Data source object for CrowdStrike ProcessRollup2
 source: crowdstrike
@@ -10,7 +10,7 @@ separator: event_simpleName
 supported_TA:
 - name: Splunk Add-on for CrowdStrike FDR
   url: https://splunkbase.splunk.com/app/5579
-  version: 1.5.0
+  version: 2.0.0
 fields:
 - AuthenticationId
 - AuthenticationId_meaning
