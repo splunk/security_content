@@ -7,10 +7,11 @@ description: Data source object for Windows Event Log Security 4688
 source: XmlWinEventLog:Security
 sourcetype: xmlwineventlog
 separator: EventCode
+configuration: Enabling Windows event log process command line logging via group policy object https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_Windows_event_log_process_command_line_logging_via_group_policy_object
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 8.8.0
+  version: 8.9.0
 fields:
 - Caller_Domain
 - Caller_User_Name

@@ -1,10 +1,10 @@
-name: Windows Event Log Security 4698
-id: 32c06703-02d3-47ec-8856-b0dc3045866c
+name: Windows Event Log System 4728
+id: 4549f0ac-3df9-4bfb-bea5-1459690c8040
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
-description: Data source object for Windows Event Log Security 4698
-source: XmlWinEventLog:Security
+description: Data source object for Windows Event Log System 4728
+source: XmlWinEventLog:System
 sourcetype: xmlwineventlog
 separator: EventCode
 supported_TA:
@@ -15,6 +15,7 @@ fields:
 - _time
 - Account_Domain
 - Account_Name
+- CategoryString
 - ComputerName
 - Error_Code
 - EventCode
@@ -31,14 +32,16 @@ fields:
 - Subject_Account_Name
 - Subject_Logon_ID
 - Subject_Security_ID
+- Target_Account_Domain
+- Target_Account_Name
+- Target_Security_ID
 - TaskCategory
-- Task_Content
-- Task_Name
 - Type
 - action
 - app
 - body
 - category
+- change_type
 - date_hour
 - date_mday
 - date_minute
@@ -61,9 +64,15 @@ fields:
 - member_dn
 - member_id
 - member_nt_domain
+- msad_action
 - name
+- object
+- object_attrs
+- object_category
+- object_id
 - product
 - punct
+- result
 - session_id
 - severity
 - severity_id
@@ -73,15 +82,18 @@ fields:
 - sourcetype
 - splunk_server
 - src_nt_domain
+- src_user
+- src_user_name
 - status
 - subject
 - ta_windows_action
+- ta_windows_security_CategoryString
 - tag
-- tag::action
 - tag::eventtype
 - timeendpos
 - timestartpos
 - user
+- user_group
+- user_name
 - vendor
 - vendor_product
-example_log: 04/26/2022 11:12:09 AM
