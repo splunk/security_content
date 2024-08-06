@@ -6,8 +6,7 @@ author: Patrick Bareiss, Splunk
 description: Data source object for CrushFTP
 source: crushftp
 sourcetype: crushftp:sessionlogs
-supported_TA:
-- {}
+supported_TA: []
 fields:
 - _time
 - _raw
