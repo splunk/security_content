@@ -10,7 +10,7 @@ separator: EventID
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 8.8.0
+  version: 8.9.0
 fields:
 - _time
 - ComputerName
