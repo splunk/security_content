@@ -1,0 +1,60 @@
+name: Crowdstrike Medium Severity Alert
+id: 7e80d92a-6ec3-4eb1-a444-1480acfe2d14
+version: 1
+date: '2024-07-15'
+author: Teoderick Contreras, Splunk
+data_source: []
+type: Anomaly
+status: production
+description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. 
+  This alert level suggests suspicious activity that may compromise security but is not immediately critical. 
+  It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, 
+  which should be investigated further and mitigated quickly to prevent escalation of attacks.
+search: '`crowdstrike_stream` 
+  | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
+  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, src_host, user, description, type, count_alerts, severity
+  | where LIKE (severity, "%MEDIUM%")
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `crowdstrike_medium_severity_alert_filter`'
+how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, 
+  authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. 
+  Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
+known_false_positives: unknown
+references:
+- https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: A MEDIUM Severity Crowdstrike Alert found in $src_host$
+  mitre_attack_id:
+  - T1110
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - event.EndpointIp
+  - event.EndpointName
+  - event.UserName
+  - event.IncidentDescription
+  - event.IncidentType
+  - event.NumbersOfAlerts
+  - event.SeverityName
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/medium_alert/crowdstrike_medium_clean.log
+    sourcetype: CrowdStrike:Event:Streams:JSON
+    source: CrowdStrike:Event:Streams
