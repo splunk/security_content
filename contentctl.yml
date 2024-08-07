@@ -34,7 +34,7 @@ apps:
 #   appid: SplunkEnterpriseSecuritySuite
 #   version: 7.3.1
 #   description: description of app
-#   hardcoded_path: ~/Downloads/splunk-enterprise-security_731.spl
+#   hardcoded_path: apps/splunk-enterprise-security_731.spl
 - uid: 1621
   title: Splunk Common Information Model (CIM)
   appid: Splunk_SA_CIM
