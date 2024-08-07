@@ -15,6 +15,8 @@ description: The following analytic identifies the disabling of the firewall usi
   compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_netsh` Processes.process=
   "*firewall*" (Processes.process= "*off*" OR  Processes.process= "*disable*") by

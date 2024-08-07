@@ -9,7 +9,7 @@ description: This search looks for changes to registry values that control Windo
   file associations, executed by a process that is not typical for legitimate, routine
   changes to this area.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
   as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name!=Explorer.exe

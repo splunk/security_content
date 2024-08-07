@@ -14,7 +14,7 @@ description: The following analytic detects attempts to disable the memory crash
   as seen with HermeticWiper, potentially leading to significant operational disruptions
   and data loss.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   where (Registry.registry_path="*\\CurrentControlSet\\Control\\CrashControl\\CrashDumpEnabled")

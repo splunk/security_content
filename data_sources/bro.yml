@@ -1,0 +1,9 @@
+name: Bro
+id: c5d9612b-0ffd-44d3-8247-3cf3486ec5e2
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Bro
+source: bro:http:json
+sourcetype: bro:http:json
+supported_TA: []

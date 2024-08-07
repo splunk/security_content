@@ -7,6 +7,8 @@ status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the execution of AutoIt3, a scripting
   language often used for automating Windows GUI tasks and general scripting. It identifies
   instances where AutoIt3 or its variants are executed by searching for process names
@@ -37,6 +39,7 @@ references:
 tags:
   analytic_story:
   - DarkGate Malware
+  - Handala Wiper
   asset_type: Endpoint
   atomic_guid: []
   confidence: 100

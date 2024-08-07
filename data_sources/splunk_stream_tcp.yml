@@ -1,0 +1,12 @@
+name: Splunk Stream TCP
+id: 4b1233d1-f80a-4da1-ab27-a5b10ea8a4ce
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Splunk Stream TCP
+source: stream:tcp
+sourcetype: stream:tcp
+supported_TA:
+- name: Splunk Stream
+  url: https://splunkbase.splunk.com/app/1809
+  version: 8.1.3

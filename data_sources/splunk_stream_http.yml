@@ -1,0 +1,63 @@
+name: Splunk Stream HTTP
+id: b0070a33-92ed-49e5-8f38-576cdf300710
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Splunk Stream HTTP
+source: stream:http
+sourcetype: stream:http
+supported_TA:
+- name: Splunk Stream
+  url: https://splunkbase.splunk.com/app/1809
+  version: 8.1.3
+fields:
+- _time
+- bytes
+- bytes_in
+- bytes_out
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest_headers
+- dest_ip
+- dest_mac
+- dest_port
+- endtime
+- flow_id
+- host
+- http_comment
+- http_content_length
+- http_method
+- http_user_agent
+- index
+- linecount
+- packets_in
+- packets_out
+- protocol_stack
+- punct
+- site
+- source
+- sourcetype
+- splunk_server
+- src_headers
+- src_ip
+- src_mac
+- src_port
+- status
+- time_taken
+- timeendpos
+- timestamp
+- timestartpos
+- transport
+- uri
+- uri_path
+example_log: '{"endtime":"2021-12-13T17:29:28.499004Z","timestamp":"2021-12-13T17:29:28.453391Z","bytes":2000,"bytes_in":177,"bytes_out":1823,"dest_headers":"HTTP/1.1
+  200 OK\r\nDate: Mon, 13 Dec 2021 17:29:15 GMT\r\nContent-length: 1745\r\n\r\n","dest_ip":"10.0.1.16","dest_mac":"02:3C:5A:F1:02:C5","dest_port":8080,"flow_id":"db81d2cb-b684-4fac-bb2e-82f355e6de6e","http_comment":"HTTP/1.1
+  200 OK","http_content_length":1745,"http_method":"GET","http_user_agent":"Java/1.8.0_181","packets_in":5,"packets_out":4,"protocol_stack":"ip:tcp:http","site":"10.0.1.16:8080","src_headers":"GET
+  /ExploitbQPooNZSx3.class HTTP/1.1\r\nUser-Agent: Java/1.8.0_181\r\nHost: 10.0.1.16:8080\r\nAccept:
+  text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2\r\nConnection: keep-alive\r\n\r\n","src_ip":"10.0.1.25","src_mac":"02:95:98:C5:52:71","src_port":41132,"status":200,"time_taken":45647,"transport":"tcp","uri":"/ExploitbQPooNZSx3.class","uri_path":"/ExploitbQPooNZSx3.class"}'

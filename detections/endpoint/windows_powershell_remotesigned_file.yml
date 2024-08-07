@@ -7,6 +7,8 @@ status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the use of the "remotesigned" execution
   policy for PowerShell scripts. It leverages data from Endpoint Detection and Response
   (EDR) agents, focusing on command-line executions containing "remotesigned" and

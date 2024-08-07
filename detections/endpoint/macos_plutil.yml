@@ -15,7 +15,7 @@ description: The following analytic detects the usage of the `plutil` command to
   security.
 data_source:
 - osquery
-search: '`osquery` name=es_process_events columns.path=/usr/bin/plutil | rename columns.*
+search: '`osquery_macro` name=es_process_events columns.path=/usr/bin/plutil | rename columns.*
   as * | stats count  min(_time) as firstTime max(_time) as lastTime by username host
   cmdline pid path parent signing_id | rename username as user, cmdline as process,
   path as process_path, host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`

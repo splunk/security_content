@@ -13,7 +13,8 @@ description: The following analytic detects changes to computer accounts using a
   If confirmed malicious, this could allow an attacker to alter computer accounts,
   potentially leading to privilege escalation or persistent access within the network.
 data_source:
-- Windows Event Log Security 4624
+- Windows Event Log Security 4624 
+- Windows Event Log Security 4742
 search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
   LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
   as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'

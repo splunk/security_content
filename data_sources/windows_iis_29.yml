@@ -1,0 +1,31 @@
+name: Windows IIS 29
+id: 1d99ddd7-7fec-4dea-bf4f-1f4906142328
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Windows IIS 29
+source: IIS:Configuration:Operational
+sourcetype: IIS:Configuration:Operational
+separator: EventID
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 8.9.0
+fields:
+- _time
+- ComputerName
+- EventCode
+- EventType
+- Keywords
+- LogName
+- Message
+- OpCode
+- RecordNumber
+- Sid
+- SidType
+- SourceName
+- TaskCategory
+- Type
+- User
+- name
+example_log: ''

@@ -1,0 +1,76 @@
+name: Nginx Access
+id: c716a418-eab3-4df5-9dff-5420174e3068
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Nginx Access
+source: /var/log/nginx/access.log
+sourcetype: nginx:plus:kv
+supported_TA: []
+fields:
+- _time
+- action
+- app
+- bytes
+- bytes_in
+- bytes_out
+- category
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_ip
+- dest_port
+- eventtype
+- host
+- http_content_type
+- http_method
+- http_referer
+- http_user_agent
+- http_user_agent_length
+- http_x_forwarded_for
+- http_x_header
+- https
+- index
+- linecount
+- nginx_version
+- product
+- protocol
+- punct
+- request_time
+- response_time
+- server
+- site
+- source
+- sourcetype
+- splunk_server
+- src
+- src_ip
+- status
+- status_description
+- status_type
+- tag
+- tag::eventtype
+- time_local
+- timeendpos
+- timestartpos
+- uri_path
+- url
+- url_domain
+- url_length
+- vendor
+- vendor_product
+- version
+- web_server
+example_log: site="www.example.com" server="www.example.com" dest_port="443" dest_ip="192.0.2.1"
+  src="198.51.100.1" src_ip="198.51.100.1" user="-" time_local="22/Feb/2024:13:00:00
+  -0500" protocol="HTTP/1.1" status="200" bytes_out="1073741000" bytes_in="234" http_referer="-"
+  http_user_agent="python-requests/2.25.1" nginx_version="1.18.0" http_x_forwarded_for="-"
+  http_x_header="-" uri_query="-" uri_path="/wp-json/bricks/v1/render_element" http_method="POST"
+  response_time="0.250" cookie="-" request_time="0.650" category="application/json"
+  https="on"

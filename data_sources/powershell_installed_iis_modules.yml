@@ -1,0 +1,21 @@
+name: Powershell Installed IIS Modules
+id: 4f2ccf42-3503-4417-a684-bfccf7f0d7b4
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Powershell Installed IIS Modules
+source: powershell://AppCmdModules
+sourcetype: Pwsh:InstalledIISModules
+supported_TA: []
+fields:
+- _time
+- Schema
+- host
+- index
+- linecount
+- punct
+- source
+- sourcetype
+- splunk_server
+- timestamp
+example_log: Schema="Microsoft.IIs.PowerShell.Framework.ConfigurationElementSchema"

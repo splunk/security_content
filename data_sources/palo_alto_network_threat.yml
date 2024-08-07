@@ -1,0 +1,37 @@
+name: Palo Alto Network Threat
+id: 375c2b0e-d216-41ad-9406-200464595209
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Palo Alto Network Threat
+source: pan:threat
+sourcetype: pan:threat
+supported_TA:
+- name: Palo Alto Networks Add-on
+  url: https://splunkbase.splunk.com/app/2757
+  version: 8.1.3
+fields:
+- _time
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- host
+- index
+- linecount
+- punct
+- source
+- sourcetype
+- splunk_server
+- timeendpos
+- timestartpos
+example_log: May 10 11:08:39 sjc.example.com 1,2022/05/10 11:08:38,013201004583,THREAT,url,2305,2022/05/10
+  11:08:38,2.18.4.7,1.2.3.4,2.18.4.7,1.2.3.4,service-globalprotect,,,web-browsing,vsys1,UNTRUST,UNTRUST,ethernet1/20,loopback.1,Zero,2022/05/10
+  11:08:38,1535535,1,32880,443,32880,20077,0x1403000,tcp,allow,"sr.example.com/mgmt/tm/util/bash",(9999),allow-URL,informational,client-to-server,7081856864553612091,0xa000000000000000,United
+  States,United States,0,,0,,,1,"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36
+  (KHTML, like Gecko) Chrome/36.0.1944.0 Safari/537.36",,,,,,,0,177,204,178,382,,sjc1-fw-01,,,,post,0,,0,,N/A,unknown,AppThreat-0-0,0x0,0,4294967295,,"
+  allow-URL,computer-and-internet-info,low-risk",5283cb95-6902-41db-96c6-ef807361eba5,0,
