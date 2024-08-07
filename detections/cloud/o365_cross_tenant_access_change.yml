@@ -1,0 +1,62 @@
+name: O365 Cross-Tenant Access Change
+id: 7c0fa490-12b0-4d0b-b9f5-e101d1e0e06f
+version: 1
+date: '2024-04-11'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when cross-tenant access/synchronization policies are changed in an Azure tenant. Adversaries have been observed altering victim cross-tenant policies as a method of lateral movement or maintaining persistent access to compromised environments. These policies should be considered sensitive and monitored for changes and/or loose configuration.
+data_source: 
+- Office 365 Universal Audit Log
+search: > 
+  `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
+  | eval user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
+  | stats values(Workload) as category, values(ClientIP) as src, values(ModifiedProperties{}.Name) as object_name, values(ModifiedProperties{}.NewValue) as object_attrs, count, min(_time) as firstTime, max(_time) as lastTime by Id,user,Operation
+  | rename Operation as signature, Id as signature_id
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_cross_tenant_access_change_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
+known_false_positives: Business approved changes by known administrators.
+references:
+- https://attack.mitre.org/techniques/T1484/002/
+- https://thehackernews.com/2023/08/emerging-attacker-exploit-microsoft.html
+- https://cyberaffairs.com/news/emerging-attacker-exploit-microsoft-cross-tenant-synchronization/
+- https://www.crowdstrike.com/blog/crowdstrike-defends-against-azure-cross-tenant-synchronization-attacks/
+tags:
+  analytic_story: 
+  - Azure Active Directory Persistence
+  asset_type: O365 Tenant
+  confidence: 75
+  impact: 75
+  message: The user [$user$] changed the Azure cross-tenant access settings for $object_name$ $object_attrs$ [$signature$]
+  mitre_attack_id: 
+  - T1484.002
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: object_attrs
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.Name
+  - UserId
+  - Workload
+  risk_score: 75
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
+    sourcetype: o365:management:activity
+    source: o365
