@@ -6,5 +6,4 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Powershell SIP Inventory
 source: powershell://SubjectInterfacePackage
 sourcetype: PwSh:SubjectInterfacePackage
-supported_TA:
-- {}
+supported_TA: []

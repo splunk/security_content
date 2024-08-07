@@ -10,7 +10,7 @@ separator: event_simpleName
 supported_TA:
 - name: Splunk Add-on for CrowdStrike FDR
   url: https://splunkbase.splunk.com/app/5579
-  version: 1.5.0
+  version: 2.0.0
 fields:
 - AuthenticationId
 - AuthenticationId_meaning

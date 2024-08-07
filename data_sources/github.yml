@@ -9,7 +9,7 @@ sourcetype: aws:firehose:json
 supported_TA:
 - name: Splunk Add-on for Github
   url: https://splunkbase.splunk.com/app/6254
-  version: 2.2.1
+  version: 3.0.0
 fields:
 - _time
 - action

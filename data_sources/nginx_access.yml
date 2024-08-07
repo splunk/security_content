@@ -6,8 +6,7 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Nginx Access
 source: /var/log/nginx/access.log
 sourcetype: nginx:plus:kv
-supported_TA:
-- {}
+supported_TA: []
 fields:
 - _time
 - action

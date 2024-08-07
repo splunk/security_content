@@ -6,8 +6,7 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Kubernetes Audit
 source: kubernetes
 sourcetype: _json
-supported_TA:
-- {}
+supported_TA: []
 fields:
 - _time
 - annotations.authorization.k8s.io/decision
