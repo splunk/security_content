@@ -27,4 +27,4 @@ fields:
 - res
 - UID
 - AUID
-example_logs: 'type=SERVICE_STOP msg=audit(1722957155.494:4802): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg=''unit=atd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success''UID="root" AUID="unset"'
+example_log: 'type=SERVICE_STOP msg=audit(1722957155.494:4802): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg=''unit=atd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success''UID="root" AUID="unset"'

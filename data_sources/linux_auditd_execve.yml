@@ -15,4 +15,4 @@ fields:
 - type
 - msg
 - argc
-example_logs: 'type=EXECVE msg=audit(1723044684.257:15795): argc=3 a0="sudo" a1="LD_PRELOAD=./myfopen.so" a2="./prog"'
+example_log: 'type=EXECVE msg=audit(1723044684.257:15795): argc=3 a0="sudo" a1="LD_PRELOAD=./myfopen.so" a2="./prog"'

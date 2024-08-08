@@ -29,4 +29,4 @@ fields:
 - cap_frootid
 - OUID
 - OGID
-example_logs: 'type=PATH msg=audit(1723043687.149:14898): item=1 name="/etc/ssh/ssh_config~" inode=1292 dev=103:01 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"'
+example_log: 'type=PATH msg=audit(1723043687.149:14898): item=1 name="/etc/ssh/ssh_config~" inode=1292 dev=103:01 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"'
