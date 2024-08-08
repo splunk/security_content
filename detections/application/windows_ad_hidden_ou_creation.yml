@@ -31,7 +31,9 @@ search: >-
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | search aceType IN ("Access denied",D) AND aceAccessRights IN ("List contents","List objects",LC,LO)
   | `windows_ad_hidden_ou_creation_filter`
-how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes and include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: None. 
 references:
 - https://happycamper84.medium.com/sneaky-persistence-via-hidden-objects-in-ad-1c91fc37bf54

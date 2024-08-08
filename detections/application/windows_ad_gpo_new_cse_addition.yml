@@ -7,7 +7,7 @@ status: production
 type: TTP
 data_source:
 - Windows Security 5136
-description: New Client Side Extension added to a Group Policy Object. 
+description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console. 
 search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
   | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" 
@@ -20,12 +20,15 @@ search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer 
   | join ObjectDN  [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | stats latest(displayName) as displayName by distinguishedName | eval ObjectDN=upper(distinguishedName)] 
   | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName by ObjectDN
   | `windows_ad_gpo_new_cse_addition_filter`'
-how_to_implement: Ensure you are ingesting AD audit logs, see lantern doc in references for further details. This detection also leverages admon data. Ensure the admon macro is configured with the correct index. 
-known_false_positives: Genuine GPO uage
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display 
+  the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security and admon macros are configured with the correct indexes. 
+known_false_positives: General usage of group policy will trigger this detection, also please not GPOs modified using tools such as SharpGPOAbuse will not generate the AD audit events which enable this detection. 
 references:
 - https://wald0.com/?p=179
 - https://learn.microsoft.com/en-gb/archive/blogs/mempson/group-policy-client-side-extension-list
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+- https://github.com/FSecureLABS/SharpGPOAbuse
 tags:
   analytic_story:
     - Sneaky Active Directory Persistence Tricks
@@ -67,6 +70,9 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_created/gpo_new_cse_windows-security-xml.log
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-security.log
         source: XmlWinEventLog:Security
         sourcetype: xmlwineventlog
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-admon.log
+        source: ActiveDirectory
+        sourcetype: ActiveDirectory

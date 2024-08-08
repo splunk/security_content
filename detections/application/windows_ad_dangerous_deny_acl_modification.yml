@@ -7,7 +7,7 @@ status: production
 type: TTP
 data_source:
 - Windows Security 5136
-description: ACL modification event denying the ability to enumerate permissions.  
+description: This detection identifies an Active Directory access-control list (ACL) modification event, which applies permissions that deny the ability to enumerate permissions of the object.  
 search: >-
   `wineventlog_security` EventCode=5136
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
@@ -31,7 +31,9 @@ search: >-
   | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
   | search aceType IN ("Access denied",D) AND aceAccessRights IN ("Full control","Read permissions",RC)
   | `windows_ad_dangerous_deny_acl_modification_filter`
-how_to_implement: See link in references for how to configure logging for these eventcodes. Include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes and include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: None. 
 references:
 - https://happycamper84.medium.com/sneaky-persistence-via-hidden-objects-in-ad-1c91fc37bf54

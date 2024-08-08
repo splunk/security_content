@@ -24,7 +24,9 @@ search: ' `wineventlog_security` EventCode=5136
   | eval user=coalesce(new_owner_user, new_owner_group, new_owner_group_builtin_group, new_owner), previousOwner=coalesce(old_owner_user, old_owner_group, old_owner_group_builtin_group, old_owner)
   | stats values(previousOwner) as previousOwner values(user) as user values(SubjectLogonId) as SubjectLogonId by _time ObjectClass ObjectDN src_user OpCorrelationID DSName
   | `windows_ad_object_owner_updated_filter`'
-how_to_implement: This analytic leverages event code 5136, see documentation in references on how to enable logging. 
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes and include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: Unknown
 references:
 - https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings

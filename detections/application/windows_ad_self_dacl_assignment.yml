@@ -33,7 +33,9 @@ search: >-
   | rex field=user "\\\(?P<nt_user>.*?)$"
   | where lower(src_user)=lower(nt_user)
   | `windows_ad_self_dacl_assignment_filter`
-how_to_implement: Ensure you are ingesting AD audit logs, see lantern doc in references for further details. This detection also leverages admon data. Ensure the admon macro is configured with the correct index. 
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes and include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
 known_false_positives: Unknown
 references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
