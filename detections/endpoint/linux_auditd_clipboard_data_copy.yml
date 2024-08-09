@@ -12,7 +12,8 @@ description: The following analytic detects the use of the Linux 'xclip' command
   data to capture sensitive information such as passwords or IP addresses. If confirmed
   malicious, this technique could lead to unauthorized data exfiltration, compromising
   sensitive information and potentially aiding further attacks within the environment.
-data_source: Linux Auditd Execve
+data_source: 
+- Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE(process_exec,
   "%xclip%") AND (LIKE(process_exec, "%clipboard%") OR LIKE(process_exec, "%-o%")
   OR LIKE(process_exec, "%clip %") OR LIKE(process_exec, "%-selection %") OR LIKE(process_exec,

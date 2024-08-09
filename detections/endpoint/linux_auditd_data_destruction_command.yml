@@ -13,7 +13,8 @@ description: The following analytic detects the execution of a Unix shell comman
   Awfulshred. If confirmed malicious, this behavior could lead to severe data loss,
   system instability, and compromised integrity of the affected Linux host. Immediate
   investigation and response are crucial to mitigate potential damage.
-data_source: Linux Auditd Execve
+data_source: 
+- Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
   "%rm %") AND LIKE (process_exec, "% -rf %") AND LIKE (process_exec, "%--no-preserve-root%")
   | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec

@@ -12,7 +12,8 @@ description: The following analytic detects the creation of new user accounts on
   to establish persistence on compromised hosts. If confirmed malicious, this could
   allow attackers to maintain access, escalate privileges, and further compromise
   the system, posing a severe security risk.
-data_source: Linux Auditd Proctitle
+data_source: 
+- Linux Auditd Proctitle
 search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | where LIKE (process_exec,
   "%useradd%") OR LIKE (process_exec, "%adduser%") | stats count min(_time) as firstTime
   max(_time) as lastTime by process_exec proctitle  | `security_content_ctime(firstTime)`|

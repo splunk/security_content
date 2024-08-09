@@ -12,7 +12,8 @@ description: The following analytic detects the use of the 'chown' command to ch
   by adversaries, malware, or red teamers. If confirmed malicious, this action could
   allow an attacker to gain root-level access, leading to full control over the compromised
   host and potential persistence within the environment.
-data_source: Linux Auditd Proctitle
+data_source: 
+- Linux Auditd Proctitle
 search: '`linux_auditd` `linux_auditd_normalized_proctitle_process`| where LIKE (process_exec,
   "%chown %") AND LIKE (process_exec, "% root %") | stats count min(_time) as firstTime
   max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter
