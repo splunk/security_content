@@ -1,0 +1,53 @@
+name: Linux Auditd Syscall
+id: 4dff7047-0d43-4096-bb3f-b756c889bbad
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Syscall Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- msg
+- type
+- msg
+- arch
+- syscall
+- success
+- exit
+- a1
+- a2 
+- a3
+- items
+- ppid
+- pid
+- auid
+- uid
+- gid
+- euid
+- suid
+- fsuid
+- egid
+- sgid
+- fsgid
+- tty
+- ses
+- comm
+- exe
+- subj
+- key
+- ARCH
+- SYSCALL
+- AUID
+- UID
+- GID
+- EUID
+- SUID
+- FSUID
+- EGID
+- SGID
+- FSGID
+example_log: 'type=SYSCALL msg=audit(1723035666.627:3663): arch=c000003e syscall=59 success=yes exit=0 a0=556a6d697a58 a1=556a6d68ad00 a2=556a6d69c980 a3=0 items=2 ppid=1300 pid=1301 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=1 comm="lsmod" exe="/usr/bin/kmod" subj=unconfined key="rootcmd" ARCH=x86_64 SYSCALL=execve AUID="ubuntu" UID="root" GID="root" EUID="root" SUID="root" FSUID="root" EGID="root" SGID="root" FSGID="root"'

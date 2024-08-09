@@ -6,8 +6,7 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Linux Secure
 source: /var/log/secure
 sourcetype: linux_secure
-supported_TA:
-- {}
+supported_TA: []
 fields:
 - _time
 - action

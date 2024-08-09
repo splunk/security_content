@@ -1,7 +1,6 @@
 version: 2
 updates:
-- package-ecosystem: pip
+- package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: monthly
-  open-pull-requests-limit: 6
+    interval: "weekly"
