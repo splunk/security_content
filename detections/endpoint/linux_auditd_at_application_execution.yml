@@ -1,0 +1,73 @@
+name: Linux Auditd At Application Execution
+id: 9f306e0a-1c36-469e-8892-968ca12470dd
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the execution of the "At" application
+  in Linux, which can be used by attackers to create persistence entries on a compromised
+  host. This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and parent process names associated with "at" or "atd".
+  This activity is significant because the "At" application can be exploited to maintain
+  unauthorized access or deliver additional malicious payloads. If confirmed malicious,
+  this behavior could lead to data theft, ransomware attacks, or other severe consequences.
+  Immediate investigation is required to determine the legitimacy of the execution
+  and mitigate potential risks.
+data_source: Linux Auditd Syscall
+search: '`linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd")
+  AND NOT (UID IN("daemon")) | stats count min(_time) as firstTime max(_time) as lastTime
+  by comm exe  SYSCALL UID ppid pid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `linux_auditd_at_application_execution_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/001/
+- https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  - Scheduled Tasks
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: $comm$ was executed on host.
+  mitre_attack_id:
+  - T1053.002
+  - T1053
+  observable:
+  - name: comm
+    type: Other
+    role:
+    - Other
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - comm
+  - exe
+  - SYSCALL
+  - UID
+  - ppid
+  - pid
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/linux_auditd_at/linux_auditd_at_execution.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
