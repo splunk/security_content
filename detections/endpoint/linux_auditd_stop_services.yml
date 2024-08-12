@@ -1,0 +1,67 @@
+name: Linux Auditd Stop Services
+id: 43bc9281-753b-4743-b4b7-60af84f085f3
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects attempts to stop or clear a service on
+  Linux systems. It leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on processes like "systemctl," "service," and "svcadm" executing stop commands.
+  This activity is significant as adversaries often terminate security or critical
+  services to disable defenses or disrupt operations, as seen in malware like Industroyer2.
+  If confirmed malicious, this could lead to the disabling of security mechanisms,
+  allowing attackers to persist, escalate privileges, or deploy destructive payloads,
+  severely impacting system integrity and availability.
+data_source:
+- Linux Auditd Service Stop
+search: '`linux_auditd` type=SERVICE_STOP | stats count min(_time) as firstTime max(_time)
+  as lastTime by type pid UID comm exe | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `linux_auditd_stop_services_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process complete command-line executions.
+  These logs must be processed using the appropriate Splunk Technology Add-ons that
+  are specific to the EDR product. Use the Splunk Common Information Model (CIM) to
+  normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://cert.gov.ua/article/39518
+tags:
+  analytic_story:
+  - AwfulShred
+  - Data Destruction
+  - Industroyer2
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: a service stop event occured on host.
+  mitre_attack_id:
+  - T1489
+  observable:
+  - name: type
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - type
+  - pid
+  - UID
+  - comm
+  - exe
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/linux_auditd_service_stop/linux_auditd_service_stop.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
