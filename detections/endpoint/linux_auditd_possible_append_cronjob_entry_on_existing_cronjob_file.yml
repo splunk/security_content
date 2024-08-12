@@ -1,0 +1,69 @@
+name: Linux Auditd Possible Append Cronjob Entry On Existing Cronjob File
+id: fea71cf0-fa10-4ef6-9202-9682b2e0c477
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic detects potential tampering with cronjob files
+  on a Linux system by identifying 'echo' commands that append code to existing cronjob
+  files. It leverages logs from Endpoint Detection and Response (EDR) agents, focusing
+  on process names, parent processes, and command-line executions. This activity is
+  significant because adversaries often use it for persistence or privilege escalation.
+  If confirmed malicious, this could allow attackers to execute unauthorized code
+  automatically, leading to system compromises and unauthorized data access, thereby
+  impacting business operations and data integrity.
+data_source:
+- Linux Auditd Path
+search: '`linux_auditd` type=PATH name IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*")
+  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID  |
+  `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process complete command-line executions.
+  These logs must be processed using the appropriate Splunk Technology Add-ons that
+  are specific to the EDR product. Use the Splunk Common Information Model (CIM) to
+  normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may arise from legitimate actions by administrators
+  or network operators who may use these commands for automation purposes. Therefore,
+  it's recommended to adjust filter macros to eliminate such false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/003/
+- https://blog.aquasec.com/threat-alert-kinsing-malware-container-vulnerability
+- https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  - Scheduled Tasks
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: a $PATH$ has been accessed/modified on host.
+  mitre_attack_id:
+  - T1053.003
+  - T1053
+  observable:
+  - name: name
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - name
+  - nametype
+  - OGID
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/linux_auditd_cron_file_audited/linux_auditd_cron_file_audited2.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
