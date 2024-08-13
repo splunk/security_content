@@ -52,6 +52,10 @@ tags:
   - event.SeverityName
   risk_score: 49
   security_domain: endpoint
+  manual_test: This detection is marked manual test because the attack_data file and 
+    TA do not provide the event.EndpointIp and event.EndpointName fields. event.EndpointName 
+    is required to be present for the Risk Message Validation Integration Testing. 
+    This will be investigated and is a tracked issue.
 tests:
 - name: True Positive Test
   attack_data:
