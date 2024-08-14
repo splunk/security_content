@@ -1,0 +1,64 @@
+name: Linux Auditd Hardware Addition Swapoff
+id: 5728bb16-1a0b-4b66-bce2-0074ac839770
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the execution of the "swapoff" command,
+  which disables the swapping of paging devices on a Linux system. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs. This activity is significant because disabling swap can be a tactic used by
+  malware, such as Awfulshred, to evade detection and hinder forensic analysis. If
+  confirmed malicious, this action could allow an attacker to manipulate system memory
+  management, potentially leading to data corruption, system instability, or evasion
+  of memory-based detection mechanisms.
+data_source:
+- Linux Auditd Execve
+search: '`linux_auditd` `linux_auditd_normalized_execve_process`| where LIKE(process_exec,
+  "%swapoff %") AND LIKE(process_exec, "% -a%") | stats count min(_time) as firstTime
+  max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_hardware_addition_swapoff_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process complete command-line executions.
+  These logs must be processed using the appropriate Splunk Technology Add-ons that
+  are specific to the EDR product. Use the Splunk Common Information Model (CIM) to
+  normalize the field names and speed up the data modeling process.
+known_false_positives: administrator may disable swapping of devices in a linux host.
+  Filter is needed.
+references:
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+tags:
+  analytic_story:
+  - AwfulShred
+  - Data Destruction
+  asset_type: Endpoint
+  confidence: 60
+  impact: 60
+  message: $process_exec$ event occurred on host.
+  mitre_attack_id:
+  - T1200
+  observable:
+  - name: process_exec
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - argc
+  - process_exec
+  risk_score: 36
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/linux_auditd_swapoff/linux_auditd_swapoff.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
+    update_timestamp: true
