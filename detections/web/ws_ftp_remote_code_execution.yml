@@ -43,10 +43,6 @@ tags:
   mitre_attack_id:
   - T1190
   observable:
-  - name: url
-    type: URL String
-    role:
-    - Other
   - name: dest
     type: Hostname
     role:

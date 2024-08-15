@@ -39,9 +39,9 @@ tags:
   - T1190
   observable:
   - name: dest
-    type: Other
+    type: IP Address
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

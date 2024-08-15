@@ -49,10 +49,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: url
-    type: URL String
-    role:
-    - Other
   - name: src
     type: IP Address
     role:
