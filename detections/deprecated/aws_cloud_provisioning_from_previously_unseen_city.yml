@@ -48,10 +48,10 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: src_ip
+    type: IP Address
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

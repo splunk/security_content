@@ -50,10 +50,10 @@ tags:
   mitre_attack_id:
   - T1566.003
   observable:
-  - name: field
-    type: Unknown
+  - name: src
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

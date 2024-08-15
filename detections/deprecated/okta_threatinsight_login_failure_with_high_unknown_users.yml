@@ -30,10 +30,10 @@ tags:
   - T1078.001
   - T1110.004
   observable:
-  - name: outcome.reason
-    type: Other
+  - name: user
+    type: User
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

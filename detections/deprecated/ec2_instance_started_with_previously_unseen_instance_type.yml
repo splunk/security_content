@@ -36,10 +36,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

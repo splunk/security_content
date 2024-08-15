@@ -29,10 +29,14 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: query
+    type: Other
     role:
-    - Unknown
+    - Victim
+  - name: IPs
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -35,10 +35,10 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: awsRegion
+    type: Geo Location
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
