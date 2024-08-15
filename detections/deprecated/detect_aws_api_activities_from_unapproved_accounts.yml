@@ -6,7 +6,7 @@ author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting
 description: This search looks for successful AWS CloudTrail activity by user accounts
-  that are not listed in the identity table or `aws_service_accounts.csv`. It returns
+  that are not listed in the identity table or aws_service_accounts lookup. It returns
   event names and count, as well as the first and last time a specific user or service
   is detected, grouped by users. Deprecated because managing this list can be quite
   hard.
@@ -41,9 +41,9 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
   Detailed documentation on how to create a new field within Incident Review may be
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
 known_false_positives: It's likely that you'll find activity detected by users/service
-  accounts that are not listed in the `identity_lookup_expanded` or ` aws_service_accounts.csv`
-  file. If the user is a legitimate service account, update the `aws_service_accounts.csv`
-  table with that entry.
+  accounts that are not listed in the `identity_lookup_expanded` or aws_service_accounts
+  lookup. If the user is a legitimate service account, update the aws_service_accounts
+  lookup with that entry.
 references: []
 tags:
   analytic_story:

@@ -21,7 +21,7 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   values(Processes.process_name) values(Processes.parent_process_name) dc(Processes.process)
   as distinct_commands dc(Processes.process_name) as distinct_process_names min(_time)
   as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where [|inputlookup
-  linux_tool_discovery_process.csv | rename process as Processes.process |table Processes.process]
+  linux_tool_discovery_process | rename process as Processes.process |table Processes.process]
   by _time span=5m Processes.user Processes.dest | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| where
   distinct_commands > 40 AND distinct_process_names > 3| `suspicious_linux_discovery_commands_filter`'

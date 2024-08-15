@@ -10,9 +10,9 @@ description: This search looks for AWS CloudTrail events where an instance is st
   of previously seen regions where an instance was started
 data_source: []
 search: '`cloudtrail` earliest=-1h StartInstances | stats earliest(_time) as earliest
-  latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions.csv
+  latest(_time) as latest by awsRegion | inputlookup append=t previously_seen_aws_regions
   | stats min(earliest) as earliest max(latest) as latest by awsRegion | outputlookup
-  previously_seen_aws_regions.csv | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"),
+  previously_seen_aws_regions | eval regionStatus=if(earliest >= relative_time(now(),"-1d@d"),
   "Instance Started in a New Region","Previously Seen Region") | `security_content_ctime(earliest)`
   | `security_content_ctime(latest)` | where regionStatus="Instance Started in a New
   Region" | `ec2_instance_started_in_previously_unseen_region_filter`'

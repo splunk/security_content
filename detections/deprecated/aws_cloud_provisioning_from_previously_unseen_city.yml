@@ -13,9 +13,9 @@ data_source: []
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | search City=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
   sourceIPAddress | search City=* | stats earliest(_time) as firstTime, latest(_time)
-  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src.csv
+  as lastTime by sourceIPAddress, City, Region, Country | inputlookup append=t previously_seen_provisioning_activity_src
   | stats min(firstTime) as firstTime max(lastTime) as lastTime by sourceIPAddress,
-  City, Region, Country | outputlookup previously_seen_provisioning_activity_src.csv
+  City, Region, Country | outputlookup previously_seen_provisioning_activity_src
   | stats min(firstTime) as firstTime max(lastTime) as lastTime by City | eval newCity=if(firstTime
   >= relative_time(now(), "-70m@m"), 1, 0) | where newCity=1 | table City] | spath
   output=user userIdentity.arn | rename sourceIPAddress as src_ip | table _time, user,

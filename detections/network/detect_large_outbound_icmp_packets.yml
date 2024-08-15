@@ -25,8 +25,8 @@ how_to_implement: 'In order to run this search effectively, we highly recommend 
   you leverage the Assets and Identity framework. It is important that you have a
   good understanding of how your network segments are designed and that you are able
   to distinguish internal from external address space. Add a category named `internal`
-  to the CIDRs that host the company''s assets in the `assets_by_cidr.csv` lookup
-  file, which is located in `$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/`.
+  to the CIDRs that host the company''s assets in the `assets_by_cidr` lookup,
+  which is located in `$SPLUNK_HOME/etc/apps/SA-IdentityManagement/lookups/`.
   More information on updating this lookup can be found here: https://docs.splunk.com/Documentation/ES/5.0.0/Admin/Addassetandidentitydata.
   This search also requires you to be ingesting your network traffic and populating
   the Network_Traffic data model'

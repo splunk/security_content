@@ -15,7 +15,7 @@ how_to_implement: 'This search requires you to be ingesting web-traffic logs. Yo
   can obtain these logs from indexing data from a web proxy or by using a network-traffic-analysis
   tool, such as Bro or Splunk Stream. The web data model must contain the URL being
   requested, the IP address of the host initiating the request, and the destination
-  IP. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`,
+  IP. This search also leverages a lookup dynamic_dns_providers_default,
   which contains a non-exhaustive list of dynamic DNS providers. Consider periodically
   updating this local lookup file with new domains.
 
