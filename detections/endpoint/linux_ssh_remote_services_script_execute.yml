@@ -56,7 +56,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

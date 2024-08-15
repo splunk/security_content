@@ -52,7 +52,7 @@ tags:
   - name: param1
     type: Other
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Office Spawning Control
 id: 053e027c-10c7-11ec-8437-acde48001122
-version: 5
-date: '2024-05-11'
+version: 6
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,11 +64,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -30,10 +30,10 @@ tags:
   mitre_attack_id:
   - T1068
   observable:
-  - name: dest
-    type: Other
+  - name: host
+    type: Hostname
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
