@@ -1,0 +1,4 @@
+description: TODO - test and update
+collection: previously_seen_ec2_instance_types
+name: previously_seen_ec2_instance_types
+fields_list: _key,firstTime,lastTime,amiID

@@ -12,7 +12,7 @@ search: '`cloudtrail` eventType=AwsApiCall errorCode=success userIdentity.type=A
   [search `cloudtrail` eventType=AwsApiCall errorCode=success  userIdentity.type=AssumedRole
   | stats earliest(_time) as earliest latest(_time) as latest by userName eventName
   |  inputlookup append=t previously_seen_api_calls_from_user_roles | stats min(earliest)
-  as earliest, max(latest) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles|
+  as earliest, max(latest) as latest by userName eventName | outputlookup previously_seen_api_calls_from_user_roles |
   eval newApiCallfromUserRole=if(earliest>=relative_time(now(), "-70m@m"), 1, 0) |
   where newApiCallfromUserRole=1 | `security_content_ctime(earliest)` | `security_content_ctime(latest)`
   | table eventName userName]  |rename userName as user| stats values(eventName) earliest(_time)

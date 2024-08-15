@@ -18,7 +18,7 @@ search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_s
   | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip
   | inputlookup append=t previously_seen_S3_access_from_remote_ip | stats min(firstTime)
   as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup
-  previously_seen_S3_access_from_remote_ip| eval newIP=if(firstTime >= relative_time(now(),
+  previously_seen_S3_access_from_remote_ip | eval newIP=if(firstTime >= relative_time(now(),
   "-70m@m"), 1, 0) | where newIP=1 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip
   | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`'

@@ -1,0 +1,4 @@
+description: TODO - test and update
+collection: previously_seen_ec2_launches_by_user
+name: previously_seen_ec2_launches_by_user
+fields_list: _key,firstTime,lastTime,amiID
