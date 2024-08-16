@@ -15,9 +15,9 @@ description: The following analytic detects the installation of a Linux kernel m
   its integrity and security.
 data_source:
 - Linux Auditd Syscall
-search: linux_auditd` type=SYSCALL comm=modprobe | stats count min(_time) as firstTime
+search: '`linux_auditd` type=SYSCALL comm=modprobe | stats count min(_time) as firstTime
   max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| `linux_auditd_install_kernel_module_using_modprobe_utility_filter`
+  `security_content_ctime(lastTime)`| `linux_auditd_install_kernel_module_using_modprobe_utility_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
