@@ -675,6 +675,6 @@
             "input_ZIvNCkgw"
         ]
     },
-    "description": "A dashboard for tracking known remote monitoring and management software.",
+    "description": "Utilize this dashboard to assist with auditing and monitoring of Remote Monitoring and Management (RMM) alert content.",
     "title": "RMM Software Tracking"
 }
