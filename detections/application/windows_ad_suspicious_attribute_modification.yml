@@ -40,10 +40,6 @@ tags:
   - T1222
   - T1222.001
   observable:
-    - name: user
-      type: User
-      role:
-        - Victim
     - name: src_user
       type: User
       role:
