@@ -1,7 +1,7 @@
-description: A list of privileged Azure Active Directory roles.
-filename: privileged_azure_ad_roles20240729.csv
+description: A list of privileged Azure Active Directory roles, includes updates for 2024 and template IDs.
+filename: privileged_azure_ad_roles20240807.csv
 name: privileged_azure_ad_roles
 default_match: 'false'
-match_type: WILDCARD(azureadrole)
+match_type: WILDCARD(azureadrole),WILDCARD(azuretemplateid)
 min_matches: 1
 case_sensitive_match: 'false'

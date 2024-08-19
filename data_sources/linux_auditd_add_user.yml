@@ -1,0 +1,32 @@
+name: Linux Auditd Add User
+id: 30f79353-e1d2-4585-8735-1e0359559f3f
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Add User Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- msg
+- type
+- pid
+- uid
+- auid
+- ses
+- subj
+- msg
+- op
+- id
+- exe
+- hostname
+- addr
+- terminal
+- res
+- UID
+- AUID
+- ID
+example_log: 'type=ADD_USER msg=audit(1722950859.266:6994): pid=1788 uid=0 auid=1000 ses=1 subj=unconfined msg=''op=adding user id=1002 exe="/usr/sbin/useradd" hostname=ar-linux1 addr=? terminal=pts/1 res=success''UID="root" AUID="ubuntu" ID="unknown(1002)"'

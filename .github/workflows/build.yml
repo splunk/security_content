@@ -19,11 +19,10 @@ jobs:
         with:
           python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
           architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
-
       
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          pip install contentctl==4.2.2
+          pip install contentctl>=4.0.0
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
       - name: Running build with enrichments
