@@ -1,0 +1,64 @@
+name: Linux Auditd Preload Hijack Library Calls
+id: 35c50572-a70b-452f-afa9-bebdf3c3ce36
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects the use of the LD_PRELOAD environment
+  variable to hijack or hook library functions on a Linux platform. It leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on process execution
+  logs that include command-line details. This activity is significant because adversaries,
+  malware authors, and red teamers commonly use this technique to gain elevated privileges
+  and establish persistence on a compromised machine. If confirmed malicious, this
+  behavior could allow attackers to execute arbitrary code, escalate privileges, and
+  maintain long-term access to the system.
+data_source:
+- Linux Auditd Execve
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
+  "%LD_PRELOAD%")| stats count min(_time) as firstTime max(_time) as lastTime by argc
+  process_exec | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `linux_auditd_preload_hijack_library_calls_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process complete command-line executions.
+  These logs must be processed using the appropriate Splunk Technology Add-ons that
+  are specific to the EDR product. Use the Splunk Common Information Model (CIM) to
+  normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://compilepeace.medium.com/memory-malware-part-0x2-writing-userland-rootkits-via-ld-preload-30121c8343d5
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  asset_type: Endpoint
+  confidence: 90
+  impact: 90
+  message: $process_exec$ event occurred on host.
+  mitre_attack_id:
+  - T1574.006
+  - T1574
+  observable:
+  - name: process_exec
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - argc
+  - process_exec
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/linux_auditd_ldpreload/linux_auditd_ldpreload.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
