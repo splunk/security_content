@@ -1,0 +1,19 @@
+name: Compromised Windows Host
+id: 95c15513-180b-4534-9e34-a085a26ce481
+version: 1
+date: '2024-04-18'
+author: Teoderick Contreras, Splunk
+description: Monitor for activities and techniques associated with Compromised Windows Host attacks. 
+  A compromised Windows host refers to a computer system running the Windows operating system that 
+  has been infiltrated or attacked by unauthorized parties. Such compromises often result in security breaches, 
+  data theft, malware infections, or unauthorized access, posing risks to sensitive information and system integrity.
+narrative: In a scenario of digital compromise, a Windows host becomes the target of sophisticated cyber attacks. Utilizing advanced persistent threat (APT) techniques, attackers bypass security measures and exploit system vulnerabilities to gain unauthorized access. Once inside the network, they execute a series of malicious activities, including exfiltrating sensitive data, deploying malware, and undermining the integrity of the cybersecurity infrastructure.
+references: []
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

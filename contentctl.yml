@@ -34,7 +34,7 @@ apps:
 #   appid: SplunkEnterpriseSecuritySuite
 #   version: 7.3.1
 #   description: description of app
-#   hardcoded_path: ~/Downloads/splunk-enterprise-security_731.spl
+#   hardcoded_path: apps/splunk-enterprise-security_731.spl
 - uid: 1621
   title: Splunk Common Information Model (CIM)
   appid: Splunk_SA_CIM
@@ -182,4 +182,11 @@ apps:
   version: 1.9.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
+- uid: 5082
+  title: CrowdStrike Falcon Event Streams Technical Add-On
+  appid: TA-crowdstrike-falcon-event-streams
+  version: 3.2.1
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/crowdstrike-falcon-event-streams-technical-add-on_321.tgz
+
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
