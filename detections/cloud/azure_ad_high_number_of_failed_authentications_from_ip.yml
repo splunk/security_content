@@ -16,8 +16,7 @@ data_source:
 - Azure Active Directory
 search: ' `azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126
   properties.authenticationDetails{}.succeeded=false | rename properties.* as * |
-  bucket span=10m _time | stats count min(_time) as firstTime max(_time) as lastTime dc(user) AS unique_accounts values(user) as user by src_ip _time
-| where unique_accounts >= 5
+  bucket span=10m _time | stats count min(_time) as firstTime max(_time) as lastTime dc(user) AS unique_accounts values(user) as user by src_ip _time | where count > 20
 | `security_content_ctime(firstTime)` 
 | `security_content_ctime(lastTime)`
 | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
