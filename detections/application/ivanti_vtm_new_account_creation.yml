@@ -7,8 +7,7 @@ data_sources: []
 type: TTP
 status: production
 description: This analytic detects potential exploitation of the Ivanti Virtual Traffic Manager (vTM) authentication bypass vulnerability (CVE-2024-7593) to create new administrator accounts. The vulnerability allows unauthenticated remote attackers to bypass authentication on the admin panel and create new admin users. This detection looks for suspicious new account creation events in the Ivanti vTM audit logs that lack expected authentication details, which may indicate exploitation attempts.
-search: '`ivanti_vtm_audit`
-  | where OPERATION="adduser" MODGROUP="admin" IP="!!ABSENT!!"
+search: '`ivanti_vtm_audit` OPERATION="adduser" MODGROUP="admin" IP="!!ABSENT!!"
   | stats count min(_time) as firstTime max(_time) as lastTime by IP, MODUSER, OPERATION, MODGROUP, AUTH
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
