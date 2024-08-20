@@ -12,6 +12,7 @@ dist/DA-ESS-ContentUpdate.tar.gz
 dist/ContentPack-*.appinspect_api_results.html
 dist/ContentPack-*.appinspect_api_results.json
 atomic-red-team/
+.github/workflows/styles/
 
 # IDE
 .vscode/

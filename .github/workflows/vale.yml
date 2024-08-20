@@ -1,0 +1,29 @@
+name: vale
+on:
+    pull_request_target:
+    push:
+      branches:
+        - develop
+
+jobs:
+    vale:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out the repository code
+              uses: actions/checkout@v4
+            - name: Get changed files
+              id: changed-files
+              uses: tj-actions/changed-files@v44
+            - name: setup python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.12' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
+                architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
+            - name: Download vale
+              run: |
+                  snap install vale
+            - name: Run script
+              run: |
+                cd .github/workflows
+                vale sync
+                python yml_prose_lint.py ${{ steps.changed-files.outputs.all_changed_files }}
