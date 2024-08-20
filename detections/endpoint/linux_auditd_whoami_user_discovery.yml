@@ -5,13 +5,13 @@ date: '2024-08-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the suspicious whoami user discovery.
-  This behavior is critical for a SOC to monitor because it may indicate attempts
-  to gain unauthorized access or maintain control over a system. Such actions could
-  be signs of malicious activity. If confirmed, this could lead to serious consequences,
-  including a compromised system, unauthorized access to sensitive data, or even a
-  wider breach affecting the entire network. Detecting and responding to these signs
-  early is essential to prevent potential security incidents.
+description: The following analytic detects the suspicious use of the whoami command, 
+  which may indicate an attacker trying to gather information about the current user 
+  account on a compromised system. The whoami command is commonly used to verify user 
+  privileges and identity, especially during initial stages of an attack to assess the 
+  level of access. By monitoring for unusual or unauthorized executions of whoami, 
+  this analytic helps in identifying potential reconnaissance activities, enabling security 
+  teams to take action before the attacker escalates privileges or conducts further malicious operations.
 data_source:
 - Linux Auditd Syscall
 search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | stats count
