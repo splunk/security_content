@@ -1,7 +1,7 @@
 name: Windows Service Created Within Public Path
 id: 3abb2eda-4bb8-11ec-9ae4-3e22fbd008af
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-08-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -43,7 +43,7 @@ tags:
   - name: ServiceName
     type: Other
     role:
-    - Other
+    - Attacker
   - name: dest
     type: Endpoint
     role:

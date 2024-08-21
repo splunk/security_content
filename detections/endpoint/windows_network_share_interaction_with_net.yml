@@ -12,7 +12,7 @@ description: This analytic detects network share discovery and collection activi
   which can be a precursor to privilege escalation or data exfiltration. By monitoring Windows Event Logs for
   the usage of the Net command to list and interact with network shares, this detection helps identify potential reconnaissance and collection
   activities. 
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit) as user_bunit  FROM datamodel=Endpoint.Processes WHERE (Processes.process_name="net.exe" OR Processes.process_name="net1.exe" OR Processes.orig_process_name="net.exe" OR Processes.orig_process_name="net1net[\s\.ex1]+view|net[\s\.ex1]+share|net[\s\.ex1]+use\s.exe") BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.user_category) as user_category values(Processes.user_bunit) as user_bunit  FROM datamodel=Endpoint.Processes WHERE (Processes.process_name="net.exe" OR Processes.process_name="net1.exe" OR Processes.orig_process_name="net.exe" OR Processes.orig_process_name="net1.exe") BY Processes.user Processes.dest Processes.process_exec Processes.parent_process_exec
   Processes.process Processes.parent_process
   | `drop_dm_object_name(Processes)`
   | regex process="net[\s\.ex1]+view|net[\s\.ex1]+share|net[\s\.ex1]+use\s"

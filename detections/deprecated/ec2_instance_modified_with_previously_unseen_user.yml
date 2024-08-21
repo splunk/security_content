@@ -1,7 +1,7 @@
 name: EC2 Instance Modified With Previously Unseen User
 id: 56f91724-cf3f-4666-84e1-e3712fb41e76
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2024-08-16'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly
@@ -36,10 +36,10 @@ tags:
   mitre_attack_id:
   - T1078.004
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

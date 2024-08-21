@@ -1,7 +1,7 @@
 name: Suspicious Reg exe Process
 id: a6b3ab4e-dd77-4213-95fa-fc94701995e0
-version: 5
-date: '2024-05-19'
+version: 6
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -66,11 +66,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
