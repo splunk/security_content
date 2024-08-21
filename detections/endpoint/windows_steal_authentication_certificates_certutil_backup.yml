@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates CertUtil Backup
 id: bac85b56-0b65-4ce5-aad5-d94880df0967
-version: 2
-date: '2024-05-04'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -59,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

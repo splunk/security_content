@@ -1,7 +1,7 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: 8
-date: '2024-05-12'
+version: 9
+date: '2024-08-15'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: TTP
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

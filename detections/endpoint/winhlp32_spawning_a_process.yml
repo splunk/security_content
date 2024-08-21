@@ -1,7 +1,7 @@
 name: Winhlp32 Spawning a Process
 id: d17dae9e-2618-11ec-b9f5-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -60,11 +60,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

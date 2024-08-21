@@ -1,7 +1,7 @@
 name: Detect Renamed PSExec
 id: 683e6196-b8e8-11eb-9a79-acde48001122
-version: 6
-date: '2024-07-23'
+version: 7
+date: '2024-08-19'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
 status: production
 type: Hunting
@@ -69,11 +69,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

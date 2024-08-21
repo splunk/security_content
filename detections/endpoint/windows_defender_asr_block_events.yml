@@ -1,7 +1,7 @@
 name: Windows Defender ASR Block Events
 id: 026f5f4e-e99f-4155-9e63-911ba587300b
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ tags:
   - name: ASR_Rule
     type: Unknown
     role:
-    - Other
+    - Attacker
   - name: dest
     type: Endpoint
     role:

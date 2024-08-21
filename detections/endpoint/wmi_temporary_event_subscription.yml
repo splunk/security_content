@@ -1,7 +1,7 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-08-15'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -39,9 +39,9 @@ tags:
   - T1047
   observable:
   - name: dest
-    type: Other
+    type: Hostname
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

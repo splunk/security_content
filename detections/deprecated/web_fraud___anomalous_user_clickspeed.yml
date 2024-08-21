@@ -1,7 +1,7 @@
 name: Web Fraud - Anomalous User Clickspeed
 id: 31337bbb-bc22-4752-b599-ef192df2dc7a
-version: 1
-date: '2018-10-08'
+version: 2
+date: '2024-08-16'
 author: Jim Apger, Splunk
 status: deprecated
 type: Anomaly
@@ -41,10 +41,10 @@ tags:
   mitre_attack_id:
   - T1078
   observable:
-  - name: field
-    type: Unknown
+  - name: session_id
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

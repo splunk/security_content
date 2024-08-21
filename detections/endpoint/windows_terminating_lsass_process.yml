@@ -1,7 +1,7 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-08-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -48,7 +48,7 @@ tags:
   - name: TargetImage
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Randomly Generated Windows Service Name
 id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-08-19'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -35,10 +35,6 @@ tags:
   - T1543
   - T1543.003
   observable:
-  - name: Service_File_Name
-    type: Other
-    role:
-    - Other
   - name: ComputerName
     type: Endpoint
     role:

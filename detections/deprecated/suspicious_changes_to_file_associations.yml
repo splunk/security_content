@@ -1,7 +1,7 @@
 name: Suspicious Changes to File Associations
 id: 1b989a0e-0129-4446-a695-f193a5b746fc
-version: 4
-date: '2020-07-22'
+version: 5
+date: '2024-08-16'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP
@@ -43,10 +43,10 @@ tags:
   mitre_attack_id:
   - T1546.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

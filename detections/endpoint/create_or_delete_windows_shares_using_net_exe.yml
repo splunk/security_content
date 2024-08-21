@@ -1,7 +1,7 @@
 name: Create or delete windows shares using net exe
 id: 743a322c-9a68-4a0f-9c17-85d9cce2a27c
-version: 7
-date: '2024-05-26'
+version: 8
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -57,11 +57,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
