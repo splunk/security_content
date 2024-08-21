@@ -1,7 +1,7 @@
 name: Linux Find Privilege Escalation
 id: 2ff4e0c2-8256-4143-9c07-1e39c7231111
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

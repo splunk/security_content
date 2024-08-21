@@ -1,7 +1,7 @@
 name: ServicePrincipalNames Discovery with SetSPN
 id: ae8b3efc-2d2e-11ec-8b57-acde48001122
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-08-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -68,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
