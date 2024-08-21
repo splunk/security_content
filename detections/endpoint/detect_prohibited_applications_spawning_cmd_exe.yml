@@ -1,7 +1,7 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: dcfd6b40-42f9-469d-a433-2e53f7486664
-version: 7
-date: '2024-05-16'
+version: 8
+date: '2024-08-14'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -62,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Suspicious Regsvr32 Register Suspicious Path
 id: 62732736-6250-11eb-ae93-0242ac130002
-version: 4
-date: '2024-05-29'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -68,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

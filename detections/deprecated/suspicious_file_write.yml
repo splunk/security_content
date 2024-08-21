@@ -1,7 +1,7 @@
 name: Suspicious File Write
 id: 57f76b8a-32f0-42ed-b358-d9fa3ca7bac8
-version: 3
-date: '2019-04-25'
+version: 4
+date: '2024-08-16'
 author: Rico Valdez, Splunk
 status: deprecated
 type: Hunting
@@ -37,10 +37,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

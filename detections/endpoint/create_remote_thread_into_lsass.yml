@@ -1,7 +1,7 @@
 name: Create Remote Thread into LSASS
 id: 67d4dbef-9564-4699-8da8-03a151529edc
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-08-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -43,7 +43,7 @@ tags:
   - name: TargetImage
     type: Other
     role:
-    - Other
+    - Attacker
   - name: dest
     type: Hostname
     role:
