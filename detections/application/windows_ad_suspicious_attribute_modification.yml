@@ -1,0 +1,73 @@
+name: Windows AD Suspicious Attribute Modification
+id: 5682052e-ce55-4f9f-8d28-59191420b7e0
+version: 1
+date: '2023-11-13'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: >-
+  This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram". 
+  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.
+search: >-
+  `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","scriptPath","msTSInitialProgram") OperationType=%%14674 
+  ```Changes to the attribute "msDS-KeyCredentialLink" are also worth moniroting, however tuning will need to be applied```
+  | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName 
+  | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime 
+  | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] 
+  | stats min(eventTime) as _time values(initiator) as src_user, values(DSName) as targetDomain, values(ObjectDN) as ObjectDN, values(ObjectClass) as ObjectClass, values(src_category) as src_category, values(src_ip) as src_ip values(LogonType) as LogonType values(AttributeValue) as AttributeValue values(AttributeLDAPDisplayName) as AttributeLDAPDisplayName by TargetLogonId 
+  | rex field=ObjectDN "^CN=(?P<cn>.*?),[A-Z]{2}\=" 
+  | eval dest=if(ObjectClass="computer",cn,null), user=if(ObjectClass="user",cn,null)
+  | fields - cn
+  | `windows_ad_suspicious_attribute_modification_filter`
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes. 
+known_false_positives: If key credentials are regularly assigned to users, these events will need to be tuned out. 
+references:
+- https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: $src_user$ has added $AttributeLDAPDisplayName$ ACL rights to $ObjectClass$ $ObjectDN$
+  mitre_attack_id:
+  - T1550
+  - T1222
+  - T1222.001
+  observable:
+    - name: src_user
+      type: User
+      role:
+        - Victim
+    - name: dest
+      type: Hostname
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 100
+  required_fields:
+    - _time
+    - OperationType
+    - ObjectDN
+    - OpCorrelationID
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/dacl_abuse/suspicious_acl_modification-windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog
