@@ -50,7 +50,6 @@ tags:
   - event.IncidentType
   - event.NumbersOfAlerts
   - event.SeverityName
-  risk_score: 49
   security_domain: endpoint
   manual_test: This detection is marked manual test because the attack_data file and 
     TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName 

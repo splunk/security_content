@@ -182,8 +182,6 @@ apps:
   version: 1.9.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
-<<<<<<< HEAD
-=======
 - uid: 6853
   title: Splunk Add-on for Admon Enrichment
   appid: SA-admon
@@ -196,6 +194,3 @@ apps:
   version: 3.2.1
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/crowdstrike-falcon-event-streams-technical-add-on_321.tgz
-
-githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
->>>>>>> develop

@@ -54,7 +54,6 @@ tags:
   - UserId
   - Id
   - Workload
-  risk_score: 25
   security_domain: identity
 tests:
 - name: True Positive Test
