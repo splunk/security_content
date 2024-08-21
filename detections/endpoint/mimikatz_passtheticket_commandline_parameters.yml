@@ -1,7 +1,7 @@
 name: Mimikatz PassTheTicket CommandLine Parameters
 id: 13bbd574-83ac-11ec-99d4-acde48001122
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-08-15'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -63,7 +63,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

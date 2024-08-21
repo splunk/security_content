@@ -1,7 +1,7 @@
 name: Linux OpenVPN Privilege Escalation
 id: d25feebe-fa1c-4754-8a1e-afb03bedc0f2
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
