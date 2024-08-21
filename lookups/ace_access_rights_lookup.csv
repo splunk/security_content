@@ -1,0 +1,14 @@
+access_rights_string,access_rights_value
+RC,Read permissions
+SD,Delete
+WD,Modify permissions
+WO,Modify owner
+RP,Read all properties
+WP,Write all properties
+CC,Create all child objects
+DC,Delete all child objects
+LC,List contents
+SW,All validated writes
+LO,List objects
+DT,Delete subtree
+CR,All extended rights
