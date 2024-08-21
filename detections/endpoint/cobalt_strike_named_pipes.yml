@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-08-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -59,7 +59,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Windows Remote Access Software Hunt
 id: 8bd22c9f-05a2-4db1-b131-29271f28cb0a
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -58,7 +58,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

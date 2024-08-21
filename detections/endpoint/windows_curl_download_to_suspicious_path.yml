@@ -1,7 +1,7 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -63,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

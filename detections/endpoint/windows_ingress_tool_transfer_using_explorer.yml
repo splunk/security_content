@@ -1,7 +1,7 @@
 name: Windows Ingress Tool Transfer Using Explorer
 id: 76753bab-f116-4ea3-8fb9-89b638be58a9
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-08-19'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -60,11 +60,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

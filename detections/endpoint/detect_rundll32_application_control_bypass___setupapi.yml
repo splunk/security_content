@@ -1,7 +1,7 @@
 name: Detect Rundll32 Application Control Bypass - setupapi
 id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -65,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

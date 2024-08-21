@@ -1,7 +1,7 @@
 name: Uncommon Processes On Endpoint
 id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
-version: 4
-date: '2020-07-22'
+version: 5
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting
@@ -36,10 +36,10 @@ tags:
   mitre_attack_id:
   - T1204.002
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

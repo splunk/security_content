@@ -1,7 +1,7 @@
 name: Linux Docker Privilege Escalation
 id: 2e7bfb78-85f6-47b5-bc2f-15813a4ef2b3
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

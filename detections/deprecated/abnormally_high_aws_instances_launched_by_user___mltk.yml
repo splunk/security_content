@@ -1,7 +1,7 @@
 name: Abnormally High AWS Instances Launched by User - MLTK
 id: dec41ad5-d579-42cb-b4c6-f5dbb778bbe5
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2024-08-15'
 author: Jason Brewer, Splunk
 status: deprecated
 type: Anomaly
@@ -32,10 +32,10 @@ tags:
   mitre_attack_id:
   - T1078.004
   observable:
-  - name: field
-    type: Unknown
+  - name: src_user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Linux Proxy Socks Curl
 id: bd596c22-ad1e-44fc-b242-817253ce8b08
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,7 +64,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

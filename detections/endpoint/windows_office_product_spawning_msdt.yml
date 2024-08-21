@@ -1,7 +1,7 @@
 name: Windows Office Product Spawning MSDT
 id: 127eba64-c981-40bf-8589-1830638864a7
-version: 5
-date: '2024-05-25'
+version: 6
+date: '2024-08-14'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -68,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

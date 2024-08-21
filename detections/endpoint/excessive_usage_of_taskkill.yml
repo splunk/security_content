@@ -1,7 +1,7 @@
 name: Excessive Usage Of Taskkill
 id: fe5bca48-accb-11eb-a67c-acde48001122
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -64,7 +64,6 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise

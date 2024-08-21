@@ -1,7 +1,7 @@
 name: Windows Defender ASR Rule Disabled
 id: 429d611b-3183-49a7-b235-fc4203c4e1cb
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
   - name: ASR_Rule
     type: Unknown
     role:
-    - Other
+    - Attacker
   - name: dest
     type: Endpoint
     role:

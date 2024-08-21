@@ -1,7 +1,7 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -65,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

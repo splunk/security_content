@@ -1,7 +1,7 @@
 name: Identify New User Accounts
 id: 475b9e27-17e4-46e2-b7e2-648221be3b89
-version: 1
-date: '2017-09-12'
+version: 2
+date: '2024-08-16'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting
@@ -29,10 +29,10 @@ tags:
   mitre_attack_id:
   - T1078.002
   observable:
-  - name: field
-    type: Unknown
+  - name: identity
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Linux Composer Privilege Escalation
 id: a3bddf71-6ba3-42ab-a6b2-396929b16d92
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

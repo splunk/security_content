@@ -1,7 +1,7 @@
 name: Malicious InProcServer32 Modification
 id: 127c8d08-25ff-11ec-9223-acde48001122
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -63,7 +63,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

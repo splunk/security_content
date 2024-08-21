@@ -1,7 +1,7 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

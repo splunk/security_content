@@ -1,7 +1,7 @@
 name: Scheduled tasks used in BadRabbit ransomware
 id: 1297fb80-f42a-4b4a-9c8b-78c066437cf6
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP
@@ -13,7 +13,7 @@ data_source:
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process  from datamodel=Endpoint.Processes
   where Processes.process_name=schtasks.exe (Processes.process= "*create*"  OR Processes.process=
-  "*delete*") by Processes.parent_process Processes.process_name Processes.user |
+  "*delete*") by Processes.parent_process Processes.process_name Processes.user Processes.dest |
   `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | search (process=*rhaegal* OR process=*drogon* OR *viserion_*) | `scheduled_tasks_used_in_badrabbit_ransomware_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -37,10 +37,14 @@ tags:
   mitre_attack_id:
   - T1053.005
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

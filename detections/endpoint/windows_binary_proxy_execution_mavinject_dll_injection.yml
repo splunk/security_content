@@ -1,7 +1,7 @@
 name: Windows Binary Proxy Execution Mavinject DLL Injection
 id: ccf4b61b-1b26-4f2e-a089-f2009c569c57
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

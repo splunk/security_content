@@ -1,7 +1,7 @@
 name: GetWmiObject DS User with PowerShell
 id: 22d3b118-04df-11ec-8fa3-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -59,7 +59,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

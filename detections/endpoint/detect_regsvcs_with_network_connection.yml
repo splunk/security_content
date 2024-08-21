@@ -1,7 +1,7 @@
 name: Detect Regsvcs with Network Connection
 id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
-version: 4
-date: '2024-05-19'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -54,7 +54,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

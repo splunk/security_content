@@ -1,7 +1,7 @@
 name: Rundll32 Control RunDLL World Writable Directory
 id: 1adffe86-10c3-11ec-8ce6-acde48001122
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -69,11 +69,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

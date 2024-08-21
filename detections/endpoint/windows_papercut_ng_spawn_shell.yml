@@ -1,7 +1,7 @@
 name: Windows PaperCut NG Spawn Shell
 id: a602d9a2-aaea-45f8-bf0f-d851168d61ca
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,7 +62,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

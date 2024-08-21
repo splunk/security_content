@@ -1,7 +1,7 @@
 name: Linux Sqlite3 Privilege Escalation
 id: ab75dbb7-c3ba-4689-9c1b-8d2717bdcba1
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

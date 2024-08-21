@@ -1,7 +1,7 @@
 name: File with Samsam Extension
 id: 02c6cfc2-ae66-4735-bfc7-6291da834cbf
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-08-14'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -45,7 +45,6 @@ tags:
   - name: file_name
     type: File Name
     role:
-    - Other
     - Attacker
   product:
   - Splunk Enterprise

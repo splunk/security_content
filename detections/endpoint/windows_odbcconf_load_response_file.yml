@@ -1,7 +1,7 @@
 name: Windows Odbcconf Load Response File
 id: 1acafff9-1347-4b40-abae-f35aa4ba85c1
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -59,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

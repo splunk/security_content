@@ -1,7 +1,7 @@
 name: gcp detect oauth token abuse
 id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
-version: 1
-date: '2020-09-01'
+version: 2
+date: '2024-08-15'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting
@@ -30,10 +30,10 @@ tags:
   mitre_attack_id:
   - T1078
   observable:
-  - name: field
-    type: Unknown
+  - name: protoPayload.status.details{}.violations{}.callerIp
+    type: IP Address
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

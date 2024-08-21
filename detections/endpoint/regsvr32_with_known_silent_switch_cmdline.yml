@@ -1,7 +1,7 @@
 name: Regsvr32 with Known Silent Switch Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

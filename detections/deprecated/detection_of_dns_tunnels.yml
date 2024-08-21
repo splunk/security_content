@@ -1,7 +1,7 @@
 name: Detection of DNS Tunnels
 id: 104658f4-afdc-499f-9719-17a43f9826f4
-version: 2
-date: '2022-02-15'
+version: 3
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP
@@ -56,10 +56,10 @@ tags:
   mitre_attack_id:
   - T1048.003
   observable:
-  - name: field
-    type: Unknown
+  - name: src
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

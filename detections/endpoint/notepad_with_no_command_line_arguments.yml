@@ -1,7 +1,7 @@
 name: Notepad with no Command Line Arguments
 id: 5adbc5f1-9a2f-41c1-a810-f37e015f8179
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -56,11 +56,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -66,11 +66,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates Export PfxCertificate
 id: 391329f3-c14b-4b8d-8b37-ac5012637360
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -59,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

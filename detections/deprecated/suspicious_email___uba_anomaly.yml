@@ -1,7 +1,7 @@
 name: Suspicious Email - UBA Anomaly
 id: 56e877a6-1455-4479-ad16-0550dc1e33f8
-version: 3
-date: '2020-07-22'
+version: 4
+date: '2024-08-16'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly
@@ -35,10 +35,10 @@ tags:
   mitre_attack_id:
   - T1566
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

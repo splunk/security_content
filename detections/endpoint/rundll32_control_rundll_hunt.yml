@@ -1,7 +1,7 @@
 name: Rundll32 Control RunDLL Hunt
 id: c8e7ced0-10c5-11ec-8b03-acde48001122
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -68,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

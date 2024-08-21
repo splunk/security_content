@@ -1,7 +1,7 @@
 name: Attempt To Stop Security Service
 id: c8e349c6-b97c-486e-8949-bd7bcd1f3910
-version: 5
-date: '2024-05-21'
+version: 6
+date: '2024-08-14'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -61,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
