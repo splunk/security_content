@@ -1,7 +1,7 @@
 name: Clients Connecting to Multiple DNS Servers
 id: 74ec6f18-604b-4202-a567-86b2066be3ce
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP
@@ -42,10 +42,10 @@ tags:
   mitre_attack_id:
   - T1048.003
   observable:
-  - name: field
-    type: Unknown
+  - name: src
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

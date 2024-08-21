@@ -1,7 +1,7 @@
 name: Suspicious writes to System Volume Information
 id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
-version: 2
-date: '2020-07-22'
+version: 3
+date: '2024-08-15'
 author: Rico Valdez, Splunk
 status: deprecated
 type: Hunting
@@ -30,10 +30,10 @@ tags:
   mitre_attack_id:
   - T1036
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

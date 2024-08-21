@@ -1,7 +1,7 @@
 name: Windows Protocol Tunneling with Plink
 id: 8aac5e1e-0fab-4437-af0b-c6e60af23eed
-version: 3
-date: '2024-07-26'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -65,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

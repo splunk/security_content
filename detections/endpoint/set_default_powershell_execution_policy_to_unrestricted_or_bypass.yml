@@ -1,7 +1,7 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 9
-date: '2024-05-12'
+version: 10
+date: '2024-08-14'
 author: Steven Dick, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -67,9 +67,9 @@ tags:
     role:
     - Victim
   - name: registry_path
-    type: Unknown
+    type: Other
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

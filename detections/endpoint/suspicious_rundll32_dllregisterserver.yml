@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 dllregisterserver
 id: 8c00a385-9b86-4ac0-8932-c9ec3713b159
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -67,11 +67,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
