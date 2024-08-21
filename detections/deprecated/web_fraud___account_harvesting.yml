@@ -1,7 +1,7 @@
 name: Web Fraud - Account Harvesting
 id: bf1d7b5c-df2f-4249-a401-c09fdc221ddf
-version: 1
-date: '2018-10-08'
+version: 2
+date: '2024-08-16'
 author: Jim Apger, Splunk
 status: deprecated
 type: TTP
@@ -45,10 +45,10 @@ tags:
   mitre_attack_id:
   - T1136
   observable:
-  - name: field
-    type: Unknown
+  - name: src_user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

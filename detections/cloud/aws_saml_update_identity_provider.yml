@@ -1,7 +1,7 @@
 name: AWS SAML Update identity provider
 id: 2f0604c6-6030-11eb-ae93-0242ac130002
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-08-19'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -48,7 +48,6 @@ tags:
     type: User
     role:
     - Victim
-    - Target
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

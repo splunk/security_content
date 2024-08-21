@@ -1,7 +1,7 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 7
-date: '2024-05-14'
+version: 8
+date: '2024-08-14'
 author: David Dorsey, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -65,7 +65,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

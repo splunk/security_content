@@ -1,7 +1,7 @@
 name: Detect Windows DNS SIGRed via Splunk Stream
 id: babd8d10-d073-11ea-87d0-0242ac130003
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-14'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -36,10 +36,10 @@ tags:
   mitre_attack_id:
   - T1203
   observable:
-  - name: dest
+  - name: flow_id
     type: Other
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
