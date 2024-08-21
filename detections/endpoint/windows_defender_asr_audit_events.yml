@@ -34,10 +34,6 @@ tags:
   - T1566.001
   - T1566.002
   observable:
-  - name: ASR_Rule
-    type: Unknown
-    role:
-    - Other
   - name: dest
     type: Endpoint
     role:

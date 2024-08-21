@@ -1,7 +1,7 @@
 name: Windows connhost exe started forcefully
 id: c114aaca-68ee-41c2-ad8c-32bf21db8769
-version: 1
-date: '2020-11-06'
+version: 2
+date: '2024-08-15'
 author: Rod Soto, Jose Hernandez, Splunk
 status: deprecated
 type: TTP
@@ -39,10 +39,10 @@ tags:
   mitre_attack_id:
   - T1059.003
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

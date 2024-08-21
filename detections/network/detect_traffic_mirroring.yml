@@ -1,7 +1,7 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-08-14'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -45,7 +45,7 @@ tags:
   - name: dest
     type: Other
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
