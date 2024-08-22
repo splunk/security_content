@@ -1,0 +1,19 @@
+name: Ivanti VTM Audit
+id: b04be6e5-2002-4a49-8722-52285635b8f5
+version: 1
+date: '2024-08-19'
+author: Michael Haag, Splunk
+description: Data source object for Ivanti Virtual Traffic Manager (vTM)
+source: ivanti_vtm
+sourcetype: ivanti_vtm_audit
+supported_TA: []
+fields:
+- _time
+- IP
+- MODUSER
+- OPERATION
+- MODGROUP
+- AUTH
+- USER
+- GROUP
+example_log: '[19/Aug/2024:19:41:22 +0000]    USER=!!ABSENT!! GROUP=!!ABSENT!!        AUTH=!!ABSENT!! IP=!!ABSENT!!   OPERATION=adduser       MODUSER=newadmin        MODGROUP=admin'
