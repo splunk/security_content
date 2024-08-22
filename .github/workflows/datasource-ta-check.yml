@@ -1,12 +1,12 @@
-name: build
+name: datasource-ta-check
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
+  pull_request_target:
   push:
     branches:
       - develop
+
 jobs:
-  build:
+  datasource-ta-check: 
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository code
@@ -16,21 +16,19 @@ jobs:
         with:
           python-version: '3.11'
           architecture: 'x64'
-          
+     
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
           pip install contentctl>=4.0.0
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
       
-      - name: Running build with enrichments
         run: |
-          contentctl build --enrichments
-          mkdir artifacts
-          mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+          contentctl validate --data-source-TA-validation
 
-      - name: store_artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: content-latest
-          path: |
-            artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+      # - name: store_artifacts
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: content-latest
+      #     path: |
+      #       artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+      #       artifacts/app_inspect_report
