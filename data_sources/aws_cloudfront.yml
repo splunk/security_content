@@ -9,7 +9,7 @@ sourcetype: aws:cloudfront:accesslogs
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.6.0
+  version: 7.5.0
 fields:
 - _time
 - action
