@@ -1,0 +1,63 @@
+name: Linux Auditd Unload Module Via Modprobe
+id: 90964d6a-4b5f-409a-85bd-95e261e03fe9
+version: 1
+date: '2024-08-09'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects suspicious use of the `modprobe` command to unload kernel modules, 
+  which may indicate an attempt to disable critical system components or evade detection. The `modprobe` utility
+  manages kernel modules, and unauthorized unloading of modules can disrupt system security features, remove 
+  logging capabilities, or conceal malicious activities. By monitoring for unusual or unauthorized `modprobe` 
+  operations involving module unloading, this analytic helps identify potential tampering with kernel functionality, 
+  enabling security teams to investigate and address possible threats to system integrity.
+data_source:
+- Linux Auditd Execve
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
+  "%modprobe%") AND  LIKE (process_exec, "%-r %") | stats count min(_time) as firstTime
+  max(_time) as lastTime by argc process_exec | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `linux_auditd_unload_module_via_modprobe_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process complete command-line executions.
+  These logs must be processed using the appropriate Splunk Technology Add-ons that
+  are specific to the EDR product. Use the Splunk Common Information Model (CIM) to
+  normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: $process_exec$ event occurred on host.
+  mitre_attack_id:
+  - T1547.006
+  - T1547
+  observable:
+  - name: process_exec
+    type: Other
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - argc
+  - process_exec
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/linux_auditd_modprobe_unload_module/linux_auditd_modprobe_unload_module.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
