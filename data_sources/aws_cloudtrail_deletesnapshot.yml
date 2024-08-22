@@ -41,7 +41,7 @@ fields:
 - eventName
 - eventSource
 - eventTime
-eventType
+- eventType
 - eventVersion
 - eventtype
 - host
@@ -107,7 +107,7 @@ eventType
 - userIdentity.arn
 - userIdentity.principalId
 - userIdentity.sessionContext.attributes.creationDate
-userIdentity.sessionContext.attributes.mfaAuthenticated
+- userIdentity.sessionContext.attributes.mfaAuthenticated
 - userIdentity.sessionContext.sessionIssuer.accountId
 - userIdentity.sessionContext.sessionIssuer.arn
 - userIdentity.sessionContext.sessionIssuer.principalId
