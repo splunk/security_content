@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 4.37.0
+  version: 4.39.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -182,6 +182,12 @@ apps:
   version: 1.9.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/url-toolbox_192.tgz
+- uid: 6853
+  title: Splunk Add-on for Admon Enrichment
+  appid: SA-admon
+  version: 1.1.0
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/splunk-add-on-for-admon-enrichment_112.tgz
 - uid: 5082
   title: CrowdStrike Falcon Event Streams Technical Add-On
   appid: TA-crowdstrike-falcon-event-streams
