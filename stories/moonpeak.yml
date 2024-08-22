@@ -1,0 +1,17 @@
+name: MoonPeak
+id: b32c2bb4-ddb0-402f-a05d-9eae0ef4007a
+version: 1
+date: '2024-08-21'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities linked to the MoonPeak malware, particularly focusing on command-and-control (C2) communications, data collection, file execution, and persistence mechanisms. Monitor network traffic for connections to known malicious IP addresses or domains associated with North Korean APT groups. Additionally, identify unexpected registry modifications and the presence of unauthorized binaries to uncover potential MoonPeak infections.
+narrative: The MoonPeak malware is a sophisticated cyber threat attributed to North Korean advanced persistent threat (APT) groups. This malware is designed to infiltrate targeted systems, establish persistence, and communicate with command-and-control (C2) servers, enabling remote attackers to execute malicious activities. MoonPeak often evades detection by leveraging encryption and obfuscation techniques, making it challenging for traditional security measures to identify its presence. It primarily targets government entities, critical infrastructure, and organizations of strategic interest, with the ultimate goal of espionage, data exfiltration, and disruption of operations. Its evolving tactics highlight the growing complexity of nation-state cyber operations.
+references:
+- https://blog.talosintelligence.com/moonpeak-malware-infrastructure-north-korea/
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
