@@ -37,6 +37,7 @@ tags:
   - Hermetic Wiper
   - Data Destruction
   - IcedID
+  - MoonPeak
   asset_type: Endpoint
   confidence: 80
   impact: 50
