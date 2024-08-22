@@ -13,8 +13,8 @@ description: The following analytic detects suspicious file permissions modifica
   respond to and mitigate threats associated with unauthorized file attribute changes.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process`|  where LIKE(process_exec,
-  "%chattr%") AND LIKE(process_exec, "%-i%") | stats count min(_time) as firstTime
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process`|  where LIKE(process_exec,
+  "%chattr %") AND LIKE(process_exec, "% -i%") | stats count min(_time) as firstTime
   max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_file_permissions_modification_via_chattr_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
