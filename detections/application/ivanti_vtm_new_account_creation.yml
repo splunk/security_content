@@ -4,7 +4,7 @@ version: 1
 date: '2024-08-19'
 author: Michael Haag, Splunk
 data_source: 
-  - ivanti_vtm
+- Ivanti VTM Audit
 type: TTP
 status: production
 description: This analytic detects potential exploitation of the Ivanti Virtual Traffic Manager (vTM) authentication bypass vulnerability (CVE-2024-7593) to create new administrator accounts. The vulnerability allows unauthenticated remote attackers to bypass authentication on the admin panel and create new admin users. This detection looks for suspicious new account creation events in the Ivanti vTM audit logs that lack expected authentication details, which may indicate exploitation attempts.
