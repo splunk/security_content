@@ -1,6 +1,8 @@
 name: datasource-ta-check
 on:
-  pull_request_target:
+  pull_request:
+    branches:
+      - develop
   push:
     branches:
       - develop
