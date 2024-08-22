@@ -42,6 +42,7 @@ tags:
   - Winter Vivern
   - CISA AA23-347A
   - Scheduled Tasks
+  - MoonPeak
   asset_type: Endpoint
   confidence: 70
   dataset:
