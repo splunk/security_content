@@ -51,4 +51,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_vtm_audit.log
     sourcetype: ivanti_vtm_audit
-    source: ivanti_vtm_audit
+    source: ivanti_vtm
