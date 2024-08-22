@@ -1,0 +1,63 @@
+name: O365 Email Reported By Admin Found Malicious
+id: 94396c3e-7728-422a-9956-e4b77b53dbdf
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when an email manually submitted to Microsoft through the Security & Compliance portal is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by administrative users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission
+| search RescanVerdict IN (Phish,Malware)
+| stats values(Subject) as subject, values(RescanVerdict) as result, values(SenderIP) as src, values(P2Sender) as sender, values(P1Sender) as src_user, values(Recipients{}) as user, count min(_time) as firstTime, max(_time) as lastTime, by Id,Operation,UserId
+| rename Name as signature, Id as signature_id, UserId as o365_adminuser
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_email_reported_by_admin_found_malicious_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+known_false_positives: Administrators that submit known phishing training exercises.
+references:
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Spearphishing Attachments
+  - Suspicious Emails
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 50
+  message: O365 security admin $o365_adminuser$ manually reported a suspicious email from $src_user$
+  mitre_attack_id: 
+  - T1566
+  - T1566.001
+  - T1566.002
+  observable: 
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: subject
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Id
+  - Operation
+  - UserId
+  risk_score: 50
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

@@ -1,0 +1,66 @@
+name: O365 Threat Intelligence Suspicious Email Delivered
+id: 605cc93a-70e4-4ee3-9a3d-1a62e8c9b6c2
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: Anomaly
+description: The following analytic identifies when a suspicious email is detected within the Microsoft Office 365 ecosystem through the Advanced Threat Protection engine and delivered to an end user. Attackers may execute several attacks through email, any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities such as Safe Attachment and Safe Links further enhance these detection and response functions.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=ThreatIntelligence Operation=TIMailData DeliveryAction!=Blocked Directionality=InBound
+| rename P2Sender as src_user, P1Sender as sender, Recipients{} as user, DeliveryAction as action
+| stats values(SenderIp) as src, values(Subject) as subject, values(user) as user, values(action) as action, values(SystemOverrides{}.Details) as reason, values(LatestDeliveryLocation) as result, values(ThreatsAndDetectionTech{}) as category, values(AttachmentData{}.FileName) as file_name, values(AttachmentData{}.FileType) as file_type, values(AttachmentData{}.SHA256) as file_hash values(DetectionMethod) as signature, min(_time) as firstTime max(_time) as lastTime, count  by src_user,sender
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_threat_intelligence_suspicious_email_delivered_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The threat intelligence workload is typically only visible to E3/E5 level customers. 
+known_false_positives: unknown
+references:
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-for-spo-odfb-teams-about?view=o365-worldwide 
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/office-365-ti?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Spearphishing Attachments
+  - Suspicious Emails
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 20
+  message: A suspicious email was delivered to $user$ by $src_user$ matching the $signature$ signature
+  mitre_attack_id: 
+  - T1566
+  - T1566.001
+  - T1566.002
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: subject
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - P2Sender
+  - P1Sender
+  - Recipients
+  - DeliveryAction
+  - Operation
+  - Workload
+  risk_score: 20
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365
