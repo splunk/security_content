@@ -32,6 +32,7 @@ references:
 tags:
   analytic_story:
   - Malicious PowerShell
+  - MoonPeak
   asset_type: Endpoint
   confidence: 80
   impact: 100

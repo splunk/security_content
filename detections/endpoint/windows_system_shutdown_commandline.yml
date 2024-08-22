@@ -44,6 +44,7 @@ tags:
   - Sandworm Tools
   - NjRAT
   - DarkGate Malware
+  - MoonPeak
   asset_type: Endpoint
   confidence: 70
   impact: 70
