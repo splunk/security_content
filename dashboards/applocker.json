@@ -371,7 +371,6 @@
 			"input_q9ZwkL2y"
 		]
 	},
-	"title": "ESCU - AppLocker",
 	"defaults": {
 		"dataSources": {
 			"ds.search": {
@@ -384,5 +383,6 @@
 			}
 		}
 	},
+	"title": "AppLocker",
 	"description": "Utilize this dashboard to assist with auditing and monitoring Windows AppLocker events for your endpoints. Configure the applocker macro to use the AppLocker data source for populating the dashboard."
 }
