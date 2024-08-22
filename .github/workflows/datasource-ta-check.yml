@@ -25,11 +25,3 @@ jobs:
       - name: Run datasource TA check
         run: |
           contentctl validate --data-source-TA-validation
-
-      # - name: store_artifacts
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: content-latest
-      #     path: |
-      #       artifacts/DA-ESS-ContentUpdate-latest.tar.gz
-      #       artifacts/app_inspect_report
