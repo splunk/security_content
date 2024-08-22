@@ -1,14 +1,14 @@
 name: Unsigned Image Loaded by LSASS
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
-version: 1
-date: '2019-12-06'
+version: 2
+date: '2024-08-15'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: TTP
 description: This search detects loading of unsigned images by LSASS. Deprecated because
   too noisy.
 data_source:
-- Sysmon Event ID 7
+- Sysmon EventID 7
 search: '`sysmon` EventID=7 Image=*lsass.exe Signed=false | stats count min(_time)
   as firstTime max(_time) as lastTime by dest, Image, ImageLoaded, Signed, SHA1
    | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -33,10 +33,10 @@ tags:
   mitre_attack_id:
   - T1003.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

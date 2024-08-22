@@ -1,12 +1,14 @@
 name: Hunting 3CXDesktopApp Software
 id: 553d0429-1a1c-44bf-b3f5-a8513deb9ee5
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: Hunting
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects the presence of any version of the 3CXDesktopApp,
   also known as the 3CX Desktop App, on Mac or Windows systems. It leverages the Endpoint
   data model's Processes node to identify instances of the application running, although
@@ -57,7 +59,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

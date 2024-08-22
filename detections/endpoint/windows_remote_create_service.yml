@@ -1,12 +1,14 @@
 name: Windows Remote Create Service
 id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the creation of a new service on a
   remote endpoint using sc.exe. It leverages data from Endpoint Detection and Response
   (EDR) agents, specifically monitoring for EventCode 7045, which indicates a new
@@ -58,11 +60,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

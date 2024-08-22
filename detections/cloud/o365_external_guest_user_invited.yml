@@ -1,0 +1,64 @@
+name: O365 External Guest User Invited
+id: 8c6d52ec-d5f2-4b2f-8ba1-f32c047a71fa
+version: 1
+date: '2024-04-11'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies the invitation of an external guest user within Azure AD. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations should be monitored by security teams as they could potentially lead to unauthorized access. An example of this attack vector was described at BlackHat 2022 by security researcher Dirk-Jan during his tall `Backdooring and Hijacking Azure AD Accounts by Abusing External Identities`. This detection leverages the Universal Audit Log (UAL)/o365:management:activity sourcetype as a detection data source.
+data_source: 
+- Office 365 Universal Audit Log
+search: > 
+  `o365_management_activity` Workload=AzureActiveDirectory AND Operation="Add user*" AND ModifiedProperties{}.NewValue="[*Guest*]" AND ModifiedProperties{}.NewValue="[*Invitation*]"
+  | eval user = (mvindex('ModifiedProperties{}.NewValue',5)), src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
+  | rex field=user "(?<user>[\\w\\.-]+@[\\w-]+\\.[\\w-]{2,4})"
+  | stats values(user) as user, min(_time) as firstTime, max(_time) as lastTime, count by Operation,Id,src_user
+  | rename Operation as signature, Id as signature_id
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_external_guest_user_invited_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
+known_false_positives: Administrator may legitimately invite external guest users. Filter as needed.
+references:
+- https://dirkjanm.io/assets/raw/US-22-Mollema-Backdooring-and-hijacking-Azure-AD-accounts_final.pdf
+- https://www.blackhat.com/us-22/briefings/schedule/#backdooring-and-hijacking-azure-ad-accounts-by-abusing-external-identities-26999
+- https://attack.mitre.org/techniques/T1136/003/
+- https://docs.microsoft.com/en-us/azure/active-directory/external-identities/b2b-quickstart-add-guest-users-portal
+tags:
+  analytic_story: 
+  - Azure Active Directory Persistence
+  asset_type: O365 Tenant
+  confidence: 50
+  impact: 50
+  message: Azure Guest User $user$ invited by $src_user$
+  mitre_attack_id: 
+  - T1136.003
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.Name
+  - UserId
+  - Id
+  - Workload
+  risk_score: 25
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
+    sourcetype: o365:management:activity
+    source: o365

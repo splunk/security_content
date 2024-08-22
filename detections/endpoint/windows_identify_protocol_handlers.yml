@@ -1,7 +1,7 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -14,6 +14,8 @@ description: 'The following analytic identifies the use of protocol handlers exe
   or maintain persistence within the environment, posing a significant security risk.'
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.process) as process values(Processes.parent_process)
   as parent_process from datamodel=Endpoint.Processes  by Processes.dest Processes.parent_process_name
@@ -64,11 +66,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

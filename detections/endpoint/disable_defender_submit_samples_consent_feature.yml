@@ -14,7 +14,7 @@ description: The following analytic detects the modification of the Windows regi
   analysis. If confirmed malicious, this could allow an attacker to execute malicious
   code without being detected by Windows Defender, leading to potential system compromise.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name

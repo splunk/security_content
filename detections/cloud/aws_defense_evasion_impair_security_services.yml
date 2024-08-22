@@ -14,13 +14,13 @@ description: The following analytic detects attempts to delete critical AWS secu
   escalate privileges, or exfiltrate data without triggering security alerts, severely
   compromising the security posture of the AWS environment.
 data_source:
-- AWS CloudTrail DeleteLogStream
-- AWS CloudTrail DeleteDetector
-- AWS CloudTrail DeleteIPSet
-- AWS CloudTrail DeleteWebACL
-- AWS CloudTrail DeleteRule
-- AWS CloudTrail DeleteRuleGroup
-- AWS CloudTrail DeleteLoggingConfiguration
+- AWS CloudTrail DeleteLogStream 
+- AWS CloudTrail DeleteDetector 
+- AWS CloudTrail DeleteIPSet 
+- AWS CloudTrail DeleteWebACL 
+- AWS CloudTrail DeleteRule 
+- AWS CloudTrail DeleteRuleGroup 
+- AWS CloudTrail DeleteLoggingConfiguration 
 - AWS CloudTrail DeleteAlarms
 search: '`cloudtrail` eventName IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms")
   | stats count min(_time) as firstTime max(_time) as lastTime values(eventName)  as

@@ -1,12 +1,14 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects potential RDP Hijacking attempts by identifying
   the creation of a Windows service using sc.exe with a binary path that includes
   tscon.exe. This detection leverages data from Endpoint Detection and Response (EDR)
@@ -68,11 +70,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

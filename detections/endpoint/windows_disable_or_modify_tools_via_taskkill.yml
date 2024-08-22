@@ -1,12 +1,14 @@
 name: Windows Disable or Modify Tools Via Taskkill
 id: a43ae66f-c410-4b3d-8741-9ce1ad17ddb0
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the use of taskkill.exe to forcibly
   terminate processes. It leverages data from Endpoint Detection and Response (EDR)
   agents, focusing on command-line executions that include specific taskkill parameters.
@@ -57,7 +59,6 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise

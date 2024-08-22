@@ -1,0 +1,15 @@
+name: CrushFTP
+id: 8a42ace5-e4c8-4653-80cf-1b8e7e6024ef
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for CrushFTP
+source: crushftp
+sourcetype: crushftp:sessionlogs
+supported_TA: []
+fields:
+- _time
+- _raw
+example_log: 'SESSION|05/14/2024 17:36:21.859|[HTTPS:169_52326_sMa:anonymous:10.0.1.30]
+  READ: *POST /WebInterface/function/?c2f=CmF1&command=zip&path=%3CINCLUDE%3Eusers/MainUsers/groups.XML%3C/INCLUDE%3E&names=/a
+  HTTP/1.1*'

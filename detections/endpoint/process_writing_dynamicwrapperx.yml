@@ -1,7 +1,7 @@
 name: Process Writing DynamicWrapperX
 id: b0a078e4-2601-11ec-9aec-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -14,7 +14,7 @@ description: The following analytic detects a process writing the dynwrapx.dll f
   code, escalate privileges, or maintain persistence within the environment. Immediate
   investigation of parallel processes and registry modifications is recommended.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
   Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
@@ -64,7 +64,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

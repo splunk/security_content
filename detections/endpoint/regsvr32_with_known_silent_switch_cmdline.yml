@@ -1,7 +1,7 @@
 name: Regsvr32 with Known Silent Switch Cmdline
 id: c9ef7dc4-eeaf-11eb-b2b6-acde48001122
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,6 +15,8 @@ description: The following analytic detects the execution of Regsvr32.exe with t
   isolation are recommended.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_regsvr32` by Processes.user
   Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
@@ -63,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

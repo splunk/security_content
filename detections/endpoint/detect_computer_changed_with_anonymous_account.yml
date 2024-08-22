@@ -1,7 +1,7 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-14'
 author: Rod Soto, Jose Hernandez, Splunk
 status: experimental
 type: Hunting
@@ -13,7 +13,8 @@ description: The following analytic detects changes to computer accounts using a
   If confirmed malicious, this could allow an attacker to alter computer accounts,
   potentially leading to privilege escalation or persistent access within the network.
 data_source:
-- Windows Event Log Security 4624
+- Windows Event Log Security 4624 
+- Windows Event Log Security 4742
 search: '`wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS
   LOGON" LogonType=3 | stats count values(host) as host, values(TargetDomainName)
   as Domain, values(user) as user | `detect_computer_changed_with_anonymous_account_filter`'
@@ -48,10 +49,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: EventCode
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

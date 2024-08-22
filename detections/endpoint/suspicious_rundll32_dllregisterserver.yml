@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 dllregisterserver
 id: 8c00a385-9b86-4ac0-8932-c9ec3713b159
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,6 +14,8 @@ description: The following analytic detects the execution of rundll32.exe with t
   persistence within the environment, posing a severe security risk.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*dllregisterserver*
   by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
@@ -65,11 +67,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -15,7 +15,7 @@ description: The following analytic detects modifications to the Windows registr
   undetected, potentially leading to further exploitation and compromise of the host
   system.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows\\CurrentVersion\\ImmersiveShell\\UseActionCenterExperience*"

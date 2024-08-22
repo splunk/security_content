@@ -1,7 +1,7 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: dcfd6b40-42f9-469d-a433-2e53f7486664
-version: 7
-date: '2024-05-16'
+version: 8
+date: '2024-08-14'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -15,6 +15,8 @@ description: The following analytic detects executions of cmd.exe spawned by pro
   within the environment.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
   where `process_cmd` by Processes.parent_process_name Processes.process_name Processes.original_file_name
@@ -60,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

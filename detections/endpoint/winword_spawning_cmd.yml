@@ -1,7 +1,7 @@
 name: Winword Spawning Cmd
 id: 6fcbaedc-a37b-11eb-956b-acde48001122
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,6 +15,8 @@ description: The following analytic identifies instances where Microsoft Word (w
   or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=winword.exe
   `process_cmd` by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
@@ -59,7 +61,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

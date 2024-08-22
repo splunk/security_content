@@ -2,7 +2,6 @@ Detections:
 - changed-files:
   - any-glob-to-any-file: 
     - detections/**
-    - dev/**
 
 Stories:
 - changed-files:
@@ -19,3 +18,7 @@ Macros:
 Lookups:
 - changed-files:
   - any-glob-to-any-file: lookups/*
+
+Datasource:
+- changed-files:
+  - any-glob-to-any-file: data_sources/*

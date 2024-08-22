@@ -1,12 +1,14 @@
 name: Windows PaperCut NG Spawn Shell
 id: a602d9a2-aaea-45f8-bf0f-d851168d61ca
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects instances where the PaperCut NG application
   (pc-app.exe) spawns a Windows shell, such as cmd.exe or PowerShell. This behavior
   is identified using Endpoint Detection and Response (EDR) telemetry, focusing on
@@ -60,7 +62,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

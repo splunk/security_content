@@ -1,7 +1,7 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 4
-date: '2024-05-20'
+version: 5
+date: '2024-08-15'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
@@ -16,6 +16,8 @@ description: The following analytic detects the use of `bitsadmin.exe` with the 
   associated artifacts.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_bitsadmin` Processes.process
   IN ("*transfer*", "*addfile*") by Processes.dest Processes.user Processes.parent_process
@@ -45,6 +47,7 @@ tags:
   - DarkSide Ransomware
   - Living Off The Land
   - Flax Typhoon
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -65,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

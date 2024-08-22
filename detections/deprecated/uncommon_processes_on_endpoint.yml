@@ -1,14 +1,14 @@
 name: Uncommon Processes On Endpoint
 id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
-version: 4
-date: '2020-07-22'
+version: 5
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting
 description: This search looks for applications on the endpoint that you have marked
   as uncommon.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.process
   Processes.process_name | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -36,10 +36,10 @@ tags:
   mitre_attack_id:
   - T1204.002
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

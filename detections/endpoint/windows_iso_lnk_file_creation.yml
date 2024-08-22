@@ -44,6 +44,7 @@ tags:
   - Remcos
   - Warzone RAT
   - Amadey
+  - Gozi Malware
   asset_type: Endpoint
   confidence: 50
   impact: 80

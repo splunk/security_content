@@ -1,7 +1,7 @@
 name: Disabling Net User Account
 id: c0325326-acd6-11eb-98c2-acde48001122
-version: 3
-date: '2024-05-23'
+version: 4
+date: '2024-08-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,6 +14,8 @@ description: The following analytic detects the use of the `net.exe` utility to 
   attacker in maintaining control or covering their tracks.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
@@ -55,11 +57,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

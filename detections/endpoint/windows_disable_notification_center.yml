@@ -13,7 +13,7 @@ description: The following analytic detects the modification of the Windows regi
   and subsequent actions. If confirmed malicious, this could allow an attacker to
   operate stealthily, potentially leading to further system compromise and data exfiltration.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_value_name= "DisableNotificationCenter" Registry.registry_value_data

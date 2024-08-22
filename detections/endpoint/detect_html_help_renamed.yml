@@ -1,7 +1,7 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 5
-date: '2024-05-16'
+version: 6
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -15,6 +15,8 @@ description: The following analytic detects instances where hh.exe (HTML Help) h
   posing a significant security risk.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=hh.exe
   AND Processes.original_file_name=HH.EXE by Processes.dest Processes.user Processes.parent_process_name
@@ -60,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

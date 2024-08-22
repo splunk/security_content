@@ -1,0 +1,58 @@
+name: Crowdstrike Medium Identity Risk Severity
+id: c23b425c-9024-4bd7-b526-c18a4a51d93e
+version: 1
+date: '2024-07-15'
+author: Teoderick Contreras, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic detects CrowdStrike alerts for Medium Identity Risk Severity with a risk score of 55 or higher. 
+  These alerts indicate significant vulnerabilities in user identities, such as suspicious behavior or compromised credentials. 
+  Promptly investigating and addressing these alerts is crucial to prevent potential security breaches and ensure the integrity 
+  and protection of sensitive information and systems.
+search: '`crowdstrike_identities` riskScoreSeverity = "MEDIUM" OR riskScore >= 0.55 AND riskScore < 0.70
+  | rename riskFactors{}.severity as severity, riskFactors{}.type as risk_type, roles{}.type as role_type, accounts{}.domain as domain, accounts{}.dn as dn, accounts{}.samAccountName as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by  domain dn primaryDisplayName risk_type severity riskScore riskScoreSeverity user role_type
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `crowdstrike_medium_identity_risk_severity_filter`'
+how_to_implement: To implement crowdstrike:identities logs, use the Falcon Streaming API. Set up an API client, 
+  authenticate with your CrowdStrike credentials, and subscribe to the "crowdstrike:identities" event stream. 
+  Process and store the logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
+known_false_positives: unknown
+references:
+- https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  asset_type: Endpoint
+  confidence: 70
+  impact: 100
+  message: Medium Identity Risk Score Severity found on $domain$
+  mitre_attack_id:
+  - T1110
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - riskFactors{}.severity
+  - riskFactors{}.type
+  - roles{}.type
+  - accounts{}.domain
+  - accounts{}.dn
+  - accounts{}.samAccountName
+  risk_score: 70
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/riskscore/crowdstrike_riskscore_cleaned.log
+    sourcetype: crowdstrike:identities
+    source: crowdstrike:identities

@@ -1,0 +1,65 @@
+name: O365 Application Available To Other Tenants
+id: 942548a3-0273-47a4-8dbd-e5202437395c
+version: 1
+date: '2024-04-11'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies the configuration of Azure Active Directory Applications in a manner that allows authentication from external tenants or personal accounts. This configuration can lead to inappropriate or malicious access of any data or capabilities the application is allowed to access. This detection leverages the O365 Universal Audit Log data source.
+data_source: 
+- Office 365 Universal Audit Log
+search: >
+  `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add application.","Update application.") ModifiedProperties{}.Name=AvailableToOtherTenants
+  | eval result = case(match(mvindex('ModifiedProperties{}.NewValue',mvfind('ModifiedProperties{}.Name',"AvailableToOtherTenants")),"false"),"removed",true(),"added"), object_name=mvindex('Target{}.ID', 3), signature=Operation, object_attrs = "AvailableToOtherTenants", user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
+  | search result = "added"
+  | stats values(ActorIpAddress) as src, count, min(_time) as firstTime, max(_time) as lastTime by signature, user, object, object_name, object_attrs, result
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_application_available_to_other_tenants_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
+known_false_positives: Business approved changes by known administrators.
+references:
+- https://attack.mitre.org/techniques/T1098/
+- https://msrc.microsoft.com/blog/2023/03/guidance-on-potential-misconfiguration-of-authorization-of-multi-tenant-applications-that-use-azure-ad/
+- https://www.wiz.io/blog/azure-active-directory-bing-misconfiguration
+tags:
+  analytic_story: 
+  - Azure Active Directory Persistence
+  - Azure Active Directory Account Takeover
+  - Data Exfiltration
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 50
+  message: An Azure Application [$object_name$] was configured by [$user$] as accessible to external tenants.
+  mitre_attack_id: 
+  - T1098.003
+  - T1098
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: object_name
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.Name
+  - UserId
+  - Workload
+  - Target{}.ID
+  risk_score: 50
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
+    sourcetype: o365:management:activity
+    source: o365

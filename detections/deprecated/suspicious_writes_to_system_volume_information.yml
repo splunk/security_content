@@ -1,14 +1,14 @@
 name: Suspicious writes to System Volume Information
 id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
-version: 2
-date: '2020-07-22'
+version: 3
+date: '2024-08-15'
 author: Rico Valdez, Splunk
 status: deprecated
 type: Hunting
 description: This search detects writes to the 'System Volume Information' folder
   by something other than the System process.
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '(`sysmon` OR tag=process) EventCode=11 process_id!=4 file_path=*System\ Volume
   Information* | stats count min(_time) as firstTime max(_time) as lastTime by dest,
   Image, file_path | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
@@ -30,10 +30,10 @@ tags:
   mitre_attack_id:
   - T1036
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,12 +1,14 @@
 name: Windows Vulnerable 3CX Software
 id: f2cc1584-46ee-485b-b905-977c067f36de
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic detects instances of the 3CXDesktopApp.exe with
   a FileVersion of 18.12.x, leveraging Sysmon logs. This detection focuses on identifying
   vulnerable versions 18.12.407 and 18.12.416 of the 3CX desktop app. Monitoring this
@@ -50,7 +52,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,0 +1,79 @@
+name: CircleCI
+id: 34ad06fc-a296-4ab5-8315-2f07714948e3
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for CircleCI
+source: circleci
+sourcetype: circleci
+supported_TA:
+- name: App for CircleCI
+  url: https://splunkbase.splunk.com/app/5162
+  version: 0.1.1
+fields:
+- _time
+- author_name
+- avatar_url
+- branch
+- build_num
+- build_time_millis
+- build_url
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- eventtype
+- fail_reason
+- host
+- index
+- job_name
+- job_time
+- linecount
+- owners{}
+- project_slug
+- punct
+- queued_time
+- reponame
+- source
+- sourcetype
+- splunk_server
+- start_time
+- status
+- stop_time
+- tag
+- tag::eventtype
+- timedout
+- timeendpos
+- timestartpos
+- username
+- vcs.commit_time
+- vcs.committer_name
+- vcs.revision
+- vcs.subject
+- vcs.tag
+- vcs.type
+- vcs.url
+- workflows.job_id
+- workflows.job_name
+- workflows.upstream_job_ids{}
+- workflows.workflow_id
+- workflows.workflow_name
+- workflows.workspace_id
+example_log: '{"job_time": "2021-09-02T08:13:34.273Z", "stop_time": "2021-09-02T08:13:34.273Z",
+  "start_time": "2021-09-02T08:10:15.829Z", "queued_time": "2021-09-02T08:10:12.764Z",
+  "job_name": "Unknown", "reponame": "devsecops_poc", "build_num": 94, "build_url":
+  "https://circleci.com/gh/splunk/devsecops_poc/94", "branch": "main", "status": "success",
+  "project_slug": "gh/splunk/devsecops_poc", "fail_reason": null, "build_time_millis":
+  198444, "timedout": false, "username": "splunk", "owners": ["P4T12ICK"], "author_name":
+  "P4T12ICK", "avatar_url": "", "workflows": {"job_name": "k8s-security", "job_id":
+  "aa1e394f-42c8-4809-93fc-7ba9f8fc51d2", "workflow_id": "6a1bd1c8-e3c4-4d7a-b3e4-16cc726cc0ca",
+  "workspace_id": "6a1bd1c8-e3c4-4d7a-b3e4-16cc726cc0ca", "upstream_job_ids": ["7d543f1d-ae02-449d-9ce3-f710e9094c47",
+  "39a8bf7a-fe22-4886-8661-9f6eec43b348", "7c1adae6-feb1-409b-b17a-c9beaab63359"],
+  "upstream_concurrency_map": {}, "workflow_name": "deployment"}, "vcs": {"commit_time":
+  "2021-09-02T08:05:59.000Z", "type": "github", "url": "https://github.com/splunk/devsecops_poc",
+  "revision": "68d5575c64352792e6e716a1e909db5f9cb3bc2a", "tag": null, "committer_name":
+  "P4T12ICK", "subject": "small change"}}'

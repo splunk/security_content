@@ -1,7 +1,7 @@
 name: Detect processes used for System Network Configuration Discovery
 id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-version: 3
-date: '2024-05-19'
+version: 4
+date: '2024-08-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -16,6 +16,8 @@ description: The following analytic identifies the rapid execution of processes 
   system compromise.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user
@@ -61,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

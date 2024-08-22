@@ -1,12 +1,14 @@
 name: Windows WinDBG Spawning AutoIt3
 id: 7aec015b-cd69-46c3-85ed-dac152056aa4
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies instances of the WinDBG process spawning
   AutoIt3. This behavior is detected by monitoring endpoint telemetry for processes
   where 'windbg.exe' is the parent process and 'autoit3.exe' or similar is the child
@@ -59,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

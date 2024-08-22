@@ -1,7 +1,7 @@
 name: Suspicious Powershell Command-Line Arguments
 id: 2cdb91d2-542c-497f-b252-be495e71f38c
-version: 6
-date: '2021-01-19'
+version: 7
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP
@@ -13,7 +13,7 @@ description: This search looks for PowerShell processes started with a base64 en
   passes an encoded script to be run on the command-line. Deprecated because almost
   the same as Malicious PowerShell Process - Encoded Command
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count values(Processes.process)
   as process values(Processes.parent_process) as parent_process min(_time) as firstTime
   max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=powershell.exe
@@ -44,10 +44,14 @@ tags:
   mitre_attack_id:
   - T1059.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

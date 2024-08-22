@@ -15,7 +15,7 @@ description: The following analytic detects modifications to the Windows registr
   bypass security measures, increasing the risk of successful phishing attacks and
   malware infections.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE Registry.registry_path IN ("*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled",

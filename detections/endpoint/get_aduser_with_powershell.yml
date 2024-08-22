@@ -1,7 +1,7 @@
 name: Get ADUser with PowerShell
 id: 0b6ee3f4-04e3-11ec-a87d-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -15,6 +15,8 @@ description: The following analytic detects the execution of `powershell.exe` wi
   targets and plan subsequent attacks.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where (Processes.process_name="cmd.exe"
   OR Processes.process_name="powershell*") AND Processes.process = "*Get-ADUser*"
@@ -59,7 +61,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

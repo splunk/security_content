@@ -1,7 +1,7 @@
 name: CertUtil Download With URLCache and Split Arguments
 id: 415b4306-8bfb-11eb-85c4-acde48001122
-version: 4
-date: '2024-05-11'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,6 +15,8 @@ description: The following analytic detects the use of certutil.exe to download 
   and unauthorized data access.
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where `process_certutil` (Processes.process=*urlcache*
   Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user
@@ -65,11 +67,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

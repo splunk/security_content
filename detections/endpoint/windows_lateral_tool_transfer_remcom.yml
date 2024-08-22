@@ -1,12 +1,14 @@
 name: Windows Lateral Tool Transfer RemCom
 id: e373a840-5bdc-47ef-b2fd-9cc7aaf387f0
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: TTP
 status: production
 data_source:
 - Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 description: The following analytic identifies the execution of RemCom.exe, an open-source
   alternative to PsExec, used for lateral movement and remote command execution. It
   leverages data from Endpoint Detection and Response (EDR) agents, focusing on process
@@ -57,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

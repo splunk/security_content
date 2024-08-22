@@ -13,7 +13,7 @@ description: The following analytic detects modifications to the Windows registr
   behavior could allow an attacker to conceal malicious files on the system, making
   it harder for security tools and analysts to identify and remove the threat.
 data_source:
-- Sysmon EventID 12
+- Sysmon EventID 12 
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced\\Hidden"

@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump Rename
 id: 21276daa-663d-11eb-ae93-0242ac130002
-version: 1
-date: '2021-02-01'
+version: 2
+date: '2024-08-19'
 author: Michael Haag, Splunk
 status: deprecated
 type: Hunting
@@ -15,7 +15,7 @@ description: 'Detect a renamed instance of procdump.exe dumping the lsass proces
   the command line. Review other endpoint data sources for cross process (injection)
   into lsass.exe.'
 data_source:
-- Sysmon Event ID 1
+- Sysmon EventID 1
 search: '`sysmon` OriginalFileName=procdump  process_name!=procdump*.exe  EventID=1
   (CommandLine=*-ma* OR CommandLine=*-mm*) CommandLine=*lsass* |  stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,
   process_name, OriginalFileName, CommandLine | `security_content_ctime(firstTime)`
@@ -48,11 +48,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

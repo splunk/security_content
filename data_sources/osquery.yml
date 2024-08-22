@@ -1,0 +1,76 @@
+name: osquery
+id: 7ec4d7c8-c1d0-423a-9169-261f6adb74c0
+version: 1
+date: '2024-07-18'
+author: Patrick Bareiss, Splunk
+description: Data source object for osquery
+source: osquery
+sourcetype: osquery:results
+supported_TA: []
+fields:
+- _time
+- calendarTime
+- columns.cdhash
+- columns.child_pid
+- columns.cmdline
+- columns.cmdline_count
+- columns.cwd
+- columns.egid
+- columns.env
+- columns.env_count
+- columns.euid
+- columns.event_type
+- columns.exit_code
+- columns.gid
+- columns.global_seq_num
+- columns.original_parent
+- columns.parent
+- columns.path
+- columns.pid
+- columns.platform_binary
+- columns.seq_num
+- columns.signing_id
+- columns.team_id
+- columns.time
+- columns.uid
+- columns.username
+- columns.version
+- counter
+- dest
+- epoch
+- eventtype
+- host
+- hostIdentifier
+- index
+- linecount
+- name
+- numerics
+- parent_process_id
+- process_current_directory
+- process_id
+- process_path
+- punct
+- source
+- sourcetype
+- splunk_server
+- src
+- subject
+- tag
+- tag::eventtype
+- timestamp
+- unixTime
+- user_id
+- vendor_product
+example_log: '{"name":"es_process_events","hostIdentifier":"HackBook.local","calendarTime":"Tue
+  Mar 29 13:03:51 2022 UTC","unixTime":1648559031,"epoch":0,"counter":82,"numerics":false,"columns":{"cdhash":"f63c5fbfcf1484b20aa4407a26e087fe3fe28146","child_pid":"","cmdline":"plutil
+  --help ","cmdline_count":"2","cwd":"/Users/patrick","egid":"20","env":"TERM_SESSION_ID=w0t1p0:93AA9D79-7028-49F1-A93D-4EAEFB7BA6E3
+  SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.OOwoeuT9LF/Listeners LC_TERMINAL_VERSION=3.3.7
+  COLORFGBG=15;0 ITERM_PROFILE=Default XPC_FLAGS=0x0 LANG=de_DE.UTF-8 PWD=/Users/patrick
+  SHELL=/bin/zsh __CFBundleIdentifier=com.googlecode.iterm2 TERM_PROGRAM_VERSION=3.3.7
+  TERM_PROGRAM=iTerm.app PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/VMware
+  Fusion.app/Contents/Public:/Library/Apple/usr/bin LC_TERMINAL=iTerm2 COLORTERM=truecolor
+  COMMAND_MODE=unix2003 TERM=xterm-256color HOME=/Users/patrick TMPDIR=/var/folders/tc/m9brp20d1mvfgssff70501m40000gn/T/
+  USER=patrick XPC_SERVICE_NAME=0 LOGNAME=patrick ITERM_SESSION_ID=w0t1p0:93AA9D79-7028-49F1-A93D-4EAEFB7BA6E3
+  __CF_USER_TEXT_ENCODING=0x0:0:3 SHLVL=1 OLDPWD=/Users/patrick HISTTIMEFORMAT=%F
+  %T  ZSH=/Users/patrick/.oh-my-zsh PAGER=less LESS=-R LSCOLORS=Gxfxcxdxbxegedabagacad
+  _=/usr/bin/plutil ","env_count":"32","euid":"20","event_type":"exec","exit_code":"","gid":"20","global_seq_num":"440","original_parent":"2971","parent":"2971","path":"/usr/bin/plutil","pid":"6449","platform_binary":"1","seq_num":"154","signing_id":"com.apple.Foundation.plutil","team_id":"","time":"1648558927","uid":"501","username":"patrick","version":"4"},"action":"added"}'

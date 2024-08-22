@@ -1,0 +1,64 @@
+name: O365 Privileged Role Assigned
+id: db435700-4ddc-4c23-892e-49e7525d7d39
+version: 1
+date: '2024-04-11'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies the assignment of sensitive and privileged Azure Active Directory roles to an Azure AD user. Adversaries and red teams alike may assign these roles to a compromised account to establish Persistence in an Azure AD environment. This detection leverages the O365 Universal Audit Log data source.
+data_source: 
+- Office 365 Universal Audit Log
+search: >
+  `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add member to role.","Add eligible member to role.")
+  | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.DisplayName")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',"Role\.TemplateId")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2)
+  | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, user, category, result, object_name, object_id, signature
+  | lookup privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole
+  | search isprvilegedadrole="TRUE" category="User"
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_privileged_role_assigned_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
+known_false_positives: Administrators will legitimately assign the privileged roles users as part of administrative tasks. Microsoft Privileged Identity Management (PIM) may cause false positives / less accurate alerting.
+references:
+- https://attack.mitre.org/techniques/T1098/003/
+- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+- https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Azure Active Directory Persistence
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 75
+  message: A privileged Azure AD role [$object_name$] was assigned to user $user$ by $src_user$
+  mitre_attack_id: 
+  - T1098
+  - T1098.003
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Operation
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.Name
+  - UserId
+  - ObjectId
+  - Workload
+  risk_score: 75
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
+    sourcetype: o365:management:activity
+    source: o365

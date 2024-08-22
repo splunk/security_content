@@ -1,0 +1,388 @@
+{
+	"dataSources": {
+		"ds_search_1_new_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker` \n| spath input=UserData_Xml path=RuleAndFileData.PolicyName output=PolicyName\n| spath input=UserData_Xml path=RuleAndFileData.RuleId output=RuleId\n| spath input=UserData_Xml path=RuleAndFileData.RuleName output=RuleName\n| spath input=UserData_Xml path=RuleAndFileData.RuleSddl output=RuleSddl\n| spath input=UserData_Xml path=RuleAndFileData.TargetUser output=TargetUser\n| spath input=UserData_Xml path=RuleAndFileData.TargetProcessId output=TargetProcessId\n| spath input=UserData_Xml path=RuleAndFileData.FilePath output=FilePath\n| spath input=UserData_Xml path=RuleAndFileData.Fqbn output=Fqbn\n| spath input=UserData_Xml path=RuleAndFileData.TargetLogonId output=TargetLogonId\n| spath input=UserData_Xml path=RuleAndFileData.FullFilePath output=FullFilePath\n| search PolicyName=*\n| table PolicyName, RuleId, RuleName, RuleSddl, TargetUser, TargetProcessId, FilePath, Fqbn, TargetLogonId, FullFilePath _time",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			}
+		},
+		"ds_search_1_new": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker`\n\n| eval EventType=case(\n    EventCode==8000, \"PolicyApplicationFailure\",\n    EventCode==8001, \"PolicyApplicationSuccess\",\n    EventCode==8002, \"AllowedFileExecution\",\n    EventCode==8003, \"AuditedFileExecution\",\n    EventCode==8004, \"BlockedFileExecution\",\n    EventCode==8005, \"AllowedScriptOrMSIExecution\",\n    EventCode==8006, \"AuditedScriptOrMSIExecution\",\n    EventCode==8007, \"BlockedScriptOrMSIExecution\",\n    EventCode==8020, \"AllowedPackagedApp\",\n    EventCode==8021, \"AuditedPackagedApp\",\n    EventCode==8022, \"DisabledPackagedApp\",\n    EventCode==8023, \"AllowedPackagedAppInstallation\",\n    EventCode==8024, \"AuditedPackagedAppInstallation\",\n    EventCode==8025, \"DisabledPackagedAppInstallation\",\n    EventCode==8027, \"NoPackagedAppRule\"\n)\n| table _time, host, EventCode, EventType\n| stats values(EventType) values(EventCode) count by host",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			},
+			"name": "eventcodereview"
+		},
+		"ds_search_1": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker`\n| spath input=UserData_Xml | rename RuleAndFileData.* as *\n| lookup applockereventcodes EventCode OUTPUT Description\n|  search  PolicyName=$policyname$ EventCode=$eventcode$\n| stats values(host) AS dest by PolicyName, EventCode, Description, RuleId, RuleName, RuleSddl, TargetUser, TargetProcessId, FilePath, Fqbn, TargetLogonId, FullFilePath _time",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			},
+			"name": "policy_review"
+		},
+		"ds_YbLTfvcS": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker` EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)\n| spath input=UserData_Xml | rename RuleAndFileData.* as *\n| lookup applockereventcodes EventCode OUTPUT Description\n| stats count",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			},
+			"name": "blocks"
+		},
+		"ds_h2Fcom6o": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker` EventCode IN (8003, 8006, 8021, 8024, 8039)\n| spath input=UserData_Xml | rename RuleAndFileData.* as *\n| lookup applockereventcodes EventCode OUTPUT Description\n| stats count"
+			},
+			"name": "Audit"
+		},
+		"ds_CAVvUpZ1": {
+			"type": "ds.search",
+			"options": {
+				"query": "`applocker` EventCode IN (8002, 8005, 8020, 8023, 8033, 8037)\n| spath input=UserData_Xml | rename RuleAndFileData.* as *\n| lookup applockereventcodes EventCode OUTPUT Description\n| stats count",
+				"queryParameters": {
+					"earliest": "$global_time.earliest$",
+					"latest": "$global_time.latest$"
+				}
+			},
+			"name": "allowed"
+		}
+	},
+	"visualizations": {
+		"viz_table_1_new": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1_new"
+			},
+			"title": "EventCode Analysis"
+		},
+		"viz_table_1": {
+			"type": "splunk.table",
+			"options": {
+				"count": 20,
+				"dataOverlayMode": "none",
+				"drilldown": "none",
+				"percentagesRow": false,
+				"rowNumbers": false,
+				"totalsRow": false,
+				"wrap": true
+			},
+			"dataSources": {
+				"primary": "ds_search_1"
+			},
+			"title": "Policy Review"
+		},
+		"viz_oDemj4wG": {
+			"type": "splunk.markdown",
+			"options": {
+				"markdown": "## AppLocker Event Code Reference\n- `8000` - Policy Application Failure: Indicates a problem with applying the policy.\n- `8001` - Policy Application Success: The policy has been applied successfully.\n- `8002` - Allowed File Execution: A file was allowed to run.\n- `8003` - Audited File Execution: A file was executed and logged for audit purposes.\n- `8004` - Blocked File Execution: A file was blocked from running.\n- `8005` - Allowed Script Or MSI Execution: A script or MSI was allowed to run.\n- `8006` - Audited Script Or MSI Execution: A script or MSI was executed and logged for audit purposes.\n- `8007` - Blocked Script Or MSI Execution: A script or MSI was blocked from running.\n- `8020` - Allowed Packaged App: A packaged app was allowed to run.\n- `8021` - Audited Packaged App: A packaged app was executed and logged for audit purposes.\n- `8022` - Disabled Packaged App: A packaged app was disabled from running.\n- `8023` - Allowed Packaged App Installation: Installation of a packaged app was permitted.\n- `8024` - Audited Packaged App Installation: Installation of a packaged app was audited.\n- `8025` - Disabled Packaged App Installation: Installation of a packaged app was disabled.\n- `8027` - No Packaged App Rule: No applicable rule was found for a packaged app.\n"
+			}
+		},
+		"viz_7L8xsZTg": {
+			"type": "splunk.singlevalue",
+			"title": "Blocks",
+			"dataSources": {
+				"primary": "ds_YbLTfvcS"
+			}
+		},
+		"viz_hAZfweZe": {
+			"type": "splunk.singlevalue",
+			"dataSources": {
+				"primary": "ds_h2Fcom6o"
+			},
+			"title": "Audit"
+		},
+		"viz_xEjz65IP": {
+			"type": "splunk.singlevalue",
+			"title": "Allowed",
+			"dataSources": {
+				"primary": "ds_CAVvUpZ1"
+			}
+		}
+	},
+	"inputs": {
+		"input_global_trp": {
+			"type": "input.timerange",
+			"options": {
+				"token": "global_time",
+				"defaultValue": "-24h@h,now"
+			},
+			"title": "Global Time Range"
+		},
+		"input_7M6KtkjS": {
+			"options": {
+				"items": [
+					{
+						"label": "All",
+						"value": "*"
+					},
+					{
+						"label": "APPX",
+						"value": "appx"
+					},
+					{
+						"label": "SCRIPT",
+						"value": "script"
+					},
+					{
+						"label": "EXE",
+						"value": "exe"
+					},
+					{
+						"label": "DLL",
+						"value": "dll"
+					},
+					{
+						"label": "MSI",
+						"value": "msi"
+					}
+				],
+				"token": "policyname",
+				"defaultValue": "*"
+			},
+			"title": "Select Policy Name",
+			"type": "input.dropdown"
+		},
+		"input_q9ZwkL2y": {
+			"options": {
+				"items": [
+					{
+						"label": "All",
+						"value": "*"
+					},
+					{
+						"label": "8000",
+						"value": "8000"
+					},
+					{
+						"label": "8001",
+						"value": "8001"
+					},
+					{
+						"label": "8002",
+						"value": "8002"
+					},
+					{
+						"label": "8003",
+						"value": "8003"
+					},
+					{
+						"label": "8004",
+						"value": "8004"
+					},
+					{
+						"label": "8005",
+						"value": "8005"
+					},
+					{
+						"label": "8006",
+						"value": "8006"
+					},
+					{
+						"label": "8007",
+						"value": "8007"
+					},
+					{
+						"label": "8008",
+						"value": "8008"
+					},
+					{
+						"label": "8020",
+						"value": "8020"
+					},
+					{
+						"label": "8021",
+						"value": "8021"
+					},
+					{
+						"label": "8022",
+						"value": "8022"
+					},
+					{
+						"label": "8023",
+						"value": "8023"
+					},
+					{
+						"label": "8024",
+						"value": "8024"
+					},
+					{
+						"label": "8025",
+						"value": "8025"
+					},
+					{
+						"label": "8027",
+						"value": "8027"
+					},
+					{
+						"label": "8028",
+						"value": "8028"
+					},
+					{
+						"label": "8029",
+						"value": "8029"
+					},
+					{
+						"label": "8030",
+						"value": "8030"
+					},
+					{
+						"label": "8031",
+						"value": "8031"
+					},
+					{
+						"label": "8032",
+						"value": "8032"
+					},
+					{
+						"label": "8033",
+						"value": "8033"
+					},
+					{
+						"label": "8034",
+						"value": "8034"
+					},
+					{
+						"label": "8035",
+						"value": "8035"
+					},
+					{
+						"label": "8036",
+						"value": "8036"
+					},
+					{
+						"label": "8037",
+						"value": "8037"
+					},
+					{
+						"label": "8038",
+						"value": "8038"
+					},
+					{
+						"label": "8039",
+						"value": "8039"
+					},
+					{
+						"label": "8040",
+						"value": "8040"
+					}
+				],
+				"defaultValue": "*",
+				"token": "eventcode"
+			},
+			"title": "Select EventCode",
+			"type": "input.dropdown"
+		}
+	},
+	"layout": {
+		"type": "grid",
+		"options": {
+			"submitButton": true,
+			"submitOnDashboardLoad": true
+		},
+		"structure": [
+			{
+				"item": "viz_oDemj4wG",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 0,
+					"w": 1200,
+					"h": 179
+				}
+			},
+			{
+				"item": "viz_7L8xsZTg",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 179,
+					"w": 300,
+					"h": 168
+				}
+			},
+			{
+				"item": "viz_table_1",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 347,
+					"w": 1200,
+					"h": 682
+				}
+			},
+			{
+				"item": "viz_table_1_new",
+				"type": "block",
+				"position": {
+					"x": 0,
+					"y": 1029,
+					"w": 1200,
+					"h": 736
+				}
+			},
+			{
+				"item": "viz_hAZfweZe",
+				"type": "block",
+				"position": {
+					"x": 300,
+					"y": 179,
+					"w": 300,
+					"h": 168
+				}
+			},
+			{
+				"item": "viz_xEjz65IP",
+				"type": "block",
+				"position": {
+					"x": 600,
+					"y": 179,
+					"w": 600,
+					"h": 168
+				}
+			}
+		],
+		"globalInputs": [
+			"input_global_trp",
+			"input_7M6KtkjS",
+			"input_q9ZwkL2y"
+		]
+	},
+	"defaults": {
+		"dataSources": {
+			"ds.search": {
+				"options": {
+					"queryParameters": {
+						"latest": "$global_time.latest$",
+						"earliest": "$global_time.earliest$"
+					}
+				}
+			}
+		}
+	},
+	"title": "AppLocker",
+	"description": "Utilize this dashboard to assist with auditing and monitoring Windows AppLocker events for your endpoints. Configure the applocker macro to use the AppLocker data source for populating the dashboard."
+}

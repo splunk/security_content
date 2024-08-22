@@ -1,7 +1,7 @@
 name: GPUpdate with no Command Line Arguments with Network
 id: 2c853856-a140-11eb-a5b5-acde48001122
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the execution of gpupdate.exe withou
   lateral movement, command and control, or other nefarious purposes, potentially
   leading to system compromise.
 data_source:
-- Sysmon EventID 1
+- Sysmon EventID 1 AND Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
   where Processes.process_name=gpupdate.exe by _time span=1h  Processes.process_id
   Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process
@@ -65,7 +65,6 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
     - Attacker
   - name: C2
     type: IP Address

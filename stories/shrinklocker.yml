@@ -1,0 +1,28 @@
+name: ShrinkLocker
+id: 11fb26d7-11d3-4839-9ee7-63c1329bff8c
+version: 1
+date: '2024-06-17'
+author: Teoderick Contreras, Splunk
+description: ShrinkLocker is a new ransomware that uses Windows BitLocker to encrypt files by creating new boot partitions. 
+  It targets non-boot partitions, shrinks them, and creates new boot volumes. ShrinkLocker has attacked a government entity and 
+  companies in the vaccine and manufacturing sectors. The ransomware doesn't drop a ransom note but uses the boot partition label 
+  to provide contact emails for the attackers. Kaspersky researchers emphasize secure recovery key storage and offline backups to mitigate such threats.
+narrative: ShrinkLocker ransomware has surfaced, leveraging Windows BitLocker to encrypt files by creating new boot partitions. 
+  It targets non-boot partitions, shrinks them, and establishes new boot volumes. Notably, ShrinkLocker has attacked a government 
+  entity and companies in the vaccine and manufacturing sectors. Instead of a ransom note, it uses boot partition labels to communicate with victims. 
+  Kaspersky advises secure recovery key storage and offline backups to mitigate risks.
+references:
+- https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/do-more-with-tunnels/trycloudflare/
+- https://www.techradar.com/pro/security/a-new-ransomware-is-hijacking-windows-bitlocker-to-encrypt-and-steal-files
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+- https://securelist.com/ransomware-abuses-bitlocker/112643/
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -14,7 +14,7 @@ description: The following analytic detects the creation of AWS KMS keys with an
   encryption, potentially disrupting operations and compromising sensitive information
   across multiple entities.
 data_source:
-- AWS CloudTrail CreateKey
+- AWS CloudTrail CreateKey 
 - AWS CloudTrail PutKeyPolicy
 search: '`cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy | spath input=requestParameters.policy
   output=key_policy_statements path=Statement{} | mvexpand key_policy_statements |
