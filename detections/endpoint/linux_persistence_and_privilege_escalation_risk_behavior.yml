@@ -64,7 +64,6 @@ tags:
   - All_Risk.risk_object
   - All_Risk.annotations.mitre_attack.mitre_tactic
   - source
-  risk_score: 56
   security_domain: audit
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/linux_risk/linuxrisk.log
     source: linuxrisk
     sourcetype: stash
-    update_timestamp: true

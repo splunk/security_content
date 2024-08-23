@@ -58,7 +58,6 @@ tags:
   - user
   - initiatedBy.user.userPrincipalName
   - result
-  risk_score: 35
   security_domain: identity
 tests:
 - name: True Positive Test

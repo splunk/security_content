@@ -59,5 +59,4 @@ tags:
   - data.protoPayload.resourceName
   - data.protoPayload.serviceData.policyDelta.bindingDeltas{}.role
   - data.protoPayload.serviceData.policyDelta.bindingDeltas{}.member
-  risk_score: 25
   security_domain: network

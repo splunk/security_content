@@ -47,5 +47,4 @@ tags:
   - DNS.message_type
   - DNS.record_type
   - DNS.dest
-  risk_score: 25
   security_domain: network

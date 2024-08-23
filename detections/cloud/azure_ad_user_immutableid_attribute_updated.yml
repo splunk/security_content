@@ -61,7 +61,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - _time
-  risk_score: 45
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -70,4 +69,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_set_immutableid/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

@@ -65,7 +65,6 @@ tags:
   - properties.authenticationDetails
   - user
   - src_ip
-  risk_score: 35
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -74,4 +73,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_high_number_of_failed_authentications_for_user/azuread.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

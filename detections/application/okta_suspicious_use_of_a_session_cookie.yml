@@ -60,7 +60,6 @@ tags:
   - device.os_platform
   - debugContext.debugData.dtHash
   - actor.alternateId
-  risk_score: 56
   security_domain: identity
 tests:
 - name: True Positive Test

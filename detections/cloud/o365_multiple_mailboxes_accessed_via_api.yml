@@ -62,7 +62,6 @@ tags:
   - ClientInfoString
   - ClientIPAddress
   - user
-  risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test

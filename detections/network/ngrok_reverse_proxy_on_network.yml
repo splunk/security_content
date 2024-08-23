@@ -50,7 +50,6 @@ tags:
   - DNS.src
   - DNS.query
   - DNS.answer
-  risk_score: 50
   security_domain: network
 tests:
 - name: True Positive Test
@@ -59,4 +58,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/ngrok/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

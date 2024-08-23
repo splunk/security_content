@@ -55,7 +55,6 @@ tags:
   - EventCode
   - ComputerName
   - Message
-  risk_score: 48
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -64,4 +63,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
     source: IIS:Configuration:Operational
     sourcetype: IIS:Configuration:Operational
-    update_timestamp: true

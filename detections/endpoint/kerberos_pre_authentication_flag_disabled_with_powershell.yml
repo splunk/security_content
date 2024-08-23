@@ -54,7 +54,6 @@ tags:
   - ScriptBlockText
   - Computer
   - user_id
-  risk_score: 45
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -63,4 +62,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

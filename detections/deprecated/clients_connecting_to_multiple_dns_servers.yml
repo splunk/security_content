@@ -55,5 +55,4 @@ tags:
   - DNS.dest
   - DNS.message_type
   - DNS.src
-  risk_score: 25
   security_domain: network

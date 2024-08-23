@@ -64,7 +64,6 @@ tags:
   - userAgent
   - verb
   - requestObject.metadata.annotations.kubectl.kubernetes.io/last-applied-configuration
-  risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test

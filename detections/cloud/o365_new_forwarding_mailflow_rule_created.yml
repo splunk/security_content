@@ -55,7 +55,6 @@ tags:
   - Parameters{}.Name
   - user
   - Name
-  risk_score: 42
   security_domain: audit
 tests:
 - name: True Positive Test

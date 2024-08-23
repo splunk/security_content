@@ -52,7 +52,6 @@ tags:
   - WorkstationName
   - user
   - dest
-  risk_score: 49
   security_domain: access
 tests:
 - name: True Positive Test
@@ -60,4 +59,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1550.002/atomic_red_team/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
-    update_timestamp: true

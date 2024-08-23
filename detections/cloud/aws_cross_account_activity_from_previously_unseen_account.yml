@@ -64,7 +64,6 @@ tags:
   - Authentication.user
   - Authentication.user_role
   - Authentication.src
-  risk_score: 15
   security_domain: network
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

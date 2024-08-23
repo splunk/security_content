@@ -61,7 +61,6 @@ tags:
   - userAgent
   - errorCode
   - requestParameters.policyName
-  risk_score: 28
   security_domain: access
 tests:
 - name: True Positive Test
@@ -70,4 +69,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_assume_role_policy_brute_force/aws_iam_assume_role_policy_brute_force.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

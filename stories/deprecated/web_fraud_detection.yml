@@ -3,7 +3,6 @@ id: 18bb45b9-7684-45c6-9e97-1fdd0d98c0a7
 version: 1
 date: '2018-10-08'
 author: Jim Apger, Splunk
-type: batch
 description: Monitor your environment for activity consistent with common attack techniques
   bad actors use when attempting to compromise web servers or other web-related assets.
 narrative: 'The Federal Bureau of Investigations (FBI) defines Internet fraud as the

@@ -54,7 +54,6 @@ tags:
   - user_arn
   - aws_account_id
   - src_ip
-  risk_score: 35
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -63,4 +62,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

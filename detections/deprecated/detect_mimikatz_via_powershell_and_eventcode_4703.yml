@@ -51,5 +51,4 @@ tags:
   - Message
   - dest
   - Process_ID
-  risk_score: 25
   security_domain: access

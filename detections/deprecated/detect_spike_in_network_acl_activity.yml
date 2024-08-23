@@ -57,5 +57,4 @@ tags:
   required_fields:
   - _time
   - userIdentity.arn
-  risk_score: 25.0
   security_domain: network

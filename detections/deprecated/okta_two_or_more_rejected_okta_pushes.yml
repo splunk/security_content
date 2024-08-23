@@ -53,5 +53,4 @@ tags:
   - src_ip
   - eventType
   - status
-  risk_score: 64
   security_domain: access

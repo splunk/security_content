@@ -54,5 +54,4 @@ tags:
   - parameters.event_title
   - parameters.target_calendar_id
   - parameters.event_title
-  risk_score: 25
   security_domain: threat

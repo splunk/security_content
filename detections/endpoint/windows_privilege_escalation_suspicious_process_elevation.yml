@@ -99,7 +99,6 @@ tags:
   - Processes.process_guid
   - Processes.process_integrity_level
   - Processes.process_current_directory
-  risk_score: 40
   security_domain: endpoint
 tests:
 - attack_data:
@@ -107,5 +106,4 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/windows_escalation_behavior/windows_escalation_behavior_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
-    update_timestamp: true
   name: True Positive Test

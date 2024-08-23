@@ -60,7 +60,6 @@ tags:
   - verb
   - responseStatus.reason
   - responseStatus.status
-  risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test

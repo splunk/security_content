@@ -63,5 +63,4 @@ tags:
   - DNS.src
   - DNS.message_type
   - DNS.query
-  risk_score: 25
   security_domain: network

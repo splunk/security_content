@@ -52,7 +52,6 @@ tags:
   - user
   - action
   - message
-  risk_score: 64
   security_domain: network
   cve:
   - CVE-2024-4040

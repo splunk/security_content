@@ -70,7 +70,6 @@ tags:
   - file_name
   - process_id
   - file_create_time
-  risk_score: 63
   security_domain: endpoint
 tests:
 - name: True Positive Test

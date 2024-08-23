@@ -83,7 +83,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_name
-  risk_score: 25
   security_domain: endpoint
   manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:

@@ -1,6 +1,4 @@
 data_source: []
-mitre_attack_ids: T1190
-security_domain: network
 name: Ivanti EPM SQL Injection Remote Code Execution
 id: e20564ca-c86c-4e30-acdb-a8486673426f
 version: 1
@@ -47,7 +45,6 @@ tags:
   - Web.src
   - Web.dest
   - sourcetype
-  risk_score: 80
   security_domain: network
   cve:
   - CVE-2024-29824

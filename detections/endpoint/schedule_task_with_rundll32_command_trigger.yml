@@ -58,7 +58,6 @@ tags:
   - Enabled
   - Hidden
   - Arguments
-  risk_score: 70
   security_domain: endpoint
 tests:
 - name: True Positive Test

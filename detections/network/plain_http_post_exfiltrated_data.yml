@@ -55,7 +55,6 @@ tags:
   - url
   - bytes_in
   - bytes_out
-  risk_score: 63
   security_domain: network
 tests:
 - name: True Positive Test

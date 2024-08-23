@@ -55,7 +55,6 @@ tags:
   - userAgent
   - src_ip
   - user_arn
-  risk_score: 72
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -64,4 +63,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/aws_console_login_multiple_ips/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

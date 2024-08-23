@@ -79,7 +79,6 @@ tags:
   - resources{}.devicemodel
   - result.status
   - resources{}.websession
-  risk_score: 25
   security_domain: access
 tests:
 - name: True Positive Test
@@ -88,4 +87,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/pingid/pingid.log
     source: PINGID
     sourcetype: _json
-    update_timestamp: true

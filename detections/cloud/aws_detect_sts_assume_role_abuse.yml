@@ -55,5 +55,4 @@ tags:
   - requestParameters.roleName
   - esponseElements.role.roleName
   - esponseElements.role.createDate
-  risk_score: 25
   security_domain: threat

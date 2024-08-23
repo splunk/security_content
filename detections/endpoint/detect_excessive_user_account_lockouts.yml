@@ -49,7 +49,6 @@ tags:
   - All_Changes.result
   - nodename
   - All_Changes.user
-  risk_score: 36
   security_domain: access
 tests:
 - name: True Positive Test

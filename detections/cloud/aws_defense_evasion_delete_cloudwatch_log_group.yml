@@ -59,7 +59,6 @@ tags:
   - aws_account_id
   - src
   - region
-  risk_score: 90
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
-    update_timestamp: true

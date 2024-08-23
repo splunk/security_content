@@ -64,7 +64,6 @@ tags:
   - sourceLocationArn
   - userAgent
   - userIdentity.principalId
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/aws_bucket_version/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

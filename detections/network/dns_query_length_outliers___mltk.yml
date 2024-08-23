@@ -69,5 +69,4 @@ tags:
   - DNS.dest
   - DNS.query
   - DNS.record_type
-  risk_score: 25
   security_domain: network

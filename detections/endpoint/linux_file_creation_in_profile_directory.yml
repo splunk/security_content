@@ -55,7 +55,6 @@ tags:
   - Filesystem.file_name
   - Filesystem.process_guid
   - Filesystem.file_path
-  risk_score: 56
   security_domain: endpoint
 tests:
 - name: True Positive Test

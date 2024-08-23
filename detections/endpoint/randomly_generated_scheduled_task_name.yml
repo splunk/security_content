@@ -53,5 +53,4 @@ tags:
   - Task_Name
   - Description
   - Command
-  risk_score: 45
   security_domain: endpoint

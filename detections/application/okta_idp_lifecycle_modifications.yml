@@ -64,7 +64,6 @@ tags:
   - user_agent
   - command
   - description
-  risk_score: 81
   security_domain: identity
 tests:
 - name: True Positive Test

@@ -62,7 +62,6 @@ tags:
   - userAgent
   - uri
   - permission
-  risk_score: 48
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -71,4 +70,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

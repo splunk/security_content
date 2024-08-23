@@ -62,7 +62,6 @@ tags:
   - Web.src
   - Web.dest
   - Web.http_user_agent
-  risk_score: 35
   security_domain: network
 tests:
 - name: True Positive Test
@@ -71,4 +70,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
     source: pan:threat
     sourcetype: pan:threat
-    update_timestamp: true

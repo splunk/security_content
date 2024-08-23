@@ -74,5 +74,4 @@ tags:
   - source.workload.name
   - dest.workload.name
   - udp.packets
-  risk_score: 25
   security_domain: network

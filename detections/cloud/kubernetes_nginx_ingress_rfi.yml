@@ -49,7 +49,6 @@ tags:
   - Splunk Cloud
   required_fields:
   - raw
-  risk_score: 49
   security_domain: network
 tests:
 - name: True Positive Test

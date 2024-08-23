@@ -51,5 +51,4 @@ tags:
   - responseElements.accessKey.createDate
   - esponseElements.accessKey.status
   - responseElements.accessKey.accessKeyId
-  risk_score: 25
   security_domain: threat

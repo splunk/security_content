@@ -67,7 +67,6 @@ tags:
   - url
   - url_domain
   - user
-  risk_score: 15
   security_domain: threat
 tests:
 - name: True Positive Test

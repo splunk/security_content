@@ -69,7 +69,6 @@ tags:
   - userName
   - userIdentity.principalId
   - userAgent
-  risk_score: 48
   security_domain: network
 tests:
 - name: True Positive Test
@@ -78,4 +77,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_create_acl/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

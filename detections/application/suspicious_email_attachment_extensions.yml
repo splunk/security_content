@@ -58,5 +58,4 @@ tags:
   - All_Email.file_name
   - All_Email.src_user
   - All_Email.message_id
-  risk_score: 25
   security_domain: network

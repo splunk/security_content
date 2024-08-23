@@ -55,7 +55,6 @@ tags:
   - All_Changes.dest
   - All_Changes.result
   - All_Changes.action
-  risk_score: 18
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -64,4 +63,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

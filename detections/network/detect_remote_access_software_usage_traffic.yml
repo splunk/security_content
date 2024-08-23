@@ -66,7 +66,6 @@ tags:
   - All_Traffic.app
   - All_Traffic.dest_port
   - user
-  risk_score: 25
   security_domain: network
   manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:

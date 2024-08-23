@@ -50,5 +50,4 @@ tags:
   - server_name
   - src_ip
   - dest_ip
-  risk_score: 25
   security_domain: network

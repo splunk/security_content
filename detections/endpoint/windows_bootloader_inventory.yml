@@ -49,5 +49,4 @@ tags:
   required_fields:
   - _time
   - _raw
-  risk_score: 81
   security_domain: endpoint

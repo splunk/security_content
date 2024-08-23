@@ -81,5 +81,4 @@ tags:
   - host.name
   - k8s.cluster.name
   - k8s.node.name
-  risk_score: 25
   security_domain: network

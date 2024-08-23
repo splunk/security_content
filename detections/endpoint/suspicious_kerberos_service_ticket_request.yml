@@ -61,7 +61,6 @@ tags:
   - Account_Name
   - Client_Address
   - Failure_Code
-  risk_score: 60
   security_domain: endpoint
 tests:
 - name: True Positive Test

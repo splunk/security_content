@@ -69,5 +69,4 @@ tags:
   - userName
   - eventName
   - user
-  risk_score: 25.0
   security_domain: access

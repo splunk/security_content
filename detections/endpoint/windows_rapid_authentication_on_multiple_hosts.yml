@@ -59,7 +59,6 @@ tags:
   - TargetUserName
   - Computer
   - IpAddress
-  risk_score: 48
   security_domain: endpoint
 tests:
 - name: True Positive Test

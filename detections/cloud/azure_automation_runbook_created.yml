@@ -62,7 +62,6 @@ tags:
   - claims.ipaddr
   - resourceGroupName
   - object_path
-  risk_score: 63
   security_domain: audit
 tests:
 - name: True Positive Test
@@ -71,4 +70,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_automation_runbook/azure-activity.log
     source: mscs:azure:audit
     sourcetype: mscs:azure:audit
-    update_timestamp: true

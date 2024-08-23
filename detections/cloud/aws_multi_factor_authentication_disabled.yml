@@ -69,7 +69,6 @@ tags:
   - awsRegion
   - user_name
   - userIdentity.arn
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -78,4 +77,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

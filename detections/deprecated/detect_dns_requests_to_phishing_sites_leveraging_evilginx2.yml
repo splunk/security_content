@@ -65,5 +65,4 @@ tags:
   - DNS.src
   - DNS.query
   - host
-  risk_score: 25
   security_domain: network

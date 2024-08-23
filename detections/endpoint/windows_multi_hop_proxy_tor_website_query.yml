@@ -54,7 +54,6 @@ tags:
   - QueryStatus
   - ProcessId
   - dest
-  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -63,4 +62,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_tor_dns_query/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

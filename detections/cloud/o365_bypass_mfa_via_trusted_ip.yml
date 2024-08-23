@@ -68,7 +68,6 @@ tags:
   - status
   - user_id
   - action
-  risk_score: 42
   security_domain: threat
 tests:
 - name: True Positive Test

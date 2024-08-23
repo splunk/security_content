@@ -67,7 +67,6 @@ tags:
   - user
   - Computer
   - EventCode
-  risk_score: 64
   security_domain: endpoint
   cve: []
 tests:

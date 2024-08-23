@@ -64,7 +64,6 @@ tags:
   - user
   - src_ip
   - user_id
-  risk_score: 25
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_ad_service_principal_authentication/azure_ad_service_principal_authentication.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

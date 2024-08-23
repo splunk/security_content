@@ -67,7 +67,6 @@ tags:
   - Contents
   - file_hash
   - process_guid
-  risk_score: 80
   security_domain: endpoint
 tests:
 - name: True Positive Test

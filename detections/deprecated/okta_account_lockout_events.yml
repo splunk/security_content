@@ -56,7 +56,6 @@ tags:
   - client.geographicalContext.city
   - src_ip
   - src_user
-  risk_score: 25
   security_domain: access
 tests:
 - name: True Positive Test

@@ -3,7 +3,6 @@ id: 2e8948a5-5239-406b-b56b-6c50f1268af3
 version: 1
 date: '2018-02-09'
 author: Bhavin Patel, Splunk
-type: batch
 description: Use the searches in this Analytic Story to monitor your AWS EC2 instances
   for evidence of anomalous activity and suspicious behaviors, such as EC2 instances
   that originate from unusual locations or those launched by previously unseen users

@@ -3,7 +3,6 @@ id: 7ff7db2b-b001-498e-8fe8-caf2dbc3428a
 version: 1
 date: '2022-04-21'
 author: Teoderick Contreras, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the Industroyer2 attack, including file writes associated with its payload, 
   lateral movement, persistence, privilege escalation and data destruction.

@@ -75,7 +75,6 @@ tags:
   - user_agent
   - userIdentity.principalId
   - requestParameters.createVolumePermission.add.items{}.userId
-  risk_score: 64
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -84,4 +83,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

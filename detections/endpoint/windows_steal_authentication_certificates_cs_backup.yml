@@ -51,7 +51,6 @@ tags:
   - action
   - Caller_Domain
   - Caller_User_Name
-  risk_score: 40
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -60,4 +59,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4876_windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
-    update_timestamp: true

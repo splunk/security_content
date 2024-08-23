@@ -61,7 +61,6 @@ tags:
   - All_Risk.annotations.mitre_attack.mitre_tactic
   - All_Risk.calculated_risk_score
   - source
-  risk_score: 81
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -70,4 +69,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_exfil_risk_events/aws_risk.log
     sourcetype: stash
     source: aws_exfil
-    update_timestamp: true

@@ -54,7 +54,6 @@ tags:
   - user
   - src_user
   - dest_user
-  risk_score: 42
   security_domain: audit
 tests:
 - name: True Positive Test

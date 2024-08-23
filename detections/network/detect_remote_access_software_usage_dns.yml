@@ -60,7 +60,6 @@ tags:
   - DNS.src
   - DNS.query
   - DNS.answer
-  risk_score: 4
   security_domain: endpoint
   manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:

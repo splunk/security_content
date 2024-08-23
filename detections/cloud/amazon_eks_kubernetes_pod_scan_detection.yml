@@ -52,5 +52,4 @@ tags:
   - userAgent
   - src_ip
   - user.groups{}
-  risk_score: 25
   security_domain: threat

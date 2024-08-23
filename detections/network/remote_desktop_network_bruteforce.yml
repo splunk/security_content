@@ -51,5 +51,4 @@ tags:
   - All_Traffic.src
   - All_Traffic.dest
   - All_Traffic.dest_port
-  risk_score: 25
   security_domain: network

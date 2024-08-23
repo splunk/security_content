@@ -1,5 +1,4 @@
 description: A list of processes that should not be launching cmd.exe
-fields: prohibited_applications
 filename: prohibited_apps_launching_cmd20231221.csv
 match_type: WILDCARD(prohibited_applications)
 name: prohibited_apps_launching_cmd

@@ -62,7 +62,6 @@ tags:
   - user
   - userName
   - src_ip
-  risk_score: 21
   security_domain: network
 tests:
 - name: True Positive Test

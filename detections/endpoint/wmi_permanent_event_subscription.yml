@@ -43,5 +43,4 @@ tags:
   - Message
   - consumer
   - ComputerName
-  risk_score: 25
   security_domain: endpoint

@@ -46,5 +46,4 @@ tags:
   required_fields:
   - _time
   - columns.cmdline
-  risk_score: 25
   security_domain: endpoint

@@ -50,7 +50,6 @@ tags:
   - object.involvedObject.kind
   - object.message
   - object.reason
-  risk_score: 81
   security_domain: network
 tests:
 - name: True Positive Test

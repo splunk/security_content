@@ -63,7 +63,6 @@ tags:
   - user
   - src_user
   - Logon_ID
-  risk_score: 80
   security_domain: endpoint
 tests:
 - name: True Positive Test

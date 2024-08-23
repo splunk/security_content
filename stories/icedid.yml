@@ -3,7 +3,6 @@ id: 1d2cc747-63d7-49a9-abb8-93aa36305603
 version: 1
 date: '2021-07-29'
 author: Teoderick Contreras, Splunk
-type: batch
 description: Leverage searches that allow you to detect and investigate unusual activities
   that might relate to the IcedID banking trojan, including looking for file writes
   associated with its payload, process injection, shellcode execution and data collection.

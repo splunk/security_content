@@ -56,5 +56,4 @@ tags:
   - All_Traffic.src
   - All_Traffic.dest
   - All_Traffic.app
-  risk_score: 100
   security_domain: network

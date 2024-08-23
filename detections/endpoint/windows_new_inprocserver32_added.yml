@@ -54,7 +54,6 @@ tags:
   - Registry.dest
   - Registry.process_guid
   - Registry.user
-  risk_score: 2
   security_domain: endpoint
   cve:
   - CVE-2024-21378

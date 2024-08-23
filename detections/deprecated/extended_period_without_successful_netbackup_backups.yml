@@ -40,5 +40,4 @@ tags:
   - _time
   - MESSAGE
   - COMPUTERNAME
-  risk_score: 25
   security_domain: endpoint

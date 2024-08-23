@@ -74,5 +74,4 @@ tags:
   - client.userAgent.rawUserAgent
   - debugContext.debugData.behaviors
   - group_push_time
-  risk_score: 64
   security_domain: access

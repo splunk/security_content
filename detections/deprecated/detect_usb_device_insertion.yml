@@ -48,5 +48,4 @@ tags:
   - All_Changes.result_id
   - All_Changes.src_priority
   - All_Changes.dest
-  risk_score: 25
   security_domain: endpoint

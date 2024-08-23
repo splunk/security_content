@@ -5,8 +5,6 @@ date: '2024-05-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-datamodel:
-- Endpoint
 description: The following analytic detects suspicious command-line activity that
   modifies the iptables firewall settings on a Linux machine. It leverages data from
   Endpoint Detection and Response (EDR) agents, focusing on specific command patterns
@@ -74,7 +72,6 @@ tags:
   - Processes.process
   - Processes.process_id
   - Processes.parent_process_id
-  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test

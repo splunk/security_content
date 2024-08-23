@@ -63,7 +63,6 @@ tags:
   - dest
   - EventCode
   - ProcessId
-  risk_score: 56
   security_domain: endpoint
 tests:
 - name: True Positive Test

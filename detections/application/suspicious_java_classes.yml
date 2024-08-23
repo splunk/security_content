@@ -55,5 +55,4 @@ tags:
   - http_user_agent
   - src
   - dest
-  risk_score: 25
   security_domain: threat

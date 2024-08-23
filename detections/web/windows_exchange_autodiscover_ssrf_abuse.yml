@@ -72,7 +72,6 @@ tags:
   - Web.dest
   - Web.http_method
   - Web.uri_query
-  risk_score: 72
   security_domain: network
 tests:
 - name: True Positive Test
@@ -81,4 +80,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
     source: ms:iis:splunk
     sourcetype: ms:iis:splunk
-    update_timestamp: true

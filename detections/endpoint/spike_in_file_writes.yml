@@ -53,5 +53,4 @@ tags:
   - _time
   - Filesystem.action
   - Filesystem.dest
-  risk_score: 25
   security_domain: endpoint

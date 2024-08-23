@@ -54,7 +54,6 @@ tags:
   - Severity
   - AlertEntityId
   - Operation
-  risk_score: 48
   security_domain: threat
 tests:
 - name: True Positive Test

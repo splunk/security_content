@@ -59,7 +59,6 @@ tags:
   - awsRegion
   - requestParameters.policy
   - userIdentity.principalId
-  risk_score: 25
   security_domain: threat
 tests:
 - name: True Positive Test
@@ -68,4 +67,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/aws_kms_key/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

@@ -64,7 +64,6 @@ tags:
   - Service_Start_Type
   - Service_Account
   - user
-  risk_score: 72
   security_domain: endpoint
 tests:
 - name: True Positive Test

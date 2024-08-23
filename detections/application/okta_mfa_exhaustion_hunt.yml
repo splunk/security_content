@@ -61,7 +61,6 @@ tags:
   - src_ip
   - eventType
   - status
-  risk_score: 18
   security_domain: access
 tests:
 - name: True Positive Test

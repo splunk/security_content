@@ -51,5 +51,4 @@ tags:
   - data.protoPayload.authorizationInfo{}.resource
   - data.protoPayload.response.bindings{}.role
   - data.protoPayload.response.bindings{}.members{}
-  risk_score: 25
   security_domain: threat

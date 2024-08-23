@@ -20,7 +20,6 @@ tags:
   - Emotet Malware DHS Report TA18-201A
   - Monitor for Unauthorized Software
   - SamSam Ransomware
-  asset_type: Endpoint
   detections:
   - Prohibited Software On Endpoint
   product:
@@ -30,16 +29,3 @@ tags:
   required_fields:
   - _time
   security_domain: endpoint
-  kill_chain_phases:
-  - Exploitation
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: field
-    type: Unknown
-    role:
-    - Unknown

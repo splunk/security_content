@@ -51,5 +51,4 @@ tags:
   - Service_Type
   - Service_Name
   - Service_Start_Type
-  risk_score: 45
   security_domain: endpoint

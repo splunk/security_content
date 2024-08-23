@@ -46,7 +46,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 50
   required_fields:
   - ServiceType
   - driver_name
@@ -57,4 +56,3 @@ tests:
       - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-system.log
         source: XmlWinEventLog:System
         sourcetype: XmlWinEventLog
-        update_timestamp: true

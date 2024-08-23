@@ -5,8 +5,6 @@ date: '2024-05-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-datamodel:
-- Endpoint
 description: The following analytic detects the execution of a kworker process with
   a command line in writable directories such as /home/, /var/log, and /tmp on a Linux
   machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
@@ -69,7 +67,6 @@ tags:
   - Processes.parent_process_id
   - Processes.parent_process_path
   - Processes.process_path
-  risk_score: 36
   security_domain: endpoint
 tests:
 - name: True Positive Test

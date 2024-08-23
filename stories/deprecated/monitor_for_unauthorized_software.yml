@@ -3,7 +3,6 @@ id: 8892a655-6205-43f7-abba-06460e38c8ae
 version: 1
 date: '2017-09-15'
 author: David Dorsey, Splunk
-type: batch
 description: 'Identify and investigate prohibited/unauthorized software or processes
   that may be concealing malicious behavior within your environment. '
 narrative: 'It is critical to identify unauthorized software and processes running

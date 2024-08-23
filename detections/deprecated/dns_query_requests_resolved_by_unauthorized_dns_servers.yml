@@ -46,5 +46,4 @@ tags:
   - DNS.src_category
   - DNS.src
   - DNS.dest
-  risk_score: 25
   security_domain: network

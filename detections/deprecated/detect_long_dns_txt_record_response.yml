@@ -55,5 +55,4 @@ tags:
   - DNS.src
   - DNS.dest
   - DNS.answer
-  risk_score: 25
   security_domain: network

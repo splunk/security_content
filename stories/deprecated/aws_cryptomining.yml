@@ -3,7 +3,6 @@ id: ced74200-8465-4bc3-bd2c-9a782eec6750
 version: 1
 date: '2018-03-08'
 author: David Dorsey, Splunk
-type: batch
 description: Monitor your AWS EC2 instances for activities related to cryptojacking/cryptomining.
   New instances that originate from previously unseen regions, users who launch abnormally
   high numbers of instances, or EC2 instances started by previously unseen users are

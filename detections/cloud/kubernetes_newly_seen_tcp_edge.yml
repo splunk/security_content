@@ -61,5 +61,4 @@ tags:
   - source.workload.name
   - dest.workload.name
   - tcp.packets
-  risk_score: 25
   security_domain: network

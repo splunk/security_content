@@ -3,7 +3,7 @@ id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
 version: 2
 date: '2024-08-15'
 author: Brandon Sternfield, Optiv + ClearShark
-data_sources:
+data_source:
 - Windows Event Log Security 4727
 - Windows Event Log Security 4731
 - Windows Event Log Security 4744
@@ -67,7 +67,6 @@ tags:
   - result
   - status
   - _time
-  risk_score: 80
   security_domain: endpoint
   cve:
   - CVE-2024-37085

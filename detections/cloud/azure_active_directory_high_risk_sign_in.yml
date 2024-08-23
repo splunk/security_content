@@ -64,7 +64,6 @@ tags:
   - properties.activity
   - properties.riskEventType
   - properties.additionalInfo
-  risk_score: 54
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/azuread_highrisk/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

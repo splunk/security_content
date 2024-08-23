@@ -56,7 +56,6 @@ tags:
   - TargetDomainName
   - Logon_ID
   - user
-  risk_score: 18
   security_domain: endpoint
 tests:
 - name: True Positive Test

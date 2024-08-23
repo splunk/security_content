@@ -52,7 +52,6 @@ tags:
   - ImagePath
   - ServiceName
   - ServiceType
-  risk_score: 32
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -61,4 +60,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/remcom_windows-system.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog
-    update_timestamp: true

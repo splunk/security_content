@@ -52,7 +52,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 36
   required_fields:
   - _time
   - operationName

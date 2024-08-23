@@ -57,7 +57,6 @@ tags:
   - client.userAgent.browser
   - client.geographicalContext.city
   - client.geographicalContext.country
-  risk_score: 25
   security_domain: access
 tests:
 - name: True Positive Test

@@ -48,5 +48,4 @@ tags:
   - _time
   - errorCode
   - userIdentity.arn
-  risk_score: 25.0
   security_domain: endpoint

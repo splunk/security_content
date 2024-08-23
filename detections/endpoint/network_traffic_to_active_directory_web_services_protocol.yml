@@ -61,7 +61,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  risk_score: 10
   required_fields:
   - All_Traffic.src_ip
   - All_Traffic.dest_ip

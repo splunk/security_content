@@ -58,7 +58,6 @@ tags:
   - process_id
   - process_name
   - dest
-  risk_score: 72
   security_domain: endpoint
 tests:
 - name: True Positive Test

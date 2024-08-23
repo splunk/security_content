@@ -64,7 +64,6 @@ tags:
   - resultDescription
   - result
   - src_ip
-  risk_score: 64
   security_domain: identity
 tests:
 - name: True Positive Test
@@ -73,4 +72,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_new_mfa_method_registered_for_user/azuread.log
     source: Azure AD
     sourcetype: azure:monitor:aad
-    update_timestamp: true

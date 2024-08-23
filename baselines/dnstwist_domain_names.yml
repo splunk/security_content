@@ -19,7 +19,6 @@ tags:
   analytic_story:
   - Brand Monitoring
   - Suspicious Emails
-  asset_type: Endpoint
   detections:
   - Monitor Email For Brand Abuse
   - Monitor DNS For Brand Abuse
@@ -28,19 +27,6 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  kill_chain_phases:
-  - Exploitation
   required_fields:
   - _time
   security_domain: network
-  confidence: 50
-  impact: 50
-  risk_score: 25
-  context:
-  - Unknown
-  message: tbd
-  observable:
-  - name: dest
-    type: Other
-    role:
-    - Other

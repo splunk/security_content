@@ -53,7 +53,6 @@ tags:
   - eventName
   - userAgent
   - errorCode
-  risk_score: 63
   security_domain: cloud
 tests:
 - name: True Positive Test
@@ -62,4 +61,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204/aws_updatelambdafunctioncode/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
-    update_timestamp: true

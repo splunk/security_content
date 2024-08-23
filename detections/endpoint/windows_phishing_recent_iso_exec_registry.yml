@@ -70,7 +70,6 @@ tags:
   - Registry.registry_value_data
   - Registry.action
   - Registry.dest
-  risk_score: 40
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -79,4 +78,3 @@ tests:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
-    update_timestamp: true

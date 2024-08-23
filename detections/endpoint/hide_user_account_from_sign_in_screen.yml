@@ -70,7 +70,6 @@ tags:
   - Registry.registry_path
   - Registry.registry_value_data
   - Registry.process_guid
-  risk_score: 72
   security_domain: endpoint
 tests:
 - name: True Positive Test
