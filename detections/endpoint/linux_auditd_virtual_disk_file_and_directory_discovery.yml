@@ -14,7 +14,7 @@ description: The following analytic detects suspicious discovery of virtual disk
   safeguard against unauthorized access and data breaches.
 data_source:
 - Linux Auditd Execve
-search: ' linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
+search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
   "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%.vhd%") OR
   LIKE (process_exec, "%.vhdx%") OR LIKE (process_exec, "%.vmdk%")) | stats count
   min(_time) as firstTime max(_time) as lastTime by argc process_exec | `security_content_ctime(firstTime)`
