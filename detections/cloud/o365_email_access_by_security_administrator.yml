@@ -38,7 +38,7 @@ tags:
     - Victim
   - name: src_user
     type: User
-    role:	
+    role:
     - Victim
   - name: signature_id
     type: Other
