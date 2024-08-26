@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 50

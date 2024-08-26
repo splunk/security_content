@@ -39,6 +39,7 @@ tags:
   - Active Directory Discovery
   - CISA AA23-347A
   - Rhysida Ransomware
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 30

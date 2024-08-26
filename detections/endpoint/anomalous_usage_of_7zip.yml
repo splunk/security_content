@@ -43,6 +43,7 @@ tags:
   - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 80
