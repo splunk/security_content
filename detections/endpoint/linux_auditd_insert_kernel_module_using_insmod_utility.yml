@@ -1,7 +1,7 @@
 name: Linux Auditd Insert Kernel Module Using Insmod Utility
 id: bc0ca53f-dea6-4906-9b12-09c396fdf1d3
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,8 +34,9 @@ references:
 tags:
   analytic_story:
   - Linux Privilege Escalation
-  - Linux Persistence Techniques
   - Linux Rootkit
+  - Linux Persistence Techniques
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

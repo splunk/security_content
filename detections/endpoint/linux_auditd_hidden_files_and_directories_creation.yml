@@ -1,16 +1,18 @@
 name: Linux Auditd Hidden Files And Directories Creation
 id: 555cc358-bf16-4e05-9b3a-0f89c73b7261
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious creation of hidden files and directories, 
-  which may indicate an attacker’s attempt to conceal malicious activities or unauthorized data. 
-  Hidden files and directories are often used to evade detection by security tools and administrators, 
-  providing a stealthy means for storing malware, logs, or sensitive information. By monitoring for 
-  unusual or unauthorized creation of hidden files and directories, this analytic helps identify potential 
-  attempts to hide malicious operations, enabling security teams to uncover and address hidden threats effectively.
+description: "The following analytic detects suspicious creation of hidden files and\
+  \ directories, which may indicate an attacker\u2019s attempt to conceal malicious\
+  \ activities or unauthorized data. Hidden files and directories are often used to\
+  \ evade detection by security tools and administrators, providing a stealthy means\
+  \ for storing malware, logs, or sensitive information. By monitoring for unusual\
+  \ or unauthorized creation of hidden files and directories, this analytic helps\
+  \ identify potential attempts to hide malicious operations, enabling security teams\
+  \ to uncover and address hidden threats effectively."
 data_source:
 - Linux Auditd Execve
 search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where (LIKE (process_exec,"%touch
@@ -33,9 +35,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

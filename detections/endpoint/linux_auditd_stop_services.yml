@@ -1,7 +1,7 @@
 name: Linux Auditd Stop Services
 id: 43bc9281-753b-4743-b4b7-60af84f085f3
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,9 +32,10 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - AwfulShred
-  - Data Destruction
   - Industroyer2
+  - Data Destruction
+  - AwfulShred
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 70
   impact: 70

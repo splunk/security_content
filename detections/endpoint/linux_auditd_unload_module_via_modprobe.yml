@@ -1,16 +1,18 @@
 name: Linux Auditd Unload Module Via Modprobe
 id: 90964d6a-4b5f-409a-85bd-95e261e03fe9
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious use of the `modprobe` command to unload kernel modules, 
-  which may indicate an attempt to disable critical system components or evade detection. The `modprobe` utility
-  manages kernel modules, and unauthorized unloading of modules can disrupt system security features, remove 
-  logging capabilities, or conceal malicious activities. By monitoring for unusual or unauthorized `modprobe` 
-  operations involving module unloading, this analytic helps identify potential tampering with kernel functionality, 
-  enabling security teams to investigate and address possible threats to system integrity.
+description: The following analytic detects suspicious use of the `modprobe` command
+  to unload kernel modules, which may indicate an attempt to disable critical system
+  components or evade detection. The `modprobe` utility manages kernel modules, and
+  unauthorized unloading of modules can disrupt system security features, remove logging
+  capabilities, or conceal malicious activities. By monitoring for unusual or unauthorized
+  `modprobe` operations involving module unloading, this analytic helps identify potential
+  tampering with kernel functionality, enabling security teams to investigate and
+  address possible threats to system integrity.
 data_source:
 - Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
@@ -30,9 +32,10 @@ references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 70
   impact: 70

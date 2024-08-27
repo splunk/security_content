@@ -1,7 +1,7 @@
 name: Linux Auditd Setuid Using Setcap Utility
 id: 1474459a-302b-4255-8add-d82f96d14cd9
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,6 +36,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 90
   impact: 90

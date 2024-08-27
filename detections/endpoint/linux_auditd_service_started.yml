@@ -1,7 +1,7 @@
 name: Linux Auditd Service Started
 id: b5eed06d-5c97-4092-a3a1-fa4b7e77c71a
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,9 +32,10 @@ references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

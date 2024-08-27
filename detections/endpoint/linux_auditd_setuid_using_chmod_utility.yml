@@ -1,7 +1,7 @@
 name: Linux Auditd Setuid Using Chmod Utility
 id: 8230c407-1b47-4d95-ac2e-718bd6381386
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,9 +33,10 @@ references:
 - https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 90
   impact: 90

@@ -1,17 +1,18 @@
 name: Linux Auditd Database File And Directory Discovery
 id: f616c4f3-bde9-41cf-856c-019b65f668bb
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious database file and directory discovery activities, 
-  which may signal an attacker’s attempt to locate and assess critical database assets on a compromised system. 
-  This behavior is often a precursor to data theft, unauthorized access, or privilege escalation, 
-  as attackers seek to identify valuable information stored in databases. 
-  By monitoring for unusual or unauthorized attempts to locate database files and directories, 
-  this analytic aids in early detection of potential reconnaissance or data breach efforts, 
-  enabling security teams to respond swiftly and mitigate the risk of further compromise.
+description: "The following analytic detects suspicious database file and directory\
+  \ discovery activities, which may signal an attacker\u2019s attempt to locate and\
+  \ assess critical database assets on a compromised system. This behavior is often\
+  \ a precursor to data theft, unauthorized access, or privilege escalation, as attackers\
+  \ seek to identify valuable information stored in databases. By monitoring for unusual\
+  \ or unauthorized attempts to locate database files and directories, this analytic\
+  \ aids in early detection of potential reconnaissance or data breach efforts, enabling\
+  \ security teams to respond swiftly and mitigate the risk of further compromise."
 data_source:
 - Linux Auditd Execve
 search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
@@ -38,9 +39,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

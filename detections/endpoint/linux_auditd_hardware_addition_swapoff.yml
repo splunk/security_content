@@ -1,7 +1,7 @@
 name: Linux Auditd Hardware Addition Swapoff
 id: 5728bb16-1a0b-4b66-bce2-0074ac839770
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,8 +32,9 @@ references:
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
 tags:
   analytic_story:
-  - AwfulShred
   - Data Destruction
+  - AwfulShred
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 60
   impact: 60

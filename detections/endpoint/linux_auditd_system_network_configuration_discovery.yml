@@ -1,26 +1,26 @@
 name: Linux Auditd System Network Configuration Discovery
 id: 5db16825-81bd-4923-a8d6-d6a13a59832a
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious system network configuration discovery activities, 
-  which may indicate an adversary's attempt to gather information about the network environment. 
-  Such actions typically involve commands or tools used to identify network interfaces, routing tables, 
-  and active connections. Detecting these activities is crucial, as they often precede more targeted 
-  attacks like lateral movement or data exfiltration. By identifying unusual or unauthorized network 
-  discovery efforts, this analytic helps security teams to swiftly detect and respond to potential 
+description: The following analytic detects suspicious system network configuration
+  discovery activities, which may indicate an adversary's attempt to gather information
+  about the network environment. Such actions typically involve commands or tools
+  used to identify network interfaces, routing tables, and active connections. Detecting
+  these activities is crucial, as they often precede more targeted attacks like lateral
+  movement or data exfiltration. By identifying unusual or unauthorized network discovery
+  efforts, this analytic helps security teams to swiftly detect and respond to potential
   reconnaissance operations, mitigating the risk of further compromise.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm IN ("arp", "ifconfig", "ip", "netstat", "firewall-cmd", "ufw", "iptables", "ss", "route") 
-  | bucket _time span=15m 
-  | stats dc(comm) as unique_commands, values(comm) as comm, values(exe) as exe, values(SYSCALL) as SYSCALL, values(UID) as UID, values(ppid) as ppid, values(pid) as pid, count,
-  min(_time) as firstTime, max(_time) as lastTime by success
-  | where unique_commands >= 4 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+search: '`linux_auditd` type=SYSCALL comm IN ("arp", "ifconfig", "ip", "netstat",
+  "firewall-cmd", "ufw", "iptables", "ss", "route") | bucket _time span=15m | stats
+  dc(comm) as unique_commands, values(comm) as comm, values(exe) as exe, values(SYSCALL)
+  as SYSCALL, values(UID) as UID, values(ppid) as ppid, values(pid) as pid, count,
+  min(_time) as firstTime, max(_time) as lastTime by success | where unique_commands
+  >= 4 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_auditd_system_network_configuration_discovery_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -35,9 +35,10 @@ references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

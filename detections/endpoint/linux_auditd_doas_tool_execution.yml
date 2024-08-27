@@ -1,7 +1,7 @@
 name: Linux Auditd Doas Tool Execution
 id: 91b8ca78-f205-4826-a3ef-cd8d6b24e97b
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 70
   impact: 70

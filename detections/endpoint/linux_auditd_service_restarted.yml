@@ -1,7 +1,7 @@
 name: Linux Auditd Service Restarted
 id: 8eb3e858-18d3-44a4-a514-52cfa39f154a
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,12 +34,13 @@ references:
 tags:
   analytic_story:
   - AwfulShred
+  - Scheduled Tasks
   - Linux Privilege Escalation
-  - Linux Living Off The Land
   - Data Destruction
   - Linux Persistence Techniques
-  - Scheduled Tasks
+  - Linux Living Off The Land
   - Gomir
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

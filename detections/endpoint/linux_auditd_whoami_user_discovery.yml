@@ -1,17 +1,18 @@
 name: Linux Auditd Whoami User Discovery
 id: d1ff2e22-310d-446a-80b3-faedaa7b3b52
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the suspicious use of the whoami command, 
-  which may indicate an attacker trying to gather information about the current user 
-  account on a compromised system. The whoami command is commonly used to verify user 
-  privileges and identity, especially during initial stages of an attack to assess the 
-  level of access. By monitoring for unusual or unauthorized executions of whoami, 
-  this analytic helps in identifying potential reconnaissance activities, enabling security 
-  teams to take action before the attacker escalates privileges or conducts further malicious operations.
+description: The following analytic detects the suspicious use of the whoami command,
+  which may indicate an attacker trying to gather information about the current user
+  account on a compromised system. The whoami command is commonly used to verify user
+  privileges and identity, especially during initial stages of an attack to assess
+  the level of access. By monitoring for unusual or unauthorized executions of whoami,
+  this analytic helps in identifying potential reconnaissance activities, enabling
+  security teams to take action before the attacker escalates privileges or conducts
+  further malicious operations.
 data_source:
 - Linux Auditd Syscall
 search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | stats count
@@ -32,9 +33,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

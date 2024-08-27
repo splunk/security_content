@@ -1,16 +1,18 @@
 name: Linux Auditd File And Directory Discovery
 id: 0bbfb79c-a755-49a5-a38a-1128d0a452f1
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious file and directory discovery activities, 
-  which may indicate an attacker's effort to locate sensitive documents and files on a compromised system. 
-  This behavior often precedes data exfiltration, as adversaries seek to identify valuable or confidential 
-  information for theft. By identifying unusual or unauthorized attempts to browse or enumerate files and 
-  directories, this analytic helps security teams detect potential reconnaissance or preparatory actions 
-  by an attacker, enabling timely intervention to prevent data breaches or unauthorized access.
+description: The following analytic detects suspicious file and directory discovery
+  activities, which may indicate an attacker's effort to locate sensitive documents
+  and files on a compromised system. This behavior often precedes data exfiltration,
+  as adversaries seek to identify valuable or confidential information for theft.
+  By identifying unusual or unauthorized attempts to browse or enumerate files and
+  directories, this analytic helps security teams detect potential reconnaissance
+  or preparatory actions by an attacker, enabling timely intervention to prevent data
+  breaches or unauthorized access.
 data_source:
 - Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
@@ -42,9 +44,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

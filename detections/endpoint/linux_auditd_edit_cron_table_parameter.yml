@@ -1,7 +1,7 @@
 name: Linux Auditd Edit Cron Table Parameter
 id: f4bb7321-7e64-4d1e-b1aa-21f8b019a91f
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,9 +14,9 @@ description: The following analytic detects the suspicious editing of cron jobs 
   compromise.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL SYSCALL=rename (comm IN ("crontab") OR exe IN ("*/crontab"))
-  success=yes AND NOT (UID IN("daemon")) | stats count min(_time) as firstTime max(_time)
-  as lastTime by comm exe  SYSCALL UID ppid pid | `security_content_ctime(firstTime)`
+search: '`linux_auditd` type=SYSCALL SYSCALL=rename (comm IN ("crontab") OR exe IN
+  ("*/crontab")) success=yes AND NOT (UID IN("daemon")) | stats count min(_time) as
+  firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_edit_cron_table_parameter_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -31,10 +31,11 @@ references:
 - https://attack.mitre.org/techniques/T1053/003/
 tags:
   analytic_story:
+  - Scheduled Tasks
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
-  - Scheduled Tasks
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

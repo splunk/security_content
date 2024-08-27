@@ -1,17 +1,18 @@
 name: Linux Auditd Data Transfer Size Limits Via Split Syscall
 id: c03d4a49-cf9d-435b-86e9-c6f8c9b6c42e
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious data transfer activities 
-  that involve the use of the `split` syscall, potentially indicating an attempt to 
-  evade detection by breaking large files into smaller parts. Attackers may use this 
-  technique to bypass size-based security controls, facilitating the covert exfiltration 
-  of sensitive data. By monitoring for unusual or unauthorized use of the `split` syscall, 
-  this analytic helps identify potential data exfiltration attempts, allowing security teams 
-  to intervene and prevent the unauthorized transfer of critical information from the network.
+description: The following analytic detects suspicious data transfer activities that
+  involve the use of the `split` syscall, potentially indicating an attempt to evade
+  detection by breaking large files into smaller parts. Attackers may use this technique
+  to bypass size-based security controls, facilitating the covert exfiltration of
+  sensitive data. By monitoring for unusual or unauthorized use of the `split` syscall,
+  this analytic helps identify potential data exfiltration attempts, allowing security
+  teams to intervene and prevent the unauthorized transfer of critical information
+  from the network.
 data_source:
 - Linux Auditd Syscall
 search: '`linux_auditd` type=SYSCALL comm=split OR exe= "*/split" | stats count min(_time)
@@ -30,9 +31,10 @@ references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

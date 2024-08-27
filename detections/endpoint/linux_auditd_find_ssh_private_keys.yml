@@ -1,17 +1,18 @@
 name: Linux Auditd Find Ssh Private Keys
 id: e2d2bd10-dcd1-4b2f-8a76-0198eab32ba5
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious attempts to find SSH private keys, 
-  which may indicate an attacker’s effort to compromise secure access to systems. 
-  SSH private keys are essential for secure authentication, and unauthorized access to t
-  hese keys can enable attackers to gain unauthorized access to servers and other critical infrastructure. 
-  By monitoring for unusual or unauthorized searches for SSH private keys, this analytic helps identify 
-  potential threats to network security, allowing security teams to quickly respond and safeguard against 
-  unauthorized access and potential breaches.
+description: "The following analytic detects suspicious attempts to find SSH private\
+  \ keys, which may indicate an attacker\u2019s effort to compromise secure access\
+  \ to systems. SSH private keys are essential for secure authentication, and unauthorized\
+  \ access to t hese keys can enable attackers to gain unauthorized access to servers\
+  \ and other critical infrastructure. By monitoring for unusual or unauthorized searches\
+  \ for SSH private keys, this analytic helps identify potential threats to network\
+  \ security, allowing security teams to quickly respond and safeguard against unauthorized\
+  \ access and potential breaches."
 data_source:
 - Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
@@ -34,9 +35,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 70
   impact: 70

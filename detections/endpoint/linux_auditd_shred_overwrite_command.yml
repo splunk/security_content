@@ -1,7 +1,7 @@
 name: Linux Auditd Shred Overwrite Command
 id: ce2bde4d-a1d4-4452-8c87-98440e5adfb3
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -34,11 +34,12 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
-  - Industroyer2
   - AwfulShred
   - Linux Privilege Escalation
   - Data Destruction
   - Linux Persistence Techniques
+  - Industroyer2
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 90
   impact: 90

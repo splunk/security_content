@@ -1,17 +1,18 @@
 name: Linux Auditd Find Private Keys
 id: 80bb9988-190b-4ee0-a3c3-509545a8f678
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious attempts to find private keys, 
-  which may indicate an attacker’s effort to access sensitive cryptographic information. 
-  Private keys are crucial for securing encrypted communications and data, and unauthorized access 
-  to them can lead to severe security breaches, including data decryption and identity theft. 
-  By monitoring for unusual or unauthorized searches for private keys, 
-  this analytic helps identify potential threats to cryptographic security, enabling security teams 
-  to take swift action to protect the integrity and confidentiality of encrypted information.
+description: "The following analytic detects suspicious attempts to find private keys,\
+  \ which may indicate an attacker\u2019s effort to access sensitive cryptographic\
+  \ information. Private keys are crucial for securing encrypted communications and\
+  \ data, and unauthorized access to them can lead to severe security breaches, including\
+  \ data decryption and identity theft. By monitoring for unusual or unauthorized\
+  \ searches for private keys, this analytic helps identify potential threats to cryptographic\
+  \ security, enabling security teams to take swift action to protect the integrity\
+  \ and confidentiality of encrypted information."
 data_source:
 - Linux Auditd Execve
 search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
@@ -36,9 +37,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

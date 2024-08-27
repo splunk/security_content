@@ -1,7 +1,7 @@
 name: Linux Auditd Possible Append Cronjob Entry On Existing Cronjob File
 id: fea71cf0-fa10-4ef6-9202-9682b2e0c477
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,10 +34,11 @@ references:
 - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
 tags:
   analytic_story:
+  - Scheduled Tasks
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Living Off The Land
-  - Scheduled Tasks
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 70
   impact: 70

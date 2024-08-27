@@ -1,16 +1,18 @@
 name: Linux Auditd Unix Shell Configuration Modification
 id: 66f737c6-3f7f-46ed-8e9b-cc0e5bf01f04
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious modifications to Unix shell configuration files, 
-  which may indicate an attempt to alter system behavior or gain unauthorized access. 
-  Unix shell configuration files, such as `.bashrc` or `.profile`, control user environment settings and command execution. 
-  Unauthorized changes to these files can be used to execute malicious commands, escalate privileges, 
-  or hide malicious activities. By monitoring for unusual or unauthorized modifications to shell configuration files, 
-  this analytic helps identify potential security threats, allowing security teams to respond quickly and mitigate risks.
+description: The following analytic detects suspicious modifications to Unix shell
+  configuration files, which may indicate an attempt to alter system behavior or gain
+  unauthorized access. Unix shell configuration files, such as `.bashrc` or `.profile`,
+  control user environment settings and command execution. Unauthorized changes to
+  these files can be used to execute malicious commands, escalate privileges, or hide
+  malicious activities. By monitoring for unusual or unauthorized modifications to
+  shell configuration files, this analytic helps identify potential security threats,
+  allowing security teams to respond quickly and mitigate risks.
 data_source:
 - Linux Auditd Path
 search: '`linux_auditd` type=PATH name IN ("/etc/profile", "/etc/shells", "/etc/profile.d",
@@ -35,9 +37,10 @@ references:
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80

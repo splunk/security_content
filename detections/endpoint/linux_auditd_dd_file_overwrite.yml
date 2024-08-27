@@ -1,7 +1,7 @@
 name: Linux Auditd Dd File Overwrite
 id: d1b74420-4cea-4752-a123-9b40dfcca49a
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,8 +32,9 @@ references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1485/T1485.md
 tags:
   analytic_story:
-  - Data Destruction
   - Industroyer2
+  - Data Destruction
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 90
   impact: 90

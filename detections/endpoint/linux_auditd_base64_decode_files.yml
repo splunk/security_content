@@ -1,16 +1,18 @@
 name: Linux Auditd Base64 Decode Files
 id: 5890ba10-4e48-4dc0-8a40-3e1ebe75e737
 version: 1
-date: '2024-08-19'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious Base64 decode operations that may indicate malicious activity, 
-  such as data exfiltration or execution of encoded commands. Base64 is commonly used to encode data for safe transmission, 
-  but attackers may abuse it to conceal malicious payloads. This detection focuses on identifying unusual or unexpected 
-  Base64 decoding processes, particularly when associated with critical files or directories. By monitoring these activities, 
-  the analytic helps uncover potential threats, enabling security teams to respond promptly and mitigate risks associated 
-  with encoded malware or unauthorized data access.
+description: The following analytic detects suspicious Base64 decode operations that
+  may indicate malicious activity, such as data exfiltration or execution of encoded
+  commands. Base64 is commonly used to encode data for safe transmission, but attackers
+  may abuse it to conceal malicious payloads. This detection focuses on identifying
+  unusual or unexpected Base64 decoding processes, particularly when associated with
+  critical files or directories. By monitoring these activities, the analytic helps
+  uncover potential threats, enabling security teams to respond promptly and mitigate
+  risks associated with encoded malware or unauthorized data access.
 data_source:
 - Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE(process_exec,
@@ -31,9 +33,10 @@ references:
 - https://gtfobins.github.io/gtfobins/dd/
 tags:
   analytic_story:
+  - Linux Living Off The Land
   - Linux Privilege Escalation
   - Linux Persistence Techniques
-  - Linux Living Off The Land
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 50
   impact: 50

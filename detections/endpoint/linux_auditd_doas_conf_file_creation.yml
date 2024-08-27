@@ -1,7 +1,7 @@
 name: Linux Auditd Doas Conf File Creation
 id: 61059783-574b-40d2-ac2f-69b898afd6b4
 version: 1
-date: '2024-08-09'
+date: '2024-08-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Compromised Linux Host
   asset_type: Endpoint
   confidence: 80
   impact: 80
