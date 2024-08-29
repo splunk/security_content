@@ -17,9 +17,10 @@ description: The following analytic identifies an AWS IAM account with concurren
 data_source: []
 search: ' `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal" 
   | bin span=5m _time
-  | stats values(src_endpoint.ip) as src_endpoint.ip dc(src_endpoint.ip) as distinct_ip_count 
+  | stats values(src_endpoint.ip) as src_ip dc(src_endpoint.ip) as distinct_ip_count 
   by _time identity.user.credential_uid identity.user.name
   | where distinct_ip_count > 1 
+  | rename identity.user.name as user
   | `asl_aws_concurrent_sessions_from_different_ips_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
   security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
