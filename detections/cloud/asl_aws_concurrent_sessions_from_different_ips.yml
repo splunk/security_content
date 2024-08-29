@@ -68,6 +68,7 @@ tags:
   - cloud.region
   risk_score: 42
   security_domain: threat
+  manual_test: Can't be tested automatically because of time span.
 tests:
 - name: True Positive Test
   attack_data:
