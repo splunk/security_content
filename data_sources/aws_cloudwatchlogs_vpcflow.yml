@@ -9,7 +9,7 @@ sourcetype: aws:cloudwatchlogs:vpcflow
 separator: eventName
 supported_TA:
   - name: Splunk Add-on for AWS
-    version: 7.6.0
+    version: 7.7.0
     url: https://splunkbase.splunk.com/app/1876
 fields:
 - _raw
