@@ -57,10 +57,6 @@ tags:
     type: Endpoint
     role:
     - Victim
-  - name: dest
-    type: Endpoint
-    role:
-    - Victim
   - name: parent_process_name
     type: Process Name
     role:
