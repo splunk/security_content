@@ -49,7 +49,7 @@ tags:
   - T1535
   observable:
   - name: user
-    type: User Name
+    type: User
     role:
     - Victim
   - name: src_ip
