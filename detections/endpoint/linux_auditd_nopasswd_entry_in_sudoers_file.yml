@@ -15,9 +15,9 @@ description: The following analytic detects the addition of NOPASSWD entries to 
   and system integrity.
 data_source:
 - Linux Auditd Proctitle
-search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | where LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host as dest | where LIKE (process_exec,
   "%NOPASSWD%") | stats count min(_time) as firstTime max(_time) as lastTime by process_exec
-  proctitle normalized_proctitle_delimiter | `security_content_ctime(firstTime)`|
+  proctitle normalized_proctitle_delimiter dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_nopasswd_entry_in_sudoers_file_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -44,8 +44,8 @@ tags:
   - T1548.003
   - T1548
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

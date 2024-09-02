@@ -15,8 +15,8 @@ description: The following analytic detects suspicious access or modification of
   escalation, or persistent backdoor access, posing a severe security risk.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by name nametype OGID | `security_content_ctime(firstTime)`|
+search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" | rename host as dest | stats count min(_time)
+  as firstTime max(_time) as lastTime by name nametype OGID dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -44,8 +44,8 @@ tags:
   - T1098.004
   - T1098
   observable:
-  - name: name
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

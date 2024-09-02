@@ -15,11 +15,11 @@ description: "The following analytic detects suspicious creation of hidden files
   \ to uncover and address hidden threats effectively."
 data_source:
 - Linux Auditd Execve
-search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where (LIKE (process_exec,"%touch
+search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where (LIKE (process_exec,"%touch
   %") OR LIKE (process_exec,"%mkdir %")OR LIKE (process_exec,"%vim %") OR LIKE (process_exec,"%vi
   %") OR LIKE (process_exec,"%nano %")) AND (LIKE (process_exec,"% ./.%")  OR LIKE
   (process_exec," .%")OR LIKE (process_exec," /.%")) | stats count min(_time) as firstTime
-  max(_time) as lastTime by argc process_exec | `security_content_ctime(firstTime)`
+  max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_hidden_files_and_directories_creation_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -46,8 +46,8 @@ tags:
   mitre_attack_id:
   - T1083
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

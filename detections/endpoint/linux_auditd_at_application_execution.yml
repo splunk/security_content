@@ -17,8 +17,8 @@ description: The following analytic detects the execution of the "At" applicatio
 data_source:
 - Linux Auditd Syscall
 search: '`linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd")
-  AND NOT (UID IN("daemon")) | stats count min(_time) as firstTime max(_time) as lastTime
-  by comm exe  SYSCALL UID ppid pid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  AND NOT (UID IN("daemon")) | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime
+  by comm exe  SYSCALL UID ppid pid dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `linux_auditd_at_application_execution_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -47,8 +47,8 @@ tags:
   - T1053.002
   - T1053
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

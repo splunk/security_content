@@ -15,9 +15,9 @@ description: The following analytic detects suspicious Base64 decode operations 
   risks associated with encoded malware or unauthorized data access.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE(process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE(process_exec,
   "%base64%") AND (LIKE(process_exec, "%-d %") OR LIKE(process_exec, "% --d%")) |
-  stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec
+  stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_base64_decode_files_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -44,8 +44,8 @@ tags:
   mitre_attack_id:
   - T1140
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

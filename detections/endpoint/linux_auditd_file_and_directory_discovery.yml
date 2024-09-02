@@ -15,7 +15,7 @@ description: The following analytic detects suspicious file and directory discov
   breaches or unauthorized access.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where  (LIKE (process_exec,
   "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%.tif%") OR
   LIKE (process_exec, "%.tiff%") OR LIKE (process_exec, "%.gif%") OR LIKE (process_exec,
   "%.jpeg%")OR LIKE (process_exec, "%.jpg%")OR LIKE (process_exec, "%.jif%")OR LIKE
@@ -28,7 +28,7 @@ search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE 
   LIKE (process_exec, "%.wav%")OR LIKE (process_exec, "%.doc%")OR LIKE (process_exec,
   "%.docx%")OR LIKE (process_exec, "%.xls%")OR LIKE (process_exec, "%.xlsx%")OR LIKE
   (process_exec, "%.svg%")) | stats count min(_time) as firstTime max(_time) as lastTime
-  by argc process_exec | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  by argc process_exec dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `linux_auditd_file_and_directory_discovery_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -55,8 +55,8 @@ tags:
   mitre_attack_id:
   - T1083
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

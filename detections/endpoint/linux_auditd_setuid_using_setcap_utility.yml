@@ -15,11 +15,11 @@ description: The following analytic detects the execution of the 'setcap' utilit
   system.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE (process_exec,
   "%setcap %") AND (LIKE (process_exec, "% cap_setuid+ep %") OR LIKE (process_exec,
   "% cap_setuid=ep %") OR LIKE (process_exec, "% cap_net_bind_service+p %") OR LIKE
   (process_exec, "% cap_net_raw+ep %") OR LIKE (process_exec, "% cap_dac_read_search+ep
-  %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec
+  %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_setuid_using_setcap_utility_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -45,8 +45,8 @@ tags:
   - T1548.001
   - T1548
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

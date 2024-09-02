@@ -15,8 +15,8 @@ description: "The following analytic detects suspicious use of the `rmmod` utili
   \ proactive measures to protect system integrity and security."
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=rmmod | stats count min(_time) as firstTime
-  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success | `security_content_ctime(firstTime)`|
+search: '`linux_auditd` type=SYSCALL comm=rmmod | rename host as dest  | stats count min(_time) as firstTime
+  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_kernel_module_using_rmmod_utility_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -43,8 +43,8 @@ tags:
   - T1547.006
   - T1547
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

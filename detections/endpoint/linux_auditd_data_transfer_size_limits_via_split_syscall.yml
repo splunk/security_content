@@ -15,8 +15,8 @@ description: The following analytic detects suspicious data transfer activities 
   from the network.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=split OR exe= "*/split" | stats count min(_time)
-  as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success |
+search: '`linux_auditd` type=SYSCALL comm=split OR exe= "*/split" | rename host as dest | stats count min(_time)
+  as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success dest |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_data_transfer_size_limits_via_split_syscall_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -42,8 +42,8 @@ tags:
   mitre_attack_id:
   - T1030
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

@@ -14,8 +14,8 @@ description: The following analytic detects potential access or modification of 
   compromising the security of the targeted host.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/sudoers*" | stats count min(_time) as
-  firstTime max(_time) as lastTime by name nametype OGID | `security_content_ctime(firstTime)`|
+search: '`linux_auditd` type=PATH name="/etc/sudoers*" | rename host as dest | stats count min(_time) as
+  firstTime max(_time) as lastTime by name nametype OGID dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_possible_access_to_sudoers_file_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -42,8 +42,8 @@ tags:
   - T1548.003
   - T1548
   observable:
-  - name: name
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

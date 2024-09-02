@@ -14,11 +14,11 @@ description: The following analytic detects the use of the Linux 'xclip' command
   sensitive information and potentially aiding further attacks within the environment.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE(process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE(process_exec,
   "%xclip%") AND (LIKE(process_exec, "%clipboard%") OR LIKE(process_exec, "%-o%")
   OR LIKE(process_exec, "%clip %") OR LIKE(process_exec, "%-selection %") OR LIKE(process_exec,
   "%sel %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc
-  process_exec | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  process_exec dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_clipboard_data_copy_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -43,8 +43,8 @@ tags:
   mitre_attack_id:
   - T1115
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

@@ -15,8 +15,8 @@ description: The following analytic detects the insertion of a Linux kernel modu
   of the affected system.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=insmod | stats count min(_time) as firstTime
-  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success | `security_content_ctime(firstTime)`
+search: '`linux_auditd` type=SYSCALL comm=insmod | rename host as dest | stats count min(_time) as firstTime
+  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_insert_kernel_module_using_insmod_utility_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -45,8 +45,8 @@ tags:
   - T1547.006
   - T1547
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

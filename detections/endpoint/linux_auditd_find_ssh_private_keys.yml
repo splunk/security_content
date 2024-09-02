@@ -15,11 +15,11 @@ description: "The following analytic detects suspicious attempts to find SSH pri
   \ access and potential breaches."
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where  (LIKE (process_exec,
   "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%id_rsa%")
   OR LIKE (process_exec, "%id_dsa%")OR LIKE (process_exec, "%.key%") OR LIKE (process_exec,
   "%ssh_key%")OR LIKE (process_exec, "%authorized_keys%")) | stats count min(_time)
-  as firstTime max(_time) as lastTime by argc process_exec | `security_content_ctime(firstTime)`
+  as firstTime max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_find_ssh_private_keys_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -47,8 +47,8 @@ tags:
   - T1552.004
   - T1552
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

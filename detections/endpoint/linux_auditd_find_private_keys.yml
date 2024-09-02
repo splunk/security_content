@@ -15,13 +15,13 @@ description: "The following analytic detects suspicious attempts to find private
   \ and confidentiality of encrypted information."
 data_source:
 - Linux Auditd Execve
-search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | where  (LIKE (process_exec,
+search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where  (LIKE (process_exec,
   "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%.pem%") OR
   LIKE (process_exec, "%.cer%") OR LIKE (process_exec, "%.crt%") OR LIKE (process_exec,
   "%.pgp%") OR LIKE (process_exec, "%.key%") OR LIKE (process_exec, "%.gpg%")OR LIKE
   (process_exec, "%.ppk%") OR LIKE (process_exec, "%.p12%")OR LIKE (process_exec,
   "%.pfx%")OR LIKE (process_exec, "%.p7b%")) | stats count min(_time) as firstTime
-  max(_time) as lastTime by argc process_exec | `security_content_ctime(firstTime)`
+  max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_find_private_keys_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -49,8 +49,8 @@ tags:
   - T1552.004
   - T1552
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

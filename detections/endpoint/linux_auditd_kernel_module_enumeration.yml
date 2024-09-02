@@ -14,8 +14,8 @@ description: The following analytic identifies the use of the 'kmod' process to 
   escalation, persistence, or other malicious actions within the system.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=lsmod | stats count min(_time) as firstTime
-  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success | `security_content_ctime(firstTime)`|
+search: '`linux_auditd` type=SYSCALL comm=lsmod | rename host as dest  | stats count min(_time) as firstTime
+  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)` | `linux_auditd_kernel_module_enumeration_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -40,8 +40,8 @@ tags:
   - T1082
   - T1014
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

@@ -15,9 +15,9 @@ description: The following analytic detects the execution of the "swapoff" comma
   of memory-based detection mechanisms.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_proctitle_process`| where LIKE(process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host as dest | where LIKE(process_exec,
   "%swapoff %") AND LIKE(process_exec, "% -a%") | stats count min(_time) as firstTime
-  max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter
+  max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_hardware_addition_swapoff_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -42,8 +42,8 @@ tags:
   mitre_attack_id:
   - T1200
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

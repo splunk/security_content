@@ -15,8 +15,8 @@ description: The following analytic detects the suspicious use of the whoami com
   further malicious operations.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | stats count
-  min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid
+search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | rename host as dest | stats count
+  min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid dest 
   success | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `linux_auditd_whoami_user_discovery_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -44,8 +44,8 @@ tags:
   mitre_attack_id:
   - T1033
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

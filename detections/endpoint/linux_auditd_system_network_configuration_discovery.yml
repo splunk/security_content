@@ -16,10 +16,10 @@ description: The following analytic detects suspicious system network configurat
 data_source:
 - Linux Auditd Syscall
 search: '`linux_auditd` type=SYSCALL comm IN ("arp", "ifconfig", "ip", "netstat",
-  "firewall-cmd", "ufw", "iptables", "ss", "route") | bucket _time span=15m | stats
+  "firewall-cmd", "ufw", "iptables", "ss", "route") | bucket _time span=15m | rename host as dest | stats
   dc(comm) as unique_commands, values(comm) as comm, values(exe) as exe, values(SYSCALL)
   as SYSCALL, values(UID) as UID, values(ppid) as ppid, values(pid) as pid, count,
-  min(_time) as firstTime, max(_time) as lastTime by success | where unique_commands
+  min(_time) as firstTime, max(_time) as lastTime by success dest | where unique_commands
   >= 4 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_auditd_system_network_configuration_discovery_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -46,8 +46,8 @@ tags:
   mitre_attack_id:
   - T1016
   observable:
-  - name: comm
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

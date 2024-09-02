@@ -15,8 +15,8 @@ description: The following analytic detects attempts to stop or clear a service 
   severely impacting system integrity and availability.
 data_source:
 - Linux Auditd Service Stop
-search: '`linux_auditd` type=SERVICE_STOP | stats count min(_time) as firstTime max(_time)
-  as lastTime by type pid UID comm exe | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+search: '`linux_auditd` type=SERVICE_STOP | rename host as dest | stats count min(_time) as firstTime max(_time)
+  as lastTime by type pid UID comm exe dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_stop_services_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -43,8 +43,8 @@ tags:
   mitre_attack_id:
   - T1489
   observable:
-  - name: type
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:

@@ -14,9 +14,9 @@ description: The following analytic detects the creation of new user accounts on
   the system, posing a severe security risk.
 data_source:
 - Linux Auditd Proctitle
-search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | where LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process`| rename host as dest | where LIKE (process_exec,
   "%useradd%") OR LIKE (process_exec, "%adduser%") | stats count min(_time) as firstTime
-  max(_time) as lastTime by process_exec proctitle  | `security_content_ctime(firstTime)`|
+  max(_time) as lastTime by process_exec proctitle dest  | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_add_user_account_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -43,7 +43,7 @@ tags:
   - T1136
   observable:
   - name: process_exec
-    type: Other
+    type: Endpoint
     role:
     - Victim
   product:

@@ -15,9 +15,9 @@ description: The following analytic detects the use of the LD_PRELOAD environmen
   maintain long-term access to the system.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | where LIKE (process_exec,
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE (process_exec,
   "%LD_PRELOAD%")| stats count min(_time) as firstTime max(_time) as lastTime by argc
-  process_exec | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  process_exec dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_preload_hijack_library_calls_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -43,8 +43,8 @@ tags:
   - T1574.006
   - T1574
   observable:
-  - name: process_exec
-    type: Other
+  - name: dest
+    type: Endpoint
     role:
     - Victim
   product:
