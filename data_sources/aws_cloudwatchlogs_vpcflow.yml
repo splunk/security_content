@@ -8,9 +8,9 @@ source: aws_cloudwatchlogs_vpcflow
 sourcetype: aws:cloudwatchlogs:vpcflow
 separator: eventName
 supported_TA:
-  - name: Splunk Add-on for AWS
-    version: 7.6.0
-    url: https://splunkbase.splunk.com/app/1876
+- name: Splunk Add-on for AWS
+  version: 7.7.0
+  url: https://splunkbase.splunk.com/app/1876
 fields:
 - _raw
 - _time
@@ -65,4 +65,5 @@ fields:
 - vendor_product
 - version
 - vpcflow_action
-example_log: '2 123397614277 eni-0b0f9f261f45e6489 10.0.1.30 10.0.1.1 47254 22 17 2 98 1697608042 1697608070 ACCEPT OK'
+example_log: 2 123397614277 eni-0b0f9f261f45e6489 10.0.1.30 10.0.1.1 47254 22 17 2
+  98 1697608042 1697608070 ACCEPT OK
