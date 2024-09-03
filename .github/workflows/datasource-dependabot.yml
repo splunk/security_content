@@ -33,7 +33,7 @@ jobs:
       - name: Run ContentCTL Data source TA validation
         id: validate
         run: |
-          contentctl validate --data-source-TA-validation > data_source_validation.log
+          contentctl validate --data-source-TA-validation
         continue-on-error: true
 
       - name: Update Data Sources if Validation Fails
