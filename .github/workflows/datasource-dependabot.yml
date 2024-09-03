@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: 'develop'
+          ref: 'update_data_sources'
           token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
       
       - name: Set up Python
