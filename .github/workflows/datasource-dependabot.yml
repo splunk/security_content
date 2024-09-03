@@ -9,7 +9,7 @@ on:
     - cron: '55 06 * * *'  # Runs daily at midnight
 
 jobs:
-  modify-code:
+  data-source-validation-and-update:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,17 +22,19 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'  # or the version your script requires
+          python-version: '3.11'
+          architecture: 'x64'  # or the version your script requires
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
           pip install contentctl>=4.0.0
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
 
+    
       - name: Run ContentCTL Data source TA validation
         id: validate
         run: |
           contentctl validate --data-source-TA-validation >> data_source_validation.log
+        continue-on-error: true
 
       - name: Update Data Sources if Validation Fails
         if: failure()
