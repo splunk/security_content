@@ -1,9 +1,6 @@
 name: Splunk TA Update
 
 on:
-  push:
-    branches:
-      - update_data_sources
   workflow_dispatch:  # Manually trigger the workflow
   schedule:
     - cron: '55 06 * * *'  # Runs daily at midnight
@@ -16,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: 'update_data_sources'
+          ref: 'develop'
           token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
       
       - name: Set up Python
