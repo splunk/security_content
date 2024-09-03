@@ -84,9 +84,10 @@ Follow these steps to get started with Splunk Security Content.
 
 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute to the Splunk Security Content project.
 
-# Elements of a detection:
+# Elements of a detection.yml:
 
 Here is a quick overview of the elements of a detection with an explanation
+
 ```
 name:<str> Name of the detection, this is the name that will be displayed in the Splunk UI
 id: <int> Unique identifier for the detection, UUID
@@ -131,6 +132,33 @@ tests:
     source: <str> Source of the attack
     sourcetype: <str> Sourcetype from the attack
 ```
+
+# Elements of a analytics_story.yml:
+```
+name: <str> Name of the analytic story
+id: <int> Unique identifier for the analytic story, UUID
+version: <int> Version of the analytic story, update this everytime a change is made to the file
+date: <str> Date of the analytic story
+author: <str> Author of the analytic story
+description: <str> Description of the analytic story
+narrative: <str> Narrative of the analytic story
+references: <list> List of references to the analytic story
+- 
+tags:
+  category: <list> List of categories that the analytic story is related to
+  - 
+  product: <list> List of products that the analytic story is related to
+  - 
+  usecase: <str> Usecase of the analytic story (Advanced Persistent Threat, Cloud,Vulnerability, Malware etc.)
+```
+# Recommendations
+
+- 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
+
+- In order to build an content app that specific for your organization, we strongly recommend that you start with keeping only the detections that are related to your organization and remove other yamls that are not related to your organization. This includes selecting detections, stories, macros, lookups that are used by the detection ymls.
+
+- If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
+
 
 # Contribution 🥰
 We welcome feedback and contributions from the community! Please see our [contributing to the project](./.github/CONTRIBUTING.md) for more information on how to get involved.
