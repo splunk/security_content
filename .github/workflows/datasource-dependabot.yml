@@ -1,6 +1,9 @@
 name: Splunk TA Update
 
 on:
+  push:
+    branches:
+      - update_data_sources
   workflow_dispatch:  # Manually trigger the workflow
   schedule:
     - cron: '55 06 * * *'  # Runs daily at midnight
@@ -14,7 +17,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: 'develop'
-          token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}  # Add this line to use the PAT for checkout
+          token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
       
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,23 +30,17 @@ jobs:
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
 
       - name: Run ContentCTL Data source TA validation
+        id: validate
         run: |
           contentctl validate --data-source-TA-validation >> data_source_validation.log
 
-      - name: Check for changes
-        id: changes
+      - name: Update Data Sources if Validation Fails
+        if: failure()
         run: |
-          git fetch origin develop
-          if git diff --exit-code origin/develop -- configs/attack_range_default.yml; then
-            echo "No changes detected in configs/attack_range_default.yml compared to develop branch"
-            echo "changes_detected=false" >> $GITHUB_ENV
-          else
-            echo "Changes detected in configs/attack_range_default.yml compared to develop branch"
-            echo "changes_detected=true" >> $GITHUB_ENV
-          fi
+          python .github/workflows/update_data_sources_ta.py
 
       - name: Create Pull Request
-        if: env.changes_detected == 'true'
+        if: failure()  # Only create a PR if the validation step failed
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_PAT }}
