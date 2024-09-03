@@ -10,7 +10,7 @@ separator: eventName
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.6.0
+  version: 7.7.0
 fields:
 - _time
 - action
@@ -121,4 +121,21 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLKZK7JIDWN:AutoScaling-ManageAlarms", "arn": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable/AutoScaling-ManageAlarms", "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLJ7ZZZZZZZ", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLKZK7JIDWN", "arn": "arn:aws:iam::111111111111:role/aws-service-role/test.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable", "accountId": "111111111111", "userName": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"}, "webIdFederationData": {}, "attributes": {"creationDate": "2023-07-11T11:11:59Z", "mfaAuthenticated": "false"}}, "invokedBy": "test.amazonaws.com"}, "eventTime": "2023-07-11T11:12:00Z", "eventSource": "monitoring.amazonaws.com", "eventName": "DeleteAlarms", "awsRegion": "us-west-1", "sourceIPAddress": "test.amazonaws.com", "userAgent": "test.amazonaws.com", "requestParameters": {"alarmNames": ["TargetTracking-table/attack-range-orchestrator-backend-AlarmHigh-bbc5c675-6ddb-40d5-9f16-a59147a61c2a", "TargetTracking-table/attack-range-orchestrator-backend-AlarmLow-1669f952-dd7b-4835-b3d5-8df86d264db2", "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityHigh-eac39cba-2339-4c5c-9a13-c527ede7abfd", "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityLow-62c8a6e3-edb4-42d1-b26d-e30f33a57a0e"]}, "responseElements": null, "requestID": "af48ccab-e844-4229-883e-5c813e2c2f31", "eventID": "bcfccd92-5bf1-4de1-9cfd-87fdeb70e452", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory": "Management"}'
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLKZK7JIDWN:AutoScaling-ManageAlarms", "arn": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable/AutoScaling-ManageAlarms",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLJ7ZZZZZZZ", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLKZK7JIDWN", "arn":
+  "arn:aws:iam::111111111111:role/aws-service-role/test.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable",
+  "accountId": "111111111111", "userName": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"},
+  "webIdFederationData": {}, "attributes": {"creationDate": "2023-07-11T11:11:59Z",
+  "mfaAuthenticated": "false"}}, "invokedBy": "test.amazonaws.com"}, "eventTime":
+  "2023-07-11T11:12:00Z", "eventSource": "monitoring.amazonaws.com", "eventName":
+  "DeleteAlarms", "awsRegion": "us-west-1", "sourceIPAddress": "test.amazonaws.com",
+  "userAgent": "test.amazonaws.com", "requestParameters": {"alarmNames": ["TargetTracking-table/attack-range-orchestrator-backend-AlarmHigh-bbc5c675-6ddb-40d5-9f16-a59147a61c2a",
+  "TargetTracking-table/attack-range-orchestrator-backend-AlarmLow-1669f952-dd7b-4835-b3d5-8df86d264db2",
+  "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityHigh-eac39cba-2339-4c5c-9a13-c527ede7abfd",
+  "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityLow-62c8a6e3-edb4-42d1-b26d-e30f33a57a0e"]},
+  "responseElements": null, "requestID": "af48ccab-e844-4229-883e-5c813e2c2f31", "eventID":
+  "bcfccd92-5bf1-4de1-9cfd-87fdeb70e452", "readOnly": false, "eventType": "AwsApiCall",
+  "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory":
+  "Management"}'
