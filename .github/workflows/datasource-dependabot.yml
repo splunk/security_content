@@ -32,7 +32,7 @@ jobs:
       - name: Run ContentCTL Data source TA validation
         id: validate
         run: |
-          pw
+          pwd
           contentctl validate --data-source-TA-validation 2>&1 | tee data_source_validation.log
         continue-on-error: true 
       
