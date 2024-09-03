@@ -28,21 +28,18 @@ jobs:
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
           pip install contentctl>=4.0.0
-
     
       - name: Run ContentCTL Data source TA validation
         id: validate
         run: |
           contentctl validate --data-source-TA-validation 2>&1 | tee data_source_validation.log
-        continue-on-error: true
+          cat data_source_validation.log
 
       - name: Update Data Sources if Validation Fails
-        if: failure()
         run: |
           python .github/workflows/update_data_sources_ta.py
 
       - name: Create Pull Request
-        if: failure()  # Only create a PR if the validation step failed
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_PAT }}
