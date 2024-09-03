@@ -38,8 +38,8 @@ jobs:
       
       - name: Print Validation Log
         run: |
-        cat data_source_validation.log
-        rm -f =4.0.0
+          cat data_source_validation.log
+          rm -f =4.0.0
 
       - name: Update Data Sources if Validation Fails
         run: |
