@@ -15,6 +15,7 @@ search: ' | tstats `security_content_summariesonly` count min(_time) as firstTim
       (Processes.process="*WindowsPowerShellWebAccess*" AND Processes.process="*/online*" AND Processes.process="*/enable-feature*")
     by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
       Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)`  
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_dism_install_powershell_web_access_filter`'
