@@ -27,7 +27,7 @@ jobs:
 
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
-          pip install contentctl>=4.0.0
+          pip install "contentctl>=4.0.0"
     
       - name: Run ContentCTL Data source TA validation
         id: validate
@@ -37,12 +37,12 @@ jobs:
         continue-on-error: true 
       
       - name: Print Validation Log
-        run: cat data_source_validation.log
+        run: |
+        cat data_source_validation.log
+        rm -f =4.0.0
 
       - name: Update Data Sources if Validation Fails
         run: |
-          pwd
-          ls -la .github/workflows/
           python .github/workflows/update_data_sources_ta.py
           git status
 
