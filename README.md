@@ -87,70 +87,66 @@ Follow these steps to get started with Splunk Security Content.
 # Elements of a detection.yml:
 
 Here is a quick overview of the elements of a detection with an explanation
-
-```
-name:<str> Name of the detection, this is the name that will be displayed in the Splunk UI
-id: <int> Unique identifier for the detection, UUID
-version: <int> Version of the detection, update this everytime a change is made to the file
-date: <str> Date of the detection, update this everytime a change is made to the file
-author: <str> Author of the detection
-type: <str> Type of the detection (TTP, Anomaly, Baseline, Hunting, Correlation)
-status: <str> Status of the detection (Production, Experimental, Deprecated)
-data_source: <list> Reference to the data source that the detection is based, use the name from the data_sources/ folder
-description: <str> Description of the detection
-search: <str> Splunk search to be executed, this is the core of the detection. Detections can be either writen against the sourcetype or in tstats if the data is normalized. Sourcetype based searches begin with an input macro, core search logic and end with a _filter macro. The input macro is used to specify the index and sourcetype and the _filter macro is used to filter out the false positives.
-how_to_implement: <str> Details on how to implement the detection
-known_false_positives: <str> Details on known false positives triggered in this detection. 
-references: <list> List of references to the mitre attack, details of attack vector, blog posts, vulnerabilities, etc.
-- <list>
-tags:
-  analytic_story: 
-  - <list> Name of the analytic story that the detection is part of
-  asset_type: <str> Which assets are monitored by this detection(Endpoint, Network, AWS Tenant, Azure Tenant, etc.)
-  confidence: <int> Confidence level of the detection
-  cve: <list> List of CVEs that are related to the detection
-  - <optional list>
-  impact: <int> A number between 0-100 that represents the impact of the detection
-  message: <str> The risk message that will be displayed in the Splunk Enterprise Security
-  mitre_attack_id: List of MITRE ATT&CK IDs that are related to the detection
-  - <list> 
-  observable: List of observables that are related to the detection
-  - name: <str> Field name of the observable
-    type: <str> Type of the observable (User, Endpoint, File, Process Name)
-    role:
-    - <list> Role of the observable (Victim, Attacker)
-  product:
-  - <list> List of products that are related to the detection (Splunk Enterprise Security, Splunk Enterprise)
-  required_fields:
-  - <list> List of required fields that are needed to execute the detection
-  risk_score: <int> A number between 0-100 that represents the risk score of the detection 
-  security_domain: <str> The security domain that the detection is related to (Network, Endpoint, Cloud, etc.)
-tests:
-- name: <str> Name of the test
-  attack_data: <url> URL to the attack data that is used to test the detection
-  - data: <str> Data of the attack
-    source: <str> Source of the attack
-    sourcetype: <str> Sourcetype from the attack
-```
+| Key | Type | Description |
+|-----------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name | <str> | Name of the detection, this is the name that will be displayed in the Splunk UI |
+| id | <int> | Unique identifier for the detection, UUID |
+| version | <int> | Version of the detection, update this every time a change is made to the file |
+| date | <str> | Date of the detection, update this every time a change is made to the file |
+| author | <str> | Author of the detection |
+| type | <str> | Type of the detection (TTP, Anomaly, Baseline, Hunting, Correlation) |
+| status | <str> | Status of the detection (Production, Experimental, Deprecated) |
+| data_source | <list> | Reference to the data source that the detection is based, use the name from the data_sources/ folder |
+| description | <str> | Description of the detection |
+| search | <str> | Splunk search to be executed, this is the core of the detection. Detections can be either written against the sourcetype or in tstats if the data is normalized. Sourcetype based searches begin with an input macro, core search logic and end with a filter macro. The input macro is used to specify the index and sourcetype and the _filter macro is used to filter out the false positives. |
+| how_to_implement | <str> | Details on how to implement the detection |
+| known_false_positives | <str> | Details on known false positives triggered in this detection. |
+| references | <list> | List of references to the MITRE ATT&CK, details of attack vector, blog posts, vulnerabilities, etc. |
+| tags | | |
+| analytic_story | <list> | Name of the analytic story that the detection is part of |
+| asset_type | <str> | Which assets are monitored by this detection (Endpoint, Network, AWS Tenant, Azure Tenant, etc.) |
+| confidence | <int> | Confidence level of the detection |
+| cve | <list> | List of CVEs that are related to the detection |
+| impact | <int> | A number between 0-100 that represents the impact of the detection |
+| message | <str> | The risk message that will be displayed in the Splunk Enterprise Security |
+| mitre_attack_id | <list> | List of MITRE ATT&CK IDs that are related to the detection |
+| observable | <list> | List of observables that are related to the detection |
+| name | <str> | Field name of the observable |
+| type | <str> | Type of the observable (User, Endpoint, File, Process Name) |
+| role | <list> | Role of the observable (Victim, Attacker) |
+| product | <list> | List of products that are related to the detection (Splunk Enterprise Security, Splunk Enterprise) |
+| required_fields | <list> | List of required fields that are needed to execute the detection |
+| risk_score | <int> | A number between 0-100 that represents the risk score of the detection |
+| security_domain | <str> | The security domain that the detection is related to (Network, Endpoint, Cloud, etc.) |
+| tests | | |
+| name | <str> | Name of the test |
+| attack_data | <url> | URL to the attack data that is used to test the detection |
+| data | <str> | Data of the attack |
+| source | <str> | Source of the attack |
+| sourcetype | <str> | Sourcetype from the attack |
 
 # Elements of a analytics_story.yml:
-```
-name: <str> Name of the analytic story
-id: <int> Unique identifier for the analytic story, UUID
-version: <int> Version of the analytic story, update this everytime a change is made to the file
-date: <str> Date of the analytic story
-author: <str> Author of the analytic story
-description: <str> Description of the analytic story
-narrative: <str> Narrative of the analytic story
-references: <list> List of references to the analytic story
-- 
-tags:
-  category: <list> List of categories that the analytic story is related to
-  - 
-  product: <list> List of products that the analytic story is related to
-  - 
-  usecase: <str> Usecase of the analytic story (Advanced Persistent Threat, Cloud,Vulnerability, Malware etc.)
-```
+
+# Your Markdown Title
+
+Some introductory text or description.
+
+| Key        | Type   | Description                                                                                       |
+|------------|--------|---------------------------------------------------------------------------------------------------|
+| name       | <str>  | Name of the analytic story                                                                        |
+| id         | <int>  | Unique identifier for the analytic story, UUID                                                    |
+| version    | <int>  | Version of the analytic story, update this every time a change is made to the file                |
+| date       | <str>  | Date of the analytic story                                                                        |
+| author     | <str>  | Author of the analytic story                                                                      |
+| description| <str>  | Description of the analytic story                                                                 |
+| narrative  | <str>  | Narrative of the analytic story                                                                   |
+| references | <list> | List of references to the analytic story                                                          |
+| tags       |        |                                                                                                   |
+| category   | <list> | List of categories that the analytic story is related to                                          |
+| product    | <list> | List of products that the analytic story is related to                                            |
+| usecase    | <str>  | Usecase of the analytic story (Advanced Persistent Threat, Cloud, Vulnerability, Malware, etc.)   |
+
+More text or content can follow here.
 # Recommendations
 
 - 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
