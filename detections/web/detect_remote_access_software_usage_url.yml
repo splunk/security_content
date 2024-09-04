@@ -43,6 +43,7 @@ tags:
   - Insider Threat
   - Command And Control
   - Ransomware
+  - CISA AA24-241A
   asset_type: Network
   confidence: 50
   impact: 50
