@@ -44,7 +44,7 @@ tags:
   - T1136
   - T1136.001
   observable:
-  - name: hostname
+  - name: dest
     type: Hostname
     role:
     - Victim
