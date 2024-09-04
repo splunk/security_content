@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 60
