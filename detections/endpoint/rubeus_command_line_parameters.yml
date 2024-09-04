@@ -49,6 +49,7 @@ tags:
   - Active Directory Privilege Escalation
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 60
   impact: 60
