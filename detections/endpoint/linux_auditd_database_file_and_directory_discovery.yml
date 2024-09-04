@@ -5,14 +5,7 @@ date: '2024-09-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: "The following analytic detects suspicious database file and directory\
-  \ discovery activities, which may signal an attacker\u2019s attempt to locate and\
-  \ assess critical database assets on a compromised system. This behavior is often\
-  \ a precursor to data theft, unauthorized access, or privilege escalation, as attackers\
-  \ seek to identify valuable information stored in databases. By monitoring for unusual\
-  \ or unauthorized attempts to locate database files and directories, this analytic\
-  \ aids in early detection of potential reconnaissance or data breach efforts, enabling\
-  \ security teams to respond swiftly and mitigate the risk of further compromise."
+description: "The following analytic detects suspicious database file and directory discovery activities, which may signal an attacker attempt to locate and assess critical database assets on a compromised system. This behavior is often a precursor to data theft, unauthorized access, or privilege escalation, as attackers seek to identify valuable information stored in databases. By monitoring for unusual or unauthorized attempts to locate database files and directories, this analytic aids in early detection of potential reconnaissance or data breach efforts, enabling security teams to respond swiftly and mitigate the risk of further compromise."
 data_source:
 - Linux Auditd Execve
 search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
@@ -49,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to discover database files and directories.
   mitre_attack_id:
   - T1083
   observable:

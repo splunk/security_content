@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to split a file.
   mitre_attack_id:
   - T1030
   observable:

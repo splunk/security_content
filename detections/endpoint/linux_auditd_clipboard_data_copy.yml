@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the use of the Linux 'xclip' command to
-  copy data from the clipboard. It leverages Endpoint Detection and Response (EDR)
+  copy data from the clipboard. It leverages Linux Auditd
   telemetry, focusing on process names and command-line arguments related to clipboard
   operations. This activity is significant because adversaries can exploit clipboard
   data to capture sensitive information such as passwords or IP addresses. If confirmed
@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 40
   impact: 40
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to copy data from the clipboard.
   mitre_attack_id:
   - T1115
   observable:

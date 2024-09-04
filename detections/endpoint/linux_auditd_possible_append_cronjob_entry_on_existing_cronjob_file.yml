@@ -7,8 +7,7 @@ status: production
 type: Hunting
 description: The following analytic detects potential tampering with cronjob files
   on a Linux system by identifying 'echo' commands that append code to existing cronjob
-  files. It leverages logs from Endpoint Detection and Response (EDR) agents, focusing
-  on process names, parent processes, and command-line executions. This activity is
+  files. It leverages logs from Linux Auditd, focusing on process names, parent processes, and command-line executions. This activity is
   significant because adversaries often use it for persistence or privilege escalation.
   If confirmed malicious, this could allow attackers to execute unauthorized code
   automatically, leading to system compromises and unauthorized data access, thereby
@@ -45,7 +44,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A [$PATH$] has been accessed/modified on host - [$dest$].
+  message: A [$type$] event has occured on host - [$dest$] to append a cronjob entry on an existing cronjob file.
   mitre_attack_id:
   - T1053.003
   - T1053

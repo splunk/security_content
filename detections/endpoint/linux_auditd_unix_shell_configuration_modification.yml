@@ -47,7 +47,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A [$PATH$] has been accessed/modified on host - [$dest$].
+  message: A [$type$] event occured on host - [$dest$] to modify the unix shell configuration file.
   mitre_attack_id:
   - T1546.004
   - T1546

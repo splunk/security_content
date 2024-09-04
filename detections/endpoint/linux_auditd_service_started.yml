@@ -42,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to start or enable a service.
   mitre_attack_id:
   - T1569.002
   - T1569

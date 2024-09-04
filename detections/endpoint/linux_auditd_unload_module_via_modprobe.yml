@@ -42,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to unload a kernel module via the modprobe command.
   mitre_attack_id:
   - T1547.006
   - T1547

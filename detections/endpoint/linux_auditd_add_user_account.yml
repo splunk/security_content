@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to add a user account.
   mitre_attack_id:
   - T1136.001
   - T1136

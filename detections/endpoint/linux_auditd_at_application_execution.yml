@@ -44,7 +44,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: A SYSCALL - [$comm$] event was executed on host - [$dest$].
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to execute the "at" application.
   mitre_attack_id:
   - T1053.002
   - T1053

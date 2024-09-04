@@ -7,8 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic detects the execution of the chmod utility to
   set the SUID or SGID bit on files, which can allow users to temporarily gain root
-  or group-level access. This detection leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process names and command-line arguments related
+    or group-level access. This detection leverages data from Linux Auditd, focusing on process names and command-line arguments related
   to chmod. This activity is significant as it can indicate an attempt to escalate
   privileges or maintain persistence on a system. If confirmed malicious, an attacker
   could gain elevated access, potentially compromising sensitive data or critical
@@ -43,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to set the SUID or SGID bit on files using the chmod utility.
   mitre_attack_id:
   - T1548.001
   - T1548

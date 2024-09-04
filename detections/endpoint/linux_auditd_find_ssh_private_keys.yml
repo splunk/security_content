@@ -5,14 +5,7 @@ date: '2024-09-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: "The following analytic detects suspicious attempts to find SSH private\
-  \ keys, which may indicate an attacker\u2019s effort to compromise secure access\
-  \ to systems. SSH private keys are essential for secure authentication, and unauthorized\
-  \ access to t hese keys can enable attackers to gain unauthorized access to servers\
-  \ and other critical infrastructure. By monitoring for unusual or unauthorized searches\
-  \ for SSH private keys, this analytic helps identify potential threats to network\
-  \ security, allowing security teams to quickly respond and safeguard against unauthorized\
-  \ access and potential breaches."
+description: "The following analytic detects suspicious attempts to find SSH private keys, which may indicate an attacker's effort to compromise secure access to systems. SSH private keys are essential for secure authentication, and unauthorized access to these keys can enable attackers to gain unauthorized access to servers and other critical infrastructure. By monitoring for unusual or unauthorized searches for SSH private keys, this analytic helps identify potential threats to network security, allowing security teams to quickly respond and safeguard against unauthorized access and potential breaches."
 data_source:
 - Linux Auditd Execve
 search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
@@ -45,7 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to find SSH private keys.
   mitre_attack_id:
   - T1552.004
   - T1552

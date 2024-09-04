@@ -41,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A service event - [$SERVICE_STOP$] event occured on host - [$dest$].
+  message: A service event - [$type$] event occured on host - [$dest$] to stop the osquery service.
   mitre_attack_id:
   - T1489
   observable:

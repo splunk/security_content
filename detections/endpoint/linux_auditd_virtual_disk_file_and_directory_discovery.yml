@@ -5,14 +5,7 @@ date: '2024-09-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: "The following analytic detects suspicious discovery of virtual disk\
-  \ files and directories, which may indicate an attacker\u2019s attempt to locate\
-  \ and access virtualized storage environments. Virtual disks can contain sensitive\
-  \ data or critical system configurations, and unauthorized discovery attempts could\
-  \ signify preparatory actions for data exfiltration or further compromise. By monitoring\
-  \ for unusual or unauthorized searches for virtual disk files and directories, this\
-  \ analytic helps identify potential reconnaissance activities, enabling security\
-  \ teams to respond promptly and safeguard against unauthorized access and data breaches."
+description: "The following analytic detects suspicious discovery of virtual disk files and directories, which may indicate an attacker's attempt to locate and access virtualized storage environments. Virtual disks can contain sensitive data or critical system configurations, and unauthorized discovery attempts could signify preparatory actions for data exfiltration or further compromise. By monitoring for unusual or unauthorized searches for virtual disk files and directories, this analytic helps identify potential reconnaissance activities, enabling security teams to respond promptly and safeguard against unauthorized access and data breaches."
 data_source:
 - Linux Auditd Execve
 search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
@@ -44,7 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to discover virtual disk files and directories.
   mitre_attack_id:
   - T1083
   observable:

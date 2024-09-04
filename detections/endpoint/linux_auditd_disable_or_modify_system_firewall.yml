@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A service event - [$SERVICE_STOP$] event occured on host - [$dest$].
+  message: A service event - [$type$] to disable or modify system firewall occured on host - [$dest$] .
   mitre_attack_id:
   - T1562.004
   - T1562

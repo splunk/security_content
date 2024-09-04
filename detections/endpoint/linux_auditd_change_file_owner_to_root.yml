@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: The following analytic detects the use of the 'chown' command to change
-  a file owner to 'root' on a Linux system. It leverages Endpoint Detection and Response
-  (EDR) telemetry, specifically monitoring command-line executions and process details.
+  a file owner to 'root' on a Linux system. It leverages Linux Auditd telemetry, specifically monitoring command-line executions and process details.
   This activity is significant as it may indicate an attempt to escalate privileges
   by adversaries, malware, or red teamers. If confirmed malicious, this action could
   allow an attacker to gain root-level access, leading to full control over the compromised
@@ -42,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to change a file owner to root.
   mitre_attack_id:
   - T1222.002
   - T1222

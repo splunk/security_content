@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the execution of the "sudo" or "su" command
-  on a Linux operating system. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process names and parent process names. This activity
+  on a Linux operating system. It leverages data from Linux Auditd, focusing on process names and parent process names. This activity
   is significant because "sudo" and "su" commands are commonly used by adversaries
   to elevate privileges, potentially leading to unauthorized access or control over
   the system. If confirmed malicious, this activity could allow attackers to execute
@@ -41,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to execute the sudo or su command.
   mitre_attack_id:
   - T1548.003
   - T1548

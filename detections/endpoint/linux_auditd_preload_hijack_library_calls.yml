@@ -7,8 +7,7 @@ status: production
 type: TTP
 description: The following analytic detects the use of the LD_PRELOAD environment
   variable to hijack or hook library functions on a Linux platform. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process execution
-  logs that include command-line details. This activity is significant because adversaries,
+  from Linux Auditd, focusing on process execution logs that include command-line details. This activity is significant because adversaries,
   malware authors, and red teamers commonly use this technique to gain elevated privileges
   and establish persistence on a compromised machine. If confirmed malicious, this
   behavior could allow attackers to execute arbitrary code, escalate privileges, and
@@ -40,7 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to hijack or hook library functions using the LD_PRELOAD environment variable.
   mitre_attack_id:
   - T1574.006
   - T1574

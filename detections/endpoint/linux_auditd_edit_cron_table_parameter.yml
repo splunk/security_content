@@ -42,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A SYSCALL - [$comm$] event was executed on host - [$dest$].
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to edit the cron table.
   mitre_attack_id:
   - T1053.003
   - T1053

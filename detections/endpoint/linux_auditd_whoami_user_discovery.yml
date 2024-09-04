@@ -42,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A SYSCALL - [$comm$] event was executed on host - [$dest$].
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to discover virtual disk files and directories.
   mitre_attack_id:
   - T1033
   observable:

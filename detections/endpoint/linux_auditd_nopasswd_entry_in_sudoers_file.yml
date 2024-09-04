@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the addition of NOPASSWD entries to the
-  /etc/sudoers file on Linux systems. It leverages Endpoint Detection and Response
-  (EDR) telemetry to identify command lines containing "NOPASSWD:". This activity
+  /etc/sudoers file on Linux systems. It leverages Linux Auditd data to identify command lines containing "NOPASSWD:". This activity
   is significant because it allows users to execute commands with elevated privileges
   without requiring a password, which can be exploited by adversaries to maintain
   persistent, privileged access. If confirmed malicious, this could lead to unauthorized
@@ -42,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to add NOPASSWD entry in sudoers file.
   mitre_attack_id:
   - T1548.003
   - T1548

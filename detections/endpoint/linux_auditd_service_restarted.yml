@@ -7,12 +7,11 @@ status: production
 type: Anomaly
 description: The following analytic detects the restarting or re-enabling of services
   on Linux systems using the `systemctl` or `service` commands. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process and command-line
-  execution logs. This activity is significant as adversaries may use it to maintain
-  persistence or execute unauthorized actions. If confirmed malicious, this behavior
-  could lead to repeated execution of malicious payloads, unauthorized access, or
-  data destruction. Security analysts should investigate these events to mitigate
-  risks and prevent further compromise.
+  from Linux Auditd, focusing on process and command-line execution logs. This activity
+  is significant as adversaries may use it to maintain persistence or execute unauthorized
+  actions. If confirmed malicious, this behavior could lead to repeated execution
+  of malicious payloads, unauthorized access, or data destruction. Security analysts
+  should investigate these events to mitigate risks and prevent further compromise.
 data_source:
 - Linux Auditd Proctitle
 search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host
@@ -47,7 +46,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to restart or re-enable a service.
   mitre_attack_id:
   - T1053.006
   - T1053

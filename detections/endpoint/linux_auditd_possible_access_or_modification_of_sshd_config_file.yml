@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects suspicious access or modification of the
-  sshd_config file on Linux systems. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on command-line executions involving processes like
+  sshd_config file on Linux systems. It leverages data from Linux Auditd, focusing on command-line executions involving processes like
   "cat," "nano," "vim," and "vi" accessing the sshd_config file. This activity is
   significant because unauthorized changes to sshd_config can allow threat actors
   to redirect port connections or use unauthorized keys, potentially compromising
@@ -42,7 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: A [$PATH$] has been accessed/modified on host - [$dest$].
+  message: A [$type$] has been accessed/modified on host - [$dest$] to modify the sshd_config file.
   mitre_attack_id:
   - T1098.004
   - T1098

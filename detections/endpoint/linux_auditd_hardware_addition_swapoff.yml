@@ -41,7 +41,8 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: A [$process_exec$] event occurred on host - [$dest$].
+  message: A [$process_exec$] event occurred on host - [$dest$] to disable the swapping
+    of paging devices on a Linux system.
   mitre_attack_id:
   - T1200
   observable:

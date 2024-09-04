@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the insertion of a Linux kernel module
-  using the insmod utility. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process execution logs that include process names and
+  using the insmod utility. It leverages data from Linux Auditd, focusing on process execution logs that include process names and
   command-line details. This activity is significant as it may indicate the installation
   of a rootkit or malicious kernel module, potentially allowing an attacker to gain
   elevated privileges and bypass security detections. If confirmed malicious, this
@@ -43,7 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A SYSCALL - [$comm$] event was executed on host - [$dest$].
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to insert a Linux kernel module using the insmod utility.
   mitre_attack_id:
   - T1547.006
   - T1547

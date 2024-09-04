@@ -6,8 +6,7 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: The following analytic detects the use of the 'dd' command to overwrite
-  files on a Linux system. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process execution logs that include command-line details.
+  files on a Linux system. It leverages data from Linux Auditd telemetry, focusing on process execution logs that include command-line details.
   This activity is significant because adversaries often use the 'dd' command to destroy
   or irreversibly overwrite files, disrupting system availability and services. If
   confirmed malicious, this behavior could lead to data destruction, making recovery
