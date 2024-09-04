@@ -42,6 +42,7 @@ tags:
   - Data Destruction
   - Hermetic Wiper
   - Trickbot
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 70

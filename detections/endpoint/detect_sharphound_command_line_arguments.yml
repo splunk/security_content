@@ -43,6 +43,7 @@ tags:
   analytic_story:
   - Windows Discovery Techniques
   - Ransomware
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 30
