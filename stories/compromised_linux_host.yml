@@ -1,0 +1,25 @@
+name: Compromised Linux Host
+id: d7ea2fc0-3710-4257-b64f-f3c2a6abebd3
+version: 1
+date: '2024-06-25'
+author: Teoderick Contreras, Splunk
+description: Monitor for activities and techniques associated with Compromised Linux Host attacks. 
+  These include unauthorized access attempts, unusual network traffic patterns, and the presence of 
+  unknown or suspicious processes. Look for unexpected changes in system files, modifications to configuration files, 
+  and the installation of unrecognized software. Pay attention to abnormal resource usage, such as high CPU or memory 
+  consumption. Regularly review logs for signs of privilege escalation or lateral movement, and ensure integrity checks 
+  are in place to detect tampering with critical system components.
+narrative: In a tale of digital intrusion, Imagine a system administrator noticing unexpected spikes in network traffic and CPU usage. 
+  Delving deeper, they find unknown processes running and unfamiliar software installed. System files and configurations show 
+  unauthorized modifications, hinting at privilege escalation. Log reviews reveal attempts at lateral movement across the network. 
+  The administrator's vigilance, combined with regular integrity checks, helps uncover and mitigate the threat. This narrative 
+  underscores the importance of monitoring and swift action in maintaining a secure Linux environment.
+references: []
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
