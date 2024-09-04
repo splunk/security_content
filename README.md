@@ -82,7 +82,39 @@ Follow these steps to get started with Splunk Security Content.
 2. Navigate to the repository directory using `cd security_content`
 3. Install contentctl using `pip install contentctl` to install the latest version of contentctl, this is a pre-requisite to validate, build and test the content like the Splunk Threat Research team
 
-🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute to the Splunk Security Content project.
+# Quick Start 🚀
+
+1. Setup the environment
+```
+git clone https://github.com/splunk/security_content.git
+cd security_content
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install contentctl
+
+```
+2. Create a new detection.yml and answer the questions
+ ```
+ contentctl new
+ ```
+3. Make sure you update the detection.yml with the required fields and values.
+
+4. Validate your content
+```
+contentctl validate
+```
+5. Build an ESCU app
+```
+contentctl build --enrichments
+```
+
+# Recommendations
+
+- 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
+
+- In order to build an content app that specific for your organization, we strongly recommend that you start with keeping only the detections that are related to your organization and remove other yamls that are not related to your organization. This includes selecting detections, stories, macros, lookups that are used by the detection ymls.
+
+- If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
 # Elements of a detection.yml:
 
@@ -142,15 +174,6 @@ Here is a quick overview of the elements of a detection with an explanation
 | category   | list | List of categories that the analytic story is related to                                          |
 | product    | list | List of products that the analytic story is related to                                            |
 | usecase    | str  | Usecase of the analytic story (Advanced Persistent Threat, Cloud, Vulnerability, Malware, etc.)   |
-
-More text or content can follow here.
-# Recommendations
-
-- 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
-
-- In order to build an content app that specific for your organization, we strongly recommend that you start with keeping only the detections that are related to your organization and remove other yamls that are not related to your organization. This includes selecting detections, stories, macros, lookups that are used by the detection ymls.
-
-- If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
 
 # Contribution 🥰
