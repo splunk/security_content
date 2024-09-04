@@ -47,6 +47,7 @@ tags:
   - Active Directory Discovery
   - Volt Typhoon
   - Rhysida Ransomware
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 30

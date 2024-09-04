@@ -41,6 +41,7 @@ tags:
   analytic_story:
   - Windows Discovery Techniques
   - Gozi Malware
+  - BlackSuit Ransomware
   asset_type: Windows
   confidence: 50
   impact: 30

@@ -35,6 +35,7 @@ tags:
   analytic_story:
   - IcedID
   - Windows Registry Abuse
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 70
   impact: 70
