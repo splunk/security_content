@@ -44,6 +44,7 @@ tags:
   - Data Destruction
   - Amadey
   - Scheduled Tasks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 80
