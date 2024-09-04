@@ -4,9 +4,9 @@
   <row>
     <panel>
       <html>
-        <p5>You can contact the Splunk Research team at<a href = "mailto:research@splunk.com">research@splunk.com</a> to send us support requests, bug reports, and questions.
-          <br>Specify the request type and the title of any related analytic stories, where applicable.</br>
-          You can also find us on the <b>#es-content-updates</b><a href = "http://splunk-usergroups.slack.com/"> Splunk Usergroups Slack channel</a></p5>
+        <p5>You can contact the Splunk Threat Research team at<a href = "mailto:research@splunk.com">research@splunk.com</a> to send us support requests, bug reports, and questions.
+          <br>Specify the request type and the title of any related analytic stories, detections analytics where applicable.</br>
+          You can also find us on the <b>#es-content-updates</b><a href = "http://splunk-usergroups.slack.com/"> Splunk Usergroups Slack channel.</a></p5>
       </html>
     </panel>
   </row>
