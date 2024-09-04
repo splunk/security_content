@@ -44,6 +44,7 @@ tags:
   - Data Destruction
   - Amadey
   - Scheduled Tasks
+  - CISA AA24-241A
   - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 100
