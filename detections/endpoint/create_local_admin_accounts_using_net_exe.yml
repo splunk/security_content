@@ -37,6 +37,7 @@ tags:
   - Azorult
   - CISA AA22-257A
   - DarkGate Malware
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 60
   impact: 50
