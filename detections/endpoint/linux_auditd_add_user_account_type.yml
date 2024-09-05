@@ -39,7 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: New PATH event on host - [$dest$] to add a user account type.
+  message: New [$type$] event on host - [$dest$] to add a user account type.
   mitre_attack_id:
   - T1136
   - T1136.001
