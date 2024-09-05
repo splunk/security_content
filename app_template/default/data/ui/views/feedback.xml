@@ -1,12 +1,12 @@
 <form  isVisible="true" version="1.1">
   <label>Feedback Center</label>
-  <description>Welcome to Splunk Enterprise Security Content Updates Feedback Center.</description>
+  <description>Welcome to the Splunk Enterprise Security Content Updates feedback center.</description>
   <row>
     <panel>
       <html>
-        <p5>Contact us at <a href = "mailto:research@splunk.com">research@splunk.com</a> to send us support requests, bug reports, or questions directly to the Splunk Security Research Team.
-          <br>Please specify your request type and/or the title of any related Analytic Stories.</br>
-          You can also find us in the <b>#security-research</b> room in the <a href = "http://splunk-usergroups.slack.com/">Splunk Slack channel</a></p5>
+        <p5>You can contact the Splunk Threat Research team at<a href = "mailto:research@splunk.com">research@splunk.com</a> to send us support requests, bug reports, and questions.
+          <br>Specify the request type and the title of any related analytic stories, detections analytics where applicable.</br>
+          You can also find us on the <b>#es-content-updates</b><a href = "http://splunk-usergroups.slack.com/"> Splunk Usergroups Slack channel.</a></p5>
       </html>
     </panel>
   </row>
