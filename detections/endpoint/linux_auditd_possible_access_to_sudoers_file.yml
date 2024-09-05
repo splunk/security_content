@@ -14,7 +14,7 @@ description: The following analytic detects potential access or modification of 
 data_source:
 - Linux Auditd Path
 search: '`linux_auditd` type=PATH name="/etc/sudoers*" | rename host as dest | stats
-  count min(_time) as firstTime max(_time) as lastTime by name nametype OGID dest
+  count min(_time) as firstTime max(_time) as lastTime by name nametype OGID type dest
   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_possible_access_to_sudoers_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
