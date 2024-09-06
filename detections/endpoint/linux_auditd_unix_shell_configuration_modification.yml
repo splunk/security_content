@@ -22,7 +22,7 @@ search: '`linux_auditd` type=PATH name IN ("/etc/profile", "/etc/shells", "/etc/
   "/home/*/.bash_profile", "/home/*/.zprofile", "/home/*/.profile", "/home/*/.bash_login",
   "/home/*/.bash_logout", "/home/*/.zlogin", "/home/*/.zlogout") | rename host as
   dest | stats count min(_time) as firstTime max(_time) as lastTime by name nametype
-  OGID dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  OGID type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_unix_shell_configuration_modification_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
