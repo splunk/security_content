@@ -15,7 +15,7 @@ description: The following analytic detects the creation of the doas.conf file o
 data_source:
 - Linux Auditd Path
 search: '`linux_auditd` type=PATH name ="/etc/doas.conf*" | rename host as dest |
-  stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID
+  stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID type
   dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_doas_conf_file_creation_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
