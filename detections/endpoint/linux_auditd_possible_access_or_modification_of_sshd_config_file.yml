@@ -15,9 +15,7 @@ description: The following analytic detects suspicious access or modification of
 data_source:
 - Linux Auditd Path
 search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID
-  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
+  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
