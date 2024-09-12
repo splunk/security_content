@@ -13,7 +13,7 @@ description: The following analytic identifies when a new device is enrolled on 
   to potential account takeover, unauthorized access, and persistent control over
   the compromised Okta account. Monitoring this behavior is crucial for detecting
   and mitigating unauthorized access attempts.
-data_source: 
+data_source:
 - Okta
 search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create
@@ -27,6 +27,17 @@ known_false_positives: It is possible that the user has legitimately added a new
 references:
 - https://attack.mitre.org/techniques/T1098/005/
 - https://developer.okta.com/docs/reference/api/event-types/?q=device.enrollment.create
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+    min(_time) as firstTime from datamodel=Change where All_Changes.action=created
+    All_Changes.command=device.enrollment.create by _time span=5m All_Changes.user
+    All_Changes.result All_Changes.command sourcetype All_Changes.src All_Changes.action
+    All_Changes.object_category | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)` | `okta_new_device_enrolled_on_account_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -61,7 +72,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/okta_new_device_enrolled/okta_new_device_enrolled.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/okta_new_device_enrolled/okta_new_device_enrolled.log
     source: Okta
     sourcetype: OktaIM2:log

@@ -13,7 +13,7 @@ description: The following analytic identifies when an associate reports a login
   malicious, the attacker could gain unauthorized access to sensitive systems and
   data, leading to data theft, privilege escalation, or further compromise of the
   environment.
-data_source: 
+data_source:
 - Okta
 search: '`okta` eventType=user.account.report_suspicious_activity_by_enduser | stats
   count min(_time) as firstTime max(_time) as lastTime values(displayMessage) by user
@@ -28,6 +28,15 @@ known_false_positives: False positives should be minimal, given the high fidelit
   of this detection. marker.
 references:
 - https://help.okta.com/en-us/Content/Topics/Security/suspicious-activity-reporting.htm
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '`okta` eventType=user.account.report_suspicious_activity_by_enduser | stats
+    count min(_time) as firstTime max(_time) as lastTime values(displayMessage) by
+    user eventType client.userAgent.rawUserAgent client.userAgent.browser client.geographicalContext.city  client.geographicalContext.country
+    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_suspicious_activity_reported_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -62,7 +71,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/okta_suspicious_activity_reported_by_user/okta_suspicious_activity_reported_by_user.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/okta_suspicious_activity_reported_by_user/okta_suspicious_activity_reported_by_user.log
     source: Okta
     sourcetype: OktaIM2:log

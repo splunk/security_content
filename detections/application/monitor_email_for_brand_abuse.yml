@@ -26,6 +26,18 @@ how_to_implement: You need to ingest email header data. Specifically the sender'
   be checked for.
 known_false_positives: None at this time
 references: []
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats `security_content_summariesonly` values(All_Email.recipient) as
+    recipients, min(_time) as firstTime, max(_time) as lastTime from datamodel=Email
+    by All_Email.src_user, All_Email.message_id | `drop_dm_object_name("All_Email")`
+    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval
+    temp=split(src_user, "@") | eval email_domain=mvindex(temp, 1) | lookup update=true
+    brandMonitoring_lookup domain as email_domain OUTPUT domain_abuse | search domain_abuse=true
+    | table message_id, src_user, email_domain, recipients, firstTime, lastTime |
+    `monitor_email_for_brand_abuse_filter` | search user = $user$'
 tags:
   analytic_story:
   - Brand Monitoring

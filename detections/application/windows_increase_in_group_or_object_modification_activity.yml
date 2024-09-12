@@ -12,21 +12,31 @@ description: This analytic detects an increase in modifications to AD groups or 
   such as unauthorized access attempts, impairing defences or establishing persistence.
   By monitoring AD logs for unusual modification patterns, this detection helps identify
   suspicious behavior that could compromise the integrity and security of the AD environment.
-search: >-
-  `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
-  | bucket span=5m _time 
-  | stats values(object) as object, dc(object) as objectCount, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category by _time, src_user, signature, status
-  | eventstats avg(objectCount) as comp_avg, stdev(objectCount) as comp_std by src_user, signature
-  | eval upperBound=(comp_avg+comp_std)
-  | eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0)
-  | search isOutlier=1 
-  | `windows_increase_in_group_or_object_modification_activity_filter`
-how_to_implement: Run this detection looking over a 7 day timeframe for best results. 
+search: '`wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764) | bucket
+  span=5m _time  | stats values(object) as object, dc(object) as objectCount, values(src_user_category)
+  as src_user_category, values(dest) as dest, values(dest_category) as dest_category
+  by _time, src_user, signature, status | eventstats avg(objectCount) as comp_avg,
+  stdev(objectCount) as comp_std by src_user, signature | eval upperBound=(comp_avg+comp_std)
+  | eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0) | search
+  isOutlier=1  | `windows_increase_in_group_or_object_modification_activity_filter`'
+how_to_implement: Run this detection looking over a 7 day timeframe for best results.
 known_false_positives: Unknown
 references: []
+drilldown:
+- name: View the detection results for $src_user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '`wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764) | bucket
+    span=5m _time  | stats values(object) as object, dc(object) as objectCount, values(src_user_category)
+    as src_user_category, values(dest) as dest, values(dest_category) as dest_category
+    by _time, src_user, signature, status | eventstats avg(objectCount) as comp_avg,
+    stdev(objectCount) as comp_std by src_user, signature | eval upperBound=(comp_avg+comp_std)
+    | eval isOutlier=if(objectCount > 10 and (objectCount >= upperBound), 1, 0) |
+    search isOutlier=1  | `windows_increase_in_group_or_object_modification_activity_filter`
+    | search src_user = $src_user$'
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 40
   impact: 20

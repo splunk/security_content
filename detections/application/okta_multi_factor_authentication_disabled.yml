@@ -3,7 +3,7 @@ id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
 version: 2
 date: '2024-05-13'
 author: Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Okta
 type: TTP
 status: production
@@ -28,6 +28,17 @@ known_false_positives: Legitimate use case may require for users to disable MFA.
 references:
 - https://attack.mitre.org/techniques/T1556/
 - https://splunkbase.splunk.com/app/6553
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+    min(_time) as firstTime from datamodel=Change where sourcetype="OktaIM2:log" All_Changes.object_category=User
+    AND All_Changes.action=modified All_Changes.command=user.mfa.factor.deactivate
+    by All_Changes.user All_Changes.result All_Changes.command sourcetype All_Changes.src
+    | `drop_dm_object_name("All_Changes")` | `security_content_ctime(firstTime)` |
+    `security_content_ctime(lastTime)` | `okta_multi_factor_authentication_disabled_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -66,7 +77,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/okta_mfa_method_disabled/okta_mfa_method_disabled.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/okta_mfa_method_disabled/okta_mfa_method_disabled.log
     source: Okta
     sourcetype: OktaIM2:log
