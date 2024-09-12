@@ -28,7 +28,7 @@ tags:
   - name: dest
     type: Other
     role:
-    - Endpoint
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
