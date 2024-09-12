@@ -2,8 +2,8 @@ name: Okta User Logins from Multiple Cities
 id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
 version: 2
 date: '2024-05-09'
-author: 'Bhavin Patel, Splunk'
-data_source: 
+author: Bhavin Patel, Splunk
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -32,6 +32,21 @@ known_false_positives: It is uncommon for a user to log in from multiple cities 
   which may indicate a false positive.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats  `security_content_summariesonly` values(Authentication.app) as
+    app values(Authentication.action) as action values(Authentication.user) as user
+    values(Authentication.reason) as reason values(Authentication.dest) as dest values(Authentication.signature)
+    as signature  values(Authentication.method) as method  from datamodel=Authentication
+    where  Authentication.signature=user.session.start by _time Authentication.src
+    | `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)` | iplocation src | stats count min(_time)
+    as firstTime max(_time) as lastTime dc(src) as distinct_src dc(City) as distinct_city
+    values(src) as src values(City) as City values(Country) as Country values(action)
+    as action by user | where distinct_city > 1 | `okta_user_logins_from_multiple_cities_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -70,7 +85,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
     source: Okta
     sourcetype: OktaIM2:log

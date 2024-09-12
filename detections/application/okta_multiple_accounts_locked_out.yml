@@ -3,7 +3,7 @@ id: a511426e-184f-4de6-8711-cfd2af29d1e1
 version: 2
 date: '2024-05-11'
 author: Michael Haag, Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -27,6 +27,17 @@ known_false_positives: Multiple account lockouts may be also triggered by an app
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://splunkbase.splunk.com/app/6553
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats `security_content_summariesonly` count max(_time) as lastTime,
+    min(_time) as firstTime values(All_Changes.user) as user from datamodel=Change
+    where All_Changes.change_type=AAA All_Changes.object_category=User AND All_Changes.action=lockout
+    AND All_Changes.command=user.account.lock by _time span=5m All_Changes.result
+    All_Changes.command sourcetype All_Changes.src | where count > 5 | `drop_dm_object_name("All_Changes")`
+    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_multiple_accounts_locked_out_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -64,7 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/okta_multiple_accounts_lockout/okta_multiple_accounts_lockout.log
     source: Okta
     sourcetype: OktaIM2:log

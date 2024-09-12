@@ -38,6 +38,17 @@ how_to_implement: 'You need to ingest data from emails. Specifically, the sender
   email will be deleted from the user''s inbox.'
 known_false_positives: None at this time
 references: []
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats `security_content_summariesonly` count values(All_Email.recipient)
+    as recipient_address min(_time) as firstTime max(_time) as lastTime from datamodel=Email
+    where All_Email.file_name="*" by All_Email.src_user, All_Email.file_name All_Email.message_id
+    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")`
+    | eval space_ratio = (mvcount(split(file_name," "))-1)/len(file_name) | search
+    space_ratio >= 0.1 |  rex field=recipient_address "(?<recipient_user>.*)@" | `email_attachments_with_lots_of_spaces_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Data Destruction

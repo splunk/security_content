@@ -25,6 +25,15 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   network traffic-analysis tools, such as Splunk Stream or Bro.
 known_false_positives: There are no known false positives.
 references: []
+drilldown:
+- name: View the detection results for $dest$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '`stream_http` http_method=POST http_content_length>1 | regex form_data="(?i)java\.lang\.(?:runtime|processbuilder)"
+    | rename src_ip as src | stats count earliest(_time) as firstTime, latest(_time)
+    as lastTime, values(url) as uri, values(status) as status, values(http_user_agent)
+    as http_user_agent by src, dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    | `suspicious_java_classes_filter` | search user = $user$ | search dest = $dest$'
 tags:
   analytic_story:
   - Apache Struts Vulnerability

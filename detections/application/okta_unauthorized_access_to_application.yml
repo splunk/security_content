@@ -2,8 +2,8 @@ name: Okta Unauthorized Access to Application
 id: 5f661629-9750-4cb9-897c-1f05d6db8727
 version: 2
 date: '2024-05-12'
-author: 'Bhavin Patel, Splunk'
-data_source: 
+author: Bhavin Patel, Splunk
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -28,6 +28,17 @@ known_false_positives: There is a possibility that a user may accidentally click
   the location from which this activity originates.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats values(Authentication.app) as app values(Authentication.action)
+    as action values(Authentication.user) as user values(Authentication.reason) as
+    reason from datamodel=Authentication where Authentication.signature=app.generic.unauth_app_access_attempt
+    Authentication.action="failure" by _time Authentication.src Authentication.user
+    | `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)` | iplocation src | `okta_unauthorized_access_to_application_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -66,7 +77,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/okta_unauth_access/okta_unauth_access.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/okta_unauth_access/okta_unauth_access.log
     source: Okta
     sourcetype: OktaIM2:log

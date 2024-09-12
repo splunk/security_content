@@ -38,6 +38,27 @@ known_false_positives: The false-positive rate will vary based on how you set th
   deviation_threshold and data_samples values. Our recommendation is to adjust these
   values based on your network traffic to and from your email servers.
 references: []
+drilldown:
+- name: View the detection results for $dest$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as
+    bytes_out from datamodel=Network_Traffic where All_Traffic.src_category=email_server
+    by All_Traffic.dest_ip _time span=1d | `drop_dm_object_name("All_Traffic")` |
+    eventstats avg(bytes_out) as avg_bytes_out stdev(bytes_out) as stdev_bytes_out
+    | eventstats count as num_data_samples avg(eval(if(_time < relative_time(now(),
+    "@d"), bytes_out, null))) as per_source_avg_bytes_out stdev(eval(if(_time < relative_time(now(),
+    "@d"), bytes_out, null))) as per_source_stdev_bytes_out by dest_ip | eval minimum_data_samples
+    = 4, deviation_threshold = 3 | where num_data_samples >= minimum_data_samples
+    AND bytes_out > (avg_bytes_out + (deviation_threshold * stdev_bytes_out)) AND
+    bytes_out > (per_source_avg_bytes_out + (deviation_threshold * per_source_stdev_bytes_out))
+    AND _time >= relative_time(now(), "@d") | eval num_standard_deviations_away_from_server_average
+    = round(abs(bytes_out - avg_bytes_out) / stdev_bytes_out, 2), num_standard_deviations_away_from_client_average
+    = round(abs(bytes_out - per_source_avg_bytes_out) / per_source_stdev_bytes_out,
+    2) | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out,
+    num_standard_deviations_away_from_server_average, num_standard_deviations_away_from_client_average
+    | `email_servers_sending_high_volume_traffic_to_hosts_filter` | search dest =
+    $dest$'
 tags:
   analytic_story:
   - Collection and Staging

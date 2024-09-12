@@ -3,7 +3,7 @@ id: de365ffa-42f5-46b5-b43f-fa72290b8218
 version: 2
 date: '2024-05-28'
 author: Michael Haag, Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -29,6 +29,18 @@ known_false_positives: A source Ip failing to authenticate with multiple users i
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://splunkbase.splunk.com/app/6553
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+    min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature)
+    as signature values(Authentication.user) as user values(Authentication.app) as
+    app values(Authentication.authentication_method) as authentication_method from
+    datamodel=Authentication where Authentication.action="failure" AND Authentication.signature=user.session.start
+    by _time span=5m Authentication.src sourcetype | where unique_accounts > 9 | `drop_dm_object_name("Authentication")`
+    | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_multiple_users_failing_to_authenticate_from_ip_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -66,7 +78,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
     source: Okta
     sourcetype: OktaIM2:log

@@ -3,7 +3,7 @@ id: 98f6ad4f-4325-4096-9d69-45dc8e638e82
 version: 2
 date: '2024-05-26'
 author: Bhavin Patel, Splunk
-data_source: 
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -28,6 +28,17 @@ known_false_positives: Although not recommended, certain users may be exempt fro
 references:
 - https://sec.okta.com/everythingisyes
 - https://attack.mitre.org/techniques/T1078/004/
+drilldown:
+- name: View the detection results for $user$
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+  search: '`okta`  action=success src_user_type = User eventType = user.authentication.verify
+    OR eventType = user.authentication.auth_via_mfa| stats dc(eventType) values(eventType)
+    as eventType values(target{}.displayName) as targets values(debugContext.debugData.url)
+    min(_time) as firstTime max(_time) as lastTime values(authentication_method) by
+    src_ip user action | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+    | search targets !="Okta Verify" | `okta_successful_single_factor_authentication_filter`
+    | search user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -67,7 +78,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_single_factor_auth/okta_single_factor_auth.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_single_factor_auth/okta_single_factor_auth.log
     source: okta_log
     sourcetype: OktaIM2:log
