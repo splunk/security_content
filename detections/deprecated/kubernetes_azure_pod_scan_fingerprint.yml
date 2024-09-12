@@ -7,7 +7,7 @@ status: deprecated
 type: Hunting
 description: This search provides information of unauthenticated requests via source
   IP user agent, request URI and response status data against Kubernetes cluster pod
-  in Azure
+  in Azure. This deprecated detection is now replaced with a new detection - **Kubernetes Scanner Image Pulling**. 
 data_source: []
 search: '`kubernetes_azure` category=kube-audit | spath input=properties.log | search
   responseStatus.code=401 | table  sourceIPs{} userAgent verb requestURI responseStatus.reason
