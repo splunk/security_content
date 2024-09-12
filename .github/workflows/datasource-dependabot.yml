@@ -44,7 +44,7 @@ jobs:
           git status
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
           commit-message: Updated TAs
