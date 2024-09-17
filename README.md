@@ -121,7 +121,7 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
-# Elements of a detection yml:
+# Elements of a [detection](https://github.com/splunk/security_content/blob/develop/detections/application/crushftp_server_side_template_injection.yml) yml:
 
 Here is a quick overview of the elements of a detection with an explanation
 | Key | Type | Description |
@@ -162,7 +162,7 @@ Here is a quick overview of the elements of a detection with an explanation
 | source | str | Source of the attack |
 | sourcetype | str | Sourcetype from the attack |
 
-# Elements of a stories yml:
+# Elements of a [stories](https://github.com/splunk/security_content/blob/develop/stories/3cx_supply_chain_attack.yml) yml:
 
 | Key        | Type   | Description                                                                                       |
 |------------|--------|---------------------------------------------------------------------------------------------------|
@@ -179,7 +179,7 @@ Here is a quick overview of the elements of a detection with an explanation
 | product    | list | List of products that the analytic story is related to                                            |
 | usecase    | str  | Usecase of the analytic story (Advanced Persistent Threat, Cloud, Vulnerability, Malware, etc.)   |
 
-# Elements of a macros yml:
+# Elements of a [macros](https://github.com/splunk/security_content/blob/develop/macros/admon.yml) yml:
 
 | Key | Type | Description |
 |-------------|--------|---------------------------------------------------------------------------------------------------|
@@ -187,7 +187,7 @@ Here is a quick overview of the elements of a detection with an explanation
 | description | str | A description of the macro, explaining its purpose and any specific configurations required. |
 | name | str | The name of the macro. |
 
-# Elements of a lookup yml:
+# Elements of a [lookup](https://github.com/splunk/security_content/blob/develop/lookups/3cx_ioc_domains.yml) yml:
 🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
 
 | Key | Type | Description |
