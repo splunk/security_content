@@ -110,8 +110,7 @@ contentctl validate
 contentctl build --enrichments
 ```
 
-6. Test your content
-Our testing framework is based on [contentctl](https://github.com/splunk/contentctl) and is quite extensive and flexible. Refer to the [contentctl documentation](https://github.com/splunk/contentctl?tab=readme-ov-file#contentctl-test) to learn more about the testing framework.
+6. Test the content - Our testing framework is based on [contentctl](https://github.com/splunk/contentctl) and is extensive and flexible. Refer to the [contentctl test documentation](https://github.com/splunk/contentctl?tab=readme-ov-file#contentctl-test) to learn more about the testing framework.
 
 
 # Recommendations
