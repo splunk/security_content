@@ -97,12 +97,14 @@ pip install contentctl
  ```
  contentctl new
  ```
-3. Make sure you update the detection.yml with the required fields and values.
+ 
+  **NOTE** - Make sure you update the detection.yml with the required fields and values.
 
 4. Validate your content
 ```
 contentctl validate
 ```
+
 5. Build an ESCU app
 ```
 contentctl build --enrichments
