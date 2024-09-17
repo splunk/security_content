@@ -5,9 +5,9 @@ date: '2024-05-19'
 author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Splunk
 type: TTP
 status: experimental
-data_source: 
+data_source:
 - Okta
-description: 'The following analytic identifies discrepancies between the source and
+description: The following analytic identifies discrepancies between the source and
   response events for Okta Verify Push requests, indicating potential suspicious behavior.
   It leverages Okta System Log events, specifically `system.push.send_factor_verify_push`
   and `user.authentication.auth_via_mfa` with the factor "OKTA_VERIFY_PUSH." The detection
@@ -15,7 +15,7 @@ description: 'The following analytic identifies discrepancies between the source
   requests, and checks for session roaming and new device/IP usage. This activity
   is significant as it may indicate push spam or unauthorized access attempts. If
   confirmed malicious, attackers could bypass MFA, leading to unauthorized access
-  to sensitive systems.'
+  to sensitive systems.
 search: '`okta` eventType IN (system.push.send_factor_verify_push) OR (eventType IN
   (user.authentication.auth_via_mfa) debugContext.debugData.factor="OKTA_VERIFY_PUSH")
   | eval groupby="authenticationContext.externalSessionId" | eval group_push_time=_time
@@ -42,6 +42,9 @@ known_false_positives: False positives may be present based on organization size
 references:
 - https://attack.mitre.org/techniques/T1621
 - https://splunkbase.splunk.com/app/6553
+drilldown_searches:
+- name: View the detection results for $actor.alternateId$
+  search: '%orginal_detection_search% | search  actor.alternateId = $actor.alternateId$'
 tags:
   analytic_story:
   - Okta Account Takeover

@@ -3,7 +3,7 @@ id: e2b99e7d-d956-411a-a120-2b14adfdde93
 version: 2
 date: '2024-05-29'
 author: Bhavin Patel, Splunk
-data_source: 
+data_source:
 - Okta
 type: TTP
 status: production
@@ -31,6 +31,9 @@ known_false_positives: A user may have accidentally entered the wrong credential
 references:
 - https://sec.okta.com/everythingisyes
 - https://splunkbase.splunk.com/app/6553
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -72,7 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_mfa_login_failed/okta_mfa_login_failed.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_mfa_login_failed/okta_mfa_login_failed.log
     source: okta_log
     sourcetype: OktaIM2:log

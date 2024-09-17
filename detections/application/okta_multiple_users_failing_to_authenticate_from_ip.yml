@@ -3,7 +3,7 @@ id: de365ffa-42f5-46b5-b43f-fa72290b8218
 version: 2
 date: '2024-05-28'
 author: Michael Haag, Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -29,6 +29,9 @@ known_false_positives: A source Ip failing to authenticate with multiple users i
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://splunkbase.splunk.com/app/6553
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -66,7 +69,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/okta_multiple_users_from_ip/okta_multiple_users_from_ip.log
     source: Okta
     sourcetype: OktaIM2:log

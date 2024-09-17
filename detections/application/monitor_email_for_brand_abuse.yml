@@ -26,6 +26,9 @@ how_to_implement: You need to ingest email header data. Specifically the sender'
   be checked for.
 known_false_positives: None at this time
 references: []
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Brand Monitoring

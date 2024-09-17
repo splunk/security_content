@@ -32,6 +32,9 @@ known_false_positives: Administrators and users sometimes prefer backing up thei
   email data by moving the email files into a different folder. These attempts will
   be detected by the search.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%orginal_detection_search% | search  dest = $dest$'
 tags:
   analytic_story:
   - Collection and Staging

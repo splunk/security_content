@@ -25,6 +25,9 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   network traffic-analysis tools, such as Splunk Stream or Bro.
 known_false_positives: There are no known false positives.
 references: []
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%orginal_detection_search% | search  user = $user$ dest = $dest$'
 tags:
   analytic_story:
   - Apache Struts Vulnerability

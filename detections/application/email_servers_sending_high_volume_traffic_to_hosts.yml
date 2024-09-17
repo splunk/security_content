@@ -38,6 +38,9 @@ known_false_positives: The false-positive rate will vary based on how you set th
   deviation_threshold and data_samples values. Our recommendation is to adjust these
   values based on your network traffic to and from your email servers.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%orginal_detection_search% | search  dest = $dest$'
 tags:
   analytic_story:
   - Collection and Staging

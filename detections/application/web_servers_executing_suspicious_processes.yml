@@ -5,8 +5,14 @@ date: '2024-05-11'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
-description: |-
-  The following analytic detects the execution of suspicious processes on systems identified as web servers. It leverages the Splunk data model "Endpoint.Processes" to search for specific process names such as "whoami", "ping", "iptables", "wget", "service", and "curl". This activity is significant because these processes are often used by attackers for reconnaissance, persistence, or data exfiltration. If confirmed malicious, this could lead to data theft, deployment of additional malware, or even ransomware attacks. Immediate investigation is required to determine the legitimacy of the activity and mitigate potential threats.
+description: The following analytic detects the execution of suspicious processes
+  on systems identified as web servers. It leverages the Splunk data model "Endpoint.Processes"
+  to search for specific process names such as "whoami", "ping", "iptables", "wget",
+  "service", and "curl". This activity is significant because these processes are
+  often used by attackers for reconnaissance, persistence, or data exfiltration. If
+  confirmed malicious, this could lead to data theft, deployment of additional malware,
+  or even ransomware attacks. Immediate investigation is required to determine the
+  legitimacy of the activity and mitigate potential threats.
 data_source:
 - Sysmon EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -27,6 +33,9 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Some of these processes may be used legitimately on web servers
   during maintenance or other administrative tasks.
 references: []
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%orginal_detection_search% | search  user = $user$ dest = $dest$'
 tags:
   analytic_story:
   - Apache Struts Vulnerability

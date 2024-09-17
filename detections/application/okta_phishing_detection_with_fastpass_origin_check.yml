@@ -5,7 +5,7 @@ date: '2024-05-15'
 author: Okta, Inc, Michael Haag, Splunk
 type: TTP
 status: experimental
-data_source: 
+data_source:
 - Okta
 description: The following analytic identifies failed user authentication attempts
   in Okta due to FastPass declining a phishing attempt. It leverages Okta logs, specifically
@@ -26,6 +26,9 @@ known_false_positives: Fidelity of this is high as Okta is specifying malicious 
   Filter and modify as needed.
 references:
 - https://sec.okta.com/fastpassphishingdetection
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover

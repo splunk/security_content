@@ -5,16 +5,16 @@ date: '2024-05-29'
 author: Scott Dermott, Felicity Robson, Okta, Michael Haag, Bhavin Patel, Splunk
 type: Anomaly
 status: production
-data_source: 
+data_source:
 - Okta
-description: 'The following analytic identifies suspicious use of a session cookie
+description: The following analytic identifies suspicious use of a session cookie
   by detecting multiple client values (IP, User Agent, etc.) changing for the same
   Device Token associated with a specific user. It leverages policy evaluation events
   from successful authentication logs in Okta. This activity is significant as it
   may indicate an adversary attempting to reuse a stolen web session cookie, potentially
   bypassing authentication mechanisms. If confirmed malicious, this could allow unauthorized
   access to user accounts, leading to data breaches or further exploitation within
-  the environment.'
+  the environment.
 search: '`okta` eventType IN (policy.evaluate_sign_on) outcome.result IN (ALLOW, SUCCESS)
   | stats earliest(_time) as _time, values(client.ipAddress) as src_ip, values(client.userAgent.rawUserAgent)
   as user_agent, values(client.userAgent.os) as userAgentOS_list, values(client.geographicalContext.city)
@@ -30,6 +30,9 @@ known_false_positives: False positives may occur, depending on the organization'
   size and the configuration of Okta.
 references:
 - https://attack.mitre.org/techniques/T1539/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Suspicious Okta Activity
@@ -65,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1539/okta_web_session_multiple_ip/okta_web_session_multiple_ip.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1539/okta_web_session_multiple_ip/okta_web_session_multiple_ip.log
     source: Okta
     sourcetype: OktaIM2:log

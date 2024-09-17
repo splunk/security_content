@@ -1,7 +1,7 @@
 name: Okta Risk Threshold Exceeded
 id: d8b967dd-657f-4d88-93b5-c588bcd7218c
 version: 3
-date: "2024-05-28"
+date: '2024-05-28'
 author: Michael Haag, Bhavin Patel, Splunk
 status: production
 type: Correlation
@@ -13,7 +13,7 @@ description: The following correlation identifies when a user exceeds a risk thr
   tactics, techniques, and procedures (TTPs) within a 24-hour period. If confirmed
   malicious, this activity could indicate a serious security breach, allowing attackers
   to gain unauthorized access, escalate privileges, or persist within the environment.
-data_source: 
+data_source:
 - Okta
 search: '| tstats `security_content_summariesonly` values(All_Risk.analyticstories)
   as analyticstories  sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
@@ -37,6 +37,9 @@ known_false_positives: False positives will be limited to the number of events g
 references:
 - https://developer.okta.com/docs/reference/api/event-types
 - https://sec.okta.com/everythingisyes
+drilldown_searches:
+- name: View the detection results for $risk_object$
+  search: '%orginal_detection_search% | search  risk_object = $risk_object$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -73,7 +76,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/okta_account_takeover_risk_events/okta_risk.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/okta_account_takeover_risk_events/okta_risk.log
     source: risk_data
     sourcetype: stash

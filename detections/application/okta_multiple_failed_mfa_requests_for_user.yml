@@ -3,7 +3,7 @@ id: 826dbaae-a1e6-4c8c-b384-d16898956e73
 version: 2
 date: '2024-05-20'
 author: Mauricio Velazco, Splunk
-data_source: 
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -26,6 +26,9 @@ known_false_positives: Multiple Failed MFA requests may also be a sign of authen
   or application issues. Filter as needed and monitor for any unusual activity.
 references:
 - https://attack.mitre.org/techniques/T1621/
+drilldown_searches:
+- name: View the detection results for $src_user$
+  search: '%orginal_detection_search% | search  src_user = $src_user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -61,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_requests/okta_multiple_failed_mfa_requests.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/okta_multiple_failed_mfa_requests/okta_multiple_failed_mfa_requests.log
     source: Okta
     sourcetype: OktaIM2:log

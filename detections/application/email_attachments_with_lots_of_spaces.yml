@@ -38,6 +38,9 @@ how_to_implement: 'You need to ingest data from emails. Specifically, the sender
   email will be deleted from the user''s inbox.'
 known_false_positives: None at this time
 references: []
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Data Destruction

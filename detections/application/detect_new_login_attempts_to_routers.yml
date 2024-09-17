@@ -24,6 +24,9 @@ how_to_implement: To successfully implement this search, you must ensure the net
   to routing infrastructure.
 known_false_positives: Legitimate router connections may appear as new connections
 references: []
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%orginal_detection_search% | search  user = $user$ dest = $dest$'
 tags:
   analytic_story:
   - Router and Infrastructure Security

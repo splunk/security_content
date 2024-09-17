@@ -12,7 +12,7 @@ description: The following analytic identifies threats detected by Okta ThreatIn
   access attempts and credential-based attacks. If confirmed malicious, these activities
   could lead to unauthorized access, data breaches, and further exploitation of compromised
   accounts, posing a significant risk to the organization's security posture.
-data_source: 
+data_source:
 - Okta
 search: '`okta` eventType = security.threat.detected | rename client.geographicalContext.country
   as country, client.geographicalContext.state as state, client.geographicalContext.city
@@ -27,6 +27,9 @@ known_false_positives: False positives may occur. It is recommended to fine-tune
   settings and the analytic to ensure high fidelity. Adjust the risk score as necessary.
 references:
 - https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
+drilldown_searches:
+- name: View the detection results for $app$
+  search: '%orginal_detection_search% | search  app = $app$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -69,7 +72,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_threatinsight_threat_detected/okta_threatinsight_threat_detected.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_threatinsight_threat_detected/okta_threatinsight_threat_detected.log
     source: Okta
     sourcetype: OktaIM2:log

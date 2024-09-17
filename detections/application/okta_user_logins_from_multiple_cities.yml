@@ -2,8 +2,8 @@ name: Okta User Logins from Multiple Cities
 id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
 version: 2
 date: '2024-05-09'
-author: 'Bhavin Patel, Splunk'
-data_source: 
+author: Bhavin Patel, Splunk
+data_source:
 - Okta
 type: Anomaly
 status: production
@@ -32,6 +32,9 @@ known_false_positives: It is uncommon for a user to log in from multiple cities 
   which may indicate a false positive.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%orginal_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover
@@ -70,7 +73,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/okta_multiple_city/okta_multiple_city_im2.log
     source: Okta
     sourcetype: OktaIM2:log
