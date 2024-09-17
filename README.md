@@ -97,7 +97,7 @@ pip install contentctl
  ```
  contentctl new
  ```
- 
+
   **NOTE** - Make sure you update the detection.yml with the required fields and values.
 
 4. Validate your content
@@ -110,6 +110,10 @@ contentctl validate
 contentctl build --enrichments
 ```
 
+6. Test your content
+Our testing framework is based on [contentctl](https://github.com/splunk/contentctl) and is quite extensive and flexible. Refer to the [contentctl documentation](https://github.com/splunk/contentctl?tab=readme-ov-file#contentctl-test) to learn more about the testing framework.
+
+
 # Recommendations
 
 - 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
@@ -118,7 +122,7 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
-# Elements of a detection.yml:
+# Elements of a detection yml:
 
 Here is a quick overview of the elements of a detection with an explanation
 | Key | Type | Description |
@@ -159,8 +163,7 @@ Here is a quick overview of the elements of a detection with an explanation
 | source | str | Source of the attack |
 | sourcetype | str | Sourcetype from the attack |
 
-# Elements of a analytics_story.yml:
-
+# Elements of a stories yml:
 
 | Key        | Type   | Description                                                                                       |
 |------------|--------|---------------------------------------------------------------------------------------------------|
@@ -177,6 +180,26 @@ Here is a quick overview of the elements of a detection with an explanation
 | product    | list | List of products that the analytic story is related to                                            |
 | usecase    | str  | Usecase of the analytic story (Advanced Persistent Threat, Cloud, Vulnerability, Malware, etc.)   |
 
+# Elements of a macros yml:
+
+| Key | Type | Description |
+|-------------|--------|---------------------------------------------------------------------------------------------------|
+| definition | str | The definition of the macro, specifying the source or other configurations. |
+| description | str | A description of the macro, explaining its purpose and any specific configurations required. |
+| name | str | The name of the macro. |
+
+# Elements of a lookup yml:
+🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
+
+| Key | Type | Description |
+|-----------------------|--------|-----------------------------------------------------------------------------|
+| description | str | A description of the lookup, detailing its purpose and contents. |
+| filename | str | The name of the CSV file that contains the lookup data. |
+| name | str | The name of the lookup. |
+| default_match | str | Indicates whether the default match is enabled (true or false). |
+| match_type | str | The type of match to perform, e.g., WILDCARD(domain). |
+| min_matches | int | The minimum number of matches required. |
+| case_sensitive_match | str | Indicates whether the match is case-sensitive (true or false). |
 
 # Contribution 🥰
 We welcome feedback and contributions from the community! Please see our [contributing to the project](./.github/CONTRIBUTING.md) for more information on how to get involved.
