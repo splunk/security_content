@@ -49,6 +49,7 @@ tags:
   - IcedID
   - Living Off The Land
   - Windows Registry Abuse
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
