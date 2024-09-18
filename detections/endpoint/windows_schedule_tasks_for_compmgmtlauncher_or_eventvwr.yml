@@ -53,5 +53,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/valleyrat_schedtask/valleyrat_schedtask.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
