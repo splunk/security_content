@@ -20,7 +20,8 @@ jobs:
       - name: Install Python Dependencies and ContentCTL and Atomic Red Team
         run: |
           pip install contentctl>=4.0.0
-          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git
+          git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
+          git clone --depth=1 --single-branch --branch=master https://github.com/mitre/cti external_repos/cti
       
       - name: Running build with enrichments
         run: |
