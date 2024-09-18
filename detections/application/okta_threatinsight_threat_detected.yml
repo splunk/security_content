@@ -29,7 +29,7 @@ references:
 - https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
 drilldown_searches:
 - name: View the detection results for $app$
-  search: '%orginal_detection_search% | search  app = $app$'
+  search: '%original_detection_search% | search  app = $app$'
 tags:
   analytic_story:
   - Okta Account Takeover

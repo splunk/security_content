@@ -44,7 +44,7 @@ references:
 - https://splunkbase.splunk.com/app/6553
 drilldown_searches:
 - name: View the detection results for $actor.alternateId$
-  search: '%orginal_detection_search% | search  actor.alternateId = $actor.alternateId$'
+  search: '%original_detection_search% | search  actor.alternateId = $actor.alternateId$'
 tags:
   analytic_story:
   - Okta Account Takeover

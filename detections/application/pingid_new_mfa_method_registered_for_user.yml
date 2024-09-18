@@ -33,7 +33,7 @@ references:
 - https://docs.pingidentity.com/r/en-us/pingoneforenterprise/p14e_subscriptions?tocId=3xhnxjX3VzKNs3SXigWnQA
 drilldown_searches:
 - name: View the detection results for $user$ and $src$
-  search: '%orginal_detection_search% | search  user = $user$ src = $src$'
+  search: '%original_detection_search% | search  user = $user$ src = $src$'
 tags:
   analytic_story:
   - Compromised User Account

@@ -40,7 +40,7 @@ known_false_positives: The false-positive rate will vary based on how you set th
 references: []
 drilldown_searches:
 - name: View the detection results for $dest$
-  search: '%orginal_detection_search% | search  dest = $dest$'
+  search: '%original_detection_search% | search  dest = $dest$'
 tags:
   analytic_story:
   - Collection and Staging

@@ -30,7 +30,7 @@ references:
 - https://splunkbase.splunk.com/app/6553
 drilldown_searches:
 - name: View the detection results for $user$
-  search: '%orginal_detection_search% | search  user = $user$'
+  search: '%original_detection_search% | search  user = $user$'
 tags:
   analytic_story:
   - Okta Account Takeover

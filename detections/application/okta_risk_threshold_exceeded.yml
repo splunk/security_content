@@ -39,7 +39,7 @@ references:
 - https://sec.okta.com/everythingisyes
 drilldown_searches:
 - name: View the detection results for $risk_object$
-  search: '%orginal_detection_search% | search  risk_object = $risk_object$'
+  search: '%original_detection_search% | search  risk_object = $risk_object$'
 tags:
   analytic_story:
   - Okta Account Takeover

@@ -28,7 +28,7 @@ references:
 - https://attack.mitre.org/techniques/T1621/
 drilldown_searches:
 - name: View the detection results for $src_user$
-  search: '%orginal_detection_search% | search  src_user = $src_user$'
+  search: '%original_detection_search% | search  src_user = $src_user$'
 tags:
   analytic_story:
   - Okta Account Takeover

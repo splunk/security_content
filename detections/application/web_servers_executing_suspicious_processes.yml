@@ -35,7 +35,7 @@ known_false_positives: Some of these processes may be used legitimately on web s
 references: []
 drilldown_searches:
 - name: View the detection results for $user$ and $dest$
-  search: '%orginal_detection_search% | search  user = $user$ dest = $dest$'
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
 tags:
   analytic_story:
   - Apache Struts Vulnerability

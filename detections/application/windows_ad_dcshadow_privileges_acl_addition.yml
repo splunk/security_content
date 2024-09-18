@@ -50,7 +50,7 @@ references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 drilldown_searches:
 - name: View the detection results for $user$ and $src_user$
-  search: '%orginal_detection_search% | search  user = $user$ src_user = $src_user$'
+  search: '%original_detection_search% | search  user = $user$ src_user = $src_user$'
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks

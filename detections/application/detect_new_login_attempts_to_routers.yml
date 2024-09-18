@@ -26,7 +26,7 @@ known_false_positives: Legitimate router connections may appear as new connectio
 references: []
 drilldown_searches:
 - name: View the detection results for $user$ and $dest$
-  search: '%orginal_detection_search% | search  user = $user$ dest = $dest$'
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
 tags:
   analytic_story:
   - Router and Infrastructure Security

@@ -30,7 +30,7 @@ references:
 - https://nvd.nist.gov/vuln/detail/CVE-2024-7593
 drilldown_searches:
 - name: View the detection results for $MODUSER$
-  search: '%orginal_detection_search% | search  MODUSER = $MODUSER$'
+  search: '%original_detection_search% | search  MODUSER = $MODUSER$'
 tags:
   analytic_story:
   - Ivanti Virtual Traffic Manager CVE-2024-7593
