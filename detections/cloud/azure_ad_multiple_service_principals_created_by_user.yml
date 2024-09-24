@@ -1,7 +1,7 @@
 name: Azure AD Multiple Service Principals Created by User
 id: 32880707-f512-414e-bd7f-204c0c85b758
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source:
 - Azure Active Directory Add service principal
@@ -15,7 +15,7 @@ description: The following analytic identifies instances where a single user cre
   an attack or expand their foothold within the network. If confirmed malicious, this
   activity could allow attackers to establish persistence, escalate privileges, or
   access sensitive information within the Azure environment.
-search: ' `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
+search: '`azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
   | rename properties.* as * | bucket span=10m _time | rename targetResources{}.displayName
   as displayName | stats min(_time) as firstTime max(_time) as lastTime values(displayName)
   as displayName dc(displayName) as unique_apps by src_user | where unique_apps >

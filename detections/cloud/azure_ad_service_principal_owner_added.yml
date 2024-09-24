@@ -1,7 +1,7 @@
 name: Azure AD Service Principal Owner Added
 id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
-version: 4
-date: '2024-05-28'
+version: 5
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the addition of a new owner to a Ser
   leading to unauthorized access and control over critical resources.
 data_source:
 - Azure Active Directory Add owner to application
-search: ' `azure_monitor_aad`  operationName="Add owner to application" | rename properties.*
+search: '`azure_monitor_aad`  operationName="Add owner to application" | rename properties.*
   as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName
   as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName
   | eval displayName = mvindex(displayName,1) | where initiatedBy!=newOwner | stats

@@ -16,7 +16,7 @@ description: The following analytic detects when a high number of Office 365 Exc
   information, leading to data breaches and further exploitation of compromised accounts.
   The threshold is set to flag over five unique mailboxes accessed within 10 minutes,
   but should be tailored to your environment.
-search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
+search: '`o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
   AppId=* ClientAppId=* | bucket span=10m _time | eval matchRegex=if(match(ClientInfoString,
   "^Client=WebServices;ExchangeWebServices"), 1, 0) | search (AppId="00000003-0000-0000-c000-000000000000"
   OR matchRegex=1) | stats values(ClientIPAddress) as src_ip dc(user) as unique_mailboxes

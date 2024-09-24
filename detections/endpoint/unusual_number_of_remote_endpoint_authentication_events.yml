@@ -1,7 +1,7 @@
 name: Unusual Number of Remote Endpoint Authentication Events
 id: acb5dc74-5324-11ec-a36d-acde48001122
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -14,7 +14,7 @@ description: 'The following analytic identifies an unusual number of remote auth
   escalate privileges, or gather information for further attacks.'
 data_source:
 - Windows Event Log Security 4624
-search: ' `wineventlog_security` EventCode=4624 Logon_Type=3 Account_Name!="*$" |
+search: '`wineventlog_security` EventCode=4624 Logon_Type=3 Account_Name!="*$" |
   eval Source_Account = mvindex(Account_Name, 1) | bucket span=2m _time | stats dc(ComputerName)
   AS unique_targets values(ComputerName) as target_hosts by _time, Source_Network_Address,
   Source_Account | eventstats avg(unique_targets) as comp_avg , stdev(unique_targets)

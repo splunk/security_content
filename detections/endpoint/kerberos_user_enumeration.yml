@@ -1,7 +1,7 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: The following analytic detects an unusual number of Kerberos Ticket
   or credential stuffing, compromising the security of the environment.
 data_source:
 - Windows Event Log Security 4768
-search: ' `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" |
+search: '`wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" |
   bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
   as tried_accounts by _time, src_ip | eventstats avg(unique_accounts) as comp_avg
   , stdev(unique_accounts) as comp_std by src_ip | eval upperBound=(comp_avg+comp_std*3)

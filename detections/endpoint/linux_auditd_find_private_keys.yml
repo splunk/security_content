@@ -1,14 +1,14 @@
 name: Linux Auditd Find Private Keys
 id: 80bb9988-190b-4ee0-a3c3-509545a8f678
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: "The following analytic detects suspicious attempts to find private keys, which may indicate an attacker's effort to access sensitive cryptographic information. Private keys are crucial for securing encrypted communications and data, and unauthorized access to them can lead to severe security breaches, including data decryption and identity theft. By monitoring for unusual or unauthorized searches for private keys, this analytic helps identify potential threats to cryptographic security, enabling security teams to take swift action to protect the integrity and confidentiality of encrypted information."
 data_source:
 - Linux Auditd Execve
-search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
   dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND
   (LIKE (process_exec, "%.pem%") OR LIKE (process_exec, "%.cer%") OR LIKE (process_exec,
   "%.crt%") OR LIKE (process_exec, "%.pgp%") OR LIKE (process_exec, "%.key%") OR LIKE

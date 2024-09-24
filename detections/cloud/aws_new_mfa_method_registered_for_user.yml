@@ -1,7 +1,7 @@
 name: AWS New MFA Method Registered For User
 id: 4e3c26f2-4fb9-4bd7-ab46-1b76ffa2a23b
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects the registration of a new Multi-Fact
   potentially leading to further unauthorized activities and data breaches.
 data_source:
 - AWS CloudTrail CreateVirtualMFADevice
-search: ' `cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName)
+search: '`cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName)
   as virtualMFADeviceName min(_time) as firstTime max(_time) as lastTime by eventSource
   aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn
   src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

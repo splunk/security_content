@@ -1,7 +1,7 @@
 name: O365 Multiple AppIDs and UserAgents Authentication Spike
 id: 66adc486-224d-45c1-8e4d-9e7eeaba988f
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -17,7 +17,7 @@ description: The following analytic identifies unusual authentication activity i
   it suggests a compromised account, potentially leading to unauthorized access, privilege
   escalation, and data exfiltration. Early detection is crucial to prevent further
   exploitation.
-search: ' `o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn
+search: '`o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn
   OR Operation=UserLoginFailed) | bucket span=5m _time | stats  dc(_raw) as failed_attempts
   dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId)
   values(OS) by _time user src_ip | where failed_attempts > 5 and unique_user_agents

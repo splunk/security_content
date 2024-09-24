@@ -1,14 +1,14 @@
 name: Windows AD Object Owner Updated
 id: 4af01f6b-d8d4-4f96-8635-758a01557130
-version: 1
-date: '2023-11-13'
+version: 2
+date: '2024-09-24'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - Windows Security 5136
 description: AD Object Owner Updated. The owner provides Full control level privileges over the target AD Object. This event has significant impact alone and is also a precursor activity for hiding an AD object. 
-search: ' `wineventlog_security` EventCode=5136 
+search: '`wineventlog_security` EventCode=5136 
   | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName
   | rex field=old_value "O:(?P<old_owner>.*?)G:"
   | rex field=new_value "O:(?P<new_owner>.*?)G:"

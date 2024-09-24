@@ -1,14 +1,14 @@
 name: Linux Auditd Database File And Directory Discovery
 id: f616c4f3-bde9-41cf-856c-019b65f668bb
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: "The following analytic detects suspicious database file and directory discovery activities, which may signal an attacker attempt to locate and assess critical database assets on a compromised system. This behavior is often a precursor to data theft, unauthorized access, or privilege escalation, as attackers seek to identify valuable information stored in databases. By monitoring for unusual or unauthorized attempts to locate database files and directories, this analytic aids in early detection of potential reconnaissance or data breach efforts, enabling security teams to respond swiftly and mitigate the risk of further compromise."
 data_source:
 - Linux Auditd Execve
-search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
   dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND
   (LIKE (process_exec, "%.db%") OR LIKE (process_exec, "%.sql%") OR LIKE (process_exec,
   "%.sqlite%") OR LIKE (process_exec, "%.mdb%")OR LIKE (process_exec, "%.accdb%")OR
