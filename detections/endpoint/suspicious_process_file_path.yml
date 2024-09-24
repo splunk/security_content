@@ -80,6 +80,7 @@ tags:
   - Phemedrone Stealer
   - Handala Wiper
   - MoonPeak
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 50
   impact: 70

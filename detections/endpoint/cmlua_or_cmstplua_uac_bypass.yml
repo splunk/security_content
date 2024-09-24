@@ -32,6 +32,7 @@ tags:
   - DarkSide Ransomware
   - Ransomware
   - LockBit Ransomware
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
