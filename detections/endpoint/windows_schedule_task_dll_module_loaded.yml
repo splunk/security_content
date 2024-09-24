@@ -13,7 +13,6 @@ description: The following analytic detects instances where the taskschd.dll is 
   writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying 
   processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially 
   malicious activity and investigate further to prevent unauthorized system modifications.
-kind: endpoint
 search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", 
   "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*")
   ImageLoaded = "*\\taskschd.dll" 

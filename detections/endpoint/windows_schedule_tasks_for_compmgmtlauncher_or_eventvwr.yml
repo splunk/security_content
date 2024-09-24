@@ -8,7 +8,6 @@ data_sources:
 type: TTP
 status: production
 description: The following analytic detects the creation or modification of Windows Scheduled Tasks related to CompMgmtLauncher or Eventvwr. These legitimate system utilities, used for launching the Computer Management Console and Event Viewer, can be abused by attackers to execute malicious payloads under the guise of normal system processes. By leveraging these tasks, adversaries can establish persistence or elevate privileges without raising suspicion. This detection helps security analysts identify unusual or unauthorized scheduled tasks involving these executables, allowing for timely investigation and remediation of potential threats.
-kind: endpoint
 search: '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*" OR 
   TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*" OR 
   TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*"

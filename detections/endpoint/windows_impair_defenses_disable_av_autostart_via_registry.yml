@@ -13,7 +13,6 @@ description: The following analytic detects modifications to the registry relate
   By monitoring changes in the registry entries associated with antivirus autostart settings, this detection enables security 
   analysts to identify attempts to disable protective software. Detecting these modifications early is critical for maintaining 
   system integrity and preventing further compromise by malicious actors.
-kind: endpoint
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE Registry.registry_path IN("*\\kingsoft\\antivirus\\KAVReport\\*" , "*\\kingsoft\\antivirus\\KSetting\\*", "*\\kingsoft\\antivirus\\Windhunter\\*" ,"*\\Tencent\\QQPCMgr\\*") 
   AND ((Registry.registry_value_name IN("autostart","kxesc", "WindhunterSwitch") AND Registry.registry_value_data = "0x00000000")
