@@ -1,7 +1,7 @@
 name: O365 SharePoint Allowed Domains Policy Changed
 id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
-version: 1
-date: '2024-04-01'
+version: 2
+date: '2024-09-24'
 author: Steven Dick
 status: production
 type: TTP
@@ -18,7 +18,7 @@ search: >
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `o365_sharepoint_allowed_domains_policy_changed_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. 
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Business approved changes by known administrators.
 references:
 - https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview

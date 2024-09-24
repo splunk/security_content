@@ -1,7 +1,7 @@
 name: Kubernetes Shell Running on Worker Node
 id: efebf0c4-dcf4-496f-85a2-5ab7ad8fa876
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -51,7 +51,7 @@ how_to_implement: 'To implement this detection, follow these steps:
 
   * Leave all other settings at their default values.
 
-  * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
+  * Run the Search Baseline Of Kubernetes Container Network IO Ratio'
 known_false_positives: unknown
 references:
 - https://github.com/signalfx/splunk-otel-collector-chart/tree/main
