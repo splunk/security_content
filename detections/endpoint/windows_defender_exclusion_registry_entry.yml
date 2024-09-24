@@ -37,6 +37,7 @@ tags:
   - Azorult
   - Qakbot
   - Warzone RAT
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80

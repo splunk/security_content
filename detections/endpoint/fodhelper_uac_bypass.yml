@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - IcedID
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 90
   impact: 90
