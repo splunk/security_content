@@ -39,6 +39,7 @@ tags:
   - DarkGate Malware
   - CISA AA23-347A
   - PlugX
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 60
   impact: 60
