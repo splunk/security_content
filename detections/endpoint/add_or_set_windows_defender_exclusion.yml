@@ -47,6 +47,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Data Destruction
   - WhisperGate
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80

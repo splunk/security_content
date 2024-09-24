@@ -46,6 +46,7 @@ tags:
   - Scheduled Tasks
   - CISA AA24-241A
   - BlackSuit Ransomware
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
