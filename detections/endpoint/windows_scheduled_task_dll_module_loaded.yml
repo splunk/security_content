@@ -1,4 +1,4 @@
-name: Windows Schedule Task DLL Module Loaded
+name: Windows Scheduled Task DLL Module Loaded
 id: bc5b2304-f241-419b-874a-e927f667b7b6
 version: 1
 date: '2024-09-11'
@@ -19,7 +19,7 @@ search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\tem
   | stats min(_time) as firstTime max(_time) as lastTime count by user_id, dest, Image ,ImageLoaded, , OriginalFileName, ProcessGuid 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `windows_schedule_task_dll_module_loaded_filter`'
+  | `windows_scheduled_task_dll_module_loaded_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
   are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
