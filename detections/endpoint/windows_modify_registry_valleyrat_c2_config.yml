@@ -14,7 +14,6 @@ description: The following analytic detects modifications to registry related to
   By identifying these unauthorized registry modifications, security analysts can quickly detect malicious configurations and 
   investigate the associated threats. Early detection of these changes helps prevent further exploitation and limits the malware’s 
   ability to exfiltrate data or control infected systems.
-kind: endpoint
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE (Registry.registry_path= "*\\Console\\IpDateInfo" AND Registry.registry_value_data="Binary Data") OR (Registry.registry_path= "*\\Console\\SelfPath" AND Registry.registry_value_data="*.exe")
   BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.registry_hive Registry.process_guid
