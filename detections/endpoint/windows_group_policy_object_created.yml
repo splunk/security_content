@@ -1,7 +1,7 @@
 name: Windows Group Policy Object Created
 id: 23add2a8-ea22-4fd4-8bc0-8c0b822373a1
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the creation of a new Group Policy O
   across an Active Directory network. If confirmed malicious, this activity could
   allow attackers to control system configurations, deploy ransomware, or propagate
   malware, leading to widespread compromise and significant operational disruption.
-search: ' `wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New
+search: '`wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New
   Group Policy Object" AND (AttributeLDAPDisplayName=displayName OR AttributeLDAPDisplayName=gPCFileSysPath)
   ) ObjectClass=groupPolicyContainer | stats values(AttributeValue) as details values(SubjectUserSid)
   as User values(ObjectDN) as ObjectDN by ObjectGUID Computer | eval GPO_Name = mvindex(details,

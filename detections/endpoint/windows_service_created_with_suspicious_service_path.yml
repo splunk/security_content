@@ -1,7 +1,7 @@
 name: Windows Service Created with Suspicious Service Path
 id: 429141be-8311-11eb-adb6-acde48001122
-version: 5
-date: '2024-05-21'
+version: 6
+date: '2024-09-24'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the creation of a Windows Service wi
   escalate privileges, posing a severe threat to the environment.
 data_source:
 - Windows Event Log System 7045
-search: ' `wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath IN
+search: '`wineventlog_system` EventCode=7045 ImagePath = "*.exe" NOT (ImagePath IN
   ("*:\\Windows\\*", "*:\\Program File*", "*:\\Programdata\\*", "*%systemroot%\\*"))
   | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath
   ServiceName ServiceType StartType Computer UserID | rename Computer as dest| `security_content_ctime(firstTime)`

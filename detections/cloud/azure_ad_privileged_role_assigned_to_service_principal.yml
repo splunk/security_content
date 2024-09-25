@@ -1,7 +1,7 @@
 name: Azure AD Privileged Role Assigned to Service Principal
 id: 5dfaa3d3-e2e4-4053-8252-16d9ee528c41
-version: 3
-date: '2024-05-31'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: "The following analytic detects the assignment of privileged roles 
   and ensures the security of Azure environments."
 data_source:
 - Azure Active Directory Add member to role
-search: ' `azure_monitor_aad`  operationName="Add member to role" 
+search: '`azure_monitor_aad`  operationName="Add member to role" 
   | rename properties.* as *
   | search "targetResources{}.type"=ServicePrincipal
   | rename initiatedBy.user.userPrincipalName as initiatedBy 

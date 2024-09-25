@@ -1,7 +1,7 @@
 name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
-version: 3
-date: '2024-05-28'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects the addition of a new federated doma
   leading to unauthorized access and control over the Azure AD environment.
 data_source:
 - Azure Active Directory Set domain authentication
-search: ' `azure_monitor_aad`  operationName="Set domain authentication" "properties.result"=success
+search: '`azure_monitor_aad`  operationName="Set domain authentication" "properties.result"=success
   | rename properties.* as * | rename targetResources{}.displayName as domain | stats
   count min(_time) as firstTime max(_time) as lastTime by user, domain, result, operationName,
   src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

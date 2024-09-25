@@ -1,7 +1,7 @@
 name: Azure AD Multiple AppIDs and UserAgents Authentication Spike
 id: 5d8bb1f0-f65a-4b4e-af2e-fcdb88276314
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ description: The following analytic detects unusual authentication activity in A
   If confirmed malicious, it suggests a compromised account, potentially leading to
   further exploitation, lateral movement, and data exfiltration. Early detection is
   crucial to prevent substantial harm.
-search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
+search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
   (properties.authenticationRequirement="multiFactorAuthentication" AND properties.status.additionalDetails="MFA
   required in Azure AD") OR (properties.authenticationRequirement=singleFactorAuthentication
   AND "properties.authenticationDetails{}.succeeded"=true) | bucket span=5m _time

@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2024-05-18'
+date: '2024-09-24'
 description: 'The following analytic identifies a source host failing to authenticate
   against a remote host with multiple users, potentially indicating a Password Spraying
   attack. It leverages Windows Event 4625 (failed logon attempts) and Logon Type 3
@@ -24,7 +24,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-search: ' `wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
+search: '`wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
   span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
   as tried_accounts by _time, IpAddress, Computer | eventstats avg(unique_accounts)
   as comp_avg , stdev(unique_accounts) as comp_std by IpAddress, Computer | eval upperBound=(comp_avg+comp_std*3)
@@ -68,4 +68,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 2
+version: 3
