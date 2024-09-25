@@ -1,7 +1,7 @@
 name: Windows Get-AdComputer Unconstrained Delegation Discovery
 id: c8640777-469f-4638-ab44-c34a3233ffac
-version: 3
-date: '2024-05-13'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the use of the Get-ADComputer cmdlet
   or lateral movement within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText
   = "*TrustedForDelegation*") | stats count min(_time) as firstTime max(_time) as
   lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest
   | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

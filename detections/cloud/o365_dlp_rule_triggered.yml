@@ -1,14 +1,14 @@
 name: O365 DLP Rule Triggered
 id: 63a8a537-36fd-4aac-a3ea-1a96afd2c871
-version: 1
-date: '2024-04-01'
+version: 2
+date: '2024-09-24'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects when Microsoft Office 365 Data Loss Prevention (DLP) rules have been triggered. DLP rules can be configured for any number of security, regulatory, or business compliance reasons, as such this analytic will only be as accurate as the upstream DLP configuration. Detections from this analytic should be evaluated thoroughly to determine what, if any, security relevance the underlying DLP events contain.
 data_source: 
 - O365 Universal Audit Log
-search: >
+search: >-
   `o365_management_activity` Operation=DLPRuleMatch
   | eval recipient = 'ExchangeMetaData.To{}', signature_id = 'ExchangeMetaData.UniqueID', signature = 'PolicyDetails{}.Rules{}.RuleName' , src_user = UserId, reason ='PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.SensitiveInformationTypeName', result='PolicyDetails{}.Rules{}.Actions{}', file_name=case(NOT match('PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location',"Message Body"),'PolicyDetails{}.Rules{}.ConditionsMatched.SensitiveInformation{}.Location')
   | stats min(_time) as firstTime max(_time) as lastTime values(signature) as signature values(file_name) as file_name values(ExchangeMetaData.Subject) AS subject values(Workload) as app values(result) as result by src_user,recipient,signature_id,reason

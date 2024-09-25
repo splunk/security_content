@@ -1,7 +1,7 @@
 name: Linux Auditd Hidden Files And Directories Creation
 id: 555cc358-bf16-4e05-9b3a-0f89c73b7261
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: "The following analytic detects suspicious creation of hidden files
   and address hidden threats effectively."
 data_source:
 - Linux Auditd Execve
-search: ' `linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
   dest | where (LIKE (process_exec,"%touch %") OR LIKE (process_exec,"%mkdir %")OR
   LIKE (process_exec,"%vim %") OR LIKE (process_exec,"%vi %") OR LIKE (process_exec,"%nano
   %")) AND (LIKE (process_exec,"% ./.%")  OR LIKE (process_exec," .%")OR LIKE (process_exec,"

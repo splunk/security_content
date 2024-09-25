@@ -1,7 +1,7 @@
 name: Azure AD Privileged Authentication Administrator Role Assigned
 id: a7da845d-6fae-41cf-b823-6c0b8c55814a
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the assignment of the Privileged Aut
   an attacker could change credentials and assume the identity and permissions of
   high-privilege users, potentially leading to unauthorized access to sensitive information
   and critical configurations.
-search: ' `azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged
+search: '`azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Privileged
   Authentication Administrator\"" | rename properties.* as * | rename initiatedBy.user.userPrincipalName
   as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime values(user)
   as user by initiatedBy, result, operationName | `security_content_ctime(firstTime)`

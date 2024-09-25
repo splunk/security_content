@@ -1,7 +1,7 @@
 name: Windows Admon Group Policy Object Created
 id: 69201633-30d9-48ef-b1b6-e680805f0582
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects the creation of a new Group Policy O
   across an Active Directory network. If confirmed malicious, this activity could
   allow attackers to control system configurations, deploy ransomware, or propagate
   malware, significantly compromising the network's security.
-search: ' `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*"
+search: '`admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*"
   versionNumber=0 displayName!="New Group Policy Object" | stats min(_time) as firstTime
   max(_time) as lastTime values(gPCFileSysPath) by dcName, displayName | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_admon_group_policy_object_created_filter`'

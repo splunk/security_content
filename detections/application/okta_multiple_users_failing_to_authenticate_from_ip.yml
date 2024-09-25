@@ -1,7 +1,7 @@
 name: Okta Multiple Users Failing To Authenticate From Ip
 id: de365ffa-42f5-46b5-b43f-fa72290b8218
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-24'
 author: Michael Haag, Mauricio Velazco, Splunk
 data_source: 
 - Okta
@@ -15,7 +15,7 @@ description: The following analytic identifies instances where more than 10 uniq
   behavior suggests an external entity is attempting to compromise multiple user accounts,
   potentially leading to unauthorized access to organizational resources and data
   breaches.
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+search: '| tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime dc(Authentication.user) as unique_accounts values(Authentication.signature)
   as signature values(Authentication.user) as user values(Authentication.app) as app
   values(Authentication.authentication_method) as authentication_method from datamodel=Authentication

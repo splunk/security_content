@@ -1,7 +1,7 @@
 name: Randomly Generated Scheduled Task Name
 id: 9d22a780-5165-11ec-ad4f-3e22fbd008af
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic detects the creation of a Scheduled Task wit
   the network.
 data_source:
 - Windows Event Log Security 4698
-search: ' `wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup
   word as Task_Name | where ut_shannon > 3 | table  _time, dest, Task_Name, ut_shannon,
   Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting

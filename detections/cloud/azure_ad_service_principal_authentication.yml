@@ -1,7 +1,7 @@
 name: Azure AD Service Principal Authentication
 id: 5a2ec401-60bb-474e-b936-1e66e7aa4060
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source:
 - Azure Active Directory Sign-in activity
@@ -16,7 +16,7 @@ description: The following analytic identifies authentication events of service 
   or malicious activities. If confirmed malicious, attackers could gain unauthorized
   access to resources, leading to data breaches or further exploitation within the
   environment.
-search: ' `azure_monitor_aad` operationName="Sign-in activity" category=ServicePrincipalSignInLogs
+search: '`azure_monitor_aad` operationName="Sign-in activity" category=ServicePrincipalSignInLogs
   | rename properties.* as * | stats count earliest(_time) as firstTime latest(_time)
   as lastTime by user, user_id, src_ip, resourceDisplayName, resourceId | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `azure_ad_service_principal_authentication_filter`'
