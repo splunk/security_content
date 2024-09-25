@@ -37,7 +37,7 @@ tags:
   impact: 50
   message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
   observable:
-   - name: dest
+  - name: dest
     type: Hostname
     role:
     - Victim
