@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: tbd
+  message: Remote Desktop Network Traffic Anomaly Detected from $src$ to $dest$
   mitre_attack_id:
   - T1021.001
   - T1021
