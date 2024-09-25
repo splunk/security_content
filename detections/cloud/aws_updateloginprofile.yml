@@ -1,7 +1,7 @@
 name: AWS UpdateLoginProfile
 id: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
-version: 4
-date: '2024-05-17'
+version: 5
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects an AWS CloudTrail event where a user
   resources within the AWS environment.
 data_source:
 - AWS CloudTrail UpdateLoginProfile
-search: ' `cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
+search: '`cloudtrail` eventName = UpdateLoginProfile userAgent !=console.amazonaws.com
   errorCode = success | eval match=if(match(userIdentity.userName,requestParameters.userName),
   1,0) | search match=0 | stats count min(_time) as firstTime max(_time) as lastTime
   by requestParameters.userName src eventName eventSource aws_account_id errorCode

@@ -1,12 +1,12 @@
 name: Collection and Staging
 id: 8e03c61e-13c4-4dcd-bfbe-5ce5a8dc031a
-version: 1
-date: '2020-02-03'
+version: 2
+date: '2024-09-24'
 author: Rico Valdez, Splunk
 description: 'Monitor for and investigate activities--such as suspicious writes to
   the Windows Recycling Bin or email servers sending high amounts of traffic to specific
   hosts, for example--that may indicate that an adversary is harvesting and exfiltrating
-  sensitive data. '
+  sensitive data.'
 narrative: "A common adversary goal is to identify and exfiltrate data of value from
   a target organization. This data may include email conversations and addresses,
   confidential company information, links to network design/infrastructure, important
