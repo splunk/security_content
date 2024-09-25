@@ -1,7 +1,7 @@
 name: Get DNS traffic ratio
 id: bc91a8cf-35e7-4bb2-8140-e756cc06fd73
-version: 1
-date: '2017-11-09'
+version: 2
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 type: Investigation
 datamodel:
@@ -10,7 +10,7 @@ description: 'This search calculates the ratio of DNS traffic originating and co
   from a host to a list of DNS servers over the last 24 hours. A high value of this
   ratio could be very useful to quickly understand if a src_ip (host) is sending a
   high volume of data out via port 53, could be an indicator of data exfiltration
-  via DNS.  '
+  via DNS.'
 search: '| tstats allow_old_summaries=true sum(All_Traffic.bytes_out) as "bytes_out"
   sum(All_Traffic.bytes_in) as "bytes_in" from datamodel=Network_Traffic where nodename=All_Traffic
   All_Traffic.dest_port=53 by All_Traffic.src All_Traffic.dest| `drop_dm_object_name(All_Traffic)`

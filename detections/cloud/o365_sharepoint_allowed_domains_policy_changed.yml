@@ -1,6 +1,6 @@
 name: O365 SharePoint Allowed Domains Policy Changed
 id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
-version: 2
+version: 3
 date: '2024-09-24'
 author: Steven Dick
 status: production
@@ -8,7 +8,7 @@ type: TTP
 description: The following analytic identifies when the allowed domain settings for O365 SharePoint have been changed. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations may also need access to OneDrive/SharePoint resources. These changed should be monitored by security teams as they could potentially lead to unauthorized access.
 data_source: 
 - O365 Universal Audit Log
-search: >
+search: >-
   `o365_management_activity` Workload=SharePoint Operation=SharingPolicyChanged "ModifiedProperties{}.Name"=AllowDomainList
   | eval signature_id = CorrelationId, signature=Operation, src = ClientIP, user = UserId, object_name='ModifiedProperties{}.Name', object_attrs_new = split(replace('ModifiedProperties{}.NewValue',"\.\.\.",""),","), object_attrs_old = split(replace('ModifiedProperties{}.OldValue',"\.\.\.",""),",")
   | stats values(object_attrs_new) as object_attrs_new, values(object_attrs_old) as object_attrs_old, values(src) as src, count, min(_time) as firstTime, max(_time) as lastTime by user,signature,signature_id,object_name
