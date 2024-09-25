@@ -1,7 +1,7 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-24'
 author: Steven Dick
 status: production
 type: TTP
@@ -38,7 +38,7 @@ how_to_implement: To successfully implement this detection you must ingest event
   of this type this data type.
 known_false_positives: 'Legitmate usage of internal automation or scripting, espically
   powershell.exe internal to internal or logon scripts. It may be necessary to omit
-  internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1") '
+  internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1")'
 references:
 - https://lolbas-project.github.io/#
 - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/

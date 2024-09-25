@@ -1,7 +1,7 @@
 name: Azure AD Unusual Number of Failed Authentications From Ip
 id: 3d8d3a36-93b8-42d7-8d91-c5f24cec223d
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ description: 'The following analytic identifies a single source IP failing to au
   compromise of sensitive information.'
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126
+search: '`azure_monitor_aad`  category=SignInLogs properties.status.errorCode=50126
   properties.authenticationDetails{}.succeeded=false | rename properties.* as * |
   bucket span=5m _time | stats  dc(userPrincipalName) AS unique_accounts values(userPrincipalName)
   as userPrincipalName by _time, ipAddress | eventstats  avg(unique_accounts) as ip_avg,

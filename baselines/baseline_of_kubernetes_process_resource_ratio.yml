@@ -1,7 +1,7 @@
 name: Baseline Of Kubernetes Process Resource Ratio
 id: 427f81cf-ce6a-4a24-a73d-70c50171ea66
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 type: Baseline
 datamodel: []
@@ -20,7 +20,7 @@ search: '| mstats avg(process.*) as process.* where `kubernetes_metrics` by host
   | stats avg(cpu:mem) as avg_cpu:mem stdev(cpu:mem) as stdev_cpu:mem avg(cpu:disk) as avg_cpu:disk stdev(cpu:disk) as stdev_cpu:disk
     avg(mem:disk) as avg_mem:disk stdev(mem:disk) as stdev_mem:disk avg(cpu:threads) as avg_cpu:threads stdev(cpu:threads) as stdev_cpu:threads
     avg(disk:threads) as avg_disk:threads stdev(disk:threads) as stdev_disk:threads count latest(_time) as last_seen by key 
-  | outputlookup k8s_process_resource_ratio_baseline '
+  | outputlookup k8s_process_resource_ratio_baseline'
 how_to_implement: 'To implement this detection, follow these steps:
   1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
   2. Enable the hostmetrics/process receiver in the OTEL configuration.

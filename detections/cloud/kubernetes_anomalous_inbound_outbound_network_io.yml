@@ -1,7 +1,7 @@
 name: Kubernetes Anomalous Inbound Outbound Network IO
 id: 4f3b0c97-657e-4547-a89a-9a50c656e3cd
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -63,7 +63,7 @@ how_to_implement: 'To implement this detection, follow these steps:
 
   * Leave all other settings at their default values.
 
-  * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
+  * Run the Search Baseline Of Kubernetes Container Network IO Ratio'
 known_false_positives: unknown
 references:
 - https://github.com/signalfx/splunk-otel-collector-chart

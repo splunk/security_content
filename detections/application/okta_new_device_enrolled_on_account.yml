@@ -1,7 +1,7 @@
 name: Okta New Device Enrolled on Account
 id: bb27cbce-d4de-432c-932f-2e206e9130fb
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-24'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies when a new device is enrolled on 
   and mitigating unauthorized access attempts.
 data_source: 
 - Okta
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+search: '| tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime from datamodel=Change where All_Changes.action=created All_Changes.command=device.enrollment.create
   by _time span=5m All_Changes.user All_Changes.result All_Changes.command sourcetype
   All_Changes.src All_Changes.action All_Changes.object_category | `drop_dm_object_name("All_Changes")`

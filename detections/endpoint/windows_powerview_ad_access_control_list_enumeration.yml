@@ -1,7 +1,7 @@
 name: Windows PowerView AD Access Control List Enumeration
 id: 39405650-c364-4e1e-a740-32a63ef042a6
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the execution of PowerView PowerShel
   Directory, potentially leading to privilege escalation. If confirmed malicious,
   attackers could exploit these permissions to gain unauthorized access or escalate
   their privileges within the network.
-search: ' `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*
+search: '`powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*
   ) | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_powerview_ad_access_control_list_enumeration_filter`'

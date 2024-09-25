@@ -1,7 +1,7 @@
 name: O365 Elevated Mailbox Permission Assigned
 id: 2246c142-a678-45f8-8546-aaed7e0efd30
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-24'
 author: Patrick Bareiss, Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic identifies the assignment of elevated mailbo
   over mailboxes, which could lead to data exfiltration or privilege escalation. If
   confirmed malicious, attackers could gain extensive access to sensitive email data
   and potentially manipulate mailbox settings, posing a severe security risk.
-search: ' `o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission
+search: '`o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission
   | search (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner)
   | rename Identity AS dest_user | stats count earliest(_time) as firstTime latest(_time)
   as lastTime by user dest_user Operation AccessRights |`security_content_ctime(firstTime)`
