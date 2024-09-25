@@ -7,7 +7,7 @@ data_sources:
 - Sysmon Event ID 13
 type: Anomaly
 status: production
-description: The following analytic detects modifications to the Windows Registry specifically targeting Programmatic Identifier associations to bypassed User Account Control (UAC) Windows OS feature. ValleyRAT may create or alter registry entries to a targetted progIDs like `.pwn` files with malicious processes, allowing it to execute harmful scripts or commands when these files are opened. By monitoring for unusual changes in registry keys linked to ProgIDs, this detection enables security analysts to identify potential threats like ValleyRAT execution attempts. Early detection of these modifications helps mitigate unauthorized execution and prevents further exploitation of the system.
+description: The following analytic detects modifications to the Windows Registry specifically targeting Programmatic Identifier associations to bypass User Account Control (UAC) Windows OS feature. ValleyRAT may create or alter registry entries to targetted progIDs like `.pwn` files with malicious processes, allowing it to execute harmful scripts or commands when these files are opened. By monitoring for unusual changes in registry keys linked to ProgIDs, this detection enables security analysts to identify potential threats like ValleyRAT execution attempts. Early detection of these modifications helps mitigate unauthorized execution and prevents further exploitation of the system.
 search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
   WHERE Registry.registry_path= "*\\ms-settings\\CurVer\\(Default)"
   BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
@@ -17,7 +17,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `windows_modify_registry_utilize_progids_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
   Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:

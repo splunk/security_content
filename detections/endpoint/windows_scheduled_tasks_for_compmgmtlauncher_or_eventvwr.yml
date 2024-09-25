@@ -1,4 +1,4 @@
-name: Windows Schedule Tasks for CompMgmtLauncher or Eventvwr
+name: Windows Scheduled Tasks for CompMgmtLauncher or Eventvwr
 id: feb43b86-8c38-46cd-865e-20ce8a96c26c
 version: 1
 date: '2024-09-11'
@@ -14,7 +14,7 @@ search: '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:
   | stats count min(_time) as firstTime max(_time) as lastTime by dest action EventData_Xml TaskContent TaskName 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_schedule_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
+  | `windows_scheduled_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
   as the URL ToolBox application are also required.

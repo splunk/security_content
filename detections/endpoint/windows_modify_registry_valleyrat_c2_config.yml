@@ -8,8 +8,7 @@ data_sources:
 - Sysmon EventID 13
 type: TTP
 status: production
-description: The following analytic detects modifications to registry related to ValleyRAT C2 configuration. Specifically, 
-  it monitors changes in registry keys where ValleyRAT saves the IP address and port information of its command-and-control (C2) server. 
+description: The following analytic detects modifications to theregistry related to ValleyRAT C2 configuration. Specifically,  it monitors changes in registry keys where ValleyRAT saves the IP address and port information of its command-and-control (C2) server. 
   This activity is a key indicator of ValleyRAT attempting to establish persistent communication with its C2 infrastructure. 
   By identifying these unauthorized registry modifications, security analysts can quickly detect malicious configurations and 
   investigate the associated threats. Early detection of these changes helps prevent further exploitation and limits the malware’s 
@@ -23,7 +22,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `windows_modify_registry_valleyrat_c2_config_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
   Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
@@ -35,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: A possible ValleyRAT Registry modification in [$dest$].
+  message: A registry modification related to ValleyRAT on [$dest$]
   mitre_attack_id:
   - T1112
   observable:
