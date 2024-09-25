@@ -1,7 +1,7 @@
 name: Windows Get-AdComputer Unconstrained Delegation Discovery
 id: c8640777-469f-4638-ab44-c34a3233ffac
-version: 3
-date: '2024-05-13'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

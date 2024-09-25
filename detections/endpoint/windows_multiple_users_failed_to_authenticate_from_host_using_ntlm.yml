@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4776
-date: '2024-05-26'
+date: '2024-09-25'
 description: 'The following analytic identifies a single source endpoint failing to
   authenticate with 30 unique valid users using the NTLM protocol. It leverages EventCode
   4776 from Domain Controller logs, focusing on error code 0xC000006A, which indicates
@@ -63,4 +63,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: TTP
-version: 3
+version: 4

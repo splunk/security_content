@@ -1,7 +1,7 @@
 name: AWS UpdateLoginProfile
 id: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
-version: 4
-date: '2024-05-17'
+version: 5
+date: '2024-09-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP

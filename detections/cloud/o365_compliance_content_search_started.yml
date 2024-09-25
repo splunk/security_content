@@ -1,7 +1,7 @@
 name: O365 Compliance Content Search Started
 id: f4cabbc7-c19a-4e41-8be5-98daeaccbb50
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP

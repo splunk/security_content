@@ -1,7 +1,7 @@
 name: O365 External Identity Policy Changed
 id: 29af1725-7a72-4d2d-8a18-e697e79a62d3
-version: 1
-date: '2024-04-11'
+version: 2
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

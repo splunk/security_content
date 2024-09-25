@@ -1,7 +1,7 @@
 name: Windows DISM Install PowerShell Web Access
 id: fa6142a7-c364-4d11-9954-895dd9efb2d4
-version: 1
-date: '2024-09-03'
+version: 2
+date: '2024-09-25'
 author: Michael Haag, Splunk
 data_sources:
 - Windows Event Log Security 4688

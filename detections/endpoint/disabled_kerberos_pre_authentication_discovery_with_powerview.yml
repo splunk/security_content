@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: b0b34e2c-90de-11ec-baeb-acde48001122
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Suspicious Process File Path
 id: 9be25988-ad82-11eb-a14f-acde48001122
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

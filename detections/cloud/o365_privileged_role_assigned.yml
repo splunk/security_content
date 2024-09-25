@@ -1,7 +1,7 @@
 name: O365 Privileged Role Assigned
 id: db435700-4ddc-4c23-892e-49e7525d7d39
-version: 1
-date: '2024-04-11'
+version: 2
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

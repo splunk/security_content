@@ -1,7 +1,7 @@
 name: Linux Auditd Add User Account Type
 id: f8c325ea-506e-4105-8ccf-da1492e90115
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

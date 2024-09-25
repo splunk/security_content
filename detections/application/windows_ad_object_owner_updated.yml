@@ -1,7 +1,7 @@
 name: Windows AD Object Owner Updated
 id: 4af01f6b-d8d4-4f96-8635-758a01557130
-version: 1
-date: '2023-11-13'
+version: 2
+date: '2024-09-25'
 author: Dean Luxton
 status: production
 type: TTP

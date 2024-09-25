@@ -1,7 +1,7 @@
 name: O365 Security And Compliance Alert Triggered
 id: 5b367cdd-8dfc-49ac-a9b7-6406cf27f33e
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP

@@ -1,7 +1,7 @@
 name: Short Lived Scheduled Task
 id: 6fa31414-546e-11ec-adfa-acde48001122
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

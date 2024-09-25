@@ -1,7 +1,7 @@
 name: Okta New Device Enrolled on Account
 id: bb27cbce-d4de-432c-932f-2e206e9130fb
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-25'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP

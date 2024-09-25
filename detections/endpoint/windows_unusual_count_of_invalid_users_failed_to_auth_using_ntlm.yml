@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4776
-date: '2024-05-19'
+date: '2024-09-25'
 description: 'The following analytic identifies a source endpoint failing to authenticate
   with multiple invalid users using the NTLM protocol. It leverages EventCode 4776
   and calculates the standard deviation for each host, using the 3-sigma rule to detect
@@ -71,4 +71,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 2
+version: 3

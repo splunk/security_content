@@ -1,7 +1,7 @@
 name: Okta Multiple Users Failing To Authenticate From Ip
 id: de365ffa-42f5-46b5-b43f-fa72290b8218
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-25'
 author: Michael Haag, Mauricio Velazco, Splunk
 data_source: 
 - Okta

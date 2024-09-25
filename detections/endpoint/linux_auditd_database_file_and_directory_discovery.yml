@@ -1,7 +1,7 @@
 name: Linux Auditd Database File And Directory Discovery
 id: f616c4f3-bde9-41cf-856c-019b65f668bb
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

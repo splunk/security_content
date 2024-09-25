@@ -1,7 +1,7 @@
 name: Okta Multiple Failed MFA Requests For User
 id: 826dbaae-a1e6-4c8c-b384-d16898956e73
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: 
 - Okta

@@ -1,7 +1,7 @@
 name: Kerberos Service Ticket Request Using RC4 Encryption
 id: 7d90f334-a482-11ec-908c-acde48001122
-version: 3
-date: '2024-05-27'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

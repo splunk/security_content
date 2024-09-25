@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

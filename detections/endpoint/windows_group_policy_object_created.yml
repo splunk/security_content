@@ -1,7 +1,7 @@
 name: Windows Group Policy Object Created
 id: 23add2a8-ea22-4fd4-8bc0-8c0b822373a1
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

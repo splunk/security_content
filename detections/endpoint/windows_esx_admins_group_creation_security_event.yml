@@ -1,7 +1,7 @@
 name: Windows ESX Admins Group Creation Security Event
 id: 53b4c927-5ec4-47cd-8aed-d4b303304f87
-version: 1
-date: '2024-07-30'
+version: 2
+date: '2024-09-25'
 author: Michael Haag, Splunk
 data_source:
 - Windows Event Log Security 4727

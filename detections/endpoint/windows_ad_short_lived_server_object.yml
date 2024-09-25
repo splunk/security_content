@@ -1,7 +1,7 @@
 name: Windows AD Short Lived Server Object
 id: 193769d3-1e33-43a9-970e-ad4a88256cdb
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production

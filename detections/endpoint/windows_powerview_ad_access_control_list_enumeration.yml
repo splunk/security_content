@@ -1,7 +1,7 @@
 name: Windows PowerView AD Access Control List Enumeration
 id: 39405650-c364-4e1e-a740-32a63ef042a6
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: O365 Compliance Content Search Exported
 id: 2ce9f31d-ab4f-4179-b2b7-c77a9652e1d8
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP

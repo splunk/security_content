@@ -1,7 +1,7 @@
 name: Kubernetes Shell Running on Worker Node with CPU Activity
 id: cc1448e3-cc7a-4518-bc9f-2fa48f61a22b
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-25'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

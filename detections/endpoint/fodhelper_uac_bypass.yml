@@ -1,7 +1,7 @@
 name: FodHelper UAC Bypass
 id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: O365 High Number Of Failed Authentications for User
 id: 31641378-2fa9-42b1-948e-25e281cb98f7
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

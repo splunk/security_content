@@ -1,7 +1,7 @@
 name: Linux Auditd Virtual Disk File And Directory Discovery
 id: eec78cef-d4c8-4b35-8f5b-6922102a4a41
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

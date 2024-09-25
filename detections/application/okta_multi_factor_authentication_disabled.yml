@@ -1,7 +1,7 @@
 name: Okta Multi-Factor Authentication Disabled
 id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: 
 - Okta

@@ -1,7 +1,7 @@
 name: Windows AD Short Lived Domain Account ServicePrincipalName
 id: b681977c-d90c-4efc-81a5-c58f945fb541
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production

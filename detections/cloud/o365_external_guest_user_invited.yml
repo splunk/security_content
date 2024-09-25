@@ -1,7 +1,7 @@
 name: O365 External Guest User Invited
 id: 8c6d52ec-d5f2-4b2f-8ba1-f32c047a71fa
-version: 1
-date: '2024-04-11'
+version: 2
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

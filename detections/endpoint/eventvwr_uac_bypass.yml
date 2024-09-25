@@ -1,7 +1,7 @@
 name: Eventvwr UAC Bypass
 id: 9cf8fe08-7ad8-11eb-9819-acde48001122
-version: 4
-date: '2024-05-26'
+version: 5
+date: '2024-09-25'
 author: Steven Dick, Michael Haag, Splunk
 status: production
 type: TTP

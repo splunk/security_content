@@ -1,7 +1,7 @@
 name: Windows Multiple Accounts Disabled
 id: 5d93894e-befa-4429-abde-7fc541020b7b
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4725

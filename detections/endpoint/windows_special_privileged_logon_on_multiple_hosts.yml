@@ -1,7 +1,7 @@
 name: Windows Special Privileged Logon On Multiple Hosts
 id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production

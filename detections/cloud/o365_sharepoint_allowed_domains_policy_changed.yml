@@ -1,7 +1,7 @@
 name: O365 SharePoint Allowed Domains Policy Changed
 id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
-version: 1
-date: '2024-04-01'
+version: 2
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

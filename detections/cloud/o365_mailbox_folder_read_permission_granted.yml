@@ -1,7 +1,7 @@
 name: O365 Mailbox Folder Read Permission Granted
 id: cd15c0a8-470e-4b12-9517-046e4927db30
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP

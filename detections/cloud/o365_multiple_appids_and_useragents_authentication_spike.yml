@@ -1,7 +1,7 @@
 name: O365 Multiple AppIDs and UserAgents Authentication Spike
 id: 66adc486-224d-45c1-8e4d-9e7eeaba988f
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly

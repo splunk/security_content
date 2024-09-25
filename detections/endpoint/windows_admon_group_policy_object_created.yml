@@ -1,7 +1,7 @@
 name: Windows Admon Group Policy Object Created
 id: 69201633-30d9-48ef-b1b6-e680805f0582
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly

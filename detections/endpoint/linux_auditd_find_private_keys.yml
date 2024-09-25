@@ -1,7 +1,7 @@
 name: Linux Auditd Find Private Keys
 id: 80bb9988-190b-4ee0-a3c3-509545a8f678
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

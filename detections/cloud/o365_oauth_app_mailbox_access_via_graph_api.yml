@@ -1,7 +1,7 @@
 name: O365 OAuth App Mailbox Access via Graph API
 id: 9db0d5b0-4058-4cb7-baaf-77d8143539a2
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 data_source:

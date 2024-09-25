@@ -1,7 +1,7 @@
 name: Linux Auditd Hidden Files And Directories Creation
 id: 555cc358-bf16-4e05-9b3a-0f89c73b7261
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

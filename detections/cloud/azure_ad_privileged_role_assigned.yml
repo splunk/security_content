@@ -1,7 +1,7 @@
 name: Azure AD Privileged Role Assigned
 id: a28f0bc3-3400-4a6e-a2da-89b9e95f0d2a
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP

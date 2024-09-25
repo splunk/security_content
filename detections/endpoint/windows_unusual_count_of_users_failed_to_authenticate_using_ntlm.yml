@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4776
-date: '2024-05-12'
+date: '2024-09-25'
 description: 'The following analytic identifies a source endpoint failing to authenticate
   multiple valid users using the NTLM protocol, potentially indicating a Password
   Spraying attack. It leverages Event 4776 from Domain Controllers, calculating the
@@ -67,4 +67,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 2
+version: 3

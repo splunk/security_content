@@ -1,7 +1,7 @@
 name: Windows Domain Admin Impersonation Indicator
 id: 10381f93-6d38-470a-9c30-d25478e3bd3f
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

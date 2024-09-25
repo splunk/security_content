@@ -1,7 +1,7 @@
 name: CMLUA Or CMSTPLUA UAC Bypass
 id: f87b5062-b405-11eb-a889-acde48001122
-version: 2
-date: '2024-05-05'
+version: 3
+date: '2024-09-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

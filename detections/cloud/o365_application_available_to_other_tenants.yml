@@ -1,7 +1,7 @@
 name: O365 Application Available To Other Tenants
 id: 942548a3-0273-47a4-8dbd-e5202437395c
-version: 1
-date: '2024-04-11'
+version: 2
+date: '2024-09-25'
 author: Steven Dick
 status: production
 type: TTP

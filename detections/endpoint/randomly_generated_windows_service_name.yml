@@ -1,7 +1,7 @@
 name: Randomly Generated Windows Service Name
 id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
-version: 3
-date: '2024-08-19'
+version: 4
+date: '2024-09-25'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
