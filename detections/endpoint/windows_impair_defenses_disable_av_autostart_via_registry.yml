@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   | `windows_impair_defenses_disable_av_autostart_via_registry_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
   Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
