@@ -1,7 +1,7 @@
 name: AWS Concurrent Sessions From Different Ips
 id: 51c04fdb-2746-465a-b86e-b413a09c9085
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies an AWS IAM account with concurren
   exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail DescribeEventAggregates
-search: ' `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
+search: '`cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
   | bin span=5m _time | stats values(userAgent) values(eventName) values(src_ip) as
   src_ip  dc(src_ip) as distinct_ip_count by _time user_arn | where distinct_ip_count
   > 1 | `aws_concurrent_sessions_from_different_ips_filter`'

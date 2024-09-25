@@ -1,7 +1,7 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ description: The following analytic identifies an AWS IAM account with concurren
   to sensitive corporate resources, leading to potential data breaches or further
   exploitation.
 data_source: []
-search: ' `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal" 
+search: '`amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal" 
   | bin span=5m _time
   | stats values(src_endpoint.ip) as src_ip dc(src_endpoint.ip) as distinct_ip_count 
   by _time identity.user.credential_uid identity.user.name

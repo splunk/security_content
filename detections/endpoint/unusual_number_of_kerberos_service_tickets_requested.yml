@@ -1,7 +1,7 @@
 name: Unusual Number of Kerberos Service Tickets Requested
 id: eb3e6702-8936-11ec-98fe-acde48001122
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: 'The following analytic identifies an unusual number of Kerberos se
   to sensitive accounts and escalation of privileges within the Active Directory environment.'
 data_source:
 - Windows Event Log Security 4769
-search: ' `wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17
+search: '`wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17
   | bucket span=2m _time | stats dc(ServiceName) AS unique_services values(ServiceName)
   as requested_services by _time, src | eventstats avg(unique_services) as comp_avg
   , stdev(unique_services) as comp_std by src | eval upperBound=(comp_avg+comp_std*3)

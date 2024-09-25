@@ -1,14 +1,14 @@
 name: O365 Cross-Tenant Access Change
 id: 7c0fa490-12b0-4d0b-b9f5-e101d1e0e06f
-version: 1
-date: '2024-04-11'
+version: 2
+date: '2024-09-24'
 author: Steven Dick
 status: production
 type: TTP
 description: The following analytic identifies when cross-tenant access/synchronization policies are changed in an Azure tenant. Adversaries have been observed altering victim cross-tenant policies as a method of lateral movement or maintaining persistent access to compromised environments. These policies should be considered sensitive and monitored for changes and/or loose configuration.
 data_source: 
 - Office 365 Universal Audit Log
-search: > 
+search: >-
   `o365_management_activity` Workload=AzureActiveDirectory Operation IN ("Add a partner to cross-tenant access setting.","Delete partner specific cross-tenant access setting.")
   | eval user = case(match(mvindex('Actor{}.ID',-1),"User"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),"ServicePrincipal"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0))
   | stats values(Workload) as category, values(ClientIP) as src, values(ModifiedProperties{}.Name) as object_name, values(ModifiedProperties{}.NewValue) as object_attrs, count, min(_time) as firstTime, max(_time) as lastTime by Id,user,Operation
