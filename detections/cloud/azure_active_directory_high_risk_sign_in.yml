@@ -1,7 +1,7 @@
 name: Azure Active Directory High Risk Sign-in
 id: 1ecff169-26d7-4161-9a7b-2ac4c8e61bea
-version: 3
-date: '2024-05-22'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects high-risk sign-in attempts against A
   exploitation within the environment.
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high |
+search: '`azure_monitor_aad` category=UserRiskEvents properties.riskLevel=high |
   rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
   values(user) as user by src_ip, activity, riskLevel, riskEventType, additionalInfo
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_active_directory_high_risk_sign_in_filter`'

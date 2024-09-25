@@ -1,7 +1,7 @@
 name: Azure AD Multiple Failed MFA Requests For User
 id: 264ea131-ab1f-41b8-90e0-33ad1a1888ea
-version: 4
-date: '2024-05-20'
+version: 5
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies multiple failed multi-factor auth
   within the environment.
 data_source:
 - Azure Active Directory Sign-in activity
-search: ' `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
+search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
   properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied;
   user declined the authentication" | rename properties.* as * | bucket span=10m _time
   | stats count min(_time) as firstTime max(_time) as lastTime by user, status.additionalDetails,

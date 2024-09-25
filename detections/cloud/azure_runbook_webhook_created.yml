@@ -1,7 +1,7 @@
 name: Azure Runbook Webhook Created
 id: e98944a9-92e4-443c-81b8-a322e33ce75a
-version: 4
-date: '2024-05-23'
+version: 5
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the creation of a new Automation Run
   control over Azure resources.
 data_source:
 - Azure Audit Create or Update an Azure Automation webhook
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+search: '`azure_audit` operationName.localizedValue="Create or Update an Azure Automation
   webhook" status.value=Succeeded | dedup object | rename claims.ipaddr as src_ip
   | rename caller as user | stats count min(_time) as firstTime max(_time) as lastTime
   by object user, src_ip, resourceGroupName, object_path | `security_content_ctime(firstTime)`

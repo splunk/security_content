@@ -1,7 +1,7 @@
 name: Azure AD Successful Authentication From Different Ips
 id: be6d868d-33b6-4aaa-912e-724fb555b11a
-version: 4
-date: '2024-05-26'
+version: 5
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects an Azure AD account successfully aut
   resources, leading to data breaches or further exploitation within the network.
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad`  properties.authenticationDetails{}.succeeded=true category=SignInLogs
+search: '`azure_monitor_aad`  properties.authenticationDetails{}.succeeded=true category=SignInLogs
   | rename properties.* as * | bucket span=30m _time | stats count min(_time) as firstTime
   max(_time) as lastTime dc(src_ip) AS unique_ips values(src_ip) as src_ip values(appDisplayName)
   as appDisplayName by user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

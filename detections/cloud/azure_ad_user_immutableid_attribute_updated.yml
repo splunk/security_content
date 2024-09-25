@@ -1,7 +1,7 @@
 name: Azure AD User ImmutableId Attribute Updated
 id: 0c0badad-4536-4a84-a561-5ff760f3c00e
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies the modification of the SourceAnc
   breaches.
 data_source:
 - Azure Active Directory Update user
-search: ' `azure_monitor_aad`  operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
+search: '`azure_monitor_aad`  operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
   | rename properties.* as * | rename initiatedBy.user.userPrincipalName as initiatedBy
   | rename targetResources{}.modifiedProperties{}.newValue as modifiedProperties |
   stats count min(_time) as firstTime max(_time) as lastTime values(user) as user

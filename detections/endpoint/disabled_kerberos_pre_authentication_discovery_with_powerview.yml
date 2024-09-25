@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: b0b34e2c-90de-11ec-baeb-acde48001122
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the execution of the `Get-DomainUser
   privileges within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
   | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText | rename Computer as dest | `security_content_ctime(firstTime)`
   | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'

@@ -1,7 +1,7 @@
 name: Baseline Of Kubernetes Container Network IO
 id: 6edaca1d-d436-42d0-8df0-6895d3bf5b70
-version: 1
-date: '2023-12-19'
+version: 4
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 type: Baseline
 datamodel: []
@@ -15,7 +15,7 @@ search: '| mstats avg(k8s.pod.network.io) as io where `kubernetes_metrics` by k8
   | stats avg(eval(if(direction="transmit", io,null()))) as avg_outbound_network_io avg(eval(if(direction="receive", io,null()))) as avg_inbound_network_io 
         stdev(eval(if(direction="transmit", io,null()))) as stdev_outbound_network_io stdev(eval(if(direction="receive", io,null()))) as stdev_inbound_network_io
         count latest(_time) as last_seen by key
-  | outputlookup k8s_container_network_io_baseline '
+  | outputlookup k8s_container_network_io_baseline'
 how_to_implement: 'To implement this detection, follow these steps:
   1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
   2. Enable the hostmetrics/process receiver in the OTEL configuration.

@@ -1,7 +1,7 @@
 name: Suspicious Ticket Granting Ticket Request
 id: d77d349e-6269-11ec-9cfe-acde48001122
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -16,7 +16,7 @@ description: The following analytic detects suspicious Kerberos Ticket Granting 
 data_source:
 - Windows Event Log Security 4768
 - Windows Event Log Security 4781
-search: ' `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
+search: '`wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
   OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName,
   TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
   endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search

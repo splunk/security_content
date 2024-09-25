@@ -1,7 +1,7 @@
 name: Azure AD Concurrent Sessions From Different Ips
 id: a9126f73-9a9b-493d-96ec-0dd06695490d
-version: 4
-date: '2024-08-05'
+version: 5
+date: '2024-09-24'
 author: Mauricio Velazco, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects an Azure AD account with concurrent 
   information and potential data breaches.
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs action=success 
+search: '`azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs action=success 
 | rename properties.* as * 
 | bucket span=5m _time
 | stats count min(_time) as firstTime max(_time) as lastTime dc(src_ip) AS unique_ips dc(location.city) as dc_city values(location.city) as city values(src_ip) as src_ip values(appDisplayName) as appDisplayName values(location.countryOrRegion) by user _time 
