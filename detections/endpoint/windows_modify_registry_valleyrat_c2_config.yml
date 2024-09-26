@@ -1,9 +1,9 @@
 name: Windows Modify Registry ValleyRAT C2 Config
 id: ac59298a-8d81-4c02-8c9b-ffdac993891f
-version: 1
-date: '2024-09-11'
+version: 2
+date: '2024-09-26'
 author: Teoderick Contreras, Splunk
-data_sources:
+data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
 type: TTP
