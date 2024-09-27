@@ -1,9 +1,9 @@
 name: Windows Enable PowerShell Web Access
 id: 175bb2de-6227-416b-9678-9b61999cd21f
-version: 1
-date: '2024-09-03'
+version: 2
+date: '2024-09-26'
 author: Michael Haag, Splunk
-data_sources:
+data_source:
   - Powershell Script Block Logging 4104
 type: TTP
 status: production
