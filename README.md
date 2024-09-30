@@ -29,7 +29,7 @@ This project gives you access to our repository of Analytic Stories, security gu
 
 # Tools 🧰
 
-- [Splunk Attack Range](https://github.com/splunk/attack_range): An attack simulation lab built around Splunk.
+- [Splunk Attack Range](https://github.com/splunk/attack_range): The Splunk Attack Range is an open-source project maintained by the Splunk Threat Research Team. It builds instrumented cloud (AWS, Azure) and local environments (Virtualbox), simulates attacks, and forwards the data into a Splunk instance. This environment can then be used to develop and test the effectiveness of detections.
 - [Contentctl](https://github.com/splunk/contentctl): The tool that enables us to build, test, and package our content for distribution.
 - [Attack data](https://github.com/splunk/attack_data): The is a collection of attack data that is used to test our content.
 - [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team): Atomic Red Team™ is a library of tests mapped to the MITRE ATT&CK® framework. Security teams can use Atomic Red Team to quickly, portably, and reproducibly test their environments.
