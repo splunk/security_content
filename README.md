@@ -73,7 +73,8 @@ pip install contentctl
  contentctl new
  ```
 
-  **NOTE** - Make sure you update the detection.yml with the required fields and values.
+
+**NOTE** - Make sure you update the detection.yml with the required fields and values. If you need help, please refer to the [yaml-spec](docs/yaml-spec) to check out the list of allowed values
 
 4. Validate your content
 ```
