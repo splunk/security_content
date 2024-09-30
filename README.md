@@ -18,7 +18,7 @@
 
 
 # Splunk Security Content
-![security_content](docs/static/escu_app_logo.png)
+![security_content](docs/static/escu_sb.png)
 =====
 
 Welcome to the Splunk Security Content
