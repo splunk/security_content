@@ -49,7 +49,7 @@ Splunk security content ships as part of ESCU directly into, if you are an ES us
 
 To manually download the latest release of Splunk Security Content (named DA-ESS-ContentUpdate.spl), you can visit the [splunkbase](https://splunkbase.splunk.com/app/3449/) page or the [release page](https://github.com/splunk/security_content/releases) on GitHub.
 
-# Getting Started 🚀
+# Getting Started 🛠️
 
 Follow these steps to get started with Splunk Security Content.
 
@@ -68,7 +68,7 @@ source .venv/bin/activate
 pip install contentctl
 
 ```
-2. Create a new detection.yml and answer the questions
+2. Create a new **detection.yml** and answer the questions
  ```
  contentctl new
  ```
@@ -81,7 +81,7 @@ contentctl validate
 ```
 **NOTE** - The contentctl validate command ensures that all YAML files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
 
-5. Build an ESCU app
+5. Build an ESCU app with enrichments from Atomic Red Team and Mitre CTI repositories
 ```
 contentctl build --enrichments
 ```
@@ -89,7 +89,7 @@ contentctl build --enrichments
 6. Test the content - Our testing framework is based on [contentctl](https://github.com/splunk/contentctl) and is extensive and flexible. Refer to the [contentctl test documentation](https://github.com/splunk/contentctl?tab=readme-ov-file#contentctl-test) to learn more about the testing framework.
 
 
-# Recommendations
+# Recommendations 💡
 
 - 🚨 NOTE: If you are just getting started with managing your Splunk detection as code, we recommend that you keep the YAML structure of the detections as close as possible to the original structure of the detections. This will make it easier to manage your detections and will also make it easier to contribute back to the community by creating a pull request to the Splunk Security Content project.
 
@@ -97,9 +97,10 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
-- We recommend that you follow the errors produced by the `contentctl` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please open a GitHub issue in the `contentctl` repository.
+- We recommend that you follow the errors produced by the `contentctl` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please open a GitHub issue in the `contentctl` repository or refer to the [yaml-spec](docs/yaml-spec) to check out the list of allowed values
 
-# YAML Specs 
+
+# YAML Specs 📄
 
 YAML specs define the structure and required fields for various YAML configuration files used in the project. These specifications ensure consistency and validation across different types of YAML files, such as macros, lookups, and analytic stories. Each spec outlines the expected data types, descriptions, and whether the fields are mandatory, providing a clear schema for developers to follow.
 
