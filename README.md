@@ -27,46 +27,27 @@ This project gives you access to our repository of Analytic Stories, security gu
 
 **Note:** We have sister projects that enable us to build the industry's best security content. These projects are the Splunk Attack Range, an attack simulation lab built around Splunk, and Contentctl, the tool that enables us to build, test, and package our content for distribution.
 
+# Tools 🧰
+
 - [Splunk Attack Range](https://github.com/splunk/attack_range): An attack simulation lab built around Splunk.
 - [Contentctl](https://github.com/splunk/contentctl): The tool that enables us to build, test, and package our content for distribution.
 - [Attack data](https://github.com/splunk/attack_data): The is a collection of attack data that is used to test our content.
+- [Atomic Red Team](https://github.com/redcanaryco/atomic-red-team): Atomic Red Team™ is a library of tests mapped to the MITRE ATT&CK® framework. Security teams can use Atomic Red Team to quickly, portably, and reproducibly test their environments.
 
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
  
-### 🌐 [Website](https://research.splunk.com/)
+#### 🌐 [Website](https://research.splunk.com/)
 
 Best way to discover and access our content is by using the [research.splunk.com](https://research.splunk.com/) website.
 
-### 🖥️ [Splunk Enterprise Security (ES) Content Update](https://docs.splunk.com/Documentation/ES/latest/Admin/Usecasecontentlibrary?#Update_the_Analytic_Stories)
+#### 🖥️ [Splunk Enterprise Security (ES) Content Update](https://docs.splunk.com/Documentation/ES/latest/Admin/Usecasecontentlibrary?#Update_the_Analytic_Stories)
 
 Splunk security content ships as part of ESCU directly into, if you are an ES user, good news, you already have it!
 
-### 📦 [ESCU App](https://github.com/splunk/security_content/releases)
+#### 📦 [ESCU App](https://github.com/splunk/security_content/releases)
 
 To manually download the latest release of Splunk Security Content (named DA-ESS-ContentUpdate.spl), you can visit the [splunkbase](https://splunkbase.splunk.com/app/3449/) page or the [release page](https://github.com/splunk/security_content/releases) on GitHub.
-
-# Tools 🧰
-The key tool that drives our content development is [contentctl](https://github.com/splunk/contentctl). Contentctl offers the following features:
-
-- Creating new detections
-- Validating the correctness of all necessary components for detections
-- Testing detections
-- Generating deployable apps from detections
-
-To learn more about contentctl and its capabilities, please visit the [contentctl repository](https://github.com/splunk/contentctl).
-
-# Content Parts 🧩
-
-* [detections/](detections/): Contains all detection searches to-date and growing.
-* [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
-* [deployments/](deployments/): Configuration for the schedule and alert action for all content
-* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
-* [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
-* [investigations/](investigations/): Investigations to further analyze the output from detections. For more information, you can refer to the [Splunk Enterprise Security documentation on timelines](https://docs.splunk.com/Documentation/ES/7.3.0/User/Timelines).
-* [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
-* [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
-* [data_sources/](data_sources/): Defines the data sources, the necessary TA or App to collect them and the fields provided that can be used by the detections.
 
 # Getting Started 🚀
 
@@ -128,6 +109,19 @@ YAML specs define the structure and required fields for various YAML configurati
 - [lookups](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
 
 🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
+
+# Content Parts 🧩
+
+* [detections/](detections/): Contains all detection searches to-date and growing.
+* [stories/](stories/): All Analytic Stories that are group detections or also known as Use Cases
+* [deployments/](deployments/): Configuration for the schedule and alert action for all content
+* [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
+* [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
+* [investigations/](investigations/): Investigations to further analyze the output from detections. For more information, you can refer to the [Splunk Enterprise Security documentation on timelines](https://docs.splunk.com/Documentation/ES/7.3.0/User/Timelines).
+* [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
+* [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
+* [data_sources/](data_sources/): Defines the data sources, the necessary TA or App to collect them and the fields provided that can be used by the detections.
+
 
 # MITRE ATT&CK ⚔️
 ### Detection Coverage
