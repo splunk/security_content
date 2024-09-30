@@ -18,7 +18,7 @@
 
 
 # Splunk Security Content
-![security_content](docs/static/logo.png)
+![security_content](docs/static/escu_app_logo.png)
 =====
 
 Welcome to the Splunk Security Content
@@ -55,12 +55,6 @@ The key tool that drives our content development is [contentctl](https://github.
 - Generating deployable apps from detections
 
 To learn more about contentctl and its capabilities, please visit the [contentctl repository](https://github.com/splunk/contentctl).
-
-# MITRE ATT&CK ⚔️
-### Detection Coverage
-To view an up-to-date detection coverage map for all the content tagged with MITRE techniques visit: [https://mitremap.splunkresearch.com/](https://mitremap.splunkresearch.com/) under the **Detection Coverage** layer. Below is a snapshot in time of what technique we currently have some detection coverage for.
-
-![](docs/mitre-map/coverage.png)
 
 # Content Parts 🧩
 
@@ -104,6 +98,7 @@ pip install contentctl
 ```
 contentctl validate
 ```
+**NOTE** - The contentctl validate command ensures that all YAML files adhere to the defined specifications and are up-to-date. It checks for required fields, correct data types, and overall consistency, helping maintain the integrity and quality of the content.
 
 5. Build an ESCU app
 ```
@@ -121,13 +116,22 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
+- We recommend that you follow the errors produced by the `contentctl` tool while developing this content. The errors are descriptive enough to guide you in getting the right values. If you need help, please open a GitHub issue in the `contentctl` repository.
+
 # YAML Specs 
+
+YAML specs define the structure and required fields for various YAML configuration files used in the project. These specifications ensure consistency and validation across different types of YAML files, such as macros, lookups, and analytic stories. Each spec outlines the expected data types, descriptions, and whether the fields are mandatory, providing a clear schema for developers to follow.
+
 - [detection](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/detection_spec.yml)
 - [stories](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/stories_spec.yml):
 - [macros](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/macros_spec.yml)
-- [lookup](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
+- [lookups](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
+
 🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
 
+# MITRE ATT&CK ⚔️
+### Detection Coverage
+To view an up-to-date detection coverage map for all the content tagged with MITRE techniques visit: [https://mitremap.splunkresearch.com/](https://mitremap.splunkresearch.com/) under the **Detection Coverage** layer. Below is a snapshot in time of what technique we currently have some detection coverage for.
 
 # Contribution 🥰
 We welcome feedback and contributions from the community! Please see our [contributing to the project](./.github/CONTRIBUTING.md) for more information on how to get involved.
