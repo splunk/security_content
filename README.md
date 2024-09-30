@@ -105,11 +105,9 @@ contentctl build --enrichments
 YAML specs define the structure and required fields for various YAML configuration files used in the project. These specifications ensure consistency and validation across different types of YAML files, such as macros, lookups, and analytic stories. Each spec outlines the expected data types, descriptions, and whether the fields are mandatory, providing a clear schema for developers to follow.
 
 - [detection](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/detection_spec.yml)
-- [stories](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/stories_spec.yml):
+- [stories](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/stories_spec.yml)
 - [macros](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/macros_spec.yml)
 - [lookups](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
-
-🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
 
 # Content Parts 🧩
 
