@@ -50,6 +50,7 @@ tags:
   - Hermetic Wiper
   - Data Destruction
   - Scheduled Tasks
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 50
   impact: 90

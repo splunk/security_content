@@ -8,6 +8,9 @@ narrative: As of August 2024, Iran-based cyber actors continue to exploit organi
 references:
   - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
   - https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+  - https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/want-remote-powershell-management-from-your-browser-see-how-pswa/ba-p/255764
+  - https://learn.microsoft.com/en-us/powershell/module/powershellwebaccess/?view=winserver2012r2-ps
+  - https://arz101.medium.com/hackthebox-acute-ee0308b9b443
 tags:
   category:
   - Adversary Tactics
