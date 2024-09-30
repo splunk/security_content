@@ -121,31 +121,13 @@ contentctl build --enrichments
 
 - If your detections are using macros and lookups, please make sure that you have the same macros and lookups in those directories.. This will ensure that the content app is self-contained and does not rely on external files.
 
-# Elements of a [detection](https://github.com/splunk/security_content/blob/develop/detections/application/crushftp_server_side_template_injection.yml) yml:
-
-
-# Elements of a [stories](https://github.com/splunk/security_content/blob/develop/stories/3cx_supply_chain_attack.yml) yml:
-
-# Elements of a [macros](https://github.com/splunk/security_content/blob/develop/macros/admon.yml) yml:
-
-| Key | Type | Description |
-|-------------|--------|---------------------------------------------------------------------------------------------------|
-| definition | str | The definition of the macro, specifying the source or other configurations. |
-| description | str | A description of the macro, explaining its purpose and any specific configurations required. |
-| name | str | The name of the macro. |
-
-# Elements of a [lookup](https://github.com/splunk/security_content/blob/develop/lookups/3cx_ioc_domains.yml) yml:
+# YAML Specs 
+- [detection](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/detection_spec.yml)
+- [stories](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/stories_spec.yml):
+- [macros](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/macros_spec.yml)
+- [lookup](https://github.com/splunk/security_content/blob/develop/docs/yaml-spec/lookups_spec.yml)
 🚨 NOTE - This directory must contain a lookup.csv file for file based lookups
 
-| Key | Type | Description |
-|-----------------------|--------|-----------------------------------------------------------------------------|
-| description | str | A description of the lookup, detailing its purpose and contents. |
-| filename | str | The name of the CSV file that contains the lookup data. |
-| name | str | The name of the lookup. |
-| default_match | str | Indicates whether the default match is enabled (true or false). |
-| match_type | str | The type of match to perform, e.g., WILDCARD(domain). |
-| min_matches | int | The minimum number of matches required. |
-| case_sensitive_match | str | Indicates whether the match is case-sensitive (true or false). |
 
 # Contribution 🥰
 We welcome feedback and contributions from the community! Please see our [contributing to the project](./.github/CONTRIBUTING.md) for more information on how to get involved.

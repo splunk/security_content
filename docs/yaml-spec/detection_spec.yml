@@ -1,3 +1,4 @@
+#### Spec for detection yaml file
 name: 
   type: str
   description: Name of the detection, this is the name that will be displayed in the Splunk UI. Naming convention is <platform>_<technique_name>_<short_description>. Ref - https://github.com/splunk/security_content/wiki/Detection-Naming-Convention
