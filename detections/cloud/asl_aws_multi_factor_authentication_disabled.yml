@@ -1,36 +1,27 @@
 name: ASL AWS Multi-Factor Authentication Disabled
 id: 4d2df5e0-1092-4817-88a8-79c7fa054668
-version: 3
-date: '2024-05-22'
+version: 4
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to disable multi-factor authentication
-  (MFA) for an AWS IAM user. It leverages Amazon Security Lake logs, specifically
-  monitoring for `DeleteVirtualMFADevice` or `DeactivateMFADevice` API operations.
-  This activity is significant as disabling MFA can indicate an adversary attempting
-  to weaken account security to maintain persistence using a compromised account.
-  If confirmed malicious, this action could allow attackers to retain access to the
-  AWS environment without detection, potentially leading to unauthorized access to
-  sensitive resources and prolonged compromise.
+description: The following analytic detects attempts to disable multi-factor authentication (MFA) for an AWS IAM user. It leverages Amazon Security Lake logs, specifically monitoring for `DeleteVirtualMFADevice` or `DeactivateMFADevice` API operations. This activity is significant as disabling MFA can indicate an adversary attempting to weaken account security to maintain persistence using a compromised account. If confirmed malicious, this action could allow attackers to retain access to the AWS environment without detection, potentially leading to unauthorized access to sensitive resources and prolonged compromise.
 data_source: []
-search: '`amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice)
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation
-  actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
-  | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region,
-  http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_multi_factor_authentication_disabled_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon
-  Web Services (AWS), which is a centralized data lake that provides security-related
-  data from AWS services. To use this detection, you must ingest CloudTrail logs from
-  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
-  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
-  or the Federated Analytics App.
-known_false_positives: AWS Administrators may disable MFA but it is highly unlikely
-  for this event to occur without prior notice to the company
+search: '`amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_multi_factor_authentication_disabled_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
+known_false_positives: AWS Administrators may disable MFA but it is highly unlikely for this event to occur without prior notice to the company
 references:
 - https://attack.mitre.org/techniques/T1621/
 - https://aws.amazon.com/what-is/mfa/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
@@ -70,7 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/asl_ocsf_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_mfa_disabled/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

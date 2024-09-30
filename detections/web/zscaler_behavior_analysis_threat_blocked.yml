@@ -1,39 +1,33 @@
 name: Zscaler Behavior Analysis Threat Blocked
 id: 289ad59f-8939-4331-b805-f2bd51d36fb8
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: The following analytic identifies threats blocked by the Zscaler proxy
-  based on behavior analysis. It leverages web proxy logs to detect entries where
-  actions are blocked and threat names and classes are specified. This detection is
-  significant as it highlights potential malicious activities that were intercepted
-  by Zscaler's behavior analysis, providing early indicators of threats. If confirmed
-  malicious, these blocked threats could indicate attempted breaches or malware infections,
-  helping security teams to understand and mitigate potential risks in their environment.
-search: '`zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis"
-  | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner
-  user threatname url src dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `zscaler_behavior_analysis_threat_blocked_filter`'
-how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase.
-  You must be ingesting Zscaler events into your Splunk environment through an ingester.
-  This analytic was written to be used with the "zscalernss-web" sourcetype leveraging
-  the Zscaler proxy data. This enables the integration with Splunk Enterprise Security.
-  Security teams are encouraged to adjust the detection parameters, ensuring the detection
-  is tailored to their specific environment.
+description: The following analytic identifies threats blocked by the Zscaler proxy based on behavior analysis. It leverages web proxy logs to detect entries where actions are blocked and threat names and classes are specified. This detection is significant as it highlights potential malicious activities that were intercepted by Zscaler's behavior analysis, providing early indicators of threats. If confirmed malicious, these blocked threats could indicate attempted breaches or malware infections, helping security teams to understand and mitigate potential risks in their environment.
+search: '`zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis" | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user threatname url src dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `zscaler_behavior_analysis_threat_blocked_filter`'
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscalar configuration.
 references:
 - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+drilldown_searches:
+- name: View the detection results for $src$ and $user$
+  search: '%original_detection_search% | search  src = $src$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Zscaler Browser Proxy Threats
   asset_type: Web Server
   confidence: 80
   impact: 10
-  message: Potential Adware Behavior Analysis Threat from dest -[$dest$] on $src$
-    for user-[$user$].
+  message: Potential Adware Behavior Analysis Threat from dest -[$dest$] on $src$ for user-[$user$].
   mitre_attack_id:
   - T1566
   observable:
@@ -68,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
     source: zscaler
     sourcetype: zscalernss-web

@@ -1,35 +1,26 @@
 name: Overwriting Accessibility Binaries
 id: 13c2f6c3-10c5-4deb-9ba1-7c4460ebe4ae
-version: 5
-date: '2024-05-25'
+version: 6
+date: '2024-09-30'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: The following analytic detects modifications to Windows accessibility
-  binaries such as sethc.exe, utilman.exe, osk.exe, Magnify.exe, Narrator.exe, DisplaySwitch.exe,
-  and AtBroker.exe. It leverages filesystem activity data from the Endpoint.Filesystem
-  data model to identify changes to these specific files. This activity is significant
-  because adversaries can exploit these binaries to gain unauthorized access or execute
-  commands without logging in. If confirmed malicious, this could allow attackers
-  to bypass authentication mechanisms, potentially leading to unauthorized system
-  access and further compromise of the environment.
+description: The following analytic detects modifications to Windows accessibility binaries such as sethc.exe, utilman.exe, osk.exe, Magnify.exe, Narrator.exe, DisplaySwitch.exe, and AtBroker.exe. It leverages filesystem activity data from the Endpoint.Filesystem data model to identify changes to these specific files. This activity is significant because adversaries can exploit these binaries to gain unauthorized access or execute commands without logging in. If confirmed malicious, this could allow attackers to bypass authentication mechanisms, potentially leading to unauthorized system access and further compromise of the environment.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-  as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe*
-  OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe*
-  OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe*
-  OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*)
-  by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `overwriting_accessibility_binaries_filter`'
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
-known_false_positives: Microsoft may provide updates to these binaries. Verify that
-  these changes do not correspond with your normal software update cycle.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem where (Filesystem.file_path=*\\Windows\\System32\\sethc.exe* OR Filesystem.file_path=*\\Windows\\System32\\utilman.exe* OR Filesystem.file_path=*\\Windows\\System32\\osk.exe* OR Filesystem.file_path=*\\Windows\\System32\\Magnify.exe* OR Filesystem.file_path=*\\Windows\\System32\\Narrator.exe* OR Filesystem.file_path=*\\Windows\\System32\\DisplaySwitch.exe* OR Filesystem.file_path=*\\Windows\\System32\\AtBroker.exe*) by Filesystem.file_name Filesystem.dest | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `overwriting_accessibility_binaries_filter`'
+how_to_implement: You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint file-system data model node. If you are using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you want to collect data.
+known_false_positives: Microsoft may provide updates to these binaries. Verify that these changes do not correspond with your normal software update cycle.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Destruction
@@ -67,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.008/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

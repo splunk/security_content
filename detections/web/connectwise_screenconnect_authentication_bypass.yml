@@ -1,49 +1,36 @@
 name: ConnectWise ScreenConnect Authentication Bypass
 id: d3f7a803-e802-448b-8eb2-e796b223bfff
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 data_source:
 - Suricata
 type: TTP
 status: production
-description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect
-  CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via
-  an alternate path or channel. It leverages web request logs to identify access to
-  the SetupWizard.aspx page, indicating potential exploitation. This activity is significant
-  as it can lead to unauthorized administrative access and remote code execution.
-  If confirmed malicious, attackers could create administrative users and gain full
-  control over the affected system, posing severe security risks. Immediate remediation
-  by updating to version 23.9.8 or above is recommended.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where Web.url IN ("*/SetupWizard.aspx/*","*/SetupWizard/") Web.status=200 Web.http_method=POST
-  by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method,
-  sourcetype, source | rex field=Web.url "/SetupWizard.aspx/(?<randomPath>.+)" | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `connectwise_screenconnect_authentication_bypass_filter`'
-how_to_implement: To implement this analytic, ensure proper logging is occurring with
-  IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk.
-  The analytic was written against Suricata. The proper TA will need to be enabled
-  and should be mapped to CIM and the Web datamodel. Ingestion of the data source
-  is required to utilize this detection. In addition, if it is not mapped to the datamodel,
-  modify the query for your application logs to look for requests the same URI and
-  investigate further.
-known_false_positives: False positives are not expected, as the detection is based
-  on the presence of web requests to the SetupWizard.aspx page, which is not a common
-  page to be accessed by legitimate users. Note that the analytic is limited to HTTP
-  POST and a status of 200 to reduce false positives. Modify the query as needed to
-  reduce false positives or hunt for additional indicators of compromise.
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via an alternate path or channel. It leverages web request logs to identify access to the SetupWizard.aspx page, indicating potential exploitation. This activity is significant as it can lead to unauthorized administrative access and remote code execution. If confirmed malicious, attackers could create administrative users and gain full control over the affected system, posing severe security risks. Immediate remediation by updating to version 23.9.8 or above is recommended.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/SetupWizard.aspx/*","*/SetupWizard/") Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method, sourcetype, source | rex field=Web.url "/SetupWizard.aspx/(?<randomPath>.+)" | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `connectwise_screenconnect_authentication_bypass_filter`'
+how_to_implement: To implement this analytic, ensure proper logging is occurring with IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk. The analytic was written against Suricata. The proper TA will need to be enabled and should be mapped to CIM and the Web datamodel. Ingestion of the data source is required to utilize this detection. In addition, if it is not mapped to the datamodel, modify the query for your application logs to look for requests the same URI and investigate further.
+known_false_positives: False positives are not expected, as the detection is based on the presence of web requests to the SetupWizard.aspx page, which is not a common page to be accessed by legitimate users. Note that the analytic is limited to HTTP POST and a status of 200 to reduce false positives. Modify the query as needed to reduce false positives or hunt for additional indicators of compromise.
 references:
 - https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass
 - https://www.huntress.com/blog/detection-guidance-for-connectwise-cwe-288-2
 - https://www.connectwise.com/company/trust/security-bulletins/connectwise-screenconnect-23.9.8
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ConnectWise ScreenConnect Vulnerabilities
   asset_type: Web Server
   confidence: 100
   impact: 100
-  message: An authentication bypass attempt against ScreenConnect has been detected
-    on $dest$.
+  message: An authentication bypass attempt against ScreenConnect has been detected on $dest$.
   mitre_attack_id:
   - T1190
   observable:
@@ -70,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/connectwise_auth_suricata.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/connectwise_auth_suricata.log
     sourcetype: suricata
     source: suricata

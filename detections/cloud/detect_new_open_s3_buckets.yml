@@ -1,42 +1,33 @@
 name: Detect New Open S3 buckets
 id: 2a9b80d3-6340-4345-b5ad-290bf3d0dac4
-version: 4
-date: '2024-05-19'
+version: 5
+date: '2024-09-30'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of open/public S3 buckets
-  in AWS. It detects this activity by analyzing AWS CloudTrail events for `PutBucketAcl`
-  actions where the access control list (ACL) grants permissions to all users or authenticated
-  users. This activity is significant because open S3 buckets can expose sensitive
-  data to unauthorized access, leading to data breaches. If confirmed malicious, an
-  attacker could read, write, or fully control the contents of the bucket, potentially
-  leading to data exfiltration or tampering.
-data_source: 
+description: The following analytic identifies the creation of open/public S3 buckets in AWS. It detects this activity by analyzing AWS CloudTrail events for `PutBucketAcl` actions where the access control list (ACL) grants permissions to all users or authenticated users. This activity is significant because open S3 buckets can expose sensitive data to unauthorized access, leading to data breaches. If confirmed malicious, an attacker could read, write, or fully control the contents of the bucket, potentially leading to data exfiltration or tampering.
+data_source:
 - AWS CloudTrail
-search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw
-  "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
-  | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI
-  | spath input=grantees output=permission path=Permission | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers")
-  | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") |
-  rename requestParameters.bucketName AS bucketName | stats count min(_time) as firstTime
-  max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission
-  bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `detect_new_open_s3_buckets_filter`'
+search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{} | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI | spath input=grantees output=permission path=Permission | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") | rename requestParameters.bucketName AS bucketName | stats count min(_time) as firstTime max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_filter`'
 how_to_implement: You must install the AWS App for Splunk.
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created a public bucket for a specific purpose.
-  That said, AWS strongly advises against granting full control to the "All Users"
-  group.
+known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the "All Users" group.
 references: []
+drilldown_searches:
+- name: View the detection results for $user_arn$ and $bucketName$
+  search: '%original_detection_search% | search  user_arn = $user_arn$ bucketName = $bucketName$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_arn$ and $bucketName$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_arn$, $bucketName$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   asset_type: S3 Bucket
   confidence: 80
   impact: 60
-  message: User $user_arn$ has created an open/public bucket $bucketName$ with the
-    following permissions $permission$
+  message: User $user_arn$ has created an open/public bucket $bucketName$ with the following permissions $permission$
   mitre_attack_id:
   - T1530
   observable:
@@ -67,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_s3_public_bucket/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

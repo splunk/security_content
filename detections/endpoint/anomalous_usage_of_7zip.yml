@@ -1,42 +1,31 @@
 name: Anomalous usage of 7zip
 id: 9364ee8e-a39a-11eb-8f1d-acde48001122
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of 7z.exe, a 7-Zip utility,
-  spawned from rundll32.exe or dllhost.exe. This behavior is identified using Endpoint
-  Detection and Response (EDR) telemetry, focusing on process names and parent processes.
-  This activity is significant as it may indicate an adversary attempting to use 7-Zip
-  for data exfiltration, often by renaming the executable to evade detection. If confirmed
-  malicious, this could lead to unauthorized data archiving and exfiltration, compromising
-  sensitive information and potentially leading to further system exploitation.
+description: The following analytic detects the execution of 7z.exe, a 7-Zip utility, spawned from rundll32.exe or dllhost.exe. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process names and parent processes. This activity is significant as it may indicate an adversary attempting to use 7-Zip for data exfiltration, often by renaming the executable to evade detection. If confirmed malicious, this could lead to unauthorized data archiving and exfiltration, compromising sensitive information and potentially leading to further system exploitation.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z* by Processes.dest
-  Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `anomalous_usage_of_7zip_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives should be limited as this behavior is not normal
-  for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z* by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `anomalous_usage_of_7zip_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives should be limited as this behavior is not normal for `rundll32.exe` or `dllhost.exe` to spawn and run 7zip.
 references:
 - https://attack.mitre.org/techniques/T1560/001/
 - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
 - https://thedfirreport.com/2021/01/31/bazar-no-ryuk/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - NOBELIUM Group
@@ -47,9 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading
-    of 7zip.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$. This behavior is indicative of suspicious loading of 7zip.
   mitre_attack_id:
   - T1560.001
   - T1560
@@ -90,7 +77,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

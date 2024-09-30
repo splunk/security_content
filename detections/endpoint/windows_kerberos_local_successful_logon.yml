@@ -1,31 +1,27 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a local successful authentication event
-  on a Windows endpoint using the Kerberos package. It detects EventCode 4624 with
-  LogonType 3 and source address 127.0.0.1, indicating a login to the built-in local
-  Administrator account. This activity is significant as it may suggest a Kerberos
-  relay attack, a method attackers use to escalate privileges. If confirmed malicious,
-  this could allow an attacker to gain unauthorized access to sensitive systems, execute
-  arbitrary code, or create new accounts in Active Directory, leading to potential
-  system compromise.
+description: The following analytic identifies a local successful authentication event on a Windows endpoint using the Kerberos package. It detects EventCode 4624 with LogonType 3 and source address 127.0.0.1, indicating a login to the built-in local Administrator account. This activity is significant as it may suggest a Kerberos relay attack, a method attackers use to escalate privileges. If confirmed malicious, this could allow an attacker to gain unauthorized access to sensitive systems, execute arbitrary code, or create new accounts in Active Directory, leading to potential system compromise.
 data_source:
 - Windows Event Log Security 4624
-search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos
-  action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time) as
-  lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_kerberos_local_successful_logon_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4624 EventCode enabled. The Windows TA is also
-  required.
-known_false_positives: False positives are possible, filtering may be required to
-  restrict to workstations vs domain controllers. Filter as needed.
+search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time) as lastTime by dest, subject, action, SubjectLogonId, user, TargetUserName, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_kerberos_local_successful_logon_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4624 EventCode enabled. The Windows TA is also required.
+known_false_positives: False positives are possible, filtering may be required to restrict to workstations vs domain controllers. Filter as needed.
 references:
 - https://github.com/Dec0ne/KrbRelayUp
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -33,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A successful localhost Kerberos authentication event occurred on $dest$,
-    possibly indicative of Kerberos relay attack.
+  message: A successful localhost Kerberos authentication event occurred on $dest$, possibly indicative of Kerberos relay attack.
   mitre_attack_id:
   - T1558
   observable:
@@ -60,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_kerberos_local_successful_logon/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_kerberos_local_successful_logon/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

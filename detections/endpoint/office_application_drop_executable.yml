@@ -1,41 +1,30 @@
 name: Office Application Drop Executable
 id: 73ce70c4-146d-11ec-9184-acde48001122
-version: 5
-date: '2024-05-14'
+version: 6
+date: '2024-09-30'
 author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
 status: production
 type: TTP
-description: The following analytic detects Microsoft Office applications dropping
-  or creating executables or scripts on a Windows OS. It leverages process creation
-  and file system events from the Endpoint data model to identify Office applications
-  like Word or Excel generating files with extensions such as .exe, .dll, or .ps1.
-  This behavior is significant as it is often associated with spear-phishing attacks
-  where malicious files are dropped to compromise the host. If confirmed malicious,
-  this activity could lead to code execution, privilege escalation, or persistent
-  access, posing a severe threat to the environment.
+description: The following analytic detects Microsoft Office applications dropping or creating executables or scripts on a Windows OS. It leverages process creation and file system events from the Endpoint data model to identify Office applications like Word or Excel generating files with extensions such as .exe, .dll, or .ps1. This behavior is significant as it is often associated with spear-phishing attacks where malicious files are dropped to compromise the host. If confirmed malicious, this activity could lead to code execution, privilege escalation, or persistent access, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe")
-  by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest
-  Processes.process_guid | `drop_dm_object_name(Processes)` |join process_guid, _time
-  [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1")
-  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
-  Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)`
-  | fields _time dest file_create_time file_name file_path process_name process_path
-  process process_guid] | dedup file_create_time | table dest, process_name, process,
-  file_create_time, file_name, file_path, process_guid | `office_application_drop_executable_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name IN ("winword.exe","excel.exe","powerpnt.exe","mspub.exe","visio.exe","wordpad.exe","wordview.exe","onenote.exe","onenotem.exe","onenoteviewer.exe","onenoteim.exe","msaccess.exe") by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid | `drop_dm_object_name(Processes)` |join process_guid, _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.exe","*.dll","*.pif","*.scr","*.js","*.vbs","*.vbe","*.ps1") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time file_name file_path process_name process_path process process_guid] | dedup file_create_time | table dest, process_name, process, file_create_time, file_name, file_path, process_guid | `office_application_drop_executable_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: office macro for automation may do this behavior
 references:
 - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
 - https://www.joesandbox.com/analysis/702680/0/html
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - FIN7
@@ -75,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

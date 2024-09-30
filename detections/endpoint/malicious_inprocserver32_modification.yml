@@ -1,48 +1,30 @@
 name: Malicious InProcServer32 Modification
 id: 127c8d08-25ff-11ec-9223-acde48001122
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects a process modifying the registry with
-  a known malicious CLSID under InProcServer32. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on registry modifications within the HKLM or
-  HKCU Software Classes CLSID paths. This activity is significant as it may indicate
-  an attempt to load a malicious DLL, potentially leading to code execution. If confirmed
-  malicious, this could allow an attacker to persist in the environment, execute arbitrary
-  code, or escalate privileges, posing a severe threat to system integrity and security.
+description: The following analytic detects a process modifying the registry with a known malicious CLSID under InProcServer32. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry modifications within the HKLM or HKCU Software Classes CLSID paths. This activity is significant as it may indicate an attempt to load a malicious DLL, potentially leading to code execution. If confirmed malicious, this could allow an attacker to persist in the environment, execute arbitrary code, or escalate privileges, posing a severe threat to system integrity and security.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 12
 - Sysmon EventID 1 AND Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
-  Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
-  `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where Registry.registry_path=
-  "*\\CLSID\\{89565275-A714-4a43-912E-978B935EDCCC}\\InProcServer32\\(Default)" by
-  Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest
-  Registry.process_guid Registry.user | `drop_dm_object_name(Registry)` | fields _time
-  dest registry_path registry_key_name registry_value_name process_name process_path
-  process process_guid user] | stats count min(_time) as firstTime max(_time) as lastTime
-  by dest, process_name registry_path registry_key_name registry_value_name user |
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_inprocserver32_modification_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives should be limited, filter as needed. In our
-  test case, Remcos used regsvr32.exe to modify the registry. It may be required,
-  dependent upon the EDR tool producing registry events, to remove (Default) from
-  the command-line.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\CLSID\\{89565275-A714-4a43-912E-978B935EDCCC}\\InProcServer32\\(Default)" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.dest Registry.process_guid Registry.user | `drop_dm_object_name(Registry)` | fields _time dest registry_path registry_key_name registry_value_name process_name process_path process process_guid user] | stats count min(_time) as firstTime max(_time) as lastTime by dest, process_name registry_path registry_key_name registry_value_name user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_inprocserver32_modification_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives should be limited, filter as needed. In our test case, Remcos used regsvr32.exe to modify the registry. It may be required, dependent upon the EDR tool producing registry events, to remove (Default) from the command-line.
 references:
 - https://bohops.com/2018/06/28/abusing-com-registry-structure-clsid-localserver32-inprocserver32/
 - https://tria.ge/210929-ap75vsddan
 - https://www.virustotal.com/gui/file/cb77b93150cb0f7fe65ce8a7e2a5781e727419451355a7736db84109fa215a89
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious Regsvr32 Activity
@@ -50,8 +32,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: The $process_name$ was identified on endpoint $dest$ modifying the registry
-    with a known malicious clsid under InProcServer32.
+  message: The $process_name$ was identified on endpoint $dest$ modifying the registry with a known malicious clsid under InProcServer32.
   mitre_attack_id:
   - T1218.010
   - T1112
@@ -81,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

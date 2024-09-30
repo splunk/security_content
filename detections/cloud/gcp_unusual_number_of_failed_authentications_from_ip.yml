@@ -1,47 +1,37 @@
 name: GCP Unusual Number of Failed Authentications From Ip
 id: bd8097ed-958a-4873-87d9-44f2b4d85705
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a single source IP failing to authenticate
-  into Google Workspace with multiple valid users, potentially indicating a Password
-  Spraying attack. It uses Google Workspace login failure events and calculates the
-  standard deviation for source IPs, applying the 3-sigma rule to detect unusual failed
-  authentication attempts. This activity is significant as it may signal an adversary
-  attempting to gain initial access or elevate privileges. If confirmed malicious,
-  this could lead to unauthorized access, data breaches, or further exploitation within
-  the environment.
+description: The following analytic identifies a single source IP failing to authenticate into Google Workspace with multiple valid users, potentially indicating a Password Spraying attack. It uses Google Workspace login failure events and calculates the standard deviation for source IPs, applying the 3-sigma rule to detect unusual failed authentication attempts. This activity is significant as it may signal an adversary attempting to gain initial access or elevate privileges. If confirmed malicious, this could lead to unauthorized access, data breaches, or further exploitation within the environment.
 data_source:
 - Google Workspace login_failure
-search: '`gws_reports_login` event.type = login event.name = login_failure| bucket
-  span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts
-  values(authentication_method) AS authentication_method by _time, src | eventstats  avg(unique_accounts)
-  as ip_avg , stdev(unique_accounts) as ip_std by _time | eval  upperBound=(ip_avg+ip_std*3)
-  | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1,
-  0) | where isOutlier =1| `gcp_unusual_number_of_failed_authentications_from_ip_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Google
-  Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows
-  Splunk administrators to collect Google Workspace event data in Splunk using Google
-  Workspace APIs. We would also recommend tuning the detection by adjusting the window
-  `span` and `unique_accounts` threshold values according to your environment. Specifically,
-  this analytic leverages the User log events.
-known_false_positives: No known false positives for this detection. Please review
-  this alert
+search: '`gws_reports_login` event.type = login event.name = login_failure| bucket span=5m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts values(authentication_method) AS authentication_method by _time, src | eventstats  avg(unique_accounts) as ip_avg , stdev(unique_accounts) as ip_std by _time | eval  upperBound=(ip_avg+ip_std*3) | eval  isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | where isOutlier =1| `gcp_unusual_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Google Workspace from Splunkbase (https://splunkbase.splunk.com/app/5556) which allows Splunk administrators to collect Google Workspace event data in Splunk using Google Workspace APIs. We would also recommend tuning the detection by adjusting the window `span` and `unique_accounts` threshold values according to your environment. Specifically, this analytic leverages the User log events.
+known_false_positives: No known false positives for this detection. Please review this alert
 references:
 - https://cloud.google.com/blog/products/identity-security/how-google-cloud-can-help-stop-credential-stuffing-attacks
 - https://www.slideshare.net/dafthack/ok-google-how-do-i-red-team-gsuite
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.blackhillsinfosec.com/wp-content/uploads/2020/05/Breaching-the-Cloud-Perimeter-Slides.pdf
+drilldown_searches:
+- name: View the detection results for $tried_accounts$
+  search: '%original_detection_search% | search  tried_accounts = $tried_accounts$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $tried_accounts$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($tried_accounts$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - GCP Account Takeover
   asset_type: Google Cloud Platform tenant
   confidence: 90
   impact: 60
-  message: 'Unusual number of failed console login attempts (Count: $unique_accounts$)
-    against users from IP Address - $src$'
+  message: 'Unusual number of failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -72,8 +62,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/gcp_gws_multiple_login_failure/gws_login.json
     source: gws_login
     sourcetype: gws:reports:login
     update_timestamp: true

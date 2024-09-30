@@ -1,39 +1,28 @@
 name: Windows Replication Through Removable Media
 id: 60df805d-4605-41c8-bbba-57baa6a4eb97
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation or dropping of executable
-  or script files in the root directory of a removable drive. It leverages data from
-  the Endpoint.Filesystem datamodel, focusing on specific file types and their creation
-  paths. This activity is significant as it may indicate an attempt to spread malware,
-  such as ransomware, via removable media. If confirmed malicious, this behavior could
-  lead to unauthorized code execution, lateral movement, or persistence within the
-  network, potentially compromising sensitive data and systems.
+description: The following analytic detects the creation or dropping of executable or script files in the root directory of a removable drive. It leverages data from the Endpoint.Filesystem datamodel, focusing on specific file types and their creation paths. This activity is significant as it may indicate an attempt to spread malware, such as ransomware, via removable media. If confirmed malicious, this behavior could lead to unauthorized code execution, lateral movement, or persistence within the network, potentially compromising sensitive data and systems.
 data_source:
 - Sysmon EventID 11
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe
-  OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name
-  = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name
-  = *.js  OR Filesystem.file_name= *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name
-  = *.pif) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)`
-  | eval dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count
-  = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) |
-  where LIKE(root_drive, "%:") AND dropped_file_path_split_count = 2  AND root_drive!=
-  "C:" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_replication_through_removable_media_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in the paths
-  specified. Filter as needed.
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js  OR Filesystem.file_name= *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.user Filesystem.dest | `drop_dm_object_name(Filesystem)` | eval dropped_file_path = split(file_path, "\\") | eval dropped_file_path_split_count = mvcount(dropped_file_path) | eval root_drive = mvindex(dropped_file_path,0) | where LIKE(root_drive, "%:") AND dropped_file_path_split_count = 2  AND root_drive!= "C:" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_replication_through_removable_media_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1204/002/
 - https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Chaos Ransomware
@@ -42,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: executable or script $file_path$ was dropped in root drive $root_drive$
-    in $dest$
+  message: executable or script $file_path$ was dropped in root drive $root_drive$ in $dest$
   mitre_attack_id:
   - T1091
   observable:
@@ -71,8 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/spread_in_root_drives/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/spread_in_root_drives/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

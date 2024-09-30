@@ -1,31 +1,16 @@
 name: Exchange PowerShell Module Usage
 id: 2d10095e-05ae-11ec-8fdf-acde48001122
-version: 6
-date: '2024-05-31'
+version: 7
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the usage of specific Exchange PowerShell
-  modules, such as New-MailboxExportRequest, New-ManagementRoleAssignment, New-MailboxSearch,
-  and Get-Recipient. It leverages PowerShell Script Block Logging (EventCode 4104)
-  to identify these commands. This activity is significant because these modules can
-  be exploited by adversaries who have gained access via ProxyShell or ProxyNotShell
-  vulnerabilities. If confirmed malicious, attackers could export mailbox contents,
-  assign management roles, conduct mailbox searches, or view recipient objects, potentially
-  leading to data exfiltration, privilege escalation, or unauthorized access to sensitive
-  information.'
+description: The following analytic detects the usage of specific Exchange PowerShell modules, such as New-MailboxExportRequest, New-ManagementRoleAssignment, New-MailboxSearch, and Get-Recipient. It leverages PowerShell Script Block Logging (EventCode 4104) to identify these commands. This activity is significant because these modules can be exploited by adversaries who have gained access via ProxyShell or ProxyNotShell vulnerabilities. If confirmed malicious, attackers could export mailbox contents, assign management roles, conduct mailbox searches, or view recipient objects, potentially leading to data exfiltration, privilege escalation, or unauthorized access to sensitive information.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*",
-  "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "Search-Mailbox")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | rename Computer as dest |rename UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `exchange_powershell_module_usage_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
-  for troubleshooting.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "Search-Mailbox") | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `exchange_powershell_module_usage_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
 - https://docs.microsoft.com/en-us/powershell/module/exchange/new-mailboxexportrequest?view=exchange-ps
 - https://docs.microsoft.com/en-us/powershell/module/exchange/new-managementroleassignment?view=exchange-ps
@@ -36,6 +21,15 @@ references:
 - https://learn.microsoft.com/en-us/powershell/module/exchange/new-mailboxsearch?view=exchange-ps
 - https://learn.microsoft.com/en-us/powershell/module/exchange/get-recipient?view=exchange-ps
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ProxyNotShell
@@ -71,7 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/exchange/windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

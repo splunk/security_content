@@ -1,23 +1,26 @@
 name: Windows AD add Self to Group
 id: 065f2701-b7ea-42f5-9ec4-fbc2261165f9
-version: 1
-date: '2023-12-18'
+version: 2
+date: '2024-09-30'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - Windows Event Log Security 4728
-description: This analytic detects instances where a user adds themselves to an Active Directory (AD) group. This activity
-  is a common indicator of privilege escalation, where a user attempts to gain unauthorized access to higher
-  privileges or sensitive resources. By monitoring AD logs, this detection identifies such suspicious behavior,
-  which could be part of a larger attack strategy aimed at compromising critical systems and data. 
-search: '`wineventlog_security` EventCode IN (4728) 
-  | where user=src_user 
-  | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc by signature, Group_Name, src_user 
-  | `windows_ad_add_self_to_group_filter`'
+description: This analytic detects instances where a user adds themselves to an Active Directory (AD) group. This activity is a common indicator of privilege escalation, where a user attempts to gain unauthorized access to higher privileges or sensitive resources. By monitoring AD logs, this detection identifies such suspicious behavior, which could be part of a larger attack strategy aimed at compromising critical systems and data.
+search: '`wineventlog_security` EventCode IN (4728) | where user=src_user | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc by signature, Group_Name, src_user | `windows_ad_add_self_to_group_filter`'
 how_to_implement: This analytic requires eventCode 4728 to be ingested.
 known_false_positives: Unknown
 references: []
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Privilege Escalation

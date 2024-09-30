@@ -1,36 +1,28 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 8
-date: '2024-05-18'
+version: 9
+date: '2024-09-30'
 author: Steven Dick, David Dorsey, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects modifications to registry keys under "Image
-  File Execution Options" that can be used for privilege escalation. It leverages
-  data from the Endpoint.Registry data model, specifically monitoring changes to registry
-  paths and values like GlobalFlag and Debugger. This activity is significant because
-  attackers can use these modifications to intercept executable calls and attach malicious
-  binaries to legitimate system binaries. If confirmed malicious, this could allow
-  attackers to execute arbitrary code with elevated privileges, leading to potential
-  system compromise and persistent access.
+description: The following analytic detects modifications to registry keys under "Image File Execution Options" that can be used for privilege escalation. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to registry paths and values like GlobalFlag and Debugger. This activity is significant because attackers can use these modifications to intercept executable calls and attach malicious binaries to legitimate system binaries. If confirmed malicious, this could allow attackers to execute arbitrary code with elevated privileges, leading to potential system compromise and persistent access.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
-  Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger))
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_name Registry.registry_value_data Registry.process_guid
-  | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `registry_keys_used_for_privilege_escalation_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: There are many legitimate applications that must execute upon
-  system startup and will use these registry keys to accomplish that task.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger)) BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `registry_keys_used_for_privilege_escalation_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: There are many legitimate applications that must execute upon system startup and will use these registry keys to accomplish that task.
 references:
 - https://blog.malwarebytes.com/101/2015/12/an-introduction-to-image-file-execution-options/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Cloud Federated Credential Abuse
@@ -42,8 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 95
   impact: 80
-  message: A registry activity in $registry_path$ related to privilege escalation
-    in host $dest$
+  message: A registry activity in $registry_path$ related to privilege escalation in host $dest$
   mitre_attack_id:
   - T1546.012
   - T1546
@@ -73,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.012/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

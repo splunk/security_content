@@ -1,44 +1,29 @@
 name: Windows Remote Services Allow Rdp In Firewall
 id: 9170cb54-ea15-41e1-9dfc-9f3363ce9b02
-version: 2
-date: '2024-05-31'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects modifications to the Windows firewall
-  to enable Remote Desktop Protocol (RDP) on a targeted machine. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on command-line executions
-  involving "netsh.exe" to allow TCP port 3389. This activity is significant as it
-  may indicate an adversary attempting to gain remote access to a compromised host,
-  a common tactic for lateral movement. If confirmed malicious, this could allow attackers
-  to remotely control the system, leading to potential data exfiltration or further
-  network compromise.
+description: The following analytic detects modifications to the Windows firewall to enable Remote Desktop Protocol (RDP) on a targeted machine. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "netsh.exe" to allow TCP port 3389. This activity is significant as it may indicate an adversary attempting to gain remote access to a compromised host, a common tactic for lateral movement. If confirmed malicious, this could allow attackers to remotely control the system, leading to potential data exfiltration or further network compromise.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline
-  values(Processes.parent_process_name) as parent_process values(Processes.process_name)
-  count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.process_name = "netsh.exe" OR Processes.original_file_name= "netsh.exe")
-  AND Processes.process = "*firewall*" AND Processes.process = "*add*" AND Processes.process
-  = "*protocol=TCP*" AND Processes.process = "*localport=3389*" AND Processes.process
-  = "*action=allow*" by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_remote_services_allow_rdp_in_firewall_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: administrators may enable or disable this feature that may
-  cause some false positive.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as cmdline values(Processes.parent_process_name) as parent_process values(Processes.process_name) count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = "netsh.exe" OR Processes.original_file_name= "netsh.exe") AND Processes.process = "*firewall*" AND Processes.process = "*add*" AND Processes.process = "*protocol=TCP*" AND Processes.process = "*localport=3389*" AND Processes.process = "*action=allow*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_remote_services_allow_rdp_in_firewall_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: administrators may enable or disable this feature that may cause some false positive.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azorult
@@ -73,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

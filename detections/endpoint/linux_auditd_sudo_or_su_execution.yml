@@ -1,37 +1,27 @@
 name: Linux Auditd Sudo Or Su Execution
 id: 817a5c89-5b92-4818-a22d-aa35e1361afe
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of the "sudo" or "su" command
-  on a Linux operating system. It leverages data from Linux Auditd, focusing on process names and parent process names. This activity
-  is significant because "sudo" and "su" commands are commonly used by adversaries
-  to elevate privileges, potentially leading to unauthorized access or control over
-  the system. If confirmed malicious, this activity could allow attackers to execute
-  commands with root privileges, leading to severe security breaches, data exfiltration,
-  or further system compromise.
+description: The following analytic detects the execution of the "sudo" or "su" command on a Linux operating system. It leverages data from Linux Auditd, focusing on process names and parent process names. This activity is significant because "sudo" and "su" commands are commonly used by adversaries to elevate privileges, potentially leading to unauthorized access or control over the system. If confirmed malicious, this activity could allow attackers to execute commands with root privileges, leading to severe security breaches, data exfiltration, or further system compromise.
 data_source:
 - Linux Auditd Proctitle
-search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host
-  as dest | where LIKE(process_exec, "%sudo %") OR LIKE(process_exec, "%su %") | stats
-  count min(_time) as firstTime max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `linux_auditd_sudo_or_su_execution_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host as dest | where LIKE(process_exec, "%sudo %") OR LIKE(process_exec, "%su %") | stats count min(_time) as firstTime max(_time) as lastTime by process_exec proctitle normalized_proctitle_delimiter dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_sudo_or_su_execution_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://attack.mitre.org/techniques/T1548/003/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Privilege Escalation

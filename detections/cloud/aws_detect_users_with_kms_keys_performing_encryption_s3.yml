@@ -1,41 +1,36 @@
 name: AWS Detect Users with KMS keys performing encryption S3
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-30'
 author: Rod Soto, Patrick Bareiss Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies users with KMS keys performing encryption
-  operations on S3 buckets. It leverages AWS CloudTrail logs to detect the `CopyObject`
-  event where server-side encryption with AWS KMS is specified. This activity is significant
-  as it may indicate unauthorized or suspicious encryption of data, potentially masking
-  exfiltration or tampering efforts. If confirmed malicious, an attacker could be
-  encrypting sensitive data to evade detection or preparing it for exfiltration, posing
-  a significant risk to data integrity and confidentiality.
-data_source: 
+description: The following analytic identifies users with KMS keys performing encryption operations on S3 buckets. It leverages AWS CloudTrail logs to detect the `CopyObject` event where server-side encryption with AWS KMS is specified. This activity is significant as it may indicate unauthorized or suspicious encryption of data, potentially masking exfiltration or tampering efforts. If confirmed malicious, an attacker could be encrypting sensitive data to evade detection or preparing it for exfiltration, posing a significant risk to data integrity and confidentiality.
+data_source:
 - AWS CloudTrail
-search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
-  | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source
-  AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime
-  max(_time) as lastTime values(bucketName) as bucketName values(src_file) AS src_file
-  values(dest_file) AS dest_file values(userAgent) AS userAgent values(region) AS
-  region values(src) AS src by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
-how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs
+search: '`cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms" | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source AS src_file, requestParameters.key AS dest_file | stats count min(_time) as firstTime max(_time) as lastTime values(bucketName) as bucketName values(src_file) AS src_file values(dest_file) AS dest_file values(userAgent) AS userAgent values(region) AS region values(src) AS src by user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |`aws_detect_users_with_kms_keys_performing_encryption_s3_filter`'
+how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs
 known_false_positives: There maybe buckets provisioned with S3 encryption
 references:
 - https://rhinosecuritylabs.com/aws/s3-ransomware-part-1-attack-vector/
 - https://github.com/d1vious/git-wild-hunt
 - https://www.youtube.com/watch?v=PgzNib37g0M
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ransomware Cloud
   asset_type: S3 Bucket
   confidence: 50
   impact: 30
-  message: User $user$ with KMS keys is performing encryption, against S3 buckets
-    on these files $dest_file$
+  message: User $user$ with KMS keys is performing encryption, against S3 buckets on these files $dest_file$
   mitre_attack_id:
   - T1486
   observable:
@@ -61,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1486/s3_file_encryption/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

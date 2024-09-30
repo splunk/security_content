@@ -1,35 +1,27 @@
 name: AWS ECR Container Scanning Findings Low Informational Unknown
 id: cbc95e44-7c22-443f-88fd-0424478f5589
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-30'
 author: Patrick Bareiss, Eric McGinnis Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies low, informational, or unknown severity
-  findings from AWS Elastic Container Registry (ECR) image scans. It leverages AWS
-  CloudTrail logs, specifically the DescribeImageScanFindings event, to detect these
-  findings. This activity is significant for a SOC as it helps in early identification
-  of potential vulnerabilities or misconfigurations in container images, which could
-  be exploited if left unaddressed. If confirmed malicious, these findings could lead
-  to unauthorized access, data breaches, or further exploitation within the containerized
-  environment.
+description: The following analytic identifies low, informational, or unknown severity findings from AWS Elastic Container Registry (ECR) image scans. It leverages AWS CloudTrail logs, specifically the DescribeImageScanFindings event, to detect these findings. This activity is significant for a SOC as it helps in early identification of potential vulnerabilities or misconfigurations in container images, which could be exploited if left unaddressed. If confirmed malicious, these findings could lead to unauthorized access, data breaches, or further exploitation within the containerized environment.
 data_source:
 - AWS CloudTrail DescribeImageScanFindings
-search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
-  | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand
-  findings | spath input=findings| search severity IN ("LOW", "INFORMATIONAL", "UNKNOWN")
-  | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest
-  as imageDigest, requestParameters.repositoryName as repository, userIdentity.principalId
-  as user | eval finding = finding_name.", ".finding_description | eval phase="release"
-  | eval severity="low" | stats min(_time) as firstTime max(_time) as lastTime by
-  awsRegion, eventName, eventSource, imageDigest, repository, user, src_ip, finding,
-  phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_ecr_container_scanning_findings_low_informational_unknown_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
+search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings | spath path=responseElements.imageScanFindings.findings{} output=findings | mvexpand findings | spath input=findings| search severity IN ("LOW", "INFORMATIONAL", "UNKNOWN") | rename name as finding_name, description as finding_description, requestParameters.imageId.imageDigest as imageDigest, requestParameters.repositoryName as repository, userIdentity.principalId as user | eval finding = finding_name.", ".finding_description | eval phase="release" | eval severity="low" | stats min(_time) as firstTime max(_time) as lastTime by awsRegion, eventName, eventSource, imageDigest, repository, user, src_ip, finding, phase, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_scanning_findings_low_informational_unknown_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 known_false_positives: unknown
 references:
 - https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
+drilldown_searches:
+- name: View the detection results for $repository$
+  search: '%original_detection_search% | search  repository = $repository$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $repository$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($repository$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -68,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.003/aws_ecr_image_scanning/aws_ecr_scanning_findings_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail

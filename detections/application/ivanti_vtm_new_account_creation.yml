@@ -1,23 +1,28 @@
 name: Ivanti VTM New Account Creation
 id: b04be6e5-2002-4349-8742-52285635b8f5
-version: 1
-date: '2024-08-19'
+version: 2
+date: '2024-09-30'
 author: Michael Haag, Splunk
-data_source: 
+data_source:
 - Ivanti VTM Audit
 type: TTP
 status: production
 description: This analytic detects potential exploitation of the Ivanti Virtual Traffic Manager (vTM) authentication bypass vulnerability (CVE-2024-7593) to create new administrator accounts. The vulnerability allows unauthenticated remote attackers to bypass authentication on the admin panel and create new admin users. This detection looks for suspicious new account creation events in the Ivanti vTM audit logs that lack expected authentication details, which may indicate exploitation attempts.
-search: '`ivanti_vtm_audit` OPERATION="adduser" MODGROUP="admin" IP="!!ABSENT!!"
-  | stats count min(_time) as firstTime max(_time) as lastTime by IP, MODUSER, OPERATION, MODGROUP, AUTH
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `ivanti_vtm_new_account_creation_filter`'
+search: '`ivanti_vtm_audit` OPERATION="adduser" MODGROUP="admin" IP="!!ABSENT!!" | stats count min(_time) as firstTime max(_time) as lastTime by IP, MODUSER, OPERATION, MODGROUP, AUTH | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ivanti_vtm_new_account_creation_filter`'
 how_to_implement: To implement this detection, ensure that Ivanti vTM audit logs are being ingested into Splunk. Configure the Ivanti vTM to send its audit logs to Splunk via syslog or by monitoring the log files directly. The sourcetype should be set to "ivanti_vtm_audit" or a similar custom sourcetype for these logs.
 known_false_positives: Legitimate new account creation by authorized administrators will generate similar log entries. However, those should include proper authentication details. Verify any detected events against expected administrative activities and authorized user lists.
 references:
 - https://www.ivanti.com/security/security-advisories/ivanti-virtual-traffic-manager-vtm-cve-2024-7593
 - https://nvd.nist.gov/vuln/detail/CVE-2024-7593
+drilldown_searches:
+- name: View the detection results for $MODUSER$
+  search: '%original_detection_search% | search  MODUSER = $MODUSER$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $MODUSER$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($MODUSER$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ivanti Virtual Traffic Manager CVE-2024-7593

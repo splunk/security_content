@@ -1,39 +1,34 @@
 name: AWS IAM AccessDenied Discovery Events
 id: 3e1f1568-9633-11eb-a69c-acde48001122
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies excessive AccessDenied events within
-  an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect
-  multiple failed access attempts from the same source IP and user identity. This
-  activity is significant as it may indicate that an access key has been compromised
-  and is being misused for unauthorized discovery actions. If confirmed malicious,
-  this could allow attackers to gather information about the AWS environment, potentially
-  leading to further exploitation or privilege escalation.
+description: The following analytic identifies excessive AccessDenied events within an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect multiple failed access attempts from the same source IP and user identity. This activity is significant as it may indicate that an access key has been compromised and is being misused for unauthorized discovery actions. If confirmed malicious, this could allow attackers to gather information about the AWS environment, potentially leading to further exploitation or privilege escalation.
 data_source:
 - AWS CloudTrail
-search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
-  | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time)
-  as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn,
-  _time | where failures >= 5 and methods >= 1 and sources >= 1 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `aws_iam_accessdenied_discovery_events_filter`'
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS CloudTrail logs.
-known_false_positives: It is possible to start this detection will need to be tuned
-  by source IP or user. In addition, change the count values to an upper threshold
-  to restrict false positives.
+search: '`cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com) | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(eventName) as methods, dc(eventSource) as sources by src_ip, userIdentity.arn, _time | where failures >= 5 and methods >= 1 and sources >= 1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_iam_accessdenied_discovery_events_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS CloudTrail logs.
+known_false_positives: It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
 references:
 - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
+drilldown_searches:
+- name: View the detection results for $userIdentity.arn$
+  search: '%original_detection_search% | search  userIdentity.arn = $userIdentity.arn$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $userIdentity.arn$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($userIdentity.arn$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious Cloud User Activities
   asset_type: AWS Account
   confidence: 50
   impact: 20
-  message: User $userIdentity.arn$ is seen to perform excessive number of discovery
-    related api calls- $failures$, within an hour where the access was denied.
+  message: User $userIdentity.arn$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied.
   mitre_attack_id:
   - T1580
   observable:
@@ -61,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/aws_iam_accessdenied_discovery_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

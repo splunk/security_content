@@ -1,45 +1,33 @@
 name: SLUI RunAs Elevated
 id: 8d124810-b3e4-11eb-96c7-acde48001122
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the Microsoft Software
-  Licensing User Interface Tool (`slui.exe`) with elevated privileges using the `-verb
-  runas` function. This activity is identified through logs from Endpoint Detection
-  and Response (EDR) agents, focusing on specific registry keys and command-line parameters.
-  This behavior is significant as it indicates a potential privilege escalation attempt,
-  which could allow an attacker to gain elevated access and execute malicious actions
-  with higher privileges. If confirmed malicious, this could lead to unauthorized
-  system changes, data exfiltration, or further compromise of the affected endpoint.
+description: The following analytic detects the execution of the Microsoft Software Licensing User Interface Tool (`slui.exe`) with elevated privileges using the `-verb runas` function. This activity is identified through logs from Endpoint Detection and Response (EDR) agents, focusing on specific registry keys and command-line parameters. This behavior is significant as it indicates a potential privilege escalation attempt, which could allow an attacker to gain elevated access and execute malicious actions with higher privileges. If confirmed malicious, this could lead to unauthorized system changes, data exfiltration, or further compromise of the affected endpoint.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=slui.exe
-  (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest Processes.user
-  Processes.parent_process Processes.process_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `slui_runas_elevated_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives should be present as this is not commonly
-  used by legitimate applications.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=slui.exe (Processes.process=*-verb* Processes.process=*runas*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `slui_runas_elevated_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives should be present as this is not commonly used by legitimate applications.
 references:
 - https://www.exploit-db.com/exploits/46998
 - https://mattharr0ey.medium.com/privilege-escalation-uac-bypass-in-changepk-c40b92818d1b
 - https://gist.github.com/r00t-3xp10it/0c92cd554d3156fd74f6c25660ccc466
 - https://www.rapid7.com/db/modules/exploit/windows/local/bypassuac_sluihijack/
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - DarkSide Ransomware
@@ -47,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A slui process $process_name$ with elevated commandline $process$ in host
-    $dest$
+  message: A slui process $process_name$ with elevated commandline $process$ in host $dest$
   mitre_attack_id:
   - T1548.002
   - T1548
@@ -79,7 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/slui/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,38 +1,33 @@
 name: O365 Excessive Authentication Failures Alert
 id: d441364c-349c-453b-b55f-12eccab67cf9
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-30'
 author: Rod Soto, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies an excessive number of authentication
-  failures, including failed attempts against MFA prompt codes. It uses data from
-  the `o365_management_activity` dataset, focusing on events where the authentication
-  status is marked as failure. This behavior is significant as it may indicate a brute
-  force attack or an attempt to compromise user accounts. If confirmed malicious,
-  this activity could lead to unauthorized access, data breaches, or further exploitation
-  within the environment.
+description: The following analytic identifies an excessive number of authentication failures, including failed attempts against MFA prompt codes. It uses data from the `o365_management_activity` dataset, focusing on events where the authentication status is marked as failure. This behavior is significant as it may indicate a brute force attack or an attempt to compromise user accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the environment.
 data_source: []
-search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=*
-  status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime
-  values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS
-  UserAgent values(status) AS status values(src_ip) AS src_ip by user | where count
-  > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `o365_excessive_authentication_failures_alert_filter`'
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-known_false_positives: The threshold for alert is above 10 attempts and this should
-  reduce the number of false positives.
+search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS UserAgent values(status) AS status values(src_ip) AS src_ip by user | where count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_authentication_failures_alert_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+known_false_positives: The threshold for alert is above 10 attempts and this should reduce the number of false positives.
 references:
 - https://attack.mitre.org/techniques/T1110/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Account Takeover
   asset_type: O365 Tenant
   confidence: 80
   impact: 80
-  message: User $user$ has caused excessive number of authentication failures from
-    $src_ip$ using UserAgent $UserAgent$.
+  message: User $user$ has caused excessive number of authentication failures from $src_ip$ using UserAgent $UserAgent$.
   mitre_attack_id:
   - T1110
   observable:
@@ -61,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110/o365_brute_force_login/o365_brute_force_login.json
     sourcetype: o365:management:activity
     source: o365

@@ -1,37 +1,29 @@
 name: Ivanti Sentry Authentication Bypass
 id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Suricata
-description: The following analytic identifies unauthenticated access attempts to
-  the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects
-  this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*",
-  "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200.
-  This behavior is significant for a SOC as it indicates potential unauthorized access,
-  which could lead to OS command execution as root. If confirmed malicious, this activity
-  could result in significant system compromise and data breaches, especially if port
-  8443 is exposed to the internet.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*")
-  Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length,
-  Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `ivanti_sentry_authentication_bypass_filter`'
-how_to_implement: To implement this analytic, a network product similar to Suricata
-  or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work
-  with your products.
-known_false_positives: It is important to note that false positives may occur if the
-  search criteria are expanded beyond the HTTP status code 200. In other words, if
-  the search includes other HTTP status codes, the likelihood of encountering false
-  positives increases. This is due to the fact that HTTP status codes other than 200
-  may not necessarily indicate a successful exploitation attempt.
+description: The following analytic identifies unauthenticated access attempts to the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*", "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200. This behavior is significant for a SOC as it indicates potential unauthorized access, which could lead to OS command execution as root. If confirmed malicious, this activity could result in significant system compromise and data breaches, especially if port 8443 is exposed to the internet.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ivanti_sentry_authentication_bypass_filter`'
+how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
+known_false_positives: It is important to note that false positives may occur if the search criteria are expanded beyond the HTTP status code 200. In other words, if the search includes other HTTP status codes, the likelihood of encountering false positives increases. This is due to the fact that HTTP status codes other than 200 may not necessarily indicate a successful exploitation attempt.
 references:
 - https://github.com/horizon3ai/CVE-2023-38035/blob/main/CVE-2023-38035.py
 - https://www.horizon3.ai/ivanti-sentry-authentication-bypass-cve-2023-38035-deep-dive/
 - https://forums.ivanti.com/s/article/KB-API-Authentication-Bypass-on-Sentry-Administrator-Interface-CVE-2023-38035?language=en_US
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ivanti Sentry Authentication Bypass CVE-2023-38035
@@ -71,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_sentry_CVE_2023_38035.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_sentry_CVE_2023_38035.log
     source: suricata
     sourcetype: suricata

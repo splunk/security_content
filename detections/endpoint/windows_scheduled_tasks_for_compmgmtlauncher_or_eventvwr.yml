@@ -1,27 +1,28 @@
 name: Windows Scheduled Tasks for CompMgmtLauncher or Eventvwr
 id: feb43b86-8c38-46cd-865e-20ce8a96c26c
-version: 2
-date: '2024-09-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
 - Windows Security 4698
 type: TTP
 status: production
 description: The following analytic detects the creation or modification of Windows Scheduled Tasks related to CompMgmtLauncher or Eventvwr. These legitimate system utilities, used for launching the Computer Management Console and Event Viewer, can be abused by attackers to execute malicious payloads under the guise of normal system processes. By leveraging these tasks, adversaries can establish persistence or elevate privileges without raising suspicion. This detection helps security analysts identify unusual or unauthorized scheduled tasks involving these executables, allowing for timely investigation and remediation of potential threats.
-search: '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*" OR 
-  TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*" OR 
-  TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest action EventData_Xml TaskContent TaskName 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_scheduled_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
-  as the URL ToolBox application are also required.
+search: '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*" OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*" OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*" | stats count min(_time) as firstTime max(_time) as lastTime by dest action EventData_Xml TaskContent TaskName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scheduled_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also required.
 known_false_positives: unknown
 references:
 - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
 - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ValleyRAT
@@ -41,10 +42,10 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   required_fields:
-  - dest 
-  - action 
-  - EventData_Xml 
-  - TaskContent 
+  - dest
+  - action
+  - EventData_Xml
+  - TaskContent
   - TaskName
   risk_score: 64
   security_domain: endpoint

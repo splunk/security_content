@@ -1,44 +1,28 @@
 name: Windows Unsigned MS DLL Side-Loading
 id: 8d9e0e06-ba71-4dc5-be16-c1a46d58728c
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 7
 type: Anomaly
 status: production
-description: The following analytic identifies potential DLL side-loading instances
-  involving unsigned DLLs mimicking Microsoft signatures. It detects this activity
-  by analyzing Sysmon logs for Event Code 7, where both the `Image` and `ImageLoaded`
-  paths do not match system directories like `system32`, `syswow64`, and `programfiles`.
-  This behavior is significant as adversaries often exploit DLL side-loading to execute
-  malicious code via legitimate processes. If confirmed malicious, this activity could
-  allow attackers to execute arbitrary code, potentially leading to privilege escalation,
-  persistence, and unauthorized access to sensitive information.
-search: '`sysmon` EventCode=7 Company="Microsoft Corporation" Signed=false SignatureStatus
-  != Valid NOT (Image IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*", "C:\\Program
-  Files*")) NOT (ImageLoaded IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*",
-  "C:\\Program Files*")) | rex field=Image "(?<ImageFolderPath>.+\\\)" | rex field=ImageLoaded
-  "(?<ImageLoadedFolderPath>.+\\\)" | where ImageFolderPath = ImageLoadedFolderPath
-  | stats count min(_time) as firstTime max(_time) as lastTime by Image ProcessGuid
-  ImageLoaded user Computer EventCode ImageFolderPath ImageLoadedFolderPath Company
-  Description Product Signed SignatureStatus | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_unsigned_ms_dll_side_loading_filter`'
-how_to_implement: The analytic is designed to be run against Sysmon event logs collected
-  from endpoints. The analytic requires the Sysmon event logs to be ingested into
-  Splunk. The analytic searches for EventCode 7 where the Image is either SQLDumper.exe
-  or SQLWriter.exe and the ImageLoaded is vcruntime140.dll. The search also filters
-  out the legitimate loading of vcruntime140.dll from the System32 directory to reduce
-  false positives. The analytic can be modified to include additional known good paths
-  for vcruntime140.dll to further reduce false positives.
-known_false_positives: False positives are possible if legitimate processes are loading
-  vcruntime140.dll from non-standard directories. It is recommended to investigate
-  the context of the process loading vcruntime140.dll to determine if it is malicious
-  or not. Modify the search to include additional known good paths for vcruntime140.dll
-  to reduce false positives.
+description: The following analytic identifies potential DLL side-loading instances involving unsigned DLLs mimicking Microsoft signatures. It detects this activity by analyzing Sysmon logs for Event Code 7, where both the `Image` and `ImageLoaded` paths do not match system directories like `system32`, `syswow64`, and `programfiles`. This behavior is significant as adversaries often exploit DLL side-loading to execute malicious code via legitimate processes. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to privilege escalation, persistence, and unauthorized access to sensitive information.
+search: '`sysmon` EventCode=7 Company="Microsoft Corporation" Signed=false SignatureStatus != Valid NOT (Image IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*", "C:\\Program Files*")) NOT (ImageLoaded IN("C:\\Windows\\System32\\*", "C:\\Windows\\SysWow64\\*", "C:\\Program Files*")) | rex field=Image "(?<ImageFolderPath>.+\\\)" | rex field=ImageLoaded "(?<ImageLoadedFolderPath>.+\\\)" | where ImageFolderPath = ImageLoadedFolderPath | stats count min(_time) as firstTime max(_time) as lastTime by Image ProcessGuid ImageLoaded user Computer EventCode ImageFolderPath ImageLoadedFolderPath Company Description Product Signed SignatureStatus | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_unsigned_ms_dll_side_loading_filter`'
+how_to_implement: The analytic is designed to be run against Sysmon event logs collected from endpoints. The analytic requires the Sysmon event logs to be ingested into Splunk. The analytic searches for EventCode 7 where the Image is either SQLDumper.exe or SQLWriter.exe and the ImageLoaded is vcruntime140.dll. The search also filters out the legitimate loading of vcruntime140.dll from the System32 directory to reduce false positives. The analytic can be modified to include additional known good paths for vcruntime140.dll to further reduce false positives.
+known_false_positives: False positives are possible if legitimate processes are loading vcruntime140.dll from non-standard directories. It is recommended to investigate the context of the process loading vcruntime140.dll to determine if it is malicious or not. Modify the search to include additional known good paths for vcruntime140.dll to reduce false positives.
 references:
 - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
 - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - APT29 Diplomatic Deceptions with WINELOADER
@@ -78,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/unsigned_dll_load//wineloader_dll_sideload.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/unsigned_dll_load//wineloader_dll_sideload.log
     sourcetype: xmlwineventlog
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

@@ -1,42 +1,31 @@
 name: O365 Privileged Graph API Permission Assigned
 id: 868f3131-d5e1-4bf1-af5b-9b0fbaaaedbb
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - O365 Update application.
-description: The following analytic detects the assignment of critical Graph API permissions
-  in Azure AD using the O365 Unified Audit Log. It focuses on permissions such as
-  Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All, and RoleManagement.ReadWrite.Directory.
-  The detection method leverages Azure Active Directory workload events, specifically
-  'Update application' operations. This activity is significant as these permissions
-  provide extensive control over Azure AD settings, posing a high risk if misused.
-  If confirmed malicious, this could allow unauthorized modifications, leading to
-  potential data breaches or privilege escalation. Immediate investigation is crucial.
-search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update application."
-  | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0)
-  | spath input=newvalue  | search "{}.RequiredAppPermissions{}.EntitlementId"="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
-  OR "{}.RequiredAppPermissions{}.EntitlementId"="06b708a9-e830-4db3-a914-8e69da51d44f"
-  OR "{}.RequiredAppPermissions{}.EntitlementId"="9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8"  |
-  eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions)
-  by user, object, user_agent, Operation
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `o365_privileged_graph_api_permission_assigned_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Privileged Graph API permissions may be assigned for legitimate
-  purposes. Filter as needed.
+description: The following analytic detects the assignment of critical Graph API permissions in Azure AD using the O365 Unified Audit Log. It focuses on permissions such as Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All, and RoleManagement.ReadWrite.Directory. The detection method leverages Azure Active Directory workload events, specifically 'Update application' operations. This activity is significant as these permissions provide extensive control over Azure AD settings, posing a high risk if misused. If confirmed malicious, this could allow unauthorized modifications, leading to potential data breaches or privilege escalation. Immediate investigation is crucial.
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Update application." | eval newvalue = mvindex(''ModifiedProperties{}.NewValue'',0) | spath input=newvalue  | search "{}.RequiredAppPermissions{}.EntitlementId"="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9" OR "{}.RequiredAppPermissions{}.EntitlementId"="06b708a9-e830-4db3-a914-8e69da51d44f" OR "{}.RequiredAppPermissions{}.EntitlementId"="9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8"  | eval Permissions = ''{}.RequiredAppPermissions{}.EntitlementId'' | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions) by user, object, user_agent, Operation | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_privileged_graph_api_permission_assigned_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Privileged Graph API permissions may be assigned for legitimate purposes. Filter as needed.
 references:
 - https://cloudbrothers.info/en/azure-attack-paths/
 - https://github.com/mandiant/Mandiant-Azure-AD-Investigator/blob/master/MandiantAzureADInvestigator.json
 - https://learn.microsoft.com/en-us/graph/permissions-reference
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
 - https://posts.specterops.io/azure-privilege-escalation-via-azure-api-permissions-abuse-74aee1006f48
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -71,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_privileged_graph_perm_assigned/o365_privileged_graph_perm_assigned.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_privileged_graph_perm_assigned/o365_privileged_graph_perm_assigned.log
     sourcetype: o365:management:activity
     source: o365

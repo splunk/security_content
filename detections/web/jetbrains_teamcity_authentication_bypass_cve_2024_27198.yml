@@ -1,47 +1,38 @@
 name: JetBrains TeamCity Authentication Bypass CVE-2024-27198
 id: fbcc04c7-8a79-453c-b3a9-c232c423bdd4
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 data_source:
 - Suricata
 type: TTP
 status: production
-description: 'The following analytic identifies attempts to exploit the JetBrains
-  TeamCity Authentication Bypass vulnerability (CVE-2024-27198). It detects suspicious
-  POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints,
-  which are indicative of attempts to create new administrator users or generate admin
-  access tokens without authentication. This detection leverages the Web datamodel
-  and CIM-compliant log sources, such as Nginx or TeamCity logs. This activity is
-  significant as it can lead to full control over the TeamCity server, including all
-  projects, builds, agents, and artifacts. If confirmed malicious, attackers could
-  gain unauthorized administrative access, leading to severe security breaches.'
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where ((Web.url="*?jsp=*" AND Web.url="*;.jsp*") Web.status=200 Web.http_method=POST)
-  OR (Web.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*")
-  Web.status=200 Web.http_method=POST ) by Web.src, Web.dest, Web.http_user_agent,
-  Web.url, Web.status, Web.http_method, sourcetype, source | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `jetbrains_teamcity_authentication_bypass_cve_2024_27198_filter`'
-how_to_implement: The detection relies on the Web datamodel and a CIM compliant log
-  source, that may include Nginx, TeamCity logs, or other web server logs.
-known_false_positives: False positives are not expected, as this detection is based
-  on the presence of specific URI paths and HTTP methods that are indicative of the
-  CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based
-  on organization log sources.
+description: The following analytic identifies attempts to exploit the JetBrains TeamCity Authentication Bypass vulnerability (CVE-2024-27198). It detects suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints, which are indicative of attempts to create new administrator users or generate admin access tokens without authentication. This detection leverages the Web datamodel and CIM-compliant log sources, such as Nginx or TeamCity logs. This activity is significant as it can lead to full control over the TeamCity server, including all projects, builds, agents, and artifacts. If confirmed malicious, attackers could gain unauthorized administrative access, leading to severe security breaches.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where ((Web.url="*?jsp=*" AND Web.url="*;.jsp*") Web.status=200 Web.http_method=POST) OR (Web.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") Web.status=200 Web.http_method=POST ) by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method, sourcetype, source | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `jetbrains_teamcity_authentication_bypass_cve_2024_27198_filter`'
+how_to_implement: The detection relies on the Web datamodel and a CIM compliant log source, that may include Nginx, TeamCity logs, or other web server logs.
+known_false_positives: False positives are not expected, as this detection is based on the presence of specific URI paths and HTTP methods that are indicative of the CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based on organization log sources.
 references:
 - https://github.com/projectdiscovery/nuclei-templates/pull/9279/files
 - https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
 - https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
 - https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
 - https://github.com/yoryio/CVE-2024-27198/blob/main/CVE-2024-27198.py
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - JetBrains TeamCity Vulnerabilities
   asset_type: Web Server
   confidence: 90
   impact: 90
-  message: Possible JetBrains TeamCity Authentication Bypass CVE-2024-27198 Attempt
-    against $dest$ from $src$.
+  message: Possible JetBrains TeamCity Authentication Bypass CVE-2024-27198 Attempt against $dest$ from $src$.
   mitre_attack_id:
   - T1190
   observable:
@@ -73,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
     sourcetype: suricata
     source: suricata

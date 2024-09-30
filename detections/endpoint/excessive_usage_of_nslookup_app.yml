@@ -1,37 +1,31 @@
 name: Excessive Usage of NSLOOKUP App
 id: 0a69fdaa-a2b8-11eb-b16d-acde48001122
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects excessive usage of the nslookup application,
-  which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode
-  1 to monitor process executions, specifically focusing on nslookup.exe. The detection
-  identifies outliers by comparing the frequency of nslookup executions against a
-  calculated threshold. This activity is significant as it can reveal attempts by
-  malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious,
-  this behavior could allow attackers to stealthily transfer sensitive information
-  out of the network, bypassing traditional data exfiltration defenses.
+description: The following analytic detects excessive usage of the nslookup application, which may indicate potential DNS exfiltration attempts. It leverages Sysmon EventCode 1 to monitor process executions, specifically focusing on nslookup.exe. The detection identifies outliers by comparing the frequency of nslookup executions against a calculated threshold. This activity is significant as it can reveal attempts by malware or APT groups to exfiltrate data via DNS queries. If confirmed malicious, this behavior could allow attackers to stealthily transfer sensitive information out of the network, bypassing traditional data exfiltration defenses.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m
-  | stats count as numNsLookup by dest, _time | eventstats avg(numNsLookup) as avgNsLookup,
-  stdev(numNsLookup) as stdNsLookup, count as numSlots by dest | eval upperThreshold=(avgNsLookup
-  + stdNsLookup *3) | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold,
-  1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `excessive_usage_of_nslookup_app_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
+search: '`sysmon` EventCode = 1 process_name = "nslookup.exe" | bucket _time span=1m | stats count as numNsLookup by dest, _time | eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by dest | eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold, 1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
 known_false_positives: unknown
 references:
 - https://www.mandiant.com/resources/fin7-spear-phishing-campaign-targets-personnel-involved-sec-filings
 - https://www.varonis.com/blog/dns-tunneling
 - https://www.microsoft.com/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious DNS Traffic
@@ -41,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 40
-  message: Excessive usage of nslookup.exe has been detected on $dest$. This detection
-    is triggered as as it violates the dynamic threshold
+  message: Excessive usage of nslookup.exe has been detected on $dest$. This detection is triggered as as it violates the dynamic threshold
   mitre_attack_id:
   - T1048
   observable:
@@ -64,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048.003/nslookup_exfil/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

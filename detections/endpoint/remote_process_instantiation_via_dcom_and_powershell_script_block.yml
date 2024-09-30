@@ -1,40 +1,35 @@
 name: Remote Process Instantiation via DCOM and PowerShell Script Block
 id: fa1c3040-4680-11ec-a618-3e22fbd008af
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of PowerShell commands that
-  initiate a process on a remote endpoint via the DCOM protocol. It leverages PowerShell
-  Script Block Logging (EventCode=4104) to identify the use of ShellExecute and ExecuteShellCommand.
-  This activity is significant as it may indicate lateral movement or remote code
-  execution attempts by adversaries. If confirmed malicious, this behavior could allow
-  attackers to execute arbitrary code on remote systems, potentially leading to further
-  compromise and persistence within the network.
+description: The following analytic detects the execution of PowerShell commands that initiate a process on a remote endpoint via the DCOM protocol. It leverages PowerShell Script Block Logging (EventCode=4104) to identify the use of ShellExecute and ExecuteShellCommand. This activity is significant as it may indicate lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this behavior could allow attackers to execute arbitrary code on remote systems, potentially leading to further compromise and persistence within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*"
-  OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup instructions
-  can be found 
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators may leverage DCOM to start a process on remote
-  systems, but this activity is usually limited to a small set of hosts or users.
+search: '`powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*" OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `remote_process_instantiation_via_dcom_and_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup instructions can be found https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators may leverage DCOM to start a process on remote systems, but this activity is usually limited to a small set of hosts or users.
 references:
 - https://attack.mitre.org/techniques/T1021/003/
 - https://www.cybereason.com/blog/dcom-lateral-movement-techniques
+drilldown_searches:
+- name: View the detection results for $Computer$
+  search: '%original_detection_search% | search  Computer = $Computer$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Lateral Movement
   asset_type: Endpoint
   confidence: 70
   impact: 90
-  message: A process was started on a remote endpoint from $Computer$ by abusing WMI
-    using PowerShell.exe
+  message: A process was started on a remote endpoint from $Computer$ by abusing WMI using PowerShell.exe
   mitre_attack_id:
   - T1021
   - T1021.003
@@ -58,7 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.006/lateral_movement_psh/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

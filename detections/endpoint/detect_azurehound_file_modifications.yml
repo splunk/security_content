@@ -1,43 +1,35 @@
 name: Detect AzureHound File Modifications
 id: 1c34549e-c31b-11eb-996b-acde48001122
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of specific AzureHound-related
-  files, such as `*-azurecollection.zip` and various `.json` files, on disk. It leverages
-  data from the Endpoint.Filesystem datamodel, focusing on file creation events with
-  specific filenames. This activity is significant because AzureHound is a tool used
-  to gather information about Azure environments, similar to SharpHound for on-premises
-  Active Directory. If confirmed malicious, this activity could indicate an attacker
-  is collecting sensitive Azure environment data, potentially leading to further exploitation
-  or privilege escalation within the cloud infrastructure.
+description: The following analytic detects the creation of specific AzureHound-related files, such as `*-azurecollection.zip` and various `.json` files, on disk. It leverages data from the Endpoint.Filesystem datamodel, focusing on file creation events with specific filenames. This activity is significant because AzureHound is a tool used to gather information about Azure environments, similar to SharpHound for on-premises Active Directory. If confirmed malicious, this activity could indicate an attacker is collecting sensitive Azure environment data, potentially leading to further exploitation or privilege escalation within the cloud infrastructure.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip",
-  "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json",
-  "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name
-  Filesystem.file_path Filesystem.dest Filesystem.user | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on file modifications that include the name of the process, and file, responsible
-  for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem`
-  node.
-known_false_positives: False positives should be limited as the analytic is specific
-  to a filename with extension .zip. Filter as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*-azurecollection.zip", "*-azprivroleadminrights.json", "*-azglobaladminrights.json", "*-azcloudappadmins.json", "*-azapplicationadmins.json") by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.user | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_azurehound_file_modifications_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on file modifications that include the name of the process, and file, responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: False positives should be limited as the analytic is specific to a filename with extension .zip. Filter as needed.
 references:
 - https://posts.specterops.io/introducing-bloodhound-4-0-the-azure-update-9b2b26c5e350
 - https://github.com/BloodHoundAD/Legacy-AzureHound.ps1/blob/master/AzureHound.ps1
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Discovery Techniques
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A file - $file_name$ was written to disk that is related to AzureHound,
-    a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$.
+  message: A file - $file_name$ was written to disk that is related to AzureHound, a AzureAD enumeration utility, has occurred on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1087.002
   - T1069.001
@@ -75,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/sharphound/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

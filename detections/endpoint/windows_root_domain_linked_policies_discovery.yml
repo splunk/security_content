@@ -1,31 +1,28 @@
 name: Windows Root Domain linked policies Discovery
 id: 80ffaede-1f12-49d5-a86e-b4b599b68b3c
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the `[Adsisearcher]` type accelerator
-  in PowerShell to query Active Directory for root domain linked policies. It leverages
-  PowerShell Script Block Logging (EventCode=4104) to identify this activity. This
-  behavior is significant as it may indicate an attempt by adversaries or Red Teams
-  to gain situational awareness and perform Active Directory Discovery. If confirmed
-  malicious, this activity could allow attackers to map out domain policies, potentially
-  aiding in further exploitation or lateral movement within the network.
+description: The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell to query Active Directory for root domain linked policies. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity. This behavior is significant as it may indicate an attempt by adversaries or Red Teams to gain situational awareness and perform Active Directory Discovery. If confirmed malicious, this activity could allow attackers to map out domain policies, potentially aiding in further exploitation or lateral movement within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText
-  = "*.SearchRooT*" ScriptBlockText = "*.gplink*" | stats count min(_time) as firstTime
-  max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer
-  as dest, user_id as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_root_domain_linked_policies_discovery_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs
-  to be imported. Modify the powershell macro as needed to match the sourcetype or
-  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*[adsisearcher]*" ScriptBlockText = "*.SearchRooT*" ScriptBlockText = "*.gplink*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | rename Computer as dest, user_id as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_root_domain_linked_policies_discovery_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
 - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
 - https://medium.com/@pentesttas/discover-hidden-gpo-s-on-active-directory-using-ps-adsi-a284b6814c81
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Destruction
@@ -34,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Windows PowerShell [Adsisearcher] was used user enumeration on endpoint
-    $dest$
+  message: Windows PowerShell [Adsisearcher] was used user enumeration on endpoint $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
@@ -59,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml1.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/adsi_discovery/windows-powershell-xml1.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,33 +1,28 @@
 name: Windows Computer Account Created by Computer Account
 id: 97a8dc5f-8a7c-4fed-9e3e-ec407fd0268a
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a computer account creating a new computer
-  account with a specific Service Principal Name (SPN) "RestrictedKrbHost". This detection
-  leverages Windows Security Event Logs, specifically EventCode 4741, to identify
-  such activities. This behavior is significant as it may indicate an attempt to establish
-  unauthorized Kerberos authentication channels, potentially leading to lateral movement
-  or privilege escalation. If confirmed malicious, this activity could allow an attacker
-  to impersonate services, access sensitive information, or maintain persistence within
-  the network.
+description: The following analytic identifies a computer account creating a new computer account with a specific Service Principal Name (SPN) "RestrictedKrbHost". This detection leverages Windows Security Event Logs, specifically EventCode 4741, to identify such activities. This behavior is significant as it may indicate an attempt to establish unauthorized Kerberos authentication channels, potentially leading to lateral movement or privilege escalation. If confirmed malicious, this activity could allow an attacker to impersonate services, access sensitive information, or maintain persistence within the network.
 data_source:
 - Windows Event Log Security 4741
-search: '`wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT
-  AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost* | stats  count min(_time) as
-  firstTime max(_time) as lastTime by dest, subject, action ,src_user, user, user_type,
-  SubjectUserName,SubjectDomainName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_computer_account_created_by_computer_account_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4741 EventCode enabled. The Windows TA is also
-  required.
-known_false_positives: It is possible third party applications may have a computer
-  account that adds computer accounts, filtering may be required.
+search: '`wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost* | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject, action ,src_user, user, user_type, SubjectUserName,SubjectDomainName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_computer_account_created_by_computer_account_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4741 EventCode enabled. The Windows TA is also required.
+known_false_positives: It is possible third party applications may have a computer account that adds computer accounts, filtering may be required.
 references:
 - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-kile/445e4499-7e49-4f2a-8d82-aaf2d1ee3c47
 - https://github.com/Dec0ne/KrbRelayUp
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -35,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 50
-  message: A Computer Account on $dest$ created by a computer account (possibly indicative
-    of Kerberos relay attack).
+  message: A Computer Account on $dest$ created by a computer account (possibly indicative of Kerberos relay attack).
   mitre_attack_id:
   - T1558
   observable:
@@ -63,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_created_by_computer_account/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_created_by_computer_account/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

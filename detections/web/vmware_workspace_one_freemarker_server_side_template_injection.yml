@@ -1,36 +1,31 @@
 name: VMware Workspace ONE Freemarker Server-side Template Injection
 id: 9e5726fe-8fde-460e-bd74-cddcf6c86113
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects server-side template injection attempts
-  related to CVE-2022-22954 in VMware Workspace ONE. It leverages web or proxy logs
-  to identify HTTP GET requests to the endpoint catalog-portal/ui/oauth/verify with
-  the freemarker.template.utility.Execute command. This activity is significant as
-  it indicates potential exploitation attempts that could lead to remote code execution.
-  If confirmed malicious, an attacker could execute arbitrary commands on the server,
-  leading to full system compromise, data exfiltration, or further lateral movement
-  within the network.
+description: The following analytic detects server-side template injection attempts related to CVE-2022-22954 in VMware Workspace ONE. It leverages web or proxy logs to identify HTTP GET requests to the endpoint catalog-portal/ui/oauth/verify with the freemarker.template.utility.Execute command. This activity is significant as it indicates potential exploitation attempts that could lead to remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the server, leading to full system compromise, data exfiltration, or further lateral movement within the network.
 data_source:
 - Palo Alto Network Threat
-search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*"
-  AND Web.url="*freemarker.template.utility.Execute*" by Web.http_user_agent Web.http_method,
-  Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `vmware_workspace_one_freemarker_server_side_template_injection_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  web or proxy logs, or ensure it is being filled by a proxy like device, into the
-  Web Datamodel. For additional filtering, allow list private IP space or restrict
-  by known good.
-known_false_positives: False positives may be present if the activity is blocked or
-  was not successful. Filter known vulnerablity scanners. Filter as needed.
+search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*/catalog-portal/ui/oauth/verify?error=&deviceudid=*" AND Web.url="*freemarker.template.utility.Execute*" by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `vmware_workspace_one_freemarker_server_side_template_injection_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting web or proxy logs, or ensure it is being filled by a proxy like device, into the Web Datamodel. For additional filtering, allow list private IP space or restrict by known good.
+known_false_positives: False positives may be present if the activity is blocked or was not successful. Filter known vulnerablity scanners. Filter as needed.
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
 - https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb
 - https://github.com/sherlocksecurity/VMware-CVE-2022-22954
 - https://www.vmware.com/security/advisories/VMSA-2022-0011.html
 - https://attackerkb.com/topics/BDXyTqY1ld/cve-2022-22954/rapid7-analysis
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - VMware Server Side Injection and Privilege Escalation
@@ -39,8 +34,7 @@ tags:
   cve:
   - CVE-2022-22954
   impact: 70
-  message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on
-    $dest$ has occurred.
+  message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on $dest$ has occurred.
   mitre_attack_id:
   - T1190
   - T1133
@@ -65,8 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

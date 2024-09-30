@@ -1,33 +1,30 @@
 name: AWS New MFA Method Registered For User
 id: 4e3c26f2-4fb9-4bd7-ab46-1b76ffa2a23b
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic detects the registration of a new Multi-Factor
-  Authentication (MFA) method for an AWS account. It leverages AWS CloudTrail logs
-  to identify the `CreateVirtualMFADevice` event. This activity is significant because
-  adversaries who gain unauthorized access to an AWS account may register a new MFA
-  method to maintain persistence. If confirmed malicious, this could allow attackers
-  to secure their access, making it difficult to detect and remove their presence,
-  potentially leading to further unauthorized activities and data breaches.
+description: The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for an AWS account. It leverages AWS CloudTrail logs to identify the `CreateVirtualMFADevice` event. This activity is significant because adversaries who gain unauthorized access to an AWS account may register a new MFA method to maintain persistence. If confirmed malicious, this could allow attackers to secure their access, making it difficult to detect and remove their presence, potentially leading to further unauthorized activities and data breaches.
 data_source:
 - AWS CloudTrail CreateVirtualMFADevice
-search: '`cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName)
-  as virtualMFADeviceName min(_time) as firstTime max(_time) as lastTime by eventSource
-  aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn
-  src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_new_mfa_method_registered_for_user_filter`'
-how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
-  search works when AWS CloudTrail logs.
-known_false_positives: Newly onboarded users who are registering an MFA method for
-  the first time will also trigger this detection.
+search: '`cloudtrail` eventName=CreateVirtualMFADevice | stats count values(requestParameters.virtualMFADeviceName) as virtualMFADeviceName min(_time) as firstTime max(_time) as lastTime by eventSource aws_account_id errorCode userAgent eventID awsRegion userIdentity.principalId user_arn src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_new_mfa_method_registered_for_user_filter`'
+how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This search works when AWS CloudTrail logs.
+known_false_positives: Newly onboarded users who are registering an MFA method for the first time will also trigger this detection.
 references:
 - https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
 - https://attack.mitre.org/techniques/T1556/
 - https://attack.mitre.org/techniques/T1556/006/
 - https://twitter.com/jhencinski/status/1618660062352007174
+drilldown_searches:
+- name: View the detection results for $user_arn$
+  search: '%original_detection_search% | search  user_arn = $user_arn$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_arn$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_arn$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
@@ -68,8 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

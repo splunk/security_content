@@ -1,60 +1,35 @@
 name: Cloud Provisioning Activity From Previously Unseen Country
 id: 94994255-3acf-4213-9b3f-0494df03bb31
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-09-30'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects cloud provisioning activities originating
-  from previously unseen countries. It leverages cloud infrastructure logs and compares
-  the geographic location of the source IP address against a baseline of known locations.
-  This activity is significant as it may indicate unauthorized access or potential
-  compromise of cloud resources. If confirmed malicious, an attacker could gain control
-  over cloud assets, leading to data breaches, service disruptions, or further infiltration
-  into the network.
+description: The following analytic detects cloud provisioning activities originating from previously unseen countries. It leverages cloud infrastructure logs and compares the geographic location of the source IP address against a baseline of known locations. This activity is significant as it may indicate unauthorized access or potential compromise of cloud resources. If confirmed malicious, an attacker could gain control over cloud assets, leading to data breaches, service disruptions, or further infiltration into the network.
 data_source:
 - AWS CloudTrail
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success
-  by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command |
-  `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Country)
-  | lookup previously_seen_cloud_provisioning_activity_sources Country as Country
-  OUTPUT firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data |
-  where enough_data=1 | eval firstTimeSeenCountry=min(firstTimeSeen) | where isnull(firstTimeSeenCountry)
-  OR firstTimeSeenCountry > relative_time(now(), "-24h@h") 
-  | `security_content_ctime(firstTime)`
-  | table firstTime, src, Country, user, object, command 
-  | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider.  You should run the baseline search `Previously Seen Cloud Provisioning
-  Activity Sources - Initial` to build the initial table of source IP address, geographic
-  locations, and times. You must also enable the second baseline search `Previously
-  Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date
-  and to age out old data. You can adjust the time window for this search by updating
-  the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide
-  additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_country_filter`
-  macro.
-known_false_positives: 'This is a strictly behavioral search, so we define "false
-  positive" slightly differently. Every time this fires, it will accurately reflect
-  the first occurrence in the time period you''re searching within, plus what is stored
-  in the cache feature. But while there are really no "false positives" in a traditional
-  sense, there is definitely lots of noise.
+search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change where (All_Changes.action=started OR All_Changes.action=created) All_Changes.status=success by All_Changes.src, All_Changes.user, All_Changes.object, All_Changes.command | `drop_dm_object_name("All_Changes")` | iplocation src | where isnotnull(Country) | lookup previously_seen_cloud_provisioning_activity_sources Country as Country OUTPUT firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data | where enough_data=1 | eval firstTimeSeenCountry=min(firstTimeSeen) | where isnull(firstTimeSeenCountry) OR firstTimeSeenCountry > relative_time(now(), "-24h@h") | `security_content_ctime(firstTime)` | table firstTime, src, Country, user, object, command | `cloud_provisioning_activity_from_previously_unseen_country_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud Provisioning Activity Sources - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen Cloud Provisioning Activity Sources - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `previously_unseen_cloud_provisioning_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_provisioning_activity_from_previously_unseen_country_filter` macro.
+known_false_positives: 'This is a strictly behavioral search, so we define "false positive" slightly differently. Every time this fires, it will accurately reflect the first occurrence in the time period you''re searching within, plus what is stored in the cache feature. But while there are really no "false positives" in a traditional sense, there is definitely lots of noise.
 
-  This search will fire any time a new IP address is seen in the **GeoIP** database
-  for any kind of provisioning activity. If you typically do all provisioning from
-  tools inside of your country, there should be few false positives. If you are located
-  in countries where the free version of **MaxMind GeoIP** that ships by default with
-  Splunk has weak resolution (particularly small countries in less economically powerful
-  regions), this may be much less valuable to you.'
+  This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.'
 references: []
+drilldown_searches:
+- name: View the detection results for $object$
+  search: '%original_detection_search% | search  object = $object$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $object$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($object$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious Cloud Provisioning Activities
   asset_type: AWS Instance
   confidence: 60
   impact: 70
-  message: User $user$ is starting or creating an instance $object$ for the first
-    time in Country $Country$ from IP address $src$
+  message: User $user$ is starting or creating an instance $object$ for the first time in Country $Country$ from IP address $src$
   mitre_attack_id:
   - T1078
   observable:
@@ -88,8 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

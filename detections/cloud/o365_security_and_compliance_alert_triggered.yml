@@ -1,37 +1,28 @@
 name: O365 Security And Compliance Alert Triggered
 id: 5b367cdd-8dfc-49ac-a9b7-6406cf27f33e
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: The following analytic identifies alerts triggered by the Office 365
-  Security and Compliance Center, indicating potential threats or policy violations.
-  It leverages data from the `o365_management_activity` dataset, focusing on events
-  where the workload is SecurityComplianceCenter and the operation is AlertTriggered.
-  This activity is significant as it highlights security and compliance issues within
-  the O365 environment, which are crucial for maintaining organizational security.
-  If confirmed malicious, these alerts could indicate attempts to breach security
-  policies, leading to unauthorized access, data exfiltration, or other malicious
-  activities.
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement
-  Operation=AlertTriggered | spath input=Data path=f3u output=user | spath input=Data
-  path=op output=operation | spath input=_raw path=wl | spath input=Data path=rid
-  output=rule_id | spath input=Data path=ad output=alert_description | spath input=Data
-  path=lon output=operation_name | spath input=Data path=an output=alert_name | spath
-  input=Data path=sev output=severity |  stats count earliest(_time) as firstTime
-  latest(_time) as lastTime by user, Name, operation, rule_id, alert_description,
-  alert_name, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `o365_security_and_compliance_alert_triggered_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: O365 Security and Compliance may also generate false positives
-  or trigger on legitimate behavior, filter as needed.
+description: The following analytic identifies alerts triggered by the Office 365 Security and Compliance Center, indicating potential threats or policy violations. It leverages data from the `o365_management_activity` dataset, focusing on events where the workload is SecurityComplianceCenter and the operation is AlertTriggered. This activity is significant as it highlights security and compliance issues within the O365 environment, which are crucial for maintaining organizational security. If confirmed malicious, these alerts could indicate attempts to breach security policies, leading to unauthorized access, data exfiltration, or other malicious activities.
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement Operation=AlertTriggered | spath input=Data path=f3u output=user | spath input=Data path=op output=operation | spath input=_raw path=wl | spath input=Data path=rid output=rule_id | spath input=Data path=ad output=alert_description | spath input=Data path=lon output=operation_name | spath input=Data path=an output=alert_name | spath input=Data path=sev output=severity |  stats count earliest(_time) as firstTime latest(_time) as lastTime by user, Name, operation, rule_id, alert_description, alert_name, severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_security_and_compliance_alert_triggered_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: O365 Security and Compliance may also generate false positives or trigger on legitimate behavior, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1078/004/
 - https://learn.microsoft.com/en-us/purview/alert-policies?view=o365-worldwide
 - https://learn.microsoft.com/en-us/purview/alert-policies
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Account Takeover
@@ -63,7 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/o365_security_and_compliance_alert_triggered/o365_security_and_compliance_alert_triggered.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/o365_security_and_compliance_alert_triggered/o365_security_and_compliance_alert_triggered.log
     sourcetype: o365:management:activity
     source: o365

@@ -1,43 +1,27 @@
 name: Azure AD Privileged Role Assigned to Service Principal
 id: 5dfaa3d3-e2e4-4053-8252-16d9ee528c41
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: "The following analytic detects the assignment of privileged roles to
-  service principals in Azure Active Directory (AD). It leverages the AuditLogs log
-  category from ingested Azure AD events. This activity is significant because assigning
-  elevated permissions to non-human entities can lead to unauthorized access or malicious
-  activities. If confirmed malicious, attackers could exploit these service principals
-  to gain elevated access to Azure resources, potentially compromising sensitive data
-  and critical infrastructure. Monitoring this behavior helps prevent privilege escalation
-  and ensures the security of Azure environments."
+description: The following analytic detects the assignment of privileged roles to service principals in Azure Active Directory (AD). It leverages the AuditLogs log category from ingested Azure AD events. This activity is significant because assigning elevated permissions to non-human entities can lead to unauthorized access or malicious activities. If confirmed malicious, attackers could exploit these service principals to gain elevated access to Azure resources, potentially compromising sensitive data and critical infrastructure. Monitoring this behavior helps prevent privilege escalation and ensures the security of Azure environments.
 data_source:
 - Azure Active Directory Add member to role
-search: '`azure_monitor_aad`  operationName="Add member to role" 
-  | rename properties.* as *
-  | search "targetResources{}.type"=ServicePrincipal
-  | rename initiatedBy.user.userPrincipalName as initiatedBy 
-  | rename targetResources{}.modifiedProperties{}.newValue  as roles
-  | eval role=mvindex(roles,1) 
-  | rename targetResources{}.displayName as apps 
-  | eval displayName=mvindex(apps,0) 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, role
-  | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description 
-  | search isprvilegedadrole = True 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `azure_ad_privileged_role_assigned_to_service_principal_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
-  the AuditLog log category.
-known_false_positives: Administrators may legitimately assign the privileged roles
-  to Service Principals as part of administrative tasks. Filter as needed.
+search: '`azure_monitor_aad`  operationName="Add member to role" | rename properties.* as * | search "targetResources{}.type"=ServicePrincipal | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.modifiedProperties{}.newValue  as roles | eval role=mvindex(roles,1) | rename targetResources{}.displayName as apps | eval displayName=mvindex(apps,0) | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, role | lookup privileged_azure_ad_roles azureadrole AS role OUTPUT isprvilegedadrole description | search isprvilegedadrole = True | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_privileged_role_assigned_to_service_principal_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Administrators may legitimately assign the privileged roles to Service Principals as part of administrative tasks. Filter as needed.
 references:
 - https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+drilldown_searches:
+- name: View the detection results for $initiatedBy$
+  search: '%original_detection_search% | search  initiatedBy = $initiatedBy$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $initiatedBy$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($initiatedBy$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
@@ -45,8 +29,7 @@ tags:
   asset_type: Azure Active Directory
   confidence: 50
   impact: 70
-  message: A privileged Azure AD role was assigned to the Service Principal $displayName$
-    initiated by $initiatedBy$
+  message: A privileged Azure AD role was assigned to the Service Principal $displayName$ initiated by $initiatedBy$
   mitre_attack_id:
   - T1098
   - T1098.003
@@ -69,8 +52,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_role_serviceprincipal/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

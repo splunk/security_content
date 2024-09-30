@@ -1,37 +1,29 @@
 name: Windows Impair Defense Delete Win Defender Profile Registry
 id: 65d4b105-ec52-48ec-ac46-289d0fbf7d96
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the deletion of the Windows Defender main
-  profile registry key. It leverages data from the Endpoint.Registry datamodel, specifically
-  monitoring for deleted actions within the Windows Defender registry path. This activity
-  is significant as it indicates potential tampering with security defenses, often
-  associated with Remote Access Trojans (RATs) and other malware. If confirmed malicious,
-  this action could allow an attacker to disable Windows Defender, reducing the system's
-  ability to detect and respond to further malicious activities, thereby compromising
-  endpoint security.
+description: The following analytic detects the deletion of the Windows Defender main profile registry key. It leverages data from the Endpoint.Registry datamodel, specifically monitoring for deleted actions within the Windows Defender registry path. This activity is significant as it indicates potential tampering with security defenses, often associated with Remote Access Trojans (RATs) and other malware. If confirmed malicious, this action could allow an attacker to disable Windows Defender, reducing the system's ability to detect and respond to further malicious activities, thereby compromising endpoint security.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Policies\\Microsoft\\Windows
-  Defender" Registry.action = deleted by  Registry.registry_path Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid Registry.action  Registry.user
-  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_impair_defense_delete_win_defender_profile_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node.
-known_false_positives: It is unusual to turn this feature off a Windows system since
-  it is a default security control, although it is not rare for some policies to disable
-  it. Although no false positives have been identified, use the provided filter macro
-  to tune the search.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry where Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender" Registry.action = deleted by  Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.action  Registry.user Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_delete_win_defender_profile_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 references:
 - https://blog.malwarebytes.com/malwarebytes-news/2021/02/lazyscripter-from-empire-to-double-rat/
 - https://app.any.run/tasks/45f5d114-91ea-486c-ab01-41c4093d2861/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -65,8 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/delete_win_defender_context_menu/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

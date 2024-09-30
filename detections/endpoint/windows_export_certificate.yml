@@ -1,29 +1,27 @@
 name: Windows Export Certificate
 id: d8ddfa9b-b724-4df9-9dbe-f34cc0936714
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the export of a certificate from the Windows
-  Certificate Store. It leverages the Certificates Lifecycle log channel, specifically
-  event ID 1007, to identify this activity. Monitoring certificate exports is crucial
-  as certificates can be used for authentication to VPNs or private resources. If
-  malicious actors export certificates, they could potentially gain unauthorized access
-  to sensitive systems or data, leading to significant security breaches.
+description: The following analytic detects the export of a certificate from the Windows Certificate Store. It leverages the Certificates Lifecycle log channel, specifically event ID 1007, to identify this activity. Monitoring certificate exports is crucial as certificates can be used for authentication to VPNs or private resources. If malicious actors export certificates, they could potentially gain unauthorized access to sensitive systems or data, leading to significant security breaches.
 data_source:
 - Windows Event Log CertificateServicesClient 1007
-search: '`certificateservices_lifecycle` EventCode=1007 | xmlkv UserData_Xml | stats
-  count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectName, UserData_Xml
-  | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `windows_export_certificate_filter`'
-how_to_implement: To implement this analytic, you must collect Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
-  or Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational.
-known_false_positives: False positives may be generated based on an automated process
-  or service that exports certificates on the regular. Review is required before setting
-  to alert. Monitor for abnormal processes performing an export.
+search: '`certificateservices_lifecycle` EventCode=1007 | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectName, UserData_Xml | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_export_certificate_filter`'
+how_to_implement: To implement this analytic, you must collect Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational or Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational.
+known_false_positives: False positives may be generated based on an automated process or service that exports certificates on the regular. Review is required before setting to alert. Monitor for abnormal processes performing an export.
 references:
 - https://atomicredteam.io/defense-evasion/T1553.004/#atomic-test-4---install-root-ca-on-windows
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Certificate Services
@@ -54,9 +52,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certificateservices-lifecycle.log
-    source: 
-      XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certificateservices-lifecycle.log
+    source: XmlWinEventLog:Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational
     sourcetype: XmlWinEventLog
     update_timestamp: true

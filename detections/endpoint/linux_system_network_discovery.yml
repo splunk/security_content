@@ -1,41 +1,27 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies potential enumeration of local network
-  configuration on Linux systems. It detects this activity by monitoring processes
-  such as "arp," "ifconfig," "ip," "netstat," "firewall-cmd," "ufw," "iptables," "ss,"
-  and "route" within a 30-minute window. This behavior is significant as it often
-  indicates reconnaissance efforts by adversaries to gather network information for
-  subsequent attacks. If confirmed malicious, this activity could enable attackers
-  to map the network, identify vulnerabilities, and plan further exploitation or lateral
-  movement within the environment.
+description: The following analytic identifies potential enumeration of local network configuration on Linux systems. It detects this activity by monitoring processes such as "arp," "ifconfig," "ip," "netstat," "firewall-cmd," "ufw," "iptables," "ss," and "route" within a 30-minute window. This behavior is significant as it often indicates reconnaissance efforts by adversaries to gather network information for subsequent attacks. If confirmed malicious, this activity could enable attackers to map the network, identify vulnerabilities, and plan further exploitation or lateral movement within the environment.
 data_source:
 - Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
-  as process_name_list values(Processes.process) as process_list values(Processes.process_id)
-  as process_id_list values(Processes.parent_process_id) as parent_process_id_list
-  values(Processes.process_guid) as process_guid_list dc(Processes.process_name) as
-  process_name_count from datamodel=Endpoint.Processes where Processes.process_name
-  IN ("arp", "ifconfig", "ip", "netstat", "firewall-cmd", "ufw", "iptables", "ss",
-  "route") by _time span=30m Processes.dest Processes.user | where process_name_count
-  >=4 | `drop_dm_object_name(Processes)`| `linux_system_network_discovery_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name_list values(Processes.process) as process_list values(Processes.process_id) as process_id_list values(Processes.parent_process_id) as parent_process_id_list values(Processes.process_guid) as process_guid_list dc(Processes.process_name) as process_name_count from datamodel=Endpoint.Processes where Processes.process_name IN ("arp", "ifconfig", "ip", "netstat", "firewall-cmd", "ufw", "iptables", "ss", "route") by _time span=30m Processes.dest Processes.user | where process_name_count >=4 | `drop_dm_object_name(Processes)`| `linux_system_network_discovery_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1016/T1016.md
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Destruction
@@ -70,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux

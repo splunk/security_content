@@ -1,39 +1,30 @@
 name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859c
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to exploit CVE-2022-26134, an
-  unauthenticated remote code execution vulnerability in Confluence. It leverages
-  the Web datamodel to analyze network and CIM-compliant web logs, identifying suspicious
-  URL patterns and parameters indicative of exploitation attempts. This activity is
-  significant as it allows attackers to execute arbitrary code on the Confluence server
-  without authentication, potentially leading to full system compromise. If confirmed
-  malicious, this could result in unauthorized access, data exfiltration, and further
-  lateral movement within the network. Immediate investigation and remediation are
-  crucial to prevent extensive damage.
+description: The following analytic detects attempts to exploit CVE-2022-26134, an unauthenticated remote code execution vulnerability in Confluence. It leverages the Web datamodel to analyze network and CIM-compliant web logs, identifying suspicious URL patterns and parameters indicative of exploitation attempts. This activity is significant as it allows attackers to execute arbitrary code on the Confluence server without authentication, potentially leading to full system compromise. If confirmed malicious, this could result in unauthorized access, data exfiltration, and further lateral movement within the network. Immediate investigation and remediation are crucial to prevent extensive damage.
 data_source:
 - Palo Alto Network Threat
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where Web.url IN ("*${*", "*%2F%7B*") (Web.url="*org.apache.commons.io.IOUtils*"
-  Web.url="*java.lang.Runtime@getRuntime().exec*") OR (Web.url="*java.lang.Runtime%40getRuntime%28%29.exec*")
-  OR (Web.url="*getEngineByName*" AND Web.url="*nashorn*" AND Web.url="*ProcessBuilder*")
-  by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
-  sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `confluence_unauthenticated_remote_code_execution_cve_2022_26134_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache or Splunk for Nginx. In addition,
-  network based logs or event data like PAN Threat.
-known_false_positives: Tune based on assets if possible, or restrict to known Confluence
-  servers. Remove the ${ for a more broad query. To identify more exec, remove everything
-  up to the last parameter (Runtime().exec) for a broad query.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*${*", "*%2F%7B*") (Web.url="*org.apache.commons.io.IOUtils*" Web.url="*java.lang.Runtime@getRuntime().exec*") OR (Web.url="*java.lang.Runtime%40getRuntime%28%29.exec*") OR (Web.url="*getEngineByName*" AND Web.url="*nashorn*" AND Web.url="*ProcessBuilder*") by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `confluence_unauthenticated_remote_code_execution_cve_2022_26134_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache or Splunk for Nginx. In addition, network based logs or event data like PAN Threat.
+known_false_positives: Tune based on assets if possible, or restrict to known Confluence servers. Remove the ${ for a more broad query. To identify more exec, remove everything up to the last parameter (Runtime().exec) for a broad query.
 references:
 - https://confluence.atlassian.com/doc/confluence-security-advisory-2022-06-02-1130377146.html
 - https://www.splunk.com/en_us/blog/security/atlassian-confluence-vulnerability-cve-2022-26134.html
 - https://www.rapid7.com/blog/post/2022/06/02/active-exploitation-of-confluence-cve-2022-26134/
 - https://www.volexity.com/blog/2022/06/02/zero-day-exploitation-of-atlassian-confluence/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Atlassian Confluence Server and Data Center CVE-2022-26134
@@ -43,8 +34,7 @@ tags:
   cve:
   - CVE-2022-26134
   impact: 100
-  message: A URL was requested related to CVE-2022-26134, a unauthenticated remote
-    code execution vulnerability,  on $dest$ by $src$.
+  message: A URL was requested related to CVE-2022-26134, a unauthenticated remote code execution vulnerability,  on $dest$ by $src$.
   mitre_attack_id:
   - T1505
   - T1190
@@ -75,8 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/confluence.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

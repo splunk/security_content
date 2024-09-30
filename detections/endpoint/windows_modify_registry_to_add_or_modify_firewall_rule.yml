@@ -1,7 +1,7 @@
 name: Windows Modify Registry to Add or Modify Firewall Rule
 id: 43254751-e2ce-409a-b6b4-4f851e8dcc26
-version: 1
-date: '2024-06-21'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 12
@@ -9,26 +9,21 @@ data_source:
 - Sysmon EventID 14
 type: Anomaly
 status: production
-description: The following analytic detects a potential addition or modification of firewall rules, 
-  signaling possible configuration changes or security policy adjustments. It tracks commands such as 
-  netsh advfirewall firewall add rule and netsh advfirewall firewall set rule, which may indicate attempts 
-  to alter network access controls. Monitoring these actions ensures the integrity of firewall settings and 
-  helps prevent unauthorized network access.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
-  WHERE Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"  Registry.action = modified
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user Registry.action
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_to_add_or_modify_firewall_rule_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: network admin may add/remove/modify public inbound firewall
-  rule that may cause this rule to be triggered.
+description: The following analytic detects a potential addition or modification of firewall rules, signaling possible configuration changes or security policy adjustments. It tracks commands such as netsh advfirewall firewall add rule and netsh advfirewall firewall set rule, which may indicate attempts to alter network access controls. Monitoring these actions ensures the integrity of firewall settings and helps prevent unauthorized network access.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"  Registry.action = modified BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user Registry.action | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_to_add_or_modify_firewall_rule_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: network admin may add/remove/modify public inbound firewall rule that may cause this rule to be triggered.
 references:
 - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ShrinkLocker

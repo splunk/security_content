@@ -1,35 +1,27 @@
 name: Linux Auditd Kernel Module Enumeration
 id: d1b088de-c47a-4572-9339-bdcc26493b32
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the use of the 'kmod' process to list
-  kernel modules on a Linux system. This detection leverages data from Linux Auditd, focusing on process names and command-line executions.
-  While listing kernel modules is not inherently malicious, it can be a precursor
-  to loading unauthorized modules using 'insmod'. If confirmed malicious, this activity
-  could allow an attacker to load kernel modules, potentially leading to privilege
-  escalation, persistence, or other malicious actions within the system.
+description: The following analytic identifies the use of the 'kmod' process to list kernel modules on a Linux system. This detection leverages data from Linux Auditd, focusing on process names and command-line executions. While listing kernel modules is not inherently malicious, it can be a precursor to loading unauthorized modules using 'insmod'. If confirmed malicious, this activity could allow an attacker to load kernel modules, potentially leading to privilege escalation, persistence, or other malicious actions within the system.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=lsmod | rename host as dest  | stats count
-  min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid
-  success dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `linux_auditd_kernel_module_enumeration_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: False positives are present based on automated tooling or system
-  administrative usage. Filter as needed.
+search: '`linux_auditd` type=SYSCALL comm=lsmod | rename host as dest  | stats count min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid success dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `linux_auditd_kernel_module_enumeration_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
 references:
 - https://man7.org/linux/man-pages/man8/kmod.8.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Rootkit

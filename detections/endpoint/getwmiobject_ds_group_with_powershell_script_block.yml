@@ -1,32 +1,28 @@
 name: GetWmiObject Ds Group with PowerShell Script Block
 id: 67740bd3-1506-469c-b91d-effc322cc6e5
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the `Get-WmiObject` commandlet
-  with the `DS_Group` parameter via PowerShell Script Block Logging (EventCode=4104).
-  This method leverages WMI to query all domain groups. Monitoring this activity is
-  crucial as adversaries and Red Teams may use it for domain group enumeration, aiding
-  in situational awareness and Active Directory discovery. If confirmed malicious,
-  this activity could allow attackers to map out the domain structure, potentially
-  leading to further exploitation and privilege escalation within the network.
+description: The following analytic detects the execution of the `Get-WmiObject` commandlet with the `DS_Group` parameter via PowerShell Script Block Logging (EventCode=4104). This method leverages WMI to query all domain groups. Monitoring this activity is crucial as adversaries and Red Teams may use it for domain group enumeration, aiding in situational awareness and Active Directory discovery. If confirmed malicious, this activity could allow attackers to map out the domain structure, potentially leading to further exploitation and privilege escalation within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace
-  root\\directory\\ldap*" AND ScriptBlockText="*class ds_group*") | stats count min(_time)
-  as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText
-  | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`|`getwmiobject_ds_group_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
-  for troubleshooting.
+search: '`powershell` EventCode=4104 (ScriptBlockText=*Get-WmiObject* AND ScriptBlockText="*namespace root\\directory\\ldap*" AND ScriptBlockText="*class ds_group*") | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`getwmiobject_ds_group_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1069/002/
 - https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-wmiobject?view=powershell-5.1
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -58,7 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

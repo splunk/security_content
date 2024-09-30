@@ -1,43 +1,30 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 3
-date: '2024-07-09'
+version: 4
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects network traffic associated with known
-  remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer.
-  It leverages Palo Alto traffic logs mapped to the Network_Traffic data model in
-  Splunk. This activity is significant because adversaries often use remote access
-  tools to maintain unauthorized access to compromised environments. If confirmed
-  malicious, this activity could allow attackers to control systems remotely, exfiltrate
-  data, or deploy additional malware, posing a severe threat to the organization's
-  security.
+description: The following analytic detects network traffic associated with known remote access software applications, such as AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. It leverages Palo Alto traffic logs mapped to the Network_Traffic data model in Splunk. This activity is significant because adversaries often use remote access tools to maintain unauthorized access to compromised environments. If confirmed malicious, this activity could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization's security.
 data_source:
 - Palo Alto Network Traffic
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(All_Traffic.dest_port) as dest_port latest(user) as user from
-  datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app |
-  `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | lookup remote_access_software remote_appid AS app OUTPUT isutility, description
-  as signature, comment_reference as desc, category | search isutility = True | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_traffic_filter`'
-how_to_implement: The following analytic was developed with Palo Alto traffic logs.
-  Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process. The "exceptions" macro leverages 
-  both an Assets and Identities lookup, as well as a KVStore collection called 
-  "remote_software_exceptions" that lets you track and maintain device-
-  based exceptions for this set of detections.
-known_false_positives: It is possible that legitimate remote access software is used
-  within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment.
-  Known false positives can be added to the remote_access_software_usage_exception.csv 
-  lookup to globally suppress these situations across all remote access content
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_port) as dest_port latest(user) as user from datamodel=Network_Traffic by All_Traffic.src All_Traffic.dest, All_Traffic.app | `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category | search isutility = True | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_traffic_filter`'
+how_to_implement: The following analytic was developed with Palo Alto traffic logs. Ensure that the logs are being ingested into Splunk and mapped to the Network_Traffic data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device- based exceptions for this set of detections.
+known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional remote access software that is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
 - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 - https://applipedia.paloaltonetworks.com/
+drilldown_searches:
+- name: View the detection results for $src$
+  search: '%original_detection_search% | search  src = $src$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Insider Threat
@@ -46,8 +33,7 @@ tags:
   asset_type: Network
   confidence: 50
   impact: 50
-  message: Application traffic for a known remote access software [$signature$] was
-    detected from $src$.
+  message: Application traffic for a known remote access software [$signature$] was detected from $src$.
   mitre_attack_id:
   - T1219
   observable:
@@ -72,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo_traffic.log
     source: screenconnect_palo_traffic
     sourcetype: pan:traffic

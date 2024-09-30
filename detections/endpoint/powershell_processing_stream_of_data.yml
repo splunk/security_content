@@ -1,26 +1,15 @@
 name: Powershell Processing Stream Of Data
 id: 0d718b52-c9f1-11eb-bc61-acde48001122
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious PowerShell script execution
-  involving compressed stream data processing, identified via EventCode 4104. It leverages
-  PowerShell Script Block Logging to flag scripts using `IO.Compression`, `IO.StreamReader`,
-  or decompression methods. This activity is significant as it often indicates obfuscated
-  PowerShell or embedded .NET/binary execution, which are common tactics for evading
-  detection. If confirmed malicious, this behavior could allow attackers to execute
-  hidden code, escalate privileges, or maintain persistence within the environment.
+description: The following analytic detects suspicious PowerShell script execution involving compressed stream data processing, identified via EventCode 4104. It leverages PowerShell Script Block Logging to flag scripts using `IO.Compression`, `IO.StreamReader`, or decompression methods. This activity is significant as it often indicates obfuscated PowerShell or embedded .NET/binary execution, which are common tactics for evading detection. If confirmed malicious, this behavior could allow attackers to execute hidden code, escalate privileges, or maintain persistence within the environment.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText
-  = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*" | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_processing_stream_of_data_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_processing_stream_of_data_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: powershell may used this function to process compressed data.
 references:
 - https://medium.com/@ahmedjouini99/deobfuscating-emotets-powershell-payload-e39fb116f7b9
@@ -30,6 +19,15 @@ references:
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+drilldown_searches:
+- name: View the detection results for $Computer$ and $UserID$
+  search: '%original_detection_search% | search  Computer = $Computer$ UserID = $UserID$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$ and $UserID$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$, $UserID$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -41,9 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 50
-  message: A suspicious powershell script contains stream command in $ScriptBlockText$
-    commonly for processing compressed or to decompressed binary file with EventCode
-    $EventCode$ in host $Computer$
+  message: A suspicious powershell script contains stream command in $ScriptBlockText$ commonly for processing compressed or to decompressed binary file with EventCode $EventCode$ in host $Computer$
   mitre_attack_id:
   - T1059
   - T1059.001
@@ -72,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/streamreader.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/streamreader.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

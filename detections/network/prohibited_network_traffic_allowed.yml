@@ -1,32 +1,25 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-09-30'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances where network traffic, identified
-  by port and transport layer protocol as prohibited in the "lookup_interesting_ports"
-  table, is allowed. It uses the Network_Traffic data model to cross-reference traffic
-  data against predefined security policies. This activity is significant for a SOC
-  as it highlights potential misconfigurations or policy violations that could lead
-  to unauthorized access or data exfiltration. If confirmed malicious, this could
-  allow attackers to bypass network defenses, leading to potential data breaches and
-  compromising the organization's security posture.
+description: The following analytic detects instances where network traffic, identified by port and transport layer protocol as prohibited in the "lookup_interesting_ports" table, is allowed. It uses the Network_Traffic data model to cross-reference traffic data against predefined security policies. This activity is significant for a SOC as it highlights potential misconfigurations or policy violations that could lead to unauthorized access or data exfiltration. If confirmed malicious, this could allow attackers to bypass network defenses, leading to potential data breaches and compromising the organization's security posture.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by
-  All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action
-  | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port
-  OUTPUT app is_prohibited note transport | search is_prohibited=true | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `prohibited_network_traffic_allowed_filter`'
-how_to_implement: In order to properly run this search, Splunk needs to ingest data
-  from firewalls or other network control devices that mediate the traffic allowed
-  into an environment. This is necessary so that the search can identify an 'action'
-  taken on the traffic of interest. The search requires the Network_Traffic data model
-  be populated.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where All_Traffic.action = allowed by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port OUTPUT app is_prohibited note transport | search is_prohibited=true | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `prohibited_network_traffic_allowed_filter`'
+how_to_implement: In order to properly run this search, Splunk needs to ingest data from firewalls or other network control devices that mediate the traffic allowed into an environment. This is necessary so that the search can identify an 'action' taken on the traffic of interest. The search requires the Network_Traffic data model be populated.
 known_false_positives: None identified
 references: []
+drilldown_searches:
+- name: View the detection results for $src_ip$
+  search: '%original_detection_search% | search  src_ip = $src_ip$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_ip$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_ip$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
@@ -63,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048/ftp_connection/zeek_conn.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1048/ftp_connection/zeek_conn.log
     sourcetype: bro:conn:json
     source: conn.log

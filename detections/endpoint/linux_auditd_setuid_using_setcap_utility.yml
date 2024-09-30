@@ -1,39 +1,27 @@
 name: Linux Auditd Setuid Using Setcap Utility
 id: 1474459a-302b-4255-8add-d82f96d14cd9
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the 'setcap' utility
-  to enable the SUID bit on Linux systems. It leverages Linux Auditd data, focusing on process names and command-line arguments that indicate the
-  use of 'setcap' with specific capabilities. This activity is significant because
-  setting the SUID bit allows a user to temporarily gain root access, posing a substantial
-  security risk. If confirmed malicious, an attacker could escalate privileges, execute
-  arbitrary commands with elevated permissions, and potentially compromise the entire
-  system.
+description: The following analytic detects the execution of the 'setcap' utility to enable the SUID bit on Linux systems. It leverages Linux Auditd data, focusing on process names and command-line arguments that indicate the use of 'setcap' with specific capabilities. This activity is significant because setting the SUID bit allows a user to temporarily gain root access, posing a substantial security risk. If confirmed malicious, an attacker could escalate privileges, execute arbitrary commands with elevated permissions, and potentially compromise the entire system.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
-  dest | where LIKE (process_exec, "%setcap %") AND (LIKE (process_exec, "% cap_setuid+ep
-  %") OR LIKE (process_exec, "% cap_setuid=ep %") OR LIKE (process_exec, "% cap_net_bind_service+p
-  %") OR LIKE (process_exec, "% cap_net_raw+ep %") OR LIKE (process_exec, "% cap_dac_read_search+ep
-  %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec
-  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_setuid_using_setcap_utility_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE (process_exec, "%setcap %") AND (LIKE (process_exec, "% cap_setuid+ep %") OR LIKE (process_exec, "% cap_setuid=ep %") OR LIKE (process_exec, "% cap_net_bind_service+p %") OR LIKE (process_exec, "% cap_net_raw+ep %") OR LIKE (process_exec, "% cap_dac_read_search+ep %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_setuid_using_setcap_utility_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://www.hackingarticles.in/linux-privilege-escalation-using-capabilities/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Privilege Escalation

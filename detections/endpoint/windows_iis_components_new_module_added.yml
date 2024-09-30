@@ -1,27 +1,16 @@
 name: Windows IIS Components New Module Added
 id: 55f22929-cfd3-4388-ba5c-4d01fac7ee7e
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of new IIS modules on a Windows
-  IIS server. It leverages the Windows Event log - Microsoft-IIS-Configuration/Operational,
-  specifically EventCode 29, to identify this activity. This behavior is significant
-  because IIS modules are rarely added to production servers, and unauthorized modules
-  could indicate malicious activity. If confirmed malicious, an attacker could use
-  these modules to execute arbitrary code, escalate privileges, or maintain persistence
-  within the environment, potentially compromising the server and sensitive data.
+description: The following analytic detects the addition of new IIS modules on a Windows IIS server. It leverages the Windows Event log - Microsoft-IIS-Configuration/Operational, specifically EventCode 29, to identify this activity. This behavior is significant because IIS modules are rarely added to production servers, and unauthorized modules could indicate malicious activity. If confirmed malicious, an attacker could use these modules to execute arbitrary code, escalate privileges, or maintain persistence within the environment, potentially compromising the server and sensitive data.
 data_source:
 - Windows IIS 29
-search: '`iis_operational_logs` EventCode=29 | stats  count min(_time) as firstTime
-  max(_time) as lastTime by OpCode EventCode ComputerName Message | rename ComputerName
-  AS dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_iis_components_new_module_added_filter`'
-how_to_implement: You must enabled the IIS Configuration Operational log before ingesting
-  in Splunk. Setup and inputs may be found here https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040.
-known_false_positives: False positives may be present when updates or an administrator
-  adds a new module to IIS. Monitor and filter as needed.
+search: '`iis_operational_logs` EventCode=29 | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | rename ComputerName AS dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_new_module_added_filter`'
+how_to_implement: You must enabled the IIS Configuration Operational log before ingesting in Splunk. Setup and inputs may be found here https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040.
+known_false_positives: False positives may be present when updates or an administrator adds a new module to IIS. Monitor and filter as needed.
 references:
 - https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
 - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
@@ -30,6 +19,15 @@ references:
 - https://www.secureworks.com/research/bronze-union
 - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
 - https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IIS Components
@@ -60,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/IIS-Configuration-Operational.log
     source: IIS:Configuration:Operational
     sourcetype: IIS:Configuration:Operational
     update_timestamp: true

@@ -1,42 +1,37 @@
 name: Windows AD SID History Attribute Modified
 id: 1155e47d-307f-4247-beab-71071e3a458c
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 5136
-description: The following analytic detects modifications to the SID History attribute
-  in Active Directory by leveraging event code 5136. This detection uses logs from
-  the `wineventlog_security` data source to identify changes to the sIDHistory attribute.
-  Monitoring this activity is crucial as the SID History attribute can be exploited
-  by adversaries to inherit permissions from other accounts, potentially granting
-  unauthorized access. If confirmed malicious, this activity could allow attackers
-  to maintain persistent access and escalate privileges within the domain, posing
-  a significant security risk.
-search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory
-  OperationType="%%14674" | stats values(ObjectDN) as ObjectDN by _time, Computer,
-  SubjectUserName, AttributeValue | rename Computer as dest | `windows_ad_sid_history_attribute_modified_filter`'
-how_to_implement: To successfully implement this search, you ned to be ingesting eventcode
-  `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes`
-  within `DS Access` needs to be enabled. Additionally, a SACL needs to be created
-  for AD objects in order to ingest attribute modifications.
-known_false_positives: Domain mergers and migrations may generate large volumes of
-  false positives for this analytic.
+description: The following analytic detects modifications to the SID History attribute in Active Directory by leveraging event code 5136. This detection uses logs from the `wineventlog_security` data source to identify changes to the sIDHistory attribute. Monitoring this activity is crucial as the SID History attribute can be exploited by adversaries to inherit permissions from other accounts, potentially granting unauthorized access. If confirmed malicious, this activity could allow attackers to maintain persistent access and escalate privileges within the domain, posing a significant security risk.
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674" | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rename Computer as dest | `windows_ad_sid_history_attribute_modified_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
+known_false_positives: Domain mergers and migrations may generate large volumes of false positives for this analytic.
 references:
 - https://adsecurity.org/?p=1772
 - https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN
 - https://learn.microsoft.com/en-us/defender-for-identity/security-assessment-unsecure-sid-history-attribute
 - https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/sid-history-injection
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 70
   impact: 80
-  message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$ on
-    $dest$
+  message: SID History AD attribute modified by $SubjectUserName$ for $ObjectDN$ on $dest$
   mitre_attack_id:
   - T1134
   - T1134.005
@@ -63,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1134.005/sid_history2/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

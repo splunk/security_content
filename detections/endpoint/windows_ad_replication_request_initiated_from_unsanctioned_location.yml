@@ -1,50 +1,30 @@
 name: Windows AD Replication Request Initiated from Unsanctioned Location
 id: 50998483-bb15-457b-a870-965080d9e3d3
-version: 4
-date: '2024-05-20'
+version: 5
+date: '2024-09-30'
 author: Dean Luxton
 type: TTP
 status: production
 data_source:
 - Windows Event Log Security 4662
 - Windows Event Log Security 4624
-description: The following analytic identifies unauthorized Active Directory replication
-  requests initiated from non-domain controller locations. It leverages EventCode
-  4662 to detect when a computer account with replication permissions creates a handle
-  to domainDNS, filtering out known domain controller IP addresses. This activity
-  is significant as it may indicate a DCSync attack, where an attacker with privileged
-  access can request password hashes for any or all users within the domain. If confirmed
-  malicious, this could lead to unauthorized access to sensitive information and potential
-  full domain compromise.
-search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}",
-  "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*",
-  "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*")
-  AND AccessMask="0x100" AND (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18"
-  OR SubjectDomainName="Window Manager" OR SubjectUserName="*$") | stats min(_time)
-  as attack_time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID,
-  ObjectName, ObjectServer, ObjectType, OperationType, status | rename SubjectDomainName
-  as Target_Domain, SubjectUserName as user, Logon_ID as TargetLogonId | appendpipe
-  [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"]
-  | table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid,
-  Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName,
-  ObjectServer, ObjectType, OperationType | stats min(attack_time) as _time, values(TargetUserSid)
-  as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user,
-  values(Computer) as Computer, values(status) as status, values(src_category) as
-  src_category, values(src_ip) as src_ip by TargetLogonId | search NOT src_category="domain_controller"
-  | `windows_ad_replication_request_initiated_from_unsanctioned_location_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  eventcode `4662`. The Advanced Security Audit policy settings `Audit Directory Services
-  Access` within `DS Access` needs to be enabled, as well as the following SACLs applied
-  to the domain root and all descendant objects. The principals `everybody`,  `Domain
-  Computers`, and  `Domain Controllers` auditing the permissions `Replicating Directory
-  Changes`, `Replicating Directory Changes All`, and `Replicating Directory Changes
-  In Filtered Set` Assets and Identities will also need to be configured, with the
-  category of domain_controller added for domain controllers.
+description: The following analytic identifies unauthorized Active Directory replication requests initiated from non-domain controller locations. It leverages EventCode 4662 to detect when a computer account with replication permissions creates a handle to domainDNS, filtering out known domain controller IP addresses. This activity is significant as it may indicate a DCSync attack, where an attacker with privileged access can request password hashes for any or all users within the domain. If confirmed malicious, this could lead to unauthorized access to sensitive information and potential full domain compromise.
+search: '`wineventlog_security` EventCode=4662 ObjectType IN ("%{19195a5b-6da0-11d0-afd3-00c04fd930c9}", "domainDNS") AND Properties IN ("*Replicating Directory Changes All*", "*{1131f6ad-9c07-11d1-f79f-00c04fc2dcd2}*", "*{9923a32a-3607-11d2-b9be-0000f87a36b2}*","*{1131f6ac-9c07-11d1-f79f-00c04fc2dcd2}*") AND AccessMask="0x100" AND (SubjectUserSid="NT AUT*" OR SubjectUserSid="S-1-5-18" OR SubjectDomainName="Window Manager" OR SubjectUserName="*$") | stats min(_time) as attack_time, count by SubjectDomainName, SubjectUserName, Computer, Logon_ID, ObjectName, ObjectServer, ObjectType, OperationType, status | rename SubjectDomainName as Target_Domain, SubjectUserName as user, Logon_ID as TargetLogonId | appendpipe [| map search="search `wineventlog_security` EventCode=4624 TargetLogonId=$TargetLogonId$"] | table attack_time, AuthenticationPackageName, LogonProcessName, LogonType, TargetUserSid, Target_Domain, user, Computer, TargetLogonId, status, src_ip, src_category, ObjectName, ObjectServer, ObjectType, OperationType | stats min(attack_time) as _time, values(TargetUserSid) as TargetUserSid, values(Target_Domain) as Target_Domain, values(user) as user, values(Computer) as Computer, values(status) as status, values(src_category) as src_category, values(src_ip) as src_ip by TargetLogonId | search NOT src_category="domain_controller" | `windows_ad_replication_request_initiated_from_unsanctioned_location_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting eventcode `4662`. The Advanced Security Audit policy settings `Audit Directory Services Access` within `DS Access` needs to be enabled, as well as the following SACLs applied to the domain root and all descendant objects. The principals `everybody`,  `Domain Computers`, and  `Domain Controllers` auditing the permissions `Replicating Directory Changes`, `Replicating Directory Changes All`, and `Replicating Directory Changes In Filtered Set` Assets and Identities will also need to be configured, with the category of domain_controller added for domain controllers.
 known_false_positives: Genuine DC promotion may trigger this alert.
 references:
 - https://adsecurity.org/?p=1729
 - https://www.linkedin.com/pulse/mimikatz-dcsync-event-log-detections-john-dwyer
 - https://github.com/SigmaHQ/sigma/blob/0.22-699-g29a5c6278/rules/windows/builtin/security/win_security_dcsync.yml
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Sneaky Active Directory Persistence Tricks
@@ -52,8 +32,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: Windows Active Directory Replication Request Initiated from Unsanctioned
-    Location $src_ip$ by $user$
+  message: Windows Active Directory Replication Request Initiated from Unsanctioned Location $src_ip$ by $user$
   mitre_attack_id:
   - T1003.006
   - T1003
@@ -88,11 +67,10 @@ tags:
   - status
   risk_score: 100
   security_domain: endpoint
-  manual_test: This detection runs correctly when run manually and given some time is given for data to settle in the splunk index. 
+  manual_test: This detection runs correctly when run manually and given some time is given for data to settle in the splunk index.
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/impacket/windows-security-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.006/impacket/windows-security-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

@@ -1,42 +1,29 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 5
-date: '2024-05-20'
+version: 6
+date: '2024-09-30'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation or modification of Windows
-  services using the sc.exe command. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process names and command-line arguments. This
-  activity is significant because manipulating Windows services can be a method for
-  attackers to establish persistence, escalate privileges, or execute arbitrary code.
-  If confirmed malicious, this behavior could allow an attacker to maintain long-term
-  access, disrupt services, or gain control over critical system functions, posing
-  a severe threat to the environment.
+description: The following analytic detects the creation or modification of Windows services using the sc.exe command. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because manipulating Windows services can be a method for attackers to establish persistence, escalate privileges, or execute arbitrary code. If confirmed malicious, this behavior could allow an attacker to maintain long-term access, disrupt services, or gain control over critical system functions, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="*
-  config *") by Processes.process_name Processes.parent_process_name Processes.dest
-  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `sc_exe_manipulating_windows_services_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However,
-  there may be legitimate instances of this behavior. It is important to validate
-  and investigate as appropriate.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name = sc.exe (Processes.process="* create *" OR Processes.process="* config *") by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `sc_exe_manipulating_windows_services_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However, there may be legitimate instances of this behavior. It is important to validate and investigate as appropriate.
 references:
 - https://www.secureworks.com/blog/drokbk-malware-uses-github-as-dead-drop-resolver
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Service Abuse
@@ -50,8 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A sc process $process_name$ with commandline $process$ to create of configure
-    services in host $dest$
+  message: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$
   mitre_attack_id:
   - T1543.003
   - T1543
@@ -80,7 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

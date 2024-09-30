@@ -1,37 +1,28 @@
 name: Windows Service Deletion In Registry
 id: daed6823-b51c-4843-a6ad-169708f1323e
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the deletion of a service from the Windows
-  Registry under CurrentControlSet\Services. It leverages data from the Endpoint.Registry
-  datamodel, specifically monitoring registry paths and actions related to service
-  deletion. This activity is significant as adversaries may delete services to evade
-  detection and hinder incident response efforts. If confirmed malicious, this action
-  could disrupt legitimate services, impair system functionality, and potentially
-  allow attackers to maintain a lower profile within the environment, complicating
-  detection and remediation efforts.
+description: The following analytic detects the deletion of a service from the Windows Registry under CurrentControlSet\Services. It leverages data from the Endpoint.Registry datamodel, specifically monitoring registry paths and actions related to service deletion. This activity is significant as adversaries may delete services to evade detection and hinder incident response efforts. If confirmed malicious, this action could disrupt legitimate services, impair system functionality, and potentially allow attackers to maintain a lower profile within the environment, complicating detection and remediation efforts.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SYSTEM\\CurrentControlSet\\Services*"
-  AND (Registry.action = deleted OR (Registry.registry_value_name = DeleteFlag AND
-  Registry.registry_value_data = 0x00000001 AND Registry.action=modified)) by Registry.registry_key_name
-  Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_value_name
-  Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_service_deletion_in_registry_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
-known_false_positives: This event can be seen when administrator delete a service
-  or uninstall/reinstall a software that creates service entry, but it is still recommended
-  to check this alert with high priority.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SYSTEM\\CurrentControlSet\\Services*" AND (Registry.action = deleted OR (Registry.registry_value_name = DeleteFlag AND Registry.registry_value_data = 0x00000001 AND Registry.action=modified)) by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.registry_value_name Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_service_deletion_in_registry_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives: This event can be seen when administrator delete a service or uninstall/reinstall a software that creates service entry, but it is still recommended to check this alert with high priority.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Brute Ratel C4
@@ -70,8 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/service_deletion/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/service_deletion/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

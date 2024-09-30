@@ -1,49 +1,28 @@
 name: Linux Auditd File And Directory Discovery
 id: 0bbfb79c-a755-49a5-a38a-1128d0a452f1
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious file and directory discovery
-  activities, which may indicate an attacker's effort to locate sensitive documents
-  and files on a compromised system. This behavior often precedes data exfiltration,
-  as adversaries seek to identify valuable or confidential information for theft.
-  By identifying unusual or unauthorized attempts to browse or enumerate files and
-  directories, this analytic helps security teams detect potential reconnaissance
-  or preparatory actions by an attacker, enabling timely intervention to prevent data
-  breaches or unauthorized access.
+description: The following analytic detects suspicious file and directory discovery activities, which may indicate an attacker's effort to locate sensitive documents and files on a compromised system. This behavior often precedes data exfiltration, as adversaries seek to identify valuable or confidential information for theft. By identifying unusual or unauthorized attempts to browse or enumerate files and directories, this analytic helps security teams detect potential reconnaissance or preparatory actions by an attacker, enabling timely intervention to prevent data breaches or unauthorized access.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
-  dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND
-  (LIKE (process_exec, "%.tif%") OR LIKE (process_exec, "%.tiff%") OR LIKE (process_exec,
-  "%.gif%") OR LIKE (process_exec, "%.jpeg%")OR LIKE (process_exec, "%.jpg%")OR LIKE
-  (process_exec, "%.jif%")OR LIKE (process_exec, "%.jfif%")OR LIKE (process_exec,
-  "%.jp2%")OR LIKE (process_exec, "%.jpx%")OR LIKE (process_exec, "%.j2k%")OR LIKE
-  (process_exec, "%.j2c%")OR LIKE (process_exec, "%.fpx%")OR LIKE (process_exec, "%.pcd%")OR
-  LIKE (process_exec, "%.png%")OR LIKE (process_exec, "%.flv%") OR LIKE (process_exec,
-  "%.pdf%")OR LIKE (process_exec, "%.mp4%")OR LIKE (process_exec, "%.mp3%")OR LIKE
-  (process_exec, "%.gifv%")OR LIKE (process_exec, "%.avi%")OR LIKE (process_exec,
-  "%.mov%")OR LIKE (process_exec, "%.mpeg%")OR LIKE (process_exec, "%.wav%")OR LIKE
-  (process_exec, "%.doc%")OR LIKE (process_exec, "%.docx%")OR LIKE (process_exec,
-  "%.xls%")OR LIKE (process_exec, "%.xlsx%")OR LIKE (process_exec, "%.svg%")) | stats
-  count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest |
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_file_and_directory_discovery_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this application
-  for automation purposes. Please update the filter macros to remove false positives.
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%.tif%") OR LIKE (process_exec, "%.tiff%") OR LIKE (process_exec, "%.gif%") OR LIKE (process_exec, "%.jpeg%")OR LIKE (process_exec, "%.jpg%")OR LIKE (process_exec, "%.jif%")OR LIKE (process_exec, "%.jfif%")OR LIKE (process_exec, "%.jp2%")OR LIKE (process_exec, "%.jpx%")OR LIKE (process_exec, "%.j2k%")OR LIKE (process_exec, "%.j2c%")OR LIKE (process_exec, "%.fpx%")OR LIKE (process_exec, "%.pcd%")OR LIKE (process_exec, "%.png%")OR LIKE (process_exec, "%.flv%") OR LIKE (process_exec, "%.pdf%")OR LIKE (process_exec, "%.mp4%")OR LIKE (process_exec, "%.mp3%")OR LIKE (process_exec, "%.gifv%")OR LIKE (process_exec, "%.avi%")OR LIKE (process_exec, "%.mov%")OR LIKE (process_exec, "%.mpeg%")OR LIKE (process_exec, "%.wav%")OR LIKE (process_exec, "%.doc%")OR LIKE (process_exec, "%.docx%")OR LIKE (process_exec, "%.xls%")OR LIKE (process_exec, "%.xlsx%")OR LIKE (process_exec, "%.svg%")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_file_and_directory_discovery_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Living Off The Land

@@ -1,33 +1,30 @@
 name: Print Spooler Failed to Load a Plug-in
 id: 1adc9548-da7c-11eb-8f13-acde48001122
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects driver load errors in the Windows PrintService
-  Admin logs, specifically identifying issues related to CVE-2021-34527 (PrintNightmare).
-  It triggers on error messages indicating the print spooler failed to load a plug-in
-  module, such as "meterpreter.dll," with error code 0x45A. This detection method
-  leverages specific event codes and error messages. This activity is significant
-  as it may indicate an exploitation attempt of a known vulnerability. If confirmed
-  malicious, an attacker could gain unauthorized code execution on the affected system,
-  leading to potential system compromise.'
+description: The following analytic detects driver load errors in the Windows PrintService Admin logs, specifically identifying issues related to CVE-2021-34527 (PrintNightmare). It triggers on error messages indicating the print spooler failed to load a plug-in module, such as "meterpreter.dll," with error code 0x45A. This detection method leverages specific event codes and error messages. This activity is significant as it may indicate an exploitation attempt of a known vulnerability. If confirmed malicious, an attacker could gain unauthorized code execution on the affected system, leading to potential system compromise.
 data_source:
 - Windows Event Log Printservice 808
 - Windows Event Log Printservice 4909
-search: '`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909"))
-  OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode
-  ComputerName Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `print_spooler_failed_to_load_a_plug_in_filter`'
-how_to_implement: You will need to ensure PrintService Admin and Operational logs
-  are being logged to Splunk from critical or all systems.
+search: '`printservice` ((ErrorCode="0x45A" (EventCode="808" OR EventCode="4909")) OR ("The print spooler failed to load a plug-in module" OR "\\drivers\\x64\\")) | stats count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `print_spooler_failed_to_load_a_plug_in_filter`'
+how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
 known_false_positives: False positives are unknown and filtering may be required.
 references:
 - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
 - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
 - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+drilldown_searches:
+- name: View the detection results for $ComputerName$
+  search: '%original_detection_search% | search  ComputerName = $ComputerName$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $ComputerName$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($ComputerName$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - PrintNightmare CVE-2021-34527
@@ -37,8 +34,7 @@ tags:
   - CVE-2021-34527
   - CVE-2021-1675
   impact: 80
-  message: Suspicious printer spooler errors have occured on endpoint $ComputerName$
-    with EventCode $EventCode$.
+  message: Suspicious printer spooler errors have occured on endpoint $ComputerName$ with EventCode $EventCode$.
   mitre_attack_id:
   - T1547.012
   - T1547
@@ -62,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_admin.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_admin.log
     source: WinEventLog:Microsoft-Windows-PrintService/Admin
     sourcetype: WinEventLog

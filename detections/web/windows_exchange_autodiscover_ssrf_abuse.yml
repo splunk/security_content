@@ -1,30 +1,15 @@
 name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Nathaniel Stearns, Splunk
 status: production
 type: TTP
-description: The following analytic detects potential abuse of the ProxyShell or ProxyNotShell
-  vulnerabilities in Microsoft Exchange via Server Side Request Forgery (SSRF). It
-  leverages the Web datamodel to identify suspicious POST requests with specific URI
-  paths and queries related to autodiscover, powershell, and mapi. This activity is
-  significant as it may indicate an attempt to exploit Exchange server vulnerabilities
-  to access internal services or sensitive data. If confirmed malicious, this could
-  lead to unauthorized access, data exfiltration, or further compromise of the network.
+description: The following analytic detects potential abuse of the ProxyShell or ProxyNotShell vulnerabilities in Microsoft Exchange via Server Side Request Forgery (SSRF). It leverages the Web datamodel to identify suspicious POST requests with specific URI paths and queries related to autodiscover, powershell, and mapi. This activity is significant as it may indicate an attempt to exploit Exchange server vulnerabilities to access internal services or sensitive data. If confirmed malicious, this could lead to unauthorized access, data exfiltration, or further compromise of the network.
 data_source:
 - Windows IIS
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where (Web.status=200 OR Web.status=302 OR Web.status=401)
-  AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method
-  Web.uri_query | `drop_dm_object_name("Web")` | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover%"),1,0)
-  | eval powershell = if(match(lower(uri_query),"powershell"), "1",0) | eval mapi=if(like(uri_query,"%/mapi/%"),1,0)
-  | addtotals fieldname=Score is_autodiscover, powershell, mapi | fields Score, src,dest,
-  status, uri_query,uri_path,http_method | where Score >= 2 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_exchange_autodiscover_ssrf_abuse_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node.
-  In addition, confirm the latest CIM App 4.20 or higher is installed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.status=200 OR Web.status=302 OR Web.status=401) AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method Web.uri_query | `drop_dm_object_name("Web")` | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover%"),1,0) | eval powershell = if(match(lower(uri_query),"powershell"), "1",0) | eval mapi=if(like(uri_query,"%/mapi/%"),1,0) | addtotals fieldname=Score is_autodiscover, powershell, mapi | fields Score, src,dest, status, uri_query,uri_path,http_method | where Score >= 2 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_exchange_autodiscover_ssrf_abuse_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node. In addition, confirm the latest CIM App 4.20 or higher is installed.
 known_false_positives: False positives are limited.
 references:
 - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
@@ -36,6 +21,15 @@ references:
 - https://docs.splunk.com/Documentation/AddOns/released/MSIIS
 - https://highon.coffee/blog/ssrf-cheat-sheet/
 - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ProxyShell
@@ -50,8 +44,7 @@ tags:
   - CVE-2022-41040
   - CVE-2022-41082
   impact: 90
-  message: Activity related to ProxyShell or ProxyNotShell has been identified on
-    $dest$. Review events and take action accordingly.
+  message: Activity related to ProxyShell or ProxyNotShell has been identified on $dest$. Review events and take action accordingly.
   mitre_attack_id:
   - T1190
   - T1133
@@ -77,8 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
     source: ms:iis:splunk
     sourcetype: ms:iis:splunk
     update_timestamp: true

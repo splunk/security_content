@@ -1,44 +1,30 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 7
-date: '2024-05-17'
+version: 8
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation or deletion of scheduled
-  tasks using the schtasks.exe utility with the -create or -delete flags. It leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process names
-  and command-line executions. This activity is significant as it can indicate unauthorized
-  system manipulation or malicious intent, often associated with threat actors like
-  Dragonfly and incidents such as the SUNBURST attack. If confirmed malicious, this
-  activity could allow attackers to execute code, escalate privileges, or persist
-  within the environment, posing a significant security risk.
+description: The following analytic identifies the creation or deletion of scheduled tasks using the schtasks.exe utility with the -create or -delete flags. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as it can indicate unauthorized system manipulation or malicious intent, often associated with threat actors like Dragonfly and incidents such as the SUNBURST attack. If confirmed malicious, this activity could allow attackers to execute code, escalate privileges, or persist within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process)
-  as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
-  (Processes.process=*delete* OR Processes.process=*create*) by Processes.user Processes.process_name
-  Processes.parent_process_name Processes.dest | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_deleted_or_created_via_cmd_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: While it is possible for legitimate scripts or administrators
-  to trigger this behavior, filtering can be applied based on the parent process and
-  application to reduce false positives. Analysts should reference the provided references
-  to understand the context and threat landscape associated with this activity.
+search: '| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe (Processes.process=*delete* OR Processes.process=*create*) by Processes.user Processes.process_name Processes.parent_process_name Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `scheduled_task_deleted_or_created_via_cmd_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: While it is possible for legitimate scripts or administrators to trigger this behavior, filtering can be applied based on the parent process and application to reduce false positives. Analysts should reference the provided references to understand the context and threat landscape associated with this activity.
 references:
 - https://thedfirreport.com/2022/02/21/qbot-and-zerologon-lead-to-full-domain-compromise/
 - https://www.joesandbox.com/analysis/691823/0/html
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AsyncRAT
@@ -68,8 +54,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A schedule task process $process_name$ with create or delete commandline
-    $process$ in host $dest$
+  message: A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$
   mitre_attack_id:
   - T1053.005
   - T1053
@@ -99,7 +84,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,39 +1,28 @@
 name: Linux Auditd Clipboard Data Copy
 id: 9ddfe470-c4d0-4e60-8668-7337bd699edd
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the Linux 'xclip' command to
-  copy data from the clipboard. It leverages Linux Auditd
-  telemetry, focusing on process names and command-line arguments related to clipboard
-  operations. This activity is significant because adversaries can exploit clipboard
-  data to capture sensitive information such as passwords or IP addresses. If confirmed
-  malicious, this technique could lead to unauthorized data exfiltration, compromising
-  sensitive information and potentially aiding further attacks within the environment.
+description: The following analytic detects the use of the Linux 'xclip' command to copy data from the clipboard. It leverages Linux Auditd telemetry, focusing on process names and command-line arguments related to clipboard operations. This activity is significant because adversaries can exploit clipboard data to capture sensitive information such as passwords or IP addresses. If confirmed malicious, this technique could lead to unauthorized data exfiltration, compromising sensitive information and potentially aiding further attacks within the environment.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
-  dest | where LIKE(process_exec, "%xclip%") AND (LIKE(process_exec, "%clipboard%")
-  OR LIKE(process_exec, "%-o%") OR LIKE(process_exec, "%clip %") OR LIKE(process_exec,
-  "%-selection %") OR LIKE(process_exec, "%sel %")) | stats count min(_time) as firstTime
-  max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| `linux_auditd_clipboard_data_copy_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: False positives may be present on Linux desktop as it may commonly
-  be used by administrators or end users. Filter as needed.
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where LIKE(process_exec, "%xclip%") AND (LIKE(process_exec, "%clipboard%") OR LIKE(process_exec, "%-o%") OR LIKE(process_exec, "%clip %") OR LIKE(process_exec, "%-selection %") OR LIKE(process_exec, "%sel %")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_clipboard_data_copy_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: False positives may be present on Linux desktop as it may commonly be used by administrators or end users. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1115/
 - https://linux.die.net/man/1/xclip
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Living Off The Land

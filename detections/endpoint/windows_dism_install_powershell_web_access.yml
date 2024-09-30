@@ -1,7 +1,7 @@
 name: Windows DISM Install PowerShell Web Access
 id: fa6142a7-c364-4d11-9954-895dd9efb2d4
-version: 3
-date: '2024-09-26'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 data_source:
 - Windows Event Log Security 4688
@@ -9,29 +9,21 @@ data_source:
 type: TTP
 status: production
 description: The following analytic detects the installation of PowerShell Web Access using the Deployment Image Servicing and Management (DISM) tool. It leverages Sysmon EventID 1 to identify the execution of `dism.exe` with specific parameters related to enabling the WindowsPowerShellWebAccess feature. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks. If confirmed malicious, this action could lead to further exploitation and compromise of the affected system.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-    from datamodel=Endpoint.Processes 
-    where Processes.process_name=dism.exe 
-      (Processes.process="*WindowsPowerShellWebAccess*" AND Processes.process="*/online*" AND Processes.process="*/enable-feature*")
-    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
-      Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)`  
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_dism_install_powershell_web_access_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=dism.exe (Processes.process="*WindowsPowerShellWebAccess*" AND Processes.process="*/online*" AND Processes.process="*/enable-feature*") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dism_install_powershell_web_access_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Administrators using the DISM tool to update and install Windows features may cause false positives that can be filtered with `windows_dism_install_powershell_web_access_filter`.
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
 - https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - CISA AA24-241A

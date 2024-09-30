@@ -1,39 +1,31 @@
 name: O365 Tenant Wide Admin Consent Granted
 id: 50eaabf8-5180-4e86-bfb2-011472c359fc
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - O365 Consent to application.
-description: The following analytic identifies instances where admin consent is granted
-  to an application within an Azure AD and Office 365 tenant. It leverages O365 audit
-  logs, specifically events related to the admin consent action within the AzureActiveDirectory
-  workload. This activity is significant because admin consent allows applications
-  to access data across the entire tenant, potentially exposing vast amounts of organizational
-  data. If confirmed malicious, an attacker could gain extensive and persistent access
-  to organizational data, leading to data exfiltration, espionage, further malicious
-  activities, and potential compliance violations.
-search: >-
-  `o365_management_activity` Operation="Consent to application."  | eval new_field=mvindex('ModifiedProperties{}.NewValue',
-  4)
-  | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)"
-  | rex field=new_field "Scope: (?<Scope>[^\,]+)"  | search  ConsentType = "AllPrincipals"  |
-  stats count min(_time) as firstTime max(_time) as lastTime by Operation, user, object,
-  ObjectId, ConsentType, Scope
-  | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
-  | `o365_tenant_wide_admin_consent_granted_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Legitimate applications may be granted tenant wide consent,
-  filter as needed.
+description: The following analytic identifies instances where admin consent is granted to an application within an Azure AD and Office 365 tenant. It leverages O365 audit logs, specifically events related to the admin consent action within the AzureActiveDirectory workload. This activity is significant because admin consent allows applications to access data across the entire tenant, potentially exposing vast amounts of organizational data. If confirmed malicious, an attacker could gain extensive and persistent access to organizational data, leading to data exfiltration, espionage, further malicious activities, and potential compliance violations.
+search: '`o365_management_activity` Operation="Consent to application."  | eval new_field=mvindex(''ModifiedProperties{}.NewValue'', 4) | rex field=new_field "ConsentType: (?<ConsentType>[^\,]+)" | rex field=new_field "Scope: (?<Scope>[^\,]+)"  | search  ConsentType = "AllPrincipals"  | stats count min(_time) as firstTime max(_time) as lastTime by Operation, user, object, ObjectId, ConsentType, Scope | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` | `o365_tenant_wide_admin_consent_granted_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Legitimate applications may be granted tenant wide consent, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/003/
 - https://www.mandiant.com/resources/blog/remediation-and-hardening-strategies-for-microsoft-365-to-defend-against-unc2452
 - https://learn.microsoft.com/en-us/security/operations/incident-response-playbook-app-consent
 - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/grant-admin-consent?pivots=portal
 - https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT501/AZT501-2/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -66,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_admin_consent/o365_admin_consent.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/o365_admin_consent/o365_admin_consent.log
     source: o365
     sourcetype: o365:management:activity

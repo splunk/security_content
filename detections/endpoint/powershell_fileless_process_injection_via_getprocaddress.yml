@@ -1,27 +1,15 @@
 name: Powershell Fileless Process Injection via GetProcAddress
 id: a26d9db4-c883-11eb-9d75-acde48001122
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the use of `GetProcAddress` in PowerShell
-  script blocks, leveraging PowerShell Script Block Logging (EventCode=4104). This
-  method captures the full command sent to PowerShell, which is then logged in Windows
-  event logs. The presence of `GetProcAddress` is unusual for typical PowerShell scripts
-  and often indicates malicious activity, as many attack toolkits use it to achieve
-  code execution. If confirmed malicious, this activity could allow an attacker to
-  execute arbitrary code, potentially leading to system compromise. Analysts should
-  review parallel processes and the entire logged script block for further investigation.'
+description: The following analytic detects the use of `GetProcAddress` in PowerShell script blocks, leveraging PowerShell Script Block Logging (EventCode=4104). This method captures the full command sent to PowerShell, which is then logged in Windows event logs. The presence of `GetProcAddress` is unusual for typical PowerShell scripts and often indicates malicious activity, as many attack toolkits use it to achieve code execution. If confirmed malicious, this activity could allow an attacker to execute arbitrary code, potentially leading to system compromise. Analysts should review parallel processes and the entire logged script block for further investigation.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText=*getprocaddress* | stats count
-  min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
-  ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `powershell_fileless_process_injection_via_getprocaddress_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+search: '`powershell` EventCode=4104 ScriptBlockText=*getprocaddress* | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_process_injection_via_getprocaddress_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Limited false positives. Filter as needed.
 references:
 - https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -29,6 +17,15 @@ references:
 - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -63,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

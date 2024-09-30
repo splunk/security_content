@@ -1,35 +1,27 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2024-09-24'
-description: 'The following analytic identifies a source process failing to authenticate
-  multiple users, potentially indicating a Password Spraying attack. It leverages
-  Windows Event 4625, which logs failed logon attempts, and uses statistical analysis
-  to detect anomalies. This activity is significant as it may represent an adversary
-  attempting to gain initial access or elevate privileges within an Active Directory
-  environment. If confirmed malicious, the attacker could compromise multiple accounts,
-  leading to unauthorized access, data exfiltration, or further lateral movement within
-  the network.'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Event Logs from domain controllers aas well as member servers and workstations.
-  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
-  to be enabled.
+date: '2024-09-30'
+description: The following analytic identifies a source process failing to authenticate multiple users, potentially indicating a Password Spraying attack. It leverages Windows Event 4625, which logs failed logon attempts, and uses statistical analysis to detect anomalies. This activity is significant as it may represent an adversary attempting to gain initial access or elevate privileges within an Active Directory environment. If confirmed malicious, the attacker could compromise multiple accounts, leading to unauthorized access, data exfiltration, or further lateral movement within the network.
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers aas well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 id: 25bdb6cb-2e49-4d34-a93c-d6c567c122fe
-known_false_positives: A process failing to authenticate with multiple users is not
-  a common behavior for legitimate user sessions. Possible false positive scenarios
-  include but are not limited to vulnerability scanners and missconfigured systems.
+known_false_positives: A process failing to authenticate with multiple users is not a common behavior for legitimate user sessions. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
 name: Windows Unusual Count Of Users Failed To Authenticate From Process
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-search: '`wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket
-  span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as user by _time, ProcessName, SubjectUserName, Computer | eventstats
-  avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ProcessName,
-  SubjectUserName, Computer | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts
-  > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter`'
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+search: '`wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user by _time, ProcessName, SubjectUserName, Computer | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ProcessName, SubjectUserName, Computer | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_failed_to_authenticate_from_process_filter`'
 status: production
 tags:
   analytic_story:
@@ -68,10 +60,9 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_multiple_users_from_process_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 3
+version: 4

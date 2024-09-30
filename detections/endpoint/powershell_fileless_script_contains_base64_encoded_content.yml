@@ -1,27 +1,15 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 4
-date: '2024-05-24'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: 'The following analytic detects the execution of PowerShell scripts containing
-  Base64 encoded content, specifically identifying the use of `FromBase64String`.
-  It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze
-  the full command sent to PowerShell. This activity is significant as Base64 encoding
-  is often used by attackers to obfuscate malicious payloads, making it harder to
-  detect. If confirmed malicious, this could lead to code execution, allowing attackers
-  to run arbitrary commands and potentially compromise the system.'
-search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText
-  = "*gnirtS46esaBmorF*" | stats count min(_time) as firstTime max(_time) as lastTime
-  by EventCode ScriptBlockText Computer UserID | rename Computer as dest |rename UserID
-  as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_fileless_script_contains_base64_encoded_content_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+description: The following analytic detects the execution of PowerShell scripts containing Base64 encoded content, specifically identifying the use of `FromBase64String`. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as Base64 encoding is often used by attackers to obfuscate malicious payloads, making it harder to detect. If confirmed malicious, this could lead to code execution, allowing attackers to run arbitrary commands and potentially compromise the system.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*frombase64string*" OR ScriptBlockText = "*gnirtS46esaBmorF*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest |rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_script_contains_base64_encoded_content_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: False positives should be limited. Filter as needed.
 references:
 - https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
@@ -29,6 +17,15 @@ references:
 - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
 - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Hermetic Wiper
@@ -67,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/frombase64string.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/frombase64string.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,41 +1,36 @@
 name: AWS Unusual Number of Failed Authentications From Ip
 id: 0b5c9c2b-e2cb-4831-b4f1-af125ceb1386
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a single source IP failing to authenticate
-  into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates
-  the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual
-  numbers of failed authentication attempts. This behavior is significant as it may
-  indicate a Password Spraying attack, where an adversary attempts to gain initial
-  access or elevate privileges. If confirmed malicious, this activity could lead to
-  unauthorized access, data breaches, or further exploitation within the AWS environment.
+description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual numbers of failed authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
-  | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts by _time,
-  src_ip | eventstats  avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts)
-  as ip_std by _time | eval  upperBound=(avg_attempts+ip_std*3) | eval  isOutlier=if(distinct_attempts
-  > 10 and distinct_attempts >= upperBound, 1, 0) | where isOutlier = 1 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
-how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
-  We recommend the users to try different combinations of the bucket span time and
-  the calculation of the upperBound field to tune this search according to their environment
-known_false_positives: No known false postives for this detection. Please review this
-  alert
+search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts by _time, src_ip | eventstats  avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts) as ip_std by _time | eval  upperBound=(avg_attempts+ip_std*3) | eval  isOutlier=if(distinct_attempts > 10 and distinct_attempts >= upperBound, 1, 0) | where isOutlier = 1 |`aws_unusual_number_of_failed_authentications_from_ip_filter`'
+how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the calculation of the upperBound field to tune this search according to their environment
+known_false_positives: No known false postives for this detection. Please review this alert
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
 - https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
+drilldown_searches:
+- name: View the detection results for $tried_accounts$
+  search: '%original_detection_search% | search  tried_accounts = $tried_accounts$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $tried_accounts$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($tried_accounts$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: 'Unusual number of failed console login attempts (Count: $distinct_attempts$)
-    against users from IP Address - $src_ip$'
+  message: 'Unusual number of failed console login attempts (Count: $distinct_attempts$) against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -66,8 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
     update_timestamp: true

@@ -1,39 +1,35 @@
 name: Get-ForestTrust with PowerShell Script Block
 id: 70fac80e-0bf1-11ec-9ba0-acde48001122
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the execution of the Get-ForestTrust
-  command from PowerSploit using PowerShell Script Block Logging (EventCode=4104).
-  This method captures the full command sent to PowerShell, providing detailed visibility
-  into potentially suspicious activities. Monitoring this behavior is crucial as it
-  can indicate an attempt to gather domain trust information, which is often a precursor
-  to lateral movement or privilege escalation. If confirmed malicious, this activity
-  could allow an attacker to map trust relationships within the domain, facilitating
-  further exploitation and access to sensitive resources.'
+description: The following analytic detects the execution of the Get-ForestTrust command from PowerSploit using PowerShell Script Block Logging (EventCode=4104). This method captures the full command sent to PowerShell, providing detailed visibility into potentially suspicious activities. Monitoring this behavior is crucial as it can indicate an attempt to gather domain trust information, which is often a precursor to lateral movement or privilege escalation. If confirmed malicious, this activity could allow an attacker to map trust relationships within the domain, facilitating further exploitation and access to sensitive resources.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*get-foresttrust*" | stats
-  count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `get_foresttrust_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*get-foresttrust*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `get_foresttrust_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: False positives may be present. Tune as needed.
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-ForestTrust/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
   confidence: 40
   impact: 30
-  message: Suspicious PowerShell Get-ForestTrust was identified on endpoint $dest$
-    by user $user$.
+  message: Suspicious PowerShell Get-ForestTrust was identified on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1482
   - T1059.001
@@ -63,7 +59,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1482/discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

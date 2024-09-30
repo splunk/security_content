@@ -1,35 +1,28 @@
 name: Windows Impair Defenses Disable AV AutoStart via Registry
 id: 31a13f43-812e-4752-a6ca-c6c87bf03e83
-version: 2
-date: '2024-09-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 13
 type: TTP
 status: production
-description: The following analytic detects modifications to the registry related to the disabling of autostart 
-  functionality for certain antivirus products, such as Kingsoft and Tencent. Malware like ValleyRAT may alter 
-  specific registry keys to prevent these security tools from launching automatically at startup, thereby weakening system defenses. 
-  By monitoring changes in the registry entries associated with antivirus autostart settings, this detection enables security 
-  analysts to identify attempts to disable protective software. Detecting these modifications early is critical for maintaining 
-  system integrity and preventing further compromise by malicious actors.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE Registry.registry_path IN("*\\kingsoft\\antivirus\\KAVReport\\*" , "*\\kingsoft\\antivirus\\KSetting\\*", "*\\kingsoft\\antivirus\\Windhunter\\*" ,"*\\Tencent\\QQPCMgr\\*") 
-  AND ((Registry.registry_value_name IN("autostart","kxesc", "WindhunterSwitch") AND Registry.registry_value_data = "0x00000000")
-        OR (Registry.registry_value_name = "WindhunterLevel" AND Registry.registry_value_data = "0x00000004"))
-  BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.registry_hive Registry.process_guid
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_impair_defenses_disable_av_autostart_via_registry_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+description: The following analytic detects modifications to the registry related to the disabling of autostart functionality for certain antivirus products, such as Kingsoft and Tencent. Malware like ValleyRAT may alter specific registry keys to prevent these security tools from launching automatically at startup, thereby weakening system defenses. By monitoring changes in the registry entries associated with antivirus autostart settings, this detection enables security analysts to identify attempts to disable protective software. Detecting these modifications early is critical for maintaining system integrity and preventing further compromise by malicious actors.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE Registry.registry_path IN("*\\kingsoft\\antivirus\\KAVReport\\*" , "*\\kingsoft\\antivirus\\KSetting\\*", "*\\kingsoft\\antivirus\\Windhunter\\*" ,"*\\Tencent\\QQPCMgr\\*") AND ((Registry.registry_value_name IN("autostart","kxesc", "WindhunterSwitch") AND Registry.registry_value_data = "0x00000000") OR (Registry.registry_value_name = "WindhunterLevel" AND Registry.registry_value_data = "0x00000004")) BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.registry_hive Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defenses_disable_av_autostart_via_registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
 - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
 - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ValleyRAT

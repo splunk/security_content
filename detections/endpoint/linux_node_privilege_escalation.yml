@@ -1,41 +1,28 @@
 name: Linux Node Privilege Escalation
 id: 2e58a4ff-398f-42f4-8fd0-e01ebfe2a8ce
-version: 3
-date: '2024-08-14'
+version: 4
+date: '2024-09-30'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the execution of Node.js with elevated
-  privileges using sudo, specifically when spawning child processes. It leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
-  executions that include specific Node.js commands. This activity is significant
-  because running Node.js as a superuser without dropping privileges can allow unauthorized
-  access to the file system and potential privilege escalation. If confirmed malicious,
-  this could enable an attacker to maintain privileged access, execute arbitrary code,
-  and compromise sensitive data within the environment.
+description: The following analytic identifies the execution of Node.js with elevated privileges using sudo, specifically when spawning child processes. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions that include specific Node.js commands. This activity is significant because running Node.js as a superuser without dropping privileges can allow unauthorized access to the file system and potential privilege escalation. If confirmed malicious, this could enable an attacker to maintain privileged access, execute arbitrary code, and compromise sensitive data within the environment.
 data_source:
 - Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process="*sudo*node*"
-  AND Processes.process="*-e*" AND Processes.process="*child_process.spawn*" AND Processes.process="*stdio*"
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `linux_node_privilege_escalation_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives are present based on automated tooling or system
-  administrative usage. Filter as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process="*sudo*node*" AND Processes.process="*-e*" AND Processes.process="*child_process.spawn*" AND Processes.process="*stdio*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_node_privilege_escalation_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
 references:
 - https://gtfobins.github.io/gtfobins/docker/
 - https://en.wikipedia.org/wiki/Node.js
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -43,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$
   mitre_attack_id:
   - T1548.003
   - T1548
@@ -79,8 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/node/sysmon_linux.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/node/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
     update_timestamp: true

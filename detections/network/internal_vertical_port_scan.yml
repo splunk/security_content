@@ -1,37 +1,26 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 1
-date: '2023-10-20'
+version: 2
+date: '2024-09-30'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - AWS CloudWatchLogs VPCflow
-description: This analytic detects instances where an internal host attempts to communicate
-  with over 500 ports on a single destination IP address. It includes filtering
-  criteria to exclude applications performing scans over ephemeral port ranges,
-  focusing on potential reconnaissance or scanning activities. Monitoring network
-  traffic logs allows for timely detection and response to such behavior, enhancing
-  network security by identifying and mitigating potential threats promptly.
-search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action
-  values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as
-  dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic
-  where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by All_Traffic.src_ip
-  All_Traffic.dest_port All_Traffic.dest_ip All_Traffic.transport span=1s _time |
-  `drop_dm_object_name("All_Traffic")` | eval gtime=_time | bin span=1h gtime | stats
-  min(_time) as _time values(action) as action dc(eval(if(dest_port<1024 AND transport="tcp",dest_port,null)))
-  as privilegedDestTcpPortCount dc(eval(if(transport="tcp",dest_port,null))) as totalDestTcpPortCount
-  dc(eval(if(dest_port<1024 AND transport="udp",dest_port,null))) as privilegedDestUdpPortCount
-  dc(eval(if(transport="udp",dest_port,null))) as totalDestUdpPortCount values(src_category)
-  as src_category values(dest_zone) as dest_zone values(src_zone) as src_zone by src_ip
-  dest_ip transport gtime | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount,
-  privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount| where
-  (totalDestPortCount>=500 AND privilegedDestPortCount>=20) | fields - gtime | `internal_vertical_port_scan_filter`'
-how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as 
-  firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to 
-  enable this search effectively.
+description: This analytic detects instances where an internal host attempts to communicate with over 500 ports on a single destination IP address. It includes filtering criteria to exclude applications performing scans over ephemeral port ranges, focusing on potential reconnaissance or scanning activities. Monitoring network traffic logs allows for timely detection and response to such behavior, enhancing network security by identifying and mitigating potential threats promptly.
+search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip All_Traffic.transport span=1s _time | `drop_dm_object_name("All_Traffic")` | eval gtime=_time | bin span=1h gtime | stats min(_time) as _time values(action) as action dc(eval(if(dest_port<1024 AND transport="tcp",dest_port,null))) as privilegedDestTcpPortCount dc(eval(if(transport="tcp",dest_port,null))) as totalDestTcpPortCount dc(eval(if(dest_port<1024 AND transport="udp",dest_port,null))) as privilegedDestUdpPortCount dc(eval(if(transport="udp",dest_port,null))) as totalDestUdpPortCount values(src_category) as src_category values(dest_zone) as dest_zone values(src_zone) as src_zone by src_ip dest_ip transport gtime | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount, privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount| where (totalDestPortCount>=500 AND privilegedDestPortCount>=20) | fields - gtime | `internal_vertical_port_scan_filter`'
+how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to enable this search effectively.
 known_false_positives: Unknown
 references: []
+drilldown_searches:
+- name: View the detection results for $src_ip$
+  search: '%original_detection_search% | search  src_ip = $src_ip$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_ip$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_ip$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Network Discovery

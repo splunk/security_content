@@ -1,45 +1,38 @@
 name: O365 Multiple AppIDs and UserAgents Authentication Spike
 id: 66adc486-224d-45c1-8e4d-9e7eeaba988f
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
 data_source:
-- O365 UserLoggedIn 
+- O365 UserLoggedIn
 - O365 UserLoginFailed
-description: The following analytic identifies unusual authentication activity in
-  an O365 environment, where a single user account experiences more than 8 authentication
-  attempts using 3 or more unique application IDs and over 5 unique user agents within
-  a short timeframe. It leverages O365 audit logs, focusing on authentication events
-  and applying statistical thresholds. This behavior is significant as it may indicate
-  an adversary probing for multi-factor authentication weaknesses. If confirmed malicious,
-  it suggests a compromised account, potentially leading to unauthorized access, privilege
-  escalation, and data exfiltration. Early detection is crucial to prevent further
-  exploitation.
-search: '`o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn
-  OR Operation=UserLoginFailed) | bucket span=5m _time | stats  dc(_raw) as failed_attempts
-  dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId)
-  values(OS) by _time user src_ip | where failed_attempts > 5 and unique_user_agents
-  > 5 and unique_app_ids > 2 | `o365_multiple_appids_and_useragents_authentication_spike_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Rapid authentication from the same user using more than 5 different
-  user agents and 3 application IDs is highly unlikely under normal circumstances.
-  However, there are potential scenarios that could lead to false positives.
+description: The following analytic identifies unusual authentication activity in an O365 environment, where a single user account experiences more than 8 authentication attempts using 3 or more unique application IDs and over 5 unique user agents within a short timeframe. It leverages O365 audit logs, focusing on authentication events and applying statistical thresholds. This behavior is significant as it may indicate an adversary probing for multi-factor authentication weaknesses. If confirmed malicious, it suggests a compromised account, potentially leading to unauthorized access, privilege escalation, and data exfiltration. Early detection is crucial to prevent further exploitation.
+search: '`o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn OR Operation=UserLoginFailed) | bucket span=5m _time | stats  dc(_raw) as failed_attempts dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId) values(OS) by _time user src_ip | where failed_attempts > 5 and unique_user_agents > 5 and unique_app_ids > 2 | `o365_multiple_appids_and_useragents_authentication_spike_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Rapid authentication from the same user using more than 5 different user agents and 3 application IDs is highly unlikely under normal circumstances. However, there are potential scenarios that could lead to false positives.
 references:
 - https://attack.mitre.org/techniques/T1078/
 - https://www.blackhillsinfosec.com/exploiting-mfa-inconsistencies-on-microsoft-services/
 - https://github.com/dafthack/MFASweep
 - https://www.youtube.com/watch?v=SK1zgqaAZ2E
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Account Takeover
   asset_type: O365 Tenant
   confidence: 80
   impact: 60
-  message: $user$ authenticated in a short period of time with more than 5 different
-    user agents across 3 or more unique application ids.
+  message: $user$ authenticated in a short period of time with more than 5 different user agents across 3 or more unique application ids.
   mitre_attack_id:
   - T1078
   observable:
@@ -67,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/o365_multiple_appids_and_useragents_auth/o365_multiple_appids_and_useragents_auth.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/o365_multiple_appids_and_useragents_auth/o365_multiple_appids_and_useragents_auth.log
     source: o365
     sourcetype: o365:management:activity

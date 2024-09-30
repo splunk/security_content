@@ -1,29 +1,27 @@
 name: Windows Archive Collected Data via Powershell
 id: 74c5a3b0-27a7-463c-9d00-1a5bb12cb7b5
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic detects the use of PowerShell scripts to archive
-  files into a temporary folder. It leverages PowerShell Script Block Logging, specifically
-  monitoring for the `Compress-Archive` command targeting the `Temp` directory. This
-  activity is significant as it may indicate an adversary's attempt to collect and
-  compress data for exfiltration. If confirmed malicious, this behavior could lead
-  to unauthorized data access and exfiltration, posing a severe risk to sensitive
-  information and overall network security.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText
-  = "*\\Temp\\*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode
-  ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_archive_collected_data_via_powershell_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+description: The following analytic detects the use of PowerShell scripts to archive files into a temporary folder. It leverages PowerShell Script Block Logging, specifically monitoring for the `Compress-Archive` command targeting the `Temp` directory. This activity is significant as it may indicate an adversary's attempt to collect and compress data for exfiltration. If confirmed malicious, this behavior could lead to unauthorized data access and exfiltration, posing a severe risk to sensitive information and overall network security.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Compress-Archive*"  ScriptBlockText = "*\\Temp\\*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_archive_collected_data_via_powershell_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: powershell may used this function to archive data.
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - CISA AA23-347A
@@ -54,7 +52,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560/powershell_archive/powershell_archive.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560/powershell_archive/powershell_archive.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

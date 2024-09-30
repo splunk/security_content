@@ -1,31 +1,28 @@
 name: GetDomainComputer with PowerShell Script Block
 id: f64da023-b988-4775-8d57-38e512beb56e
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the `Get-DomainComputer`
-  commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet
-  is part of PowerView, a tool often used for enumerating domain computers within
-  Windows environments. The detection leverages script block text analysis to identify
-  this specific command. Monitoring this activity is crucial as it can indicate an
-  adversary's attempt to gather information about domain computers, which is a common
-  step in Active Directory reconnaissance. If confirmed malicious, this activity could
-  lead to further network enumeration and potential lateral movement within the domain.
+description: The following analytic detects the execution of the `Get-DomainComputer` commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet is part of PowerView, a tool often used for enumerating domain computers within Windows environments. The detection leverages script block text analysis to identify this specific command. Monitoring this activity is crucial as it can indicate an adversary's attempt to gather information about domain computers, which is a common step in Active Directory reconnaissance. If confirmed malicious, this activity could lead to further network enumeration and potential lateral movement within the domain.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") |
-  stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID
-  EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `getdomaincomputer_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*") | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `getdomaincomputer_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: Administrators or power users may use PowerView for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainComputer/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
@@ -56,7 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

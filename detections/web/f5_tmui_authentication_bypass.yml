@@ -1,44 +1,38 @@
 name: F5 TMUI Authentication Bypass
 id: 88bf127c-613e-4579-99e4-c4d4b02f3840
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Suricata
-description: The following analytic detects attempts to exploit the CVE-2023-46747
-  vulnerability, an authentication bypass flaw in F5 BIG-IP's Configuration utility
-  (TMUI). It identifies this activity by monitoring for specific URI paths such as
-  "*/mgmt/tm/auth/user/*" with the PATCH method and a 200 status code. This behavior
-  is significant for a SOC as it indicates potential unauthorized access attempts,
-  leading to remote code execution. If confirmed malicious, an attacker could gain
-  unauthorized access, execute arbitrary code, steal data, disrupt systems, or conduct
-  further malicious activities within the network.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src,
-  Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `f5_tmui_authentication_bypass_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on Web traffic that include fields relevant for traffic into the `Web` datamodel.
-known_false_positives: False positives should be limited to as this is strict to active
-  exploitation. Reduce noise by filtering to F5 devices with TMUI enabled or filter
-  data as needed.
+description: The following analytic detects attempts to exploit the CVE-2023-46747 vulnerability, an authentication bypass flaw in F5 BIG-IP's Configuration utility (TMUI). It identifies this activity by monitoring for specific URI paths such as "*/mgmt/tm/auth/user/*" with the PATCH method and a 200 status code. This behavior is significant for a SOC as it indicates potential unauthorized access attempts, leading to remote code execution. If confirmed malicious, an attacker could gain unauthorized access, execute arbitrary code, steal data, disrupt systems, or conduct further malicious activities within the network.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/mgmt/tm/auth/user/*") Web.http_method=PATCH Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `f5_tmui_authentication_bypass_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relevant for traffic into the `Web` datamodel.
+known_false_positives: False positives should be limited to as this is strict to active exploitation. Reduce noise by filtering to F5 devices with TMUI enabled or filter data as needed.
 references:
 - https://www.praetorian.com/blog/refresh-compromising-f5-big-ip-with-request-smuggling-cve-2023-46747/
 - https://github.com/projectdiscovery/nuclei-templates/blob/3b0bb71bd627c6c3139e1d06c866f8402aa228ae/http/cves/2023/CVE-2023-46747.yaml
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
-  - 'F5 Authentication Bypass with TMUI'
+  - F5 Authentication Bypass with TMUI
   asset_type: Network
   atomic_guid: []
   cve:
   - CVE-2023-46747
   confidence: 90
   impact: 100
-  message: Potential CVE-2023-46747 F5 TMUI Authentication Bypass may be occurring
-    against $dest$ from $src$.
+  message: Potential CVE-2023-46747 F5 TMUI Authentication Bypass may be occurring against $dest$ from $src$.
   observable:
   - name: dest
     type: Hostname
@@ -66,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/f5/f5_tmui.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/f5/f5_tmui.log
     source: suricata
     sourcetype: suricata

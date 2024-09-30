@@ -1,30 +1,27 @@
 name: Github Commit Changes In Master
 id: c9d2bfe2-019f-11ec-a8eb-acde48001122
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects direct commits or pushes to the master
-  or main branch in a GitHub repository. It leverages GitHub logs to identify events
-  where changes are made directly to these critical branches. This activity is significant
-  because direct modifications to the master or main branch bypass the standard review
-  process, potentially introducing unreviewed and harmful changes. If confirmed malicious,
-  this could lead to unauthorized code execution, security vulnerabilities, or compromised
-  project integrity.
+description: The following analytic detects direct commits or pushes to the master or main branch in a GitHub repository. It leverages GitHub logs to identify events where changes are made directly to these critical branches. This activity is significant because direct modifications to the master or main branch bypass the standard review process, potentially introducing unreviewed and harmful changes. If confirmed malicious, this could lead to unauthorized code execution, security vulnerabilities, or compromised project integrity.
 data_source:
 - GitHub
-search: '`github` branches{}.name = main OR branches{}.name = master |  stats count
-  min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login
-  commit.commit.message repository.pushed_at commit.commit.committer.date repository.full_name
-  | rename commit.author.login as user, repository.full_name as repository | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to github logs having the fork, commit, push metadata that can be use
-  to monitor the changes in a github project.
+search: '`github` branches{}.name = main OR branches{}.name = master |  stats count min(_time) as firstTime max(_time) as lastTime by commit.commit.author.email commit.author.login commit.commit.message repository.pushed_at commit.commit.committer.date repository.full_name | rename commit.author.login as user, repository.full_name as repository | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_commit_changes_in_master_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs related to github logs having the fork, commit, push metadata that can be use to monitor the changes in a github project.
 known_false_positives: Admin can do changes directly to master branch
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
+drilldown_searches:
+- name: View the detection results for $commit.commit.author.email$
+  search: '%original_detection_search% | search  commit.commit.author.email = $commit.commit.author.email$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $commit.commit.author.email$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($commit.commit.author.email$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -50,7 +47,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1199/github_push_master/github_push_master.log
     source: github
     sourcetype: aws:firehose:json

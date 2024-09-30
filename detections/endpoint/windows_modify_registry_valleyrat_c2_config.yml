@@ -1,33 +1,29 @@
 name: Windows Modify Registry ValleyRAT C2 Config
 id: ac59298a-8d81-4c02-8c9b-ffdac993891f
-version: 2
-date: '2024-09-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
 type: TTP
 status: production
-description: The following analytic detects modifications to theregistry related to ValleyRAT C2 configuration. Specifically,  it monitors changes in registry keys where ValleyRAT saves the IP address and port information of its command-and-control (C2) server. 
-  This activity is a key indicator of ValleyRAT attempting to establish persistent communication with its C2 infrastructure. 
-  By identifying these unauthorized registry modifications, security analysts can quickly detect malicious configurations and 
-  investigate the associated threats. Early detection of these changes helps prevent further exploitation and limits the malware’s 
-  ability to exfiltrate data or control infected systems.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path= "*\\Console\\IpDateInfo" AND Registry.registry_value_data="Binary Data") OR (Registry.registry_path= "*\\Console\\SelfPath" AND Registry.registry_value_data="*.exe")
-  BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.registry_hive Registry.process_guid
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_modify_registry_valleyrat_c2_config_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+description: "The following analytic detects modifications to theregistry related to ValleyRAT C2 configuration. Specifically,  it monitors changes in registry keys where ValleyRAT saves the IP address and port information of its command-and-control (C2) server. This activity is a key indicator of ValleyRAT attempting to establish persistent communication with its C2 infrastructure. By identifying these unauthorized registry modifications, security analysts can quickly detect malicious configurations and investigate the associated threats. Early detection of these changes helps prevent further exploitation and limits the malware\u2019s ability to exfiltrate data or control infected systems."
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\Console\\IpDateInfo" AND Registry.registry_value_data="Binary Data") OR (Registry.registry_path= "*\\Console\\SelfPath" AND Registry.registry_value_data="*.exe") BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.registry_hive Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_valleyrat_c2_config_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
 - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
 - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ValleyRAT

@@ -1,30 +1,29 @@
 name: Suspicious Computer Account Name Change
 id: 35a61ed8-61c4-11ec-bc1e-acde48001122
-version: 3
-date: '2024-05-17'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects a suspicious computer account name change
-  in Active Directory. It leverages Event ID 4781, which logs account name changes,
-  to identify instances where a computer account name is changed to one that does
-  not end with a `$`. This behavior is significant as it may indicate an attempt to
-  exploit CVE-2021-42278 and CVE-2021-42287, which can lead to domain controller impersonation
-  and privilege escalation. If confirmed malicious, this activity could allow an attacker
-  to gain elevated privileges and potentially control the domain.
+description: The following analytic detects a suspicious computer account name change in Active Directory. It leverages Event ID 4781, which logs account name changes, to identify instances where a computer account name is changed to one that does not end with a `$`. This behavior is significant as it may indicate an attempt to exploit CVE-2021-42278 and CVE-2021-42287, which can lead to domain controller impersonation and privilege escalation. If confirmed malicious, this activity could allow an attacker to gain elevated privileges and potentially control the domain.
 data_source:
 - Windows Event Log Security 4781
-search: '`wineventlog_security` EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$"
-  | table _time, Computer, Caller_User_Name, OldTargetUserName, NewTargetUserName
-  | rename Computer as dest | `suspicious_computer_account_name_change_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
-known_false_positives: Renaming a computer account name to a name that not end with
-  '$' is highly unsual and may not have any legitimate scenarios.
+search: '`wineventlog_security` EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$" | table _time, Computer, Caller_User_Name, OldTargetUserName, NewTargetUserName | rename Computer as dest | `suspicious_computer_account_name_change_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: Renaming a computer account name to a name that not end with '$' is highly unsual and may not have any legitimate scenarios.
 references:
 - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42287
+drilldown_searches:
+- name: View the detection results for $dest$ and $OldTargetUserName$
+  search: '%original_detection_search% | search  dest = $dest$ OldTargetUserName = $OldTargetUserName$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $OldTargetUserName$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $OldTargetUserName$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - sAMAccountName Spoofing and Domain Controller Impersonation
@@ -35,8 +34,7 @@ tags:
   - CVE-2021-42287
   - CVE-2021-42278
   impact: 100
-  message: A computer account $OldTargetUserName$ was renamed with a suspicious computer
-    name on $dest$
+  message: A computer account $OldTargetUserName$ was renamed with a suspicious computer name on $dest$
   mitre_attack_id:
   - T1078
   - T1078.002
@@ -65,8 +63,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_computer_account_name_change/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_computer_account_name_change/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

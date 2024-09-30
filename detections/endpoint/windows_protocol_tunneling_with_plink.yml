@@ -1,40 +1,18 @@
 name: Windows Protocol Tunneling with Plink
 id: 8aac5e1e-0fab-4437-af0b-c6e60af23eed
-version: 4
-date: '2024-08-14'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: This analytic detects the use of Plink (including renamed versions like pvhost.exe) for protocol tunneling,
-  which may be used for egress or lateral movement within an organization. It identifies specific
-  command-line options (-R, -L, -D, -l, -N, -P, -pw) commonly used for port forwarding and tunneling
-  by analyzing process execution logs from Endpoint Detection and Response (EDR) agents. This activity is significant
-  as it may indicate an attempt to bypass network security controls or establish unauthorized
-  connections. If confirmed malicious, this could allow an attacker to exfiltrate
-  data, move laterally across the network, or maintain persistent access, posing a
-  severe threat to the organization's security. The detection covers both the original Plink executable
-  and potential renamed versions, enhancing its ability to catch evasion attempts.
+description: This analytic detects the use of Plink (including renamed versions like pvhost.exe) for protocol tunneling, which may be used for egress or lateral movement within an organization. It identifies specific command-line options (-R, -L, -D, -l, -N, -P, -pw) commonly used for port forwarding and tunneling by analyzing process execution logs from Endpoint Detection and Response (EDR) agents. This activity is significant as it may indicate an attempt to bypass network security controls or establish unauthorized connections. If confirmed malicious, this could allow an attacker to exfiltrate data, move laterally across the network, or maintain persistent access, posing a severe threat to the organization's security. The detection covers both the original Plink executable and potential renamed versions, enhancing its ability to catch evasion attempts.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=plink.exe OR Processes.process_name=pvhost.exe OR Processes.original_file_name=Plink) AND
-  Processes.process IN ("*-R *", "*-L *", "*-D *", "*-l *", "*-N *", "*-P *", "*-pw *") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `windows_protocol_tunneling_with_plink_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present if the organization allows for
-  SSH tunneling outbound or internally. Filter as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=plink.exe OR Processes.process_name=pvhost.exe OR Processes.original_file_name=Plink) AND Processes.process IN ("*-R *", "*-L *", "*-D *", "*-l *", "*-N *", "*-P *", "*-pw *") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_protocol_tunneling_with_plink_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present if the organization allows for SSH tunneling outbound or internally. Filter as needed.
 references:
 - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
 - https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
@@ -42,14 +20,22 @@ references:
 - https://documentation.help/PuTTY/using-cmdline-portfwd.html#S3.8.3.5
 - https://media.defense.gov/2024/Jul/25/2003510137/-1/-1/0/Joint-CSA-North-Korea-Cyber-Espionage-Advance-Military-Nuclear-Programs.PDF
 - https://blog.talosintelligence.com/lazarus-three-rats/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - CISA AA22-257A
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to tunnel to a remote destination.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to tunnel to a remote destination.
   mitre_attack_id:
   - T1572
   - T1021.004
@@ -92,8 +78,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/plink/plink-windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/plink/plink-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

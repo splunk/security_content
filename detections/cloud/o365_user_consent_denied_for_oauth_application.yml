@@ -1,28 +1,16 @@
 name: O365 User Consent Denied for OAuth Application
 id: 2d8679ef-b075-46be-8059-c25116cb1072
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - O365
-description: The following analytic identifies instances where a user has denied consent
-  to an OAuth application seeking permissions within the Office 365 environment. This
-  detection leverages O365 audit logs, focusing on events related to user consent
-  actions. By filtering for denied consent actions associated with OAuth applications,
-  it captures instances where users have actively rejected permission requests. This
-  activity is significant as it may indicate users spotting potentially suspicious
-  or unfamiliar applications. If confirmed malicious, it suggests an attempt by a
-  potentially harmful application to gain unauthorized access, which was proactively
-  blocked by the user.
-search: '`o365_graph` status.errorCode=65004 | rename userPrincipalName as user |
-  rename ipAddress as src_ip | stats max(_time) as lastTime by user src_ip appDisplayName
-  status.failureReason | `security_content_ctime(lastTime)` | `o365_user_consent_denied_for_oauth_application_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 events.
-known_false_positives: OAuth applications that require mail permissions may be legitimate,
-  investigate and filter as needed.
+description: The following analytic identifies instances where a user has denied consent to an OAuth application seeking permissions within the Office 365 environment. This detection leverages O365 audit logs, focusing on events related to user consent actions. By filtering for denied consent actions associated with OAuth applications, it captures instances where users have actively rejected permission requests. This activity is significant as it may indicate users spotting potentially suspicious or unfamiliar applications. If confirmed malicious, it suggests an attempt by a potentially harmful application to gain unauthorized access, which was proactively blocked by the user.
+search: '`o365_graph` status.errorCode=65004 | rename userPrincipalName as user | rename ipAddress as src_ip | stats max(_time) as lastTime by user src_ip appDisplayName status.failureReason | `security_content_ctime(lastTime)` | `o365_user_consent_denied_for_oauth_application_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 events.
+known_false_positives: OAuth applications that require mail permissions may be legitimate, investigate and filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1528/
 - https://www.microsoft.com/en-us/security/blog/2022/09/22/malicious-oauth-applications-used-to-compromise-email-servers-and-spread-spam/
@@ -30,6 +18,15 @@ references:
 - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
 - https://www.alteredsecurity.com/post/introduction-to-365-stealer
 - https://github.com/AlteredSecurity/365-Stealer
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Account Takeover
@@ -63,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_declined/o365_user_consent_declined.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1528/o365_user_consent_declined/o365_user_consent_declined.log
     source: o365
     sourcetype: o365:graph:api

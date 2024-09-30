@@ -1,35 +1,31 @@
 name: Windows SIP WinVerifyTrust Failed Trust Validation
 id: 6ffc7f88-415b-4278-a80d-b957d6539e1a
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
 - Windows Event Log CAPI2 81
-description: The following analytic detects failed trust validation attempts using
-  Windows Event Log - CAPI2 (CryptoAPI 2). It specifically triggers on EventID 81,
-  which indicates that "The digital signature of the object did not verify." This
-  detection leverages the CAPI2 Operational log to identify instances where digital
-  signatures fail to validate. Monitoring this activity is crucial as it can indicate
-  attempts to execute untrusted or potentially malicious binaries. If confirmed malicious,
-  this activity could allow attackers to bypass security controls and execute unauthorized
-  code, leading to potential system compromise.
-search: '`capi2_operational` EventID=81 "The digital signature of the object did not
-  verify." | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as
-  lastTime by Computer, UserData_Xml | rename Computer as dest | `windows_sip_winverifytrust_failed_trust_validation_filter`'
-how_to_implement: To implement this analytic, one will need to enable the Microsoft-Windows-CAPI2/Operational
-  log within the Windows Event Log. Note this is a debug log for many purposes, and
-  the analytic only focuses in on EventID 81. Review the following gist for additional
-  enabling information.
-known_false_positives: False positives may be present in some instances of legitimate
-  binaries with invalid signatures. Filter as needed.
+description: The following analytic detects failed trust validation attempts using Windows Event Log - CAPI2 (CryptoAPI 2). It specifically triggers on EventID 81, which indicates that "The digital signature of the object did not verify." This detection leverages the CAPI2 Operational log to identify instances where digital signatures fail to validate. Monitoring this activity is crucial as it can indicate attempts to execute untrusted or potentially malicious binaries. If confirmed malicious, this activity could allow attackers to bypass security controls and execute unauthorized code, leading to potential system compromise.
+search: '`capi2_operational` EventID=81 "The digital signature of the object did not verify." | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as lastTime by Computer, UserData_Xml | rename Computer as dest | `windows_sip_winverifytrust_failed_trust_validation_filter`'
+how_to_implement: To implement this analytic, one will need to enable the Microsoft-Windows-CAPI2/Operational log within the Windows Event Log. Note this is a debug log for many purposes, and the analytic only focuses in on EventID 81. Review the following gist for additional enabling information.
+known_false_positives: False positives may be present in some instances of legitimate binaries with invalid signatures. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1553/003/
 - https://specterops.io/wp-content/uploads/sites/3/2022/06/SpecterOps_Subverting_Trust_in_Windows.pdf
 - https://github.com/gtworek/PSBits/tree/master/SIP
 - https://github.com/mattifestation/PoCSubjectInterfacePackage
 - https://pentestlab.blog/2017/11/06/hijacking-digital-signatures/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Subvert Trust Controls SIP and Trust Provider Hijacking
@@ -58,7 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/capi2-operational.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1553.003/sip/capi2-operational.log
     source: XmlWinEventLog:Microsoft-Windows-CAPI2/Operational
     sourcetype: xmlwineventlog

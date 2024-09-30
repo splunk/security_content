@@ -1,41 +1,31 @@
 name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
-version: 4
-date: '2024-05-28'
+version: 5
+date: '2024-09-30'
 author: Steven Dick, Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: |-
-  The following analytic detects the presence of a registry key associated with the Remcos RAT agent on a host. It leverages data from the Endpoint.Processes and Endpoint.Registry data models in Splunk, focusing on instances where the "license" key is found in the "Software\Remcos" path. This behavior is significant as it indicates potential compromise by the Remcos RAT, a remote access Trojan used for unauthorized access and data exfiltration. If confirmed malicious, the attacker could gain control over the system, steal sensitive information, or use the compromised host for further attacks. Immediate investigation and remediation are required.
+description: The following analytic detects the presence of a registry key associated with the Remcos RAT agent on a host. It leverages data from the Endpoint.Processes and Endpoint.Registry data models in Splunk, focusing on instances where the "license" key is found in the "Software\Remcos" path. This behavior is significant as it indicates potential compromise by the Remcos RAT, a remote access Trojan used for unauthorized access and data exfiltration. If confirmed malicious, the attacker could gain control over the system, steal sensitive information, or use the compromised host for further attacks. Immediate investigation and remediation are required.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_key_name=*\\Software\\Remcos*) BY _time span=1h Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
-  dest user parent_process_name parent_process process_name process_path process registry_key_name
-  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |`remcos_client_registry_install_entry_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)` | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_key_name=*\\Software\\Remcos*) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |`remcos_client_registry_install_entry_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://attack.mitre.org/software/S0332/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Remcos
@@ -43,8 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: A registry entry $registry_path$ with registry keyname $registry_key_name$
-    related to Remcos RAT in host $dest$
+  message: A registry entry $registry_path$ with registry keyname $registry_key_name$ related to Remcos RAT in host $dest$
   mitre_attack_id:
   - T1112
   observable:
@@ -78,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_registry/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_registry/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

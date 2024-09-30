@@ -1,32 +1,27 @@
 name: Linux Deletion Of Cron Jobs
 id: 3b132a71-9335-4f33-9932-00bb4f6ac7e8
-version: 3
-date: '2024-05-21'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the deletion of cron jobs on a Linux machine.
-  It leverages filesystem event logs to identify when files within the "/etc/cron.*"
-  directory are deleted. This activity is significant because attackers or malware
-  may delete cron jobs to disable scheduled security tasks or evade detection mechanisms.
-  If confirmed malicious, this action could allow an attacker to disrupt system operations,
-  evade security measures, or facilitate further malicious activities such as data
-  wiping, as seen with the acidrain malware.
+description: The following analytic detects the deletion of cron jobs on a Linux machine. It leverages filesystem event logs to identify when files within the "/etc/cron.*" directory are deleted. This activity is significant because attackers or malware may delete cron jobs to disable scheduled security tasks or evade detection mechanisms. If confirmed malicious, this action could allow an attacker to disrupt system operations, evade security measures, or facilitate further malicious activities such as data wiping, as seen with the acidrain malware.
 data_source:
 - Sysmon for Linux EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*"
-  by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid
-  Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `linux_deletion_of_cron_jobs_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*" by _time span=1h Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.process_guid Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_deletion_of_cron_jobs_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://www.sentinelone.com/labs/acidrain-a-modem-wiper-rains-down-on-europe/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AcidRain
@@ -66,7 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/acidrain/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux

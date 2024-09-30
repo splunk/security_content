@@ -1,30 +1,26 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 3
-date: '2024-05-19'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects non-Firefox processes accessing the Firefox
-  profile directory, which contains sensitive user data such as login credentials,
-  browsing history, and cookies. It leverages Windows Security Event logs, specifically
-  event code 4663, to monitor access attempts. This activity is significant because
-  it may indicate attempts by malware, such as RATs or trojans, to harvest user information.
-  If confirmed malicious, this behavior could lead to data exfiltration, unauthorized
-  access to user accounts, and further compromise of the affected system.
+description: The following analytic detects non-Firefox processes accessing the Firefox profile directory, which contains sensitive user data such as login credentials, browsing history, and cookies. It leverages Windows Security Event logs, specifically event code 4663, to monitor access attempts. This activity is significant because it may indicate attempts by malware, such as RATs or trojans, to harvest user information. If confirmed malicious, this behavior could lead to data exfiltration, unauthorized access to user accounts, and further compromise of the affected system.
 data_source:
 - Windows Event Log Security 4663
-search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\firefox.exe",
-  "*\\explorer.exe", "*sql*")) ObjectName="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType
-  ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `non_firefox_process_access_firefox_profile_dir_filter`'
-how_to_implement: To successfully implement this search, you must ingest Windows Security
-  Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
-  Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: other browser not listed related to firefox may catch by this
-  rule.
+search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\firefox.exe", "*\\explorer.exe", "*sql*")) ObjectName="*\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles*" | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `non_firefox_process_access_firefox_profile_dir_filter`'
+how_to_implement: To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: other browser not listed related to firefox may catch by this rule.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azorult
@@ -71,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

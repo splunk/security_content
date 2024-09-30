@@ -1,43 +1,30 @@
 name: Windows System Shutdown CommandLine
 id: 4fee57b8-d825-4bf3-9ea8-bf405cdb614c
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the execution of the Windows shutdown
-  command via the command line interface. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on process names and command-line arguments.
-  This activity is significant because attackers may use the shutdown command to erase
-  tracks, cause disruption, or ensure changes take effect after installing backdoors.
-  If confirmed malicious, this activity could lead to system downtime, denial of service,
-  or evasion of security tools, impacting the overall security posture of the network.
+description: The following analytic identifies the execution of the Windows shutdown command via the command line interface. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because attackers may use the shutdown command to erase tracks, cause disruption, or ensure changes take effect after installing backdoors. If confirmed malicious, this activity could lead to system downtime, denial of service, or evasion of security tools, impacting the overall security posture of the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe)
-  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*") AND Processes.process
-  IN ("* /t*","* -t*","* /f*","* -f*") by Processes.dest Processes.user Processes.parent_process
-  Processes.process_name Processes.original_file_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrator may execute this commandline to trigger shutdown
-  or restart the host machine.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe) Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*") AND Processes.process IN ("* /t*","* -t*","* /f*","* -f*") by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator may execute this commandline to trigger shutdown or restart the host machine.
 references:
 - https://attack.mitre.org/techniques/T1529/
 - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - DarkCrystal RAT
@@ -78,8 +65,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/shutdown_commandline/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/shutdown_commandline/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,44 +1,27 @@
 name: Windows InstallUtil Remote Network Connection
 id: 4fbf9270-43da-11ec-9486-acde48001122
-version: 5
-date: '2024-08-14'
+version: 6
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the Windows InstallUtil.exe binary making
-  a remote network connection. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process and network telemetry. This activity is significant
-  because InstallUtil.exe can be exploited to download and execute malicious code,
-  bypassing application control mechanisms. If confirmed malicious, an attacker could
-  achieve code execution, potentially leading to further system compromise, data exfiltration,
-  or lateral movement within the network. Analysts should review the parent process,
-  network connections, and any associated file modifications to determine the legitimacy
-  of this activity.'
+description: The following analytic detects the Windows InstallUtil.exe binary making a remote network connection. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network telemetry. This activity is significant because InstallUtil.exe can be exploited to download and execute malicious code, bypassing application control mechanisms. If confirmed malicious, an attacker could achieve code execution, potentially leading to further system compromise, data exfiltration, or lateral movement within the network. Analysts should review the parent process, network connections, and any associated file modifications to determine the legitimacy of this activity.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_installutil` by _time span=1h  Processes.process_id Processes.process_name
-  Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name
-  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly`
-  count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port !=
-  0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`
-  | rename dest as C2 ] | table _time user dest parent_process_name process_name process_path
-  process process_id dest_port C2 | `windows_installutil_remote_network_connection_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives should be present as InstallUtil is
-  not typically used to download remote files. Filter as needed based on Developers
-  requirements.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_installutil` by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ] | table _time user dest parent_process_name process_name process_path process process_id dest_port C2 | `windows_installutil_remote_network_connection_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives should be present as InstallUtil is not typically used to download remote files. Filter as needed based on Developers requirements.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.004/T1218.004.md
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Signed Binary Proxy Execution InstallUtil
@@ -46,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ generating a remote download.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ generating a remote download.
   mitre_attack_id:
   - T1218.004
   - T1218
@@ -93,7 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.004/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

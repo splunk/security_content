@@ -1,30 +1,25 @@
 name: Detect Excessive User Account Lockouts
 id: 95a7f9a5-6096-437e-a19e-86f42ac609bd
-version: 6
-date: '2024-05-20'
+version: 7
+date: '2024-09-30'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies user accounts experiencing an excessive
-  number of lockouts within a short timeframe. It leverages the 'Change' data model,
-  specifically focusing on events where the result indicates a lockout. This activity
-  is significant as it may indicate a brute-force attack or misconfiguration, both
-  of which require immediate attention. If confirmed malicious, this behavior could
-  lead to account compromise, unauthorized access, and potential lateral movement
-  within the network.
+description: The following analytic identifies user accounts experiencing an excessive number of lockouts within a short timeframe. It leverages the 'Change' data model, specifically focusing on events where the result indicates a lockout. This activity is significant as it may indicate a brute-force attack or misconfiguration, both of which require immediate attention. If confirmed malicious, this behavior could lead to account compromise, unauthorized access, and potential lateral movement within the network.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*"
-  by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`|
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search
-  count > 5 | `detect_excessive_user_account_lockouts_filter`'
-how_to_implement: ou must ingest your Windows security event logs in the `Change`
-  datamodel under the nodename is `Account_Management`, for this search to execute
-  successfully. Please consider updating the cron schedule and the count of lockouts
-  you want to monitor, according to your environment.
-known_false_positives: It is possible that a legitimate user is experiencing an issue
-  causing multiple account login failures leading to lockouts.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
+how_to_implement: ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
+known_false_positives: It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
 references: []
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Password Spraying
@@ -54,7 +49,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml-1.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/account_lockout/windows-xml-1.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

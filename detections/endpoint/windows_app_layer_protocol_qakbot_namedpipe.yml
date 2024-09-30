@@ -1,36 +1,30 @@
 name: Windows App Layer Protocol Qakbot NamedPipe
 id: 63a2c15e-9448-43c5-a4a8-9852266aaada
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a suspicious process creating or connecting
-  to a potential Qakbot named pipe. It leverages Sysmon EventCodes 17 and 18, focusing
-  on specific processes known to be abused by Qakbot and identifying randomly generated
-  named pipes in GUID form. This activity is significant as Qakbot malware uses named
-  pipes for inter-process communication after code injection, facilitating data theft.
-  If confirmed malicious, this behavior could indicate a Qakbot infection, leading
-  to unauthorized data access and potential exfiltration from the compromised host.
+description: The following analytic detects a suspicious process creating or connecting to a potential Qakbot named pipe. It leverages Sysmon EventCodes 17 and 18, focusing on specific processes known to be abused by Qakbot and identifying randomly generated named pipes in GUID form. This activity is significant as Qakbot malware uses named pipes for inter-process communication after code injection, facilitating data theft. If confirmed malicious, this behavior could indicate a Qakbot infection, leading to unauthorized data access and potential exfiltration from the compromised host.
 data_source:
 - Sysmon EventID 17
 - Sysmon EventID 18
-search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe")
-  Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe",
-  "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe",
-  "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}"
-  | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType
-  ProcessGuid ProcessId PipeName SecurityID EventCode dest UserID | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_app_layer_protocol_qakbot_namedpipe_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, pipename, processguid and named pipe event type from
-  your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of
-  the Sysmon TA.
+search: '`sysmon` EventCode IN (17, 18) EventType IN ( "CreatePipe", "ConnectPipe") Image IN ("*\\calc.exe", "*\\notepad.exe", "*\\rdpclip.exe", "*\\explorer.exe", "*\\wermgr.exe", "*\\ping.exe", "*\\OneDriveSetup.exe", "*\\dxdiag.exe", "*\\mobsync.exe", "*\\msra.exe", "*\\xwizard.exe") | regex PipeName="^\\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{8}" | stats  min(_time) as firstTime max(_time) as lastTime count by Image EventType ProcessGuid ProcessId PipeName SecurityID EventCode dest UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_app_layer_protocol_qakbot_namedpipe_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, pipename, processguid and named pipe event type from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://strontic.github.io/xcyclopedia/library/wermgr.exe-0F652BF7ADA772981E8AAB0D108FCC92.html
 - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
 - https://www.elastic.co/security-labs/qbot-malware-analysis
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Qakbot
@@ -64,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

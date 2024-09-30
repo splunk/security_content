@@ -1,35 +1,28 @@
 name: MS Scripting Process Loading WMI Module
 id: 2eba3d36-14a6-11ec-a682-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the loading of WMI modules by Microsoft
-  scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode
-  7 to identify instances where these scripting engines load specific WMI-related
-  DLLs. This activity is significant because it can indicate the presence of malware,
-  such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering
-  host information to send to a C2 server. If confirmed malicious, this behavior could
-  allow attackers to collect sensitive system information and maintain persistence
-  within the environment.
+description: The following analytic detects the loading of WMI modules by Microsoft scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode 7 to identify instances where these scripting engines load specific WMI-related DLLs. This activity is significant because it can indicate the presence of malware, such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering host information to send to a C2 server. If confirmed malicious, this behavior could allow attackers to collect sensitive system information and maintain persistence within the environment.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
-  IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
-  "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time)
-  as lastTime count by Image EventCode process_name ProcessId ProcessGuid Computer
-  ImageLoaded | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `ms_scripting_process_loading_wmi_module_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: automation scripting language may used by network operator
-  to do ldap query.
+search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" , "*\\wmiutils.dll", "*\\wbemcomn.dll") | stats min(_time) as firstTime max(_time) as lastTime count by Image EventCode process_name ProcessId ProcessGuid Computer ImageLoaded | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_wmi_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: automation scripting language may used by network operator to do ldap query.
 references:
 - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
 - https://attack.mitre.org/groups/G0046/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - FIN7
@@ -63,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,32 +1,29 @@
 name: O365 Compliance Content Search Exported
 id: 2ce9f31d-ab4f-4179-b2b7-c77a9652e1d8
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: The following analytic identifies when the results of a content search
-  within the Office 365 Security and Compliance Center are exported. It uses the SearchExported
-  operation from the SecurityComplianceCenter workload in the o365_management_activity
-  data source. This activity is significant because exporting search results can involve
-  sensitive or critical organizational data, potentially leading to data exfiltration.
-  If confirmed malicious, an attacker could gain access to and exfiltrate sensitive
-  information, posing a severe risk to the organization's data security and compliance
-  posture.
-search: '`o365_management_activity`  Workload=SecurityComplianceCenter Operation="SearchExported"
-  | rename user_id as user | stats count earliest(_time) as firstTime latest(_time)
-  as lastTime by Operation, ObjectId, ExchangeLocations, user, Query  |`security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` | `o365_compliance_content_search_exported_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Compliance content searche exports may be executed for legitimate
-  purposes, filter as needed.
+description: The following analytic identifies when the results of a content search within the Office 365 Security and Compliance Center are exported. It uses the SearchExported operation from the SecurityComplianceCenter workload in the o365_management_activity data source. This activity is significant because exporting search results can involve sensitive or critical organizational data, potentially leading to data exfiltration. If confirmed malicious, an attacker could gain access to and exfiltrate sensitive information, posing a severe risk to the organization's data security and compliance posture.
+search: '`o365_management_activity`  Workload=SecurityComplianceCenter Operation="SearchExported" | rename user_id as user | stats count earliest(_time) as firstTime latest(_time) as lastTime by Operation, ObjectId, ExchangeLocations, user, Query  |`security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `o365_compliance_content_search_exported_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Compliance content searche exports may be executed for legitimate purposes, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1114/002/
 - https://learn.microsoft.com/en-us/purview/ediscovery-content-search-overview
 - https://learn.microsoft.com/en-us/purview/ediscovery-keyword-queries-and-search-conditions
 - https://learn.microsoft.com/en-us/purview/ediscovery-search-for-activities-in-the-audit-log
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Collection Techniques
@@ -59,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_compliance_content_search_exported/o365_compliance_content_search_exported.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_compliance_content_search_exported/o365_compliance_content_search_exported.log
     sourcetype: o365:management:activity
     source: o365

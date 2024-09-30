@@ -1,37 +1,28 @@
 name: Azure AD Service Principal Authentication
 id: 5a2ec401-60bb-474e-b936-1e66e7aa4060
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 data_source:
 - Azure Active Directory Sign-in activity
 type: TTP
 status: production
-description: The following analytic identifies authentication events of service principals
-  in Azure Active Directory. It leverages the `azure_monitor_aad` data source, specifically
-  targeting "Sign-in activity" within ServicePrincipalSignInLogs. This detection gathers
-  details such as sign-in frequency, timing, source IPs, and accessed resources. Monitoring
-  these events is significant for SOC teams to distinguish between normal application
-  authentication and potential anomalies, which could indicate compromised credentials
-  or malicious activities. If confirmed malicious, attackers could gain unauthorized
-  access to resources, leading to data breaches or further exploitation within the
-  environment.
-search: '`azure_monitor_aad` operationName="Sign-in activity" category=ServicePrincipalSignInLogs
-  | rename properties.* as * | stats count earliest(_time) as firstTime latest(_time)
-  as lastTime by user, user_id, src_ip, resourceDisplayName, resourceId | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `azure_ad_service_principal_authentication_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the SignInLogs log category.
-known_false_positives: Service Principals will legitimally authenticate remotely to
-  your tenant. Implementing this detection after establishing a baseline enables a
-  more accurate identification of security threats, ensuring proactive and informed
-  responses to safeguard the Azure AD environment. source ips.
+description: The following analytic identifies authentication events of service principals in Azure Active Directory. It leverages the `azure_monitor_aad` data source, specifically targeting "Sign-in activity" within ServicePrincipalSignInLogs. This detection gathers details such as sign-in frequency, timing, source IPs, and accessed resources. Monitoring these events is significant for SOC teams to distinguish between normal application authentication and potential anomalies, which could indicate compromised credentials or malicious activities. If confirmed malicious, attackers could gain unauthorized access to resources, leading to data breaches or further exploitation within the environment.
+search: '`azure_monitor_aad` operationName="Sign-in activity" category=ServicePrincipalSignInLogs | rename properties.* as * | stats count earliest(_time) as firstTime latest(_time) as lastTime by user, user_id, src_ip, resourceDisplayName, resourceId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_authentication_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+known_false_positives: Service Principals will legitimally authenticate remotely to your tenant. Implementing this detection after establishing a baseline enables a more accurate identification of security threats, ensuring proactive and informed responses to safeguard the Azure AD environment. source ips.
 references:
 - https://attack.mitre.org/techniques/T1078/004/
 - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-ins#service-principal-sign-ins
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
@@ -69,8 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_ad_service_principal_authentication/azure_ad_service_principal_authentication.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_ad_service_principal_authentication/azure_ad_service_principal_authentication.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

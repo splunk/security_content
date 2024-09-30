@@ -1,36 +1,27 @@
 name: Azure AD Service Principal Owner Added
 id: 7ddf2084-6cf3-4a44-be83-474f7b73c701
-version: 5
-date: '2024-09-24'
+version: 6
+date: '2024-09-30'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of a new owner to a Service
-  Principal within an Azure AD tenant. It leverages Azure Active Directory events
-  from the AuditLog log category to identify this activity. This behavior is significant
-  because Service Principals do not support multi-factor authentication or conditional
-  access policies, making them a target for adversaries seeking persistence or privilege
-  escalation. If confirmed malicious, this activity could allow attackers to maintain
-  access to the Azure AD environment with single-factor authentication, potentially
-  leading to unauthorized access and control over critical resources.
+description: The following analytic detects the addition of a new owner to a Service Principal within an Azure AD tenant. It leverages Azure Active Directory events from the AuditLog log category to identify this activity. This behavior is significant because Service Principals do not support multi-factor authentication or conditional access policies, making them a target for adversaries seeking persistence or privilege escalation. If confirmed malicious, this activity could allow attackers to maintain access to the Azure AD environment with single-factor authentication, potentially leading to unauthorized access and control over critical resources.
 data_source:
 - Azure Active Directory Add owner to application
-search: '`azure_monitor_aad`  operationName="Add owner to application" | rename properties.*
-  as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName
-  as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName
-  | eval displayName = mvindex(displayName,1) | where initiatedBy!=newOwner | stats
-  count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName
-  by initiatedBy, result, operationName, newOwner | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `azure_ad_service_principal_owner_added_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the AuditLog log category.
-known_false_positives: Administrator may legitimately add new owners for Service Principals.
-  Filter as needed.
+search: '`azure_monitor_aad`  operationName="Add owner to application" | rename properties.* as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName | eval displayName = mvindex(displayName,1) | where initiatedBy!=newOwner | stats count min(_time) as firstTime max(_time) as lastTime values(displayName) as displayName by initiatedBy, result, operationName, newOwner | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_owner_added_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Administrator may legitimately add new owners for Service Principals. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/
+drilldown_searches:
+- name: View the detection results for $displayName$
+  search: '%original_detection_search% | search  displayName = $displayName$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $displayName$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($displayName$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Persistence
@@ -67,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_add_serviceprincipal_owner/azure-audit.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/azure_ad_add_serviceprincipal_owner/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

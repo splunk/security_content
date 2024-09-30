@@ -1,40 +1,29 @@
 name: Disable Schedule Task
 id: db596056-3019-11ec-a9ff-acde48001122
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of a command to disable
-  an existing scheduled task using 'schtasks.exe' with the '/change' and '/disable'
-  parameters. This detection leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on process names and command-line arguments. Disabling scheduled
-  tasks is significant as it is a common tactic used by adversaries, including malware
-  like IcedID, to disable security applications and evade detection. If confirmed
-  malicious, this activity could allow attackers to persist undetected, disable critical
-  security defenses, and further compromise the targeted host.
+description: The following analytic detects the execution of a command to disable an existing scheduled task using 'schtasks.exe' with the '/change' and '/disable' parameters. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. Disabling scheduled tasks is significant as it is a common tactic used by adversaries, including malware like IcedID, to disable security applications and evade detection. If confirmed malicious, this activity could allow attackers to persist undetected, disable critical security defenses, and further compromise the targeted host.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
-  Processes.process=*/change*  Processes.process=*/disable* by Processes.user Processes.process_name
-  Processes.process Processes.parent_process_name Processes.parent_process Processes.dest
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `disable_schedule_task_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe Processes.process=*/change*  Processes.process=*/disable* by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.parent_process Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_schedule_task_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: admin may disable problematic schedule task
 references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IcedID
@@ -42,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: schtask process with commandline $process$ to disable schedule task in
-    $dest$
+  message: schtask process with commandline $process$ to disable schedule task in $dest$
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -67,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_schtask/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_schtask/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

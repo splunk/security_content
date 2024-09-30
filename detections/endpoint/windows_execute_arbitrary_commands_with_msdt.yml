@@ -1,41 +1,18 @@
 name: Windows Execute Arbitrary Commands with MSDT
 id: e1d5145f-38fe-42b9-a5d5-457796715f97
-version: 5
-date: '2024-08-15'
+version: 6
+date: '2024-09-30'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects arbitrary command execution using Windows
-  msdt.exe, a Diagnostics Troubleshooting Wizard. It leverages Endpoint Detection
-  and Response (EDR) data to identify instances where msdt.exe is invoked via the
-  ms-msdt:/ protocol handler to retrieve a remote payload. This activity is significant
-  as it can indicate an exploitation attempt leveraging msdt.exe to execute arbitrary
-  commands, potentially leading to unauthorized code execution. If confirmed malicious,
-  this could allow an attacker to execute arbitrary code, escalate privileges, or
-  persist within the environment, posing a severe security risk.
+description: The following analytic detects arbitrary command execution using Windows msdt.exe, a Diagnostics Troubleshooting Wizard. It leverages Endpoint Detection and Response (EDR) data to identify instances where msdt.exe is invoked via the ms-msdt:/ protocol handler to retrieve a remote payload. This activity is significant as it can indicate an exploitation attempt leveraging msdt.exe to execute arbitrary commands, potentially leading to unauthorized code execution. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or persist within the environment, posing a severe security risk.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msdt.exe
-  Processes.process IN ("*msdt*","*ms-msdt:*","*ms-msdt:/id*","*ms-msdt:-id*","*/id*")
-  AND (Processes.process="*IT_BrowseForFile=*" OR Processes.process="*IT_RebrowseForFile=*"
-  OR Processes.process="*.xml*") AND Processes.process="*PCWDiagnostic*" by Processes.dest
-  Processes.user Processes.parent_process_name Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_execute_arbitrary_commands_with_msdt_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present, filter as needed. Added .xml
-  to potentially capture any answer file usage. Remove as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=msdt.exe Processes.process IN ("*msdt*","*ms-msdt:*","*ms-msdt:/id*","*ms-msdt:-id*","*/id*") AND (Processes.process="*IT_BrowseForFile=*" OR Processes.process="*IT_RebrowseForFile=*" OR Processes.process="*.xml*") AND Processes.process="*PCWDiagnostic*" by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_execute_arbitrary_commands_with_msdt_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present, filter as needed. Added .xml to potentially capture any answer file usage. Remove as needed.
 references:
 - https://isc.sans.edu/diary/rss/28694
 - https://doublepulsar.com/follina-a-microsoft-office-code-execution-vulnerability-1a47fce5629e
@@ -43,6 +20,15 @@ references:
 - https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
 - https://www.virustotal.com/gui/file/4a24048f81afbe9fb62e7a6a49adbd1faf41f266b5f9feecdceb567aec096784/detection
 - https://strontic.github.io/xcyclopedia/library/msdt.exe-152D4C9F63EFB332CCB134C6953C0104.html
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
@@ -51,8 +37,7 @@ tags:
   cve:
   - CVE-2022-30190
   impact: 100
-  message: A parent process $parent_process_name$ has spawned a child process $process_name$
-    on host $dest$ possibly indicative of indirect command execution.
+  message: A parent process $parent_process_name$ has spawned a child process $process_name$ on host $dest$ possibly indicative of indirect command execution.
   mitre_attack_id:
   - T1218
   observable:
@@ -94,8 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/msdt.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

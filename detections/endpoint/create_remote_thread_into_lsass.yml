@@ -1,33 +1,27 @@
 name: Create Remote Thread into LSASS
 id: 67d4dbef-9564-4699-8da8-03a151529edc
-version: 4
-date: '2024-09-26'
+version: 5
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: "The following analytic detects the creation of a remote thread in the
-  Local Security Authority Subsystem Service (LSASS). This behavior is identified
-  using Sysmon EventID 8 logs, focusing on processes that create remote threads in
-  lsass.exe. This activity is significant because it is commonly associated with credential
-  dumping, a tactic used by adversaries to steal user authentication credentials.
-  If confirmed malicious, this could allow attackers to gain unauthorized access to
-  sensitive information, leading to potential compromise of the entire network. Analysts
-  should investigate to differentiate between legitimate tools and potential threats."
+description: The following analytic detects the creation of a remote thread in the Local Security Authority Subsystem Service (LSASS). This behavior is identified using Sysmon EventID 8 logs, focusing on processes that create remote threads in lsass.exe. This activity is significant because it is commonly associated with credential dumping, a tactic used by adversaries to steal user authentication credentials. If confirmed malicious, this could allow attackers to gain unauthorized access to sensitive information, leading to potential compromise of the entire network. Analysts should investigate to differentiate between legitimate tools and potential threats.
 data_source:
 - Sysmon EventID 8
-search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime
-  max(_time) as lastTime by dest, EventCode, TargetImage, TargetProcessId | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `create_remote_thread_into_lsass_filter`'
-how_to_implement: This search needs Sysmon Logs with a Sysmon configuration, which
-  includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-known_false_positives: Other tools can access LSASS for legitimate reasons and generate
-  an event. In these cases, tweaking the search may help eliminate noise.
+search: '`sysmon` EventID=8 TargetImage=*lsass.exe | stats count min(_time) as firstTime max(_time) as lastTime by dest, EventCode, TargetImage, TargetProcessId | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `create_remote_thread_into_lsass_filter`'
+how_to_implement: This search needs Sysmon Logs with a Sysmon configuration, which includes EventCode 8 with lsass.exe. This search uses an input macro named `sysmon`. We strongly recommend that you specify your environment-specific configurations (index, source, sourcetype, etc.) for Windows Sysmon logs. Replace the macro definition with configurations for your Splunk environment. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: Other tools can access LSASS for legitimate reasons and generate an event. In these cases, tweaking the search may help eliminate noise.
 references:
 - https://2017.zeronights.org/wp-content/uploads/materials/ZN17_Kheirkhabarov_Hunting_for_Credentials_Dumping_in_Windows_Environment.pdf
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Credential Dumping
@@ -35,8 +29,7 @@ tags:
   asset_type: Windows
   confidence: 90
   impact: 90
-  message: A process has created a remote thread into $TargetImage$ on $dest$. This
-    behavior is indicative of credential dumping and should be investigated.
+  message: A process has created a remote thread into $TargetImage$ on $dest$. This behavior is indicative of credential dumping and should be investigated.
   mitre_attack_id:
   - T1003.001
   - T1003
@@ -67,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

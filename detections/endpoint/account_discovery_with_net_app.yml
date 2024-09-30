@@ -1,43 +1,31 @@
 name: Account Discovery With Net App
 id: 339805ce-ac30-11eb-b87d-acde48001122
-version: 6
-date: '2024-08-15'
+version: 7
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk, TheLawsOfChaos, Github Community
 status: production
 type: TTP
-description: The following analytic detects potential account discovery activities
-  using the 'net' command, commonly employed by malware like Trickbot for reconnaissance.
-  It leverages Endpoint Detection and Response (EDR) data, focusing on specific command-line
-  patterns and process relationships. This activity is significant as it often precedes
-  further malicious actions, such as lateral movement or privilege escalation. If
-  confirmed malicious, attackers could gain valuable information about user accounts,
-  enabling them to escalate privileges or move laterally within the network, posing
-  a significant security risk.
+description: The following analytic detects potential account discovery activities using the 'net' command, commonly employed by malware like Trickbot for reconnaissance. It leverages Endpoint Detection and Response (EDR) data, focusing on specific command-line patterns and process relationships. This activity is significant as it often precedes further malicious actions, such as lateral movement or privilege escalation. If confirmed malicious, attackers could gain valuable information about user accounts, enabling them to escalate privileges or move laterally within the network, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  values(Processes.parent_process) as parent_process values(Processes.process_id)
-  as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_net` AND (Processes.process="* user *" OR  Processes.process="*config*"
-  OR Processes.process="*view /all*") by  Processes.process_name Processes.dest Processes.user
-  Processes.parent_process_name | where count >=4 | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `account_discovery_with_net_app_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_net` AND (Processes.process="* user *" OR  Processes.process="*config*" OR Processes.process="*view /all*") by  Processes.process_name Processes.dest Processes.user Processes.parent_process_name | where count >=4 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `account_discovery_with_net_app_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Admin or power user may used this series of command.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 - https://app.any.run/tasks/48414a33-3d66-4a46-afe5-c2003bb55ccf/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Trickbot
@@ -84,7 +72,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/infection/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

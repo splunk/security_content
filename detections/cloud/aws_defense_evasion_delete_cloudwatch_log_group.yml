@@ -1,39 +1,34 @@
 name: AWS Defense Evasion Delete CloudWatch Log Group
 id: d308b0f1-edb7-4a62-a614-af321160710f
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic detects the deletion of CloudWatch log groups
-  in AWS, identified through `DeleteLogGroup` events in CloudTrail logs. This detection
-  leverages CloudTrail data to monitor for successful log group deletions, excluding
-  console-based actions. This activity is significant as it indicates potential attempts
-  to evade logging and monitoring, which is crucial for maintaining visibility into
-  AWS activities. If confirmed malicious, this could allow attackers to hide their
-  tracks, making it difficult to detect further malicious actions or investigate incidents
-  within the compromised AWS environment.
+description: The following analytic detects the deletion of CloudWatch log groups in AWS, identified through `DeleteLogGroup` events in CloudTrail logs. This detection leverages CloudTrail data to monitor for successful log group deletions, excluding console-based actions. This activity is significant as it indicates potential attempts to evade logging and monitoring, which is crucial for maintaining visibility into AWS activities. If confirmed malicious, this could allow attackers to hide their tracks, making it difficult to detect further malicious actions or investigate incidents within the compromised AWS environment.
 data_source:
 - AWS CloudTrail DeleteLogGroup
-search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com
-  userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as
-  firstTime max(_time) as lastTime values(requestParameters.logGroupName) as log_group_name
-  by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudwatch_log_group_filter`'
-how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in
-  your AWS Environment.
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has deleted CloudWatch logging. Please investigate this activity.
+search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com userAgent !=console.amazonaws.com errorCode = success| stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.logGroupName) as log_group_name by src region eventName userAgent user_arn aws_account_id | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudwatch_log_group_filter`'
+how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
+known_false_positives: While this search has no known false positives, it is possible that an AWS admin has deleted CloudWatch logging. Please investigate this activity.
 references:
 - https://attack.mitre.org/techniques/T1562/008/
+drilldown_searches:
+- name: View the detection results for $user_arn$
+  search: '%original_detection_search% | search  user_arn = $user_arn$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_arn$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_arn$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Defense Evasion
   asset_type: AWS Account
   confidence: 90
   impact: 100
-  message: User $user_arn$ has deleted a CloudWatch logging group for account id $aws_account_id$
-    from IP $src$
+  message: User $user_arn$ has deleted a CloudWatch logging group for account id $aws_account_id$ from IP $src$
   mitre_attack_id:
   - T1562
   - T1562.008
@@ -64,8 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/delete_cloudwatch_log_group/aws_cloudtrail_events.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail
     update_timestamp: true
