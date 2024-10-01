@@ -1,10 +1,10 @@
 name: Windows Impair Defenses Disable AV AutoStart via Registry
 id: 31a13f43-812e-4752-a6ca-c6c87bf03e83
-version: 1
-date: '2024-09-11'
+version: 2
+date: '2024-09-26'
 author: Teoderick Contreras, Splunk
-data_sources:
-- Sysmon Event ID 13
+data_source:
+- Sysmon EventID 13
 type: TTP
 status: production
 description: The following analytic detects modifications to the registry related to the disabling of autostart 
