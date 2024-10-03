@@ -1,7 +1,7 @@
 name: Windows Event Log Security 4688
 id: d195eb26-a81c-45ed-aeb3-25792e8a985a
-version: 1
-date: '2024-07-18'
+version: 2
+date: '2024-09-26'
 author: Patrick Bareiss, Splunk
 description: Data source object for Windows Event Log Security 4688
 source: XmlWinEventLog:Security
@@ -114,7 +114,7 @@ field_mappings:
       ParentProcessName|endswith: actor.process.file.name
       Computer: device.hostname
 convert_to_log_source:
-  - data_source: Sysmon Event ID 1
+  - data_source: Sysmon EventID 1
     mapping:
       NewProcessId: ProcessId #New_Process_ID in Hex
       NewProcessName: Image
