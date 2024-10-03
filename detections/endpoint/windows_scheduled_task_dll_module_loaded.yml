@@ -1,10 +1,10 @@
 name: Windows Scheduled Task DLL Module Loaded
 id: bc5b2304-f241-419b-874a-e927f667b7b6
-version: 1
-date: '2024-09-11'
+version: 2
+date: '2024-09-26'
 author: Teoderick Contreras, Splunk
-data_sources:
-- Sysmon Event ID 7
+data_source:
+- Sysmon EventID 7
 type: TTP
 status: production
 description: The following analytic detects instances where the taskschd.dll is loaded by processes running in 

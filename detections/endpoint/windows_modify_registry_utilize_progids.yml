@@ -1,10 +1,10 @@
 name: Windows Modify Registry Utilize ProgIDs
 id: 64fa82dd-fd11-472a-9e94-c221fffa591d
-version: 1
-date: '2024-09-18'
+version: 2
+date: '2024-09-26'
 author: Teoderick Contreras, Splunk
-data_sources:
-- Sysmon Event ID 13
+data_source:
+- Sysmon EventID 13
 type: Anomaly
 status: production
 description: The following analytic detects modifications to the Windows Registry specifically targeting Programmatic Identifier associations to bypass User Account Control (UAC) Windows OS feature. ValleyRAT may create or alter registry entries to targetted progIDs like `.pwn` files with malicious processes, allowing it to execute harmful scripts or commands when these files are opened. By monitoring for unusual changes in registry keys linked to ProgIDs, this detection enables security analysts to identify potential threats like ValleyRAT execution attempts. Early detection of these modifications helps mitigate unauthorized execution and prevents further exploitation of the system.
