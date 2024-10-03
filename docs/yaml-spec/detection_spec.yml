@@ -1,0 +1,160 @@
+#### Spec for detection yaml file
+name: 
+  type: str
+  description: Name of the detection, this is the name that will be displayed in the Splunk UI. Naming convention is <platform>_<technique_name>_<short_description>. Ref - https://github.com/splunk/security_content/wiki/Detection-Naming-Convention
+  required: true
+id: 
+  type: str
+  description: Unique identifier for the detection, UUID
+  required: true
+version: 
+  type: int
+  description: Version of the detection, update this every time a change is made to the file
+  required: true
+date: 
+  type: str
+  description: Date of the detection, update this every time a change is made to the file
+  required: true
+author: 
+  type: str
+  description: Author of the detection
+  required: true
+status: 
+  type: str
+  description: Status of the detection
+  enum: [production, experimental, deprecated]
+  required: true
+type: 
+  type: str
+  description: Type of the detection
+  enum: [TTP, Anomaly, Baseline, Hunting, Correlation]
+  required: true
+data_source: 
+  type: list
+  description: Reference to the name from the data_sources folder.
+  required: false
+description: 
+  type: str
+  description: Description of the detection
+  required: true
+search: 
+  type: str
+  description: Splunk search to be executed. search should end with a _filter macro to filter out the false positives.
+  required: true
+how_to_implement: 
+  type: str
+  description: Details on how to implement the detection
+  required: true
+known_false_positives: 
+  type: str
+  description: Details on known false positives triggered in this detection
+  required: true
+references: 
+  type: list
+  description: List of references to the MITRE ATT&CK, details of attack vector, blog posts, vulnerabilities, etc.
+  required: false
+tags: 
+  type: dict
+  description: Tags are various metadata that can be used to categorize the detection
+  required: false
+  properties:
+    analytic_story: 
+      type: list
+      description: Name of the analytic story that the detection is part of, use the exact name as in the stories/ folder.
+      required: true
+    asset_type: 
+      type: list
+      description: Which assets are monitored by this detection
+      enum: ['AWS Account', 'AWS EKS Kubernetes cluster', 'AWS Federated Account', 'AWS Instance', 'Account', 'Amazon EKS Kubernetes cluster', 'Amazon EKS Kubernetes cluster Pod', 'Amazon Elastic Container Registry', 'Azure Tenant', 'Azure AKS Kubernetes cluster', 'Azure Active Directory', 'CircleCI', 'Cloud Compute Instance', 'Cloud Instance', 'DNS Servers', 'Database Server', 'Domain Server', 'EC2 Snapshot', 'Endpoint', 'GCP', 'GCP Account', 'GCP GKE EKS Kubernetes cluster', 'GCP GKE Kubernetes cluster', 'GCP Kubernetes cluster', 'GCP Storage Bucket', 'GDrive', 'GSuite', 'GitHub', 'Google Cloud Platform tenant', 'Identity', 'Infrastructure', 'Instance', 'Kubernetes', 'Network', 'O365 Tenant', 'Okta Tenant', 'Proxy', 'S3 Bucket', 'Splunk Server', 'VPN Appliance', 'Web Server', 'Web Proxy', 'Web Application','Windows']
+      required: true
+    atomic_guid: 
+      type: list
+      description: List of Atomic GUIDs from Atomic Red Team
+      required: false
+    confidence: 
+      type: int
+      description: Confidence level of the detection between 1-100
+      required: true
+    impact: 
+      type: int
+      description: A number between 1-100 that represents the impact when the detection is triggered
+      required: true
+    message: 
+      type: str
+      description: The risk message that will be displayed in the Splunk Enterprise Security
+      required: true
+    cve: 
+      type: list
+      description: List of CVE IDs that are related to the detection
+      required: false
+    mitre_attack_id: 
+      type: list
+      description: List of MITRE ATT&CK IDs that are related to the detection
+      required: false
+    observable: 
+      type: list
+      description: List of observables that are related to the detection. Atleast one observable with Victim role is required.
+      required: true
+      items:
+        name: 
+          type: str
+          description: Field name of the observable
+          required: true
+        type: 
+          type: str
+          description: Type of the observable
+          enum: [Unknown, Hostname, IP Address, MAC Address, User Name, Email Address, URL String, File Name, File Hash, Process Name, Resource UID, Endpoint, User, Email, Uniform Resource Locator, File, Process, Geo Location, Container, Registry Key, Registry Value, Other]
+          required: true
+        role: 
+          type: list
+          description: Role of the observable. Atleast one observable with Victim role is required.
+          enum: [Victim, Attacker]
+          required: true
+    product: 
+      type: list
+      description: List of products that are related to the detection
+      enum: [Splunk Enterprise Security, Splunk Enterprise, Splunk Cloud]
+      required: true
+    risk_score: 
+      type: int
+      description: A number between 1-100 that represents the risk score of the detection. The risk score will be calculated based on the confidence and impact.
+      required: true
+    required_fields: 
+      type: list
+      description: List of required fields that are needed to execute the detection
+      required: true
+    security_domain: 
+      type: str
+      description: The security domain that the detection is related to
+      enum: ['endpoint', 'network', 'threat', 'identity', 'access', 'audit', 'cloud']
+      required: false
+manual_test: 
+  type: str
+  description: If the detection needs manual testing, set a message here so that contentctl will not run the test automatically.
+  required: false
+tests: 
+  type: list
+  description: List of tests for the detection
+  required: false
+  items:
+    name: 
+      type: str
+      description: Name of the test, Example - True Positive Test
+      required: true
+    attack_data: 
+      type: list
+      description: List of attack data used to test the detection
+      required: true
+      items:
+        data: 
+          type: str
+          description: URL to the attack data, Example - https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp.log
+          required: true
+        source: 
+          type: str
+          description: source of the attack data in splunk
+          required: true
+        sourcetype: 
+          type: str
+          description: sourcetype of the attack data extracted by the TAs in Splunk Example - crushftp:sessionlogs
+          required: true
