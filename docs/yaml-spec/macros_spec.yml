@@ -1,0 +1,12 @@
+name: 
+  type: str
+  description: Name of the macro
+  required: true
+definition: 
+  type: str
+  description: Definition of the macro, replace with configurations for your Splunk Environment
+  required: true
+description: 
+  type: str
+  description: Description of the macro
+  required: true
