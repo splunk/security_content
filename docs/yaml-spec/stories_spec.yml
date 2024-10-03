@@ -1,0 +1,53 @@
+#### Spec for detection yaml file
+name: 
+  type: str
+  description: Name of the analytic story
+  required: true
+id: 
+  type: str
+  description: Unique identifier for the analytic story, UUID
+  required: true
+version: 
+  type: int
+  description: Version of the analytic story, update this every time a change is made to the file
+  required: true
+date: 
+  type: str
+  description: Date of the analytic story
+  required: true
+author: 
+  type: str
+  description: Author of the analytic story
+  required: true
+description: 
+  type: str
+  description: Description of the analytic story
+  required: true
+narrative: 
+  type: str
+  description: Narrative of the analytic story, what this usecase is about
+  required: true
+references: 
+  type: list
+  description: List of references to the analytic story
+  required: false
+tags: 
+  type: dict
+  description: Tags are various metadata that can be used to categorize the analytic story
+  required: true
+  properties:
+    category: 
+      type: list
+      description: List of categories that the analytic story is related to
+      required: true
+      enum: ['Abuse', 'Adversary Tactics', 'Best Practices', 'Cloud Security', 'Compliance', 'Malware', 'Uncategorized', 'Vulnerability', 'Account Compromise', 'Data Destruction', 'Lateral Movement', 'Privilege Escalation', 'Ransomware' or 'Unauthorized Software']
+    product: 
+      type: list
+      description: List of products that the analytic story is related to
+      enum: [Splunk Enterprise Security, Splunk Enterprise, Splunk Cloud]
+      required: true
+usecase: 
+  type: str
+  description: Usecase of the analytic story
+  enum: ['Fraud Detection', 'Compliance', 'Application Security', 'Security Monitoring', 'Advanced Threat Detection', 'Insider Threat','Other']
+  required: true
