@@ -1,8 +1,8 @@
 name: Windows Disable Shutdown Button Through Registry
 id: 55fb2958-9ecd-11ec-a06a-acde48001122
-version: 4
-date: '2024-05-19'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 5
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects suspicious registry modifications that
@@ -16,10 +16,10 @@ description: The following analytic detects suspicious registry modifications th
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE ((Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\shutdownwithoutlogon"
   Registry.registry_value_data = "0x00000000") OR (Registry.registry_path="*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoClose"
-  Registry.registry_value_data = "0x00000001")) BY _time span=1h Registry.dest Registry.user
+  Registry.registry_value_data = "0x00000001")) BY Registry.dest Registry.user
   Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_shutdown_button_through_registry_filter`'

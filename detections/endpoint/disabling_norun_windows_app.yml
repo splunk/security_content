@@ -1,8 +1,8 @@
 name: Disabling NoRun Windows App
 id: de81bc46-9213-11eb-adc9-acde48001122
-version: 6
-date: '2024-05-13'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 7
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects the modification of the Windows registry
@@ -15,9 +15,9 @@ description: The following analytic detects the modification of the Windows regi
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest Registry.user
+  Registry.registry_value_data = "0x00000001") BY Registry.dest Registry.user
   Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_norun_windows_app_filter`'

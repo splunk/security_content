@@ -1,8 +1,8 @@
 name: Windows Registry Certificate Added
 id: 5ee98b2f-8b9e-457a-8bdc-dd41aaba9e87
-version: 3
-date: '2024-05-29'
-author: Michael Haag, Splunk
+version: 4
+date: '2024-10-04'
+author: Michael Haag, Teodeerick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the installation of a root CA certificate
@@ -16,9 +16,9 @@ description: The following analytic detects the installation of a root CA certif
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_path IN ("*\\certificates\\*") AND Registry.registry_value_name="Blob"
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
   Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
   `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_registry_certificate_added_filter`'

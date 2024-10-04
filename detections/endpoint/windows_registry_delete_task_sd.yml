@@ -1,8 +1,8 @@
 name: Windows Registry Delete Task SD
 id: ffeb7893-ff06-446f-815b-33ca73224e92
-version: 2
-date: '2024-05-12'
-author: Michael Haag, Splunk
+version: 3
+date: '2024-10-04'
+author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects a process attempting to delete a scheduled
@@ -16,10 +16,10 @@ description: The following analytic detects a process attempting to delete a sch
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*") Registry.user="SYSTEM"
   Registry.registry_value_name="SD" (Registry.action=Deleted OR Registry.action=modified)
-  by _time  Registry.dest Registry.process_guid Registry.user Registry.registry_path
+  by Registry.dest Registry.process_guid Registry.user Registry.registry_path
   Registry.registry_value_name Registry.registry_key_name Registry.registry_value_data
   Registry.status Registry.action | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_registry_delete_task_sd_filter`'

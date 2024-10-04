@@ -1,8 +1,8 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 7
-date: '2024-07-23'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 8
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic identifies modifications in the registry to disable
@@ -15,7 +15,7 @@ description: The following analytic identifies modifications in the registry to 
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows Defender\\Real-Time
   Protection\\DisableBehaviorMonitoring" OR Registry.registry_path= "*\\SOFTWARE\\Policies\\Microsoft\\Windows
   Defender\\Real-Time Protection\\DisableOnAccessProtection" OR Registry.registry_path=
@@ -24,7 +24,7 @@ search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint
   Protection\\DisableRealtimeMonitoring" OR Registry.registry_path= "*\\Real-Time
   Protection\\DisableIntrusionPreventionSystem" OR Registry.registry_path= "*\\Real-Time
   Protection\\DisableIOAVProtection" OR Registry.registry_path= "*\\Real-Time Protection\\DisableScriptScanning"
-  AND Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.dest
+  AND Registry.registry_value_data = "0x00000001") BY Registry.dest
   Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

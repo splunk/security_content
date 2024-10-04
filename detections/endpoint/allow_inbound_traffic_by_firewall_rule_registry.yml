@@ -1,8 +1,8 @@
 name: Allow Inbound Traffic By Firewall Rule Registry
 id: 0a46537c-be02-11eb-92ca-acde48001122
-version: 6
-date: '2024-05-22'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 7
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects suspicious modifications to firewall rule
@@ -16,10 +16,10 @@ description: The following analytic detects suspicious modifications to firewall
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
   Registry.registry_value_data = "*|Action=Allow|*" Registry.registry_value_data =
-  "*|Dir=In|*"  Registry.registry_value_data = "*|LPort=*") BY _time span=1h Registry.registry_path
+  "*|Dir=In|*"  Registry.registry_value_data = "*|LPort=*") BY Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid  Registry.dest Registry.user | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `allow_inbound_traffic_by_firewall_rule_registry_filter`'

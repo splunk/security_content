@@ -1,7 +1,7 @@
 name: Windows Impair Defense Configure App Install Control
 id: c54b7439-cfb1-44c3-bb35-b0409553077c
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-10-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -16,11 +16,11 @@ description: The following analytic detects modifications to the Windows registr
   increasing the risk of security vulnerabilities. If confirmed malicious, this action
   could lead to the installation of harmful applications, potentially compromising
   the system and exposing sensitive information.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\Microsoft\\Windows Defender\\SmartScreen\\ConfigureAppInstallControl"
   Registry.registry_value_data= "Anywhere") OR (Registry.registry_path= "*\\Microsoft\\Windows
   Defender\\SmartScreen\\ConfigureAppInstallControlEnabled" Registry.registry_value_data=
-  "0x00000000") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  "0x00000000") BY Registry.dest Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_impair_defense_configure_app_install_control_filter`'

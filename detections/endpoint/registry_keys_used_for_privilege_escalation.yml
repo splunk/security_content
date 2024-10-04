@@ -1,8 +1,8 @@
 name: Registry Keys Used For Privilege Escalation
 id: c9f4b923-f8af-4155-b697-1354f5bcbc5e
-version: 8
-date: '2024-05-18'
-author: Steven Dick, David Dorsey, Teoderick Contreras, Splunk
+version: 9
+date: '2024-10-04'
+author: David Dorsey, Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects modifications to registry keys under "Image
@@ -16,10 +16,10 @@ description: The following analytic detects modifications to registry keys under
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE ((Registry.registry_path="*Microsoft\\Windows NT\\CurrentVersion\\Image File
   Execution Options*") AND (Registry.registry_value_name=GlobalFlag OR Registry.registry_value_name=Debugger))
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.registry_value_data Registry.process_guid
   | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `registry_keys_used_for_privilege_escalation_filter`'

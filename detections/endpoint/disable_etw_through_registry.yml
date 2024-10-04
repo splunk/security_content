@@ -1,8 +1,8 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
-version: 5
-date: '2024-05-24'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 6
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects modifications to the registry that disable
@@ -16,9 +16,9 @@ description: The following analytic detects modifications to the registry that d
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\.NETFramework\\ETWEnabled"
-  Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest Registry.registry_path
+  Registry.registry_value_data = "0x00000000") BY Registry.dest Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disable_etw_through_registry_filter`'
