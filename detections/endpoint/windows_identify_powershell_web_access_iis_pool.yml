@@ -40,11 +40,11 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: PowerShell Web Access (PSWA) activity detected on $dest$.
+  message: PowerShell Web Access (PSWA) activity detected on $PSWA Host$.
   mitre_attack_id:
   - T1190
   observable:
-  - name: dest
+  - name: PSWA Host
     type: Hostname
     role:
     - Victim
