@@ -66,6 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/pswa/4648_pswa_pool.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/pswa/4648_4624_pswa_pool.log
     sourcetype: XmlWinEventLog
     source: XmlWinEventLog:Security
