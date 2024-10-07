@@ -25,7 +25,7 @@ search: '`wineventlog_security` (EventCode=4648 OR EventCode=4624 OR EventCode=4
   | eval 
       PSWA_Running = "Yes",
       "PSWA Process" = mvindex(split(mvindex("PSWA Process", 0), "\\"), -1)
-  | fields PSWA_Running, dest, "PSWA Host", "PSWA Process", "Connection Attempts", "Successful Logons","Unsuccessful Logons", "Unique Target Accounts", "Unique Target Domains", "Target Users List","Target Servers List", "Logon Types"
+  | fields PSWA_Running, "PSWA Host", "PSWA Process", "Connection Attempts", "Successful Logons","Unsuccessful Logons", "Unique Target Accounts", "Unique Target Domains", "Target Users List","Target Servers List", "Logon Types"
   | `security_content_ctime(firstTime)` 
   |`security_content_ctime(lastTime)`
   | `windows_identify_powershell_web_access_iis_pool_filter`'
@@ -40,11 +40,11 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: PowerShell Web Access (PSWA) IIS Application Pool activity detected on $dest$.
+  message: PowerShell Web Access (PSWA) IIS Application Pool activity detected on $PSWA Host$.
   mitre_attack_id:
   - T1190
   observable:
-  - name: dest
+  - name: PSWA Host
     type: Hostname
     role:
     - Victim
