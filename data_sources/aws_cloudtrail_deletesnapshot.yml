@@ -10,7 +10,7 @@ separator: eventName
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.7.0
+  version: 7.7.1
 fields:
 - _time
 - action
@@ -128,4 +128,18 @@ fields:
 - vendor_account
 - vendor_product
 - vendor_region
-example_log: '{"eventVersion": "1.09", "userIdentity": {"type": "AssumedRole", "principalId": "AROAYTOGP2RLDF6WPXXXX:daftpunk@splunk.com", "arn": "arn:aws:sts::11111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/daftpunk@splunk.com", "accountId": "11111111111111", "accessKeyId": "AAAAAAAAAAAAAAAAAA", "sessionContext": {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WPXXXX", "arn": "arn:aws:iam::11111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f", "accountId": "11111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_11"}, "attributes": {"creationDate": "2024-01-18T09:55:32Z", "mfaAuthenticated": "false"}}}, "eventTime": "2024-01-18T10:02:08Z", "eventSource": "ec2.amazonaws.com", "eventName": "DeleteSnapshot", "awsRegion": "eu-central-1", "sourceIPAddress": "80.187.64.117", "userAgent": "AWS Internal", "requestParameters": {"snapshotId": "snap-0b5d5eaad2e6efa11", "force": false}, "responseElements": {"requestId": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03", "_return": true}, "requestID": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03", "eventID": "56f61d71-6620-4958-8dbf-03410913f1cc", "readOnly": false, "eventType": "AwsApiCall", "managementEvent": true, "recipientAccountId": "11111111111111", "eventCategory": "Management", "sessionCredentialFromConsole": "true"}'
+example_log: '{"eventVersion": "1.09", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLDF6WPXXXX:daftpunk@splunk.com", "arn": "arn:aws:sts::11111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/daftpunk@splunk.com",
+  "accountId": "11111111111111", "accessKeyId": "AAAAAAAAAAAAAAAAAA", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WPXXXX", "arn":
+  "arn:aws:iam::11111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f",
+  "accountId": "11111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_11"},
+  "attributes": {"creationDate": "2024-01-18T09:55:32Z", "mfaAuthenticated": "false"}}},
+  "eventTime": "2024-01-18T10:02:08Z", "eventSource": "ec2.amazonaws.com", "eventName":
+  "DeleteSnapshot", "awsRegion": "eu-central-1", "sourceIPAddress": "80.187.64.117",
+  "userAgent": "AWS Internal", "requestParameters": {"snapshotId": "snap-0b5d5eaad2e6efa11",
+  "force": false}, "responseElements": {"requestId": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03",
+  "_return": true}, "requestID": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03", "eventID":
+  "56f61d71-6620-4958-8dbf-03410913f1cc", "readOnly": false, "eventType": "AwsApiCall",
+  "managementEvent": true, "recipientAccountId": "11111111111111", "eventCategory":
+  "Management", "sessionCredentialFromConsole": "true"}'
