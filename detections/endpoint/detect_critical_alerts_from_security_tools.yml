@@ -1,17 +1,18 @@
 name: Detect Critical Alerts from Security Tools
 id: 483e8a68-f2f7-45be-8fc9-bf725f0e22fd
 version: 1
-date: '2024-06-04'
-author: Gowthamaraj Rajendran, Patrick Bareiss, Splunk
+date: '2024-10-09'
+author: Gowthamaraj Rajendran, Patrick Bareiss, Bhavin Patel, Splunk
 status: production
 type: TTP
-data_source: ["windows defender alerts"]
-description: The primary objective of this rule is to integrate and assess critical alerts from Endpoint, DLP, and firewall sources within the splunk system. By correlating these alerts and incorporating MITRE annotations, the rule provides a comprehensive view of customer risk. It triggers an alert when critical alerts from these categories are detected, preserving the originating source and assigning risk scores. The rule helps security analysts better understand potential threats, enabling timely and effective responses to mitigate risks. The results are collected in the risk index for continuous monitoring and analysis.
+data_source:
+- Windows Defender Alerts
+description: The following analytics is to detect high and critical alerts from endpoint security tools such as Microsoft Defender, Carbon Black, and Crowdstrike. This query aggregates and summarizes critical severity alerts from the Alerts data model, providing details such as the alert signature, application, description, source, destination, and timestamps, while applying custom filters and formatting for enhanced analysis in a SIEM environment.This capability allows security teams to efficiently allocate resources and maintain a strong security posture, while also supporting compliance with regulatory requirements by providing a clear record of critical security events. We tested these detections with logs from Microsoft Defender, however this detection should work for any security alerts that are ingested into the alerts data model.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Alerts where Alerts.severity IN ("high","critical") by Alerts.signature Alerts.app, Alerts.severity, Alerts.description, source, Alerts.id, Alerts.dest 
   | `drop_dm_object_name("Alerts")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `detect_critical_alerts_from_security_tools_filter`'
-how_to_implement: In order to properly run this search, Splunk needs to ingest data from other security products such as crowdstrike, microsoft defender, or carbon black. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
-known_false_positives: False positives may vary by endpoint protection tool; monitor and adjust the risk scores as needed.
+how_to_implement: In order to properly run this search, you to ingest alerts data from other security products such as Crowdstrike, Microsoft Defender, or Carbon Black using appropriate TAs for that technology. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
+known_false_positives: False positives may vary by endpoint protection tool; monitor and filter out the alerts that are not relevant to your environment.
 references:
   - https://attack.mitre.org/tactics/
   - https://docs.splunk.com/Documentation/CIM/5.3.2/User/Alerts
@@ -23,7 +24,7 @@ tags:
   atomic_guid: []
   confidence: 90
   impact: 90
-  message: $severity$ alert from $dest$ for $app$ with signature $signature$ and description $description$
+  message: $severity$ alert from dest - [$dest$] for $app$ with signature [$signature$] from vendor source - [$source$]
   mitre_attack_id:
   - T1484
   observable:
