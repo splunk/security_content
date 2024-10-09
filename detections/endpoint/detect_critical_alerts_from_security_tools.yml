@@ -14,9 +14,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: In order to properly run this search, you to ingest alerts data from other security products such as Crowdstrike, Microsoft Defender, or Carbon Black using appropriate TAs for that technology. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
 known_false_positives: False positives may vary by endpoint protection tool; monitor and filter out the alerts that are not relevant to your environment.
 references:
-  - https://attack.mitre.org/tactics/
+  - https://techcommunity.microsoft.com/t5/microsoft-defender-for-cloud/accessing-microsoft-defender-for-cloud-alerts-in-splunk-using/ba-p/938228
   - https://docs.splunk.com/Documentation/CIM/5.3.2/User/Alerts
-  - https://docs.splunk.com/Documentation/CIM/5.3.2/User/UsetheCAM
+  - https://learn.microsoft.com/en-us/defender-endpoint/api/raw-data-export-event-hub
 tags:
   analytic_story:
   - Critical Alerts

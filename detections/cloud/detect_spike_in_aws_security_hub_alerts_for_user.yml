@@ -1,7 +1,7 @@
 name: Detect Spike in AWS Security Hub Alerts for User
 id: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
-version: 4
-date: '2024-05-18'
+version: 5
+date: '2024-10-09'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -28,6 +28,7 @@ references: []
 tags:
   analytic_story:
   - AWS Security Hub Alerts
+  - Critical Alerts
   asset_type: AWS Instance
   confidence: 50
   impact: 50
