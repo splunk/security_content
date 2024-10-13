@@ -1,0 +1,18 @@
+name: Windows Security 4624
+description: "Windows Security Event 4624 logs indicate a successful user logon event."
+category: Authentication
+source: Windows Security Event Log
+sourcetype: WinEventLog:Security
+fields:
+  - LogonType
+  - SubjectUserName
+  - SubjectDomainName
+  - SubjectLogonId
+  - TargetUserName
+  - TargetDomainName
+  - TargetLogonId
+  - LogonProcessName
+  - AuthenticationPackageName
+  - WorkstationName
+  - IpAddress
+  - IpPort

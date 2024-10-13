@@ -1,0 +1,17 @@
+name: Windows Security 4625
+description: "Windows Security Event 4625 logs indicate a failed user logon event."
+category: Authentication
+source: Windows Security Event Log
+sourcetype: WinEventLog:Security
+fields:
+  - LogonType
+  - SubjectUserName
+  - SubjectDomainName
+  - SubjectLogonId
+  - TargetUserName
+  - TargetDomainName
+  - TargetLogonId
+  - FailureReason
+  - IpAddress
+  - IpPort
+  - WorkstationName
