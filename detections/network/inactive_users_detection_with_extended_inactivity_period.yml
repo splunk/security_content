@@ -1,0 +1,81 @@
+name: Inactive Users Detection with Extended Inactivity Period
+id: a1539466-daca-4c93-a63e-4d61c9841937
+version: 1
+date: '2024-10-13'
+author: Zaki Zarkasih Al Mustafa
+data_sources:
+- Windows Security 4624
+- Windows Security 4625
+type: Anomaly
+status: production
+description: UPDATE_DESCRIPTION
+search: '| tstats summariesonly=true fillnull_value=null count min(_time) as firstTime
+  max(_time) as lastTime from
+
+  datamodel=Network_Traffic.All_Traffic by All_Traffic.authserver, All_Traffic.vendor_product,
+
+  All_Traffic.user, All_Traffic.action
+
+  | `drop_dm_object_name("All_Traffic")`
+
+  | eval inactivityPeriodByDay = (now() - lastTime) / 86400
+
+  | eval lastTimeLogin = relative_time(now(), "-4h")
+
+  | eval status = if(inactivityPeriodByDay > 29, "inactive", "active")
+
+  | eval inactivityPeriodByDay = round(inactivityPeriodByDay, 0) . " Days"
+
+  | search status = "inactive" AND lastTime <= lastTimeLogin
+
+  | rename authserver as "auth server", vendor_product as "vendor product"
+
+  | eval firstTime=strftime(firstTime, "%Y-%m-%d %H:%M:%S"), lastTimeLogin=strftime(lastTimeLogin,
+  "%Y-%m-%d
+
+  %H:%M:%S")
+
+  | table "auth server", "vendor product", user, firstTime, lastTimeLogin, inactivityPeriodByDay,
+  status,
+
+  action | `inactive_users_detection_with_extended_inactivity_period_filter`'
+how_to_implement: This detection should be implemented by ensuring the Network Traffic datamodel is populated and ensuring all relevant network traffic logs are ingested into the Splunk environment.
+known_false_positives: False positives may include users who have valid accounts but are inactive for extended periods due to business reasons or vacations.
+references:
+- https://attack.mitre.org/techniques/T1078/
+- https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Useaccelerateddatamodels
+- https://github.com/splunk/security_content
+- https://www.sans.org/white-papers/monitoring-inactive-accounts/
+tags:
+  analytic_story: []
+  asset_type: Network
+  confidence: 85
+  impact: 70
+  message: This detection identifies users who have been inactive for more than 30 days based on network traffic logs.
+  mitre_attack_id:
+  - T1078
+  - T1033
+  - T1040
+  - T1110
+  observable:
+  - name: user
+    type: User Name
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - user
+  - authserver
+  - vendor_product
+  - action
+  risk_score: (impact * confidence)/100
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://github.com/splunk/contentctl/wiki
+    sourcetype: WinEventLog:Security
+    source: Active Directory
