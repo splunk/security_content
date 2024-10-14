@@ -1,0 +1,80 @@
+name: Inactive User Have Activity Detected
+id: e08aa2f6-7d90-4ab8-af11-da4df38bb7ff
+version: 1
+date: '2024-10-14'
+author: Zaki Zarkasih Al Mustafa
+data_sources:
+- Windows Security 4624
+- Windows Security 4625
+type: Correlation
+status: production
+description: This detection identifies users who have been inactive for more than 30 days and suddenly have activity based on network traffic logs.
+search: '| tstats summariesonly=true fillnull_value=null count min(_time) as firstTime
+  max(_time) as lastTime from
+
+  datamodel=Network_Traffic.All_Traffic by All_Traffic.authserver, All_Traffic.vendor_product,
+
+  All_Traffic.user, All_Traffic.action
+
+  | `drop_dm_object_name("All_Traffic")`
+
+  | eval inactivityPeriodByDay = (now() - lastTime) / 86400
+
+  | eval lastTimeLogin = relative_time(now(), "-4h")
+
+  | eval status = if(inactivityPeriodByDay > 29, "inactive", "active")
+
+  | eval inactivityPeriodByDay = round(inactivityPeriodByDay, 0) . " Days"
+
+  | search status = "inactive" AND lastTime <= lastTimeLogin
+
+  | rename authserver as "auth server", vendor_product as "vendor product"
+
+  | eval firstTime=strftime(firstTime, "%Y-%m-%d %H:%M:%S"), lastTimeLogin=strftime(lastTimeLogin,
+  "%Y-%m-%d
+
+  %H:%M:%S")
+
+  | table "auth server", "vendor product", user, firstTime, lastTimeLogin, inactivityPeriodByDay,
+  status,
+
+  action | `inactive_user_have_activity_detected_filter`'
+how_to_implement: Ensure that the Network Traffic data model is properly populated and includes logs from relevant sources (e.g., firewalls, proxies, or other network monitoring tools). Configure the data model acceleration to ensure performance and availability for this detection. Make sure to adjust any environment-specific filter macros for false positive reduction.
+known_false_positives: False positives may include legitimate users returning to the network after extended vacations or periods of inactivity. System accounts or service accounts that are seldom used but have routine tasks may also trigger this detection.
+references:
+  - https://attack.mitre.org/techniques/T1078/
+  - https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Useaccelerateddatamodels
+  - https://www.sans.org/white-papers/monitoring-inactive-accounts/
+tags:
+  analytic_story: []
+  asset_type: Network
+  confidence: 85
+  impact: 70
+  message: This detection identifies users who have been inactive for an extended period and suddenly have activity on the network.
+  mitre_attack_id:
+  - T1078
+  - T1110
+  - T1040
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - user
+  - authserver
+  - vendor_product
+  - action
+  risk_score: "{{ (impact * confidence) / 100 }}"
+  security_domain: identity
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://github.com/splunk/contentctl/wiki
+    sourcetype: WinEventLog:Security
+    source: Active Directory
