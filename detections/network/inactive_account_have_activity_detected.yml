@@ -1,4 +1,4 @@
-name: Inactive User Have Activity Detected
+name: Inactive Account Have Activity Detected
 id: e08aa2f6-7d90-4ab8-af11-da4df38bb7ff
 version: 1
 date: '2024-10-14'
@@ -38,7 +38,7 @@ search: '| tstats summariesonly=true fillnull_value=null count min(_time) as fir
   | table "auth server", "vendor product", user, firstTime, lastTimeLogin, inactivityPeriodByDay,
   status,
 
-  action | `inactive_user_have_activity_detected_filter`'
+  action | `inactive_account_have_activity_detected_filter`'
 how_to_implement: Ensure that the Network Traffic data model is properly populated and includes logs from relevant sources (e.g., firewalls, proxies, or other network monitoring tools). Configure the data model acceleration to ensure performance and availability for this detection. Make sure to adjust any environment-specific filter macros for false positive reduction.
 known_false_positives: False positives may include legitimate users returning to the network after extended vacations or periods of inactivity. System accounts or service accounts that are seldom used but have routine tasks may also trigger this detection.
 references:
