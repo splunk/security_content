@@ -1,0 +1,17 @@
+name: Critical Alerts
+id: bc7056a5-c2b0-4b83-93ce-5f31739305c8
+date: '2024-06-21'
+author: Gowthamaraj Rajendran, Patrick Bareiss, Splunk
+description: This analytic story contains detections that monitor critical alerts data from security tools ingested into Splunk. By correlating these alerts and enriching them with MITRE ATT&CK annotations and other risk events, it offers a nuanced perspective on potential threats and security posture of your organization.
+narrative: Monitoring alerts from security tools is crucial because they act as an early warning system for potential threats. High and critical alerts signal serious issues that could compromise your systems if not addressed promptly. By keeping an eye on these alerts, you can quickly identify and respond to threats, minimizing damage and protecting sensitive data. This proactive approach not only strengthens your security posture but also ensures you're ready to tackle any compliance requirements by maintaining a detailed record of significant security events. This story has rules that integrates and assesses critical alerts from Endpoint, DLP, and firewall sources in Splunk. By correlating alerts and adding MITRE annotations, it provides a comprehensive view of customer risk. It triggers an alert when critical alerts are detected, preserving the source and assigning risk scores. This helps security analysts understand threats and respond effectively.
+references:
+  - https://docs.splunk.com/Documentation/CIM/5.3.2/User/Alerts
+  - https://docs.splunk.com/Documentation/CIM/5.3.2/User/UsetheCAM
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
