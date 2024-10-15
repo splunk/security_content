@@ -1,0 +1,20 @@
+name: Braodo Stealer
+id: ec5c8721-3c13-45ac-90e8-64c63a8fdc24
+version: 1
+date: '2024-11-24'
+author: Teoderick Contreras, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities that may be related to the Braodo Stealer malware, a malicious software designed to steal sensitive information from infected systems. This malware typically targets login credentials, browser history, cookies, and stored passwords. Braodo Stealer often infiltrates through phishing campaigns or malicious downloads, enabling attackers to gain unauthorized access to personal and financial data. By monitoring unusual system behaviors, such as unauthorized network connections or data exfiltration, you can help prevent data breaches and mitigate the impact of this threat.
+narrative: Braodo Stealer is a stealthy and dangerous piece of malware specifically engineered to siphon sensitive information from compromised systems. Often spread through phishing emails or disguised as legitimate downloads, it silently infiltrates a victim’s device. Once inside, it scours through browser histories, steals login credentials, captures cookies, and even extracts saved passwords from various applications. With this stolen data, cybercriminals can gain access to banking accounts, social media profiles, or business platforms. What makes Braodo Stealer particularly threatening is its ability to remain undetected, allowing attackers to exploit compromised systems for extended periods before the user becomes aware.
+references:
+- https://bazaar.abuse.ch/browse/tag/Braodo/
+- https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
