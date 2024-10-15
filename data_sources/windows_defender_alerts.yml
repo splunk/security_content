@@ -10,7 +10,7 @@ separator: AlertId
 supported_TA:
   - name: Splunk add on for Microsoft Defender Advanced Hunting
     url: https://splunkbase.splunk.com/app/5518
-    version: 1.3.7
+    version: 1.4.1
 fields:
   - _time
   - AlertId

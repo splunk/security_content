@@ -179,7 +179,7 @@ apps:
 - uid: 5518
   title: Splunk add on for Microsoft Defender Advanced Hunting
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_DEFENDER_ADVANCED_HUNTING
-  version: 1.3.7
+  version: 1.4.1
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/microsoft-defender-advanced-hunting-add-on-for-splunk_141.tgz
 - uid: 2734

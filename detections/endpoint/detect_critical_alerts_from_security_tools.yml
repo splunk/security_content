@@ -24,7 +24,7 @@ tags:
   atomic_guid: []
   confidence: 90
   impact: 90
-  message: $severity$ alert from dest - [$dest$] for $app$ with signature [$signature$] from vendor source - [$source$]
+  message: $severity$ alert for $dest$ from $source$ - $signature$
   mitre_attack_id:
   - T1484
   observable:
