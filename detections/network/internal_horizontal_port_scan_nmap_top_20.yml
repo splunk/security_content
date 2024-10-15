@@ -14,7 +14,7 @@ description: This analytic identifies instances where an internal host has attem
   traffic logs, this detection helps detect and respond to such behavior promptly,
   enhancing network security and preventing potential threats.
 search: >-
-  | tstats summariesonly=true fillnull_value=null values(All_Traffic.action) as action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") AND All_Traffic.dest_port IN (21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306, 3389, 5900, 8080) by All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip span=1s _time All_Traffic.transport 
+  | tstats `security_content_summariesonly` values(All_Traffic.action) as action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") AND All_Traffic.dest_port IN (21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306, 3389, 5900, 8080) by All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip span=1s _time All_Traffic.transport 
   | `drop_dm_object_name("All_Traffic")` 
   | eval gtime=_time 
   | bin span=1h gtime 
