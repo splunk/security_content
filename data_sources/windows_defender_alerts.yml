@@ -1,0 +1,67 @@
+name: Windows Defender Alerts
+id: 91738e9e-d112-41c9-b91b-e5868d8993d7
+version: 1
+date: '2024-09-24'
+author: Gowthamaraj Rajendran
+description: Data source object for Windows Defender alerts
+source: eventhub://windowsdefenderlogs
+sourcetype: mscs:azure:eventhub:defender:advancedhunting
+separator: AlertId
+supported_TA:
+  - name: Splunk add on for Microsoft Defender Advanced Hunting
+    url: https://splunkbase.splunk.com/app/5518
+    version: 1.4.1
+fields:
+  - _time
+  - AlertId
+  - TenantId
+  - OperationName
+  - Category
+  - Timestamp
+  - EntityType
+  - EvidenceRole
+  - SHA1
+  - SHA256
+  - RemoteIP
+  - LocalIP
+  - RemoteUrl
+  - AccountName
+  - AccountDomain
+  - AccountSid
+  - AccountObjectId
+  - DeviceId
+  - ThreatFamily
+  - EvidenceDirection
+  - AdditionalFields
+  - MachineGroup
+  - NetworkMessageId
+  - ServiceSource
+  - FileName
+  - FolderPath
+  - ProcessCommandLine
+  - EmailSubject
+  - ApplicationId
+  - Application
+  - DeviceName
+  - FileSize
+  - RegistryKey
+  - RegistryValueName
+  - RegistryValueData
+  - AccountUpn
+  - OAuthApplicationId
+  - Categories
+  - Title
+  - AttackTechniques
+  - DetectionSource
+  - Severity
+example_log: '{"time": "2024-06-14T20:12:23.3360383Z", "tenantId": "abced-c7ee-abce-1123-123", "operationName": "Publish", 
+  "category": "AdvancedHunting-AlertEvidence", "properties": {"Timestamp": "2024-04-14T19:59:59.1549925Z", "AlertId": "dc25", 
+  "EntityType": "CloudResource", "EvidenceRole": "Impacted", "SHA1": null, "SHA256": null, "RemoteIP": null, "LocalIP": null, 
+  "RemoteUrl": null, "AccountName": null, "AccountDomain": null, "AccountSid": null, "AccountObjectId": null, "DeviceId": null, 
+  "ThreatFamily": null, "EvidenceDirection": null, "AdditionalFields": "{\"ResourceId\":\"/subscriptions/1-2-3-4/resourceGroups/pluginframework/
+  providers/Microsoft.Compute/virtualMachines/phantom-identity\",\"ResourceType\":\"Virtual Machine\",\"ResourceName\":\"phantom-identity\",\"Asset\":true,\"
+  Type\":\"azure-resource\",\"Role\":0,\"MergeByKey\":\"abcd=\",\"MergeByKeyHex\":\"1234\"}", "MachineGroup": null, "NetworkMessageId": null, "ServiceSource": 
+  "Microsoft Defender for Cloud", "FileName": null, "FolderPath": null, "ProcessCommandLine": null, "EmailSubject": null, "ApplicationId": null, "Application": 
+  null, "DeviceName": null, "FileSize": null, "RegistryKey": null, "RegistryValueName": null, "RegistryValueData": null, "AccountUpn": null, "OAuthApplicationId": 
+  null, "Categories": "[\"InitialAccess\"]", "Title": "Suspicious authentication activity", "AttackTechniques": "", "DetectionSource": "DefenderForServers", 
+  "Severity": "High"}, "Tenant": "DefaultTenant"}'

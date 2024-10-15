@@ -1,0 +1,50 @@
+name: Detect Critical Alerts from Security Tools
+id: 483e8a68-f2f7-45be-8fc9-bf725f0e22fd
+version: 1
+date: '2024-10-09'
+author: Gowthamaraj Rajendran, Patrick Bareiss, Bhavin Patel, Splunk
+status: production
+type: TTP
+data_source:
+- Windows Defender Alerts
+description: The following analytics is to detect high and critical alerts from endpoint security tools such as Microsoft Defender, Carbon Black, and Crowdstrike. This query aggregates and summarizes critical severity alerts from the Alerts data model, providing details such as the alert signature, application, description, source, destination, and timestamps, while applying custom filters and formatting for enhanced analysis in a SIEM environment.This capability allows security teams to efficiently allocate resources and maintain a strong security posture, while also supporting compliance with regulatory requirements by providing a clear record of critical security events. We tested these detections with logs from Microsoft Defender, however this detection should work for any security alerts that are ingested into the alerts data model.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Alerts where Alerts.severity IN ("high","critical") by Alerts.signature Alerts.app, Alerts.severity, Alerts.description, source, Alerts.id, Alerts.dest 
+  | `drop_dm_object_name("Alerts")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `detect_critical_alerts_from_security_tools_filter`'
+how_to_implement: In order to properly run this search, you to ingest alerts data from other security products such as Crowdstrike, Microsoft Defender, or Carbon Black using appropriate TAs for that technology. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
+known_false_positives: False positives may vary by endpoint protection tool; monitor and filter out the alerts that are not relevant to your environment.
+references:
+  - https://techcommunity.microsoft.com/t5/microsoft-defender-for-cloud/accessing-microsoft-defender-for-cloud-alerts-in-splunk-using/ba-p/938228
+  - https://docs.splunk.com/Documentation/CIM/5.3.2/User/Alerts
+  - https://learn.microsoft.com/en-us/defender-endpoint/api/raw-data-export-event-hub
+tags:
+  analytic_story:
+  - Critical Alerts
+  asset_type: Endpoint
+  atomic_guid: []
+  confidence: 90
+  impact: 90
+  message: $severity$ alert for $dest$ from $source$ - $signature$
+  mitre_attack_id:
+  - T1484
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - app
+  - name
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/AdvancedHunting.log
+    source: eventhub://windowsdefenderlogs
+    sourcetype: mscs:azure:eventhub:defender:advancedhunting
