@@ -1,5 +1,6 @@
 name: Critical Alerts
 id: bc7056a5-c2b0-4b83-93ce-5f31739305c8
+version: 1
 date: '2024-06-21'
 author: Gowthamaraj Rajendran, Patrick Bareiss, Splunk
 description: This analytic story contains detections that monitor critical alerts data from security tools ingested into Splunk. By correlating these alerts and enriching them with MITRE ATT&CK annotations and other risk events, it offers a nuanced perspective on potential threats and security posture of your organization.
