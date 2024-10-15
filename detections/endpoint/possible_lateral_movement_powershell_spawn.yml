@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
 version: 6
-date: '2024-09-30'
+date: '2024-10-07'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,6 +35,7 @@ tags:
   - Hermetic Wiper
   - Data Destruction
   - Scheduled Tasks
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 50
   impact: 90
