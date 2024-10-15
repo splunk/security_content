@@ -1,8 +1,8 @@
 name: Kerberoasting spn request with RC4 encryption
 id: 5cc67381-44fa-4111-8a37-7a230943f027
 version: 6
-date: '2024-05-16'
-author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Splunk
+date: '2024-10-16'
+author: Jose Hernandez, Patrick Bareiss, Mauricio Velazco, Dean Luxton, Splunk
 status: production
 type: TTP
 description: The following analytic detects potential Kerberoasting attacks by identifying
@@ -16,12 +16,16 @@ data_source:
 - Windows Event Log Security 4769
 search: '`wineventlog_security` EventCode=4769 ServiceName!="*$" (TicketOptions=0x40810000
   OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, service_id,
+  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, user, service_id,
   service, TicketEncryptionType, TicketOptions | rename Computer as dest | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)` | `kerberoasting_spn_request_with_rc4_encryption_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
   `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+  Whithin environments where this type of communication is common, consider dropping
+  the risk score and add throttling based on the user and service_id for 30 days. 
+  This will allow RBA to alert when there is an anomalous spike of these kerberoastable
+  SPN requests within a short period of time. 
 known_false_positives: Older systems that support kerberos RC4 by default like NetApp
   may generate false positives. Filter as needed
 references:
@@ -36,13 +40,12 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: Potential kerberoasting attack via service principal name requests detected
-    on $dest$
+  message: User $user$ requested a service ticket for SPN $service_id$ with RC4 encryption. 
   mitre_attack_id:
   - T1558
   - T1558.003
   observable:
-  - name: dest
+  - name: user
     type: Endpoint
     role:
     - Victim
