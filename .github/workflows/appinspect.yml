@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Check out the repository code
         uses: actions/checkout@v4
+        with:
+            ref: refs/pull/${{ github.event.pull_request.number }}/merge
        
       - uses: actions/setup-python@v5
         with:
