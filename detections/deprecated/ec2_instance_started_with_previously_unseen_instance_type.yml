@@ -12,9 +12,9 @@ data_source: []
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | fillnull value="m1.small" requestParameters.instanceType | stats
   earliest(_time) as earliest latest(_time) as latest by requestParameters.instanceType
-  | rename requestParameters.instanceType as instanceType | inputlookup append=t previously_seen_ec2_instance_types.csv
+  | rename requestParameters.instanceType as instanceType | inputlookup append=t previously_seen_ec2_instance_types
   | stats min(earliest) as earliest max(latest) as latest by instanceType | outputlookup
-  previously_seen_ec2_instance_types.csv | eval newType=if(earliest >= relative_time(now(),
+  previously_seen_ec2_instance_types | eval newType=if(earliest >= relative_time(now(),
   "-70m@m"), 1, 0) | `security_content_ctime(earliest)` | `security_content_ctime(latest)`
   | where newType=1 | rename instanceType as requestParameters.instanceType | table
   requestParameters.instanceType] | spath output=user userIdentity.arn | rename requestParameters.instanceType

@@ -12,8 +12,8 @@ data_source: []
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
   by requestParameters.instancesSet.items{}.imageId | rename requestParameters.instancesSet.items{}.imageId
-  as amiID | inputlookup append=t previously_seen_ec2_amis.csv | stats min(firstTime)
-  as firstTime max(lastTime) as lastTime by amiID | outputlookup previously_seen_ec2_amis.csv
+  as amiID | inputlookup append=t previously_seen_ec2_amis | stats min(firstTime)
+  as firstTime max(lastTime) as lastTime by amiID | outputlookup previously_seen_ec2_amis
   | eval newAMI=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
   | where newAMI=1 | rename amiID as requestParameters.instancesSet.items{}.imageId
   | table requestParameters.instancesSet.items{}.imageId] | rename requestParameters.instanceType

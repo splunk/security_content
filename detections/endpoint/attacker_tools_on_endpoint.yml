@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An attacker tool $process_name$,listed in attacker_tools.csv is executed
+  message: An attacker tool $process_name$,listed in attacker_tools lookup, is executed
     on host $dest$ by User $user$. This process $process_name$ is known to do- $description$
   mitre_attack_id:
   - T1036.005

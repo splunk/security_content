@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | stats count values(query) as query by domain dest src answer| search `evilginx_phishlets_amazon`
   OR `evilginx_phishlets_facebook` OR `evilginx_phishlets_github` OR `evilginx_phishlets_0365`
   OR `evilginx_phishlets_outlook` OR `evilginx_phishlets_aws` OR `evilginx_phishlets_google`
-  | search NOT [ inputlookup legit_domains.csv | fields domain]| join domain type=outer
+  | search NOT [ inputlookup legit_domains | fields domain]| join domain type=outer
   [| tstats count `security_content_summariesonly` values(Web.url) as url from datamodel=Web.Web
   by Web.dest Web.site | rename "Web.*" as * | rex field=site ".*?(?<domain>[^./:]+\.(\S{2,3}|\S{2,3}.\S{2,3}))$"
   | table dest domain url] | table count src dest query answer domain url | `detect_dns_requests_to_phishing_sites_leveraging_evilginx2_filter`'
@@ -23,7 +23,7 @@ how_to_implement: 'You need to ingest data from your DNS logs in the Network_Res
   IP of the host originating the request. Ideally, you should also be ingesting
   the answer to the query and the query type. This approach allows you to also create
   your own localized passive DNS capability which can aid you in future investigations.
-  You will have to add legitimate domain names to the `legit_domains.csv` file shipped
+  You will have to add legitimate domain names to the legit_domains lookup shipped
   with the app.
   
   **Splunk>Phantom Playbook Integration**
@@ -36,8 +36,8 @@ how_to_implement: 'You need to ingest data from your DNS logs in the Network_Res
   to active.
   
   (Playbook link:`https://my.phantom.us/4.2/playbook/lets-encrypt-domain-investigate/`)'
-known_false_positives: If a known good domain is not listed in the legit_domains.csv
-  file, then the search could give you false postives. Please update that lookup file
+known_false_positives: If a known good domain is not listed in the legit_domains
+  lookup, then the search could give you false postives. Please update that lookup file
   to filter out DNS requests to legitimate domains.
 references: []
 tags:

@@ -32,7 +32,7 @@ how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platf
   logs are deposited into the nominated Storage Bucket on an hourly basis and typically
   show up by 15 minutes past the hour.  It is recommended to configure any saved searches
   or correlation searches in Enterprise Security to run on an hourly basis at 30 minutes
-  past the hour (cron definition of 30 * * * *).  A lookup table (previously_seen_gcp_storage_access_from_remote_ip.csv)
+  past the hour (cron definition of 30 * * * *).  A lookup (previously_seen_gcp_storage_access_from_remote_ip)
   stores the previously seen access requests, and is used by this search to determine
   any newly seen IP addresses accessing the Storage Buckets.
 known_false_positives: GCP Storage buckets can be accessed from any IP (if the ACLs

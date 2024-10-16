@@ -11,9 +11,9 @@ description: This search looks for EC2 instances being created by users who have
 data_source: []
 search: '`cloudtrail` eventName=RunInstances [search `cloudtrail` eventName=RunInstances
   errorCode=success | stats earliest(_time) as firstTime latest(_time) as lastTime
-  by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_launches_by_user.csv
+  by userIdentity.arn | rename userIdentity.arn as arn | inputlookup append=t previously_seen_ec2_launches_by_user
   | stats min(firstTime) as firstTime, max(lastTime) as lastTime by arn | outputlookup
-  previously_seen_ec2_launches_by_user.csv | eval newUser=if(firstTime >= relative_time(now(),
+  previously_seen_ec2_launches_by_user | eval newUser=if(firstTime >= relative_time(now(),
   "-70m@m"), 1, 0) | where newUser=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | rename arn as userIdentity.arn | table userIdentity.arn] | rename requestParameters.instanceType
   as instanceType, responseElements.instancesSet.items{}.instanceId as dest, userIdentity.arn

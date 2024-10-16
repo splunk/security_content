@@ -38,7 +38,7 @@ how_to_implement: 'You must install the AWS App for Splunk (version 5.1.0 or lat
   found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
 known_false_positives: Many service accounts configured within an AWS infrastructure
   do not have multi factor authentication enabled. Please ignore the service accounts,
-  if triggered and instead add them to the aws_service_accounts.csv file to fine tune
+  if triggered and instead add them to the aws_service_accounts lookup to fine tune
   the detection. It is also possible that the search detects users in your environment
   using Single Sign-On systems, since the MFA is not handled by AWS.
 references: []

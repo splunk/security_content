@@ -31,7 +31,7 @@ how_to_implement: The following analytic was developed with Palo Alto traffic lo
 known_false_positives: It is possible that legitimate remote access software is used
   within the environment. Ensure that the lookup is reviewed and updated with any
   additional remote access software that is used within the environment.
-  Known false positives can be added to the remote_access_software_usage_exception.csv 
+  Known false positives can be added to the remote_access_software_usage_exception 
   lookup to globally suppress these situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/

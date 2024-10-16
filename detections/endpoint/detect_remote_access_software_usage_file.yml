@@ -35,7 +35,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   exceptions for this set of detections. 
 known_false_positives: Known or approved applications used by the organization or
   usage of built-in functions. Known false positives can be added to the 
-  remote_access_software_usage_exception.csv lookup to globally suppress these 
+  remote_access_software_usage_exception lookup to globally suppress these 
   situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
