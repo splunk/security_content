@@ -9,8 +9,7 @@ jobs:
       - name: Check out the repository code
         uses: actions/checkout@v4
         with:
-            repository: 'splunk/security_content' # hardcode this for now
-            ref: ${{ github.base_ref }}
+            ref: refs/pull/${{ github.event.pull_request.number }}/merge
        
       - uses: actions/setup-python@v5
         with:
