@@ -1,8 +1,8 @@
 name: Disable Defender Submit Samples Consent Feature
 id: 73922ff8-3022-11ec-bf5e-acde48001122
-version: 5
-date: '2024-05-14'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 6
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk,Steven Dick
 status: production
 type: TTP
 description: The following analytic detects the modification of the Windows registry
@@ -16,9 +16,9 @@ description: The following analytic detects the modification of the Windows regi
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path = "*\\Microsoft\\Windows Defender\\SpyNet*" Registry.registry_value_name
-  = SubmitSamplesConsent Registry.registry_value_data = 0x00000000) BY _time span=1h
+  = SubmitSamplesConsent Registry.registry_value_data = 0x00000000) BY 
   Registry.user Registry.dest Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
   | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

@@ -1,8 +1,8 @@
 name: Windows Hide Notification Features Through Registry
 id: cafa4bce-9f06-11ec-a7b2-acde48001122
-version: 4
+version: 5
 date: '2024-05-26'
-author: Steven Dick, Teoderick Contreras, Splunk
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects suspicious registry modifications aimed
@@ -15,7 +15,7 @@ description: The following analytic detects suspicious registry modifications ai
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\*"
   Registry.registry_value_name IN ("HideClock", "HideSCAHealth", "HideSCANetwork",
   "HideSCAPower", "HideSCAVolume") Registry.registry_value_data = "0x00000001") BY

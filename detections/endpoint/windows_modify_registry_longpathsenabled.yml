@@ -1,7 +1,7 @@
 name: Windows Modify Registry LongPathsEnabled
 id: 36f9626c-4272-4808-aadd-267acce681c0
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-10-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -16,9 +16,9 @@ description: The following analytic detects a modification to the Windows regist
   path limitations, potentially aiding in evasion techniques. If confirmed malicious,
   this modification could facilitate the execution of long-path payloads, aiding in
   persistence and further system compromise.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\CurrentControlSet\\Control\\FileSystem\\LongPathsEnabled"
-  Registry.registry_value_data = "0x00000001") BY _time span=1h Registry.registry_path
+  Registry.registry_value_data = "0x00000001") BY Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_modify_registry_longpathsenabled_filter`'

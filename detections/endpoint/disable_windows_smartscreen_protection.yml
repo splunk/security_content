@@ -1,8 +1,8 @@
 name: Disable Windows SmartScreen Protection
 id: 664f0fd0-91ff-11eb-a56f-acde48001122
-version: 6
-date: '2024-05-26'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 7
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects modifications to the Windows registry
@@ -17,10 +17,10 @@ description: The following analytic detects modifications to the Windows registr
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE Registry.registry_path IN ("*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\SmartScreenEnabled",
   "*\\Microsoft\\Windows\\System\\EnableSmartScreen") Registry.registry_value_data  IN
-  ("Off", "0") BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  ("Off", "0") BY Registry.dest Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `disable_windows_smartscreen_protection_filter`'

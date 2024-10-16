@@ -1,7 +1,7 @@
 name: Windows Modify Registry NoChangingWallPaper
 id: a2276412-e254-4e9a-9082-4d92edb6a3e0
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-10-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,9 +15,9 @@ description: The following analytic detects modifications to the Windows registr
   to enforce a malicious wallpaper, thereby limiting user control over system settings.
   If confirmed malicious, this registry change could indicate a ransomware infection,
   leading to further system compromise and user disruption.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path= "*\\Windows\\CurrentVersion\\Policies\\ActiveDesktop\\NoChangingWallPaper"
-  Registry.registry_value_data = 1) BY _time span=1h Registry.dest Registry.user Registry.registry_path
+  Registry.registry_value_data = 1) BY Registry.dest Registry.user Registry.registry_path
   Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
   Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data)
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_modify_registry_nochangingwallpaper_filter`'

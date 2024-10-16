@@ -1,8 +1,8 @@
 name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
-version: 7
-date: '2024-05-17'
-author: Steven Dick, Bhavin Patel, Patrick Bareiss, Teoderick Contreras, Splunk
+version: 8
+date: '2024-10-04'
+author: Patrick Bareiss, Teoderick Contreras, Splunk, Steven Dick, Bhavin Patel
 status: production
 type: TTP
 description: The following analytic detects registry activity related to the creation
@@ -16,9 +16,9 @@ description: The following analytic detects registry activity related to the cre
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path=*CurrentVersion\\AppCompatFlags\\Custom* OR Registry.registry_path=*CurrentVersion\\AppCompatFlags\\InstalledSDB*)
-  BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
+  BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name
   Registry.registry_value_name Registry.registry_value_data Registry.process_guid
   | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `registry_keys_for_creating_shim_databases_filter`'

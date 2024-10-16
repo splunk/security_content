@@ -1,8 +1,8 @@
 name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
-version: 5
-date: '2024-05-28'
-author: Steven Dick, Teoderick Contreras, Splunk
+version: 6
+date: '2024-10-04'
+author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
 description: The following analytic detects the modification of Windows Defender registry
@@ -17,10 +17,10 @@ description: The following analytic detects the modification of Windows Defender
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE (Registry.registry_path = "*\\Policies\\Microsoft\\Windows Defender*" Registry.registry_value_name
   IN ("DisableAntiSpyware","DisableAntiVirus") Registry.registry_value_data = 0x00000001)
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
+  BY Registry.registry_path Registry.registry_key_name Registry.registry_value_name
   Registry.registry_value_data Registry.process_guid Registry.user Registry.dest |
   `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `disable_defender_antivirus_registry_filter`'

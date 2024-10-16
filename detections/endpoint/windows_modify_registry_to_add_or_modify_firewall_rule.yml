@@ -1,6 +1,6 @@
 name: Windows Modify Registry to Add or Modify Firewall Rule
 id: 43254751-e2ce-409a-b6b4-4f851e8dcc26
-version: 1
+version: 2
 date: '2024-06-21'
 author: Teoderick Contreras, Splunk
 data_source:
@@ -14,9 +14,9 @@ description: The following analytic detects a potential addition or modification
   netsh advfirewall firewall add rule and netsh advfirewall firewall set rule, which may indicate attempts 
   to alter network access controls. Monitoring these actions ensures the integrity of firewall settings and 
   helps prevent unauthorized network access.
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   WHERE Registry.registry_path= "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"  Registry.action = modified
-  BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user Registry.action
+  BY Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid  Registry.dest Registry.user Registry.action
   | `drop_dm_object_name(Registry)`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

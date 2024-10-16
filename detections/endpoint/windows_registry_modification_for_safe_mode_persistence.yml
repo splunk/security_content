@@ -1,7 +1,7 @@
 name: Windows Registry Modification for Safe Mode Persistence
 id: c6149154-c9d8-11eb-9da7-acde48001122
-version: 5
-date: '2024-05-20'
+version: 6
+date: '2024-10-04'
 author: Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,9 +16,9 @@ description: The following analytic identifies modifications to the SafeBoot reg
 data_source:
 - Sysmon EventID 12 
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
   where Registry.registry_path IN ("*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Minimal\\*","*SYSTEM\\CurrentControlSet\\Control\\SafeBoot\\Network\\*")
-  by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
+  by Registry.dest Registry.user Registry.registry_path Registry.registry_value_name
   Registry.process_guid Registry.registry_key_name Registry.registry_value_data |
   `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_registry_modification_for_safe_mode_persistence_filter`'
