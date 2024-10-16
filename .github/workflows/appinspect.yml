@@ -32,6 +32,7 @@ jobs:
           APPINSPECTPASSWORD: "${{ secrets.APPINSPECTPASSWORD }}"
         run: |
           echo $APPINSPECTUSERNAME
+          echo ${{ secrets.APPINSPECTPASSWORD }}
           contentctl inspect --splunk-api-username "$APPINSPECTUSERNAME" --splunk-api-password "$APPINSPECTPASSWORD" --stack_type victoria --enrichments
           echo "done appinspect"
           mkdir -p artifacts/app_inspect_report
