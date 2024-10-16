@@ -1,7 +1,7 @@
 name: Remote Registry Key modifications
 id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
-version: 3
-date: '2020-03-02'
+version: 4
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP
@@ -31,10 +31,14 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

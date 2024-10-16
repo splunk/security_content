@@ -1,7 +1,7 @@
 name: Deleting Of Net Users
 id: 1c8c6f66-acce-11eb-aafb-acde48001122
-version: 3
-date: '2024-05-21'
+version: 4
+date: '2024-08-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -60,11 +60,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

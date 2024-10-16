@@ -1,7 +1,7 @@
 name: Azure AD Authentication Failed During MFA Challenge
 id: e62c9c2e-bf51-4719-906c-3074618fcc1c
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: 'The following analytic identifies failed authentication attempts a
   to unauthorized access and further compromise of the affected account.'
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121
+search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121
   | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
   by user, src_ip, status.additionalDetails, appDisplayName, user_agent | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`'

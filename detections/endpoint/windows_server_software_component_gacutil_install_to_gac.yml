@@ -1,7 +1,7 @@
 name: Windows Server Software Component GACUtil Install to GAC
 id: 7c025ef0-9e65-4c57-be39-1c13dbb1613e
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

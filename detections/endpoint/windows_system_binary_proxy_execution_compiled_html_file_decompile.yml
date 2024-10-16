@@ -1,7 +1,7 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 2acf0e19-4149-451c-a3f3-39cd3c77e37d
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,7 +61,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

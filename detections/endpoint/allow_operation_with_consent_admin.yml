@@ -37,6 +37,7 @@ tags:
   - Ransomware
   - Windows Registry Abuse
   - Azorult
+  - MoonPeak
   asset_type: Endpoint
   confidence: 50
   impact: 50

@@ -1,0 +1,69 @@
+name: Linux Auditd Kernel Module Enumeration
+id: d1b088de-c47a-4572-9339-bdcc26493b32
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies the use of the 'kmod' process to list
+  kernel modules on a Linux system. This detection leverages data from Linux Auditd, focusing on process names and command-line executions.
+  While listing kernel modules is not inherently malicious, it can be a precursor
+  to loading unauthorized modules using 'insmod'. If confirmed malicious, this activity
+  could allow an attacker to load kernel modules, potentially leading to privilege
+  escalation, persistence, or other malicious actions within the system.
+data_source:
+- Linux Auditd Syscall
+search: '`linux_auditd` type=SYSCALL comm=lsmod | rename host as dest  | stats count
+  min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid
+  success dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
+  | `linux_auditd_kernel_module_enumeration_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: False positives are present based on automated tooling or system
+  administrative usage. Filter as needed.
+references:
+- https://man7.org/linux/man-pages/man8/kmod.8.html
+tags:
+  analytic_story:
+  - Linux Rootkit
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 50
+  impact: 30
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to list kernel modules.
+  mitre_attack_id:
+  - T1082
+  - T1014
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - comm
+  - exe
+  - SYSCALL
+  - UID
+  - ppid
+  - pid
+  risk_score: 15
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/linux_auditd_lsmod/linux_auditd_lsmod.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
+    update_timestamp: true

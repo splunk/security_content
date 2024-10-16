@@ -1,0 +1,18 @@
+name: Linux Auditd Execve
+id: 9ef6364d-cc67-480e-8448-3306829a6a24
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Execve Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- msg
+- type
+- msg
+- argc
+example_log: 'type=EXECVE msg=audit(1723044684.257:15795): argc=3 a0="sudo" a1="LD_PRELOAD=./myfopen.so" a2="./prog"'

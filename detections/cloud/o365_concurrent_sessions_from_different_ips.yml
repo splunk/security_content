@@ -1,7 +1,7 @@
 name: O365 Concurrent Sessions From Different Ips
 id: 58e034de-1f87-4812-9dc3-a4f68c7db930
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies user sessions in Office 365 acces
   posing severe risks to organizational security.
 data_source:
 - O365 UserLoggedIn
-search: ' `o365_management_activity` Workload=AzureActiveDirectory  Operation=UserLoggedIn
+search: '`o365_management_activity` Workload=AzureActiveDirectory  Operation=UserLoggedIn
   | stats min(_time) as firstTime max(_time) as lastTime values(src_ip) as ips values(user_agent)
   as user_agents by Operation, user, SessionId | where mvcount(ips) > 1 | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `o365_concurrent_sessions_from_different_ips_filter`'

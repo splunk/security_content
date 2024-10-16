@@ -1,7 +1,7 @@
 name: Windows Access Token Winlogon Duplicate Handle In Uncommon Path
 id: b8f7ed6b-0556-4c84-bffd-839c262b0278
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-08-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -49,7 +49,7 @@ tags:
   - name: SourceImage
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -29,6 +29,7 @@ tags:
   analytic_story:
   - Reverse Network Proxy
   - CISA AA22-320A
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 100
   impact: 50

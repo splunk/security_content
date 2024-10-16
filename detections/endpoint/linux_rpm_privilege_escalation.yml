@@ -1,7 +1,7 @@
 name: Linux RPM Privilege Escalation
 id: f8e58a23-cecd-495f-9c65-6c76b4cb9774
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

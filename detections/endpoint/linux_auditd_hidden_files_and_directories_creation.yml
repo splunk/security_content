@@ -1,0 +1,72 @@
+name: Linux Auditd Hidden Files And Directories Creation
+id: 555cc358-bf16-4e05-9b3a-0f89c73b7261
+version: 2
+date: '2024-09-24'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: "The following analytic detects suspicious creation of hidden files and
+  directories, which may indicate an attacker's attempt to conceal malicious activities
+  or unauthorized data. Hidden files and directories are often used to evade detection
+  by security tools and administrators, providing a stealthy means for storing malware,
+  logs, or sensitive information. By monitoring for unusual or unauthorized creation of
+  hidden files and directories, this analytic helps identify potential attempts to hide
+  or unauthorized creation of hidden files and directories, this analytic helps identify
+  potential attempts to hide malicious operations, enabling security teams to uncover
+  and address hidden threats effectively."
+data_source:
+- Linux Auditd Execve
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
+  dest | where (LIKE (process_exec,"%touch %") OR LIKE (process_exec,"%mkdir %")OR
+  LIKE (process_exec,"%vim %") OR LIKE (process_exec,"%vi %") OR LIKE (process_exec,"%nano
+  %")) AND (LIKE (process_exec,"% ./.%")  OR LIKE (process_exec," .%")OR LIKE (process_exec,"
+  /.%")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec
+  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `linux_auditd_hidden_files_and_directories_creation_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+- https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+tags:
+  analytic_story:
+  - Linux Living Off The Land
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A [$process_exec$] event occurred on host - [$dest$].
+  mitre_attack_id:
+  - T1083
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - argc
+  - process_exec
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/linux_auditd_hidden_file/linux_auditd_hidden_file.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

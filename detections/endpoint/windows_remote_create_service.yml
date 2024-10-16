@@ -1,7 +1,7 @@
 name: Windows Remote Create Service
 id: 0dc44d03-8c00-482d-ba7c-796ba7ab18c9
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - CISA AA23-347A
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
@@ -60,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

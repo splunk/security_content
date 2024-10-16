@@ -1,7 +1,7 @@
 name: AWS Cloud Provisioning From Previously Unseen Region
 id: 7971d3df-da82-4648-a6e5-b5637bea5253
-version: 1
-date: '2018-03-16'
+version: 2
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly
@@ -48,10 +48,14 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
+  - name: src_ip
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

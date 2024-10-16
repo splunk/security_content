@@ -1,7 +1,7 @@
 name: Windows Rundll32 WebDAV Request
 id: 320099b7-7eb1-4153-a2b4-decb53267de2
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -63,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

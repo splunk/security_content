@@ -1,0 +1,57 @@
+name: Windows Enable PowerShell Web Access
+id: 175bb2de-6227-416b-9678-9b61999cd21f
+version: 2
+date: '2024-09-26'
+author: Michael Haag, Splunk
+data_source:
+  - Powershell Script Block Logging 4104
+type: TTP
+status: production
+description: The following analytic detects the enabling of PowerShell Web Access via PowerShell commands. It leverages PowerShell script block logging (EventCode 4104) to identify the execution of the `Install-WindowsFeature` cmdlet with the `WindowsPowerShellWebAccess` parameter. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Install-WindowsFeature*WindowsPowerShellWebAccess*","*Install-PswaWebApplication*","*Add-PswaAuthorizationRule*UserName *ComputerName *")
+  | rename Computer as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText dest UserID 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` | `windows_enable_powershell_web_access_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable
+  PowerShell Script Block Logging on some or all endpoints. Additional setup here
+  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: It is possible that legitimate scripts or network administrators
+  may enable PowerShell Web Access. Monitor and escalate as needed.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+- https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+tags:
+  analytic_story:
+  - CISA AA24-241A
+  - Malicious PowerShell
+  asset_type: Endpoint
+  confidence: 80
+  impact: 90
+  message: PowerShell Web Access has been enabled on $dest$.
+  mitre_attack_id:
+  - T1059.001
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - ScriptBlockText
+  - dest
+  - UserID
+  risk_score: 72
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/pswa_powershell.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational

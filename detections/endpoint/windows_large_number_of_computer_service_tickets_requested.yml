@@ -1,7 +1,7 @@
 name: Windows Large Number of Computer Service Tickets Requested
 id: 386ad394-c9a7-4b4f-b66f-586252de20f0
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 type: Anomaly
 status: production
@@ -15,7 +15,7 @@ description: The following analytic detects a high volume of Kerberos service ti
   or reconnaissance. If confirmed malicious, an attacker could gain unauthorized access
   to multiple endpoints, potentially compromising the entire network.
 
-search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
+search: '`wineventlog_security` EventCode=4769 ServiceName="*$" TargetUserName!="*$"
   | bucket span=5m _time | stats dc(ServiceName) AS unique_targets values(ServiceName)
   as host_targets by _time, IpAddress, TargetUserName | where unique_targets > 30
   | `windows_large_number_of_computer_service_tickets_requested_filter`'

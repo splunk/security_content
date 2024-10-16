@@ -63,6 +63,8 @@ tags:
   - CISA AA23-347A
   - Phemedrone Stealer
   - ShrinkLocker
+  - MoonPeak
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 80
   impact: 70

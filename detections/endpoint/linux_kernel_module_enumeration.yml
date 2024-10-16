@@ -1,7 +1,7 @@
 name: Linux Kernel Module Enumeration
 id: 6df99886-0e04-4c11-8b88-325747419278
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -56,11 +56,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

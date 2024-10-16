@@ -1,7 +1,7 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 5
-date: '2024-05-16'
+version: 6
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -62,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

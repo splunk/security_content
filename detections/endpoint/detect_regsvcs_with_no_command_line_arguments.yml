@@ -1,7 +1,7 @@
 name: Detect Regsvcs with No Command Line Arguments
 id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
-version: 4
-date: '2024-05-19'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

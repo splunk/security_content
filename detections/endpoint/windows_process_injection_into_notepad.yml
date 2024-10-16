@@ -1,7 +1,7 @@
 name: Windows Process Injection into Notepad
 id: b8340d0f-ba48-4391-bea7-9e793c5aae36
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
@@ -49,11 +49,11 @@ tags:
   - name: SourceImage
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: TargetImage
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

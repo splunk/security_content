@@ -1,7 +1,7 @@
 name: Execution of File with Multiple Extensions
 id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
-version: 4
-date: '2024-05-26'
+version: 5
+date: '2024-08-14'
 author: Rico Valdez, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -62,7 +62,6 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Parent Process
     - Attacker
   product:
   - Splunk Enterprise

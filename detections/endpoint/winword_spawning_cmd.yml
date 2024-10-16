@@ -1,7 +1,7 @@
 name: Winword Spawning Cmd
 id: 6fcbaedc-a37b-11eb-956b-acde48001122
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,7 +61,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

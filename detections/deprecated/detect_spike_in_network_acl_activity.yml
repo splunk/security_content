@@ -1,7 +1,7 @@
 name: Detect Spike in Network ACL Activity
 id: ada0f478-84a8-4641-a1f1-e32372d4bd53
-version: 1
-date: '2018-05-21'
+version: 2
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly
@@ -46,10 +46,10 @@ tags:
   mitre_attack_id:
   - T1562.007
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

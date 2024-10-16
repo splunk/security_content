@@ -1,0 +1,63 @@
+name: Windows Unusual NTLM Authentication Users By Source
+id: 80fcc4d4-fd90-488e-b55a-4e7190ae6ce2
+version: 1
+date: '2024-03-16'
+author: Steven Dick
+status: production
+type: Anomaly
+description: The following analytic detects when an unusual number of NTLM authentications is attempted by the same source. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device using an NTLM based process/attack. This same activity may also generate a large number of EventID 4776 events in as well.
+data_source:
+- NTLM Operational 8004,8005,8006
+search: '`ntlm_audit` EventCode = 8004 SChannelName=* WorkstationName=*
+| eval src = replace(WorkstationName,"\\\\","")  ```CIM alignment, remove leading \\ from some auth attempts ```
+| eval dest = SChannelName, user = UserName ``` CIM alignment```
+| where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain applications ```
+| `windows_unusual_ntlm_authentication_users_by_source_filter`
+| stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user))) as unique_count by src
+| eventstats avg(unique_count) as unique_avg , stdev(unique_count) as unique_std
+| eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula for sensitivity```
+| eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
+| where isOutlier==1
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`'
+how_to_implement: The following analytic requires that NTLM Operational logs to be imported from the environment Domain Controllers. This requires configuration of specific auditing settings, see Microsoft references for further guidance. This analytic is specific to EventID 8004~8006.
+known_false_positives: Vulnerability scanners, print servers, and applications that deal with non-domain joined authentications. Recommend adjusting the upperBound_unique eval for tailoring the correlation to your environment, running with a 24hr search window will smooth out some statistical noise.
+references:
+- https://attack.mitre.org/techniques/T1110/003/
+- https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
+- https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
+- https://www.varonis.com/blog/investigate-ntlm-brute-force
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
+tags:
+  analytic_story:
+  - Active Directory Password Spraying
+  asset_type: Endpoint
+  confidence: 100
+  impact: 25
+  message: The device [$src$] attempted $count$ NTLM authentications using $unique_count$ user accounts.
+  mitre_attack_id:
+  - T1110
+  - T1110.003
+  observable:
+  - name: src
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - EventCode
+  - DomainName
+  - Security
+  - WorkstationName
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/ntlm_bruteforce/ntlm_bruteforce.log
+    source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
+    sourcetype: XmlWinEventLog

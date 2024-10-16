@@ -1,0 +1,61 @@
+name: Windows IIS Server PSWA Console Access
+id: 914ab191-fa8a-48cb-83a6-0565e061f934
+version: 1
+date: '2024-09-30'
+author: Michael Haag, Splunk
+data_sources:
+- Windows IIS
+type: Hunting
+status: production
+description: This analytic detects access attempts to the PowerShell Web Access (PSWA) console on Windows IIS servers. It monitors web traffic for requests to PSWA-related URIs, which could indicate legitimate administrative activity or potential unauthorized access attempts. By tracking source IP, HTTP status, URI path, and HTTP method, it helps identify suspicious patterns or brute-force attacks targeting PSWA. This detection is crucial for maintaining the security of remote PowerShell management interfaces and preventing potential exploitation of this powerful administrative tool.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Web where Web.dest IN ("/pswa/*")
+    by Web.src Web.status Web.uri_path Web.dest Web.http_method 
+  Web.uri_query | `drop_dm_object_name("Web")`| `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_iis_server_pswa_console_access_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node.
+  In addition, confirm the latest CIM App 4.20 or higher is installed.
+known_false_positives: False positives may occur if legitimate PSWA processes are used for administrative tasks. Careful review of the logs is recommended to distinguish between legitimate and malicious activity.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+tags:
+  analytic_story:
+  - CISA AA24-241A
+  asset_type: Web Server
+  confidence: 80
+  impact: 40
+  message: Access to the PowerShell Web Access (PSWA) console detected from $src$.
+  mitre_attack_id:
+  - T1190
+  observable:
+  - name: src
+    type: IP Address
+    role:
+    - Attacker
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Web.src
+  - Web.status
+  - Web.uri_path
+  - Web.dest
+  - Web.http_method
+  - Web.uri_query
+  risk_score: 32
+  security_domain: network
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/pswa/iis_pswaaccess.log
+    sourcetype: ms:iis:splunk
+    source: ms:iis:splunk

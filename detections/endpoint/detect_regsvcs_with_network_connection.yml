@@ -1,13 +1,13 @@
 name: Detect Regsvcs with Network Connection
 id: e3e7a1c0-f2b9-445c-8493-f30a63522d1a
-version: 4
-date: '2024-05-19'
+version: 6
+date: '2024-09-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic identifies instances of Regsvcs.exe establishing
   a network connection to a public IP address, excluding private IP ranges. This detection
-  leverages Sysmon Event ID 3 logs to monitor network connections initiated by Regsvcs.exe.
+  leverages Sysmon EventID 3 logs to monitor network connections initiated by Regsvcs.exe.
   This activity is significant as Regsvcs.exe, a legitimate Microsoft-signed binary,
   can be exploited to bypass application control mechanisms and establish remote Command
   and Control (C2) channels. If confirmed malicious, this behavior could allow an
@@ -54,7 +54,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-14'
 author: Rod Soto, Jose Hernandez, Splunk
 status: experimental
 type: Hunting
@@ -49,10 +49,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: EventCode
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

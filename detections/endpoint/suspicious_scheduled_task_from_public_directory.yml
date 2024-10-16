@@ -49,6 +49,8 @@ tags:
   - Living Off The Land
   - DarkCrystal RAT
   - CISA AA23-347A
+  - MoonPeak
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 50
   impact: 70

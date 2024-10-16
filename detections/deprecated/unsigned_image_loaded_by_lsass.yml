@@ -1,7 +1,7 @@
 name: Unsigned Image Loaded by LSASS
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
-version: 1
-date: '2019-12-06'
+version: 2
+date: '2024-08-15'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: TTP
@@ -33,10 +33,10 @@ tags:
   mitre_attack_id:
   - T1003.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

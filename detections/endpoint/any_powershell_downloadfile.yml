@@ -1,7 +1,7 @@
 name: Any Powershell DownloadFile
 id: 1a93b7ea-7af7-11eb-adb5-acde48001122
-version: 4
-date: '2024-05-25'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -72,11 +72,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

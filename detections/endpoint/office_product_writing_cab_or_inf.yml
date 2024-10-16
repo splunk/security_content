@@ -1,7 +1,7 @@
 name: Office Product Writing cab or inf
 id: f48cd1d4-125a-11ec-a447-acde48001122
-version: 5
-date: '2024-05-27'
+version: 6
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,7 +64,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

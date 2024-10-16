@@ -1,0 +1,66 @@
+name: Linux Auditd Shred Overwrite Command
+id: ce2bde4d-a1d4-4452-8c87-98440e5adfb3
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects the execution of the 'shred' command on
+  a Linux machine, which is used to overwrite files to make them unrecoverable. It
+  leverages data from Linux Auditd, focusing on process names and command-line arguments. This activity is significant because the 'shred' command can be used in destructive attacks, such as those seen in the Industroyer2 malware targeting energy facilities. If confirmed malicious, this activity could lead to the permanent destruction of critical files, severely impacting system integrity and data availability.
+data_source:
+- Linux Auditd Proctitle
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host
+  as dest | where LIKE (process_exec, "%shred%") AND (LIKE (process_exec, "%-n%")
+  OR LIKE (process_exec, "%-z%") OR LIKE (process_exec, "%-u%") OR LIKE (process_exec,
+  "%-s%")) | stats count min(_time) as firstTime max(_time) as lastTime by process_exec
+  proctitle normalized_proctitle_delimiter dest | `security_content_ctime(firstTime)`|
+  `security_content_ctime(lastTime)`| `linux_auditd_shred_overwrite_command_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+- https://cert.gov.ua/article/39518
+tags:
+  analytic_story:
+  - AwfulShred
+  - Linux Privilege Escalation
+  - Data Destruction
+  - Linux Persistence Techniques
+  - Industroyer2
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 90
+  impact: 90
+  message: A [$process_exec$] event occurred on host - [$dest$] to overwrite files using the shred utility.
+  mitre_attack_id:
+  - T1485
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - proctitle
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_auditd_shred/linux_auditd_shred.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

@@ -1,7 +1,7 @@
 name: O365 Compliance Content Search Started
 id: f4cabbc7-c19a-4e41-8be5-98daeaccbb50
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects when a content search is initiated w
   unauthorized data access, potential data exfiltration, and compliance violations.
   Monitoring this behavior helps ensure the integrity and security of organizational
   data.
-search: ' `o365_management_activity` Workload=SecurityComplianceCenter Operation=SearchCreated
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=SearchCreated
   | rename user_id as user | stats count earliest(_time) as firstTime latest(_time)
   as lastTime by Operation, ObjectId, ExchangeLocations, user, Query  |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_compliance_content_search_started_filter`'

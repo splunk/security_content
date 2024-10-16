@@ -1,7 +1,7 @@
 name: Java Class File download by Java User Agent
 id: 8281ce42-5c50-11ec-82d2-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -45,11 +45,7 @@ tags:
   - name: http_user_agent
     type: Other
     role:
-    - Other
-  - name: http_method
-    type: Other
-    role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

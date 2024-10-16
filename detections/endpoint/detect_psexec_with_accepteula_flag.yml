@@ -1,7 +1,7 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 5
-date: '2024-05-23'
+version: 6
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -72,11 +72,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

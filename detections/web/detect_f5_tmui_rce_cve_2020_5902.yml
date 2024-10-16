@@ -1,7 +1,7 @@
 name: Detect F5 TMUI RCE CVE-2020-5902
 id: 810e4dbc-d46e-11ea-87d0-0242ac130003
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-08-16'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -39,9 +39,9 @@ tags:
   - T1190
   observable:
   - name: dest
-    type: Other
+    type: IP Address
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

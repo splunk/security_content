@@ -1,7 +1,7 @@
 name: Azure Active Directory Persistence
 id: dca983db-6334-4a0d-be32-80611ca1396c
-version: 1
-date: '2022-08-17'
+version: 2
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 description: Monitor for activities and techniques associated with the execution of Persistence
   techniques against Azure Active Directory tenants.
@@ -9,8 +9,7 @@ narrative: 'Azure Active Directory (Azure AD) is Microsofts enterprise cloud-bas
   services like Office 365. It can sync with on-premise Active Directory environments and provide authentication to other cloud-based systems via the OAuth protocol. 
   According to Microsoft, Azure AD manages more than 1.2 billion identities and processes over 8 billion authentications per day.
   Persistence consists of techniques that adversaries use to keep access to systems across restarts, changed credentials, and other interruptions that could cut off their access.
-  This analytic storic groups detections that can help security operations teams identify the potential execution of Persistence techniques targeting Azure Active Directory tenants.
-  '
+  This analytic storic groups detections that can help security operations teams identify the potential execution of Persistence techniques targeting Azure Active Directory tenants.'
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/fundamentals/active-directory-whatis
 - https://azure.microsoft.com/en-us/services/active-directory/#overview

@@ -1,7 +1,7 @@
 name: O365 Mailbox Folder Read Permission Granted
 id: cd15c0a8-470e-4b12-9517-046e4927db30
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic identifies instances where read permissions 
   exposing sensitive email content. If confirmed malicious, an attacker could gain
   unauthorized access to read email communications, leading to data breaches or information
   leakage.
-search: ' `o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission"
+search: '`o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission"
   OR Operation="Add-MailboxFolderPermission" ) | eval isReadRole=if(match(AccessRights,
   "^(ReadItems|Author|NonEditingAuthor|Owner|PublishingAuthor|Reviewer)$"), "true",
   "false") | search isReadRole="true" | rename UserId as user | stats count earliest(_time)

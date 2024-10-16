@@ -1,0 +1,64 @@
+name: Windows Scheduled Task DLL Module Loaded
+id: bc5b2304-f241-419b-874a-e927f667b7b6
+version: 2
+date: '2024-09-26'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 7
+type: TTP
+status: production
+description: The following analytic detects instances where the taskschd.dll is loaded by processes running in 
+  suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll 
+  typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from 
+  writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying 
+  processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially 
+  malicious activity and investigate further to prevent unauthorized system modifications.
+search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", 
+  "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*")
+  ImageLoaded = "*\\taskschd.dll" 
+  | stats min(_time) as firstTime max(_time) as lastTime count by user_id, dest, Image ,ImageLoaded, , OriginalFileName, ProcessGuid 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_scheduled_task_dll_module_loaded_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Third party Legitimate application may load this task schedule dll module.
+references:
+- https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+- https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+tags:
+  analytic_story:
+  - ValleyRAT
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A taskschd.dll was loaded by a process - [$Image$] on [$dest$]
+  mitre_attack_id:
+  - T1053
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Image
+  - ImageLoaded
+  - process_name
+  - dest
+  - EventCode
+  - Signed
+  - ProcessId
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/taskschd_dll/taskschd_dll.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

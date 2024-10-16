@@ -1,7 +1,7 @@
 name: O365 OAuth App Mailbox Access via EWS
 id: e600cf1a-0bef-4426-b42e-00176d610a4d
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 data_source:
@@ -15,7 +15,7 @@ description: The following analytic detects when emails are accessed in Office 3
   emails through EWS is crucial for identifying potential abuse or unauthorized data
   access. If confirmed malicious, this activity could lead to unauthorized email access,
   data exfiltration, or further compromise of sensitive information.
-search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
+search: '`o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
   AppId=* ClientAppId=* | regex ClientInfoString="^Client=WebServices;ExchangeWebServices"
   |  stats count earliest(_time) as firstTime latest(_time) as lastTime values(ClientIPAddress)
   as src_ip by user ClientAppId OperationCount AppId ClientInfoString | `security_content_ctime(firstTime)`

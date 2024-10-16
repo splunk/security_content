@@ -7,10 +7,11 @@ description: Data source object for Sysmon EventID 1
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: xmlwineventlog
 separator: EventID
+configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
-  url: https://splunkbase.splunk.com/app/5709/
-  version: 4.0.0
+  url: https://splunkbase.splunk.com/app/5709
+  version: 4.0.1
 fields:
 - _time
 - Channel

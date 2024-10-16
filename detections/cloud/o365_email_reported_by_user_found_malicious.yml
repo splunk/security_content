@@ -1,0 +1,72 @@
+name: O365 Email Reported By User Found Malicious
+id: 7698b945-238e-4bb9-b172-81f5ca1685a1
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter  Operation=AlertEntityGenerated Name="Email reported by user as*" 
+| fromjson Data 
+| rename _raw AS temp etps AS _raw | extract pairdelim=";" kvdelim=":" | rename _raw AS etps temp AS _raw 
+| search RescanVerdict IN (Phish,Malware)
+| rex field=tsd "\<(?<src_user>.+)\>" 
+| eval src_user = case(isnull(src_user),tsd,true(),src_user) 
+| stats count min(_time) as firstTime max(_time) as lastTime values(ms) as subject values(RescanVerdict) as result values(tsd) as sender values(src_user) as src_user by AlertId,AlertEntityId,Operation,Name 
+| rename Name as signature, AlertId as signature_id, AlertEntityId as user 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_email_reported_by_user_found_malicious_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. You must deploy/allow the usage of the Microsoft Office Report A Message function.
+known_false_positives: unknown
+references:
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Spearphishing Attachments
+  - Suspicious Emails
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 75
+  message: The user $user$ reported an email classified as $result$ from $src_user$
+  mitre_attack_id: 
+  - T1566
+  - T1566.001
+  - T1566.002
+  observable: 
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: subject
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Workload
+  - Operation
+  - Name
+  - Data
+  - AlertId
+  - AlertEntityId
+  - tsd
+  - etps
+  risk_score: 75
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

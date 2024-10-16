@@ -1,7 +1,7 @@
 name: Baseline Of Kubernetes Container Network IO Ratio
 id: f395003b-6389-4e14-89bf-ac4dbea215bd
-version: 1
-date: '2023-12-19'
+version: 2
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 type: Baseline
 datamodel: []
@@ -18,7 +18,7 @@ search: '| mstats avg(k8s.pod.network.io) as io where `kubernetes_metrics` by k8
   | eval outbound:inbound = outbound_network_io/inbound_network_io 
   | stats avg(*:*) as avg_*:* stdev(*:*) as stdev_*:*
     count latest(_time) as last_seen by key 
-  | outputlookup k8s_container_network_io_ratio_baseline '
+  | outputlookup k8s_container_network_io_ratio_baseline'
 how_to_implement: 'To implement this detection, follow these steps:
   1. Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
   2. Enable the hostmetrics/process receiver in the OTEL configuration.

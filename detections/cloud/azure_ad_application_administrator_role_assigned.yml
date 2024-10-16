@@ -1,7 +1,7 @@
 name: Azure AD Application Administrator Role Assigned
 id: eac4de87-7a56-4538-a21b-277897af6d8d
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies the assignment of the Application
   malicious, an attacker could escalate privileges, manage application settings, and
   potentially access sensitive resources by impersonating application identities,
   posing a significant security risk to the Azure AD tenant.
-search: ' `azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Application
+search: '`azure_monitor_aad`  "operationName"="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="\"Application
   Administrator\"" | rename properties.* as * | rename initiatedBy.user.userPrincipalName
   as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime by user
   initiatedBy, result, operationName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

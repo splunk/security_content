@@ -1,7 +1,7 @@
 name: FodHelper UAC Bypass
 id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
-version: 3
-date: '2024-05-15'
+version: 4
+date: '2024-09-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - IcedID
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 90
   impact: 90
@@ -83,7 +84,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

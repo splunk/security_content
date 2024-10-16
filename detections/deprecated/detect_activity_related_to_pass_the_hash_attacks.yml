@@ -1,7 +1,7 @@
 name: Detect Activity Related to Pass the Hash Attacks
 id: f5939373-8054-40ad-8c64-cec478a22a4b
-version: 6
-date: '2020-10-15'
+version: 7
+date: '2024-08-15'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: deprecated
 type: Hunting
@@ -10,11 +10,11 @@ description: This search looks for specific authentication events from the Windo
 data_source:
 - Windows Event Log Security 4624
 search: '`wineventlog_security` EventCode=4624 (Logon_Type=3 Logon_Process=NtLmSsp NOT AccountName="ANONYMOUS LOGON") OR (Logon_Type=9 Logon_Process=seclogo) 
-| fillnull 
-| stats count min(_time) as firstTime max(_time) as lastTime by EventCode, Logon_Type, WorkstationName, user, dest 
-| `security_content_ctime(firstTime)`
-| `security_content_ctime(lastTime)` 
-| `detect_activity_related_to_pass_the_hash_attacks_filter`'
+  | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode, Logon_Type, WorkstationName, user, dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `detect_activity_related_to_pass_the_hash_attacks_filter`'
 how_to_implement: To successfully implement this search, you must ingest your Windows
   Security Event logs and leverage the latest TA for Windows.
 known_false_positives: Legitimate logon activity by authorized NTLM systems may be
@@ -23,6 +23,7 @@ references: []
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 70
   impact: 70
@@ -40,10 +41,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: EventCode
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

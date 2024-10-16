@@ -1,7 +1,7 @@
 name: ASL AWS New MFA Method Registered For User
 id: 33ae0931-2a03-456b-b1d7-b016c5557fbd
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-24'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic identifies the registration of a new Multi-F
   to secure their access, making it harder to detect and remove their presence from
   the compromised environment.
 data_source: []
-search: ' `amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull |
+search: '`amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull |
   stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid
   actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
   | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region,

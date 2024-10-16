@@ -1,7 +1,7 @@
 name: Azure AD New MFA Method Registered For User
 id: 2628b087-4189-403f-9044-87403f777a1b
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects the registration of a new Multi-Fact
   escalate their privileges within the environment.
 data_source:
 - Azure Active Directory User registered security info
-search: ' `azure_monitor_aad` category=AuditLogs operationName="User registered security
+search: '`azure_monitor_aad` category=AuditLogs operationName="User registered security
   info" properties.operationType=Add | rename properties.* as * | rename targetResources{}.*
   as * | stats count min(_time) as firstTime max(_time) as lastTime by user, resultDescription,
   result, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

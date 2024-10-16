@@ -1,0 +1,6 @@
+definition: 'type=PROCTITLE | eval normalized_proctitle_delimiter = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(proctitle,"^[0-9A-F]+$"), replace(proctitle, "000", "020"),proctitle),null())
+  | eval normalized_proctitle_delimiter  = if(type=="PROCTITLE" AND isnotnull(proctitle), if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"), replace(normalized_proctitle_delimiter, "00", "20"),normalized_proctitle_delimiter),null())
+  | eval process_exec = if(match(normalized_proctitle_delimiter,"^[0-9A-F]+$"),urldecode(replace(normalized_proctitle_delimiter,"([0-9A-F]{2})","%\1")),normalized_proctitle_delimiter)'
+description: customer specific splunk configurations to normalized auditd PROCTITLE type to recover process commandline.
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: linux_auditd_normalized_proctitle_process

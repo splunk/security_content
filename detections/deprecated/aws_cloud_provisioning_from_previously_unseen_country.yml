@@ -1,14 +1,14 @@
 name: AWS Cloud Provisioning From Previously Unseen Country
 id: ceb8d3d8-06cb-49eb-beaf-829526e33ff0
-version: 1
-date: '2018-03-16'
+version: 3
+date: '2024-09-24'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly
 description: 'This search looks for AWS provisioning activities from previously unseen
   countries. Provisioning activities are defined broadly as any event that begins
   with "Run" or "Create." This search is deprecated and have been translated to use
-  the latest Change Datamodel. '
+  the latest Change Datamodel.'
 data_source: []
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | search Country=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) |
@@ -49,10 +49,10 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

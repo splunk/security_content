@@ -1,7 +1,7 @@
 name: Azure AD Successful PowerShell Authentication
 id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies a successful authentication event
   or further exploitation within the Azure environment.
 data_source:
 - Azure Active Directory
-search: ' `azure_monitor_aad`  category=SignInLogs properties.authenticationDetails{}.succeeded=true
+search: '`azure_monitor_aad`  category=SignInLogs properties.authenticationDetails{}.succeeded=true
   properties.appDisplayName="Microsoft Azure PowerShell" | rename properties.*  as
   * | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
   by src_ip, appDisplayName, user_agent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

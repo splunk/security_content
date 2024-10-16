@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assigned
 id: fcd6dfeb-191c-46a0-a29c-c306382145ab
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects the assignment of an Azure AD Privil
   monitored to prevent unauthorized access. If confirmed malicious, an attacker could
   exploit this to gain privileged access, potentially leading to unauthorized actions,
   data breaches, or further compromise of the environment.
-search: ' `azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
+search: '`azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
   | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
   values(user) as user values(targetResources{}.displayName) as displayName  by result,
   operationName, initiatedBy.user.displayName | `security_content_ctime(firstTime)`

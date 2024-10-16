@@ -1,7 +1,7 @@
 name: Okta ThreatInsight Login Failure with High Unknown users
 id: 632663b0-4562-4aad-abe9-9f621a049738
-version: 1
-date: '2023-03-09'
+version: 2
+date: '2024-08-16'
 author: Okta, Inc, Michael Haag, Splunk
 type: TTP
 status: deprecated
@@ -30,10 +30,10 @@ tags:
   - T1078.001
   - T1110.004
   observable:
-  - name: outcome.reason
-    type: Other
+  - name: user
+    type: User
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

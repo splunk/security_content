@@ -1,7 +1,7 @@
 name: Deleting Shadow Copies
 id: b89919ed-ee5f-492c-b139-95dbb162039e
-version: 5
-date: '2024-05-18'
+version: 6
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -69,11 +69,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

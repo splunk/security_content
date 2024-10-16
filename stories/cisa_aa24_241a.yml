@@ -1,0 +1,28 @@
+name: CISA AA24-241A
+id: f075adb6-76a6-4476-b24a-ce9d471a1bdc
+version: 2
+date: '2024-10-07'
+author: Michael Haag, Splunk
+description: This story covers the tactics of Iran-based cyber actors exploiting U.S. and foreign organizations across multiple sectors, as detailed in CISA Alert AA24-241A. It focuses on their methods of gaining initial access, establishing persistence, and enabling ransomware attacks through vulnerabilities in public-facing networking devices.
+narrative: As of August 2024, Iran-based cyber actors continue to exploit organizations across several U.S. sectors and other countries. The FBI assesses that a significant percentage of these operations aim to obtain network access for collaboration with ransomware affiliates. The actors typically use Shodan to identify vulnerable devices, then exploit public-facing networking equipment such as Citrix Netscaler, F5 BIG-IP, and various VPNs. They deploy webshells, create local accounts, and manipulate existing ones to maintain access. Post-exploitation, they repurpose credentials, disable security software, and use remote access tools. The group collaborates with ransomware affiliates like NoEscape, Ransomhouse, and ALPHV, actively participating in network lockdowns and extortion strategies. Defenders should prioritize patching public-facing devices, monitoring for unauthorized accounts and suspicious PowerShell activity, implementing strong access controls, and regularly reviewing logs for signs of compromise.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+  - https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+  - https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/want-remote-powershell-management-from-your-browser-see-how-pswa/ba-p/255764
+  - https://learn.microsoft.com/en-us/powershell/module/powershellwebaccess/?view=winserver2012r2-ps
+  - https://arz101.medium.com/hackthebox-acute-ee0308b9b443
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-24919
+  - CVE-2024-3400
+  - CVE-2019-19781
+  - CVE-2023-3519
+  - CVE-2022-1388
+  - CVE-2024-21887

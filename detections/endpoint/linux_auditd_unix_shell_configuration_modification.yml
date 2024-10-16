@@ -1,0 +1,75 @@
+name: Linux Auditd Unix Shell Configuration Modification
+id: 66f737c6-3f7f-46ed-8e9b-cc0e5bf01f04
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects suspicious modifications to Unix shell
+  configuration files, which may indicate an attempt to alter system behavior or gain
+  unauthorized access. Unix shell configuration files, such as `.bashrc` or `.profile`,
+  control user environment settings and command execution. Unauthorized changes to
+  these files can be used to execute malicious commands, escalate privileges, or hide
+  malicious activities. By monitoring for unusual or unauthorized modifications to
+  shell configuration files, this analytic helps identify potential security threats,
+  allowing security teams to respond quickly and mitigate risks.
+data_source:
+- Linux Auditd Path
+search: '`linux_auditd` type=PATH name IN ("/etc/profile", "/etc/shells", "/etc/profile.d",
+  "/etc/bash.bashrc", "/etc/bashrc", "/etc/zsh/zprofile", "/etc/zsh/zshrc", "/etc/zsh/zlogin",
+  "/etc/zsh/zlogout", "/etc/csh.cshrc", "/etc/csh.login", "/root/.bashrc", "/root/.bash_profile",
+  "root/.profile", "/root/.zshrc", "/root/.zprofile", "/home/*/.bashrc", "/home/*/.zshrc",
+  "/home/*/.bash_profile", "/home/*/.zprofile", "/home/*/.profile", "/home/*/.bash_login",
+  "/home/*/.bash_logout", "/home/*/.zlogin", "/home/*/.zlogout") | rename host as
+  dest | stats count min(_time) as firstTime max(_time) as lastTime by name nametype
+  OGID type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `linux_auditd_unix_shell_configuration_modification_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+- https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+tags:
+  analytic_story:
+  - Linux Living Off The Land
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A [$type$] event occured on host - [$dest$] to modify the unix shell configuration file.
+  mitre_attack_id:
+  - T1546.004
+  - T1546
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - name
+  - nametype
+  - OGID
+  risk_score: 25
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_auditd_unix_shell_mod_config/linux_auditd_unix_shell_mod_config.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

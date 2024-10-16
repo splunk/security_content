@@ -1,0 +1,71 @@
+name: Windows DISM Install PowerShell Web Access
+id: fa6142a7-c364-4d11-9954-895dd9efb2d4
+version: 3
+date: '2024-09-26'
+author: Michael Haag, Splunk
+data_source:
+- Windows Event Log Security 4688
+- Sysmon EventID 1
+type: TTP
+status: production
+description: The following analytic detects the installation of PowerShell Web Access using the Deployment Image Servicing and Management (DISM) tool. It leverages Sysmon EventID 1 to identify the execution of `dism.exe` with specific parameters related to enabling the WindowsPowerShellWebAccess feature. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks. If confirmed malicious, this action could lead to further exploitation and compromise of the affected system.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+    from datamodel=Endpoint.Processes 
+    where Processes.process_name=dism.exe 
+      (Processes.process="*WindowsPowerShellWebAccess*" AND Processes.process="*/online*" AND Processes.process="*/enable-feature*")
+    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
+      Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
+  | `drop_dm_object_name(Processes)`  
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_dism_install_powershell_web_access_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Administrators using the DISM tool to update and install Windows features may cause false positives that can be filtered with `windows_dism_install_powershell_web_access_filter`.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-241a
+- https://gist.github.com/MHaggis/7e67b659af9148fa593cf2402edebb41
+tags:
+  analytic_story:
+  - CISA AA24-241A
+  asset_type: Endpoint
+  confidence: 80
+  impact: 90
+  message: PowerShell Web Access has been installed on $dest$.
+  mitre_attack_id:
+  - T1548.002
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - dest
+  - user
+  - parent_process_name
+  - process_name
+  - original_file_name
+  - process
+  - process_id
+  - parent_process_id
+  risk_score: 72
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/dism_pswa_4688_windows-security.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Security

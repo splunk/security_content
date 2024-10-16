@@ -1,0 +1,19 @@
+name: ValleyRAT
+id: e9703322-5462-4c4a-a427-b9895c1472de
+version: 1
+date: '2024-09-11'
+author: Teoderick Contreras, Splunk
+description: This analytic story contains detections that allow security analysts to detect and investigate unusual activities that might be related to ValleyRAT malware. ValleyRAT is a remote access trojan (RAT) known for targeting specific organizations and individuals to gain unauthorized access to systems. It enables attackers to execute commands, steal sensitive data, and manipulate files. This malware often uses phishing emails or malicious attachments to infect systems. Detecting ValleyRAT early is crucial to preventing data breaches and further exploitation. Analysts can use behavioral analysis and signature-based detection to mitigate its impact.
+narrative: ValleyRAT is a stealthy remote access trojan (RAT) used by cybercriminals to gain unauthorized control over compromised systems. It often infiltrates targets through phishing emails or malicious attachments, allowing attackers to execute commands, steal sensitive information, manipulate files, and monitor user activities remotely. Once inside, ValleyRAT can evade detection by blending in with legitimate processes, making it challenging to identify. 
+references:
+- https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+- https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+tags:
+  category:
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

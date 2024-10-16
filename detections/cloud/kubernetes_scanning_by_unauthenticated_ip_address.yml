@@ -22,7 +22,12 @@ search: '`kube_audit` "user.groups{}"="system:unauthenticated" "responseStatus.c
   | where count > 5
   | rename sourceIPs{} as src_ip, user.username as user
   | `kubernetes_scanning_by_unauthenticated_ip_address_filter`'
-how_to_implement: You must ingest Kubernetes audit logs.
+how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
+  Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
+  Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
+  Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. This doc will describe how to collect the audit log file https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/migration-from-sck.md.
+  When you want to use this detection with AWS EKS, you need to enable EKS control plane logging https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html. Then
+  you can collect the logs from Cloudwatch using the AWS TA https://splunk.github.io/splunk-add-on-for-amazon-web-services/CloudWatchLogs/.
 known_false_positives: unknown
 references:
 - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/

@@ -1,7 +1,7 @@
 name: WS FTP Remote Code Execution
 id: b84e8f39-4e7b-4d4f-9e7c-fcd29a227845
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -43,10 +43,6 @@ tags:
   mitre_attack_id:
   - T1190
   observable:
-  - name: url
-    type: URL String
-    role:
-    - Other
   - name: dest
     type: Hostname
     role:

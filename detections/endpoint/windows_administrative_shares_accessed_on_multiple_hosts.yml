@@ -1,7 +1,7 @@
 name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -15,7 +15,7 @@ description: The following analytic detects a source computer accessing Windows 
   a common tactic used by threat actors. If confirmed malicious, this activity could
   lead to unauthorized access to critical data, lateral movement, and potential compromise
   of multiple systems within the network.
-search: ' `wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$"
+search: '`wineventlog_security` EventCode=5140 OR EventCode=5145 (ShareName="\\\\*\\ADMIN$"
   OR ShareName="\\\\*\\IPC$" OR ShareName="\\\\*\\C$") | bucket span=5m _time | stats
   dc(Computer) AS unique_targets values(Computer) as host_targets values(ShareName)
   as shares by _time, IpAddress, SubjectUserName, EventCode | where unique_targets

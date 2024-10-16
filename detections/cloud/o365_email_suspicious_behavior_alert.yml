@@ -1,0 +1,57 @@
+name: O365 Email Suspicious Behavior Alert
+id: 85c7555a-05af-4322-81aa-76b4ddf52baa
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when one of O365 the built-in security detections for suspicious email behaviors are triggered.  These alerts often indicate that an attacker may have compromised a mailbox within the environment. Any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities further enhance these detection and response functions.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name IN ("Suspicious email sending patterns detected","User restricted from sending email","Suspicious Email Forwarding Activity","Email sending limit exceeded") 
+| fromjson Data
+| stats count min(_time) as firstTime max(_time) as lastTime by AlertId,ObjectId,Operation,Name
+| rename Name as signature, AlertId as signature_id, ObjectId as user
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_email_suspicious_behavior_alert_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The alerts must be enabled in the o365 security portal.
+known_false_positives: Users emailing for legitimate business purposes that appear suspicious.
+references:
+- https://learn.microsoft.com/en-us/purview/alert-policies
+tags:
+  analytic_story: 
+  - Suspicious Emails
+  - Office 365 Collection Techniques
+  - Office 365 Account Takeover
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 90
+  message: The user $user$ triggered the O365 security alert [$signature$]
+  mitre_attack_id: 
+  - T1114
+  - T1114.003
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - AlertId
+  - ObjectId
+  - Operation
+  - Name
+  - Workload
+  risk_score: 90
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

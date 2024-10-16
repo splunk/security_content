@@ -9,4 +9,4 @@ sourcetype: OktaIM2:log
 supported_TA:
 - name: Splunk Add-on for Okta Identity Cloud
   url: https://splunkbase.splunk.com/app/6553
-  version: 2.2.0
+  version: 2.2.1

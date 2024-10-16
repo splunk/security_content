@@ -1,7 +1,7 @@
 name: Detect Mimikatz Via PowerShell And EventCode 4703
 id: 98917be2-bfc8-475a-8618-a9bb06575188
-version: 2
-date: '2019-02-27'
+version: 3
+date: '2024-08-15'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP
@@ -36,10 +36,10 @@ tags:
   mitre_attack_id:
   - T1003.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

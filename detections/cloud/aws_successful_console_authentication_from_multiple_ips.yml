@@ -1,7 +1,7 @@
 name: AWS Successful Console Authentication From Multiple IPs
 id: 395e50e1-2b87-4fa3-8632-0dfbdcbcd2cb
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: The following analytic detects an AWS account successfully authenti
   resources, leading to data breaches or further exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail ConsoleLogin
-search: ' `cloudtrail` eventName = ConsoleLogin | bin span=5m _time | stats values(userAgent)
+search: '`cloudtrail` eventName = ConsoleLogin | bin span=5m _time | stats values(userAgent)
   as userAgent values(eventName) as eventName values(src_ip) as src_ip dc(src_ip)
   as distinct_ip_count by _time user_arn | where distinct_ip_count>1 | `aws_successful_console_authentication_from_multiple_ips_filter`'
 how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This

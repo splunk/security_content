@@ -1,7 +1,7 @@
 name: O365 Compliance Content Search Exported
 id: 2ce9f31d-ab4f-4179-b2b7-c77a9652e1d8
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic identifies when the results of a content sea
   If confirmed malicious, an attacker could gain access to and exfiltrate sensitive
   information, posing a severe risk to the organization's data security and compliance
   posture.
-search: ' `o365_management_activity`  Workload=SecurityComplianceCenter Operation="SearchExported"
+search: '`o365_management_activity`  Workload=SecurityComplianceCenter Operation="SearchExported"
   | rename user_id as user | stats count earliest(_time) as firstTime latest(_time)
   as lastTime by Operation, ObjectId, ExchangeLocations, user, Query  |`security_content_ctime(firstTime)`
   |`security_content_ctime(lastTime)` | `o365_compliance_content_search_exported_filter`'

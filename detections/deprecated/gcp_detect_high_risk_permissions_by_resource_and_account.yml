@@ -1,7 +1,7 @@
 name: GCP Detect high risk permissions by resource and account
 id: 2e70ef35-2187-431f-aedc-4503dc9b06ba
-version: 1
-date: '2020-10-09'
+version: 2
+date: '2024-08-16'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting
@@ -34,10 +34,10 @@ tags:
   mitre_attack_id:
   - T1078
   observable:
-  - name: field
-    type: Unknown
+  - name: data.protoPayload.authenticationInfo.principalEmail
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

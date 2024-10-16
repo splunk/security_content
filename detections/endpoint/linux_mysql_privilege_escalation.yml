@@ -1,7 +1,7 @@
 name: Linux MySQL Privilege Escalation
 id: c0d810f4-230c-44ea-b703-989da02ff145
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

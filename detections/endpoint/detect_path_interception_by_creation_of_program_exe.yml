@@ -1,7 +1,7 @@
 name: Detect Path Interception By Creation Of program exe
 id: cbef820c-e1ff-407f-887f-0a9240a2d477
-version: 6
-date: '2024-05-19'
+version: 7
+date: '2024-08-15'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -60,11 +60,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

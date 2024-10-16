@@ -1,7 +1,7 @@
 name: Detect HTML Help Using InfoTech Storage Handlers
 id: 0b2eefa5-5508-450d-b970-3dd2fb761aec
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -65,7 +65,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Suspicious Powershell Command-Line Arguments
 id: 2cdb91d2-542c-497f-b252-be495e71f38c
-version: 6
-date: '2021-01-19'
+version: 7
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP
@@ -44,10 +44,14 @@ tags:
   mitre_attack_id:
   - T1059.001
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

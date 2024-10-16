@@ -1,0 +1,75 @@
+name: Linux Auditd At Application Execution
+id: 9f306e0a-1c36-469e-8892-968ca12470dd
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the execution of the "At" application
+  in Linux, which can be used by attackers to create persistence entries on a compromised
+  host. This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names and parent process names associated with "at" or "atd".
+  This activity is significant because the "At" application can be exploited to maintain
+  unauthorized access or deliver additional malicious payloads. If confirmed malicious,
+  this behavior could lead to data theft, ransomware attacks, or other severe consequences.
+  Immediate investigation is required to determine the legitimacy of the execution
+  and mitigate potential risks.
+data_source:
+- Linux Auditd Syscall
+search: '`linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd")
+  AND NOT (UID IN("daemon")) | rename host as dest | stats count min(_time) as firstTime
+  max(_time) as lastTime by comm exe  SYSCALL UID ppid pid dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `linux_auditd_at_application_execution_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://attack.mitre.org/techniques/T1053/001/
+- https://www.linkedin.com/pulse/getting-attacker-ip-address-from-malicious-linux-job-craig-rowland/
+tags:
+  analytic_story:
+  - Scheduled Tasks
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Linux Living Off The Land
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 30
+  impact: 30
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to execute the "at" application.
+  mitre_attack_id:
+  - T1053.002
+  - T1053
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - comm
+  - exe
+  - SYSCALL
+  - UID
+  - ppid
+  - pid
+  risk_score: 9
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/linux_auditd_at/linux_auditd_at_execution.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

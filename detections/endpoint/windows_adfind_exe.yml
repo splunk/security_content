@@ -1,7 +1,7 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 4
-date: '2024-05-13'
+version: 5
+date: '2024-10-09'
 author: Jose Hernandez, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -17,13 +17,7 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process="* -f *"
-  OR Processes.process="* -b *") AND (Processes.process=*objectcategory* OR Processes.process="*
-  -gcb *" OR Processes.process="* -sc *") by Processes.dest Processes.user Processes.process_name
-  Processes.process Processes.parent_process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_adfind_exe_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where ((Processes.process="* -f *" OR Processes.process="* -b *") AND (Processes.process=*objectcategory* OR Processes.process="*-gcb *" OR Processes.process="* -sc *" )) OR ((Processes.process="*trustdmp*" OR Processes.process="*dclist*")) by Processes.dest Processes.user Processes.process_name Processes.process Processes.parent_process Processes.process_id Processes.parent_process_id  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_adfind_exe_filter`| `windows_adfind_exe_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -47,10 +41,18 @@ tags:
   - IcedID
   - NOBELIUM Group
   - Graceful Wipe Out Attack
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Windows AdFind Exe
+  message: Windows AdFind Exe detected with command-line arguments associated with Active Directory queries on machine - [dest]
+  atomic_guid:
+  - 736b4f53-f400-4c22-855d-1a6b5a551600
+  - b95fd967-4e62-4109-b48d-265edfd28c3a
+  - e1ec8d20-509a-4b9a-b820-06c9b2da8eb7
+  - 5e2938fb-f919-47b6-8b29-2f6a1f718e99
+  - abf00f6c-9983-4d9a-afbc-6b1c6c6448e1
+  - 51a98f96-0269-4e09-a10f-e307779a8b05
   mitre_attack_id:
   - T1018
   observable:

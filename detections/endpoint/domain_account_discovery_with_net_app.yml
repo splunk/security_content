@@ -1,7 +1,7 @@
 name: Domain Account Discovery With Net App
 id: 98f6a534-04c2-11ec-96b2-acde48001122
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -59,7 +59,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

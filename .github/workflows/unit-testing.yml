@@ -6,8 +6,6 @@ jobs:
   unit-testing:
     runs-on: ubuntu-latest
     if: "!contains(github.ref, 'refs/tags/')" #don't run on tags - future steps won't run either since they depend on this job
-    env:
-      CONTENTCTL_VERSION: ${{ vars.CONTENTCTL_VERSION }}
     steps:
         #For fork PRs, always check out security_content and the PR target in security content!
         - name: Check out the repository code
@@ -25,8 +23,7 @@ jobs:
         - name: Install Python Dependencies and ContentCTL
           run: |
             python -m pip install --upgrade pip
-            echo "CONTENTCTL_VERSION is set to ${{ env.CONTENTCTL_VERSION }}"
-            pip install contentctl==${{ env.CONTENTCTL_VERSION }}
+            pip install contentctl>=4.0.0
            
         # Running contentctl test with a few arguments, before running the command make sure you checkout into the current branch of the pull request. This step only performs unit testing on all the changes against the target-branch. In most cases this target branch will be develop
         # Make sure we check out the PR, even if it actually lives in a fork

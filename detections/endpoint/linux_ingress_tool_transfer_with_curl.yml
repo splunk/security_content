@@ -1,7 +1,7 @@
 name: Linux Ingress Tool Transfer with Curl
 id: 8c1de57d-abc1-4b41-a727-a7a8fc5e0857
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -59,7 +59,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

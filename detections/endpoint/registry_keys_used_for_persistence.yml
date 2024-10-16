@@ -76,6 +76,8 @@ tags:
   - BlackByte Ransomware
   - CISA AA23-347A
   - Snake Keylogger
+  - MoonPeak
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 95
   impact: 80

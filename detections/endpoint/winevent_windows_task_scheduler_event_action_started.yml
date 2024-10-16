@@ -1,7 +1,7 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-24'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -44,6 +44,9 @@ tags:
   - Data Destruction
   - Amadey
   - Scheduled Tasks
+  - CISA AA24-241A
+  - BlackSuit Ransomware
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
@@ -71,7 +74,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

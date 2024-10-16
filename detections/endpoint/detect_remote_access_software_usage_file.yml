@@ -47,6 +47,7 @@ tags:
   - Command And Control
   - Ransomware
   - Gozi Malware
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 50
   impact: 50

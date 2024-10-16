@@ -1,7 +1,7 @@
 name: Windows InstallUtil Remote Network Connection
 id: 4fbf9270-43da-11ec-9486-acde48001122
-version: 4
-date: '2024-05-24'
+version: 5
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -63,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

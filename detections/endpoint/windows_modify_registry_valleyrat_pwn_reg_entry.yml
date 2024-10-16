@@ -1,0 +1,62 @@
+name: Windows Modify Registry ValleyRat PWN Reg Entry
+id: 6947c44e-be1f-4dd9-b198-bc42be5be196
+version: 2
+date: '2024-09-26'
+author: Teoderick Contreras, Splunk
+data_source:
+- Sysmon EventID 13
+type: TTP
+status: production
+description: The following analytic detects modifications to the Windows Registry specifically targeting `.pwn` file associations related to the ValleyRAT malware. ValleyRAT may create or alter registry entries to associate `.pwn` files with malicious processes, allowing it to execute harmful scripts or commands when these files are opened. By monitoring for unusual changes in registry keys linked to `.pwn` extensions, this detection enables security analysts to identify potential ValleyRAT infection attempts. Early detection of these modifications helps mitigate unauthorized execution and prevents further exploitation of the system.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+  WHERE (Registry.registry_path= "*.pwn\\Shell\\Open\\command" OR Registry.registry_value_data = ".pwn") 
+  BY Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_modify_registry_valleyrat_pwn_reg_entry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: unknown
+references:
+- https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+- https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+tags:
+  analytic_story:
+  - ValleyRAT
+  asset_type: Endpoint
+  confidence: 100
+  impact: 90
+  message: A possible ValleyRAT Registry modification in [$dest$].
+  mitre_attack_id:
+  - T1112
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - Registry.dest
+  - Registry.registry_value_name
+  - Registry.registry_key_name
+  - Registry.registry_path
+  - Registry.registry_value_data
+  - Registry.process_guid
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/pwn_reg/pwn_reg.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

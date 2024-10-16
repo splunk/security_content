@@ -1,7 +1,7 @@
 name: Monitor DNS For Brand Abuse
 id: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
-version: 1
-date: '2017-09-23'
+version: 2
+date: '2024-08-16'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP
@@ -29,10 +29,14 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: query
+    type: Other
     role:
-    - Unknown
+    - Victim
+  - name: IPs
+    type: IP Address
+    role:
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

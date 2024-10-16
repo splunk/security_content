@@ -1,0 +1,69 @@
+name: AWS CloudWatchLogs VPCflow
+id: 38a34fc4-e128-4478-a8f4-7835d51d5135
+version: 1
+author: Bhavin Patel, Splunk
+date: '2024-07-18'
+description: Data source object for AWS CloudWatchLogs VPCflow
+source: aws_cloudwatchlogs_vpcflow
+sourcetype: aws:cloudwatchlogs:vpcflow
+separator: eventName
+supported_TA:
+- name: Splunk Add-on for AWS
+  version: 7.7.1
+  url: https://splunkbase.splunk.com/app/1876
+fields:
+- _raw
+- _time
+- account_id
+- action
+- app
+- aws_account_id
+- bytes
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_ip
+- dest_port
+- duration
+- dvc
+- end_time
+- eventtype
+- host
+- index
+- interface_id
+- linecount
+- log_status
+- packets
+- protocol
+- protocol_code
+- protocol_full_name
+- protocol_version
+- punct
+- region
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_ip
+- src_port
+- start_time
+- tag
+- tag::action
+- tag::eventtype
+- timeendpos
+- timestartpos
+- transport
+- user_id
+- vendor_account
+- vendor_product
+- version
+- vpcflow_action
+example_log: 2 123397614277 eni-0b0f9f261f45e6489 10.0.1.30 10.0.1.1 47254 22 17 2
+  98 1697608042 1697608070 ACCEPT OK

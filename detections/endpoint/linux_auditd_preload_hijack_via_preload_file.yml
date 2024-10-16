@@ -1,0 +1,62 @@
+name: Linux Auditd Preload Hijack Via Preload File
+id: c1b7abca-55cb-4a39-bdfb-e28c1c12745f
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: "The following analytic detects suspicious preload hijacking via the  `preload` file, which may indicate an attacker's attempt to intercept or manipulate library loading processes. The `preload` file can be used to force the loading of specific libraries before others, potentially allowing malicious code to execute or alter application behavior. By monitoring for unusual or unauthorized modifications to the `preload` file, this analytic helps identify attempts to hijack preload mechanisms, enabling security teams to investigate and address potential threats to system integrity and security."
+data_source:
+- Linux Auditd Path
+search: '`linux_auditd` type=PATH name="/etc/ld.so.preload*" | rename host as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID type
+  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `linux_auditd_preload_hijack_via_preload_file_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+tags:
+  analytic_story:
+  - Linux Living Off The Land
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 90
+  impact: 90
+  message: A [$type$] event has occured on host - [$dest$] to modify the preload file.
+  mitre_attack_id:
+  - T1574.006
+  - T1574
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - name
+  - nametype
+  - OGID
+  risk_score: 81
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/linux_auditd_preload_file/linux_auditd_preload_file.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

@@ -1,7 +1,7 @@
 name: First time seen command line argument
 id: a1b6e73f-98d5-470f-99ac-77aacd578473
-version: 5
-date: '2020-07-21'
+version: 6
+date: '2024-08-15'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting
@@ -50,10 +50,10 @@ tags:
   - T1059.001
   - T1059.003
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-14'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -50,11 +50,11 @@ tags:
   - name: ProcessID
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: TargetImage
     type: Process Name
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

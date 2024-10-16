@@ -1,0 +1,70 @@
+name: Linux Auditd Osquery Service Stop
+id: 0c320fea-6e87-4b99-a884-74d09d4b655d
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects suspicious stopping of the `osquery` service,
+  which may indicate an attempt to disable monitoring and evade detection. `Osquery`
+  is a powerful tool used for querying system information and detecting anomalies,
+  and stopping its service can be a sign that an attacker is trying to disrupt security
+  monitoring or hide malicious activities. By monitoring for unusual or unauthorized
+  stops of the `osquery` service, this analytic helps identify potential efforts to
+  bypass security controls, enabling security teams to investigate and respond to
+  possible threats effectively.
+data_source:
+- Linux Auditd Service Stop
+search: '`linux_auditd` type=SERVICE_STOP unit IN ("osqueryd") | rename host as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime by type pid UID comm
+  exe unit dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
+  `linux_auditd_osquery_service_stop_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application
+  for automation purposes. Please update the filter macros to remove false positives.
+references:
+- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+tags:
+  analytic_story:
+  - Linux Living Off The Land
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A service event - [$type$] event occured on host - [$dest$] to stop the osquery service.
+  mitre_attack_id:
+  - T1489
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - type
+  - pid
+  - UID
+  - comm
+  - exe
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1489/linux_auditd_osquerd_service_stop/linux_auditd_osquerd_service_stop.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

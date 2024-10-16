@@ -6,8 +6,7 @@ author: Patrick Bareiss, Splunk
 description: Data source object for Powershell Installed IIS Modules
 source: powershell://AppCmdModules
 sourcetype: Pwsh:InstalledIISModules
-supported_TA:
-- {}
+supported_TA: []
 fields:
 - _time
 - Schema

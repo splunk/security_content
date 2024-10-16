@@ -1,0 +1,65 @@
+name: O365 Email Access By Security Administrator
+id: c6998a30-fef4-4e89-97ac-3bb0123719b4
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when a user with sufficient access to O365 Security & Compliance portal uses premium investigation features (Threat Explorer) to directly view email. Adversaries may exploit privileged access with this premium feature to enumerate or exfiltrate sensitive data.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess
+| stats values(Workload) as category, values(MailboxId) as user, values(Operation) as signature, count, min(_time) as firstTime, max(_time) as lastTime by InternetMessageId, UserId
+| rename InternetMessageId as signature_id, UserId as src_user  
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_email_access_by_security_administrator_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Threat Explorer is a premium feature with o365, logging may not be available with proper license.
+known_false_positives: Legitamate access by security administators for incident response measures.
+references:
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-investigate-delivered-malicious-email?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Data Exfiltration
+  - Azure Active Directory Account Takeover
+  - Office 365 Account Takeover
+  asset_type: O365 Tenant
+  confidence: 50
+  impact: 50
+  message: A security administrator $src_user$ accessed email messages for $user$
+  mitre_attack_id: 
+  - T1567
+  - T1114
+  - T1114.002
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
+  - name: signature_id
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Workload
+  - Operation 
+  - MailboxId
+  - InternetMessageId
+  - UserId
+  risk_score: 25
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

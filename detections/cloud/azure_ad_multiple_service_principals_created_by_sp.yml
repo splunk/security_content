@@ -1,7 +1,7 @@
 name: Azure AD Multiple Service Principals Created by SP
 id: 66cb378f-234d-4fe1-bb4c-e7878ff6b017
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source:
 - Azure Active Directory Add service principal
@@ -15,7 +15,7 @@ description: The following analytic detects when a single service principal in A
   establish multiple service principals, potentially staging an attack. If confirmed
   malicious, this activity could facilitate network infiltration or expansion, allowing
   the attacker to gain unauthorized access and persist within the environment.
-search: ' `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.app.appId=*
+search: '`azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.app.appId=*
   | rename properties.* as * | bucket span=10m _time | rename targetResources{}.displayName
   as displayName | rename targetResources{}.type as type | rename initiatedBy.app.displayName
   as src_user | stats min(_time) as firstTime max(_time) as lastTime values(displayName)

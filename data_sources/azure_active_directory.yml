@@ -3,11 +3,11 @@ id: 51ca21e5-bda2-4652-bb29-27c7bc18a81c
 version: 1
 date: '2024-07-18'
 author: Patrick Bareiss, Splunk
-description: Data source object for Azure Active Directory 
+description: Data source object for Azure Active Directory
 source: Azure AD
 sourcetype: azure:monitor:aad
 separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 5.2.2
+  version: 5.4.0

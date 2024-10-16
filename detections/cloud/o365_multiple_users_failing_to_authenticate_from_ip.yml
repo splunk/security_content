@@ -1,7 +1,7 @@
 name: O365 Multiple Users Failing To Authenticate From Ip
 id: 8d486e2e-3235-4cfe-ac35-0d042e24ecb4
-version: 3
-date: '2024-05-23'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: The following analytic identifies instances where more than 10 uniq
   multiple accounts, potentially leading to unauthorized access. Immediate action
   is required to block or monitor the suspicious IP and notify affected users to enhance
   their security measures.
-search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
   ErrorNumber=50126 |  bucket span=5m _time |  stats dc(user) as unique_accounts values(user)
   as user values(LogonError) as LogonError values(signature) as signature values(UserAgent)
   as UserAgent by _time, src_ip |  where unique_accounts > 10 | `o365_multiple_users_failing_to_authenticate_from_ip_filter`'

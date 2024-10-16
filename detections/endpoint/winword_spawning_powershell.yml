@@ -1,7 +1,7 @@
 name: Winword Spawning PowerShell
 id: b2c950b8-9be2-11eb-8658-acde48001122
-version: 3
-date: '2024-05-10'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,7 +64,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

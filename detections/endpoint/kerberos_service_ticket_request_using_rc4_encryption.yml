@@ -1,7 +1,7 @@
 name: Kerberos Service Ticket Request Using RC4 Encryption
 id: 7d90f334-a482-11ec-908c-acde48001122
-version: 3
-date: '2024-05-27'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: 'The following analytic detects Kerberos service ticket requests us
   key instead of the NTLM hash.'
 data_source:
 - Windows Event Log Security 4769
-search: ' `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000
+search: '`wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000
   OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
   | stats count min(_time) as firstTime max(_time) as lastTime by dest, service, service_id,
   TicketEncryptionType, TicketOptions | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`

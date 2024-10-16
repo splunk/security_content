@@ -1,7 +1,7 @@
 name: Eventvwr UAC Bypass
 id: 9cf8fe08-7ad8-11eb-9819-acde48001122
-version: 4
-date: '2024-05-26'
+version: 5
+date: '2024-09-24'
 author: Steven Dick, Michael Haag, Splunk
 status: production
 type: TTP
@@ -49,6 +49,7 @@ tags:
   - IcedID
   - Living Off The Land
   - Windows Registry Abuse
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 100
   impact: 80
@@ -92,7 +93,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

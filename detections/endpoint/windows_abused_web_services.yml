@@ -29,6 +29,7 @@ references:
 tags:
   analytic_story:
   - NjRAT
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 60
   impact: 60

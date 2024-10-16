@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2024-05-21'
+date: '2024-09-24'
 description: 'The following analytic identifies a source process failing to authenticate
   multiple users, potentially indicating a Password Spraying attack. It leverages
   Windows Event 4625, which logs failed logon attempts, and uses statistical analysis
@@ -24,7 +24,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-search: ' `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket
+search: '`wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-" | bucket
   span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
   as user by _time, ProcessName, SubjectUserName, Computer | eventstats
   avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by ProcessName,
@@ -74,4 +74,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: Anomaly
-version: 2
+version: 3

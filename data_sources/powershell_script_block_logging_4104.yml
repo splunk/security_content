@@ -9,7 +9,7 @@ sourcetype: xmlwineventlog
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 8.8.0
+  version: 8.9.0
 fields:
 - _time
 - ActivityID
@@ -64,6 +64,22 @@ fields:
 - timestartpos
 - user_id
 - vendor_product
+field_mappings:
+  - data_model: cim
+    data_set: Endpoint.Processes
+    mapping:
+      Computer: Processes.dest
+      Path: Processes.process_path
+      ScriptBlockId: Processes.process_id
+      ScriptBlockText: Processes.process
+      UserID: Processes.user_id
+  - data_model: ocsf
+    mapping:
+      Computer: device.hostname
+      Path: process.file.path
+      ScriptBlockId: process.uid
+      ScriptBlockText: process.cmd_line
+      UserID: actor.user.uid
 example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
   Name='Microsoft-Windows-PowerShell' Guid='{A0C1853B-5C40-4B15-8766-3CF1C58F985A}'/><EventID>4104</EventID><Version>1</Version><Level>5</Level><Task>2</Task><Opcode>15</Opcode><Keywords>0x0</Keywords><TimeCreated
   SystemTime='2022-05-02T12:39:41.710158900Z'/><EventRecordID>112748</EventRecordID><Correlation

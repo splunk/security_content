@@ -1,7 +1,7 @@
 name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
 id: 114c6bfe-9406-11ec-bcce-acde48001122
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the execution of the `Get-ADUser` Po
   privileges within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: ' `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
   | stats count min(_time)  as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText | rename Computer as dest | `security_content_ctime(firstTime)`
   | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 90
   impact: 60

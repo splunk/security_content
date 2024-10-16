@@ -47,6 +47,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Living Off The Land
   - Windows Registry Abuse
+  - MoonPeak
   asset_type: Endpoint
   confidence: 90
   impact: 70

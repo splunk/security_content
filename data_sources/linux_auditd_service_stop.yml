@@ -1,0 +1,30 @@
+name: Linux Auditd Service Stop
+id: 0643483c-bc62-455c-8d6e-1630e5f0e00d
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Service Stop Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- msg
+- type
+- pid
+- uid
+- auid
+- ses
+- subj
+- msg
+- comm
+- exe
+- hostname
+- addr
+- terminal
+- res
+- UID
+- AUID
+example_log: 'type=SERVICE_STOP msg=audit(1722957155.494:4802): pid=1 uid=0 auid=4294967295 ses=4294967295 subj=unconfined msg=''unit=atd comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success''UID="root" AUID="unset"'

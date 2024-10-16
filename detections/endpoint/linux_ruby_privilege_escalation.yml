@@ -1,7 +1,7 @@
 name: Linux Ruby Privilege Escalation
 id: 097b28b5-7004-4d40-a715-7e390501788b
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -53,11 +53,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

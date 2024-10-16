@@ -1,7 +1,7 @@
 name: Winword Spawning Windows Script Host
 id: 637e1b5c-9be1-11eb-9c32-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -59,7 +59,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Windows Special Privileged Logon On Multiple Hosts
 id: 4c461f5a-c2cc-4e86-b132-c262fc9edca7
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -15,7 +15,7 @@ description: The following analytic detects a user authenticating with special p
   potentially leading to privilege escalation, data exfiltration, or further compromise
   of the environment. Security teams should adjust detection thresholds based on their
   specific environment.
-search: ' `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL
+search: '`wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL
   SERVICE","NETWORK SERVICE","SYSTEM","*$")) | bucket span=5m _time | stats dc(Computer)
   AS unique_targets values(Computer) as dest values(PrivilegeList) as privileges by
   _time, Caller_User_Name | rename Caller_User_Name as user| where unique_targets

@@ -1,7 +1,7 @@
 name: Rubeus Kerberos Ticket Exports Through Winlogon Access
 id: 5ed8c50a-8869-11ec-876f-acde48001122
-version: 2
-date: '2024-05-27'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects a process accessing the winlogon.exe
   and persist within the network, posing a severe security risk.
 data_source:
 - Sysmon EventID 10
-search: ' `sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
+search: '`sysmon` EventCode=10 TargetImage=C:\\Windows\\system32\\winlogon.exe (GrantedAccess=0x1f3fff)
   (SourceImage!=C:\\Windows\\system32\\svchost.exe AND SourceImage!=C:\\Windows\\system32\\lsass.exe
   AND SourceImage!=C:\\Windows\\system32\\LogonUI.exe AND SourceImage!=C:\\Windows\\system32\\smss.exe
   AND SourceImage!=C:\\Windows\\system32\\wbem\\wmiprvse.exe) | stats count min(_time)
@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 60
   impact: 60
@@ -52,7 +53,7 @@ tags:
   - name: TargetImage
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Linux Obfuscated Files or Information Base64 Decode
 id: 303b38b2-c03f-44e2-8f41-4594606fcfc7
-version: 3
-date: '2024-06-25'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -55,11 +55,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

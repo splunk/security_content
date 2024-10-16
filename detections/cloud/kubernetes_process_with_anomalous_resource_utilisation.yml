@@ -1,7 +1,7 @@
 name: Kubernetes Process with Anomalous Resource Utilisation
 id: 25ca9594-7a0d-4a95-a5e5-3228d7398ec8
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -62,7 +62,7 @@ how_to_implement: 'To implement this detection, follow these steps:
 
   * Leave all other settings at their default values.
 
-  * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
+  * Run the Search Baseline Of Kubernetes Container Network IO Ratio'
 known_false_positives: unknown
 references:
 - https://github.com/signalfx/splunk-otel-collector-chart

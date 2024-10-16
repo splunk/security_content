@@ -1,0 +1,48 @@
+### Spec for File based lookups
+name: 
+  type: str
+  description: Name of the lookup
+  required: true
+description: 
+  type: str
+  description: Description of the lookup
+  required: true
+filename: 
+  type: str
+  description: Filename of the CSV file associated with the lookup
+  required: true
+default_match: 
+  type: str
+  description: Default match setting for the lookup
+  required: false
+match_type: 
+  type: str
+  description: Type of match used in the lookup
+  required: false
+min_matches: 
+  type: int
+  description: Minimum number of matches required
+  required: false
+case_sensitive_match: 
+  type: str
+  description: Case sensitivity setting for the match
+  required: false
+
+
+  #### Spec for Collections based lookups:
+name: 
+  type: str
+  description: Name of the lookup
+  required: true
+collection: 
+  type: str
+  description: Name of the collection associated with the lookup
+  required: true
+description: 
+  type: str
+  description: Description of the lookup
+  required: true
+fields_list: 
+  type: list
+  description: List of fields in the lookup
+  required: true

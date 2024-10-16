@@ -1,7 +1,7 @@
 name: Windows MSIExec Unregister DLLRegisterServer
 id: a27db3c5-1a9a-46df-a577-765d3f1a3c24
-version: 2
-date: '2024-05-10'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -59,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process Name
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

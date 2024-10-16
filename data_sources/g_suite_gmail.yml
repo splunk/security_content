@@ -9,7 +9,7 @@ sourcetype: gsuite:gmail:bigquery
 supported_TA:
 - name: Splunk Add-on for Google Workspace
   url: https://splunkbase.splunk.com/app/5556
-  version: 2.6.3
+  version: 2.8.1
 fields:
 - _time
 - action_type

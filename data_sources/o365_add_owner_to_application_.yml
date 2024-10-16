@@ -10,7 +10,7 @@ separator: Operation
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
-  version: 4.5.1
+  version: 4.5.2
 fields:
 - _time
 - ActorContextId

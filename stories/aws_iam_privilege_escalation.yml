@@ -1,7 +1,7 @@
 name: AWS IAM Privilege Escalation
 id: ced74200-8465-4bc3-bd2c-22782eec6750
-version: 1
-date: '2021-03-08'
+version: 2
+date: '2024-09-24'
 author: Bhavin Patel, Splunk
 description: This analytic story contains detections that query your AWS Cloudtrail
   for activities related to privilege escalation.
@@ -16,7 +16,7 @@ narrative: 'Amazon Web Services provides a neat feature called Identity and Acce
   detailing various AWS Escalation methods. By using this as an inspiration, Splunks
   research team wants to highlight how these attack vectors look in AWS Cloudtrail
   logs and provide you with detection queries to uncover these potentially malicious
-  events via this Analytic Story. '
+  events via this Analytic Story.'
 references:
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation/
 - https://www.cyberark.com/resources/threat-research-blog/the-cloud-shadow-admin-threat-10-permissions-to-protect

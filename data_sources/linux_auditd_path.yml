@@ -1,0 +1,32 @@
+name: Linux Auditd Path
+id: 3d86125c-0496-4a5a-aae3-0d355a4f3d7d
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Path Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- msg
+- type
+- item
+- name
+- inode
+- dev
+- mode
+- ouid
+- ogid
+- rdev
+- nametype
+- cap_fp
+- cap_fi
+- cap_fe
+- cap_fver
+- cap_frootid
+- OUID
+- OGID
+example_log: 'type=PATH msg=audit(1723043687.149:14898): item=1 name="/etc/ssh/ssh_config~" inode=1292 dev=103:01 mode=0100644 ouid=0 ogid=0 rdev=00:00 nametype=DELETE cap_fp=0 cap_fi=0 cap_fe=0 cap_fver=0 cap_frootid=0 OUID="root" OGID="root"'

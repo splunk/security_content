@@ -1,7 +1,7 @@
 name: Unsuccessful Netbackup backups
 id: a34aae96-ccf8-4aaa-952c-3ea21444444f
-version: 1
-date: '2017-09-12'
+version: 2
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting
@@ -26,10 +26,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

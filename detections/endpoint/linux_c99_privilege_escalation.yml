@@ -1,7 +1,7 @@
 name: Linux c99 Privilege Escalation
 id: e1c6dec5-2249-442d-a1f9-99a4bd228183
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

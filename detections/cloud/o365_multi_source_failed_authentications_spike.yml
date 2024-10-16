@@ -1,7 +1,7 @@
 name: O365 Multi-Source Failed Authentications Spike
 id: ea4e2c41-dbfb-4f5f-a7b6-9ac1b7f104aa
-version: 2
-date: '2024-05-31'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic identifies a spike in failed authentication 
   If confirmed malicious, this activity could lead to unauthorized access, data breaches,
   privilege escalation, and lateral movement within the organization. Early detection
   is crucial to prevent account takeovers and mitigate subsequent threats.
-search: ' `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
   ErrorNumber=50126 | bucket span=5m _time | eval uniqueIPUserCombo = src_ip . "-"
   . user | stats dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers,
   dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent)

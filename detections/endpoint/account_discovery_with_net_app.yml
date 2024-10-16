@@ -1,7 +1,7 @@
 name: Account Discovery With Net App
 id: 339805ce-ac30-11eb-b87d-acde48001122
-version: 5
-date: '2024-05-22'
+version: 6
+date: '2024-08-15'
 author: Teoderick Contreras, Splunk, TheLawsOfChaos, Github Community
 status: production
 type: TTP
@@ -61,7 +61,7 @@ tags:
   - name: process_name
     type: Process Name
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

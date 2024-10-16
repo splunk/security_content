@@ -1,7 +1,7 @@
 name: EC2 Instance Started With Previously Unseen Instance Type
 id: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
-version: 2
-date: '2020-02-07'
+version: 3
+date: '2024-08-16'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly
@@ -36,10 +36,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

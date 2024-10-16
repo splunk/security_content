@@ -1,7 +1,7 @@
 name: Short Lived Scheduled Task
 id: 6fa31414-546e-11ec-adfa-acde48001122
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: 'The following analytic detects the creation and deletion of schedu
 data_source:
 - Windows Event Log Security 4698
 - Windows Event Log Security 4699
-search: ' `wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
+search: '`wineventlog_security` EventCode=4698 OR EventCode=4699 | xmlkv Message
   | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699) |
   eval short_lived=case((duration<30),"TRUE") | search  short_lived = TRUE | rename
   ComputerName as dest| table _time, dest, Account_Name, Command, Task_Name, short_lived

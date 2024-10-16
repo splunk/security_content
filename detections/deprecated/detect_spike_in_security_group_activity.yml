@@ -1,7 +1,7 @@
 name: Detect Spike in Security Group Activity
 id: ada0f478-84a8-4641-a3f1-e32372d4bd53
-version: 1
-date: '2018-04-18'
+version: 2
+date: '2024-08-16'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly
@@ -47,10 +47,10 @@ tags:
   mitre_attack_id:
   - T1078.004
   observable:
-  - name: field
-    type: Unknown
+  - name: user
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

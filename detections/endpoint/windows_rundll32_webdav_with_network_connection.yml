@@ -1,7 +1,7 @@
 name: Windows Rundll32 WebDav With Network Connection
 id: f03355e0-28b5-4e9b-815a-6adffc63b38c
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: TTP
 status: experimental
@@ -66,11 +66,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

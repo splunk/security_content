@@ -1,0 +1,84 @@
+name: Windows AD Domain Root ACL Modification
+id: 4981e2db-1372-440d-816e-3e7e2ed74433
+version: 1
+date: '2023-11-11'
+author: Dean Luxton
+status: production
+type: TTP
+data_source:
+- Windows Security 5136
+description: ACL modification performed on the domain root object, significant AD change with high impact. Following MS guidance all changes at this level should be reviewed. Drill into the logonID within EventCode 4624 for information on the source device during triage. 
+search: >-
+  `wineventlog_security` EventCode=5136 ObjectClass=domainDNS 
+  | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
+  | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)" 
+  | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)" 
+  | mvexpand new_ace
+  | where NOT new_ace IN (old_values) 
+  | rex field=new_ace "(?P<aceType>.*?);(?P<aceFlags>.*?);(?P<aceAccessRights>.*?);(?P<aceObjectGuid>.*?);;(?P<aceSid>.*?)$"
+  | rex max_match=100 field=aceAccessRights "(?P<AccessRights>[A-Z]{2})" 
+  | rex max_match=100 field=aceFlags "(?P<aceFlags>[A-Z]{2})" 
+  | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
+  | lookup ace_access_rights_lookup access_rights_string as AccessRights OUTPUT access_rights_value 
+  | lookup ace_type_lookup ace_type_string as aceType OUTPUT ace_type_value 
+  | lookup ace_flag_lookup flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+  ``` Optional SID resolution lookups
+  | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user 
+  | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
+  | lookup builtin_groups_lookup builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+  | eval aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",'access_rights_value'), aceType=ace_type_value, aceFlags=coalesce(ace_flag_value,"This object only"), aceControlAccessRights=ControlAccessRights, user=coalesce(user, group, builtin_group, aceSid) 
+  | stats values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace by _time ObjectClass ObjectDN src_user SubjectLogonId user OpCorrelationID
+  | eval aceControlAccessRights=if(mvcount(aceControlAccessRights)=1 AND aceControlAccessRights="","All rights",'aceControlAccessRights')
+  | `windows_ad_domain_root_acl_modification_filter`
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136. 
+  See lantern article in references for further on how to onboard AD audit data. Ensure the 
+  wineventlog_security macro is configured with the correct indexes and include lookups for SID resolution if evt_resolve_ad_obj is set to 0. 
+known_false_positives: Unknown
+references:
+- https://learn.microsoft.com/en-us/windows/win32/secauthz/ace-strings
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-adts/1522b774-6464-41a3-87a5-1e5633c3fbbb
+- https://trustedsec.com/blog/a-hitchhackers-guide-to-dacl-based-detections-part-1-a
+- https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+tags:
+  analytic_story:
+    - Sneaky Active Directory Persistence Tricks
+  asset_type: Endpoint
+  confidence: 100
+  impact: 100
+  message: $src_user$ has granted $user$ $aceAccessRights$ ACL rights to domain root $ObjectDN$
+  mitre_attack_id:
+  - T1484
+  - T1222
+  - T1222.001
+  observable:
+    - name: user
+      type: User
+      role:
+        - Victim
+    - name: src_user
+      type: User
+      role:
+        - Victim
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  risk_score: 100
+  required_fields:
+    - _time
+    - OperationType
+    - ObjectDN
+    - OpCorrelationID
+    - src_user
+    - AttributeLDAPDisplayName
+    - AttributeValue
+    - ObjectClass
+    - SubjectLogonId
+    - DSName
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/dacl_abuse/domain_root_acl_mod_windows-security-xml.log
+        source: XmlWinEventLog:Security
+        sourcetype: xmlwineventlog

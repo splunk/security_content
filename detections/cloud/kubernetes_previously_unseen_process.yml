@@ -1,7 +1,7 @@
 name: Kubernetes Previously Unseen Process
 id: c8119b2f-d7f7-40be-940a-1c582870e8e2
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -53,7 +53,7 @@ how_to_implement: 'To implement this detection, follow these steps:
 
   * Leave all other settings at their default values.
 
-  * Run the Search Baseline Of Kubernetes Container Network IO Ratio '
+  * Run the Search Baseline Of Kubernetes Container Network IO Ratio'
 known_false_positives: unknown
 references:
 - https://github.com/signalfx/splunk-otel-collector-chart

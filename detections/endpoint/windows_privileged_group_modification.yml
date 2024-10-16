@@ -1,9 +1,9 @@
 name: Windows Privileged Group Modification
 id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
-version: 1
-date: '2024-07-30'
+version: 3
+date: '2024-09-26'
 author: Brandon Sternfield, Optiv + ClearShark
-data_sources:
+data_source:
 - Windows Event Log Security 4727
 - Windows Event Log Security 4731
 - Windows Event Log Security 4744
@@ -48,23 +48,11 @@ tags:
   - name: src_user
     type: User
     role:
-    - Attacker
+    - Victim
   - name: dest
     type: Hostname
     role:
     - Victim
-  - name: object
-    type: Other
-    role:
-    - Target
-  - name: object_category
-    type: Other
-    role:
-    - Other
-  - name: change_type
-    type: Other
-    role:
-    - Other
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

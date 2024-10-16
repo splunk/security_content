@@ -1,7 +1,7 @@
 name: Windows Ngrok Reverse Proxy Usage
 id: e2549f2c-0aef-408a-b0c1-e0f270623436
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - Reverse Network Proxy
   - CISA AA22-320A
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 100
   impact: 50
@@ -61,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

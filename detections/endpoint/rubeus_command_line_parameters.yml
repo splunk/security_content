@@ -1,7 +1,7 @@
 name: Rubeus Command Line Parameters
 id: cca37478-8377-11ec-b59a-acde48001122
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-15'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -49,6 +49,7 @@ tags:
   - Active Directory Privilege Escalation
   - CISA AA23-347A
   - Active Directory Kerberos Attacks
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 60
   impact: 60
@@ -71,7 +72,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

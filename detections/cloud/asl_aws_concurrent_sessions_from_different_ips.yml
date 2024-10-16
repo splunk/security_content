@@ -1,7 +1,7 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 3
-date: '2024-05-24'
+version: 4
+date: '2024-09-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -15,14 +15,13 @@ description: The following analytic identifies an AWS IAM account with concurren
   to sensitive corporate resources, leading to potential data breaches or further
   exploitation.
 data_source: []
-search: ' `amazon_security_lake` api.operation=DescribeEventAggregates "http_request.user_agent"!="AWS Internal" "src_endpoint.domain"!="health.amazonaws.com" 
-| eval time = time/pow(10,3)
-| `security_content_ctime(time)`
-| bin span=5m time 
-| stats values(src_endpoint.ip) as src_ip dc(src_endpoint.ip) as distinct_ip_count values(cloud.region) as cloud.region by time api.operation actor.user.account_uid actor.user.uid 
-| where distinct_ip_count > 1 
-| rename cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id, actor.user.uid as user
-| `asl_aws_concurrent_sessions_from_different_ips_filter`'
+search: '`amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal" 
+  | bin span=5m _time
+  | stats values(src_endpoint.ip) as src_ip dc(src_endpoint.ip) as distinct_ip_count 
+  by _time identity.user.credential_uid identity.user.name
+  | where distinct_ip_count > 1 
+  | rename identity.user.name as user
+  | `asl_aws_concurrent_sessions_from_different_ips_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides 
   security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search,
   ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or 
@@ -69,6 +68,7 @@ tags:
   - cloud.region
   risk_score: 42
   security_domain: threat
+  manual_test: Can't be tested automatically because of time span.
 tests:
 - name: True Positive Test
   attack_data:

@@ -1,7 +1,7 @@
 name: JetBrains TeamCity RCE Attempt
 id: 89a58e5f-1365-4793-b45c-770abbb32b6c
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-08-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -49,10 +49,6 @@ tags:
     type: Hostname
     role:
     - Victim
-  - name: url
-    type: URL String
-    role:
-    - Other
   - name: src
     type: IP Address
     role:

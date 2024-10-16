@@ -1,7 +1,7 @@
 name: Windows AutoIt3 Execution
 id: 0ecb40d9-492b-4a57-9f87-515dd742794c
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -52,11 +52,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   - name: dest
     type: Hostname
     role:
@@ -64,7 +64,7 @@ tags:
   - name: user
     type: User
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

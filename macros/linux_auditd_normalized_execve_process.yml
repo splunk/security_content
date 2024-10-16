@@ -1,0 +1,4 @@
+definition: 'type=EXECVE | eval relevant_fields=if(type="EXECVE", "", relevant_fields) | foreach a* [eval relevant_fields=if(type="EXECVE", mvappend(relevant_fields, ''<<FIELD>>''), relevant_fields)] | eval process_exec=if(type="EXECVE", mvjoin(relevant_fields, " "), process_exec) | eval process_exec=if(type="EXECVE", trim(process_exec), process_exec)'
+description: customer specific splunk configurations to normalized auditd PROCTITLE type to recover process commandline.
+  Replace the macro definition with configurations for your Splunk Environmnent.
+name: linux_auditd_normalized_execve_process

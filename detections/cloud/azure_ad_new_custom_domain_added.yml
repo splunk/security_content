@@ -1,7 +1,7 @@
 name: Azure AD New Custom Domain Added
 id: 30c47f45-dd6a-4720-9963-0bca6c8686ef
-version: 3
-date: '2024-05-14'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the addition of a new custom domain 
   posing a severe security risk.
 data_source:
 - Azure Active Directory Add unverified domain
-search: ' `azure_monitor_aad`  operationName="Add unverified domain" properties.result=success
+search: '`azure_monitor_aad`  operationName="Add unverified domain" properties.result=success
   | rename properties.* as * | rename targetResources{}.displayName as domain | stats
   count min(_time) as firstTime max(_time) as lastTime by user, domain, result, operationName,
   src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`

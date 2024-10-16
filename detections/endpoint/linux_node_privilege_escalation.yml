@@ -1,7 +1,7 @@
 name: Linux Node Privilege Escalation
 id: 2e58a4ff-398f-42f4-8fd0-e01ebfe2a8ce
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -56,11 +56,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

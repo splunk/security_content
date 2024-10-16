@@ -1,7 +1,7 @@
 name: Windows Disable Windows Event Logging Disable HTTP Logging
 id: 23fb6787-255f-4d5b-9a66-9fd7504032b5
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -67,11 +67,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Prohibited Software On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
-version: 2
-date: '2019-10-11'
+version: 3
+date: '2024-08-15'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting
@@ -34,10 +34,14 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

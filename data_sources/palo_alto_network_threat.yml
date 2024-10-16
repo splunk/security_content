@@ -7,9 +7,9 @@ description: Data source object for Palo Alto Network Threat
 source: pan:threat
 sourcetype: pan:threat
 supported_TA:
-- name: Palo Alto Networks Add-on for Splunk
+- name: Palo Alto Networks Add-on
   url: https://splunkbase.splunk.com/app/2757
-  version: 8.1.1
+  version: 8.1.3
 fields:
 - _time
 - date_hour

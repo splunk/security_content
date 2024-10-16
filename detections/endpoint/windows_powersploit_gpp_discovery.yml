@@ -1,7 +1,7 @@
 name: Windows PowerSploit GPP Discovery
 id: 0130a0df-83a1-4647-9011-841e950ff302
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the execution of the Get-GPPPassword
   potentially leading to unauthorized access. If confirmed malicious, this activity
   could allow an attacker to escalate privileges or move laterally within the network
   by exploiting exposed credentials.
-search: ' `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
+search: '`powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
   | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
   UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_powersploit_gpp_discovery_filter`'

@@ -1,7 +1,7 @@
 name: Create local admin accounts using net exe
 id: b89919ed-fe5f-492c-b139-151bb162040e
-version: 10
-date: '2024-05-11'
+version: 11
+date: '2024-08-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ tags:
   - Azorult
   - CISA AA22-257A
   - DarkGate Malware
+  - CISA AA24-241A
   asset_type: Endpoint
   confidence: 60
   impact: 50
@@ -58,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

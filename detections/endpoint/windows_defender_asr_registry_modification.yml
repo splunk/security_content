@@ -1,7 +1,7 @@
 name: Windows Defender ASR Registry Modification
 id: 6a1b6cbe-6612-44c3-92b9-1a1bd77412eb
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -47,10 +47,6 @@ tags:
   mitre_attack_id:
   - T1112
   observable:
-  - name: ASR_Rule
-    type: Unknown
-    role:
-    - Other
   - name: dest
     type: Endpoint
     role:

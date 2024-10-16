@@ -1,4 +1,6 @@
 name: CISA AA23-347A
+id: 257a2f28-fcbe-4226-8d1f-957880098331
+version: 2
 date: '2023-12-14'
 author: Teoderick Contreras, Rod Soto, Splunk
 description: Leverage searches that allow you to detect and investigate unusual activities

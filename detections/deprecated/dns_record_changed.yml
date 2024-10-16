@@ -1,7 +1,7 @@
 name: DNS record changed
 id: 44d3a43e-dcd5-49f7-8356-5209bb369065
-version: 3
-date: '2020-07-21'
+version: 4
+date: '2024-08-15'
 author: Jose Hernandez, Splunk
 status: deprecated
 type: TTP
@@ -48,10 +48,10 @@ tags:
   mitre_attack_id:
   - T1071.004
   observable:
-  - name: field
-    type: Unknown
+  - name: src
+    type: IP Address
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

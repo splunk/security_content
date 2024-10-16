@@ -1,0 +1,58 @@
+name: Crowdstrike High Identity Risk Severity
+id: 0df524ad-6d78-4883-9987-d29418928103
+version: 1
+date: '2024-07-17'
+author: Teoderick Contreras, Splunk
+data_source: []
+type: TTP
+status: production
+description: The following analytic detects CrowdStrike alerts for High Identity Risk Severity with a risk score of 70 or higher. 
+  These alerts indicate significant vulnerabilities in user identities, such as suspicious behavior or compromised credentials. 
+  Promptly investigating and addressing these alerts is crucial to prevent potential security breaches and ensure the integrity 
+  and protection of sensitive information and systems.
+search: '`crowdstrike_identities` riskScoreSeverity="HIGH" OR riskScore >= 0.70
+  | rename riskFactors{}.severity as severity, riskFactors{}.type as risk_type, roles{}.type as role_type, accounts{}.domain as domain, accounts{}.dn as dn, accounts{}.samAccountName as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by  domain dn primaryDisplayName risk_type severity riskScore riskScoreSeverity user role_type
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `crowdstrike_high_identity_risk_severity_filter`'
+how_to_implement: To implement crowdstrike:identities logs, use the Falcon Streaming API. Set up an API client, 
+  authenticate with your CrowdStrike credentials, and subscribe to the "crowdstrike:identities" event stream. 
+  Process and store the logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
+known_false_positives: unknown
+references:
+- https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  asset_type: Endpoint
+  confidence: 90
+  impact: 100
+  message: High Identity Risk Score Severity found on $domain$
+  mitre_attack_id:
+  - T1110
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - riskFactors{}.severity
+  - riskFactors{}.type
+  - roles{}.type
+  - accounts{}.domain
+  - accounts{}.dn
+  - accounts{}.samAccountName
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/high_risk_score/crowdstrike_high_riskscore_cleaned.log
+    sourcetype: crowdstrike:identities
+    source: crowdstrike:identities

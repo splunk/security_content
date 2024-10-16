@@ -1,0 +1,3 @@
+description: A lookup file that will contain translations for AD object ace access rights strings
+filename: ace_access_rights_lookup.csv
+name: ace_access_rights_lookup

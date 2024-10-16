@@ -1,7 +1,7 @@
 name: Linux Clipboard Data Copy
 id: 7173b2ad-6146-418f-85ae-c3479e4515fc
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -56,7 +56,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

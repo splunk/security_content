@@ -1,7 +1,7 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2024-05-28'
+date: '2024-09-24'
 description: 'The following analytic identifies a source host failing to authenticate
   against a remote host with 30 unique users. It leverages Windows Event 4625 with
   Logon Type 3, indicating remote authentication attempts. This behavior is significant
@@ -25,7 +25,7 @@ references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-search: ' `wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
+search: '`wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
   span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
   as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter`'
 status: production
@@ -66,4 +66,4 @@ tests:
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: TTP
-version: 3
+version: 4

@@ -1,7 +1,7 @@
 name: Windows Vulnerable Driver Installed
 id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
-version: 1
-date: '2023-09-27'
+version: 2
+date: '2024-08-07'
 author: Dean Luxton
 status: production
 type: TTP
@@ -34,7 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 100
-  message: Potentially vulnerable/malicious driver ($driver_name$) has been installed on $dest$
+  message: Potentially vulnerable/malicious driver [$ImagePath$] has been installed on $dest$
   mitre_attack_id:
   - T1543.003
   observable:

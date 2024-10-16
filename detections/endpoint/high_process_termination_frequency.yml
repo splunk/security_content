@@ -1,7 +1,7 @@
 name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-08-14'
 author: Teoderick Contreras
 status: production
 type: Anomaly
@@ -47,7 +47,7 @@ tags:
   - name: proc_terminated
     type: Process
     role:
-    - Target
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-08-16'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -47,7 +47,7 @@ tags:
   - name: user
     type: User
     role:
-    - Attacker
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

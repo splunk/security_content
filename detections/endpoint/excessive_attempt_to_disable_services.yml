@@ -1,7 +1,7 @@
 name: Excessive Attempt To Disable Services
 id: 8fa2a0f0-acd9-11eb-8994-acde48001122
-version: 2
-date: '2024-05-04'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -55,7 +55,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

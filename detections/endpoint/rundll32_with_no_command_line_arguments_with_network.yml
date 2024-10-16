@@ -48,6 +48,7 @@ tags:
   - BlackByte Ransomware
   - PrintNightmare CVE-2021-34527
   - Graceful Wipe Out Attack
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 100
   cve:

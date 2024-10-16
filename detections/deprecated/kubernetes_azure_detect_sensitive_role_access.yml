@@ -1,7 +1,7 @@
 name: Kubernetes Azure detect sensitive role access
 id: f27349e5-1641-4f6a-9e68-30402be0ad4c
-version: 1
-date: '2020-05-20'
+version: 3
+date: '2024-09-24'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting
@@ -15,7 +15,7 @@ search: '`kubernetes_azure` category=kube-audit | spath input=properties.log| se
 how_to_implement: You must install the Add-on for Microsoft Cloud Services and Configure
   Kube-Audit data diagnostics
 known_false_positives: 'Sensitive role resource access is necessary for cluster operation,
-  however source IP, namespace and user group may indicate possible malicious use. '
+  however source IP, namespace and user group may indicate possible malicious use.'
 references: []
 tags:
   analytic_story:
@@ -25,10 +25,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: user.username
+    type: User
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

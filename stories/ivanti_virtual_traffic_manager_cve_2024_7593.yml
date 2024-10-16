@@ -1,0 +1,20 @@
+name: Ivanti Virtual Traffic Manager CVE-2024-7593
+id: 28e88e97-3494-45a6-87d5-76065cccf8d2
+version: 1
+date: '2024-08-19'
+author: Michael Haag, Splunk
+description: This analytic story addresses the critical authentication bypass vulnerability (CVE-2024-7593) in Ivanti Virtual Traffic Manager (vTM). Disclosed in August 2024, this flaw affects vTM versions prior to 22.2R1 and 22.7R2, allowing unauthenticated remote attackers to access the admin panel and create new administrator accounts. Such access could potentially lead to full system compromise. The story provides detections for potential exploitation attempts, focusing on unauthorized account creation and suspicious administrative activities. It aims to help organizations identify and respond to possible attacks leveraging this vulnerability, emphasizing the importance of timely patching and thorough investigation of any suspicious events.
+narrative: In August 2024, a critical vulnerability (CVE-2024-7593) was disclosed in Ivanti Virtual Traffic Manager (vTM) versions prior to 22.2R1 and 22.7R2. This authentication bypass flaw allows unauthenticated remote attackers to access the admin panel and create new administrator accounts, potentially leading to full system compromise. Exploitation of this vulnerability typically involves an attacker accessing the vTM management interface, bypassing authentication using the vulnerability, creating a new administrator account without proper authorization, and potentially using the new account for further malicious activities. This analytic story includes detections to identify suspicious account creation events and other indicators of exploitation. It is crucial for organizations using affected Ivanti vTM versions to update to a patched version immediately and investigate any potential compromise. By leveraging these detections, security teams can enhance their ability to detect and respond to potential attacks exploiting this critical vulnerability in their Ivanti vTM deployments.
+references:
+  - https://www.ivanti.com/security/security-advisories/ivanti-virtual-traffic-manager-vtm-cve-2024-7593
+  - https://nvd.nist.gov/vuln/detail/CVE-2024-7593
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-7593

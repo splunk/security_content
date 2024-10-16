@@ -1,0 +1,64 @@
+name: O365 Threat Intelligence Suspicious File Detected
+id: 00958c7b-35db-4e7a-ad13-31550a7a7c64
+version: 1
+date: '2024-04-01'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when a malicious file is detected within the Microsoft Office 365 ecosystem through the Advanced Threat Protection engine. Attackers may stage and execute malicious files from within the Microsoft Office 365 ecosystem. Any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities such as Safe Attachment and Safe Links further enhance these detection and response functions.
+data_source: 
+- O365 Universal Audit Log
+search: '`o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
+| stats values(DetectionMethod) as category  values(FileData.FileName) as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime, max(_time) as lastTime by Id, UserId
+| rename Id as signature_id, UserId as user  
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)`
+| `o365_threat_intelligence_suspicious_file_detected_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The threat intelligence workload is typically only visible to E3/E5 level customers. 
+known_false_positives: unknown
+references:
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-real-time-detections-about?view=o365-worldwide
+- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-for-spo-odfb-teams-about?view=o365-worldwide
+tags:
+  analytic_story: 
+  - Azure Active Directory Account Takeover
+  - Office 365 Account Takeover
+  - Ransomware Cloud
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 50
+  message: Threat Intelligence workload detected a malicious file [$file_name$] from user $user$
+  mitre_attack_id: 
+  - T1204.002
+  - T1204
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: file_name
+    type: File Name
+    role:
+    - Victim
+  - name: signature
+    type: Other
+    role:
+    - Attacker
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time  
+  - Workload
+  - Operation
+  - Id
+  - UserId
+  risk_score: 50
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

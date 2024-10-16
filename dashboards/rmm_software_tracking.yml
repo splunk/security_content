@@ -1,0 +1,6 @@
+name: RMM Software Tracking
+id: 824b748b-9746-4247-b02b-f0961d6f54a5
+version: 1
+date: '2024-08-05'
+author: Steven Dick, Github Community
+description: Utilize this dashboard to assist with auditing and monitoring of Remote Monitoring and Management (RMM) alert content.

@@ -1,7 +1,7 @@
 name: Windows Default Group Policy Object Modified with GPME
 id: eaf688b3-bb8f-454d-b105-920a862cd8cb
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-08-19'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -61,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

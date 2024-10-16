@@ -40,6 +40,7 @@ tags:
   - CVE-2024-21887
   analytic_story:
   - Ivanti Connect Secure VPN Vulnerabilities
+  - CISA AA24-241A
   asset_type: VPN Appliance
   atomic_guid: []
   confidence: 90

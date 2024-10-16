@@ -1,7 +1,7 @@
 name: O365 High Number Of Failed Authentications for User
 id: 31641378-2fa9-42b1-948e-25e281cb98f7
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies an O365 account experiencing more
   access to the O365 environment, potentially compromising sensitive emails, documents,
   and other data. Prompt investigation and action are crucial to prevent unauthorized
   access and data breaches.
-search: ' `o365_management_activity` Operation=UserLoginFailed  record_type=AzureActiveDirectoryStsLogon
+search: '`o365_management_activity` Operation=UserLoginFailed  record_type=AzureActiveDirectoryStsLogon
   Workload=AzureActiveDirectory | bucket span=5m _time | stats  dc(_raw) AS failed_attempts  values(src_ip)
   as src_ip by user, _time | where failed_attempts > 10 | `o365_high_number_of_failed_authentications_for_user_filter`'
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest

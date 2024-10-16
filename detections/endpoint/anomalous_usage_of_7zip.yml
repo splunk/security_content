@@ -1,7 +1,7 @@
 name: Anomalous usage of 7zip
 id: 9364ee8e-a39a-11eb-8f1d-acde48001122
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-08-15'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -43,6 +43,7 @@ tags:
   - BlackByte Ransomware
   - Cobalt Strike
   - Graceful Wipe Out Attack
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 80
   impact: 80
@@ -64,11 +65,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

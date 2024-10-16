@@ -1,7 +1,7 @@
 name: EC2 Instance Started In Previously Unseen Region
 id: ada0f478-84a8-4641-a3f3-d82362d6fd75
-version: 1
-date: '2018-02-23'
+version: 2
+date: '2024-08-16'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly
@@ -35,10 +35,10 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: awsRegion
+    type: Geo Location
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Get DomainPolicy with Powershell
 id: b8f9947e-065a-11ec-aafb-acde48001122
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -59,7 +59,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

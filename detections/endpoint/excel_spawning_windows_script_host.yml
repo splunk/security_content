@@ -1,7 +1,7 @@
 name: Excel Spawning Windows Script Host
 id: 57fe880a-9be3-11eb-9bf3-acde48001122
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

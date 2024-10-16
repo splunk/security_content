@@ -7,9 +7,9 @@ description: Data source object for Splunk Stream HTTP
 source: stream:http
 sourcetype: stream:http
 supported_TA:
-- name: Splunk App for Stream
+- name: Splunk Stream
   url: https://splunkbase.splunk.com/app/1809
-  version: 8.1.1
+  version: 8.1.3
 fields:
 - _time
 - bytes

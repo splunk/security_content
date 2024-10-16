@@ -1,7 +1,7 @@
 name: Linux Gem Privilege Escalation
 id: 0115482a-5dcb-4bb0-bcca-5d095d224236
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-08-14'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -54,11 +54,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

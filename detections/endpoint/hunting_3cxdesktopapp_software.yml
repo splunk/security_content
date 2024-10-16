@@ -1,7 +1,7 @@
 name: Hunting 3CXDesktopApp Software
 id: 553d0429-1a1c-44bf-b3f5-a8513deb9ee5
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: Hunting
 status: production
@@ -59,7 +59,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

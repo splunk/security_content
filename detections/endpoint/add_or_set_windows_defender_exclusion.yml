@@ -1,7 +1,7 @@
 name: Add or Set Windows Defender Exclusion
 id: 773b66fe-4dd9-11ec-8289-acde48001122
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -47,6 +47,7 @@ tags:
   - Windows Defense Evasion Tactics
   - Data Destruction
   - WhisperGate
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80
@@ -85,7 +86,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

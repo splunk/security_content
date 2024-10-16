@@ -1,7 +1,7 @@
 name: Detect Baron Samedit CVE-2021-3156 Segfault
 id: 10f2bae0-bbe6-4984-808c-37dc1c67980d
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-08-16'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -30,10 +30,10 @@ tags:
   mitre_attack_id:
   - T1068
   observable:
-  - name: dest
-    type: Other
+  - name: host
+    type: Hostname
     role:
-    - Other
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

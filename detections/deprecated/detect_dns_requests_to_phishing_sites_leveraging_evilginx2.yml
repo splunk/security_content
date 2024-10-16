@@ -1,7 +1,7 @@
 name: Detect DNS requests to Phishing Sites leveraging EvilGinx2
 id: 24dd17b1-e2fb-4c31-878c-d4f226595bfa
-version: 2
-date: '2020-07-21'
+version: 3
+date: '2024-08-16'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP
@@ -50,10 +50,10 @@ tags:
   mitre_attack_id:
   - T1566.003
   observable:
-  - name: field
-    type: Unknown
+  - name: src
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

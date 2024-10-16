@@ -1,7 +1,7 @@
 name: Domain Account Discovery with Wmic
 id: 383572e0-04c5-11ec-bdcc-acde48001122
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-08-14'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -58,7 +58,7 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -74,6 +74,8 @@ tags:
   - Snake Keylogger
   - AcidPour
   - Handala Wiper
+  - MoonPeak
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 50
   impact: 40
@@ -106,7 +108,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: Kubernetes Azure detect suspicious kubectl calls
 id: 4b6d1ba8-0000-4cec-87e6-6cbbd71651b5
-version: 1
-date: '2020-05-26'
+version: 2
+date: '2024-08-15'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting
@@ -28,10 +28,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: sourceIPs{}
+    type: IP Address
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

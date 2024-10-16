@@ -1,7 +1,7 @@
 name: O365 Security And Compliance Alert Triggered
 id: 5b367cdd-8dfc-49ac-a9b7-6406cf27f33e
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic identifies alerts triggered by the Office 36
   If confirmed malicious, these alerts could indicate attempts to breach security
   policies, leading to unauthorized access, data exfiltration, or other malicious
   activities.
-search: ' `o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement
   Operation=AlertTriggered | spath input=Data path=f3u output=user | spath input=Data
   path=op output=operation | spath input=_raw path=wl | spath input=Data path=rid
   output=rule_id | spath input=Data path=ad output=alert_description | spath input=Data

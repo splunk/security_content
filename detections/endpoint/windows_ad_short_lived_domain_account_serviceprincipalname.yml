@@ -1,7 +1,7 @@
 name: Windows AD Short Lived Domain Account ServicePrincipalName
 id: b681977c-d90c-4efc-81a5-c58f945fb541
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -15,7 +15,7 @@ description: The following analytic identifies the addition and quick deletion o
   of a domain account offline. If confirmed malicious, this could allow an attacker
   to gain unauthorized access to sensitive information or escalate privileges within
   the domain environment.
-search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
   | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674")
   endswith=(EventCode=5136 OperationType="%%14675") | eval short_lived=case((duration<300),"TRUE")
   | search short_lived = TRUE | rename ObjectDN as user | `windows_ad_short_lived_domain_account_serviceprincipalname_filter`'

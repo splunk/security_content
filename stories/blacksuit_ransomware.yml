@@ -1,0 +1,25 @@
+name: BlackSuit Ransomware
+id: 4c7bef12-679f-433c-92dd-d9feccc1432b
+version: 1
+date: '2024-08-26'
+author: Michael Haag, Splunk
+description: This analytic story covers the tactics, techniques, and procedures (TTPs) associated with BlackSuit ransomware, as observed in a December 2023 intrusion. The story encompasses the full attack lifecycle, from initial access via Cobalt Strike beacons to lateral movement, credential access, and ultimately the deployment of BlackSuit ransomware. It aims to help security teams detect and respond to similar attacks by focusing on key behaviors such as Cobalt Strike activity, use of tools like ADFind and Sharphound, and the final ransomware deployment phase.
+narrative: In December 2023, a sophisticated intrusion culminating in the deployment of BlackSuit ransomware was observed. The attack began with the execution of a Cobalt Strike beacon, which initially communicated through CloudFlare to conceal the true C2 server. The threat actors leveraged various tools throughout the intrusion, including Sharphound, Rubeus, SystemBC, and ADFind, alongside built-in Windows utilities.
+
+  The attackers conducted extensive reconnaissance and lateral movement, using techniques such as AS-REP Roasting, Kerberoasting, and accessing LSASS memory for credential theft. They deployed multiple Cobalt Strike beacons across the environment and utilized RDP for further lateral movement. SystemBC was employed on a file server, providing additional command and control capabilities and proxy functionality.
+
+  After a period of intermittent activity spanning 15 days, the threat actors executed their final objective. They used ADFind for additional discovery, ran the Get-DataInfo.ps1 PowerShell script to gather system information, and ultimately deployed the BlackSuit ransomware. The ransomware binary (qwe.exe) was distributed via SMB to remote systems through admin shares, and executed manually via RDP sessions. Upon execution, the ransomware deleted shadow copies before encrypting files across the compromised systems.
+
+  This analytic story provides detections for various stages of this attack, including Cobalt Strike beacon activity, use of reconnaissance tools, suspicious PowerShell executions, and indicators of ransomware deployment. By monitoring for these behaviors, security teams can potentially detect and mitigate BlackSuit ransomware attacks before they reach their final, destructive stage.
+
+references:
+  - https://thedfirreport.com/2024/08/26/blacksuit-ransomware/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve: []

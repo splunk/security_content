@@ -1,7 +1,7 @@
 name: Windows Vulnerable 3CX Software
 id: f2cc1584-46ee-485b-b905-977c067f36de
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -52,7 +52,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

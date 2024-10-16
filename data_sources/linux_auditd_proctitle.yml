@@ -1,0 +1,17 @@
+name: Linux Auditd Proctitle
+id: 5a25984a-2789-400a-858b-d75c923e06b1
+version: 1
+date: '2024-08-08'
+author: Teoderick Contreras, Splunk
+description: Data source object for Linux Auditd Proctitle Type
+source: /var/log/audit/audit.log
+sourcetype: linux:audit
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 9.2.0
+fields:
+- proctitle
+- msg
+- type
+example_log: 'type=PROCTITLE msg=audit(1722944427.844:4146): proctitle=63686D6F640037373700312E7368'

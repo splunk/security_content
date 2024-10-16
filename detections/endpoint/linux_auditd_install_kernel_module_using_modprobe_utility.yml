@@ -1,0 +1,73 @@
+name: Linux Auditd Install Kernel Module Using Modprobe Utility
+id: 95165985-ace5-4d42-9c42-93a89a5af901
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the installation of a Linux kernel module
+  using the modprobe utility. It leverages data from Linux Auditd, focusing on process names and command-line executions. This activity
+  is significant because installing a kernel module can indicate an attempt to deploy
+  a rootkit or other malicious kernel-level code, potentially leading to elevated
+  privileges and bypassing security detections. If confirmed malicious, this could
+  allow an attacker to gain persistent, high-level access to the system, compromising
+  its integrity and security.
+data_source:
+- Linux Auditd Syscall
+search: '`linux_auditd` type=SYSCALL comm=modprobe | rename host as dest | stats count
+  min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid
+  success dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  `linux_auditd_install_kernel_module_using_modprobe_utility_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can execute this command.
+  Please update the filter macros to remove false positives.
+references:
+- https://docs.fedoraproject.org/en-US/fedora/rawhide/system-administrators-guide/kernel-module-driver-configuration/Working_with_Kernel_Modules/
+- https://security.stackexchange.com/questions/175953/how-to-load-a-malicious-lkm-at-startup
+- https://0x00sec.org/t/kernel-rootkits-getting-your-hands-dirty/1485
+tags:
+  analytic_story:
+  - Linux Privilege Escalation
+  - Linux Rootkit
+  - Linux Persistence Techniques
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A SYSCALL - [$comm$] event was executed on host - [$dest$] to install a Linux kernel module using the modprobe utility.
+  mitre_attack_id:
+  - T1547.006
+  - T1547
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - comm
+  - exe
+  - SYSCALL
+  - UID
+  - ppid
+  - pid
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.006/linux_auditd_modprobe/linux_auditd_modprobe.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit

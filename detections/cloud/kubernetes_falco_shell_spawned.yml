@@ -19,11 +19,12 @@ search: '`kube_container_falco` "A shell was spawned in a container"
   |  fillnull
   | stats count by container_image container_image_tag container_name parent proc_exepath process user
   | `kubernetes_falco_shell_spawned_filter`'
-how_to_implement: The detection is based on data that originates from Falco, a cloud native runtime security tool. 
-  Falco is designed to detect anomalous activity in your applications and is a crucial component of this detection rule. 
-  To implement this detection rule, you need to install and configure Falco in your Kubernetes environment. 
-  Once Falco is set up, it will monitor the system calls in your Kubernetes infrastructure and generate logs for any suspicious activity. 
-  These logs are then ingested by Splunk for analysis. Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. 
+how_to_implement: The detection is based on data that originates from Kubernetes Audit logs. Ensure that audit logging is enabled in your Kubernetes cluster.
+  Kubernetes audit logs provide a record of the requests made to the Kubernetes API server, which is crucial for monitoring and detecting suspicious activities.
+  Configure the audit policy in Kubernetes to determine what kind of activities are logged. This is done by creating an Audit Policy and providing it to the API server.
+  Use the Splunk OpenTelemetry Collector for Kubernetes to collect the logs. This doc will describe how to collect the audit log file https://github.com/signalfx/splunk-otel-collector-chart/blob/main/docs/migration-from-sck.md.
+  When you want to use this detection with AWS EKS, you need to enable EKS control plane logging https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html. Then
+  you can collect the logs from Cloudwatch using the AWS TA https://splunk.github.io/splunk-add-on-for-amazon-web-services/CloudWatchLogs/.
 known_false_positives: unknown
 references:
 - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/

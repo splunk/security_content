@@ -45,6 +45,7 @@ tags:
   - LockBit Ransomware
   - Malicious PowerShell
   - Data Destruction
+  - MoonPeak
   asset_type: Endpoint
   confidence: 80
   impact: 75

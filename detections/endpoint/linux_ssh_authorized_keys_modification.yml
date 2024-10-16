@@ -1,7 +1,7 @@
 name: Linux SSH Authorized Keys Modification
 id: f5ab595e-28e5-4327-8077-5008ba97c850
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-08-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -57,11 +57,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

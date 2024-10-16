@@ -1,7 +1,7 @@
 name: Windows System Script Proxy Execution Syncappvpublishingserver
 id: 8dd73f89-682d-444c-8b41-8e679966ad3c
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-08-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,11 +62,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

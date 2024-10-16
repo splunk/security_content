@@ -1,7 +1,7 @@
 name: Okta Multi-Factor Authentication Disabled
 id: 7c0348ce-bdf9-45f6-8a57-c18b5976f00a
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source: 
 - Okta
@@ -15,7 +15,7 @@ description: The following analytic identifies an attempt to disable multi-facto
   could enable attackers to bypass additional security layers, potentially leading
   to unauthorized access to sensitive information and prolonged undetected presence
   in the network.
-search: ' | tstats `security_content_summariesonly` count max(_time) as lastTime,
+search: '| tstats `security_content_summariesonly` count max(_time) as lastTime,
   min(_time) as firstTime from datamodel=Change where sourcetype="OktaIM2:log" All_Changes.object_category=User
   AND All_Changes.action=modified All_Changes.command=user.mfa.factor.deactivate by
   All_Changes.user All_Changes.result All_Changes.command sourcetype All_Changes.src

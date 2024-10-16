@@ -1,7 +1,7 @@
 name: O365 Multiple Mailboxes Accessed via API
 id: 7cd853e9-d370-412f-965d-a2bcff2a2908
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 data_source:
 - O365 MailItemsAccessed
@@ -16,7 +16,7 @@ description: The following analytic detects when a high number of Office 365 Exc
   information, leading to data breaches and further exploitation of compromised accounts.
   The threshold is set to flag over five unique mailboxes accessed within 10 minutes,
   but should be tailored to your environment.
-search: ' `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
+search: '`o365_management_activity` Workload=Exchange Operation=MailItemsAccessed
   AppId=* ClientAppId=* | bucket span=10m _time | eval matchRegex=if(match(ClientInfoString,
   "^Client=WebServices;ExchangeWebServices"), 1, 0) | search (AppId="00000003-0000-0000-c000-000000000000"
   OR matchRegex=1) | stats values(ClientIPAddress) as src_ip dc(user) as unique_mailboxes
@@ -67,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
     source: o365
     sourcetype: o365:management:activity

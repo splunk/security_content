@@ -1,7 +1,7 @@
 name: Windows Defender Exclusion Registry Entry
 id: 13395a44-4dd9-11ec-9df7-acde48001122
-version: 4
-date: '2024-05-21'
+version: 5
+date: '2024-09-24'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,6 +37,7 @@ tags:
   - Azorult
   - Qakbot
   - Warzone RAT
+  - ValleyRAT
   asset_type: Endpoint
   confidence: 80
   impact: 80
@@ -70,7 +71,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

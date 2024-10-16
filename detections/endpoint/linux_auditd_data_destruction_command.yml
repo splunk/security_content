@@ -1,0 +1,66 @@
+name: Linux Auditd Data Destruction Command
+id: 4da5ce1a-f71b-4e71-bb73-c0a3c73f3c3c
+version: 1
+date: '2024-09-04'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects the execution of a Unix shell command
+  designed to wipe root directories on a Linux host. It leverages data from Linux Auditd, focusing on the 'rm' command with force recursive deletion and the '--no-preserve-root' option. This activity is significant as it
+  indicates potential data destruction attempts, often associated with malware like
+  Awfulshred. If confirmed malicious, this behavior could lead to severe data loss,
+  system instability, and compromised integrity of the affected Linux host. Immediate
+  investigation and response are crucial to mitigate potential damage.
+data_source:
+- Linux Auditd Execve
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
+  dest | where LIKE (process_exec, "%rm %") AND LIKE (process_exec, "% -rf %") AND
+  LIKE (process_exec, "%--no-preserve-root%") | stats count min(_time) as firstTime
+  max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`| `linux_auditd_data_destruction_command_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd
+  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+  executions and process details on Unix/Linux systems. These logs should be ingested
+  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+  which is essential for correctly parsing and categorizing the data. The next step
+  involves normalizing the field names  to match the field names set by the Splunk
+  Common Information Model (CIM) to ensure consistency across different data sources
+  and enhance the efficiency of data modeling. This approach enables effective monitoring
+  and detection of linux endpoints where auditd is deployed
+known_false_positives: unknown
+references:
+- https://cert.gov.ua/article/3718487
+- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+tags:
+  analytic_story:
+  - Data Destruction
+  - AwfulShred
+  - Compromised Linux Host
+  asset_type: Endpoint
+  confidence: 90
+  impact: 100
+  message: A [$process_exec$] event occurred on host - [$dest$] to destroy data.
+  mitre_attack_id:
+  - T1485
+  observable:
+  - name: dest
+    type: Endpoint
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - argc
+  - process_exec
+  risk_score: 90
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_auditd_no_preserve_root/linux_auditd_no_preserve_root.log
+    source: /var/log/audit/audit.log
+    sourcetype: linux:audit
+    update_timestamp: true

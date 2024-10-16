@@ -1,11 +1,11 @@
 name: Ivanti EPM Vulnerabilities
 id: 4dcadae4-df82-42f3-9e77-4d852d20ac78
-version: 1
-date: '2024-06-18'
+version: 2
+date: '2024-09-24'
 author: Michael Haag, Splunk
-description: |
+description: |-
   This analytic story covers various vulnerabilities identified in Ivanti Endpoint Manager (EPM), including but not limited to SQL injection, remote code execution, and privilege escalation. These vulnerabilities can potentially be exploited by adversaries to gain unauthorized access, execute arbitrary code, and compromise the security of managed endpoints.
-narrative: |
+narrative: |-
   Ivanti Endpoint Manager (EPM) is a comprehensive solution for managing and securing enterprise endpoints. However, like any complex software, it is not immune to vulnerabilities. This story aggregates multiple CVEs affecting Ivanti EPM, providing insights into different types of security weaknesses such as SQL injection, remote code execution, and privilege escalation. By understanding and monitoring these vulnerabilities, organizations can better protect their infrastructure from potential attacks and ensure the integrity and security of their managed devices.
 references:
   - https://www.horizon3.ai/attack-research/attack-blogs/cve-2024-29824-deep-dive-ivanti-epm-sql-injection-remote-code-execution-vulnerability/

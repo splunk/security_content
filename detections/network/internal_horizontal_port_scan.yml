@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan
 id: 1ff9eb9a-7d72-4993-a55e-59a839e607f1
-version: 1
-date: '2023-10-20'
+version: 2
+date: '2024-08-07'
 author: Dean Luxton
 status: production
 type: TTP
@@ -36,7 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: $src_ip$ has scanned for port $dest_port$ across $totalDestIPCount$ destination IPs
+  message: $src_ip$ has scanned for ports $dest_ports$ across $totalDestIPCount$ destination IPs
   mitre_attack_id:
   - T1046
   observable:

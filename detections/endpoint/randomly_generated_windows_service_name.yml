@@ -1,7 +1,7 @@
 name: Randomly Generated Windows Service Name
 id: 2032a95a-5165-11ec-a2c3-3e22fbd008af
-version: 2
-date: '2024-05-30'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -14,7 +14,7 @@ description: The following analytic detects the installation of a Windows Servic
   arbitrary code, escalate privileges, or maintain persistence within the environment.
 data_source:
 - Windows Event Log System 7045
-search: ' `wineventlog_system` EventCode=7045 | lookup ut_shannon_lookup word as Service_Name
+search: '`wineventlog_system` EventCode=7045 | lookup ut_shannon_lookup word as Service_Name
   | where ut_shannon > 3 | table EventCode ComputerName Service_Name ut_shannon Service_Start_Type
   Service_Type Service_File_Name | `randomly_generated_windows_service_name_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
@@ -27,6 +27,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Lateral Movement
+  - BlackSuit Ransomware
   asset_type: Endpoint
   confidence: 50
   impact: 90
@@ -35,10 +36,6 @@ tags:
   - T1543
   - T1543.003
   observable:
-  - name: Service_File_Name
-    type: Other
-    role:
-    - Other
   - name: ComputerName
     type: Endpoint
     role:

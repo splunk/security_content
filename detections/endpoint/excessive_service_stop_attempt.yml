@@ -1,7 +1,7 @@
 name: Excessive Service Stop Attempt
 id: ae8d3f4a-acd7-11eb-8846-acde48001122
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -57,7 +57,7 @@ tags:
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

@@ -1,7 +1,7 @@
 name: Clop Common Exec Parameter
 id: 5a8a2a72-8322-11eb-9ee9-acde48001122
-version: 3
-date: '2024-05-31'
+version: 4
+date: '2024-08-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -59,11 +59,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

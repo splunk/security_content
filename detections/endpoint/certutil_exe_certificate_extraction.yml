@@ -1,7 +1,7 @@
 name: Certutil exe certificate extraction
 id: 337a46be-600f-11eb-ae93-0242ac130002
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-08-14'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -61,11 +61,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

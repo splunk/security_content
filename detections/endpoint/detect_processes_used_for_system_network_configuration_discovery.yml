@@ -1,7 +1,7 @@
 name: Detect processes used for System Network Configuration Discovery
 id: a51bfe1a-94f0-48cc-b1e4-16ae10145893
-version: 3
-date: '2024-05-19'
+version: 4
+date: '2024-08-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -63,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

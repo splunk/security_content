@@ -8,7 +8,6 @@ source: aws_cloudtrail
 sourcetype: aws:cloudtrail
 separator: eventName
 supported_TA:
-- name: Splunk Add-on for Amazon Web Services (AWS)
+- name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.4.1
-
+  version: 7.7.1

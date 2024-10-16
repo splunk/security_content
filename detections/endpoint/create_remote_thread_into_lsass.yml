@@ -1,13 +1,13 @@
 name: Create Remote Thread into LSASS
 id: 67d4dbef-9564-4699-8da8-03a151529edc
-version: 2
-date: '2024-05-26'
+version: 4
+date: '2024-09-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: "The following analytic detects the creation of a remote thread in the
   Local Security Authority Subsystem Service (LSASS). This behavior is identified
-  using Sysmon Event ID 8 logs, focusing on processes that create remote threads in
+  using Sysmon EventID 8 logs, focusing on processes that create remote threads in
   lsass.exe. This activity is significant because it is commonly associated with credential
   dumping, a tactic used by adversaries to steal user authentication credentials.
   If confirmed malicious, this could allow attackers to gain unauthorized access to
@@ -31,6 +31,7 @@ references:
 tags:
   analytic_story:
   - Credential Dumping
+  - BlackSuit Ransomware
   asset_type: Windows
   confidence: 90
   impact: 90
@@ -43,7 +44,7 @@ tags:
   - name: TargetImage
     type: Other
     role:
-    - Other
+    - Attacker
   - name: dest
     type: Hostname
     role:

@@ -1,7 +1,7 @@
 name: Osquery pack - ColdRoot detection
 id: a6fffe5e-05c3-4c04-badc-887607fbb8dc
-version: 1
-date: '2019-01-29'
+version: 2
+date: '2024-08-15'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP
@@ -25,10 +25,14 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: host
+    type: Hostname
     role:
-    - Unknown
+    - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

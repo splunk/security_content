@@ -7,9 +7,9 @@ description: Data source object for AWS Security Hub
 source: aws_securityhub_finding
 sourcetype: aws:securityhub:finding
 supported_TA:
-- name: Splunk Add-on for Amazon Web Services (AWS)
+- name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 7.4.1
+  version: 7.7.1
 fields:
 - _time
 - AwsAccountId

@@ -1,7 +1,7 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -70,11 +70,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

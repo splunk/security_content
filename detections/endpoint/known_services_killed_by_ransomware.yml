@@ -1,7 +1,7 @@
 name: Known Services Killed by Ransomware
 id: 3070f8e0-c528-11eb-b2a0-acde48001122
-version: 3
-date: '2024-05-29'
+version: 4
+date: '2024-08-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -52,7 +52,7 @@ tags:
   - name: param1
     type: Other
     role:
-    - Other
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

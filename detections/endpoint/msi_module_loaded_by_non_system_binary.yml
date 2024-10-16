@@ -1,7 +1,7 @@
 name: MSI Module Loaded by Non-System Binary
 id: ccb98a66-5851-11ec-b91c-acde48001122
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-08-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -43,10 +43,14 @@ tags:
   - T1574.002
   - T1574
   observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
   - name: process_name
     type: Process Name
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

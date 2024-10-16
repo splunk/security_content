@@ -1,14 +1,14 @@
 name: AWS Cloud Provisioning From Previously Unseen City
 id: 344a1778-0b25-490c-adb1-de8beddf59cd
-version: 1
-date: '2018-03-16'
+version: 3
+date: '2024-09-24'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly
 description: 'This search looks for AWS provisioning activities from previously unseen
   cities.  Provisioning activities are defined broadly as any event that begins with
   "Run" or "Create." This search is deprecated and have been translated to use the
-  latest Change Datamodel. '
+  latest Change Datamodel.'
 data_source: []
 search: '`cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation sourceIPAddress
   | search City=* [search `cloudtrail` (eventName=Run* OR eventName=Create*) | iplocation
@@ -48,10 +48,10 @@ tags:
   mitre_attack_id:
   - T1535
   observable:
-  - name: field
-    type: Unknown
+  - name: src_ip
+    type: IP Address
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

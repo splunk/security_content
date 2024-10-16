@@ -1,7 +1,7 @@
 name: Dump LSASS via comsvcs DLL
 id: 8943b567-f14d-4ee8-a0bb-2121d4ce3184
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-08-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -63,11 +63,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

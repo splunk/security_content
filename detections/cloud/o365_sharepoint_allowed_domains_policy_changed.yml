@@ -1,0 +1,60 @@
+name: O365 SharePoint Allowed Domains Policy Changed
+id: b0cc6fa8-39b1-49ac-a4fe-f2f2a668e06c
+version: 3
+date: '2024-09-24'
+author: Steven Dick
+status: production
+type: TTP
+description: The following analytic identifies when the allowed domain settings for O365 SharePoint have been changed. With Azure AD B2B collaboration, users and administrators can invite external users to collaborate with internal users. External guest account invitations may also need access to OneDrive/SharePoint resources. These changed should be monitored by security teams as they could potentially lead to unauthorized access.
+data_source: 
+- O365 Universal Audit Log
+search: >-
+  `o365_management_activity` Workload=SharePoint Operation=SharingPolicyChanged "ModifiedProperties{}.Name"=AllowDomainList
+  | eval signature_id = CorrelationId, signature=Operation, src = ClientIP, user = UserId, object_name='ModifiedProperties{}.Name', object_attrs_new = split(replace('ModifiedProperties{}.NewValue',"\.\.\.",""),","), object_attrs_old = split(replace('ModifiedProperties{}.OldValue',"\.\.\.",""),",")
+  | stats values(object_attrs_new) as object_attrs_new, values(object_attrs_old) as object_attrs_old, values(src) as src, count, min(_time) as firstTime, max(_time) as lastTime by user,signature,signature_id,object_name
+  | eval diff_add=mvmap(object_attrs_new,if(isnull(mvfind(object_attrs_old,object_attrs_new)),object_attrs_new,null))
+  | eval diff_remove=mvmap(object_attrs_old,if(isnull(mvfind(object_attrs_new,object_attrs_old)),object_attrs_old,null))
+  | eval result = case(isnotnull(diff_add),"Added ".mvjoin(diff_add,","),isnotnull(diff_remove),"Removed ".mvjoin(diff_remove,",")), action = case(isnotnull(diff_add),"created",isnotnull(diff_remove),"deleted")
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `o365_sharepoint_allowed_domains_policy_changed_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Business approved changes by known administrators.
+references:
+- https://learn.microsoft.com/en-us/sharepoint/external-sharing-overview
+tags:
+  analytic_story: 
+  - Azure Active Directory Persistence
+  asset_type: O365 Tenant
+  confidence: 100
+  impact: 75
+  message: The SharePoint Online domain allowlist was changed by $user$, $result$
+  mitre_attack_id: 
+  - T1136.003
+  observable: 
+  - name: user
+    type: User
+    role:
+    - Victim
+  product: 
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields: 
+  - _time
+  - Workload
+  - Operation
+  - ModifiedProperties{}.Name
+  - CorrelationId
+  - ClientIP
+  - UserId
+  - ModifiedProperties{}.NewValue
+  - ModifiedProperties{}.OldValue
+  risk_score: 75
+  security_domain: threat
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+    sourcetype: o365:management:activity
+    source: o365

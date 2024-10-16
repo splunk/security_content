@@ -1,7 +1,7 @@
 name: Windows hosts file modification
 id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
-version: 1
-date: '2018-11-02'
+version: 2
+date: '2024-08-16'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP
@@ -31,10 +31,10 @@ tags:
   impact: 50
   message: tbd
   observable:
-  - name: field
-    type: Unknown
+  - name: dest
+    type: Hostname
     role:
-    - Unknown
+    - Victim
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

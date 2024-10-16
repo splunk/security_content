@@ -1,0 +1,145 @@
+name: AWS CloudTrail DeleteSnapshot
+id: b0731ac8-0992-4de8-b000-2c7d0fc2a61f
+version: 1
+date: '2024-07-18'
+author: Bhavin Patel, Splunk
+description: Data source object for AWS CloudTrail DeleteSnapshot
+source: aws_cloudtrail
+sourcetype: aws:cloudtrail
+separator: eventName
+supported_TA:
+- name: Splunk Add-on for AWS
+  url: https://splunkbase.splunk.com/app/1876
+  version: 7.7.1
+fields:
+- _time
+- action
+- app
+- authentication_method
+- awsRegion
+- aws_account_id
+- change_type
+- command
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- desc
+- dest
+- dest_ip_range
+- dest_port_range
+- direction
+- dvc
+- errorCode
+- errorMessage
+- eventCategory
+- eventID
+- eventName
+- eventSource
+- eventTime
+- eventType
+- eventVersion
+- eventtype
+- host
+- image_id
+- index
+- instance_type
+- linecount
+- managementEvent
+- msg
+- object
+- object_attrs
+- object_category
+- object_id
+- product
+- protocol
+- protocol_code
+- punct
+- readOnly
+- reason
+- recipientAccountId
+- region
+- requestID
+- requestParameters.force
+- requestParameters.snapshotId
+- responseElements
+- responseElements._return
+- responseElements.requestId
+- result
+- result_id
+- rule_action
+- sessionCredentialFromConsole
+- signature
+- source
+- sourceIPAddress
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_ip
+- src_ip_range
+- src_port_range
+- src_user
+- src_user_id
+- src_user_name
+- src_user_role
+- src_user_type
+- start_time
+- status
+- tag
+- tag::action
+- tag::eventtype
+- tag::object_category
+- temp_access_key
+- timeendpos
+- timestartpos
+- tlsDetails.cipherSuite
+- tlsDetails.clientProvidedHostHeader
+- tlsDetails.tlsVersion
+- user
+- userAgent
+- userIdentity.accessKeyId
+- userIdentity.accountId
+- userIdentity.arn
+- userIdentity.principalId
+- userIdentity.sessionContext.attributes.creationDate
+- userIdentity.sessionContext.attributes.mfaAuthenticated
+- userIdentity.sessionContext.sessionIssuer.accountId
+- userIdentity.sessionContext.sessionIssuer.arn
+- userIdentity.sessionContext.sessionIssuer.principalId
+- userIdentity.sessionContext.sessionIssuer.type
+- userIdentity.sessionContext.sessionIssuer.userName
+- userIdentity.type
+- userIdentity.userName
+- userName
+- user_access_key
+- user_agent
+- user_arn
+- user_group_id
+- user_id
+- user_name
+- user_role
+- user_type
+- vendor
+- vendor_account
+- vendor_product
+- vendor_region
+example_log: '{"eventVersion": "1.09", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLDF6WPXXXX:daftpunk@splunk.com", "arn": "arn:aws:sts::11111111111111:assumed-role/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f/daftpunk@splunk.com",
+  "accountId": "11111111111111", "accessKeyId": "AAAAAAAAAAAAAAAAAA", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLDF6WPXXXX", "arn":
+  "arn:aws:iam::11111111111111:role/aws-reserved/sso.amazonaws.com/us-west-2/AWSReservedSSO_SPLKAdministratorAccess_d9ce1347d0a6dd3f",
+  "accountId": "11111111111111", "userName": "AWSReservedSSO_SPLKAdministratorAccess_11"},
+  "attributes": {"creationDate": "2024-01-18T09:55:32Z", "mfaAuthenticated": "false"}}},
+  "eventTime": "2024-01-18T10:02:08Z", "eventSource": "ec2.amazonaws.com", "eventName":
+  "DeleteSnapshot", "awsRegion": "eu-central-1", "sourceIPAddress": "80.187.64.117",
+  "userAgent": "AWS Internal", "requestParameters": {"snapshotId": "snap-0b5d5eaad2e6efa11",
+  "force": false}, "responseElements": {"requestId": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03",
+  "_return": true}, "requestID": "86e4bb11-2a21-4a16-8c40-4c1bc08a9a03", "eventID":
+  "56f61d71-6620-4958-8dbf-03410913f1cc", "readOnly": false, "eventType": "AwsApiCall",
+  "managementEvent": true, "recipientAccountId": "11111111111111", "eventCategory":
+  "Management", "sessionCredentialFromConsole": "true"}'

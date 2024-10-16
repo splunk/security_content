@@ -1,7 +1,7 @@
 name: Windows Default Group Policy Object Modified
 id: fe6a6cc4-9e0d-4d66-bcf4-2c7f44860876
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: The following analytic detects modifications to default Group Polic
   across the network. If confirmed malicious, such modifications could lead to widespread
   compromise, allowing attackers to maintain control and execute arbitrary code on
   numerous hosts.
-search: ' `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber
+search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=versionNumber
   (ObjectDN="CN={31B2F340-016D-11D2-945F-00C04FB984F9},CN=POLICIES,CN=SYSTEM,DC=*"
   OR ObjectDN="CN={6AC1786C-016F-11D2-945F-00C04fB984F9},CN=POLICIES,CN=SYSTEM,DC=*")
   | stats min(_time) as firstTime max(_time) as lastTime by ObjectDN SubjectUserSid

@@ -1,0 +1,62 @@
+name: Crowdstrike Multiple LOW Severity Alerts
+id: 5c2c02d8-bee7-4f5c-9dea-e3e1012daddb
+version: 1
+date: '2024-07-17'
+author: Teoderick Contreras, Splunk
+data_source: []
+type: Anomaly
+status: production
+description: The following analytic detects multiple CrowdStrike LOW severity alerts, 
+  indicating a series of minor suspicious activities or policy violations. 
+  These alerts are not immediately critical but should be reviewed to prevent potential threats. 
+  They often highlight unusual behavior or low-level risks that, if left unchecked, could escalate 
+  into more significant security issues. Regular monitoring and analysis of these alerts are essential 
+  for maintaining robust security.
+search: '`crowdstrike_stream` tag=alert event.SeverityName= LOW
+  | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
+  | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime by src_ip src_host
+  | where type_count >= 3
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `crowdstrike_multiple_low_severity_alerts_filter`'
+how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, 
+  authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. 
+  Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
+known_false_positives: unknown
+references:
+- https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  asset_type: Endpoint
+  confidence: 70
+  impact: 70
+  message: Several LOW severity alerts found in $src_host$
+  mitre_attack_id:
+  - T1110
+  observable:
+  - name: src_host
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - event.EndpointIp
+  - event.EndpointName
+  - event.UserName
+  - event.IncidentDescription
+  - event.IncidentType
+  - event.NumbersOfAlerts
+  - event.SeverityName
+  risk_score: 49
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/multiple_low_alert/crowdstrike_multiple_low_cleaned.log
+    sourcetype: CrowdStrike:Event:Streams:JSON
+    source: CrowdStrike:Event:Streams

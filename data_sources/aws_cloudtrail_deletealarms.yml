@@ -1,0 +1,141 @@
+name: AWS CloudTrail DeleteAlarms
+id: b0730ac8-0992-4de8-b000-2c7d0fc7a61f
+version: 1
+date: '2024-07-18'
+author: Bhavin Patel, Splunk
+description: Data source object for AWS CloudTrail DeleteAlarms
+source: aws_cloudtrail
+sourcetype: aws:cloudtrail
+separator: eventName
+supported_TA:
+- name: Splunk Add-on for AWS
+  url: https://splunkbase.splunk.com/app/1876
+  version: 7.7.1
+fields:
+- _time
+- action
+- app
+- authentication_method
+- awsRegion
+- aws_account_id
+- change_type
+- command
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- desc
+- dest
+- dest_ip_range
+- dest_port_range
+- direction
+- dvc
+- errorCode
+- errorMessage
+- eventCategory
+- eventID
+- eventName
+- eventSource
+- eventTime
+- eventType
+- eventVersion
+- eventtype
+- host
+- image_id
+- index
+- instance_type
+- linecount
+- managementEvent
+- msg
+- object
+- object_attrs
+- object_category
+- object_id
+- product
+- protocol
+- protocol_code
+- punct
+- readOnly
+- reason
+- recipientAccountId
+- region
+- requestID
+- requestParameters.alarmNames{}
+- responseElements
+- result
+- result_id
+- rule_action
+- sessionCredentialFromConsole
+- signature
+- source
+- sourceIPAddress
+- splunk_server
+- splunk_server_group
+- src
+- src_ip
+- src_ip_range
+- src_port_range
+- src_user
+- src_user_id
+- src_user_name
+- src_user_role
+- src_user_type
+- start_time
+- status
+- tag
+- tag::action
+- tag::eventtype
+- tag::object_category
+- temp_access_key
+- timeendpos
+- timestartpos
+- user
+- userAgent
+- userIdentity.accessKeyId
+- userIdentity.accountId
+- userIdentity.arn
+- userIdentity.invokedBy
+- userIdentity.principalId
+- userIdentity.sessionContext.attributes.creationDate
+- userIdentity.sessionContext.attributes.mfaAuthenticated
+- userIdentity.sessionContext.sessionIssuer.accountId
+- userIdentity.sessionContext.sessionIssuer.arn
+- userIdentity.sessionContext.sessionIssuer.principalId
+- userIdentity.sessionContext.sessionIssuer.type
+- userIdentity.sessionContext.sessionIssuer.userName
+- userIdentity.type
+- userName
+- user_access_key
+- user_agent
+- user_arn
+- user_group_id
+- user_id
+- user_name
+- user_role
+- user_type
+- vendor
+- vendor_account
+- vendor_product
+- vendor_region
+example_log: '{"eventVersion": "1.08", "userIdentity": {"type": "AssumedRole", "principalId":
+  "AROAYTOGP2RLKZK7JIDWN:AutoScaling-ManageAlarms", "arn": "arn:aws:sts::111111111111:assumed-role/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable/AutoScaling-ManageAlarms",
+  "accountId": "111111111111", "accessKeyId": "ASIAYTOGP2RLJ7ZZZZZZZ", "sessionContext":
+  {"sessionIssuer": {"type": "Role", "principalId": "AROAYTOGP2RLKZK7JIDWN", "arn":
+  "arn:aws:iam::111111111111:role/aws-service-role/test.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable",
+  "accountId": "111111111111", "userName": "AWSServiceRoleForApplicationAutoScaling_DynamoDBTable"},
+  "webIdFederationData": {}, "attributes": {"creationDate": "2023-07-11T11:11:59Z",
+  "mfaAuthenticated": "false"}}, "invokedBy": "test.amazonaws.com"}, "eventTime":
+  "2023-07-11T11:12:00Z", "eventSource": "monitoring.amazonaws.com", "eventName":
+  "DeleteAlarms", "awsRegion": "us-west-1", "sourceIPAddress": "test.amazonaws.com",
+  "userAgent": "test.amazonaws.com", "requestParameters": {"alarmNames": ["TargetTracking-table/attack-range-orchestrator-backend-AlarmHigh-bbc5c675-6ddb-40d5-9f16-a59147a61c2a",
+  "TargetTracking-table/attack-range-orchestrator-backend-AlarmLow-1669f952-dd7b-4835-b3d5-8df86d264db2",
+  "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityHigh-eac39cba-2339-4c5c-9a13-c527ede7abfd",
+  "TargetTracking-table/attack-range-orchestrator-backend-ProvisionedCapacityLow-62c8a6e3-edb4-42d1-b26d-e30f33a57a0e"]},
+  "responseElements": null, "requestID": "af48ccab-e844-4229-883e-5c813e2c2f31", "eventID":
+  "bcfccd92-5bf1-4de1-9cfd-87fdeb70e452", "readOnly": false, "eventType": "AwsApiCall",
+  "managementEvent": true, "recipientAccountId": "111111111111", "eventCategory":
+  "Management"}'

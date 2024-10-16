@@ -1,7 +1,7 @@
 name: Azure Automation Runbook Created
 id: 178d696d-6dc6-4ee8-9d25-93fee34eaf5b
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -15,7 +15,7 @@ description: The following analytic detects the creation of a new Azure Automati
   environment.
 data_source:
 - Azure Audit Create or Update an Azure Automation Runbook
-search: ' `azure_audit` operationName.localizedValue="Create or Update an Azure Automation
+search: '`azure_audit` operationName.localizedValue="Create or Update an Azure Automation
   Runbook" object!=AzureAutomationTutorial* status.value=Succeeded | dedup object
   | rename claims.ipaddr as src_ip | rename caller as user | stats count min(_time)
   as firstTime max(_time) as lastTime by object user, src_ip, resourceGroupName, object_path

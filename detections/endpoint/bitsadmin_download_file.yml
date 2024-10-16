@@ -1,7 +1,7 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 4
-date: '2024-05-20'
+version: 5
+date: '2024-08-15'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
@@ -68,11 +68,11 @@ tags:
   - name: parent_process_name
     type: Process
     role:
-    - Parent Process
+    - Attacker
   - name: process_name
     type: Process
     role:
-    - Child Process
+    - Attacker
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

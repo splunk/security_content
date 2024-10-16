@@ -1,0 +1,6 @@
+name: AppLocker
+id: b13032c2-f0e2-48ee-8a85-ded8956c012a
+version: 1
+date: '2024-05-21'
+author: Michael Haag, Splunk
+description: Utilize this dashboard to assist with auditing and monitoring Windows AppLocker events for your endpoints. Configure the applocker macro to use the AppLocker data source for populating the dashboard.

@@ -1,7 +1,7 @@
 name: Kerberos TGT Request Using RC4 Encryption
 id: 18916468-9c04-11ec-bdc6-acde48001122
-version: 3
-date: '2024-05-27'
+version: 4
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic detects a Kerberos Ticket Granting Ticket (T
   potentially leading to lateral movement and further compromise within the network.
 data_source:
 - Windows Event Log Security 4768
-search: ' `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$
+search: '`wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$
   | stats count min(_time) as firstTime max(_time) as lastTime by ServiceName src_ip
   dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `kerberos_tgt_request_using_rc4_encryption_filter`'

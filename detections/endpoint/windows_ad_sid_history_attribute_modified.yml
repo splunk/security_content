@@ -1,7 +1,7 @@
 name: Windows AD SID History Attribute Modified
 id: 1155e47d-307f-4247-beab-71071e3a458c
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -15,7 +15,7 @@ description: The following analytic detects modifications to the SID History att
   unauthorized access. If confirmed malicious, this activity could allow attackers
   to maintain persistent access and escalate privileges within the domain, posing
   a significant security risk.
-search: ' `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory
   OperationType="%%14674" | stats values(ObjectDN) as ObjectDN by _time, Computer,
   SubjectUserName, AttributeValue | rename Computer as dest | `windows_ad_sid_history_attribute_modified_filter`'
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode
