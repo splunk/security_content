@@ -1,9 +1,7 @@
 name: appinspect
 on:
   pull_request_target:
-  pull_request:
     types: [opened, reopened, synchronize]
-  push:
 jobs:
   appinspect:
     runs-on: ubuntu-latest
