@@ -1,7 +1,7 @@
 name: Java Class File download by Java User Agent
 id: 8281ce42-5c50-11ec-82d2-acde48001122
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,7 +14,7 @@ description: The following analytic identifies a Java user agent performing a GE
   system.
 data_source:
 - Splunk Stream HTTP
-search: '| tstats count from datamodel=Web where Web.http_user_agent="*Java*" Web.http_method="GET"
+search: '| tstats  `security_content_summariesonly` count from datamodel=Web where Web.http_user_agent="*Java*" Web.http_method="GET"
   Web.url="*.class*" by Web.http_user_agent Web.http_method, Web.url,Web.url_length
   Web.src, Web.dest | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `java_class_file_download_by_java_user_agent_filter`'

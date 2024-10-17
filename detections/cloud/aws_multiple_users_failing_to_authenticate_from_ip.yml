@@ -1,7 +1,7 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
-version: 2
-date: '2024-05-10'
+version: 3
+date: '2024-10-16'
 author: Bhavin Patel
 status: production
 type: Anomaly
@@ -17,6 +17,7 @@ data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
   | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip 
+  | where unique_accounts>30
   | `aws_multiple_users_failing_to_authenticate_from_ip_filter`'
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
   We recommend the users to try different combinations of the bucket span time and

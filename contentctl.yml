@@ -200,5 +200,4 @@ apps:
   version: 3.2.1
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/Latest/crowdstrike-falcon-event-streams-technical-add-on_321.tgz
-
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
