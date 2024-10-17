@@ -1,7 +1,7 @@
 name: Correlation by User and Risk
 id: 610e12dc-b6fa-4541-825e-4a0b3b6f6773
-version: 1
-date: '2021-09-06'
+version: 2
+date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: Correlation

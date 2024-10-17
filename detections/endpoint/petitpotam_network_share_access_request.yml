@@ -1,32 +1,29 @@
 name: PetitPotam Network Share Access Request
 id: 95b8061a-0a67-11ec-85ec-acde48001122
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects network share access requests indicative
-  of the PetitPotam attack (CVE-2021-36942). It leverages Windows Event Code 5145,
-  which logs attempts to access network share objects. This detection is significant
-  as PetitPotam can coerce authentication from domain controllers, potentially leading
-  to unauthorized access. If confirmed malicious, this activity could allow attackers
-  to escalate privileges or move laterally within the network, posing a severe security
-  risk. Ensure Event Code 5145 is enabled via Group Policy to utilize this analytic
-  effectively.'
+description: The following analytic detects network share access requests indicative of the PetitPotam attack (CVE-2021-36942). It leverages Windows Event Code 5145, which logs attempts to access network share objects. This detection is significant as PetitPotam can coerce authentication from domain controllers, potentially leading to unauthorized access. If confirmed malicious, this activity could allow attackers to escalate privileges or move laterally within the network, posing a severe security risk. Ensure Event Code 5145 is enabled via Group Policy to utilize this analytic effectively.
 data_source:
 - Windows Event Log Security 5145
-search: '`wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, SubjectUserSid,
-  ShareName, src, AccessMask, AccessReason | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `petitpotam_network_share_access_request_filter`'
-how_to_implement: Windows Event Code 5145 is required to utilize this analytic and
-  it may not be enabled in most environments.
-known_false_positives: False positives have been limited when the Anonymous Logon
-  is used for Account Name.
+search: '`wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc | stats count min(_time) as firstTime max(_time) as lastTime by dest, SubjectUserSid, ShareName, src, AccessMask, AccessReason | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `petitpotam_network_share_access_request_filter`'
+how_to_implement: Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
+known_false_positives: False positives have been limited when the Anonymous Logon is used for Account Name.
 references:
 - https://attack.mitre.org/techniques/T1187/
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventid=5145
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5145
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - PetitPotam NTLM Relay on Active Directory Certificate Services
@@ -35,8 +32,7 @@ tags:
   cve:
   - CVE-2021-36942
   impact: 80
-  message: A remote host is enumerating a $dest$ to identify permissions. This is
-    a precursor event to CVE-2021-36942, PetitPotam.
+  message: A remote host is enumerating a $dest$ to identify permissions. This is a precursor event to CVE-2021-36942, PetitPotam.
   mitre_attack_id:
   - T1187
   observable:
@@ -61,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1187/petitpotam/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

@@ -1,42 +1,34 @@
 name: Windows Mail Protocol In Non-Common Process Path
 id: ac3311f5-661d-4e99-bd1f-3ec665b05441
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a Windows application establishing an
-  SMTP connection from a non-common installation path. It leverages Sysmon EventCode
-  3 to identify processes not typically associated with email clients (e.g., Thunderbird,
-  Outlook) making SMTP connections. This activity is significant as adversaries, including
-  malware like AgentTesla, use such connections for Command and Control (C2) communication
-  to exfiltrate stolen data. If confirmed malicious, this behavior could lead to unauthorized
-  data exfiltration, including sensitive information like desktop screenshots, browser
-  data, and system details, compromising the affected host.
+description: The following analytic detects a Windows application establishing an SMTP connection from a non-common installation path. It leverages Sysmon EventCode 3 to identify processes not typically associated with email clients (e.g., Thunderbird, Outlook) making SMTP connections. This activity is significant as adversaries, including malware like AgentTesla, use such connections for Command and Control (C2) communication to exfiltrate stolen data. If confirmed malicious, this behavior could lead to unauthorized data exfiltration, including sensitive information like desktop screenshots, browser data, and system details, compromising the affected host.
 data_source:
 - Sysmon EventID 3
-search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe"))
-  (DestinationPortName="smtp" OR DestinationPort=25 OR DestinationPort=587) | stats
-  count min(_time) as firstTime max(_time) as lastTime by Image DestinationPort DestinationPortName
-  DestinationHostname SourceHostname SourcePort SourcePortName Protocol DestinationIp
-  dest user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_mail_protocol_in_non_common_process_path_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and sysmon eventcode = 3 connection events from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: third party application may use this network protocol as part
-  of its feature. Filter is needed.
+search: '`sysmon` EventCode=3 NOT(Image IN("*\\program files*", "*\\thunderbird.exe","*\\outlook.exe")) (DestinationPortName="smtp" OR DestinationPort=25 OR DestinationPort=587) | stats count min(_time) as firstTime max(_time) as lastTime by Image DestinationPort DestinationPortName DestinationHostname SourceHostname SourcePort SourcePortName Protocol DestinationIp dest user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mail_protocol_in_non_common_process_path_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and sysmon eventcode = 3 connection events from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: third party application may use this network protocol as part of its feature. Filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AgentTesla
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: a process $Image$ is having a SMTP connection to $DestinationHostname$
-    in $dest$
+  message: a process $Image$ is having a SMTP connection to $DestinationHostname$ in $dest$
   mitre_attack_id:
   - T1071.003
   - T1071
@@ -67,8 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_smtp/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

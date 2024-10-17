@@ -1,7 +1,7 @@
 name: Web Servers Executing Suspicious Processes
 id: ec3b7601-689a-4463-94e0-c9f45638efb9
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP

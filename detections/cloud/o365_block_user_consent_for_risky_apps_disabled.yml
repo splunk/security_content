@@ -1,42 +1,30 @@
 name: O365 Block User Consent For Risky Apps Disabled
 id: 12a23592-e3da-4344-8545-205d3290647c
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - O365 Update authorization policy.
-description: The following analytic detects when the "risk-based step-up consent"
-  security setting in Microsoft 365 is disabled. It monitors Azure Active Directory
-  logs for the "Update authorization policy" operation, specifically changes to the
-  "AllowUserConsentForRiskyApps" setting. This activity is significant because disabling
-  this feature can expose the organization to OAuth phishing threats, allowing users
-  to grant consent to malicious applications. If confirmed malicious, attackers could
-  gain unauthorized access to user data and sensitive information, leading to data
-  breaches and further compromise within the organization.
-search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory Operation="Update authorization
-  policy."
-  | eval index_number = if(mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps")
-  >= 0, mvfind('ModifiedProperties{}.Name', "AllowUserConsentForRiskyApps"), -1)
-  | search index_number >= 0  | eval AllowUserConsentForRiskyApps = mvindex('ModifiedProperties{}.NewValue',index_number)
-  | where AllowUserConsentForRiskyApps like "%true%"
-  | stats count min(_time) as firstTime max(_time) as lastTime by user, Operation,
-  AllowUserConsentForRiskyApps, user_agent
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `o365_block_user_consent_for_risky_apps_disabled_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting
-  by administrators, perhaps as part of a policy update or security assessment, may
-  trigger this alert, necessitating verification of the change's intent and authorization.
+description: The following analytic detects when the "risk-based step-up consent" security setting in Microsoft 365 is disabled. It monitors Azure Active Directory logs for the "Update authorization policy" operation, specifically changes to the "AllowUserConsentForRiskyApps" setting. This activity is significant because disabling this feature can expose the organization to OAuth phishing threats, allowing users to grant consent to malicious applications. If confirmed malicious, attackers could gain unauthorized access to user data and sensitive information, leading to data breaches and further compromise within the organization.
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Update authorization policy." | eval index_number = if(mvfind(''ModifiedProperties{}.Name'', "AllowUserConsentForRiskyApps") >= 0, mvfind(''ModifiedProperties{}.Name'', "AllowUserConsentForRiskyApps"), -1) | search index_number >= 0  | eval AllowUserConsentForRiskyApps = mvindex(''ModifiedProperties{}.NewValue'',index_number) | where AllowUserConsentForRiskyApps like "%true%" | stats count min(_time) as firstTime max(_time) as lastTime by user, Operation, AllowUserConsentForRiskyApps, user_agent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_block_user_consent_for_risky_apps_disabled_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Legitimate changes to the 'risk-based step-up consent' setting by administrators, perhaps as part of a policy update or security assessment, may trigger this alert, necessitating verification of the change's intent and authorization.
 references:
 - https://attack.mitre.org/techniques/T1562/
 - https://goodworkaround.com/2020/10/19/a-look-behind-the-azure-ad-permission-classifications-preview/
 - https://learn.microsoft.com/en-us/entra/identity/enterprise-apps/configure-risk-based-step-up-consent
 - https://learn.microsoft.com/en-us/defender-cloud-apps/investigate-risky-oauth
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Account Takeover
@@ -69,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/o365_disable_blockconsent_for_riskapps/o365_disable_blockconsent_for_riskapps.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562/o365_disable_blockconsent_for_riskapps/o365_disable_blockconsent_for_riskapps.log
     source: O365
     sourcetype: o365:management:activity

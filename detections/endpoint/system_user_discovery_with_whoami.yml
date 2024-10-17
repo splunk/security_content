@@ -1,7 +1,7 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

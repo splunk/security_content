@@ -1,52 +1,36 @@
 name: Windows Change Default File Association For No File Ext
 id: dbdf52ad-d6a1-4b68-975f-0a10939d8e38
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to change the default file association
-  for files without an extension to open with Notepad.exe. It leverages data from
-  Endpoint Detection and Response (EDR) agents, focusing on specific command-line
-  patterns and registry modifications. This activity is significant as it can indicate
-  an attempt to manipulate file handling behavior, a technique observed in APT and
-  ransomware attacks like Prestige. If confirmed malicious, this could allow attackers
-  to execute arbitrary code by tricking users into opening files, potentially leading
-  to system compromise or data exfiltration.
+description: The following analytic detects attempts to change the default file association for files without an extension to open with Notepad.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns and registry modifications. This activity is significant as it can indicate an attempt to manipulate file handling behavior, a technique observed in APT and ransomware attacks like Prestige. If confirmed malicious, this could allow attackers to execute arbitrary code by tricking users into opening files, potentially leading to system compromise or data exfiltration.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime  from datamodel=Endpoint.Processes where `process_reg` AND Processes.process="*
-  add *" AND Processes.process="* HKCR\\*" AND Processes.process="*\\shell\\open\\command*"
-  AND  Processes.process= *Notepad.exe* by  Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name
-  Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` | rex field=process "Notepad\.exe (?<file_name_association>.*$)"
-  | rex field=file_name_association "\.(?<extension>[^\.]*$)" | where isnull(extension)
-  and isnotnull(file_name_association) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_change_default_file_association_for_no_file_ext_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where `process_reg` AND Processes.process="* add *" AND Processes.process="* HKCR\\*" AND Processes.process="*\\shell\\open\\command*" AND  Processes.process= *Notepad.exe* by  Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user | `drop_dm_object_name(Processes)` | rex field=process "Notepad\.exe (?<file_name_association>.*$)" | rex field=file_name_association "\.(?<extension>[^\.]*$)" | where isnull(extension) and isnotnull(file_name_association) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_change_default_file_association_for_no_file_ext_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Prestige Ransomware
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: process with commandline $process$ set or change the file association of
-    a file with no file extension in $dest$
+  message: process with commandline $process$ set or change the file association of a file with no file extension in $dest$
   mitre_attack_id:
   - T1546.001
   - T1546
@@ -77,8 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/prestige_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

@@ -1,7 +1,7 @@
 name: Remote System Discovery with Dsquery
 id: 9fb562f4-42f8-4139-8e11-a82edf7ed718
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

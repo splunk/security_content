@@ -1,7 +1,7 @@
 name: Detect SNICat SNI Exfiltration
 id: 82d06410-134c-11eb-adc1-0242ac120002
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP

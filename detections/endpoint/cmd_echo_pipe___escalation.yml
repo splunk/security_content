@@ -1,42 +1,30 @@
 name: CMD Echo Pipe - Escalation
 id: eb277ba0-b96b-11eb-b00e-acde48001122
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the use of named-pipe impersonation
-  for privilege escalation, commonly associated with Cobalt Strike and similar frameworks.
-  It detects command-line executions where `cmd.exe` uses `echo` to write to a named
-  pipe, such as `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`. This detection leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process and
-  command-line telemetry. This activity is significant as it indicates potential privilege
-  escalation attempts. If confirmed malicious, attackers could gain elevated privileges,
-  enabling further compromise and persistence within the environment.
+description: The following analytic identifies the use of named-pipe impersonation for privilege escalation, commonly associated with Cobalt Strike and similar frameworks. It detects command-line executions where `cmd.exe` uses `echo` to write to a named pipe, such as `cmd.exe /c echo 4sgryt3436 > \\.\Pipe\5erg53`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and command-line telemetry. This activity is significant as it indicates potential privilege escalation attempts. If confirmed malicious, attackers could gain elevated privileges, enabling further compromise and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_cmd` OR Processes.process=*%comspec%*
-  (Processes.process=*echo* AND Processes.process=*pipe*) by Processes.dest Processes.user
-  Processes.parent_process Processes.parent_process_name Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cmd_echo_pipe___escalation_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Unknown. It is possible filtering may be required to ensure
-  fidelity.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_cmd` OR Processes.process=*%comspec%* (Processes.process=*echo* AND Processes.process=*pipe*) by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cmd_echo_pipe___escalation_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Unknown. It is possible filtering may be required to ensure fidelity.
 references:
 - https://redcanary.com/threat-detection-report/threats/cobalt-strike/
 - https://github.com/rapid7/meterpreter/blob/master/source/extensions/priv/server/elevate/namedpipe.c
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - BlackByte Ransomware
@@ -45,9 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ potentially performing privilege escalation
-    using named pipes related to Cobalt Strike and other frameworks.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ potentially performing privilege escalation using named pipes related to Cobalt Strike and other frameworks.
   mitre_attack_id:
   - T1059
   - T1059.003
@@ -92,7 +78,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

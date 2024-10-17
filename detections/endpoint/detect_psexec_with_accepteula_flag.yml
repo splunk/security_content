@@ -1,43 +1,29 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 6
-date: '2024-08-15'
+version: 7
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the execution of `PsExec.exe` with
-  the `accepteula` flag in the command line. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on process execution logs and command-line arguments.
-  This activity is significant because PsExec is commonly used by threat actors to
-  execute code on remote systems, and the `accepteula` flag indicates first-time usage,
-  which could signify initial compromise. If confirmed malicious, this activity could
-  allow attackers to gain remote code execution capabilities, potentially leading
-  to further system compromise and lateral movement within the network.
+description: The following analytic identifies the execution of `PsExec.exe` with the `accepteula` flag in the command line. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs and command-line arguments. This activity is significant because PsExec is commonly used by threat actors to execute code on remote systems, and the `accepteula` flag indicates first-time usage, which could signify initial compromise. If confirmed malicious, this activity could allow attackers to gain remote code execution capabilities, potentially leading to further system compromise and lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_psexec` Processes.process=*accepteula* by Processes.dest Processes.user
-  Processes.parent_process_name Processes.process_name Processes.process Processes.process_id
-  Processes.parent_process_id | `drop_dm_object_name(Processes)`| `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `detect_psexec_with_accepteula_flag_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators can leverage PsExec for accessing remote systems
-  and might pass `accepteula` as an argument if they are running this tool for the
-  first time. However, it is not likely that you'd see multiple occurrences of this
-  event on a machine
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_psexec` Processes.process=*accepteula* by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_psexec_with_accepteula_flag_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators can leverage PsExec for accessing remote systems and might pass `accepteula` as an argument if they are running this tool for the first time. However, it is not likely that you'd see multiple occurrences of this event on a machine
 references:
 - https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - SamSam Ransomware
@@ -55,8 +41,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ running the utility for possibly the first time.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ running the utility for possibly the first time.
   mitre_attack_id:
   - T1021
   - T1021.002
@@ -99,7 +84,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

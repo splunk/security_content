@@ -1,7 +1,7 @@
 name: Windows IIS Components Get-WebGlobalModule Module Query
 id: 20db5f70-34b4-4e83-8926-fa26119de173
-version: 2
-date: '2024-05-03'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

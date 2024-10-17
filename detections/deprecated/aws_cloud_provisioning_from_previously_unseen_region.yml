@@ -1,7 +1,7 @@
 name: AWS Cloud Provisioning From Previously Unseen Region
 id: 7971d3df-da82-4648-a6e5-b5637bea5253
-version: 2
-date: '2024-08-15'
+version: 3
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly

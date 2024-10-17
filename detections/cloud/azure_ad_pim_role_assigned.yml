@@ -1,35 +1,29 @@
 name: Azure AD PIM Role Assigned
 id: fcd6dfeb-191c-46a0-a29c-c306382145ab
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Azure Active Directory
-description: The following analytic detects the assignment of an Azure AD Privileged
-  Identity Management (PIM) role. It leverages Azure Active Directory events to identify
-  when a user is added as an eligible member to a PIM role. This activity is significant
-  because PIM roles grant elevated privileges, and their assignment should be closely
-  monitored to prevent unauthorized access. If confirmed malicious, an attacker could
-  exploit this to gain privileged access, potentially leading to unauthorized actions,
-  data breaches, or further compromise of the environment.
-search: '`azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
-  | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime
-  values(user) as user values(targetResources{}.displayName) as displayName  by result,
-  operationName, initiatedBy.user.displayName | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `azure_ad_pim_role_assigned_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
-  the AuditLog log category.
-known_false_positives: As part of legitimate administrative behavior, users may be
-  assigned PIM roles. Filter as needed
+description: The following analytic detects the assignment of an Azure AD Privileged Identity Management (PIM) role. It leverages Azure Active Directory events to identify when a user is added as an eligible member to a PIM role. This activity is significant because PIM roles grant elevated privileges, and their assignment should be closely monitored to prevent unauthorized access. If confirmed malicious, an attacker could exploit this to gain privileged access, potentially leading to unauthorized actions, data breaches, or further compromise of the environment.
+search: '`azure_monitor_aad` operationName="Add eligible member to role in PIM completed*" | rename properties.* as * | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user values(targetResources{}.displayName) as displayName  by result, operationName, initiatedBy.user.displayName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_pim_role_assigned_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: As part of legitimate administrative behavior, users may be assigned PIM roles. Filter as needed
 references:
 - https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-configure
 - https://learn.microsoft.com/en-us/azure/active-directory/privileged-identity-management/pim-how-to-activate-role
 - https://microsoft.github.io/Azure-Threat-Research-Matrix/PrivilegeEscalation/AZT401/AZT401/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
@@ -62,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_pim_role_activated/azure-audit.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_pim_role_activated/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad

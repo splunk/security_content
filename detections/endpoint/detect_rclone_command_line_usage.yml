@@ -1,46 +1,32 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the usage of `rclone.exe` with specific
-  command-line arguments indicative of file transfer activities. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on command-line executions
-  and process details. This activity is significant as `rclone.exe` is often used
-  by adversaries for data exfiltration, especially during ransomware attacks. If confirmed
-  malicious, this behavior could lead to unauthorized data transfer, resulting in
-  data breaches and potential loss of sensitive information. Immediate isolation of
-  the affected endpoint and further investigation are recommended.
+description: The following analytic detects the usage of `rclone.exe` with specific command-line arguments indicative of file transfer activities. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details. This activity is significant as `rclone.exe` is often used by adversaries for data exfiltration, especially during ransomware attacks. If confirmed malicious, this behavior could lead to unauthorized data transfer, resulting in data breaches and potential loss of sensitive information. Immediate isolation of the affected endpoint and further investigation are recommended.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_rclone` Processes.process
-  IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*",
-  "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by
-  Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |  `security_content_ctime(lastTime)`
-  | `detect_rclone_command_line_usage_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives should be limited as this is restricted to
-  the Rclone process name. Filter or tune the analytic as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rclone` Processes.process IN ("*copy*", "*mega*", "*pcloud*", "*ftp*", "*--config*", "*--progress*", "*--no-check-certificate*", "*--ignore-existing*", "*--auto-confirm*", "*--transfers*", "*--multi-thread-streams*")  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` |  `security_content_ctime(lastTime)` | `detect_rclone_command_line_usage_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives should be limited as this is restricted to the Rclone process name. Filter or tune the analytic as needed.
 references:
 - https://redcanary.com/blog/rclone-mega-extortion/
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
 - https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/
 - https://thedfirreport.com/2021/11/29/continuing-the-bazar-ransomware-story/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - DarkSide Ransomware
@@ -48,9 +34,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 50
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service
-    to move files or folders.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ attempting to connect to a remote cloud service to move files or folders.
   mitre_attack_id:
   - T1020
   observable:
@@ -89,7 +73,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1020/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: Monitor Email For Brand Abuse
 id: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
-version: 3
-date: '2024-04-16'
+version: 4
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP

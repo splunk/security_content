@@ -1,27 +1,16 @@
 name: Windows IIS Components Module Failed to Load
 id: 40c2ba5b-dd6a-496b-9e6e-c9524d0be167
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when an IIS Module DLL fails to load due
-  to a configuration problem, identified by EventCode 2282. This detection leverages
-  Windows Application event logs to identify repeated failures in loading IIS modules.
-  Such failures can indicate misconfigurations or potential tampering with IIS components.
-  If confirmed malicious, this activity could lead to service disruptions or provide
-  an attacker with opportunities to exploit vulnerabilities within the IIS environment.
-  Immediate investigation is required to determine the legitimacy of the failing module
-  and to mitigate any potential security risks.
+description: The following analytic detects when an IIS Module DLL fails to load due to a configuration problem, identified by EventCode 2282. This detection leverages Windows Application event logs to identify repeated failures in loading IIS modules. Such failures can indicate misconfigurations or potential tampering with IIS components. If confirmed malicious, this activity could lead to service disruptions or provide an attacker with opportunities to exploit vulnerabilities within the IIS environment. Immediate investigation is required to determine the legitimacy of the failing module and to mitigate any potential security risks.
 data_source:
 - Windows Event Log Application 2282
-search: '`wineventlog_application` EventCode=2282 | stats  count min(_time) as firstTime
-  max(_time) as lastTime by  EventCode dest Name ModuleDll | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_iis_components_module_failed_to_load_filter`'
-how_to_implement: IIS must be installed and Application event logs must be collected
-  in order to utilize this analytic.
-known_false_positives: False positives will be present until all module failures are
-  resolved or reviewed.
+search: '`wineventlog_application` EventCode=2282 | stats  count min(_time) as firstTime max(_time) as lastTime by  EventCode dest Name ModuleDll | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_module_failed_to_load_filter`'
+how_to_implement: IIS must be installed and Application event logs must be collected in order to utilize this analytic.
+known_false_positives: False positives will be present until all module failures are resolved or reviewed.
 references:
 - https://social.technet.microsoft.com/wiki/contents/articles/21757.event-id-2282-iis-worker-process-availability.aspx
 - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
@@ -30,6 +19,15 @@ references:
 - https://www.secureworks.com/research/bronze-union
 - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
 - https://strontic.github.io/xcyclopedia/library/appcmd.exe-055B2B09409F980BF9B5A3969D01E5B2.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IIS Components
@@ -60,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/2282_windows-application.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/2282_windows-application.log
     source: XmlWinEventLog:Application
     sourcetype: XmlWinEventLog
     update_timestamp: true

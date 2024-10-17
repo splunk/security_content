@@ -1,32 +1,27 @@
 name: O365 Disable MFA
 id: c783dd98-c703-4252-9e8a-f19d9f5c949e
-version: 3
-date: '2024-05-11'
+version: 4
+date: '2024-09-30'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: The following analytic identifies instances where Multi-Factor Authentication
-  (MFA) is disabled for a user within the Office 365 environment. It leverages O365
-  audit logs, specifically focusing on events related to MFA settings. Disabling MFA
-  removes a critical security layer, making accounts more vulnerable to unauthorized
-  access. If confirmed malicious, this activity could indicate an attacker attempting
-  to maintain persistence or an insider threat, significantly increasing the risk
-  of unauthorized access. Immediate investigation is required to validate the reason
-  for disabling MFA, potentially re-enable it, and assess any other suspicious activities
-  related to the affected account.
+description: The following analytic identifies instances where Multi-Factor Authentication (MFA) is disabled for a user within the Office 365 environment. It leverages O365 audit logs, specifically focusing on events related to MFA settings. Disabling MFA removes a critical security layer, making accounts more vulnerable to unauthorized access. If confirmed malicious, this activity could indicate an attacker attempting to maintain persistence or an insider threat, significantly increasing the risk of unauthorized access. Immediate investigation is required to validate the reason for disabling MFA, potentially re-enable it, and assess any other suspicious activities related to the affected account.
 data_source:
 - O365 Disable Strong Authentication.
-search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats
-  count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation
-  UserId ResultStatus object | rename UserType AS user_type, Operation AS action,
-  UserId AS src_user, object AS user, ResultStatus AS result | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_disable_mfa_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-known_false_positives: Unless it is a special case, it is uncommon to disable MFA
-  or Strong Authentication
+search: '`o365_management_activity` Operation="Disable Strong Authentication." | stats count earliest(_time) as firstTime latest(_time) as lastTime by UserType Operation UserId ResultStatus object | rename UserType AS user_type, Operation AS action, UserId AS src_user, object AS user, ResultStatus AS result | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_disable_mfa_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+known_false_positives: Unless it is a special case, it is uncommon to disable MFA or Strong Authentication
 references:
 - https://attack.mitre.org/techniques/T1556/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -59,7 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/o365_disable_mfa/o365_disable_mfa.json
     sourcetype: o365:management:activity
     source: o365

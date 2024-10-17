@@ -1,7 +1,7 @@
 name: Gdrive suspicious file sharing
 id: a7131dae-34e3-11ec-a2de-acde48001122
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-10-17'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting

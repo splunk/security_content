@@ -1,37 +1,17 @@
 name: Detect hosts connecting to dynamic domain providers
 id: a1e761ac-1344-4dbd-88b2-3f34c912d359
-version: 4
-date: '2024-05-18'
+version: 5
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies DNS queries from internal hosts to
-  dynamic domain providers. It leverages DNS query logs from the `Network_Resolution`
-  data model and cross-references them with a lookup file containing known dynamic
-  DNS providers. This activity is significant because attackers often use dynamic
-  DNS services to host malicious payloads or command-and-control servers, making it
-  crucial for security teams to monitor. If confirmed malicious, this activity could
-  allow attackers to bypass firewall blocks, evade detection, and maintain persistent
-  access to the network.
+description: The following analytic identifies DNS queries from internal hosts to dynamic domain providers. It leverages DNS query logs from the `Network_Resolution` data model and cross-references them with a lookup file containing known dynamic DNS providers. This activity is significant because attackers often use dynamic DNS services to host malicious payloads or command-and-control servers, making it crucial for security teams to monitor. If confirmed malicious, this activity could allow attackers to bypass firewall blocks, evade detection, and maintain persistent access to the network.
 data_source:
 - Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer
-  min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")`
-  | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
-how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This
-  can be done by ingesting logs from your server or data, collected passively by Splunk
-  Stream or a similar solution. Specifically, data that contains the domain that is
-  being queried and the IP of the host originating the request must be populating
-  the `Network_Resolution` data model. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`,
-  which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating
-  the local lookup periodically by adding new domains to the list of `dynamic_dns_providers_local.csv`.
+search: '| tstats `security_content_summariesonly` count values(DNS.answer) as answer min(_time) as firstTime from datamodel=Network_Resolution by DNS.query host | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `dynamic_dns_providers` | `detect_hosts_connecting_to_dynamic_domain_providers_filter`'
+how_to_implement: 'First, you''ll need to ingest data from your DNS operations. This can be done by ingesting logs from your server or data, collected passively by Splunk Stream or a similar solution. Specifically, data that contains the domain that is being queried and the IP of the host originating the request must be populating the `Network_Resolution` data model. This search also leverages a lookup file, `dynamic_dns_providers_default.csv`, which contains a non-exhaustive list of Dynamic DNS providers. Please consider updating the local lookup periodically by adding new domains to the list of `dynamic_dns_providers_local.csv`.
 
-  This search produces fields (query, answer, isDynDNS) that are not yet supported
-  by ES Incident Review and therefore cannot be viewed when a notable event is raised.
-  These fields contribute additional context to the notable event. To see the additional
-  metadata, add the following fields, if not already present, to Incident Review.
-  Event Attributes (Configure > Incident Management > Incident Review Settings > Add
-  New Entry):
+  This search produces fields (query, answer, isDynDNS) that are not yet supported by ES Incident Review and therefore cannot be viewed when a notable event is raised. These fields contribute additional context to the notable event. To see the additional metadata, add the following fields, if not already present, to Incident Review. Event Attributes (Configure > Incident Management > Incident Review Settings > Add New Entry):
 
   * **Label:** DNS Query, **Field:** query
 
@@ -39,12 +19,18 @@ how_to_implement: 'First, you''ll need to ingest data from your DNS operations. 
 
   * **Label:** IsDynamicDNS, **Field:** isDynDNS
 
-  Detailed documentation on how to create a new field within Incident Review may be
-  found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-known_false_positives: Some users and applications may leverage Dynamic DNS to reach
-  out to some domains on the Internet since dynamic DNS by itself is not malicious,
-  however this activity must be verified.
+  Detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
+known_false_positives: Some users and applications may leverage Dynamic DNS to reach out to some domains on the Internet since dynamic DNS by itself is not malicious, however this activity must be verified.
 references: []
+drilldown_searches:
+- name: View the detection results for $host$
+  search: '%original_detection_search% | search  host = $host$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $host$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Protection
@@ -56,8 +42,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 70
-  message: A dns query $query$ from your infra connecting to suspicious domain in
-    host  $host$
+  message: A dns query $query$ from your infra connecting to suspicious domain in host  $host$
   mitre_attack_id:
   - T1189
   observable:
@@ -79,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1189/dyn_dns_site/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

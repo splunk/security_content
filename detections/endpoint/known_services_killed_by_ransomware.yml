@@ -1,38 +1,30 @@
 name: Known Services Killed by Ransomware
 id: 3070f8e0-c528-11eb-b2a0-acde48001122
-version: 4
-date: '2024-08-16'
+version: 5
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the suspicious termination of known services
-  commonly targeted by ransomware before file encryption. It leverages Windows System
-  Event Logs (EventCode 7036) to identify when critical services such as Volume Shadow
-  Copy, backup, and antivirus services are stopped. This activity is significant because
-  ransomware often disables these services to avoid errors and ensure successful file
-  encryption. If confirmed malicious, this behavior could lead to widespread data
-  encryption, rendering files inaccessible and potentially causing significant operational
-  disruption and data loss.
+description: The following analytic detects the suspicious termination of known services commonly targeted by ransomware before file encryption. It leverages Windows System Event Logs (EventCode 7036) to identify when critical services such as Volume Shadow Copy, backup, and antivirus services are stopped. This activity is significant because ransomware often disables these services to avoid errors and ensure successful file encryption. If confirmed malicious, this behavior could lead to widespread data encryption, rendering files inaccessible and potentially causing significant operational disruption and data loss.
 data_source:
 - Windows Event Log System 7036
-search: '`wineventlog_system` EventCode=7036 param1 IN ("*Volume Shadow Copy*","*VSS*",
-  "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*", "DefWatch",
-  "ccEvtMgr", "ccSetMgr", "SavRoam", "RTVscan", "QBFCService", "QBIDPService", "Intuit.QuickBooks.FCS",
-  "QBCFMonitorService" "YooBackup", "YooIT", "*Veeam*", "PDVFSService", "BackupExecVSSProvider",
-  "BackupExecAgentAccelerator", "BackupExec*", "WdBoot", "WdFilter", "WdNisDrv", "WdNisSvc",
-  "WinDefend", "wscsvc", "Sense", "sppsvc", "SecurityHealthService") param2="stopped"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode param1
-  dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `known_services_killed_by_ransomware_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
-known_false_positives: Admin activities or installing related updates may do a sudden
-  stop to list of services we monitor.
+search: '`wineventlog_system` EventCode=7036 param1 IN ("*Volume Shadow Copy*","*VSS*", "*backup*", "*sophos*", "*sql*", "*memtas*", "*mepocs*", "*veeam*", "*svc$*", "DefWatch", "ccEvtMgr", "ccSetMgr", "SavRoam", "RTVscan", "QBFCService", "QBIDPService", "Intuit.QuickBooks.FCS", "QBCFMonitorService" "YooBackup", "YooIT", "*Veeam*", "PDVFSService", "BackupExecVSSProvider", "BackupExecAgentAccelerator", "BackupExec*", "WdBoot", "WdFilter", "WdNisDrv", "WdNisSvc", "WinDefend", "wscsvc", "Sense", "sppsvc", "SecurityHealthService") param2="stopped" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode param1 dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `known_services_killed_by_ransomware_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
+known_false_positives: Admin activities or installing related updates may do a sudden stop to list of services we monitor.
 references:
 - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
 - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
 - https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
 - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ransomware
@@ -68,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/known_services_killed_by_ransomware/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/known_services_killed_by_ransomware/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog

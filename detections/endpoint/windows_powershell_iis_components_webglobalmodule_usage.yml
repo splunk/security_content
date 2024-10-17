@@ -1,29 +1,16 @@
 name: Windows PowerShell IIS Components WebGlobalModule Usage
 id: 33fc9f6f-0ce7-4696-924e-a69ec61a3d57
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the usage of PowerShell Cmdlets - New-WebGlobalModule,
-  Enable-WebGlobalModule, and Set-WebGlobalModule, which are used to create, enable,
-  or modify IIS Modules. This detection leverages PowerShell Script Block Logging,
-  specifically monitoring EventCode 4104 for these cmdlets. This activity is significant
-  as adversaries may use these lesser-known cmdlets to manipulate IIS configurations,
-  similar to AppCmd.exe, potentially bypassing traditional defenses. If confirmed
-  malicious, this could allow attackers to persist in the environment, manipulate
-  web server behavior, or escalate privileges.
+description: The following analytic detects the usage of PowerShell Cmdlets - New-WebGlobalModule, Enable-WebGlobalModule, and Set-WebGlobalModule, which are used to create, enable, or modify IIS Modules. This detection leverages PowerShell Script Block Logging, specifically monitoring EventCode 4104 for these cmdlets. This activity is significant as adversaries may use these lesser-known cmdlets to manipulate IIS configurations, similar to AppCmd.exe, potentially bypassing traditional defenses. If confirmed malicious, this could allow attackers to persist in the environment, manipulate web server behavior, or escalate privileges.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN("*New-WebGlobalModule*","*Enable-WebGlobalModule*","*Set-WebGlobalModule*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`  |
-  `windows_powershell_iis_components_webglobalmodule_usage_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: It is possible administrators or scripts may run these commands,
-  filtering may be required.
+search: '`powershell` EventCode=4104 ScriptBlockText IN("*New-WebGlobalModule*","*Enable-WebGlobalModule*","*Set-WebGlobalModule*") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`  | `windows_powershell_iis_components_webglobalmodule_usage_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: It is possible administrators or scripts may run these commands, filtering may be required.
 references:
 - https://learn.microsoft.com/en-us/powershell/module/webadministration/new-webglobalmodule?view=windowsserver2022-ps
 - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
@@ -31,14 +18,22 @@ references:
 - https://unit42.paloaltonetworks.com/unit42-oilrig-uses-rgdoor-iis-backdoor-targets-middle-east/
 - https://www.secureworks.com/research/bronze-union
 - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
+drilldown_searches:
+- name: View the detection results for $Computer$
+  search: '%original_detection_search% | search  Computer = $Computer$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IIS Components
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A PowerShell Cmdlet related to enabling, creating or modifying a IIS module
-    has occurred on $Computer$.
+  message: A PowerShell Cmdlet related to enabling, creating or modifying a IIS module has occurred on $Computer$.
   mitre_attack_id:
   - T1505
   - T1505.004
@@ -61,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_windows-powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/4104_windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

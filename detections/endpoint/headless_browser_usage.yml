@@ -1,7 +1,7 @@
 name: Headless Browser Usage
 id: 869ba261-c272-47d7-affe-5c0aa85c93d6
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

@@ -1,36 +1,28 @@
 name: O365 New Forwarding Mailflow Rule Created
 id: 289ed0a1-4c78-4a43-9321-44ea2e089c14
-version: 2
-date: '2024-05-29'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
 status: production
-description: The following analytic detects the creation of new mail flow rules in
-  Office 365 that may redirect or copy emails to unauthorized or external addresses.
-  It leverages Office 365 Management Activity logs, specifically querying for the
-  "New-TransportRule" operation and parameters like "BlindCopyTo", "CopyTo", and "RedirectMessageTo".
-  This activity is significant as it can indicate potential data exfiltration or unauthorized
-  access to sensitive information. If confirmed malicious, attackers could intercept
-  or redirect email communications, leading to data breaches or information leakage.
-search: >-
-  `o365_management_activity` Workload=Exchange Operation="New-TransportRule"
-  | eval match1=mvfind('Parameters{}.Name', "BlindCopyTo")
-  | eval match2=mvfind('Parameters{}.Name', "CopyTo")
-  | eval match3=mvfind('Parameters{}.Name', "RedirectMessageTo")
-  | where match1>= 0 OR match2>= 0 OR match3>=0
-  | eval ForwardTo=coalesce(BlindCopyTo, CopyTo, RedirectMessageTo)
-  | search ForwardTo!=""  | rename UserId as user  | stats count earliest(_time) as
-  firstTime latest(_time) as lastTime by Operation, user, Name, ForwardTo  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`   | `o365_new_forwarding_mailflow_rule_created_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Forwarding mail flow rules may be created for legitimate reasons,
-  filter as needed.
+description: The following analytic detects the creation of new mail flow rules in Office 365 that may redirect or copy emails to unauthorized or external addresses. It leverages Office 365 Management Activity logs, specifically querying for the "New-TransportRule" operation and parameters like "BlindCopyTo", "CopyTo", and "RedirectMessageTo". This activity is significant as it can indicate potential data exfiltration or unauthorized access to sensitive information. If confirmed malicious, attackers could intercept or redirect email communications, leading to data breaches or information leakage.
+search: '`o365_management_activity` Workload=Exchange Operation="New-TransportRule" | eval match1=mvfind(''Parameters{}.Name'', "BlindCopyTo") | eval match2=mvfind(''Parameters{}.Name'', "CopyTo") | eval match3=mvfind(''Parameters{}.Name'', "RedirectMessageTo") | where match1>= 0 OR match2>= 0 OR match3>=0 | eval ForwardTo=coalesce(BlindCopyTo, CopyTo, RedirectMessageTo) | search ForwardTo!=""  | rename UserId as user  | stats count earliest(_time) as firstTime latest(_time) as lastTime by Operation, user, Name, ForwardTo  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`   | `o365_new_forwarding_mailflow_rule_created_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Forwarding mail flow rules may be created for legitimate reasons, filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1114/
 - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rules
 - https://learn.microsoft.com/en-us/exchange/security-and-compliance/mail-flow-rules/mail-flow-rule-actions
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Collection Techniques
@@ -60,7 +52,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_new_forwarding_mailflow_rule_created/o365_new_forwarding_mailflow_rule_created.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_new_forwarding_mailflow_rule_created/o365_new_forwarding_mailflow_rule_created.log
     sourcetype: o365:management:activity
     source: o365

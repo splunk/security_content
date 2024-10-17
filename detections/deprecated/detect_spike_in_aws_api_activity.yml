@@ -1,7 +1,7 @@
 name: Detect Spike in AWS API Activity
 id: ada0f478-84a8-4641-a3f1-d32362d4bd55
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly

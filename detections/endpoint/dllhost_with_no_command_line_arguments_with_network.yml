@@ -1,7 +1,7 @@
 name: DLLHost with no Command Line Arguments with Network
 id: f1c07594-a141-11eb-8407-acde48001122
-version: 6
-date: '2024-08-14'
+version: 7
+date: '2024-10-17'
 author: Steven Dick, Michael Haag, Splunk
 status: experimental
 type: TTP

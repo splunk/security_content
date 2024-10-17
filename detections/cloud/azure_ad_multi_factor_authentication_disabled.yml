@@ -1,36 +1,30 @@
 name: Azure AD Multi-Factor Authentication Disabled
 id: 482dd42a-acfa-486b-a0bb-d6fcda27318e
-version: 3
-date: '2024-05-23'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to disable multi-factor authentication
-  (MFA) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify
-  the "Disable Strong Authentication" operation. This activity is significant because
-  disabling MFA can allow adversaries to maintain persistence using compromised accounts
-  without raising suspicion. If confirmed malicious, this action could enable attackers
-  to bypass an essential security control, potentially leading to unauthorized access
-  and prolonged undetected presence in the environment.
+description: The following analytic detects attempts to disable multi-factor authentication (MFA) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify the "Disable Strong Authentication" operation. This activity is significant because disabling MFA can allow adversaries to maintain persistence using compromised accounts without raising suspicion. If confirmed malicious, this action could enable attackers to bypass an essential security control, potentially leading to unauthorized access and prolonged undetected presence in the environment.
 data_source:
 - Azure Active Directory Disable Strong Authentication
-search: '`azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication"
-  | rename properties.* as * | rename targetResources{}.type as type | rename initiatedBy.user.userPrincipalName
-  as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime by user,
-  type, operationName, initiatedBy, result | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `azure_ad_multi_factor_authentication_disabled_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the AuditLogs log category.
-known_false_positives: Legitimate use case may require for users to disable MFA. Filter
-  as needed.
+search: '`azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication" | rename properties.* as * | rename targetResources{}.type as type | rename initiatedBy.user.userPrincipalName as initiatedBy | stats count min(_time) as firstTime max(_time) as lastTime by user, type, operationName, initiatedBy, result | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multi_factor_authentication_disabled_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+known_false_positives: Legitimate use case may require for users to disable MFA. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
 - https://docs.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-userstates
 - https://attack.mitre.org/tactics/TA0005/
 - https://attack.mitre.org/techniques/T1556/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Account Takeover
@@ -67,8 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/azuread/azure-audit.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/azuread/azure-audit.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

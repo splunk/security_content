@@ -1,7 +1,7 @@
 name: Windows Impair Defense Add Xml Applocker Rules
 id: 467ed9d9-8035-470e-ad5e-ae5189283033
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Windows WMI Process Call Create
 id: 0661c2de-93de-11ec-9833-acde48001122
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

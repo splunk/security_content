@@ -1,51 +1,32 @@
 name: Revil Registry Entry
 id: e3d3f57a-c381-11eb-9e35-acde48001122
-version: 4
-date: '2024-05-24'
+version: 5
+date: '2024-09-30'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies suspicious modifications in the registry
-  entry, specifically targeting paths used by malware like REVIL. It detects changes
-  in registry paths such as `SOFTWARE\\WOW6432Node\\Facebook_Assistant` and `SOFTWARE\\WOW6432Node\\BlackLivesMatter`.
-  This detection leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on registry modifications linked to process GUIDs. This activity is significant
-  as it indicates potential malware persistence mechanisms, often used by advanced
-  persistent threats (APTs) and ransomware. If confirmed malicious, this could allow
-  attackers to maintain persistence, encrypt files, and store critical ransomware-related
-  information on compromised hosts.
+description: The following analytic identifies suspicious modifications in the registry entry, specifically targeting paths used by malware like REVIL. It detects changes in registry paths such as `SOFTWARE\\WOW6432Node\\Facebook_Assistant` and `SOFTWARE\\WOW6432Node\\BlackLivesMatter`. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry modifications linked to process GUIDs. This activity is significant as it indicates potential malware persistence mechanisms, often used by advanced persistent threats (APTs) and ransomware. If confirmed malicious, this could allow attackers to maintain persistence, encrypt files, and store critical ransomware-related information on compromised hosts.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*"
-  OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") BY _time
-  span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`]
-  | fields firstTime lastTime dest user parent_process_name parent_process process_name
-  process_path process registry_key_name registry_path registry_value_name registry_value_data
-  process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `revil_registry_entry_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)` | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\Facebook_Assistant\\*" OR Registry.registry_path="*\\SOFTWARE\\WOW6432Node\\BlackLivesMatter*") BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `revil_registry_entry_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
 - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ransomware
@@ -54,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 60
-  message: A registry entry $registry_path$ with registry value $registry_value_name$
-    and $registry_value_name$ related to revil ransomware in host $dest$
+  message: A registry entry $registry_path$ with registry value $registry_value_name$ and $registry_value_name$ related to revil ransomware in host $dest$
   mitre_attack_id:
   - T1112
   observable:
@@ -93,7 +73,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf1/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: GetWmiObject User Account with PowerShell
 id: b44f6ac6-0429-11ec-87e9-acde48001122
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

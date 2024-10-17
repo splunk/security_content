@@ -1,7 +1,7 @@
 name: Windows Identify Protocol Handlers
 id: bd5c311e-a6ea-48ae-a289-19a3398e3648
-version: 4
-date: '2024-08-14'
+version: 5
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: aws detect permanent key creation
 id: 12d6d713-3cb4-4ffc-a064-1dca3d1cca01
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

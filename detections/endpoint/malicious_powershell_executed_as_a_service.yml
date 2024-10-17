@@ -1,35 +1,29 @@
 name: Malicious Powershell Executed As A Service
 id: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-09-30'
 author: Ryan Becwar
 status: production
 type: TTP
-description: The following analytic identifies the execution of malicious PowerShell
-  commands or payloads via the Windows SC.exe utility. It detects this activity by
-  analyzing Windows System logs (EventCode 7045) and filtering for specific PowerShell-related
-  patterns in the ImagePath field. This behavior is significant because it indicates
-  potential abuse of the Windows Service Control Manager to run unauthorized or harmful
-  scripts, which could lead to system compromise. If confirmed malicious, this activity
-  could allow attackers to execute arbitrary code, escalate privileges, or maintain
-  persistence within the environment.
+description: The following analytic identifies the execution of malicious PowerShell commands or payloads via the Windows SC.exe utility. It detects this activity by analyzing Windows System logs (EventCode 7045) and filtering for specific PowerShell-related patterns in the ImagePath field. This behavior is significant because it indicates potential abuse of the Windows Service Control Manager to run unauthorized or harmful scripts, which could lead to system compromise. If confirmed malicious, this activity could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment.
 data_source:
 - Windows Event Log System 7045
-search: '`wineventlog_system` EventCode=7045 | eval l_ImagePath=lower(ImagePath)
-  | regex l_ImagePath="powershell[.\s]|powershell_ise[.\s]|pwsh[.\s]|psexec[.\s]"
-  | regex l_ImagePath="-nop[rofile\s]+|-w[indowstyle]*\s+hid[den]*|-noe[xit\s]+|-enc[odedcommand\s]+"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath
-  ServiceName StartType ServiceType AccountName UserID dest | rename UserID as user|
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_powershell_executed_as_a_service_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows System logs with the Service name, Service File Name Service Start type,
-  and Service Type from your endpoints.
-known_false_positives: Creating a hidden powershell service is rare and could key
-  off of those instances.
+search: '`wineventlog_system` EventCode=7045 | eval l_ImagePath=lower(ImagePath) | regex l_ImagePath="powershell[.\s]|powershell_ise[.\s]|pwsh[.\s]|psexec[.\s]" | regex l_ImagePath="-nop[rofile\s]+|-w[indowstyle]*\s+hid[den]*|-noe[xit\s]+|-enc[odedcommand\s]+" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ImagePath ServiceName StartType ServiceType AccountName UserID dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `malicious_powershell_executed_as_a_service_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+known_false_positives: Creating a hidden powershell service is rare and could key off of those instances.
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/dosfuscation-report.pdf
 - http://az4n6.blogspot.com/2017/
 - https://www.danielbohannon.com/blog-1/2017/3/12/powershell-execution-argument-obfuscation-how-it-can-make-detection-easier
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -37,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: Identifies the abuse the Windows SC.exe to execute malicious powerShell
-    as a service $ImagePath$ by $user$ on $dest$
+  message: Identifies the abuse the Windows SC.exe to execute malicious powerShell as a service $ImagePath$ by $user$ on $dest$
   mitre_attack_id:
   - T1569
   - T1569.002
@@ -69,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/malicious_powershell_executed_as_a_service/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/malicious_powershell_executed_as_a_service/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog
