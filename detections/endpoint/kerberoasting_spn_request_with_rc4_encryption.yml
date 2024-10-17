@@ -40,7 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: User $user$ requested a service ticket for SPN $service_id$ with RC4 encryption. 
+  message: User $user$ requested a service ticket for SPN $service_id$ with RC4 encryption
   mitre_attack_id:
   - T1558
   - T1558.003

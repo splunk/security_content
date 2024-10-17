@@ -1,4 +1,4 @@
-definition: source="XmlWinEventLog:Security"
+definition: (source="XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational" OR source="WinEventLog:Microsoft-Windows-TaskScheduler/Operational")
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environmnent.
 name: wineventlog_task_scheduler
