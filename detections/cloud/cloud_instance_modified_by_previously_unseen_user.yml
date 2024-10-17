@@ -1,7 +1,7 @@
 name: Cloud Instance Modified By Previously Unseen User
 id: 7fb15084-b14e-405a-bd61-a6de15a40722
-version: 3
-date: '2024-08-16'
+version: 4
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

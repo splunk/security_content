@@ -1,7 +1,7 @@
 name: Detect Windows DNS SIGRed via Splunk Stream
 id: babd8d10-d073-11ea-87d0-0242ac130003
-version: 3
-date: '2024-08-14'
+version: 4
+date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP

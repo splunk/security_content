@@ -1,7 +1,7 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 5
-date: '2024-10-09'
+version: 6
+date: '2024-10-17'
 author: Jose Hernandez, Bhavin Patel, Splunk
 status: production
 type: TTP

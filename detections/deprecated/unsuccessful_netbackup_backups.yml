@@ -1,7 +1,7 @@
 name: Unsuccessful Netbackup backups
 id: a34aae96-ccf8-4aaa-952c-3ea21444444f
-version: 2
-date: '2024-08-15'
+version: 3
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting

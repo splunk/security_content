@@ -1,7 +1,7 @@
 name: Windows Process Injection With Public Source Path
 id: 492f09cf-5d60-4d87-99dd-0bc325532dda
-version: 3
-date: '2024-08-14'
+version: 4
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

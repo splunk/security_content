@@ -1,7 +1,7 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 4
-date: '2024-05-15'
+version: 5
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP

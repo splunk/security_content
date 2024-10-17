@@ -1,7 +1,7 @@
 name: Gsuite suspicious calendar invite
 id: 03cdd68a-34fb-11ec-9bd3-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-10-17'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting

@@ -1,7 +1,7 @@
 name: EC2 Instance Started With Previously Unseen AMI
 id: 347ec301-601b-48b9-81aa-9ddf9c829dd3
-version: 2
-date: '2024-08-15'
+version: 3
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly

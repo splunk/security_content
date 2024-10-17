@@ -1,7 +1,7 @@
 name: Windows AppLocker Rare Application Launch Detection
 id: 9556f7b7-285f-4f18-8eeb-963d989f9d27
-version: 2
-date: '2024-05-30'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
