@@ -1,39 +1,27 @@
 name: Linux Auditd File Permission Modification Via Chmod
 id: 5f1d2ea7-eec0-4790-8b24-6875312ad492
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious file permission modifications
-  using the `chmod` command, which may indicate an attacker attempting to alter access
-  controls on critical files or directories. Such modifications can be used to grant
-  unauthorized users elevated privileges or to conceal malicious activities by restricting
-  legitimate access. By monitoring for unusual or unauthorized `chmod` usage, this
-  analytic helps identify potential security breaches, allowing security teams to
-  respond promptly to prevent privilege escalation, data tampering, or other unauthorized
-  actions on the system.
+description: The following analytic detects suspicious file permission modifications using the `chmod` command, which may indicate an attacker attempting to alter access controls on critical files or directories. Such modifications can be used to grant unauthorized users elevated privileges or to conceal malicious activities by restricting legitimate access. By monitoring for unusual or unauthorized `chmod` usage, this analytic helps identify potential security breaches, allowing security teams to respond promptly to prevent privilege escalation, data tampering, or other unauthorized actions on the system.
 data_source:
 - Linux Auditd Proctitle
-search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host
-  as dest  | where LIKE(process_exec, "%chmod%") AND (LIKE(process_exec, "% 777 %")
-  OR LIKE(process_exec, "% 755 %") OR LIKE(process_exec, "%x%") OR LIKE(process_exec,
-  "% 754 %") OR LIKE(process_exec, "% 700 %")) | stats count min(_time) as firstTime
-  max(_time) as lastTime by process_exec proctitle dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `linux_auditd_file_permission_modification_via_chmod_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this application
-  for automation purposes. Please update the filter macros to remove false positives.
+search: '`linux_auditd` `linux_auditd_normalized_proctitle_process` | rename host as dest  | where LIKE(process_exec, "%chmod%") AND (LIKE(process_exec, "% 777 %") OR LIKE(process_exec, "% 755 %") OR LIKE(process_exec, "%x%") OR LIKE(process_exec, "% 754 %") OR LIKE(process_exec, "% 700 %")) | stats count min(_time) as firstTime max(_time) as lastTime by process_exec proctitle dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_file_permission_modification_via_chmod_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Living Off The Land

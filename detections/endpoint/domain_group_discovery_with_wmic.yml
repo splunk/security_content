@@ -1,7 +1,7 @@
 name: Domain Group Discovery With Wmic
 id: a87736a6-95cd-4728-8689-3c64d5026b3e
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

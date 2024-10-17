@@ -1,43 +1,29 @@
 name: Schtasks Run Task On Demand
 id: bb37061e-af1f-11eb-a159-acde48001122
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of a Windows Scheduled Task
-  on demand via the shell or command line. It leverages process-related data, including
-  process name, parent process, and command-line executions, sourced from endpoint
-  logs. The detection focuses on 'schtasks.exe' with an associated 'run' command.
-  This activity is significant as adversaries often use it to force the execution
-  of their created Scheduled Tasks for persistent access or lateral movement within
-  a compromised machine. If confirmed malicious, this could allow attackers to maintain
-  persistence or move laterally within the network, potentially leading to further
-  compromise.
+description: The following analytic detects the execution of a Windows Scheduled Task on demand via the shell or command line. It leverages process-related data, including process name, parent process, and command-line executions, sourced from endpoint logs. The detection focuses on 'schtasks.exe' with an associated 'run' command. This activity is significant as adversaries often use it to force the execution of their created Scheduled Tasks for persistent access or lateral movement within a compromised machine. If confirmed malicious, this could allow attackers to maintain persistence or move laterally within the network, potentially leading to further compromise.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  values(Processes.process_id) as process_id count min(_time) as firstTime max(_time)
-  as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe"
-  Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name
-  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `schtasks_run_task_on_demand_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Bear in mind, administrators debugging Scheduled Task entries
-  may trigger this analytic, necessitating fine-tuning and filtering to distinguish
-  between legitimate and potentially malicious use of 'schtasks.exe'.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime  from datamodel=Endpoint.Processes where Processes.process_name = "schtasks.exe" Processes.process = "*/run*" by Processes.process_name Processes.parent_process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `schtasks_run_task_on_demand_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Bear in mind, administrators debugging Scheduled Task entries may trigger this analytic, necessitating fine-tuning and filtering to distinguish between legitimate and potentially malicious use of 'schtasks.exe'.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Qakbot
@@ -49,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 60
-  message: A "on demand" execution of schedule task process $process_name$  using
-    commandline $process$ in host $dest$
+  message: A "on demand" execution of schedule task process $process_name$  using commandline $process$ in host $dest$
   mitre_attack_id:
   - T1053
   observable:
@@ -79,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

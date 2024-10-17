@@ -1,7 +1,7 @@
 name: Detect Spike in S3 Bucket deletion
 id: e733a326-59d2-446d-b8db-14a17151aa68
-version: 2
-date: '2024-05-03'
+version: 3
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

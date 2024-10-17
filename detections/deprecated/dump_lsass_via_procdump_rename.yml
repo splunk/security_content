@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump Rename
 id: 21276daa-663d-11eb-ae93-0242ac130002
-version: 2
-date: '2024-08-19'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: deprecated
 type: Hunting

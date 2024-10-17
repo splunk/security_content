@@ -1,37 +1,31 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies non-SYSTEM accounts requesting access
-  to lsass.exe. This detection leverages Sysmon EventCode 10 logs to monitor access
-  attempts to the Local Security Authority Subsystem Service (lsass.exe) by non-SYSTEM
-  users. This activity is significant as it may indicate credential dumping attempts
-  or unauthorized access to sensitive credentials. If confirmed malicious, an attacker
-  could potentially extract credentials from memory, leading to privilege escalation
-  or lateral movement within the network. Immediate investigation is required to determine
-  the legitimacy of the access request and to mitigate any potential threats.
+description: The following analytic identifies non-SYSTEM accounts requesting access to lsass.exe. This detection leverages Sysmon EventCode 10 logs to monitor access attempts to the Local Security Authority Subsystem Service (lsass.exe) by non-SYSTEM users. This activity is significant as it may indicate credential dumping attempts or unauthorized access to sensitive credentials. If confirmed malicious, an attacker could potentially extract credentials from memory, leading to privilege escalation or lateral movement within the network. Immediate investigation is required to determine the legitimacy of the access request and to mitigate any potential threats.
 data_source:
 - Sysmon EventID 10
-search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name,
-  parent_process_path ,parent_process_id, TargetImage, GrantedAccess, SourceUser,
-  TargetUser | rename TargetUser as user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `windows_non_system_account_targeting_lsass_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
-known_false_positives: False positives will occur based on legitimate application
-  requests, filter based on source image as needed.
+search: '`sysmon` EventCode=10 TargetImage=*lsass.exe NOT (SourceUser="NT AUTHORITY\\*") | stats count min(_time) as firstTime max(_time) as lastTime by dest, parent_process_name, parent_process_path ,parent_process_id, TargetImage, GrantedAccess, SourceUser, TargetUser | rename TargetUser as user | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_non_system_account_targeting_lsass_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
+known_false_positives: False positives will occur based on legitimate application requests, filter based on source image as needed.
 references:
 - https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service
 - https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump
 - https://cyberwardog.blogspot.com/2017/03/chronicles-of-threat-hunter-hunting-for_22.html
 - https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Exfiltration/Invoke-Mimikatz.ps1
 - https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights?redirectedfrom=MSDN
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - CISA AA23-347A
@@ -39,8 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A process, $parent_process_path$, has loaded $TargetImage$ that are typically
-    related to credential dumping on $dest$. Review for further details.
+  message: A process, $parent_process_path$, has loaded $TargetImage$ that are typically related to credential dumping on $dest$. Review for further details.
   mitre_attack_id:
   - T1003.001
   - T1003
@@ -75,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,42 +1,28 @@
 name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
-version: 6
-date: '2024-05-17'
+version: 7
+date: '2024-09-30'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of reg.exe to modify registry
-  keys associated with Windows services and their configurations. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process names, parent
-  processes, and command-line executions. This activity is significant because unauthorized
-  changes to service registry keys can indicate an attempt to establish persistence
-  or escalate privileges. If confirmed malicious, this could allow an attacker to
-  control service behavior, potentially leading to unauthorized code execution or
-  system compromise.
+description: The following analytic detects the use of reg.exe to modify registry keys associated with Windows services and their configurations. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, parent processes, and command-line executions. This activity is significant because unauthorized changes to service registry keys can indicate an attempt to establish persistence or escalate privileges. If confirmed malicious, this could allow an attacker to control service behavior, potentially leading to unauthorized code execution or system compromise.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name)
-  as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
-  where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add*
-  Processes.process=*Services* by Processes.process_id Processes.dest Processes.process
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `reg_exe_manipulating_windows_services_registry_keys_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: It is unusual for a service to be created or modified by directly
-  manipulating the registry. However, there may be legitimate instances of this behavior.
-  It is important to validate and investigate, as appropriate.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes where Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services* by Processes.process_id Processes.dest Processes.process | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `reg_exe_manipulating_windows_services_registry_keys_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: It is unusual for a service to be created or modified by directly manipulating the registry. However, there may be legitimate instances of this behavior. It is important to validate and investigate, as appropriate.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Service Abuse
@@ -75,7 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

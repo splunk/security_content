@@ -1,7 +1,7 @@
 name: Get WMIObject Group Discovery
 id: 5434f670-155d-11ec-8cca-acde48001122
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

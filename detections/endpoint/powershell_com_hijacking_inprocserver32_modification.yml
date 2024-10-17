@@ -1,42 +1,37 @@
 name: Powershell COM Hijacking InprocServer32 Modification
 id: ea61e291-af05-4716-932a-67faddb6ae6f
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to modify or add a Component
-  Object Model (COM) entry to the InProcServer32 path within the registry using PowerShell.
-  It leverages PowerShell ScriptBlock Logging (EventCode 4104) to identify suspicious
-  script blocks that target the InProcServer32 registry path. This activity is significant
-  because modifying COM objects can be used for persistence or privilege escalation
-  by attackers. If confirmed malicious, this could allow an attacker to execute arbitrary
-  code or maintain persistent access to the compromised system, posing a severe security
-  risk.
+description: The following analytic detects attempts to modify or add a Component Object Model (COM) entry to the InProcServer32 path within the registry using PowerShell. It leverages PowerShell ScriptBlock Logging (EventCode 4104) to identify suspicious script blocks that target the InProcServer32 registry path. This activity is significant because modifying COM objects can be used for persistence or privilege escalation by attackers. If confirmed malicious, this could allow an attacker to execute arbitrary code or maintain persistent access to the compromised system, posing a severe security risk.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Software\\Classes\\CLSID\\*\\InProcServer32*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_com_hijacking_inprocserver32_modification_filter`'
-how_to_implement: The following analytic requires PowerShell operational logs to be
-  imported. Modify the PowerShell macro as needed to match the sourcetype or add index.
-  This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: False positives will be present if any scripts are adding to
-  inprocserver32. Filter as needed.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Software\\Classes\\CLSID\\*\\InProcServer32*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_com_hijacking_inprocserver32_modification_filter`'
+how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the PowerShell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: False positives will be present if any scripts are adding to inprocserver32. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1546/015/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 - https://blog.cluster25.duskrise.com/2022/09/23/in-the-footsteps-of-the-fancy-bear-powerpoint-graphite/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.015/T1546.015.md
+drilldown_searches:
+- name: View the detection results for $Computer$
+  search: '%original_detection_search% | search  Computer = $Computer$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: A PowerShell script has been identified with InProcServer32 within the
-    script code on $Computer$.
+  message: A PowerShell script has been identified with InProcServer32 within the script code on $Computer$.
   mitre_attack_id:
   - T1546.015
   - T1059
@@ -62,8 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.015/atomic_red_team/windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

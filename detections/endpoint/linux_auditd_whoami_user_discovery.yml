@@ -1,38 +1,28 @@
 name: Linux Auditd Whoami User Discovery
 id: d1ff2e22-310d-446a-80b3-faedaa7b3b52
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the suspicious use of the whoami command,
-  which may indicate an attacker trying to gather information about the current user
-  account on a compromised system. The whoami command is commonly used to verify user
-  privileges and identity, especially during initial stages of an attack to assess
-  the level of access. By monitoring for unusual or unauthorized executions of whoami,
-  this analytic helps in identifying potential reconnaissance activities, enabling
-  security teams to take action before the attacker escalates privileges or conducts
-  further malicious operations.
+description: The following analytic detects the suspicious use of the whoami command, which may indicate an attacker trying to gather information about the current user account on a compromised system. The whoami command is commonly used to verify user privileges and identity, especially during initial stages of an attack to assess the level of access. By monitoring for unusual or unauthorized executions of whoami, this analytic helps in identifying potential reconnaissance activities, enabling security teams to take action before the attacker escalates privileges or conducts further malicious operations.
 data_source:
 - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | rename host
-  as dest | stats count min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL
-  UID ppid pid dest success | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `linux_auditd_whoami_user_discovery_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this application
-  for automation purposes. Please update the filter macros to remove false positives.
+search: '`linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami" | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by comm exe  SYSCALL UID ppid pid dest success | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_whoami_user_discovery_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Living Off The Land

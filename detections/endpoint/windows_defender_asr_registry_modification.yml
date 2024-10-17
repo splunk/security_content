@@ -1,7 +1,7 @@
 name: Windows Defender ASR Registry Modification
 id: 6a1b6cbe-6612-44c3-92b9-1a1bd77412eb
-version: 3
-date: '2024-08-14'
+version: 4
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

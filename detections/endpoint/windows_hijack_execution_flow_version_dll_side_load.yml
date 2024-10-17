@@ -1,31 +1,27 @@
 name: Windows Hijack Execution Flow Version Dll Side Load
 id: 8351340b-ac0e-41ec-8b07-dd01bf32d6ea
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a process loading a version.dll file from
-  a directory other than %windir%\system32 or %windir%\syswow64. This detection leverages
-  Sysmon EventCode 7 to identify instances where an unsigned or improperly located
-  version.dll is loaded. This activity is significant as it is a common technique
-  used in ransomware and APT malware campaigns, including Brute Ratel C4, to execute
-  malicious code via DLL side loading. If confirmed malicious, this could allow attackers
-  to execute arbitrary code, maintain persistence, and potentially compromise the
-  target host.
+description: The following analytic detects a process loading a version.dll file from a directory other than %windir%\system32 or %windir%\syswow64. This detection leverages Sysmon EventCode 7 to identify instances where an unsigned or improperly located version.dll is loaded. This activity is significant as it is a common technique used in ransomware and APT malware campaigns, including Brute Ratel C4, to execute malicious code via DLL side loading. If confirmed malicious, this could allow attackers to execute arbitrary code, maintain persistence, and potentially compromise the target host.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7 ImageLoaded = "*\\version.dll" AND (Signed = "false"
-  OR NOT(ImageLoaded IN("*\\windows\\system32*",  "*\\windows\\syswow64\\*"))) | stats
-  count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name
-  dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_hijack_execution_flow_version_dll_side_load_filter`'
-how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
-  will add the ImageLoaded name to the process_name field, allowing this query to
-  work. Use as an example and implement for other products.
+search: '`sysmon` EventCode=7 ImageLoaded = "*\\version.dll" AND (Signed = "false" OR NOT(ImageLoaded IN("*\\windows\\system32*",  "*\\windows\\syswow64\\*"))) | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_hijack_execution_flow_version_dll_side_load_filter`'
+how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709 will add the ImageLoaded name to the process_name field, allowing this query to work. Use as an example and implement for other products.
 known_false_positives: unknown
 references:
 - https://www.mdsec.co.uk/2022/08/part-3-how-i-met-your-beacon-brute-ratel/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Brute Ratel C4
@@ -59,8 +55,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/iso_version_dll_campaign/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

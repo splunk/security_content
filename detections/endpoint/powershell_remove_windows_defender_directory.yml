@@ -1,29 +1,27 @@
 name: Powershell Remove Windows Defender Directory
 id: adf47620-79fa-11ec-b248-acde48001122
-version: 4
-date: '2024-05-18'
+version: 5
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a suspicious PowerShell command attempting
-  to delete the Windows Defender directory. It leverages PowerShell Script Block Logging
-  to identify commands containing "rmdir" and targeting the Windows Defender path.
-  This activity is significant as it may indicate an attempt to disable or corrupt
-  Windows Defender, a key security component. If confirmed malicious, this action
-  could allow an attacker to bypass endpoint protection, facilitating further malicious
-  activities without detection.
+description: The following analytic detects a suspicious PowerShell command attempting to delete the Windows Defender directory. It leverages PowerShell Script Block Logging to identify commands containing "rmdir" and targeting the Windows Defender path. This activity is significant as it may indicate an attempt to disable or corrupt Windows Defender, a key security component. If confirmed malicious, this action could allow an attacker to bypass endpoint protection, facilitating further malicious activities without detection.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*rmdir *" AND ScriptBlockText
-  = "*\\Microsoft\\Windows Defender*" | stats count min(_time) as firstTime max(_time)
-  as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `powershell_remove_windows_defender_directory_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*rmdir *" AND ScriptBlockText = "*\\Microsoft\\Windows Defender*" | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_remove_windows_defender_directory_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
 known_false_positives: unknown
 references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+drilldown_searches:
+- name: View the detection results for $Computer$ and $UserID$
+  search: '%original_detection_search% | search  Computer = $Computer$ UserID = $UserID$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$ and $UserID$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$, $UserID$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Destruction
@@ -60,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,32 +1,30 @@
 name: Windows AD GPO Deleted
 id: 0d41772b-35ab-4e1c-a2ba-d0b455481aee
-version: 1
-date: '2023-11-24'
+version: 2
+date: '2024-09-30'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - Windows Security 5136
-description: This detection identifies when an Active Directory Group Policy is deleted using the Group Policy Management Console. 
-search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=gpLink | eval  ObjectDN=upper(ObjectDN)
-  | stats min(_time) as eventTime values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(src_user) as src_user by OpCorrelationID ObjectDN SubjectLogonId
-  | rex field=old_value max_match=10000 "(?i)LDAP://(?P<old_dn>cn.*?);(?P<old_flag>\d)\]" 
-  | rex field=new_value max_match=10000 "(?i)LDAP://(?P<new_dn>cn.*?);(?P<new_flag>\d)\]"
-  | mvexpand old_dn 
-  | where NOT old_dn IN (new_dn)
-  | eval ObjectDN=upper(old_dn)
-  | join ObjectDN type=outer [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | eval ObjectDN=upper(distinguishedName) | stats latest(displayName) as displayName by ObjectDN ]
-  | stats min(eventTime) as _time values(OpCorrelationID) as OpCorrelationID values(displayName) as policyName values(src_user) as src_user by ObjectDN SubjectLogonId
-  | `windows_ad_gpo_deleted_filter`'
-how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display 
-  the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the 
-  wineventlog_security and admon macros are configured with the correct indexes. 
+description: This detection identifies when an Active Directory Group Policy is deleted using the Group Policy Management Console.
+search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=gpLink | eval  ObjectDN=upper(ObjectDN) | stats min(_time) as eventTime values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(src_user) as src_user by OpCorrelationID ObjectDN SubjectLogonId | rex field=old_value max_match=10000 "(?i)LDAP://(?P<old_dn>cn.*?);(?P<old_flag>\d)\]" | rex field=new_value max_match=10000 "(?i)LDAP://(?P<new_dn>cn.*?);(?P<new_flag>\d)\]" | mvexpand old_dn | where NOT old_dn IN (new_dn) | eval ObjectDN=upper(old_dn) | join ObjectDN type=outer [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | eval ObjectDN=upper(distinguishedName) | stats latest(displayName) as displayName by ObjectDN ] | stats min(eventTime) as _time values(OpCorrelationID) as OpCorrelationID values(displayName) as policyName values(src_user) as src_user by ObjectDN SubjectLogonId | `windows_ad_gpo_deleted_filter`'
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the wineventlog_security and admon macros are configured with the correct indexes.
 known_false_positives: Unknown
 references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
+drilldown_searches:
+- name: View the detection results for $src_user$
+  search: '%original_detection_search% | search  src_user = $src_user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 80
   impact: 80
@@ -35,33 +33,33 @@ tags:
   - T1562.001
   - T1484.001
   observable:
-    - name: src_user
-      type: User
-      role:
-        - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_score: 64
   required_fields:
-    - _time
-    - OperationType
-    - ObjectDN
-    - OpCorrelationID
-    - src_user
-    - AttributeLDAPDisplayName
-    - AttributeValue
-    - ObjectClass
-    - SubjectLogonId
-    - DSName
+  - _time
+  - OperationType
+  - ObjectDN
+  - OpCorrelationID
+  - src_user
+  - AttributeLDAPDisplayName
+  - AttributeValue
+  - ObjectClass
+  - SubjectLogonId
+  - DSName
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_deleted/windows-security.log
-        source: XmlWinEventLog:Security
-        sourcetype: xmlwineventlog
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_deleted/windows-admon.log
-        source: ActiveDirectory
-        sourcetype: ActiveDirectory
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_deleted/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_deleted/windows-admon.log
+    source: ActiveDirectory
+    sourcetype: ActiveDirectory

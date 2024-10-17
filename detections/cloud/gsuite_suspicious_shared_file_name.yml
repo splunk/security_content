@@ -1,40 +1,28 @@
 name: Gsuite Suspicious Shared File Name
 id: 07eed200-03f5-11ec-98fb-acde48001122
-version: 2
-date: '2024-05-14'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects shared files in Google Drive with suspicious
-  filenames commonly used in spear phishing campaigns. It leverages GSuite Drive logs
-  to identify documents with titles that include keywords like "dhl," "ups," "invoice,"
-  and "shipment." This activity is significant because such filenames are often used
-  to lure users into opening malicious documents or clicking harmful links. If confirmed
-  malicious, this activity could lead to unauthorized access, data theft, or further
-  compromise of the user's system.
+description: The following analytic detects shared files in Google Drive with suspicious filenames commonly used in spear phishing campaigns. It leverages GSuite Drive logs to identify documents with titles that include keywords like "dhl," "ups," "invoice," and "shipment." This activity is significant because such filenames are often used to lure users into opening malicious documents or clicking harmful links. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further compromise of the user's system.
 data_source:
 - G Suite Drive
-search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title"
-  IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*",
-  "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*",
-  "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet",
-  "presentation") | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" | rex
-  field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com"
-  and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="low"
-  | stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner
-  parameters.target_user parameters.doc_title parameters.doc_type phase severity |
-  rename parameters.target_user AS user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `gsuite_suspicious_shared_file_name_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs related to gsuite having the file attachment metadata like file type, file
-  extension, source email, destination email, num of attachment and etc. In order
-  for the search to work for your environment, please edit the query to use your company
-  specific email domain instead of `internal_test_email.com`.
-known_false_positives: normal user or normal transaction may contain the subject and
-  file type attachment that this detection try to search
+search: '`gsuite_drive` parameters.owner_is_team_drive=false "parameters.doc_title" IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "*fedex*", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") parameters.doc_type IN ("document","pdf", "msexcel", "msword", "spreadsheet", "presentation") | rex field=parameters.owner "[^@]+@(?<source_domain>[^@]+)" | rex field=parameters.target_user "[^@]+@(?<dest_domain>[^@]+)" | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com" | eval phase="plan" | eval severity="low" | stats count min(_time) as firstTime max(_time) as lastTime by email parameters.owner parameters.target_user parameters.doc_title parameters.doc_type phase severity | rename parameters.target_user AS user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `gsuite_suspicious_shared_file_name_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs related to gsuite having the file attachment metadata like file type, file extension, source email, destination email, num of attachment and etc. In order for the search to work for your environment, please edit the query to use your company specific email domain instead of `internal_test_email.com`.
+known_false_positives: normal user or normal transaction may contain the subject and file type attachment that this detection try to search
 references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 - https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks
+drilldown_searches:
+- name: View the detection results for $email$
+  search: '%original_detection_search% | search  email = $email$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $email$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($email$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -72,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/gdrive_susp_file_share/gdrive_susp_attach.log
     source: http:gsuite
     sourcetype: gsuite:drive:json

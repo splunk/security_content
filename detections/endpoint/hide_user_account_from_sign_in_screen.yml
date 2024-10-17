@@ -1,35 +1,28 @@
 name: Hide User Account From Sign-In Screen
 id: 834ba832-ad89-11eb-937d-acde48001122
-version: 5
-date: '2024-05-17'
+version: 6
+date: '2024-09-30'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a suspicious registry modification that
-  hides a user account from the Windows Login screen. It leverages data from the Endpoint.Registry
-  data model, specifically monitoring changes to the registry path "*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
-  with a value of "0x00000000". This activity is significant as it may indicate an
-  adversary attempting to create a hidden admin account to avoid detection and maintain
-  persistence on the compromised machine. If confirmed malicious, this could allow
-  the attacker to maintain undetected access and control over the system, posing a
-  severe security risk.
+description: The following analytic detects a suspicious registry modification that hides a user account from the Windows Login screen. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" with a value of "0x00000000". This activity is significant as it may indicate an adversary attempting to create a hidden admin account to avoid detection and maintain persistence on the compromised machine. If confirmed malicious, this could allow the attacker to maintain undetected access and control over the system, posing a severe security risk.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*"
-  AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest
-  Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name
-  Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`
-  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `hide_user_account_from_sign_in_screen_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist*" AND Registry.registry_value_data = "0x00000000") BY _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `hide_user_account_from_sign_in_screen_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Unknown. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - XMRig
@@ -39,9 +32,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 90
-  message: Suspicious registry modification ($registry_value_name$) which is used
-    go hide a user account on the Windows Login screen detected on $dest$ executed
-    by $user$
+  message: Suspicious registry modification ($registry_value_name$) which is used go hide a user account on the Windows Login screen detected on $dest$ executed by $user$
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -75,7 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/hotkey_disabled_hidden_user/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

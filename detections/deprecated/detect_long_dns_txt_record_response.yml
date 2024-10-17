@@ -1,7 +1,7 @@
 name: Detect Long DNS TXT Record Response
 id: 05437c07-62f5-452e-afdc-04dd44815bb9
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

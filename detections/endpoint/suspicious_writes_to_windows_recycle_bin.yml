@@ -1,30 +1,26 @@
 name: Suspicious writes to windows Recycle Bin
 id: b5541828-8ffd-4070-9d95-b3da4de924cb
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-09-30'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
-description: |-
-  The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin. It leverages the Endpoint.Filesystem and Endpoint.Processes data models in Splunk to identify any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This activity is significant because it may indicate an attacker attempting to hide their actions, potentially leading to data theft, ransomware, or other malicious outcomes. If confirmed malicious, this behavior could allow an attacker to persist in the environment and evade detection by security tools.
+description: The following analytic detects when a process other than explorer.exe writes to the Windows Recycle Bin. It leverages the Endpoint.Filesystem and Endpoint.Processes data models in Splunk to identify any process writing to the "*$Recycle.Bin*" file path, excluding explorer.exe. This activity is significant because it may indicate an attacker attempting to hide their actions, potentially leading to data theft, ransomware, or other malicious outcomes. If confirmed malicious, this behavior could allow an attacker to persist in the environment and evade detection by security tools.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name)
-  as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*"
-  by Filesystem.process_name Filesystem.process_id Filesystem.dest | `drop_dm_object_name("Filesystem")`
-  | join  process_id [| tstats `security_content_summariesonly` values(Processes.user)
-  as user values(Processes.process_name) as process_name values(Processes.parent_process_name)
-  as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name
-  != "explorer.exe" by Processes.process_id Processes.dest | `drop_dm_object_name("Processes")`
-  | table user process_name process_id dest] | `suspicious_writes_to_windows_recycle_bin_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on filesystem and process logs responsible for the changes from your endpoints into
-  the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
-known_false_positives: Because the Recycle Bin is a hidden folder in modern versions
-  of Windows, it would be unusual for a process other than explorer.exe to write to
-  it. Incidents should be investigated as appropriate.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*$Recycle.Bin*" by Filesystem.process_name Filesystem.process_id Filesystem.dest | `drop_dm_object_name("Filesystem")` | join  process_id [| tstats `security_content_summariesonly` values(Processes.user) as user values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name FROM datamodel=Endpoint.Processes where Processes.process_name != "explorer.exe" by Processes.process_id Processes.dest | `drop_dm_object_name("Processes")` | table user process_name process_id dest] | `suspicious_writes_to_windows_recycle_bin_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on filesystem and process logs responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` nodes.
+known_false_positives: Because the Recycle Bin is a hidden folder in modern versions of Windows, it would be unusual for a process other than explorer.exe to write to it. Incidents should be investigated as appropriate.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Collection and Staging
@@ -64,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/write_to_recycle_bin/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

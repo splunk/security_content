@@ -1,39 +1,34 @@
 name: Powershell Load Module in Meterpreter
 id: d5905da5-d050-48db-9259-018d8f034fcf
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the execution of suspicious PowerShell
-  commands associated with Meterpreter modules, such as "MSF.Powershell" and "MSF.Powershell.Meterpreter".
-  It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze
-  the full command sent to PowerShell. This activity is significant as it indicates
-  potential post-exploitation actions, including credential dumping and persistence
-  mechanisms. If confirmed malicious, an attacker could gain extensive control over
-  the compromised system, escalate privileges, and maintain long-term access, posing
-  a severe threat to the environment.'
+description: The following analytic detects the execution of suspicious PowerShell commands associated with Meterpreter modules, such as "MSF.Powershell" and "MSF.Powershell.Meterpreter". It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as it indicates potential post-exploitation actions, including credential dumping and persistence mechanisms. If confirmed malicious, an attacker could gain extensive control over the compromised system, escalate privileges, and maintain long-term access, posing a severe threat to the environment.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `powershell_load_module_in_meterpreter_filter`'
-how_to_implement: The following analytic requires PowerShell operational logs to be
-  imported. Modify the powershell macro as needed to match the sourcetype or add index.
-  This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: False positives should be very limited as this is strict to
-  MetaSploit behavior.
+search: '`powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_load_module_in_meterpreter_filter`'
+how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: False positives should be very limited as this is strict to MetaSploit behavior.
 references:
 - https://github.com/OJ/metasploit-payloads/blob/master/powershell/MSF.Powershell/Scripts.cs
+drilldown_searches:
+- name: View the detection results for $user_id$ and $Computer$
+  search: '%original_detection_search% | search  user_id = $user_id$ Computer = $Computer$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_id$ and $Computer$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_id$, $Computer$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - MetaSploit
   asset_type: Endpoint
   confidence: 100
   impact: 100
-  message: PowerShell was identified running a script utilized by Meterpreter from
-    MetaSploit on endpoint $Computer$ by user $user_id$.
+  message: PowerShell was identified running a script utilized by Meterpreter from MetaSploit on endpoint $Computer$ by user $user_id$.
   mitre_attack_id:
   - T1059
   - T1059.001
@@ -61,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/msf.powershell.powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/metasploit/msf.powershell.powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

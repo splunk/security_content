@@ -1,34 +1,28 @@
 name: Wbemprox COM Object Execution
 id: 9d911ce0-c3be-11eb-b177-acde48001122
-version: 2
-date: '2024-05-13'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a suspicious process loading a COM object
-  from wbemprox.dll, fastprox.dll, or wbemcomn.dll. It leverages Sysmon EventCode
-  7 to identify instances where these DLLs are loaded by processes not typically associated
-  with them, excluding known legitimate processes and directories. This activity is
-  significant as it may indicate an attempt by threat actors to abuse COM objects
-  for privilege escalation or evasion of detection mechanisms. If confirmed malicious,
-  this could allow attackers to gain elevated privileges or maintain persistence within
-  the environment, posing a significant security risk.
+description: The following analytic detects a suspicious process loading a COM object from wbemprox.dll, fastprox.dll, or wbemcomn.dll. It leverages Sysmon EventCode 7 to identify instances where these DLLs are loaded by processes not typically associated with them, excluding known legitimate processes and directories. This activity is significant as it may indicate an attempt by threat actors to abuse COM objects for privilege escalation or evasion of detection mechanisms. If confirmed malicious, this could allow attackers to gain elevated privileges or maintain persistence within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll",
-  "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe"))
-  NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) | stats count min(_time)
-  as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode
-  Signed ProcessId Hashes IMPHASH | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `wbemprox_com_object_execution_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and imageloaded executions from your endpoints. If you
-  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: legitimate process that are not in the exception list may trigger
-  this event.
+search: '`sysmon` EventCode=7  ImageLoaded IN ("*\\fastprox.dll", "*\\wbemprox.dll", "*\\wbemcomn.dll") NOT (process_name IN ("wmiprvse.exe", "WmiApSrv.exe", "unsecapp.exe")) NOT(Image IN("*\\windows\\*","*\\program files*", "*\\wbem\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode Signed ProcessId Hashes IMPHASH | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wbemprox_com_object_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: legitimate process that are not in the exception list may trigger this event.
 references:
 - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
 - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ransomware
@@ -66,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf2/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/revil/inf2/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

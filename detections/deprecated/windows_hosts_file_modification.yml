@@ -1,7 +1,7 @@
 name: Windows hosts file modification
 id: 06a6fc63-a72d-41dc-8736-7e3dd9612116
-version: 2
-date: '2024-08-16'
+version: 3
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

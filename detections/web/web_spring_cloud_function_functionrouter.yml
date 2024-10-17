@@ -1,31 +1,28 @@
 name: Web Spring Cloud Function FunctionRouter
 id: 89dddbad-369a-4f8a-ace2-2439218735bc
-version: 2
-date: '2024-05-22'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies HTTP POST requests to the Spring Cloud
-  Function endpoint containing "functionRouter" in the URL. It leverages the Web data
-  model to detect these requests based on specific fields such as http_method, url,
-  and http_user_agent. This activity is significant because it targets CVE-2022-22963,
-  a known vulnerability in Spring Cloud Function, which has multiple proof-of-concept
-  exploits available. If confirmed malicious, this activity could allow attackers
-  to execute arbitrary code, potentially leading to unauthorized access, data exfiltration,
-  or further compromise of the affected system.
+description: The following analytic identifies HTTP POST requests to the Spring Cloud Function endpoint containing "functionRouter" in the URL. It leverages the Web data model to detect these requests based on specific fields such as http_method, url, and http_user_agent. This activity is significant because it targets CVE-2022-22963, a known vulnerability in Spring Cloud Function, which has multiple proof-of-concept exploits available. If confirmed malicious, this activity could allow attackers to execute arbitrary code, potentially leading to unauthorized access, data exfiltration, or further compromise of the affected system.
 data_source:
 - Splunk Stream HTTP
-search: '| tstats count from datamodel=Web where Web.http_method IN ("POST") Web.url="*/functionRouter*"
-  by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
-  Web.status sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `web_spring_cloud_function_functionrouter_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
-known_false_positives: False positives may be present with legitimate applications.
-  Attempt to filter by dest IP or use Asset groups to restrict to servers.
+search: '| tstats count from datamodel=Web where Web.http_method IN ("POST") Web.url="*/functionRouter*" by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest Web.status sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_spring_cloud_function_functionrouter_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel.
+known_false_positives: False positives may be present with legitimate applications. Attempt to filter by dest IP or use Asset groups to restrict to servers.
 references:
 - https://github.com/rapid7/metasploit-framework/pull/16395
 - https://github.com/hktalent/spring-spel-0day-poc
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Spring4Shell CVE-2022-22965
@@ -34,8 +31,7 @@ tags:
   cve:
   - CVE-2022-22963
   impact: 70
-  message: A suspicious URL has been requested against $dest$ by $src$, related to
-    a vulnerability in Spring Cloud.
+  message: A suspicious URL has been requested against $dest$ by $src$, related to a vulnerability in Spring Cloud.
   mitre_attack_id:
   - T1190
   - T1133
@@ -65,7 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/all_functionrouter_http_streams.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/spring4shell/all_functionrouter_http_streams.log
     source: stream:http
     sourcetype: stream:http

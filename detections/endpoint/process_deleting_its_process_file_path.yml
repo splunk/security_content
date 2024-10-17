@@ -1,42 +1,31 @@
 name: Process Deleting Its Process File Path
 id: f7eda4bc-871c-11eb-b110-acde48001122
-version: 3
-date: '2024-05-27'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras
 status: production
 type: TTP
-description: The following analytic identifies a process attempting to delete its
-  own file path, a behavior often associated with defense evasion techniques. This
-  detection leverages Sysmon EventCode 1 logs, focusing on command lines executed
-  via cmd.exe that include deletion commands. This activity is significant as it may
-  indicate malware, such as Clop ransomware, trying to evade detection by removing
-  its executable file if certain conditions are met. If confirmed malicious, this
-  could allow the attacker to persist undetected, complicating incident response and
-  remediation efforts.
+description: The following analytic identifies a process attempting to delete its own file path, a behavior often associated with defense evasion techniques. This detection leverages Sysmon EventCode 1 logs, focusing on command lines executed via cmd.exe that include deletion commands. This activity is significant as it may indicate malware, such as Clop ransomware, trying to evade detection by removing its executable file if certain conditions are met. If confirmed malicious, this could allow the attacker to persist undetected, complicating incident response and remediation efforts.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image
-  = "*\\cmd.exe" | eval result = if(like(process,"%".parent_process."%"), "Found",
-  "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by dest
-  user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result
-  | where result = "Found" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `process_deleting_its_process_file_path_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '`sysmon` EventCode=1 CommandLine = "* /c *" CommandLine = "* del*" Image = "*\\cmd.exe" | eval result = if(like(process,"%".parent_process."%"), "Found", "Not Found") | stats min(_time) as firstTime max(_time) as lastTime count by dest user ParentImage ParentCommandLine Image CommandLine EventCode ProcessID result | where result = "Found" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_deleting_its_process_file_path_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Clop Ransomware
@@ -46,8 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 60
-  message: A process $Image$ tries to delete its process path in commandline $CommandLine$
-    as part of defense evasion in host $dest$ by user $user$
+  message: A process $Image$ tries to delete its process path in commandline $CommandLine$ as part of defense evasion in host $dest$ by user $user$
   mitre_attack_id:
   - T1070
   observable:
@@ -79,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

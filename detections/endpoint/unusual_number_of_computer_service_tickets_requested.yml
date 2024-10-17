@@ -1,7 +1,7 @@
 name: Unusual Number of Computer Service Tickets Requested
 id: ac3b81c0-52f4-11ec-ac44-acde48001122
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting

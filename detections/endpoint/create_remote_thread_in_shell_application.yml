@@ -1,32 +1,27 @@
 name: Create Remote Thread In Shell Application
 id: 10399c1e-f51e-11eb-b920-acde48001122
-version: 3
-date: '2024-05-21'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious process injection in command
-  shell applications, specifically targeting `cmd.exe` and `powershell.exe`. It leverages
-  Sysmon EventCode 8 to identify the creation of remote threads within these shell
-  processes. This activity is significant because it is a common technique used by
-  malware, such as IcedID, to inject malicious code and execute it within legitimate
-  processes. If confirmed malicious, this behavior could allow an attacker to execute
-  arbitrary code, escalate privileges, or maintain persistence within the environment,
-  posing a severe threat to system security.
+description: The following analytic detects suspicious process injection in command shell applications, specifically targeting `cmd.exe` and `powershell.exe`. It leverages Sysmon EventCode 8 to identify the creation of remote threads within these shell processes. This activity is significant because it is a common technique used by malware, such as IcedID, to inject malicious code and execute it within legitimate processes. If confirmed malicious, this behavior could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a severe threat to system security.
 data_source:
 - Sysmon EventID 8
-search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats
-  count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId
-  SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as
-  process_name| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `create_remote_thread_in_shell_application_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+search: '`sysmon` EventCode=8 TargetImage IN ("*\\cmd.exe", "*\\powershell*") | stats count min(_time) as firstTime max(_time) as lastTime by  TargetImage TargetProcessId SourceProcessId  EventCode StartAddress SourceImage dest |rename SourceImage as process_name| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `create_remote_thread_in_shell_application_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://thedfirreport.com/2021/07/19/icedid-and-cobalt-strike-vs-antivirus/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IcedID
@@ -35,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: process $process_name$ create a remote thread to shell app process $TargetImage$
-    in host $dest$
+  message: process $process_name$ create a remote thread to shell app process $TargetImage$ in host $dest$
   mitre_attack_id:
   - T1055
   observable:
@@ -66,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

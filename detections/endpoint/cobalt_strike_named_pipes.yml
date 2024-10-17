@@ -1,33 +1,17 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 4
-date: '2024-08-19'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the use of default or publicly known
-  named pipes associated with Cobalt Strike. It leverages Sysmon EventID 17 and 18
-  to identify specific named pipes commonly used by Cobalt Strike''s Artifact Kit
-  and Malleable C2 Profiles. This activity is significant because Cobalt Strike is
-  a popular tool for adversaries to conduct post-exploitation tasks, and identifying
-  its named pipes can reveal potential malicious activity. If confirmed malicious,
-  this could indicate an active Cobalt Strike beacon, leading to unauthorized access,
-  data exfiltration, or further lateral movement within the network.'
+description: The following analytic detects the use of default or publicly known named pipes associated with Cobalt Strike. It leverages Sysmon EventID 17 and 18 to identify specific named pipes commonly used by Cobalt Strike's Artifact Kit and Malleable C2 Profiles. This activity is significant because Cobalt Strike is a popular tool for adversaries to conduct post-exploitation tasks, and identifying its named pipes can reveal potential malicious activity. If confirmed malicious, this could indicate an active Cobalt Strike beacon, leading to unauthorized access, data exfiltration, or further lateral movement within the network.
 data_source:
-- Sysmon EventID 17 
+- Sysmon EventID 17
 - Sysmon EventID 18
-search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*,
-  \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*,
-  \\winsock*, \\UIA_PIPE*)  | stats count min(_time) as firstTime max(_time) as lastTime
-  by dest, process_name, process_id process_path, PipeName | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: The idea of using named pipes with Cobalt Strike is to blend
-  in. Therefore, some of the named pipes identified and added may cause false positives.
-  Filter by process name or pipe name to reduce false positives.
+search: '`sysmon` EventID=17 OR EventID=18 PipeName IN (\\msagent_*, \\DserNamePipe*, \\srvsvc_*, \\postex_*, \\status_*, \\MSSE-*, \\spoolss_*, \\win_svc*, \\ntsvcs*, \\winsock*, \\UIA_PIPE*)  | stats count min(_time) as firstTime max(_time) as lastTime by dest, process_name, process_id process_path, PipeName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cobalt_strike_named_pipes_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: The idea of using named pipes with Cobalt Strike is to blend in. Therefore, some of the named pipes identified and added may cause false positives. Filter by process name or pipe name to reduce false positives.
 references:
 - https://attack.mitre.org/techniques/T1218/009/
 - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
@@ -35,6 +19,15 @@ references:
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
 - https://gist.github.com/MHaggis/6c600e524045a6d49c35291a21e10752
 - https://www.mandiant.com/resources/shining-a-light-on-darkside-ransomware-operations
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Trickbot
@@ -47,8 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $dest$ accessing
-    known suspicious named pipes related to Cobalt Strike.
+  message: An instance of $process_name$ was identified on endpoint $dest$ accessing known suspicious named pipes related to Cobalt Strike.
   mitre_attack_id:
   - T1055
   observable:
@@ -77,7 +69,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

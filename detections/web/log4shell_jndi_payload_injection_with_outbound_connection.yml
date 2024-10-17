@@ -1,32 +1,26 @@
 name: Log4Shell JNDI Payload Injection with Outbound Connection
 id: 69afee44-5c91-11ec-bf1f-497c9a704a72
-version: 2
-date: '2024-05-16'
+version: 3
+date: '2024-09-30'
 author: Jose Hernandez
 status: production
 type: Anomaly
-description: The following analytic detects Log4Shell JNDI payload injections via
-  outbound connections. It identifies suspicious LDAP lookup functions in web logs,
-  such as `${jndi:ldap://PAYLOAD_INJECTED}`, and correlates them with network traffic
-  to known malicious IP addresses. This detection leverages the Web and Network_Traffic
-  data models in Splunk. Monitoring this activity is crucial as it targets vulnerabilities
-  in Java web applications using log4j, potentially leading to remote code execution.
-  If confirmed malicious, attackers could gain unauthorized access, execute arbitrary
-  code, and compromise sensitive data within the affected environment.
+description: The following analytic detects Log4Shell JNDI payload injections via outbound connections. It identifies suspicious LDAP lookup functions in web logs, such as `${jndi:ldap://PAYLOAD_INJECTED}`, and correlates them with network traffic to known malicious IP addresses. This detection leverages the Web and Network_Traffic data models in Splunk. Monitoring this activity is crucial as it targets vulnerabilities in Java web applications using log4j, potentially leading to remote code execution. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, and compromise sensitive data within the affected environment.
 data_source: []
-search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
-  | join affected_host type=inner [| tstats `security_content_summariesonly` count
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic
-  by All_Traffic.dest | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | rename dest AS affected_host] | fillnull
-  | stats count by action, category, dest, dest_port, http_content_type, http_method,
-  http_referrer, http_user_agent, site, src, url, url_domain, user | `log4shell_jndi_payload_injection_with_outbound_connection_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
-known_false_positives: If there is a vulnerablility scannner looking for log4shells
-  this will trigger, otherwise likely to have low false positives.
+search: '| from datamodel Web.Web | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)" | join affected_host type=inner [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.dest | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename dest AS affected_host] | fillnull | stats count by action, category, dest, dest_port, http_content_type, http_method, http_referrer, http_user_agent, site, src, url, url_domain, user | `log4shell_jndi_payload_injection_with_outbound_connection_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
+known_false_positives: If there is a vulnerablility scannner looking for log4shells this will trigger, otherwise likely to have low false positives.
 references:
 - https://www.lunasec.io/docs/blog/log4j-zero-day/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -72,11 +66,9 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
     source: nginx
     sourcetype: nginx:plus:kv
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_network_logs/log4j_network_logs.log
     source: stream:Splunk_IP
     sourcetype: stream:ip

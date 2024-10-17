@@ -1,7 +1,7 @@
 name: Suspicious writes to System Volume Information
 id: cd6297cd-2bdd-4aa1-84aa-5d2f84228fac
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: Hunting
