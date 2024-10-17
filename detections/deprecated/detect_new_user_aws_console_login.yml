@@ -1,7 +1,7 @@
 name: Detect new user AWS Console Login
 id: ada0f478-84a8-4641-a3f3-d82362dffd75
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting

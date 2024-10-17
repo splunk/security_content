@@ -1,29 +1,27 @@
 name: AWS Successful Console Authentication From Multiple IPs
 id: 395e50e1-2b87-4fa3-8632-0dfbdcbcd2cb
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an AWS account successfully authenticating
-  from multiple unique IP addresses within a 5-minute window. It leverages AWS CloudTrail
-  logs, specifically monitoring `ConsoleLogin` events and counting distinct source
-  IPs. This behavior is significant as it may indicate compromised credentials, potentially
-  from a phishing attack, being used concurrently by an adversary and a legitimate
-  user. If confirmed malicious, this activity could allow unauthorized access to corporate
-  resources, leading to data breaches or further exploitation within the AWS environment.
+description: The following analytic detects an AWS account successfully authenticating from multiple unique IP addresses within a 5-minute window. It leverages AWS CloudTrail logs, specifically monitoring `ConsoleLogin` events and counting distinct source IPs. This behavior is significant as it may indicate compromised credentials, potentially from a phishing attack, being used concurrently by an adversary and a legitimate user. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName = ConsoleLogin | bin span=5m _time | stats values(userAgent)
-  as userAgent values(eventName) as eventName values(src_ip) as src_ip dc(src_ip)
-  as distinct_ip_count by _time user_arn | where distinct_ip_count>1 | `aws_successful_console_authentication_from_multiple_ips_filter`'
-how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This
-  search works when AWS CloudTrail events are normalized use the Authentication datamodel.
-known_false_positives: A user with successful authentication events from different
-  Ips may also represent the legitimate use of more than one device. Filter as needed
-  and/or customize the threshold to fit your environment.
+search: '`cloudtrail` eventName = ConsoleLogin | bin span=5m _time | stats values(userAgent) as userAgent values(eventName) as eventName values(src_ip) as src_ip dc(src_ip) as distinct_ip_count by _time user_arn | where distinct_ip_count>1 | `aws_successful_console_authentication_from_multiple_ips_filter`'
+how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This search works when AWS CloudTrail events are normalized use the Authentication datamodel.
+known_false_positives: A user with successful authentication events from different Ips may also represent the legitimate use of more than one device. Filter as needed and/or customize the threshold to fit your environment.
 references:
 - https://rhinosecuritylabs.com/aws/mfa-phishing-on-aws/
+drilldown_searches:
+- name: View the detection results for $user_arn$
+  search: '%original_detection_search% | search  user_arn = $user_arn$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_arn$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_arn$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious AWS Login Activities
@@ -31,8 +29,7 @@ tags:
   asset_type: AWS Account
   confidence: 80
   impact: 90
-  message: User $user_arn$ has successfully logged into the AWS Console from different
-    IP addresses $src_ip$ within 5 mins
+  message: User $user_arn$ has successfully logged into the AWS Console from different IP addresses $src_ip$ within 5 mins
   mitre_attack_id:
   - T1586
   - T1535
@@ -60,8 +57,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/aws_console_login_multiple_ips/cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1586.003/aws_console_login_multiple_ips/cloudtrail.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

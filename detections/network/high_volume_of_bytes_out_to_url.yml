@@ -1,44 +1,36 @@
 name: High Volume of Bytes Out to Url
 id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 data_source:
 - Nginx Access
 type: Anomaly
 status: production
-description: The following analytic detects a high volume of outbound web traffic,
-  specifically over 1GB of data sent to a URL within a 2-minute window. It leverages
-  the Web data model to identify significant uploads by analyzing the sum of bytes
-  out. This activity is significant as it may indicate potential data exfiltration
-  by malware or malicious insiders. If confirmed as malicious, this behavior could
-  lead to unauthorized data transfer, resulting in data breaches and loss of sensitive
-  information. Immediate investigation is required to determine the legitimacy of
-  the transfer and mitigate any potential threats.
-search: '| tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out
-  values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web
-  by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000
-  | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on Web traffic that include fields relavent for traffic into the `Web` datamodel.
-  Please adjust the threshold for the sum of bytes out as per your environment and
-  user behavior.
-known_false_positives: This search may trigger false positives if there is a legitimate
-  reason for a high volume of bytes out to a URL. We recommend to investigate these
-  findings. Consider updating the filter macro to exclude the applications that are
-  relevant to your environment.
+description: The following analytic detects a high volume of outbound web traffic, specifically over 1GB of data sent to a URL within a 2-minute window. It leverages the Web data model to identify significant uploads by analyzing the sum of bytes out. This activity is significant as it may indicate potential data exfiltration by malware or malicious insiders. If confirmed as malicious, this behavior could lead to unauthorized data transfer, resulting in data breaches and loss of sensitive information. Immediate investigation is required to determine the legitimacy of the transfer and mitigate any potential threats.
+search: '| tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000 | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel. Please adjust the threshold for the sum of bytes out as per your environment and user behavior.
+known_false_positives: This search may trigger false positives if there is a legitimate reason for a high volume of bytes out to a URL. We recommend to investigate these findings. Consider updating the filter macro to exclude the applications that are relevant to your environment.
 references:
 - https://attack.mitre.org/techniques/T1567/
 - https://www.trendmicro.com/en_us/research/20/l/pawn-storm-lack-of-sophistication-as-a-strategy.html
 - https://www.bleepingcomputer.com/news/security/hacking-group-s-new-malware-abuses-google-and-facebook-services/
+drilldown_searches:
+- name: View the detection results for $src$
+  search: '%original_detection_search% | search  src = $src$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Exfiltration
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: A high volume of bytes out to a URL $url$ was detected from src $src$ to
-    dest $dest$.
+  message: A high volume of bytes out to a URL $url$ was detected from src $src$ to dest $dest$.
   mitre_attack_id:
   - T1567
   observable:
@@ -67,7 +59,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/web_upload_nginx/web_upload_nginx.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/web_upload_nginx/web_upload_nginx.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

@@ -1,7 +1,7 @@
 name: Okta Account Lockout Events
 id: 62b70968-a0a5-4724-8ac4-67871e6f544d
-version: 2
-date: '2022-09-19'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Rico Valdez, Splunk
 status: deprecated
 type: Anomaly

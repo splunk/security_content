@@ -1,50 +1,30 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 10
-date: '2024-08-14'
+version: 11
+date: '2024-09-30'
 author: Steven Dick, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects changes to the PowerShell ExecutionPolicy
-  in the registry to "Unrestricted" or "Bypass." It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on registry modifications under the path *Software\Microsoft\Powershell\1\ShellIds\Microsoft.PowerShell*.
-  This activity is significant because setting the ExecutionPolicy to these values
-  can allow the execution of potentially malicious scripts without restriction. If
-  confirmed malicious, this could enable an attacker to execute arbitrary code, leading
-  to further compromise of the system and potential escalation of privileges.
+description: The following analytic detects changes to the PowerShell ExecutionPolicy in the registry to "Unrestricted" or "Bypass." It leverages data from Endpoint Detection and Response (EDR) agents, focusing on registry modifications under the path *Software\Microsoft\Powershell\1\ShellIds\Microsoft.PowerShell*. This activity is significant because setting the ExecutionPolicy to these values can allow the execution of potentially malicious scripts without restriction. If confirmed malicious, this could enable an attacker to execute arbitrary code, leading to further compromise of the system and potential escalation of privileges.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 - Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time)
-  AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id
-  Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name
-  Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)`
-  | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell*
-  Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted
-  OR Registry.registry_value_data=Bypass)) BY _time span=1h Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime
-  dest user parent_process_name parent_process process_name process_path process registry_key_name
-  registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators may attempt to change the default execution
-  policy on a system for a variety of reasons. However, setting the policy to "unrestricted"
-  or "bypass" as this search is designed to identify, would be unusual. Hits should
-  be reviewed and investigated as appropriate.
+search: '| tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime FROM datamodel=Endpoint.Processes BY _time span=1h Processes.user Processes.process_id Processes.process_name Processes.process Processes.process_path Processes.dest Processes.parent_process_name Processes.parent_process Processes.process_guid | `drop_dm_object_name(Processes)` | join process_guid [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path=*Software\\Microsoft\\Powershell\\1\\ShellIds\\Microsoft.PowerShell* Registry.registry_value_name=ExecutionPolicy (Registry.registry_value_data=Unrestricted OR Registry.registry_value_data=Bypass)) BY _time span=1h Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.registry_value_data Registry.process_guid | `drop_dm_object_name(Registry)`] | fields firstTime lastTime dest user parent_process_name parent_process process_name process_path process registry_key_name registry_path registry_value_name registry_value_data process_guid | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `set_default_powershell_execution_policy_to_unrestricted_or_bypass_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators may attempt to change the default execution policy on a system for a variety of reasons. However, setting the policy to "unrestricted" or "bypass" as this search is designed to identify, would be unusual. Hits should be reviewed and investigated as appropriate.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - HAFNIUM Group
@@ -56,8 +36,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 60
-  message: A registry modification in $registry_path$ with reg key $registry_key_name$
-    and reg value $registry_value_name$ in host $dest$
+  message: A registry modification in $registry_path$ with reg key $registry_key_name$ and reg value $registry_value_name$ in host $dest$
   mitre_attack_id:
   - T1059
   - T1059.001
@@ -96,7 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_execution_policy/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

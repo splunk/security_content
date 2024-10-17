@@ -1,7 +1,7 @@
 name: WMI Permanent Event Subscription
 id: 71bfdb13-f200-4c6c-b2c9-a2e07adf437d
-version: 3
-date: '2024-09-26'
+version: 4
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP

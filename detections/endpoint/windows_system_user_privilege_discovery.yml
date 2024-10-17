@@ -1,7 +1,7 @@
 name: Windows System User Privilege Discovery
 id: 8c9a06bc-9939-4425-9bb9-be2371f7fb7e
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

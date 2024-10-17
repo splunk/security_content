@@ -1,7 +1,7 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 3
-date: '2024-05-22'
+version: 4
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

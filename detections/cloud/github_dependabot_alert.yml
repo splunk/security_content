@@ -1,31 +1,27 @@
 name: GitHub Dependabot Alert
 id: 05032b04-4469-4034-9df7-05f607d75cba
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: "The following analytic identifies the creation of GitHub Dependabot
-  alerts, which indicate potential vulnerabilities in the codebase. It detects this
-  activity by searching for logs with the \"create\" action and analyzing fields such
-  as affected package, severity, and fixed version. This detection is significant
-  for a SOC because it helps identify and address security risks in the codebase proactively.
-  If confirmed malicious, these vulnerabilities could be exploited by attackers to
-  gain unauthorized access or cause breaches, leading to potential data loss or system
-  compromise."
+description: The following analytic identifies the creation of GitHub Dependabot alerts, which indicate potential vulnerabilities in the codebase. It detects this activity by searching for logs with the "create" action and analyzing fields such as affected package, severity, and fixed version. This detection is significant for a SOC because it helps identify and address security risks in the codebase proactively. If confirmed malicious, these vulnerabilities could be exploited by attackers to gain unauthorized access or cause breaches, leading to potential data loss or system compromise.
 data_source:
 - GitHub
-search: '`github` alert.id=* action=create | rename repository.full_name as repository,
-  repository.html_url as repository_url sender.login as user | stats min(_time) as
-  firstTime max(_time) as lastTime by action alert.affected_package_name alert.affected_range
-  alert.created_at alert.external_identifier alert.external_reference alert.fixed_in
-  alert.severity repository repository_url user | eval phase="code" | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `github_dependabot_alert_filter`'
-how_to_implement: You must index GitHub logs. You can follow the url in reference
-  to onboard GitHub logs.
+search: '`github` alert.id=* action=create | rename repository.full_name as repository, repository.html_url as repository_url sender.login as user | stats min(_time) as firstTime max(_time) as lastTime by action alert.affected_package_name alert.affected_range alert.created_at alert.external_identifier alert.external_reference alert.fixed_in alert.severity repository repository_url user | eval phase="code" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_dependabot_alert_filter`'
+how_to_implement: You must index GitHub logs. You can follow the url in reference to onboard GitHub logs.
 known_false_positives: unknown
 references:
 - https://www.splunk.com/en_us/blog/tips-and-tricks/getting-github-data-with-webhooks.html
+drilldown_searches:
+- name: View the detection results for $repository$
+  search: '%original_detection_search% | search  repository = $repository$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $repository$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($repository$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Dev Sec Ops
@@ -63,7 +59,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_security_advisor_alert/github_security_advisor_alert.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/github_security_advisor_alert/github_security_advisor_alert.json
     sourcetype: aws:firehose:json
     source: github

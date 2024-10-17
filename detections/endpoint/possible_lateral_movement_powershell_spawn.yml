@@ -1,48 +1,33 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 6
-date: '2024-10-07'
+version: 7
+date: '2024-10-17'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic detects the spawning of a PowerShell process
-  as a child or grandchild of commonly abused processes like services.exe, wmiprsve.exe,
-  svchost.exe, wsmprovhost.exe, and mmc.exe. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on process and parent process names, as well
-  as command-line executions. This activity is significant as it often indicates lateral
-  movement or remote code execution attempts by adversaries. If confirmed malicious,
-  this behavior could allow attackers to execute code remotely, escalate privileges,
-  or persist within the environment.'
+description: The following analytic detects the spawning of a PowerShell process as a child or grandchild of commonly abused processes like services.exe, wmiprsve.exe, svchost.exe, wsmprovhost.exe, and mmc.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process names, as well as command-line executions. This activity is significant as it often indicates lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this behavior could allow attackers to execute code remotely, escalate privileges, or persist within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=wmiprvse.exe
-  OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe
-  OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe)
-  (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*)
-  OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*)) NOT (Processes.process IN ("*c:\\windows\\ccm\\*"))
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Legitimate applications may spawn PowerShell as a child process
-  of the the identified processes. Filter as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=wmiprvse.exe OR Processes.parent_process_name=services.exe OR Processes.parent_process_name=svchost.exe OR Processes.parent_process_name=wsmprovhost.exe OR Processes.parent_process_name=mmc.exe) (Processes.process_name=powershell.exe OR (Processes.process_name=cmd.exe AND Processes.process=*powershell.exe*) OR Processes.process_name=pwsh.exe OR (Processes.process_name=cmd.exe AND Processes.process=*pwsh.exe*)) NOT (Processes.process IN ("*c:\\windows\\ccm\\*")) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `possible_lateral_movement_powershell_spawn_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate applications may spawn PowerShell as a child process of the the identified processes. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1021/003/
 - https://attack.mitre.org/techniques/T1021/006/
 - https://attack.mitre.org/techniques/T1047/
 - https://attack.mitre.org/techniques/T1053/005/
 - https://attack.mitre.org/techniques/T1543/003/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -54,8 +39,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 90
-  message: A PowerShell process was spawned as a child process of typically abused
-    processes on $dest$
+  message: A PowerShell process was spawned as a child process of typically abused processes on $dest$
   mitre_attack_id:
   - T1021
   - T1021.003

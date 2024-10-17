@@ -1,7 +1,7 @@
 name: Suspicious Changes to File Associations
 id: 1b989a0e-0129-4446-a695-f193a5b746fc
-version: 5
-date: '2024-08-16'
+version: 6
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

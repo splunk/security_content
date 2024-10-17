@@ -1,32 +1,27 @@
 name: Rundll32 CreateRemoteThread In Browser
 id: f8a22586-ee2d-11eb-a193-acde48001122
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the suspicious creation of a remote thread
-  by rundll32.exe targeting browser processes such as firefox.exe, chrome.exe, iexplore.exe,
-  and microsoftedgecp.exe. This detection leverages Sysmon EventCode 8, focusing on
-  SourceImage and TargetImage fields to identify the behavior. This activity is significant
-  as it is commonly associated with malware like IcedID, which hooks browsers to steal
-  sensitive information such as banking details. If confirmed malicious, this could
-  allow attackers to intercept and exfiltrate sensitive user data, leading to potential
-  financial loss and privacy breaches.
+description: The following analytic detects the suspicious creation of a remote thread by rundll32.exe targeting browser processes such as firefox.exe, chrome.exe, iexplore.exe, and microsoftedgecp.exe. This detection leverages Sysmon EventCode 8, focusing on SourceImage and TargetImage fields to identify the behavior. This activity is significant as it is commonly associated with malware like IcedID, which hooks browsers to steal sensitive information such as banking details. If confirmed malicious, this could allow attackers to intercept and exfiltrate sensitive user data, leading to potential financial loss and privacy breaches.
 data_source:
 - Sysmon EventID 8
-search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe",
-  "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time)
-  as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId
-  StartAddress EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `rundll32_createremotethread_in_browser_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
-  related to create remote thread or injecting codes. If you are using Sysmon, you
-  must have at least version 6.0.4 of the Sysmon TA.
+search: '`sysmon` EventCode=8 SourceImage = "*\\rundll32.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage TargetProcessId SourceProcessId StartAddress EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `rundll32_createremotethread_in_browser_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.joesandbox.com/analysis/380662/0/html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IcedID
@@ -34,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: rundl32 process $SourceImage$ create a remote thread to browser process
-    $TargetImage$ in host $dest$
+  message: rundl32 process $SourceImage$ create a remote thread to browser process $TargetImage$ in host $dest$
   mitre_attack_id:
   - T1055
   observable:
@@ -65,7 +59,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/inf_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,37 +1,29 @@
 name: Windows Mshta Execution In Registry
 id: e13ceade-b673-4d34-adc4-4d9c01729753
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of mshta.exe via registry
-  entries to run malicious scripts. It leverages registry activity logs to identify
-  entries containing "mshta," "javascript," "vbscript," or "WScript.Shell." This behavior
-  is significant as it indicates potential fileless malware, such as Kovter, which
-  uses encoded scripts in the registry to persist and execute without files. If confirmed
-  malicious, this activity could allow attackers to maintain persistence, execute
-  arbitrary code, and evade traditional file-based detection methods, posing a significant
-  threat to system integrity and security.
+description: The following analytic detects the execution of mshta.exe via registry entries to run malicious scripts. It leverages registry activity logs to identify entries containing "mshta," "javascript," "vbscript," or "WScript.Shell." This behavior is significant as it indicates potential fileless malware, such as Kovter, which uses encoded scripts in the registry to persist and execute without files. If confirmed malicious, this activity could allow attackers to maintain persistence, execute arbitrary code, and evade traditional file-based detection methods, posing a significant threat to system integrity and security.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_value_data
-  = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*")
-  by Registry.registry_key_name Registry.registry_path Registry.registry_value_data
-  Registry.action Registry.dest Registry.user| `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_mshta_execution_in_registry_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_value_data = "*mshta*" OR Registry.registry_value_data IN ("*javascript:*", "*vbscript:*","*WScript.Shell*") by Registry.registry_key_name Registry.registry_path Registry.registry_value_data Registry.action Registry.dest Registry.user| `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mshta_execution_in_registry_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 known_false_positives: unknown
 references:
 - https://redcanary.com/threat-detection-report/techniques/mshta/
 - https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/fileless-threats?view=o365-worldwide
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious Windows Registry Activities
@@ -67,8 +59,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/mshta_in_registry/sysmon3.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

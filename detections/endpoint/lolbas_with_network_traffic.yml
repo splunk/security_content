@@ -1,47 +1,28 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies the use of Living Off the Land Binaries
-  and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic
-  data model to detect when native Windows binaries, often abused by adversaries,
-  initiate network connections. This activity is significant as LOLBAS are frequently
-  used to download malicious payloads, enabling lateral movement, command-and-control,
-  or data exfiltration. If confirmed malicious, this behavior could allow attackers
-  to execute arbitrary code, escalate privileges, or maintain persistence within the
-  environment, posing a severe threat to organizational security.
+description: The following analytic identifies the use of Living Off the Land Binaries and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic data model to detect when native Windows binaries, often abused by adversaries, initiate network connections. This activity is significant as LOLBAS are frequently used to download malicious payloads, enabling lateral movement, command-and-control, or data exfiltration. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a severe threat to organizational security.
 data_source:
 - Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Network_Traffic.All_Traffic where (All_Traffic.app IN
-  ("*Regsvcs.exe", "*\\Ftp.exe", "*OfflineScannerShell.exe", "*Rasautou.exe", "*Schtasks.exe",
-  "*Xwizard.exe", "*Pnputil.exe", "*Atbroker.exe", "*Pcwrun.exe", "*Ttdinject.exe",
-  "*Mshta.exe", "*Bitsadmin.exe", "*Certoc.exe", "*Ieexec.exe", "*Microsoft.Workflow.Compiler.exe",
-  "*Runscripthelper.exe", "*Forfiles.exe", "*Msbuild.exe", "*Register-cimprovider.exe",
-  "*Tttracer.exe", "*Ie4uinit.exe", "*Bash.exe", "*Hh.exe", "*SettingSyncHost.exe",
-  "*Cmstp.exe", "*Stordiag.exe", "*Scriptrunner.exe", "*Odbcconf.exe", "*Extexport.exe",
-  "*Msdt.exe", "*WorkFolders.exe", "*Diskshadow.exe", "*Mavinject.exe", "*Regasm.exe",
-  "*Gpscript.exe", "*Regsvr32.exe", "*Msiexec.exe", "*Wuauclt.exe", "*Presentationhost.exe",
-  "*Wmic.exe", "*Runonce.exe", "*Syncappvpublishingserver.exe", "*Verclsid.exe", "*Infdefaultinstall.exe",
-  "*Installutil.exe", "*Netsh.exe", "*Wab.exe", "*Dnscmd.exe", "*\\At.exe", "*Pcalua.exe",
-  "*Msconfig.exe", "*makecab.exe", "*cscript.exe", "*notepad.exe", "*\\cmd.exe", "*certutil.exe",
-  "*\\powershell.exe", "*powershell_ise.exe")) by All_Traffic.app,All_Traffic.src,All_Traffic.src_ip,All_Traffic.user,All_Traffic.dest,All_Traffic.dest_ip
-  | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | rex field=app ".*\\\(?<process_name>.*)$" | rename app as process | `lolbas_with_network_traffic_filter`'
-how_to_implement: To successfully implement this detection you must ingest events
-  into the Network traffic data model that contain the source, destination, and communicating
-  process in the app feild. Relevant processes must also be ingested in the Endpoint
-  data model with matching process_id feild. Sysmon EID1 and EID3 are good examples
-  of this type this data type.
-known_false_positives: 'Legitmate usage of internal automation or scripting, espically
-  powershell.exe internal to internal or logon scripts. It may be necessary to omit
-  internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1")'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic where (All_Traffic.app IN ("*Regsvcs.exe", "*\\Ftp.exe", "*OfflineScannerShell.exe", "*Rasautou.exe", "*Schtasks.exe", "*Xwizard.exe", "*Pnputil.exe", "*Atbroker.exe", "*Pcwrun.exe", "*Ttdinject.exe", "*Mshta.exe", "*Bitsadmin.exe", "*Certoc.exe", "*Ieexec.exe", "*Microsoft.Workflow.Compiler.exe", "*Runscripthelper.exe", "*Forfiles.exe", "*Msbuild.exe", "*Register-cimprovider.exe", "*Tttracer.exe", "*Ie4uinit.exe", "*Bash.exe", "*Hh.exe", "*SettingSyncHost.exe", "*Cmstp.exe", "*Stordiag.exe", "*Scriptrunner.exe", "*Odbcconf.exe", "*Extexport.exe", "*Msdt.exe", "*WorkFolders.exe", "*Diskshadow.exe", "*Mavinject.exe", "*Regasm.exe", "*Gpscript.exe", "*Regsvr32.exe", "*Msiexec.exe", "*Wuauclt.exe", "*Presentationhost.exe", "*Wmic.exe", "*Runonce.exe", "*Syncappvpublishingserver.exe", "*Verclsid.exe", "*Infdefaultinstall.exe", "*Installutil.exe", "*Netsh.exe", "*Wab.exe", "*Dnscmd.exe", "*\\At.exe", "*Pcalua.exe", "*Msconfig.exe", "*makecab.exe", "*cscript.exe", "*notepad.exe", "*\\cmd.exe", "*certutil.exe", "*\\powershell.exe", "*powershell_ise.exe")) by All_Traffic.app,All_Traffic.src,All_Traffic.src_ip,All_Traffic.user,All_Traffic.dest,All_Traffic.dest_ip | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rex field=app ".*\\\(?<process_name>.*)$" | rename app as process | `lolbas_with_network_traffic_filter`'
+how_to_implement: To successfully implement this detection you must ingest events into the Network traffic data model that contain the source, destination, and communicating process in the app feild. Relevant processes must also be ingested in the Endpoint data model with matching process_id feild. Sysmon EID1 and EID3 are good examples of this type this data type.
+known_false_positives: Legitmate usage of internal automation or scripting, espically powershell.exe internal to internal or logon scripts. It may be necessary to omit internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1")
 references:
 - https://lolbas-project.github.io/#
 - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
+drilldown_searches:
+- name: View the detection results for $src$
+  search: '%original_detection_search% | search  src = $src$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Living Off The Land
@@ -88,8 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

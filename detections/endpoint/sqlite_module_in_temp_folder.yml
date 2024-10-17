@@ -1,31 +1,27 @@
 name: Sqlite Module In Temp Folder
 id: 0f216a38-f45f-11eb-b09c-acde48001122
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of sqlite3.dll files in the
-  %temp% folder. It leverages Sysmon EventCode 11 to identify when these files are
-  written to the temporary directory. This activity is significant because it is associated
-  with IcedID malware, which uses the sqlite3 module to parse browser databases and
-  steal sensitive information such as banking details, credit card information, and
-  credentials. If confirmed malicious, this behavior could lead to significant data
-  theft and compromise of user accounts.
+description: The following analytic detects the creation of sqlite3.dll files in the %temp% folder. It leverages Sysmon EventCode 11 to identify when these files are written to the temporary directory. This activity is significant because it is associated with IcedID malware, which uses the sqlite3 module to parse browser databases and steal sensitive information such as banking details, credit card information, and credentials. If confirmed malicious, this behavior could lead to significant data theft and compromise of user accounts.
 data_source:
 - Sysmon EventID 11
-search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename
-  = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") | stats count min(_time) as
-  firstTime max(_time) as lastTime by dest signature signature_id process_name file_name
-  file_path action process_guid| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `sqlite_module_in_temp_folder_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+search: '`sysmon` EventCode=11 (TargetFilename = "*\\sqlite32.dll" OR TargetFilename = "*\\sqlite64.dll") (TargetFilename = "*\\temp\\*") | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id process_name file_name file_path action process_guid| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `sqlite_module_in_temp_folder_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.cisecurity.org/insights/white-papers/security-primer-icedid
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IcedID
@@ -60,7 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

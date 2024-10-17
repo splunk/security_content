@@ -1,7 +1,7 @@
 name: Detect attackers scanning for vulnerable JBoss servers
 id: 104658f4-afdc-499e-9719-17243f982681
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP

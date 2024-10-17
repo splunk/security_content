@@ -1,42 +1,30 @@
 name: System Processes Run From Unexpected Locations
 id: a34aae96-ccf8-4aef-952c-3ea21444444d
-version: 7
-date: '2024-05-25'
+version: 8
+date: '2024-09-30'
 author: David Dorsey, Michael Haag, Splunk
 status: production
 type: Anomaly
-description: 'The following analytic identifies system processes running from unexpected
-  locations outside `C:\Windows\System32\` or `C:\Windows\SysWOW64`. It leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process paths,
-  names, and hashes. This activity is significant as it may indicate a malicious process
-  attempting to masquerade as a legitimate system process. If confirmed malicious,
-  this behavior could allow an attacker to execute code, escalate privileges, or maintain
-  persistence within the environment, posing a significant security risk.'
+description: The following analytic identifies system processes running from unexpected locations outside `C:\Windows\System32\` or `C:\Windows\SysWOW64`. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process paths, names, and hashes. This activity is significant as it may indicate a malicious process attempting to masquerade as a legitimate system process. If confirmed malicious, this behavior could allow an attacker to execute code, escalate privileges, or maintain persistence within the environment, posing a significant security risk.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*"
-  Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user
-  Processes.parent_process Processes.process_path Processes.process_name Processes.process
-  Processes.process_id Processes.parent_process_id Processes.process_hash | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `is_windows_system_file_macro`
-  | `system_processes_run_from_unexpected_locations_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This detection may require tuning based on third party applications
-  utilizing native Windows binaries in non-standard paths.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path !="C:\\Windows\\System32*" Processes.process_path !="C:\\Windows\\SysWOW64*" by Processes.dest Processes.user Processes.parent_process Processes.process_path Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_hash | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `is_windows_system_file_macro` | `system_processes_run_from_unexpected_locations_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: This detection may require tuning based on third party applications utilizing native Windows binaries in non-standard paths.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1036.003/T1036.003.yaml
 - https://attack.mitre.org/techniques/T1036/003/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious Command-Line Executions
@@ -49,8 +37,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 60
-  message: A System process $process_name$ is running from $process_path$ on $dest$,
-    potentially non-standard.
+  message: A System process $process_name$ is running from $process_path$ on $dest$, potentially non-standard.
   mitre_attack_id:
   - T1036
   - T1036.003
@@ -81,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

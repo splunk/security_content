@@ -1,50 +1,37 @@
 name: Windows Defacement Modify Transcodedwallpaper File
 id: e11c3d90-5bc7-42ad-94cd-ba75db10d897
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies modifications to the TranscodedWallpaper
-  file in the wallpaper theme directory, excluding changes made by explorer.exe. This
-  detection leverages the Endpoint.Processes and Endpoint.Filesystem data models to
-  correlate process activity with file modifications. This activity is significant
-  as it may indicate an adversary attempting to deface or change the desktop wallpaper
-  of a targeted host, a tactic often used to signal compromise or deliver a message.
-  If confirmed malicious, this could be a sign of unauthorized access and tampering,
-  potentially leading to further system compromise or data exfiltration.
+description: The following analytic identifies modifications to the TranscodedWallpaper file in the wallpaper theme directory, excluding changes made by explorer.exe. This detection leverages the Endpoint.Processes and Endpoint.Filesystem data models to correlate process activity with file modifications. This activity is significant as it may indicate an adversary attempting to deface or change the desktop wallpaper of a targeted host, a tactic often used to signal compromise or deliver a message. If confirmed malicious, this could be a sign of unauthorized access and tampering, potentially leading to further system compromise or data exfiltration.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_path !="*\\Windows\\Explorer.EXE" by _time span=1h Processes.process_id
-  Processes.process_name Processes.process Processes.dest Processes.process_guid  Processes.original_file_name
-  | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | join proc_guid,
-  _time [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path = "*\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper"
-  by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
-  Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)`
-  |rename process_guid as proc_guid | fields file_name file_path process_name process_path
-  process dest file_create_time _time proc_guid] | `windows_defacement_modify_transcodedwallpaper_file_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: 3rd part software application can change the wallpaper. Filter
-  is needed.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_path !="*\\Windows\\Explorer.EXE" by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.dest Processes.process_guid  Processes.original_file_name | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | join proc_guid, _time [ | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where Filesystem.file_path = "*\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\TranscodedWallpaper" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)` |rename process_guid as proc_guid | fields file_name file_path process_name process_path process dest file_create_time _time proc_guid] | `windows_defacement_modify_transcodedwallpaper_file_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: 3rd part software application can change the wallpaper. Filter is needed.
 references:
 - https://forums.ivanti.com/s/article/Wallpaper-Windows-Settings-Desktop-Settings-and-the-transcodedwallpaper-jpg?language=en_US
 - https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/ransom_sifreli.a
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Brute Ratel C4
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: modification or creation of transcodedwallpaper file by $process_name$
-    in $dest$
+  message: modification or creation of transcodedwallpaper file by $process_name$ in $dest$
   mitre_attack_id:
   - T1491
   observable:
@@ -74,8 +61,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/wallpaper_via_transcodedwallpaper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

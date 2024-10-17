@@ -1,28 +1,27 @@
 name: Short Lived Windows Accounts
 id: b25f6f62-0782-43c1-b403-083231ffd97d
-version: 4
-date: '2024-05-14'
+version: 5
+date: '2024-09-30'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: |-
-  The following analytic detects the rapid creation and deletion of Windows accounts within a short time frame. It leverages the "Change" data model in Splunk, specifically monitoring events with result IDs 4720 (account creation) and 4726 (account deletion). This behavior is significant as it may indicate an attacker attempting to create and remove accounts quickly to evade detection or gain unauthorized access. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or further malicious actions within the environment. Immediate investigation of flagged events is crucial to mitigate potential damage.
+description: The following analytic detects the rapid creation and deletion of Windows accounts within a short time frame. It leverages the "Change" data model in Splunk, specifically monitoring events with result IDs 4720 (account creation) and 4726 (account deletion). This behavior is significant as it may indicate an attacker attempting to create and remove accounts quickly to evade detection or gain unauthorized access. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, or further malicious actions within the environment. Immediate investigation of flagged events is crucial to mitigate potential damage.
 data_source:
 - Windows Event Log System 4720
 - Windows Event Log System 4726
-search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
-  result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
-  where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h
-  All_Changes.user All_Changes.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name("All_Changes")` | search result_id = 4720 result_id=4726
-  | transaction user connected=false maxspan=240m | table firstTime lastTime count
-  user dest result_id | `short_lived_windows_accounts_filter`'
-how_to_implement: 'This search requires you to have enabled your Group Management
-  Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More
-  information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
-known_false_positives: It is possible that an administrator created and deleted an
-  account in a short time period.  Verifying activity with an administrator is advised.
+search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=4h All_Changes.user All_Changes.dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name("All_Changes")` | search result_id = 4720 result_id=4726 | transaction user connected=false maxspan=240m | table firstTime lastTime count user dest result_id | `short_lived_windows_accounts_filter`'
+how_to_implement: 'This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
+known_false_positives: It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -56,17 +55,14 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
     source: WinEventLog:Security
     sourcetype: WinEventLog
     update_timestamp: true
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
     source: WinEventLog:System
     sourcetype: WinEventLog
     update_timestamp: true
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

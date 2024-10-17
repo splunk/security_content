@@ -1,32 +1,28 @@
 name: Windows Scheduled Task DLL Module Loaded
 id: bc5b2304-f241-419b-874a-e927f667b7b6
-version: 2
-date: '2024-09-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 7
 type: TTP
 status: production
-description: The following analytic detects instances where the taskschd.dll is loaded by processes running in 
-  suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll 
-  typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from 
-  writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying 
-  processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially 
-  malicious activity and investigate further to prevent unauthorized system modifications.
-search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", 
-  "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*")
-  ImageLoaded = "*\\taskschd.dll" 
-  | stats min(_time) as firstTime max(_time) as lastTime count by user_id, dest, Image ,ImageLoaded, , OriginalFileName, ProcessGuid 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_scheduled_task_dll_module_loaded_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and imageloaded executions from your endpoints. If you
-  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+description: The following analytic detects instances where the taskschd.dll is loaded by processes running in suspicious or writable directories. This activity is unusual, as legitimate processes that load taskschd.dll typically reside in protected system locations. Malware or threat actors may attempt to load this DLL from writable or non-standard directories to manipulate the Task Scheduler and execute malicious tasks. By identifying processes that load taskschd.dll in these unsafe locations, this detection helps security analysts flag potentially malicious activity and investigate further to prevent unauthorized system modifications.
+search: '`sysmon` EventCode=7 Image IN ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "\\Windows\\repair\\*", "*\\temp\\*", "*\\PerfLogs\\*") ImageLoaded = "*\\taskschd.dll" | stats min(_time) as firstTime max(_time) as lastTime count by user_id, dest, Image ,ImageLoaded, , OriginalFileName, ProcessGuid | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scheduled_task_dll_module_loaded_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: Third party Legitimate application may load this task schedule dll module.
 references:
 - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
 - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ValleyRAT

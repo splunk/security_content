@@ -1,31 +1,27 @@
 name: Windows Excessive Disabled Services Event
 id: c3f85976-94a5-11ec-9a58-acde48001122
-version: 4
-date: '2024-05-19'
+version: 5
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies an excessive number of system events
-  where services are modified from start to disabled. It leverages Windows Event Logs
-  (EventCode 7040) to detect multiple service state changes on a single host. This
-  activity is significant as it may indicate an adversary attempting to disable security
-  applications or other critical services, potentially leading to defense evasion
-  or destructive actions. If confirmed malicious, this behavior could allow attackers
-  to disable security defenses, disrupt system operations, and achieve their objectives
-  on the compromised system.
+description: The following analytic identifies an excessive number of system events where services are modified from start to disabled. It leverages Windows Event Logs (EventCode 7040) to detect multiple service state changes on a single host. This activity is significant as it may indicate an adversary attempting to disable security applications or other critical services, potentially leading to defense evasion or destructive actions. If confirmed malicious, this behavior could allow attackers to disable security defenses, disrupt system operations, and achieve their objectives on the compromised system.
 data_source:
 - Windows Event Log System 7040
-search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml)
-  as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time)
-  as lastTime by Computer EventCode UserID | rename Computer as dest | where count
-  >=10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_excessive_disabled_services_event_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints.
+search: '`wineventlog_system` EventCode=7040 "disabled" | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime by Computer EventCode UserID | rename Computer as dest | where count >=10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_excessive_disabled_services_event_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 known_false_positives: Unknown
 references:
 - https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -33,8 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: An excessive number (Count - $MessageCount$) of Windows services were disabled
-    on dest - $dest$.
+  message: An excessive number (Count - $MessageCount$) of Windows services were disabled on dest - $dest$.
   mitre_attack_id:
   - T1562.001
   - T1562
@@ -60,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog

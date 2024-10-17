@@ -1,28 +1,26 @@
 name: Crowdstrike Medium Severity Alert
 id: 7e80d92a-6ec3-4eb1-a444-1480acfe2d14
-version: 1
-date: '2024-07-15'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. 
-  This alert level suggests suspicious activity that may compromise security but is not immediately critical. 
-  It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, 
-  which should be investigated further and mitigated quickly to prevent escalation of attacks.
-search: '`crowdstrike_stream` 
-  | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
-  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, src_host, user, description, type, count_alerts, severity
-  | where LIKE (severity, "%MEDIUM%")
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `crowdstrike_medium_severity_alert_filter`'
-how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, 
-  authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. 
-  Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
+description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. This alert level suggests suspicious activity that may compromise security but is not immediately critical. It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, which should be investigated further and mitigated quickly to prevent escalation of attacks.
+search: '`crowdstrike_stream` | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, src_host, user, description, type, count_alerts, severity | where LIKE (severity, "%MEDIUM%") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `crowdstrike_medium_severity_alert_filter`'
+how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
 known_false_positives: unknown
 references:
 - https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Compromised Windows Host
@@ -52,10 +50,7 @@ tags:
   - event.SeverityName
   risk_score: 49
   security_domain: endpoint
-  manual_test: This detection is marked manual test because the attack_data file and 
-    TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName 
-    is required to be present for the Risk Message Validation Integration Testing. 
-    This will be investigated and is a tracked issue.
+  manual_test: This detection is marked manual test because the attack_data file and TA do not provide the event.EndpointIp and event.EndpointName fields.  event.EndpointName is required to be present for the Risk Message Validation Integration Testing. This will be investigated and is a tracked issue.
 tests:
 - name: True Positive Test
   attack_data:

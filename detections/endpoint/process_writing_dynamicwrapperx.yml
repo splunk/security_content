@@ -1,7 +1,7 @@
 name: Process Writing DynamicWrapperX
 id: b0a078e4-2601-11ec-9aec-acde48001122
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

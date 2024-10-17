@@ -1,7 +1,7 @@
 name: Azure AD Multi-Source Failed Authentications Spike
 id: 116e11a9-63ea-41eb-a66a-6a13bdc7d2c7
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

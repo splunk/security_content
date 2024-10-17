@@ -1,34 +1,28 @@
 name: Linux Auditd Find Ssh Private Keys
 id: e2d2bd10-dcd1-4b2f-8a76-0198eab32ba5
-version: 1
-date: '2024-09-04'
+version: 2
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: "The following analytic detects suspicious attempts to find SSH private keys, which may indicate an attacker's effort to compromise secure access to systems. SSH private keys are essential for secure authentication, and unauthorized access to these keys can enable attackers to gain unauthorized access to servers and other critical infrastructure. By monitoring for unusual or unauthorized searches for SSH private keys, this analytic helps identify potential threats to network security, allowing security teams to quickly respond and safeguard against unauthorized access and potential breaches."
+description: The following analytic detects suspicious attempts to find SSH private keys, which may indicate an attacker's effort to compromise secure access to systems. SSH private keys are essential for secure authentication, and unauthorized access to these keys can enable attackers to gain unauthorized access to servers and other critical infrastructure. By monitoring for unusual or unauthorized searches for SSH private keys, this analytic helps identify potential threats to network security, allowing security teams to quickly respond and safeguard against unauthorized access and potential breaches.
 data_source:
 - Linux Auditd Execve
-search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as
-  dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND
-  (LIKE (process_exec, "%id_rsa%") OR LIKE (process_exec, "%id_dsa%")OR LIKE (process_exec,
-  "%.key%") OR LIKE (process_exec, "%ssh_key%")OR LIKE (process_exec, "%authorized_keys%"))
-  | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `linux_auditd_find_ssh_private_keys_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this application
-  for automation purposes. Please update the filter macros to remove false positives.
+search: '`linux_auditd` `linux_auditd_normalized_execve_process` | rename host as dest | where  (LIKE (process_exec, "%find%") OR LIKE (process_exec, "%grep%")) AND (LIKE (process_exec, "%id_rsa%") OR LIKE (process_exec, "%id_dsa%")OR LIKE (process_exec, "%.key%") OR LIKE (process_exec, "%ssh_key%")OR LIKE (process_exec, "%authorized_keys%")) | stats count min(_time) as firstTime max(_time) as lastTime by argc process_exec dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_auditd_find_ssh_private_keys_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
 - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Living Off The Land

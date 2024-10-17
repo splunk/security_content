@@ -1,34 +1,29 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 4
-date: '2024-09-24'
+version: 5
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an unusual number of Kerberos Ticket Granting
-  Ticket (TGT) requests for non-existing users from a single source endpoint. It leverages
-  Event ID 4768 and identifies anomalies using the 3-sigma statistical rule. This
-  behavior is significant as it may indicate an adversary performing a user enumeration
-  attack against Active Directory. If confirmed malicious, the attacker could validate
-  a list of usernames, potentially leading to further attacks such as brute force
-  or credential stuffing, compromising the security of the environment.
+description: The following analytic detects an unusual number of Kerberos Ticket Granting Ticket (TGT) requests for non-existing users from a single source endpoint. It leverages Event ID 4768 and identifies anomalies using the 3-sigma statistical rule. This behavior is significant as it may indicate an adversary performing a user enumeration attack against Active Directory. If confirmed malicious, the attacker could validate a list of usernames, potentially leading to further attacks such as brute force or credential stuffing, compromising the security of the environment.
 data_source:
 - Windows Event Log Security 4768
-search: '`wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" |
-  bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, src_ip | eventstats avg(unique_accounts) as comp_avg
-  , stdev(unique_accounts) as comp_std by src_ip | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0)
-  | search isOutlier=1| `kerberos_user_enumeration_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
-  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: Possible false positive scenarios include but are not limited
-  to vulnerability scanners and missconfigured systems.
+search: '`wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$" | bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, src_ip | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by src_ip | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1| `kerberos_user_enumeration_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems.
 references:
 - https://github.com/ropnop/kerbrute
 - https://attack.mitre.org/techniques/T1589/002/
 - https://redsiege.com/tools-techniques/2020/04/user-enumeration-part-3-windows/
+drilldown_searches:
+- name: View the detection results for $src_ip$
+  search: '%original_detection_search% | search  src_ip = $src_ip$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_ip$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_ip$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
@@ -59,7 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1589.002/kerberos_user_enumeration/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1589.002/kerberos_user_enumeration/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
