@@ -1,7 +1,7 @@
 name: Windows Debugger Tool Execution
 id: e14d94a3-07fb-4b47-8406-f5e37180d422
 version: 2
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Hunting

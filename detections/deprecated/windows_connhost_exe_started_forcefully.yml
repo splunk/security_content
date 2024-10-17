@@ -1,7 +1,7 @@
 name: Windows connhost exe started forcefully
 id: c114aaca-68ee-41c2-ad8c-32bf21db8769
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Jose Hernandez, Splunk
 status: deprecated
 type: TTP

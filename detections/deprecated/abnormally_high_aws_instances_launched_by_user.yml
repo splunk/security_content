@@ -1,7 +1,7 @@
 name: Abnormally High AWS Instances Launched by User
 id: 2a9b80d3-6340-4345-b5ad-290bf5d0dac4
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly

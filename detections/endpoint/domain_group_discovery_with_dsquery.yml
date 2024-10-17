@@ -1,7 +1,7 @@
 name: Domain Group Discovery With Dsquery
 id: f0c9d62f-a232-4edd-b17e-bc409fb133d4
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

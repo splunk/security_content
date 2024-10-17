@@ -1,7 +1,7 @@
 name: Spectre and Meltdown Vulnerable Systems
 id: 354be8e0-32cd-4da0-8c47-796de13b60ea
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP

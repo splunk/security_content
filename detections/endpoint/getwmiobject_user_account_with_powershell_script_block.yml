@@ -1,7 +1,7 @@
 name: GetWmiObject User Account with PowerShell Script Block
 id: 640b0eda-0429-11ec-accd-acde48001122
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

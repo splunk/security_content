@@ -1,7 +1,7 @@
 name: CSC Net On The Fly Compilation
 id: ea73128a-43ab-11ec-9753-acde48001122
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

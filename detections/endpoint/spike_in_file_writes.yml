@@ -1,7 +1,7 @@
 name: Spike in File Writes
 id: fdb0f805-74e4-4539-8c00-618927333aae
 version: 5
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly

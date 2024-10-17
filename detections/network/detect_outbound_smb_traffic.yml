@@ -1,7 +1,7 @@
 name: Detect Outbound SMB Traffic
 id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
 version: 6
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Stuart Hopkins, Patrick Bareiss
 status: experimental
 type: TTP

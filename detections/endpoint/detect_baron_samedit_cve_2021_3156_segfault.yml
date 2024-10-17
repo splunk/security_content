@@ -1,7 +1,7 @@
 name: Detect Baron Samedit CVE-2021-3156 Segfault
 id: 10f2bae0-bbe6-4984-808c-37dc1c67980d
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP

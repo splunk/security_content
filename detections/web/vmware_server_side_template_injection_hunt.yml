@@ -1,7 +1,7 @@
 name: VMware Server Side Template Injection Hunt
 id: 5796b570-ad12-44df-b1b5-b7e6ae3aabb0
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

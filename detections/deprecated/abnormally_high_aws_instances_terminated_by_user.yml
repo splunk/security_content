@@ -1,7 +1,7 @@
 name: Abnormally High AWS Instances Terminated by User
 id: 8d301246-fccf-45e2-a8e7-3655fd14379c
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly

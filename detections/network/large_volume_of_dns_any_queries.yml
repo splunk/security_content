@@ -1,7 +1,7 @@
 name: Large Volume of DNS ANY Queries
 id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

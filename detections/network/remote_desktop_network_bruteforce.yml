@@ -1,7 +1,7 @@
 name: Remote Desktop Network Bruteforce
 id: a98727cc-286b-4ff2-b898-41df64695923
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Jose Hernandez, Splunk
 status: experimental
 type: TTP

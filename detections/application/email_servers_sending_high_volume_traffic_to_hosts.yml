@@ -1,7 +1,7 @@
 name: Email servers sending high volume traffic to hosts
 id: 7f5fb3e1-4209-4914-90db-0ec21b556378
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Linux Adding Crontab Using List Parameter
 id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Okta Mismatch Between Source and Response for Verify Push Request
 id: 8085b79b-9b85-4e67-ad63-351c9e9a5e9a
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Splunk
 type: TTP
 status: experimental

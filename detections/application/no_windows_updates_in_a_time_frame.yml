@@ -1,7 +1,7 @@
 name: No Windows Updates in a time frame
 id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Hunting

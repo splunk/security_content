@@ -1,7 +1,7 @@
 name: Windows Identify PowerShell Web Access IIS Pool
 id: d8419343-f0f8-4d8e-91cc-18bb531df87d
 version: 2
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 data_sources:
 - Windows Event Log Security 4648

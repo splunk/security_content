@@ -1,7 +1,7 @@
 name: GetNetTcpconnection with PowerShell Script Block
 id: 091712ff-b02a-4d43-82ed-34765515d95d
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

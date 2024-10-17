@@ -1,7 +1,7 @@
 name: Zeek x509 Certificate with Punycode
 id: 029d6fe4-a5fe-43af-827e-c78c50e81d81
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting

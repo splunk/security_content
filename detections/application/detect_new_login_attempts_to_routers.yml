@@ -1,7 +1,7 @@
 name: Detect New Login Attempts to Routers
 id: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP

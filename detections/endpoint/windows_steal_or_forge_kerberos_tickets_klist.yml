@@ -1,7 +1,7 @@
 name: Windows Steal or Forge Kerberos Tickets Klist
 id: 09d88404-1e29-46cb-806c-1eedbc85ad5d
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

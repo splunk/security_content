@@ -1,7 +1,7 @@
 name: AWS Cloud Provisioning From Previously Unseen City
 id: 344a1778-0b25-490c-adb1-de8beddf59cd
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly

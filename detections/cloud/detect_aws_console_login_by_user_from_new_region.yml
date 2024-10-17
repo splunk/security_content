@@ -1,7 +1,7 @@
 name: Detect AWS Console Login by User from New Region
 id: 9f31aa8e-e37c-46bc-bce1-8b3be646d026
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Eric McGinnis Splunk
 status: production
 type: Hunting

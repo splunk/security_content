@@ -1,7 +1,7 @@
 name: Execution of File With Spaces Before Extension
 id: ab0353e6-a956-420b-b724-a8b4846d5d5a
 version: 5
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

@@ -1,7 +1,7 @@
 name: Unusually Long Command Line - MLTK
 id: 57edaefa-a73b-45e5-bbae-f39c1473f941
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

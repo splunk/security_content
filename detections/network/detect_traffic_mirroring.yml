@@ -1,7 +1,7 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP

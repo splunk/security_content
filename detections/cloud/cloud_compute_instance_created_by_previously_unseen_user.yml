@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created By Previously Unseen User
 id: 37a0ec8d-827e-4d6d-8025-cedf31f3a149
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

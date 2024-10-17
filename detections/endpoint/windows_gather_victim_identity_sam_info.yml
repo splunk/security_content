@@ -1,7 +1,7 @@
 name: Windows Gather Victim Identity SAM Info
 id: a18e85d7-8b98-4399-820c-d46a1ca3516f
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

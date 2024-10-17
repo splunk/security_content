@@ -1,7 +1,7 @@
 name: Get WMIObject Group Discovery with Script Block Logging
 id: 69df7f7c-155d-11ec-a055-acde48001122
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP

@@ -1,7 +1,7 @@
 name: ASL AWS Excessive Security Scanning
 id: ff2bfdbc-65b7-4434-8f08-d55761d1d446
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: Anomaly

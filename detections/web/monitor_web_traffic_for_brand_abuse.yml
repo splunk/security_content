@@ -1,7 +1,7 @@
 name: Monitor Web Traffic For Brand Abuse
 id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP

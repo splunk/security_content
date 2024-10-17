@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 Rename
 id: 7360137f-abad-473e-8189-acbdaa34d114
 version: 6
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: deprecated
 type: Hunting

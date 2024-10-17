@@ -1,7 +1,7 @@
 name: Osquery pack - ColdRoot detection
 id: a6fffe5e-05c3-4c04-badc-887607fbb8dc
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

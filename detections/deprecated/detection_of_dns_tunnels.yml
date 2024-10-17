@@ -1,7 +1,7 @@
 name: Detection of DNS Tunnels
 id: 104658f4-afdc-499f-9719-17a43f9826f4
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP

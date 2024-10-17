@@ -1,7 +1,7 @@
 name: Detect Mimikatz Using Loaded Images
 id: 29e307ba-40af-4ab2-91b2-3c6b392bbba0
 version: 2
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: TTP

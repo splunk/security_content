@@ -1,7 +1,7 @@
 name: Amazon EKS Kubernetes cluster scan detection
 id: 294c4686-63dd-4fe6-93a2-ca807626704a
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

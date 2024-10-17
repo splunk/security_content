@@ -1,7 +1,7 @@
 name: Linux Possible Append Cronjob Entry on Existing Cronjob File
 id: b5b91200-5f27-11ec-bb4e-acde48001122
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

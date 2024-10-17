@@ -1,7 +1,7 @@
 name: Kubernetes Anomalous Inbound to Outbound Network IO Ratio
 id: 9d8f6e3f-39df-46d8-a9d4-96173edc501f
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

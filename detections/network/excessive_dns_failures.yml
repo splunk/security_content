@@ -1,7 +1,7 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
 version: 5
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: bowesmana, Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

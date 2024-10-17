@@ -1,7 +1,7 @@
 name: MOVEit Certificate Store Access Failure
 id: d61292d5-46e4-49ea-b23b-8049ea70b525
 version: 2
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting

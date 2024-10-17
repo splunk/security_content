@@ -1,7 +1,7 @@
 name: Remote System Discovery with Net
 id: 9df16706-04a2-41e2-bbfe-9b38b34409d3
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Web Fraud - Account Harvesting
 id: bf1d7b5c-df2f-4249-a401-c09fdc221ddf
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Jim Apger, Splunk
 status: deprecated
 type: TTP

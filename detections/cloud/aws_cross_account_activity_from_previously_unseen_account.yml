@@ -1,7 +1,7 @@
 name: AWS Cross Account Activity From Previously Unseen Account
 id: 21193641-cb96-4a2c-a707-d9b9a7f7792b
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

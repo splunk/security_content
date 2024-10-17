@@ -1,7 +1,7 @@
 name: Network Discovery Using Route Windows App
 id: dd83407e-439f-11ec-ab8e-acde48001122
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

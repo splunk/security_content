@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created In Previously Unused Region
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly

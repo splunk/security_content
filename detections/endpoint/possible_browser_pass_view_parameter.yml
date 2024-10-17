@@ -1,7 +1,7 @@
 name: Possible Browser Pass View Parameter
 id: 8ba484e8-4b97-11ec-b19a-acde48001122
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

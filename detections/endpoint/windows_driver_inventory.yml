@@ -1,7 +1,7 @@
 name: Windows Driver Inventory
 id: f87aa96b-369b-4a3e-9021-1bbacbfcb8fb
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting

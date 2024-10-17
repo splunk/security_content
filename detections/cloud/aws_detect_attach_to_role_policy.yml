@@ -1,7 +1,7 @@
 name: aws detect attach to role policy
 id: 88fc31dd-f331-448c-9856-d3d51dd5d3a1
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

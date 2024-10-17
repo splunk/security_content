@@ -1,7 +1,7 @@
 name: DNS record changed
 id: 44d3a43e-dcd5-49f7-8356-5209bb369065
 version: 5
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Jose Hernandez, Splunk
 status: deprecated
 type: TTP

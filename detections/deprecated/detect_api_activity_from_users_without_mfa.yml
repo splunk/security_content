@@ -1,7 +1,7 @@
 name: Detect API activity from users without MFA
 id: 4d46e8bd-4072-48e4-92db-0325889ef894
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting

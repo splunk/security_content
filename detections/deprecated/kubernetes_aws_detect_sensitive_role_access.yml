@@ -1,7 +1,7 @@
 name: Kubernetes AWS detect sensitive role access
 id: b6013a7b-85e0-4a45-b051-10b252d69569
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting

@@ -1,7 +1,7 @@
 name: Windows SQL Spawning CertUtil
 id: dfc18a5a-946e-44ee-a373-c0f60d06e676
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP

@@ -1,7 +1,7 @@
 name: Kubernetes GCP detect sensitive role access
 id: a46923f6-36b9-4806-a681-31f314907c30
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting

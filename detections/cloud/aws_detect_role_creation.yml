@@ -1,7 +1,7 @@
 name: aws detect role creation
 id: 5f04081e-ddee-4353-afe4-504f288de9ad
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

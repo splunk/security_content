@@ -1,7 +1,7 @@
 name: Amazon EKS Kubernetes Pod scan detection
 id: dbfca1dd-b8e5-4ba4-be0e-e565e5d62002
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

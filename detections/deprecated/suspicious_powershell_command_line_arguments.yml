@@ -1,7 +1,7 @@
 name: Suspicious Powershell Command-Line Arguments
 id: 2cdb91d2-542c-497f-b252-be495e71f38c
 version: 8
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP

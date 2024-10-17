@@ -1,7 +1,7 @@
 name: Windows Modify Registry Reg Restore
 id: d0072bd2-6d73-4c1b-bc77-ded6d2da3a4e
 version: 3
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Suspicious Event Log Service Behavior
 id: 2b85aa3d-f5f6-4c2e-a081-a09f6e1c2e40
 version: 4
-date: '2024-10-17 - 10:03:23'
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
