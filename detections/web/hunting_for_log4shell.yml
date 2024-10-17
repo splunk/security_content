@@ -1,7 +1,7 @@
 name: Hunting for Log4Shell
 id: 158b68fa-5d1a-11ec-aac8-acde48001122
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

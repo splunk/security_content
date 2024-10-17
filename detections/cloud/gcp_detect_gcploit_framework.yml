@@ -1,7 +1,7 @@
 name: GCP Detect gcploit framework
 id: a1c5a85e-a162-410c-a5d9-99ff639e5a52
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rod Soto, Splunk
 status: experimental
 type: TTP

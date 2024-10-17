@@ -1,7 +1,7 @@
 name: Kubernetes GCP detect sensitive object access
 id: bdb6d596-86a0-4aba-8369-418ae8b9963a
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting

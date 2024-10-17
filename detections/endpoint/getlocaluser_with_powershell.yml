@@ -1,7 +1,7 @@
 name: GetLocalUser with PowerShell
 id: 85fae8fa-0427-11ec-8b78-acde48001122
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

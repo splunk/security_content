@@ -1,7 +1,7 @@
 name: Detect Activity Related to Pass the Hash Attacks
 id: f5939373-8054-40ad-8c64-cec478a22a4b
 version: 8
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: deprecated
 type: Hunting

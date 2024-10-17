@@ -1,7 +1,7 @@
 name: Windows ISO LNK File Creation
 id: d7c2c09b-9569-4a9e-a8b6-6a39a99c1d32
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Hunting

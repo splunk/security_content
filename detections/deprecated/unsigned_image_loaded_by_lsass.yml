@@ -1,7 +1,7 @@
 name: Unsigned Image Loaded by LSASS
 id: 56ef054c-76ef-45f9-af4a-a634695dcd65
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: TTP

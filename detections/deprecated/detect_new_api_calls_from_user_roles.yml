@@ -1,7 +1,7 @@
 name: Detect new API calls from user roles
 id: 22773e84-bac0-4595-b086-20d3f335b4f1
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Scheduled tasks used in BadRabbit ransomware
 id: 1297fb80-f42a-4b4a-9c8b-78c066437cf6
 version: 5
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP

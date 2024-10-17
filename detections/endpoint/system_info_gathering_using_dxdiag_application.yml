@@ -1,7 +1,7 @@
 name: System Info Gathering Using Dxdiag Application
 id: f92d74f2-4921-11ec-b685-acde48001122
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

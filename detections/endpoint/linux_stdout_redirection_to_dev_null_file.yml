@@ -1,7 +1,7 @@
 name: Linux Stdout Redirection To Dev Null File
 id: de62b809-a04d-46b5-9a15-8298d330f0c8
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: Anomaly

@@ -1,7 +1,7 @@
 name: GetAdGroup with PowerShell
 id: 872e3063-0fc4-4e68-b2f3-f2b99184a708
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

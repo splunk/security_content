@@ -1,7 +1,7 @@
 name: Network Connection Discovery With Netstat
 id: 2cf5cc25-f39a-436d-a790-4857e5995ede
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

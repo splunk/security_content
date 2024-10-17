@@ -1,7 +1,7 @@
 name: Windows WinLogon with Public Network Connection
 id: 65615b3a-62ea-4d65-bb9f-6f07c17df4ea
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting

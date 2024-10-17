@@ -1,7 +1,7 @@
 name: Kubernetes Process with Anomalous Resource Utilisation
 id: 25ca9594-7a0d-4a95-a5e5-3228d7398ec8
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

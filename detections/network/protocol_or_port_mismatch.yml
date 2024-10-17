@@ -1,7 +1,7 @@
 name: Protocol or Port Mismatch
 id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

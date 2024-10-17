@@ -1,7 +1,7 @@
 name: Kubernetes GCP detect suspicious kubectl calls
 id: a5bed417-070a-41f2-a1e4-82b6aa281557
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting

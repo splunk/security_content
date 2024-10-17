@@ -1,7 +1,7 @@
 name: Windows Drivers Loaded by Signature
 id: d2d4af6a-6c2b-4d79-80c5-fc2cf12a2f68
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

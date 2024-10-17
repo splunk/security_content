@@ -1,7 +1,7 @@
 name: Exchange PowerShell Abuse via SSRF
 id: 29228ab4-0762-11ec-94aa-acde48001122
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP

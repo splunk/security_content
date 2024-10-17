@@ -1,7 +1,7 @@
 name: Detect Baron Samedit CVE-2021-3156
 id: 93fbec4e-0375-440c-8db3-4508eca470c4
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP

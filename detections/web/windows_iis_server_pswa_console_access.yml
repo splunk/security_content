@@ -1,7 +1,7 @@
 name: Windows IIS Server PSWA Console Access
 id: 914ab191-fa8a-48cb-83a6-0565e061f934
 version: 2
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 data_sources:
 - Windows IIS

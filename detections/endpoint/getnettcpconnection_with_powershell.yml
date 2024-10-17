@@ -1,7 +1,7 @@
 name: GetNetTcpconnection with PowerShell
 id: e02af35c-1de5-4afe-b4be-f45aba57272b
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

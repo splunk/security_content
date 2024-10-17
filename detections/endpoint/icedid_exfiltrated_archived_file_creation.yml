@@ -1,7 +1,7 @@
 name: IcedID Exfiltrated Archived File Creation
 id: 0db4da70-f14b-11eb-8043-acde48001122
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

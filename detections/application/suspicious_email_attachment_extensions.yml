@@ -1,7 +1,7 @@
 name: Suspicious Email Attachment Extensions
 id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
 version: 5
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly

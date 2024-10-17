@@ -1,7 +1,7 @@
 name: Windows Access Token Manipulation Winlogon Duplicate Token Handle
 id: dda126d7-1d99-4f0b-b72a-4c14031f9398
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

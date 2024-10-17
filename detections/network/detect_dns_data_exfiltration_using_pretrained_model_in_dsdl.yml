@@ -1,7 +1,7 @@
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
 id: 92f65c3a-168c-11ed-71eb-0242ac120012
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 status: experimental
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Powershell Get LocalGroup Discovery with Script Block Logging
 id: d7c6ad22-155c-11ec-bb64-acde48001122
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

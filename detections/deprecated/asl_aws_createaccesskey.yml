@@ -1,7 +1,7 @@
 name: ASL AWS CreateAccessKey
 id: ccb3e4af-23d6-407f-9842-a26212816c9e
 version: 2
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Patrick Bareiss, Splunk
 status: deprecated
 type: Hunting

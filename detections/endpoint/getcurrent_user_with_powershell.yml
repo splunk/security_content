@@ -1,7 +1,7 @@
 name: GetCurrent User with PowerShell
 id: 7eb9c3d5-c98c-4088-acc5-8240bad15379
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

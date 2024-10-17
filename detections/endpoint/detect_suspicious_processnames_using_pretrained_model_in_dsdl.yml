@@ -1,7 +1,7 @@
 name: Detect suspicious processnames using pretrained model in DSDL
 id: a15f8977-ad7d-4669-92ef-b59b97219bf5
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 status: experimental

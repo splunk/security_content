@@ -1,7 +1,7 @@
 name: Domain Controller Discovery with Wmic
 id: 64c7adaa-48ee-483c-b0d6-7175bc65e6cc
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

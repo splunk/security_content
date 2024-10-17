@@ -1,7 +1,7 @@
 name: Linux Add User Account
 id: 51fbcaf2-6259-11ec-b0f3-acde48001122
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

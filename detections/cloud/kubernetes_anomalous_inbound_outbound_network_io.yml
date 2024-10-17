@@ -1,7 +1,7 @@
 name: Kubernetes Anomalous Inbound Outbound Network IO
 id: 4f3b0c97-657e-4547-a89a-9a50c656e3cd
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

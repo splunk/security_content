@@ -1,7 +1,7 @@
 name: Detect Renamed RClone
 id: 6dca1124-b3ec-11eb-9328-acde48001122
 version: 5
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

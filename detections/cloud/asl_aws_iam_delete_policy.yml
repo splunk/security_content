@@ -1,7 +1,7 @@
 name: ASL AWS IAM Delete Policy
 id: 609ced68-d420-4ff7-8164-ae98b4b4018c
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting

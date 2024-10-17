@@ -1,7 +1,7 @@
 name: Suspicious Ticket Granting Ticket Request
 id: d77d349e-6269-11ec-9cfe-acde48001122
 version: 5
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

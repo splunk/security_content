@@ -1,7 +1,7 @@
 name: Detect Prohibited Applications Spawning cmd exe
 id: dcfd6b40-42f9-469d-a433-2e53f7486664
 version: 9
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting

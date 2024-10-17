@@ -1,7 +1,7 @@
 name: Detect Large Outbound ICMP Packets
 id: e9c102de-4d43-42a7-b1c8-8062ea297419
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP

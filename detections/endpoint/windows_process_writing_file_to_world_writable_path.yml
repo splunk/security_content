@@ -1,7 +1,7 @@
 name: Windows Process Writing File to World Writable Path
 id: c051b68c-60f7-4022-b3ad-773bec7a225b
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting

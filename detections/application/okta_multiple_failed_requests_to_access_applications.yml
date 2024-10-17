@@ -1,7 +1,7 @@
 name: Okta Multiple Failed Requests to Access Applications
 id: 1c21fed1-7000-4a2e-9105-5aaafa437247
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: John Murphy, Okta, Michael Haag, Splunk
 type: Hunting
 status: experimental

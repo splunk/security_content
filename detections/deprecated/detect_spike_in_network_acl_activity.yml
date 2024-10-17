@@ -1,7 +1,7 @@
 name: Detect Spike in Network ACL Activity
 id: ada0f478-84a8-4641-a1f1-e32372d4bd53
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Anomaly

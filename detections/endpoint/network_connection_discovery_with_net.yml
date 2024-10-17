@@ -1,7 +1,7 @@
 name: Network Connection Discovery With Net
 id: 640337e5-6e41-4b7f-af06-9d9eab5e1e2d
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

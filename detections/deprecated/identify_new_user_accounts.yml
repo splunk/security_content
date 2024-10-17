@@ -1,7 +1,7 @@
 name: Identify New User Accounts
 id: 475b9e27-17e4-46e2-b7e2-648221be3b89
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting

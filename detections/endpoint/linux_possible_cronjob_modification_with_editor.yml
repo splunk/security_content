@@ -1,7 +1,7 @@
 name: Linux Possible Cronjob Modification With Editor
 id: dcc89bde-5f24-11ec-87ca-acde48001122
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

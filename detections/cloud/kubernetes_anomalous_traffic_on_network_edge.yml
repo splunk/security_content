@@ -1,7 +1,7 @@
 name: Kubernetes Anomalous Traffic on Network Edge
 id: 886c7e51-2ea1-425d-8705-faaca5a64cc6
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

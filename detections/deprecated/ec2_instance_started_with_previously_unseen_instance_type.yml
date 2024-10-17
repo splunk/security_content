@@ -1,7 +1,7 @@
 name: EC2 Instance Started With Previously Unseen Instance Type
 id: 65541c80-03c7-4e05-83c8-1dcd57a2e1ad
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: deprecated
 type: Anomaly

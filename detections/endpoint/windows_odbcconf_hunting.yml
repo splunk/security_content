@@ -1,7 +1,7 @@
 name: Windows Odbcconf Hunting
 id: 0562ad4b-fdaa-4882-b12f-7b8e0034cd72
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

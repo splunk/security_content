@@ -1,7 +1,7 @@
 name: GCP Kubernetes cluster scan detection
 id: db5957ec-0144-4c56-b512-9dccbe7a2d26
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rod Soto, Splunk
 status: deprecated
 type: TTP

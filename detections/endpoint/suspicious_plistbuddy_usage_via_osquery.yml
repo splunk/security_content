@@ -1,7 +1,7 @@
 name: Suspicious PlistBuddy Usage via OSquery
 id: 20ba6c32-c733-4a32-b64e-2688cf231399
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP

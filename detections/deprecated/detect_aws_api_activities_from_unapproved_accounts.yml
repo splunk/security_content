@@ -1,7 +1,7 @@
 name: Detect AWS API Activities From Unapproved Accounts
 id: ada0f478-84a8-4641-a3f1-d82362d4bd55
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting

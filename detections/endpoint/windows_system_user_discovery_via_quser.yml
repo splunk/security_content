@@ -1,7 +1,7 @@
 name: Windows System User Discovery Via Quser
 id: 0c3f3e09-e47a-410e-856f-a02a5c5fafb0
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

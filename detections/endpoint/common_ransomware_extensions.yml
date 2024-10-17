@@ -1,7 +1,7 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
 version: 7
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: Hunting

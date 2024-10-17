@@ -1,7 +1,7 @@
 name: Unusual Number of Remote Endpoint Authentication Events
 id: acb5dc74-5324-11ec-a36d-acde48001122
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting

@@ -1,7 +1,7 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
 version: 6
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Uncommon Processes On Endpoint
 id: 29ccce64-a10c-4389-a45f-337cb29ba1f7
 version: 6
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting

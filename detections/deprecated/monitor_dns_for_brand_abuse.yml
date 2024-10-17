@@ -1,7 +1,7 @@
 name: Monitor DNS For Brand Abuse
 id: 24dd17b1-e2fb-4c31-878c-d4f746595bfa
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: deprecated
 type: TTP

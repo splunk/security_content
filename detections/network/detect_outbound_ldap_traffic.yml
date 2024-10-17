@@ -1,7 +1,7 @@
 name: Detect Outbound LDAP Traffic
 id: 5e06e262-d7cd-4216-b2f8-27b437e18458
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Windows Impair Defense Delete Win Defender Context Menu
 id: 395ed5fe-ad13-4366-9405-a228427bdd91
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

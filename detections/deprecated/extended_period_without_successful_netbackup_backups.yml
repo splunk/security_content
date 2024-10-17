@@ -1,7 +1,7 @@
 name: Extended Period Without Successful Netbackup Backups
 id: a34aae96-ccf8-4aef-952c-3ea214444440
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting

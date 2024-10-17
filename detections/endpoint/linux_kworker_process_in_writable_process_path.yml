@@ -1,7 +1,7 @@
 name: Linux Kworker Process In Writable Process Path
 id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

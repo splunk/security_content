@@ -1,7 +1,7 @@
 name: Detect Rogue DHCP Server
 id: 6e1ada88-7a0d-4ac1-92c6-03d354686079
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP

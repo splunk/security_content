@@ -1,7 +1,7 @@
 name: Windows System Discovery Using Qwinsta
 id: 2e765c1b-144a-49f0-93d0-1df4287cca04
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

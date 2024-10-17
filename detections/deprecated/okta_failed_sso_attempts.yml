@@ -1,7 +1,7 @@
 name: Okta Failed SSO Attempts
 id: 371a6545-2618-4032-ad84-93386b8698c5
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Rico Valdez, Splunk
 status: deprecated
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Detect Mimikatz Via PowerShell And EventCode 4703
 id: 98917be2-bfc8-475a-8618-a9bb06575188
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rico Valdez, Splunk
 status: deprecated
 type: TTP

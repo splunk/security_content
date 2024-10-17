@@ -1,7 +1,7 @@
 name: Okta Two or More Rejected Okta Pushes
 id: d93f785e-4c2c-4262-b8c7-12b77a13fd39
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Michael Haag, Marissa Bower, Splunk
 status: deprecated
 type: TTP

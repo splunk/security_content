@@ -1,7 +1,7 @@
 name: Protocols passing authentication in cleartext
 id: 6923cd64-17a0-453c-b945-81ac2d8c6db9
 version: 5
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP

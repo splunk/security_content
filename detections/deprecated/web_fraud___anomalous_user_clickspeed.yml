@@ -1,7 +1,7 @@
 name: Web Fraud - Anomalous User Clickspeed
 id: 31337bbb-bc22-4752-b599-ef192df2dc7a
 version: 3
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Jim Apger, Splunk
 status: deprecated
 type: Anomaly

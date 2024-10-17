@@ -1,7 +1,7 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
 version: 4
-date: '2024-10-17'
+date: '2024-10-17 - 10:03:23'
 author: Rod Soto, Jose Hernandez, Splunk
 status: experimental
 type: Hunting
