@@ -1,11 +1,11 @@
 name: Linux Auditd Syscall
 id: 4dff7047-0d43-4096-bb3f-b756c889bbad
 version: 1
-date: '2024-08-08'
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 description: Data source object for Linux Auditd Syscall Type
-source: /var/log/audit/audit.log
-sourcetype: linux:audit
+source: auditd
+sourcetype: auditd
 supported_TA:
 - name: Splunk Add-on for Unix and Linux
   url: https://splunkbase.splunk.com/app/833

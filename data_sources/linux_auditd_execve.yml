@@ -1,11 +1,11 @@
 name: Linux Auditd Execve
 id: 9ef6364d-cc67-480e-8448-3306829a6a24
 version: 1
-date: '2024-08-08'
+date: '2024-09-24'
 author: Teoderick Contreras, Splunk
 description: Data source object for Linux Auditd Execve Type
-source: /var/log/audit/audit.log
-sourcetype: linux:audit
+source: auditd
+sourcetype: auditd
 supported_TA:
 - name: Splunk Add-on for Unix and Linux
   url: https://splunkbase.splunk.com/app/833
