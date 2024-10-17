@@ -1,7 +1,7 @@
 name: Remote Registry Key modifications
 id: c9f4b923-f8af-4155-b697-1354f5dcbc5e
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP

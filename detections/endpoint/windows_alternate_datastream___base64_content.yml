@@ -1,30 +1,15 @@
 name: Windows Alternate DataStream - Base64 Content
 id: 683f48de-982f-4a7e-9aac-9cec550da498
-version: 3
-date: '2024-05-28'
+version: 4
+date: '2024-09-30'
 author: Steven Dick, Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of Alternate Data Streams
-  (ADS) with Base64 content on Windows systems. It leverages Sysmon EventID 15, which
-  captures file creation events, including the content of named streams. ADS can conceal
-  malicious payloads, making them significant for SOC monitoring. This detection identifies
-  hidden streams that may contain executables, scripts, or configuration data, often
-  used by malware to evade detection. If confirmed malicious, this activity could
-  allow attackers to hide and execute payloads, persist in the environment, or access
-  sensitive information without being easily detected.
+description: The following analytic detects the creation of Alternate Data Streams (ADS) with Base64 content on Windows systems. It leverages Sysmon EventID 15, which captures file creation events, including the content of named streams. ADS can conceal malicious payloads, making them significant for SOC monitoring. This detection identifies hidden streams that may contain executables, scripts, or configuration data, often used by malware to evade detection. If confirmed malicious, this activity could allow attackers to hide and execute payloads, persist in the environment, or access sensitive information without being easily detected.
 data_source:
 - Sysmon EventID 15
-search: '`sysmon` EventCode=15 NOT Contents IN ("-","[ZoneTransfer]*") | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
-  | regex Contents="(?:[A-Za-z0-9+/]{128,})(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$"
-  | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path
-  = TargetFilename , base64 = Contents, file_hash = coalesce(SHA256,SHA1,MD5,Hash)
-  | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
-  by dest, process, process_guid, file_name, file_path, file_hash, base64 | `base64decode(base64)`
-  | fields - base64 | rename base64_decode as command | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_alternate_datastream___base64_content_filter`'
-how_to_implement: Target environment must ingest sysmon data, specifically Event ID
-  15.
+search: '`sysmon` EventCode=15 NOT Contents IN ("-","[ZoneTransfer]*") | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$" | regex Contents="(?:[A-Za-z0-9+/]{128,})(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$" | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename , base64 = Contents, file_hash = coalesce(SHA256,SHA1,MD5,Hash) | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by dest, process, process_guid, file_name, file_path, file_hash, base64 | `base64decode(base64)` | fields - base64 | rename base64_decode as command | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_alternate_datastream___base64_content_filter`'
+how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
 known_false_positives: Unknown
 references:
 - https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f
@@ -32,14 +17,22 @@ references:
 - https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams
 - https://blog.netwrix.com/2022/12/16/alternate_data_stream/
 - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/file-stream-creation-hash.md
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   asset_type: Endpoint
   confidence: 80
   impact: 100
-  message: Base64 content written to an NTFS alternate data stream by $user$, see
-    command field for details.
+  message: Base64 content written to an NTFS alternate data stream by $user$, see command field for details.
   mitre_attack_id:
   - T1564
   - T1564.004
@@ -72,7 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

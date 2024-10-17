@@ -1,7 +1,7 @@
 name: Kubernetes Azure detect sensitive role access
 id: f27349e5-1641-4f6a-9e68-30402be0ad4c
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting

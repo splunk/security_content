@@ -1,7 +1,7 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 4
-date: '2024-08-15'
+version: 5
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP

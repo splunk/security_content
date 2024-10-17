@@ -1,34 +1,26 @@
 name: ASL AWS Defense Evasion Delete Cloudtrail
 id: 1f0b47e5-0134-43eb-851c-e3258638945e
-version: 4
-date: '2024-05-29'
+version: 5
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects AWS `DeleteTrail` events within CloudTrail
-  logs. It leverages Amazon Security Lake logs parsed in the Open Cybersecurity Schema
-  Framework (OCSF) format to identify when a CloudTrail is deleted. This activity
-  is significant because adversaries may delete CloudTrail logs to evade detection
-  and operate with stealth. If confirmed malicious, this action could allow attackers
-  to cover their tracks, making it difficult to trace their activities and investigate
-  other potential compromises within the AWS environment.
+description: The following analytic detects AWS `DeleteTrail` events within CloudTrail logs. It leverages Amazon Security Lake logs parsed in the Open Cybersecurity Schema Framework (OCSF) format to identify when a CloudTrail is deleted. This activity is significant because adversaries may delete CloudTrail logs to evade detection and operate with stealth. If confirmed malicious, this action could allow attackers to cover their tracks, making it difficult to trace their activities and investigate other potential compromises within the AWS environment.
 data_source: []
-search: '`amazon_security_lake` api.operation=DeleteTrail | fillnull | stats count
-  min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid
-  actor.user.uid http_request.user_agent src_endpoint.ip cloud.region | rename actor.user.uid
-  as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent
-  as user_agent, actor.user.account_uid as aws_account_id   | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| `asl_aws_defense_evasion_delete_cloudtrail_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon
-  Web Services (AWS), which is a centralized data lake that provides security-related
-  data from AWS services. To use this detection, you must ingest CloudTrail logs from
-  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
-  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
-  or the Federated Analytics App.
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has stopped cloudTrail logging. Please investigate this activity.
+search: '`amazon_security_lake` api.operation=DeleteTrail | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.uid http_request.user_agent src_endpoint.ip cloud.region | rename actor.user.uid as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id   | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `asl_aws_defense_evasion_delete_cloudtrail_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
+known_false_positives: While this search has no known false positives, it is possible that an AWS admin has stopped cloudTrail logging. Please investigate this activity.
 references:
 - https://attack.mitre.org/techniques/T1562/008/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Defense Evasion
@@ -65,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/asl_ocsf_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/stop_delete_cloudtrail/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

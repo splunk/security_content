@@ -1,7 +1,7 @@
 name: Windows Account Discovery With NetUser PreauthNotRequire
 id: cf056b65-44b2-4d32-9172-d6b6f081a376
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

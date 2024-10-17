@@ -1,7 +1,7 @@
 name: Windows SIP Provider Inventory
 id: 21c5af91-1a4a-4511-8603-64fb41df3fad
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

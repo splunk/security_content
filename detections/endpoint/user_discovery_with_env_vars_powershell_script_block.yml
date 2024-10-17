@@ -1,7 +1,7 @@
 name: User Discovery With Env Vars PowerShell Script Block
 id: 77f41d9e-b8be-47e3-ab35-5776f5ec1d20
-version: 3
-date: '2024-05-10'
+version: 4
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

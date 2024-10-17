@@ -1,33 +1,27 @@
 author: Mauricio Velazco, Splunk
 data_source:
 - Windows Event Log Security 4625
-date: '2024-09-24'
-description: 'The following analytic identifies a source host failing to authenticate
-  against a remote host with 30 unique users. It leverages Windows Event 4625 with
-  Logon Type 3, indicating remote authentication attempts. This behavior is significant
-  as it may indicate a Password Spraying attack, where an adversary attempts to gain
-  initial access or elevate privileges in an Active Directory environment. If confirmed
-  malicious, this activity could lead to unauthorized access, privilege escalation,
-  and potential compromise of sensitive information. This detection is crucial for
-  real-time security monitoring and threat hunting.'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Event Logs from domain controllers as as well as member servers and workstations.
-  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
-  to be enabled.
+date: '2024-09-30'
+description: The following analytic identifies a source host failing to authenticate against a remote host with 30 unique users. It leverages Windows Event 4625 with Logon Type 3, indicating remote authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges in an Active Directory environment. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, and potential compromise of sensitive information. This detection is crucial for real-time security monitoring and threat hunting.
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 id: 80f9d53e-9ca1-11eb-b0d6-acde48001122
-known_false_positives: A host failing to authenticate with multiple valid users against
-  a remote host is not a common behavior for legitimate systems. Possible false positive
-  scenarios include but are not limited to vulnerability scanners, remote administration
-  tools, missconfigyred systems, etc.
+known_false_positives: A host failing to authenticate with multiple valid users against a remote host is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners, remote administration tools, missconfigyred systems, etc.
 name: Windows Multiple Users Remotely Failed To Authenticate From Host
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4625
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/basic-audit-logon-events
-search: '`wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket
-  span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName)
-  as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter`'
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+search: '`wineventlog_security` EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress, Computer | rename Computer as dest| where unique_accounts > 30 | `windows_multiple_users_remotely_failed_to_authenticate_from_host_filter`'
 status: production
 tags:
   analytic_story:
@@ -60,10 +54,9 @@ tags:
   security_domain: endpoint
 tests:
 - attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray_xml/windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/purplesharp_remote_spray_xml/windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
   name: True Positive Test
 type: TTP
-version: 4
+version: 5

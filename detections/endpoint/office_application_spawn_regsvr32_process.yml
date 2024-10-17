@@ -1,45 +1,30 @@
 name: Office Application Spawn Regsvr32 process
 id: 2d9fc90c-f11f-11eb-9300-acde48001122
-version: 5
-date: '2024-05-20'
+version: 6
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies instances where an Office application
-  spawns a Regsvr32 process, which is often indicative of macro execution or malicious
-  code. This detection leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process creation events where the parent process is a known Office application.
-  This activity is significant because it is a common technique used by malware, such
-  as IcedID, to initiate infections. If confirmed malicious, this behavior could lead
-  to code execution, allowing attackers to gain control over the affected system and
-  potentially escalate privileges.
+description: The following analytic identifies instances where an Office application spawns a Regsvr32 process, which is often indicative of macro execution or malicious code. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where the parent process is a known Office application. This activity is significant because it is a common technique used by malware, such as IcedID, to initiate infections. If confirmed malicious, this behavior could lead to code execution, allowing attackers to gain control over the affected system and potentially escalate privileges.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name
-  = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name
-  = "powerpnt.exe" OR Processes.parent_process_name = "outlook.exe" OR Processes.parent_process_name
-  = "onenote.exe" OR Processes.parent_process_name = "onenotem.exe" OR Processes.parent_process_name
-  = "onenoteviewer.exe" OR Processes.parent_process_name = "onenoteim.exe" OR Processes.parent_process_name="msaccess.exe")
-  `process_regsvr32` by Processes.parent_process_name Processes.parent_process Processes.process_name
-  Processes.original_file_name Processes.process Processes.process_id Processes.process_guid
-  Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)` | `office_application_spawn_regsvr32_process_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name = "winword.exe" OR Processes.parent_process_name = "excel.exe" OR Processes.parent_process_name = "powerpnt.exe" OR Processes.parent_process_name = "outlook.exe" OR Processes.parent_process_name = "onenote.exe" OR Processes.parent_process_name = "onenotem.exe" OR Processes.parent_process_name = "onenoteviewer.exe" OR Processes.parent_process_name = "onenoteim.exe" OR Processes.parent_process_name="msaccess.exe") `process_regsvr32` by Processes.parent_process_name Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid Processes.user Processes.dest | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `office_application_spawn_regsvr32_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: unknown
 references:
 - https://www.joesandbox.com/analysis/380662/0/html
 - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - IcedID
@@ -78,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/phish_icedid/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/phish_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

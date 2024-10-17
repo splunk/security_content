@@ -1,50 +1,35 @@
 name: Windows MSIExec With Network Connections
 id: 827409a1-5393-4d8d-8da4-bbb297c262a7
-version: 3
-date: '2024-08-14'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects MSIExec making network connections over
-  ports 443 or 80. This behavior is identified by correlating process creation events
-  from Endpoint Detection and Response (EDR) agents with network traffic logs. Typically,
-  MSIExec does not perform network communication to the internet, making this activity
-  unusual and potentially indicative of malicious behavior. If confirmed malicious,
-  an attacker could be using MSIExec to download or communicate with external servers,
-  potentially leading to data exfiltration, command and control (C2) communication,
-  or further malware deployment.
+description: The following analytic detects MSIExec making network connections over ports 443 or 80. This behavior is identified by correlating process creation events from Endpoint Detection and Response (EDR) agents with network traffic logs. Typically, MSIExec does not perform network communication to the internet, making this activity unusual and potentially indicative of malicious behavior. If confirmed malicious, an attacker could be using MSIExec to download or communicate with external servers, potentially leading to data exfiltration, command and control (C2) communication, or further malware deployment.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-  where All_Traffic.dest_port IN ("80","443") by All_Traffic.process_id All_Traffic.dest
-  All_Traffic.dest_port All_Traffic.dest_ip | `drop_dm_object_name(All_Traffic)` ]
-  | table _time user dest parent_process_name process_name process_path process process_id
-  dest_port dest_ip | `windows_msiexec_with_network_connections_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_msiexec` by _time Processes.user Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port IN ("80","443") by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port All_Traffic.dest_ip | `drop_dm_object_name(All_Traffic)` ] | table _time user dest parent_process_name process_name process_path process process_id dest_port dest_ip | `windows_msiexec_with_network_connections_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: False positives will be present and filtering is required.
 references:
 - https://thedfirreport.com/2022/06/06/will-the-real-msiexec-please-stand-up-exploit-leads-to-data-exfiltration/
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.007/T1218.007.md
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows System Binary Proxy Execution MSIExec
   asset_type: Endpoint
   confidence: 50
   impact: 70
-  message: An instance of $process_name$ was identified on endpoint $dest$ contacting
-    a remote destination $dest_ip$
+  message: An instance of $process_name$ was identified on endpoint $dest$ contacting a remote destination $dest_ip$
   mitre_attack_id:
   - T1218.007
   observable:
@@ -85,8 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.007/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

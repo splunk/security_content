@@ -1,37 +1,33 @@
 name: Windows AD GPO New CSE Addition
 id: 700c11d1-da09-47b2-81aa-358c143c7986
-version: 1
-date: '2023-11-22'
+version: 2
+date: '2024-09-30'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - Windows Security 5136
-description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console. 
-search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames
-  | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
-  | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" 
-  | rex field=new_value max_match=10000 "(?P<new_values>\{.*?\})" 
-  | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" 
-  | mvexpand new_values 
-  | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") 
-  | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType 
-  | eval newPolicy=if(policyType like "%",policyType,new_values)
-  | join ObjectDN  [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | stats latest(displayName) as displayName by distinguishedName | eval ObjectDN=upper(distinguishedName)] 
-  | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName by ObjectDN
-  | `windows_ad_gpo_new_cse_addition_filter`'
-how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display 
-  the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the 
-  wineventlog_security and admon macros are configured with the correct indexes. 
-known_false_positives: General usage of group policy will trigger this detection, also please not GPOs modified using tools such as SharpGPOAbuse will not generate the AD audit events which enable this detection. 
+description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
+search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" | rex field=new_value max_match=10000 "(?P<new_values>\{.*?\})" | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" | mvexpand new_values | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType | eval newPolicy=if(policyType like "%",policyType,new_values) | join ObjectDN  [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | stats latest(displayName) as displayName by distinguishedName | eval ObjectDN=upper(distinguishedName)] | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName by ObjectDN | `windows_ad_gpo_new_cse_addition_filter`'
+how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the wineventlog_security and admon macros are configured with the correct indexes.
+known_false_positives: General usage of group policy will trigger this detection, also please not GPOs modified using tools such as SharpGPOAbuse will not generate the AD audit events which enable this detection.
 references:
 - https://wald0.com/?p=179
 - https://learn.microsoft.com/en-gb/archive/blogs/mempson/group-policy-client-side-extension-list
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 - https://github.com/FSecureLABS/SharpGPOAbuse
+drilldown_searches:
+- name: View the detection results for $src_user$
+  search: '%original_detection_search% | search  src_user = $src_user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 100
   impact: 100
@@ -42,33 +38,33 @@ tags:
   - T1222
   - T1222.001
   observable:
-    - name: src_user
-      type: User
-      role:
-        - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_score: 100
   required_fields:
-    - _time
-    - OperationType
-    - ObjectDN
-    - OpCorrelationID
-    - src_user
-    - AttributeLDAPDisplayName
-    - AttributeValue
-    - ObjectClass
-    - SubjectLogonId
-    - DSName
+  - _time
+  - OperationType
+  - ObjectDN
+  - OpCorrelationID
+  - src_user
+  - AttributeLDAPDisplayName
+  - AttributeValue
+  - ObjectClass
+  - SubjectLogonId
+  - DSName
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-security.log
-        source: XmlWinEventLog:Security
-        sourcetype: xmlwineventlog
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-admon.log
-        source: ActiveDirectory
-        sourcetype: ActiveDirectory
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: xmlwineventlog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/group_policy_new_cse/windows-admon.log
+    source: ActiveDirectory
+    sourcetype: ActiveDirectory

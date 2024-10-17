@@ -1,7 +1,7 @@
 name: Windows Account Discovery for None Disable User Account
 id: eddbf5ba-b89e-47ca-995e-2d259804e55e
-version: 3
-date: '2024-05-26'
+version: 4
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

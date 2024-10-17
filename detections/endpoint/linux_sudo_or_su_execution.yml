@@ -1,7 +1,7 @@
 name: Linux Sudo OR Su Execution
 id: 4b00f134-6d6a-11ec-a90c-acde48001122
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

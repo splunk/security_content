@@ -1,7 +1,7 @@
 name: Linux Impair Defenses Process Kill
 id: 435c6b33-adf9-47fe-be87-8e29fd6654f5
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: aws detect sts assume role abuse
 id: 8e565314-b6a2-46d8-9f05-1a34a176a662
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting

@@ -1,30 +1,16 @@
 name: Windows PowerView Constrained Delegation Discovery
 id: 86dc8176-6e6c-42d6-9684-5444c6557ab3
-version: 3
-date: '2024-05-10'
+version: 4
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of PowerView commandlets to discover
-  Windows endpoints with Kerberos Constrained Delegation. It leverages PowerShell
-  Script Block Logging (EventCode=4104) to identify specific commandlets like `Get-DomainComputer`
-  or `Get-NetComputer` with the `-TrustedToAuth` parameter. This activity is significant
-  as it indicates potential reconnaissance efforts by adversaries or Red Teams to
-  map out privileged delegation settings in Active Directory. If confirmed malicious,
-  this could allow attackers to identify high-value targets for further exploitation,
-  potentially leading to privilege escalation or lateral movement within the network.
+description: The following analytic detects the use of PowerView commandlets to discover Windows endpoints with Kerberos Constrained Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific commandlets like `Get-DomainComputer` or `Get-NetComputer` with the `-TrustedToAuth` parameter. This activity is significant as it indicates potential reconnaissance efforts by adversaries or Red Teams to map out privileged delegation settings in Active Directory. If confirmed malicious, this could allow attackers to identify high-value targets for further exploitation, potentially leading to privilege escalation or lateral movement within the network.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR
-  ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-TrustedToAuth*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_powerview_constrained_delegation_discovery_filter`'
-how_to_implement: The following  analytic requires PowerShell operational logs to
-  be imported. Modify the powershell macro as needed to match the sourcetype or add
-  index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators or power users may leverage PowerView for system
-  management or troubleshooting.
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-TrustedToAuth*") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest | rename UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powerview_constrained_delegation_discovery_filter`'
+how_to_implement: The following  analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators or power users may leverage PowerView for system management or troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
 - https://adsecurity.org/?p=1667
@@ -32,6 +18,15 @@ references:
 - https://www.guidepointsecurity.com/blog/delegating-like-a-boss-abusing-kerberos-delegation-in-active-directory/
 - https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/constrained-delegation
 - https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - CISA AA23-347A
@@ -67,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_powerview_constrained_delegation_discovery/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_powerview_constrained_delegation_discovery/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

@@ -1,43 +1,35 @@
 name: AWS Create Policy Version to allow all resources
 id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
-version: 5
-date: '2024-05-10'
+version: 6
+date: '2024-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the creation of a new AWS IAM policy
-  version that allows access to all resources. It detects this activity by analyzing
-  AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that
-  grants broad permissions. This behavior is significant because it violates the principle
-  of least privilege, potentially exposing the environment to misuse or abuse. If
-  confirmed malicious, an attacker could gain extensive access to AWS resources, leading
-  to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
+description: The following analytic identifies the creation of a new AWS IAM policy version that allows access to all resources. It detects this activity by analyzing AWS CloudTrail logs for the CreatePolicyVersion event with a policy document that grants broad permissions. This behavior is significant because it violates the principle of least privilege, potentially exposing the environment to misuse or abuse. If confirmed malicious, an attacker could gain extensive access to AWS resources, leading to unauthorized actions, data exfiltration, or further compromise of the AWS environment.
 data_source:
 - AWS CloudTrail CreatePolicyVersion
-search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com
-  errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements
-  path=Statement{} | mvexpand key_policy_statements | spath input=key_policy_statements
-  output=key_policy_action_1 path=Action | where key_policy_action_1 = "*" | stats
-  count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements)
-  as policy_added by eventName eventSource aws_account_id errorCode userAgent eventID
-  awsRegion user user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
-known_false_positives: While this search has no known false positives, it is possible
-  that an AWS admin has legitimately created a policy to allow a user to access all
-  resources. That said, AWS strongly advises against granting full control to all
-  AWS resources and you must verify this activity.
+search: '`cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com errorCode = success | spath input=requestParameters.policyDocument output=key_policy_statements path=Statement{} | mvexpand key_policy_statements | spath input=key_policy_statements output=key_policy_action_1 path=Action | where key_policy_action_1 = "*" | stats count min(_time) as firstTime max(_time) as lastTime values(key_policy_statements) as policy_added by eventName eventSource aws_account_id errorCode userAgent eventID awsRegion user user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_create_policy_version_to_allow_all_resources_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created a policy to allow a user to access all resources. That said, AWS strongly advises against granting full control to all AWS resources and you must verify this activity.
 references:
 - https://bishopfox.com/blog/privilege-escalation-in-aws
 - https://rhinosecuritylabs.com/aws/aws-privilege-escalation-methods-mitigation-part-2/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
   asset_type: AWS Account
   confidence: 70
   impact: 70
-  message: User $user$ created a policy version that allows them to access any resource
-    in their account.
+  message: User $user$ created a policy version that allows them to access any resource in their account.
   mitre_attack_id:
   - T1078.004
   - T1078
@@ -66,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/aws_create_policy_version/aws_cloudtrail_events.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

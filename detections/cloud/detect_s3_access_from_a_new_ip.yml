@@ -1,7 +1,7 @@
 name: Detect S3 access from a new IP
 id: e6f1bb1b-f441-492b-9126-902acda217da
-version: 2
-date: '2024-05-19'
+version: 3
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

@@ -1,31 +1,26 @@
 name: Zscaler Scam Destinations Threat Blocked
 id: a0c21379-f4ba-4bac-a958-897e260f964a
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
 data_source: []
-description: The following analytic identifies blocked scam-related activities detected
-  by Zscaler within a network. It leverages web proxy logs to examine actions flagged
-  as scam threats, focusing on data points such as device owner, user, URL category,
-  destination URL, and IP. This detection is significant for SOC as it helps in the
-  early identification and mitigation of scam activities, ensuring network safety.
-  If confirmed malicious, this activity could indicate attempts to deceive users,
-  potentially leading to data theft or financial loss.
-search: '`zscaler_proxy` action=blocked threatname=*scam* | stats count min(_time)
-  as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src
-  dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `zscaler_scam_destinations_threat_blocked_filter`'
-how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase.
-  You must be ingesting Zscaler events into your Splunk environment through an ingester.
-  This analytic was written to be used with the "zscalernss-web" sourcetype leveraging
-  the Zscaler proxy data. This enables the integration with Splunk Enterprise Security.
-  Security teams are encouraged to adjust the detection parameters, ensuring the detection
-  is tailored to their specific environment.
+description: The following analytic identifies blocked scam-related activities detected by Zscaler within a network. It leverages web proxy logs to examine actions flagged as scam threats, focusing on data points such as device owner, user, URL category, destination URL, and IP. This detection is significant for SOC as it helps in the early identification and mitigation of scam activities, ensuring network safety. If confirmed malicious, this activity could indicate attempts to deceive users, potentially leading to data theft or financial loss.
+search: '`zscaler_proxy` action=blocked threatname=*scam* | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `zscaler_scam_destinations_threat_blocked_filter`'
+how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscaler configuration.
 references:
 - https://help.zscaler.com/zia/nss-feed-output-format-web-logs
+drilldown_searches:
+- name: View the detection results for $src$ and $user$
+  search: '%original_detection_search% | search  src = $src$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Zscaler Browser Proxy Threats
@@ -67,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/zscalar_web_proxy/zscalar_web_proxy.json
     source: zscaler
     sourcetype: zscalernss-web

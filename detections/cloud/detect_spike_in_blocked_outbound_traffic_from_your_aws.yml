@@ -1,7 +1,7 @@
 name: Detect Spike in blocked Outbound Traffic from your AWS
 id: d3fffa37-492f-487b-a35d-c60fcb2acf01
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly

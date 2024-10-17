@@ -1,26 +1,30 @@
 name: O365 Threat Intelligence Suspicious File Detected
 id: 00958c7b-35db-4e7a-ad13-31550a7a7c64
-version: 1
-date: '2024-04-01'
+version: 2
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: TTP
 description: The following analytic identifies when a malicious file is detected within the Microsoft Office 365 ecosystem through the Advanced Threat Protection engine. Attackers may stage and execute malicious files from within the Microsoft Office 365 ecosystem. Any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities such as Safe Attachment and Safe Links further enhance these detection and response functions.
-data_source: 
+data_source:
 - O365 Universal Audit Log
-search: '`o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
-| stats values(DetectionMethod) as category  values(FileData.FileName) as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime, max(_time) as lastTime by Id, UserId
-| rename Id as signature_id, UserId as user  
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `o365_threat_intelligence_suspicious_file_detected_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The threat intelligence workload is typically only visible to E3/E5 level customers. 
+search: '`o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection | stats values(DetectionMethod) as category  values(FileData.FileName) as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime, max(_time) as lastTime by Id, UserId | rename Id as signature_id, UserId as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_threat_intelligence_suspicious_file_detected_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The threat intelligence workload is typically only visible to E3/E5 level customers.
 known_false_positives: unknown
 references:
 - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-real-time-detections-about?view=o365-worldwide
 - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/anti-malware-protection-for-spo-odfb-teams-about?view=o365-worldwide
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
-  analytic_story: 
+  analytic_story:
   - Azure Active Directory Account Takeover
   - Office 365 Account Takeover
   - Ransomware Cloud
@@ -28,10 +32,10 @@ tags:
   confidence: 100
   impact: 50
   message: Threat Intelligence workload detected a malicious file [$file_name$] from user $user$
-  mitre_attack_id: 
+  mitre_attack_id:
   - T1204.002
   - T1204
-  observable: 
+  observable:
   - name: user
     type: User
     role:
@@ -44,12 +48,12 @@ tags:
     type: Other
     role:
     - Attacker
-  product: 
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields: 
-  - _time  
+  required_fields:
+  - _time
   - Workload
   - Operation
   - Id

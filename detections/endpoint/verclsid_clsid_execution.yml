@@ -1,7 +1,7 @@
 name: Verclsid CLSID Execution
 id: 61e9a56a-20fa-11ec-8ba3-acde48001122
-version: 2
-date: '2024-05-21'
+version: 3
+date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

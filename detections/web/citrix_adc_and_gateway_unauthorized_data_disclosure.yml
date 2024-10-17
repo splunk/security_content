@@ -1,36 +1,28 @@
 name: Citrix ADC and Gateway Unauthorized Data Disclosure
 id: b593cac5-dd20-4358-972a-d945fefdaf17
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
 - Suricata
-description: The following analytic detects attempts to exploit the Citrix Bleed vulnerability
-  (CVE-2023-4966), which can lead to the leaking of session tokens. It identifies
-  HTTP requests with a 200 status code targeting the /oauth/idp/.well-known/openid-configuration
-  URL endpoint. By parsing web traffic and filtering based on user agent details,
-  HTTP method, source and destination IPs, and sourcetype, it aims to identify potentially
-  malicious requests. This activity is significant for a SOC because successful exploitation
-  can allow attackers to impersonate legitimate users, bypass authentication, and
-  access sensitive data. If confirmed malicious, it could lead to unauthorized data
-  access, network propagation, and critical information exfiltration.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
-  where Web.url IN ("*/oauth/idp/.well-known/openid-configuration*")  Web.status=200
-  by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src,
-  Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `citrix_adc_and_gateway_unauthorized_data_disclosure_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk
-  for Palo Alto. We recommend hunting in the environment first to understand the scope
-  of the issue and then deploying this detection to monitor for future exploitation
-  attempts. Limit or restrict to Citrix devices only if possible.
-known_false_positives: False positives may be present based on organization use of
-  Citrix ADC and Gateway. Filter, or restrict the analytic to Citrix devices only.
+description: The following analytic detects attempts to exploit the Citrix Bleed vulnerability (CVE-2023-4966), which can lead to the leaking of session tokens. It identifies HTTP requests with a 200 status code targeting the /oauth/idp/.well-known/openid-configuration URL endpoint. By parsing web traffic and filtering based on user agent details, HTTP method, source and destination IPs, and sourcetype, it aims to identify potentially malicious requests. This activity is significant for a SOC because successful exploitation can allow attackers to impersonate legitimate users, bypass authentication, and access sensitive data. If confirmed malicious, it could lead to unauthorized data access, network propagation, and critical information exfiltration.
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/oauth/idp/.well-known/openid-configuration*")  Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `citrix_adc_and_gateway_unauthorized_data_disclosure_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto. We recommend hunting in the environment first to understand the scope of the issue and then deploying this detection to monitor for future exploitation attempts. Limit or restrict to Citrix devices only if possible.
+known_false_positives: False positives may be present based on organization use of Citrix ADC and Gateway. Filter, or restrict the analytic to Citrix devices only.
 references:
 - https://www.assetnote.io/resources/research/citrix-bleed-leaking-session-tokens-with-cve-2023-4966
 - https://github.com/assetnote/exploits/tree/main/citrix/CVE-2023-4966
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
@@ -38,8 +30,7 @@ tags:
   atomic_guid: []
   confidence: 90
   impact: 100
-  message: Possible exploitation of Citrix Bleed vulnerability against $dest$ fron
-    $src$.
+  message: Possible exploitation of Citrix Bleed vulnerability against $dest$ fron $src$.
   mitre_attack_id:
   - T1190
   observable:
@@ -69,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/cve-2023-4966-citrix.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/cve-2023-4966-citrix.log
     source: suricata
     sourcetype: suricata

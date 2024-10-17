@@ -1,44 +1,28 @@
 name: Windows Deleted Registry By A Non Critical Process File Path
 id: 15e70689-f55b-489e-8a80-6d0cd6d8aad2
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-09-30'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the deletion of registry keys by non-critical
-  processes. It leverages Endpoint Detection and Response (EDR) data, focusing on
-  registry deletion events and correlating them with processes not typically associated
-  with system or program files. This activity is significant as it may indicate malware,
-  such as the Double Zero wiper, attempting to evade defenses or cause destructive
-  payload impacts. If confirmed malicious, this behavior could lead to significant
-  system damage, loss of critical configurations, and potential disruption of services.
+description: The following analytic detects the deletion of registry keys by non-critical processes. It leverages Endpoint Detection and Response (EDR) data, focusing on registry deletion events and correlating them with processes not typically associated with system or program files. This activity is significant as it may indicate malware, such as the Double Zero wiper, attempting to evade defenses or cause destructive payload impacts. If confirmed malicious, this behavior could lead to significant system damage, loss of critical configurations, and potential disruption of services.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 12 
+- Sysmon EventID 1 AND Sysmon EventID 12
 - Sysmon EventID 1 AND Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry
-  WHERE Registry.action=deleted BY _time span=1h Registry.dest Registry.registry_path
-  Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data
-  Registry.action | `drop_dm_object_name(Registry)` | join process_guid [| tstats
-  `security_content_summariesonly` count FROM datamodel=Endpoint.Processes WHERE NOT
-  (Processes.process_path IN ("*\\windows\\*", "*\\program files*")) by _time span=1h
-  Processes.process_id Processes.process_name Processes.process Processes.user Processes.parent_process_name
-  Processes.parent_process Processes.process_path Processes.process_guid | `drop_dm_object_name(Processes)`]
-  | fields _time parent_process_name parent_process process_name process_path process
-  process_guid registry_path registry_value_name registry_value_data registry_key_name
-  action dest user | `windows_deleted_registry_by_a_non_critical_process_file_path_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This detection can catch for third party application updates
-  or installation. In this scenario false positive filter is needed.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry WHERE Registry.action=deleted BY _time span=1h Registry.dest Registry.registry_path Registry.registry_value_name Registry.registry_key_name Registry.process_guid Registry.registry_value_data Registry.action | `drop_dm_object_name(Registry)` | join process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes WHERE NOT (Processes.process_path IN ("*\\windows\\*", "*\\program files*")) by _time span=1h Processes.process_id Processes.process_name Processes.process Processes.user Processes.parent_process_name Processes.parent_process Processes.process_path Processes.process_guid | `drop_dm_object_name(Processes)`] | fields _time parent_process_name parent_process process_name process_path process process_guid registry_path registry_value_name registry_value_data registry_key_name action dest user | `windows_deleted_registry_by_a_non_critical_process_file_path_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: This detection can catch for third party application updates or installation. In this scenario false positive filter is needed.
 references:
 - https://blog.talosintelligence.com/2022/03/threat-advisory-doublezero.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Data Destruction
@@ -46,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: The registry was deleted by a suspicious process named $process_name$ with
-    the process path $process_path$ on dest $dest$.
+  message: The registry was deleted by a suspicious process named $process_name$ with the process path $process_path$ on dest $dest$.
   mitre_attack_id:
   - T1112
   observable:
@@ -80,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/doublezero_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

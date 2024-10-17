@@ -1,31 +1,27 @@
 name: PowerShell Enable PowerShell Remoting
 id: 40e3b299-19a5-4460-96e9-e1467f714f8e
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic detects the use of the Enable-PSRemoting cmdlet,
-  which allows PowerShell remoting on a local or remote computer. This detection leverages
-  PowerShell Script Block Logging (EventCode 4104) to identify when this cmdlet is
-  executed. Monitoring this activity is crucial as it can indicate an attacker enabling
-  remote command execution capabilities on a compromised system. If confirmed malicious,
-  this activity could allow an attacker to take control of the system remotely, execute
-  commands, and potentially pivot to other systems within the network, leading to
-  further compromise and lateral movement.
-search: '`powershell` EventCode=4104 ScriptBlockText="*Enable-PSRemoting*" | stats
-  count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `powershell_enable_powershell_remoting_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Note that false positives may occur due to the use of the Enable-PSRemoting
-  cmdlet by legitimate users, such as system administrators. It is recommended to
-  apply appropriate filters as needed to minimize the number of false positives.
+description: The following analytic detects the use of the Enable-PSRemoting cmdlet, which allows PowerShell remoting on a local or remote computer. This detection leverages PowerShell Script Block Logging (EventCode 4104) to identify when this cmdlet is executed. Monitoring this activity is crucial as it can indicate an attacker enabling remote command execution capabilities on a compromised system. If confirmed malicious, this activity could allow an attacker to take control of the system remotely, execute commands, and potentially pivot to other systems within the network, leading to further compromise and lateral movement.
+search: '`powershell` EventCode=4104 ScriptBlockText="*Enable-PSRemoting*" | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `powershell_enable_powershell_remoting_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Note that false positives may occur due to the use of the Enable-PSRemoting cmdlet by legitimate users, such as system administrators. It is recommended to apply appropriate filters as needed to minimize the number of false positives.
 references:
 - https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/enable-psremoting?view=powershell-7.3
+drilldown_searches:
+- name: View the detection results for $Computer$
+  search: '%original_detection_search% | search  Computer = $Computer$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $Computer$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($Computer$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -55,7 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/4104-psremoting-windows-powershell.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/4104-psremoting-windows-powershell.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

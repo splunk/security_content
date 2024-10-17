@@ -1,7 +1,7 @@
 name: Detection of tools built by NirSoft
 id: 3d8d201c-aa03-422d-b0ee-2e5ecf9718c0
-version: 4
-date: '2024-05-20'
+version: 5
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP

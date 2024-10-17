@@ -1,35 +1,31 @@
 name: O365 New Federated Domain Added
 id: e155876a-6048-11eb-ae93-0242ac130002
-version: 4
-date: '2024-05-28'
+version: 5
+date: '2024-09-30'
 author: Rod Soto, Mauricio Velazco Splunk
 status: production
 type: TTP
-description: The following analytic identifies the addition of a new federated domain
-  in an Office 365 environment. This behavior is detected by analyzing Office 365
-  management activity logs, specifically filtering for Workload=Exchange and Operation="Add-FederatedDomain".
-  The addition of a new federated domain is significant as it may indicate unauthorized
-  changes or potential compromises. If confirmed malicious, attackers could establish
-  a backdoor, bypass security measures, or exfiltrate data, leading to data breaches
-  and unauthorized access to sensitive information. Immediate investigation is required
-  to review the details of the added domain and any concurrent suspicious activities.
+description: The following analytic identifies the addition of a new federated domain in an Office 365 environment. This behavior is detected by analyzing Office 365 management activity logs, specifically filtering for Workload=Exchange and Operation="Add-FederatedDomain". The addition of a new federated domain is significant as it may indicate unauthorized changes or potential compromises. If confirmed malicious, attackers could establish a backdoor, bypass security measures, or exfiltrate data, leading to data breaches and unauthorized access to sensitive information. Immediate investigation is required to review the details of the added domain and any concurrent suspicious activities.
 data_source:
 - O365
-search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
-  | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent
-  authentication_service action Workload Operation | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_new_federated_domain_added_filter`'
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity.
-known_false_positives: The creation of a new Federated domain is not necessarily malicious,
-  however these events need to be followed closely, as it may indicate federated credential
-  abuse or backdoor via federated identities at a similar or different cloud provider.
+search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*" | stats count values(ModifiedProperties{}.NewValue) as new_value by  user user_agent authentication_service action Workload Operation | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_new_federated_domain_added_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
+known_false_positives: The creation of a new Federated domain is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a similar or different cloud provider.
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en
 - https://o365blog.com/post/aadbackdoor/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -64,8 +60,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain_added/o365_add_federated_domain.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_new_federated_domain_added/o365_add_federated_domain.log
     sourcetype: o365:management:activity
     source: o365
     update_timestamp: true

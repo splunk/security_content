@@ -1,38 +1,40 @@
 name: O365 ZAP Activity Detection
 id: 4df275fd-a0e5-4246-8b92-d3201edaef7a
-version: 1
-date: '2024-04-01'
+version: 2
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects when the Microsoft Zero-hour Automatic Purge (ZAP) capability takes action against a user's mailbox. This capability is an enhanced protection feature that retro-actively removes email with known malicious content for user inboxes. Since this is a retroactive capability, there is still a window in which the user may fall victim to the malicious content.
-data_source: 
+data_source:
 - O365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="*messages containing malicious*"
-| fromjson Data
-| stats count min(_time) as firstTime max(_time) as lastTime values(zu) as url values(zfn) as file_name values(ms) as subject values(ttr) as result values(tsd) as src_user by AlertId,trc,Operation,Name
-| rename Name as signature, AlertId as signature_id, trc as user
-| eval action = CASE(match(result,"Success"), "blocked", true(),"allowed"), url = split(url,";")
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)`
-| `o365_zap_activity_detection_filter`'
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="*messages containing malicious*" | fromjson Data | stats count min(_time) as firstTime max(_time) as lastTime values(zu) as url values(zfn) as file_name values(ms) as subject values(ttr) as result values(tsd) as src_user by AlertId,trc,Operation,Name | rename Name as signature, AlertId as signature_id, trc as user | eval action = CASE(match(result,"Success"), "blocked", true(),"allowed"), url = split(url,";") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_zap_activity_detection_filter`'
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Some features of Zero-hour purge are only offered within E3/E5 license level tenants, events may not be available otherwise.
 known_false_positives: unknown
 references:
 - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/zero-hour-auto-purge?view=o365-worldwide
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
-  analytic_story: 
+  analytic_story:
   - Spearphishing Attachments
   - Suspicious Emails
   asset_type: O365 Tenant
   confidence: 50
   impact: 20
   message: User $user$ was included in a ZAP protection activity.
-  mitre_attack_id: 
+  mitre_attack_id:
   - T1566
   - T1566.001
   - T1566.002
-  observable: 
+  observable:
   - name: user
     type: User
     role:
@@ -49,12 +51,12 @@ tags:
     type: User
     role:
     - Attacker
-  product: 
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  required_fields: 
-  - _time  
+  required_fields:
+  - _time
   - Workload
   - Operation
   - Name

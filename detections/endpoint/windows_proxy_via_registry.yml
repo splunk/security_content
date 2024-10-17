@@ -1,34 +1,28 @@
 name: Windows Proxy Via Registry
 id: 0270455b-1385-4579-9ac5-e77046c508ae
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic detects the modification of registry keys related
-  to the Windows Proxy settings via netsh.exe. It leverages data from the Endpoint.Registry
-  data model, focusing on changes to the registry path "*\\System\\CurrentControlSet\\Services\\PortProxy\\v4tov4\\tcp*".
-  This activity is significant because netsh.exe can be used to establish a persistent
-  proxy, potentially allowing an attacker to execute a helper DLL whenever netsh.exe
-  runs. If confirmed malicious, this could enable the attacker to maintain persistence,
-  manipulate network configurations, and potentially exfiltrate data or further compromise
-  the system.
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
-  ="*\\System\\CurrentControlSet\\Services\\PortProxy\\v4tov4\\tcp*" by Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_name Registry.action Registry.dest  Registry.user
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
-  | `windows_proxy_via_registry_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+description: The following analytic detects the modification of registry keys related to the Windows Proxy settings via netsh.exe. It leverages data from the Endpoint.Registry data model, focusing on changes to the registry path "*\\System\\CurrentControlSet\\Services\\PortProxy\\v4tov4\\tcp*". This activity is significant because netsh.exe can be used to establish a persistent proxy, potentially allowing an attacker to execute a helper DLL whenever netsh.exe runs. If confirmed malicious, this could enable the attacker to maintain persistence, manipulate network configurations, and potentially exfiltrate data or further compromise the system.
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path ="*\\System\\CurrentControlSet\\Services\\PortProxy\\v4tov4\\tcp*" by Registry.registry_path Registry.registry_key_name Registry.registry_value_name Registry.action Registry.dest  Registry.user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `windows_proxy_via_registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the offical Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: unknown
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Volt Typhoon
@@ -64,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1090.001/netsh_portproxy/volt_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
