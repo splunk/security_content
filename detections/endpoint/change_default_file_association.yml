@@ -1,36 +1,28 @@
 name: Change Default File Association
 id: 462d17d8-1f71-11ec-ad07-acde48001122
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious registry modifications that
-  change the default file association to execute a malicious payload. It leverages
-  data from the Endpoint data model, specifically monitoring registry paths under
-  "*\\shell\\open\\command\\*" and "*HKCR\\*". This activity is significant because
-  altering default file associations can allow attackers to execute arbitrary scripts
-  or payloads when a user opens a file, leading to potential code execution. If confirmed
-  malicious, this technique can enable attackers to persist on the compromised host
-  and execute further malicious commands, posing a severe threat to the environment.
+description: The following analytic detects suspicious registry modifications that change the default file association to execute a malicious payload. It leverages data from the Endpoint data model, specifically monitoring registry paths under "*\\shell\\open\\command\\*" and "*HKCR\\*". This activity is significant because altering default file associations can allow attackers to execute arbitrary scripts or payloads when a user opens a file, leading to potential code execution. If confirmed malicious, this technique can enable attackers to persist on the compromised host and execute further malicious commands, posing a severe threat to the environment.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
-  ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user
-  Registry.registry_path Registry.registry_key_name Registry.registry_value_name |
-  `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
-  | `change_default_file_association_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path ="*\\shell\\open\\command\\*" Registry.registry_path = "*HKCR\\*" by Registry.dest  Registry.user Registry.registry_path Registry.registry_key_name Registry.registry_value_name | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `change_default_file_association_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
 known_false_positives: unknown
 references:
 - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/accessibility-features
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Hermetic Wiper
@@ -71,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.001/txtfile_reg/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

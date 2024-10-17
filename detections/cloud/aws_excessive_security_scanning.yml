@@ -1,37 +1,34 @@
 name: AWS Excessive Security Scanning
 id: 1fdd164a-def8-4762-83a9-9ffe24e74d5a
-version: 2
-date: '2024-05-08'
+version: 3
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic identifies excessive security scanning activities
-  in AWS by detecting a high number of Describe, List, or Get API calls from a single
-  user. It leverages AWS CloudTrail logs to count distinct event names and flags users
-  with more than 50 such events. This behavior is significant as it may indicate reconnaissance
-  activities by an attacker attempting to map out your AWS environment. If confirmed
-  malicious, this could lead to unauthorized access, data exfiltration, or further
-  exploitation of your cloud infrastructure.
+description: The following analytic identifies excessive security scanning activities in AWS by detecting a high number of Describe, List, or Get API calls from a single user. It leverages AWS CloudTrail logs to count distinct event names and flags users with more than 50 such events. This behavior is significant as it may indicate reconnaissance activities by an attacker attempting to map out your AWS environment. If confirmed malicious, this could lead to unauthorized access, data exfiltration, or further exploitation of your cloud infrastructure.
 data_source:
 - AWS CloudTrail
-search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  |
-  stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime
-  values(eventName) as command values(src) as src values(userAgent) as userAgent by
-  user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`|`aws_excessive_security_scanning_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
+search: '`cloudtrail` eventName=Describe* OR eventName=List* OR eventName=Get*  | stats dc(eventName) as dc_events min(_time) as firstTime max(_time) as lastTime values(eventName) as command values(src) as src values(userAgent) as userAgent by user userIdentity.arn | where dc_events > 50 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|`aws_excessive_security_scanning_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
 known_false_positives: While this search has no known false positives.
 references:
 - https://github.com/aquasecurity/cloudsploit
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS User Monitoring
   asset_type: AWS Account
   confidence: 60
   impact: 30
-  message: User $user$ has excessive number of api calls $dc_events$ from these IP
-    addresses $src$, violating the threshold of 50, using the following commands $command$.
+  message: User $user$ has excessive number of api calls $dc_events$ from these IP addresses $src$, violating the threshold of 50, using the following commands $command$.
   mitre_attack_id:
   - T1526
   observable:
@@ -59,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1526/aws_security_scanner/aws_security_scanner.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -1,33 +1,28 @@
 name: Linux Doas Conf File Creation
 id: f6343e86-6e09-11ec-9376-acde48001122
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of the doas.conf file on
-  a Linux host. This file is used by the doas utility to allow standard users to perform
-  tasks as root, similar to sudo. The detection leverages filesystem data from the
-  Endpoint data model, focusing on the creation of the doas.conf file. This activity
-  is significant because it can indicate an attempt to gain elevated privileges, potentially
-  by an adversary. If confirmed malicious, this could allow an attacker to execute
-  commands with root privileges, leading to full system compromise.
+description: The following analytic detects the creation of the doas.conf file on a Linux host. This file is used by the doas utility to allow standard users to perform tasks as root, similar to sudo. The detection leverages filesystem data from the Endpoint data model, focusing on the creation of the doas.conf file. This activity is significant because it can indicate an attempt to gain elevated privileges, potentially by an adversary. If confirmed malicious, this could allow an attacker to execute commands with root privileges, leading to full system compromise.
 data_source:
 - Sysmon for Linux EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/doas.conf")
-  by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
-  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `linux_doas_conf_file_creation_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from
-  Splunkbase.
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/doas.conf") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_doas_conf_file_creation_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://wiki.gentoo.org/wiki/Doas
 - https://www.makeuseof.com/how-to-install-and-use-doas/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Linux Privilege Escalation
@@ -60,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/doas/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux

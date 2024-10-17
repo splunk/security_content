@@ -1,43 +1,31 @@
 name: Detect Rundll32 Inline HTA Execution
 id: 91c79f14-5b41-11eb-ae93-0242ac130002
-version: 3
-date: '2024-05-22'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of "rundll32.exe" with inline
-  protocol handlers such as "JavaScript", "VBScript", and "About". This behavior is
-  identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line
-  arguments. This activity is significant as it is often associated with fileless
-  malware or application whitelisting bypass techniques. If confirmed malicious, this
-  could allow an attacker to execute arbitrary code, bypass security controls, and
-  maintain persistence within the environment.
+description: The following analytic detects the execution of "rundll32.exe" with inline protocol handlers such as "JavaScript", "VBScript", and "About". This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on command-line arguments. This activity is significant as it is often associated with fileless malware or application whitelisting bypass techniques. If confirmed malicious, this could allow an attacker to execute arbitrary code, bypass security controls, and maintain persistence within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process)
-  as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32`
-  (Processes.process=*vbscript* OR Processes.process=*javascript* OR Processes.process=*about*)
-  by Processes.user Processes.process_name Processes.parent_process_name Processes.original_file_name
-  Processes.dest  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)` | `detect_rundll32_inline_hta_execution_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Although unlikely, some legitimate applications may exhibit
-  this behavior, triggering a false positive.
+search: '| tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_rundll32` (Processes.process=*vbscript* OR Processes.process=*javascript* OR Processes.process=*about*) by Processes.user Processes.process_name Processes.parent_process_name Processes.original_file_name Processes.dest  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_rundll32_inline_hta_execution_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Although unlikely, some legitimate applications may exhibit this behavior, triggering a false positive.
 references:
 - https://github.com/redcanaryco/AtomicTestHarnesses
 - https://redcanary.com/blog/introducing-atomictestharnesses/
 - https://docs.microsoft.com/en-us/windows/win32/search/-search-3x-wds-extidx-prot-implementing
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious MSHTA Activity
@@ -77,7 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

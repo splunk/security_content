@@ -1,35 +1,30 @@
 name: O365 Added Service Principal
 id: 1668812a-6047-11eb-ae93-0242ac130002
-version: 4
-date: '2024-05-27'
+version: 5
+date: '2024-09-30'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of new service principal
-  accounts in O365 tenants. It leverages data from the `o365_management_activity`
-  dataset, specifically monitoring for operations related to adding or creating service
-  principals. This activity is significant because attackers can exploit service principals
-  to gain unauthorized access and perform malicious actions within an organization's
-  environment. If confirmed malicious, this could allow attackers to interact with
-  APIs, access resources, and execute operations on behalf of the organization, potentially
-  leading to data breaches or further compromise.
+description: The following analytic detects the addition of new service principal accounts in O365 tenants. It leverages data from the `o365_management_activity` dataset, specifically monitoring for operations related to adding or creating service principals. This activity is significant because attackers can exploit service principals to gain unauthorized access and perform malicious actions within an organization's environment. If confirmed malicious, this could allow attackers to interact with APIs, access resources, and execute operations on behalf of the organization, potentially leading to data breaches or further compromise.
 data_source:
 - O365
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add
-  service principal*" OR (Operation = "*principal*" AND action = "created") | stats
-  count values(ModifiedProperties{}.NewValue) as new_value by src_user src_user_type
-  action Operation authentication_service Workload | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`'
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-known_false_positives: The creation of a new Federation is not necessarily malicious,
-  however these events need to be followed closely, as it may indicate federated credential
-  abuse or backdoor via federated identities at a different cloud provider.
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created") | stats count values(ModifiedProperties{}.NewValue) as new_value by src_user src_user_type action Operation authentication_service Workload | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_added_service_principal_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+known_false_positives: The creation of a new Federation is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 references:
 - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
 - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
 - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
 - https://blog.sygnia.co/detection-and-hunting-of-golden-saml-attack?hsLang=en
+drilldown_searches:
+- name: View the detection results for $src_user$
+  search: '%original_detection_search% | search  src_user = $src_user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -65,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/o365_added_service_principal/o365_add_service_principal.log
     sourcetype: o365:management:activity
     source: o365

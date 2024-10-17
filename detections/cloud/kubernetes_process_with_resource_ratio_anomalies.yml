@@ -1,7 +1,7 @@
 name: Kubernetes Process with Resource Ratio Anomalies
 id: 0d42b295-0f1f-4183-b75e-377975f47c65
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-10-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

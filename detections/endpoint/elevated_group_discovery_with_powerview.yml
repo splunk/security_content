@@ -1,7 +1,7 @@
 name: Elevated Group Discovery with PowerView
 id: 10d62950-0de5-4199-a710-cff9ea79b413
-version: 3
-date: '2024-06-10'
+version: 4
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

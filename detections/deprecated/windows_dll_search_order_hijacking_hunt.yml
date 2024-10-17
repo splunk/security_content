@@ -1,7 +1,7 @@
 name: Windows DLL Search Order Hijacking Hunt
 id: 79c7d0fc-60c7-41be-a616-ccda752efe89
-version: 3
-date: '2023-11-07'
+version: 4
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: deprecated
 type: Hunting

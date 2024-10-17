@@ -1,7 +1,7 @@
 name: Cloud Network Access Control List Deleted
 id: 021abc51-1862-41dd-ad43-43c739c0a983
-version: 2
-date: '2024-08-15'
+version: 3
+date: '2024-10-17'
 author: Peter Gael, Splunk
 status: deprecated
 type: Anomaly

@@ -1,45 +1,30 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 3
-date: '2024-09-24'
+version: 4
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the creation of executables or scripts
-  in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem
-  data model to detect files with specific extensions (e.g., .exe, .dll, .ps1) created
-  in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity is
-  significant as adversaries often use these paths to evade detection and maintain
-  persistence. If confirmed malicious, this behavior could allow attackers to execute
-  unauthorized code, escalate privileges, or persist within the environment, posing
-  a significant security threat.
+description: The following analytic identifies the creation of executables or scripts in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem data model to detect files with specific extensions (e.g., .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity is significant as adversaries often use these paths to evade detection and maintain persistence. If confirmed malicious, this behavior could allow attackers to execute unauthorized code, escalate privileges, or persist within the environment, posing a significant security threat.
 data_source:
 - Sysmon EventID 11
-search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as
-  file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name
-  = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name
-  = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name
-  = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path
-  = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path
-  = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path
-  = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\*
-  OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin*
-  OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\*
-  OR Filesystem.file_path = *\\AppData\\Local\\Temp* OR Filesystem.file_path = *\\PerfLogs\\*)
-  by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user
-  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `executables_or_script_creation_in_suspicious_path_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in the paths
-  specified. Filter as needed.
+search: '|tstats `security_content_summariesonly` values(Filesystem.file_path) as file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name = *.exe OR Filesystem.file_name = *.dll OR Filesystem.file_name = *.sys OR Filesystem.file_name = *.com OR Filesystem.file_name = *.vbs OR Filesystem.file_name = *.vbe OR Filesystem.file_name = *.js OR Filesystem.file_name = *.ps1 OR Filesystem.file_name = *.bat OR Filesystem.file_name = *.cmd OR Filesystem.file_name = *.pif) AND ( Filesystem.file_path = *\\windows\\fonts\\* OR Filesystem.file_path = *\\windows\\temp\\* OR Filesystem.file_path = *\\users\\public\\* OR Filesystem.file_path = *\\windows\\debug\\* OR Filesystem.file_path = *\\Users\\Administrator\\Music\\* OR Filesystem.file_path = *\\Windows\\servicing\\* OR Filesystem.file_path = *\\Users\\Default\\* OR Filesystem.file_path = *Recycle.bin* OR Filesystem.file_path = *\\Windows\\Media\\* OR Filesystem.file_path = *\\Windows\\repair\\* OR Filesystem.file_path = *\\AppData\\Local\\Temp* OR Filesystem.file_path = *\\PerfLogs\\*) by Filesystem.file_create_time Filesystem.process_id  Filesystem.file_name Filesystem.user | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `executables_or_script_creation_in_suspicious_path_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
+known_false_positives: Administrators may allow creation of script or exe in the paths specified. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 - https://twitter.com/pr0xylife/status/1590394227758104576
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Double Zero Destructor
@@ -79,8 +64,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 40
-  message: Suspicious executable or scripts with file name $file_name$, $file_path$
-    and process_id $process_id$ executed in suspicious file path in Windows by $user$
+  message: Suspicious executable or scripts with file name $file_name$, $file_path$ and process_id $process_id$ executed in suspicious file path in Windows by $user$
   mitre_attack_id:
   - T1036
   observable:

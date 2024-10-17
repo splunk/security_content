@@ -1,44 +1,31 @@
 name: Azure AD Privileged Graph API Permission Assigned
 id: 5521f8c5-1aa3-473c-9eb7-853701924a06
-version: 2
-date: '2024-05-11'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Azure Active Directory Update application
-description: The following analytic detects the assignment of high-risk Graph API
-  permissions in Azure AD, specifically Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All,
-  and RoleManagement.ReadWrite.Directory. It uses azure_monitor_aad data to scan AuditLogs
-  for 'Update application' operations, identifying when these permissions are assigned.
-  This activity is significant as it grants broad control over Azure AD, including
-  application and directory settings. If confirmed malicious, it could lead to unauthorized
-  modifications and potential security breaches, compromising the integrity and security
-  of the Azure AD environment. Immediate investigation is required.
-search: >-
-  `azure_monitor_aad` category=AuditLogs operationName="Update application"  | eval
-  newvalue = mvindex('properties.targetResources{}.modifiedProperties{}.newValue',0)
-  | spath input=newvalue  | search "{}.RequiredAppPermissions{}.EntitlementId"="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9"
-  OR "{}.RequiredAppPermissions{}.EntitlementId"="06b708a9-e830-4db3-a914-8e69da51d44f"
-  OR "{}.RequiredAppPermissions{}.EntitlementId"="9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8"  |
-  eval Permissions = '{}.RequiredAppPermissions{}.EntitlementId'
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions)
-  by user, object, user_agent, operationName
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`   | `azure_ad_privileged_graph_api_permission_assigned_filter`
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
-  the AuditLog log category.
-known_false_positives: Privileged Graph API permissions may be assigned for legitimate
-  purposes. Filter as needed.
+description: The following analytic detects the assignment of high-risk Graph API permissions in Azure AD, specifically Application.ReadWrite.All, AppRoleAssignment.ReadWrite.All, and RoleManagement.ReadWrite.Directory. It uses azure_monitor_aad data to scan AuditLogs for 'Update application' operations, identifying when these permissions are assigned. This activity is significant as it grants broad control over Azure AD, including application and directory settings. If confirmed malicious, it could lead to unauthorized modifications and potential security breaches, compromising the integrity and security of the Azure AD environment. Immediate investigation is required.
+search: '`azure_monitor_aad` category=AuditLogs operationName="Update application"  | eval newvalue = mvindex(''properties.targetResources{}.modifiedProperties{}.newValue'',0) | spath input=newvalue  | search "{}.RequiredAppPermissions{}.EntitlementId"="1bfefb4e-e0b5-418b-a88f-73c46d2cc8e9" OR "{}.RequiredAppPermissions{}.EntitlementId"="06b708a9-e830-4db3-a914-8e69da51d44f" OR "{}.RequiredAppPermissions{}.EntitlementId"="9e3f62cf-ca93-4989-b6ce-bf83c28f9fe8"  | eval Permissions = ''{}.RequiredAppPermissions{}.EntitlementId'' | stats count earliest(_time) as firstTime latest(_time) as lastTime values(Permissions) by user, object, user_agent, operationName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`   | `azure_ad_privileged_graph_api_permission_assigned_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
+known_false_positives: Privileged Graph API permissions may be assigned for legitimate purposes. Filter as needed.
 references:
 - https://cloudbrothers.info/en/azure-attack-paths/
 - https://github.com/mandiant/Mandiant-Azure-AD-Investigator/blob/master/MandiantAzureADInvestigator.json
 - https://learn.microsoft.com/en-us/graph/permissions-reference
 - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
 - https://posts.specterops.io/azure-privilege-escalation-via-azure-api-permissions-abuse-74aee1006f48
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azure Active Directory Persistence
@@ -71,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_graph_perm_assigned/azure_ad_privileged_graph_perm_assigned.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_privileged_graph_perm_assigned/azure_ad_privileged_graph_perm_assigned.log
     source: Azure AD
     sourcetype: azure:monitor:aad
     update_timestamp: true

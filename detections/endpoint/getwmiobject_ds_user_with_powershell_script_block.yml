@@ -1,40 +1,35 @@
 name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
-version: 4
-date: '2024-05-11'
+version: 5
+date: '2024-09-30'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the `Get-WmiObject` cmdlet
-  with the `DS_User` class parameter via PowerShell Script Block Logging (EventCode=4104).
-  It leverages logs to identify attempts to query all domain users using WMI. This
-  activity is significant as it may indicate an adversary or Red Team operation attempting
-  to enumerate domain users for situational awareness and Active Directory discovery.
-  If confirmed malicious, this behavior could lead to further reconnaissance, enabling
-  attackers to map out the network and identify potential targets for privilege escalation
-  or lateral movement.
+description: The following analytic detects the execution of the `Get-WmiObject` cmdlet with the `DS_User` class parameter via PowerShell Script Block Logging (EventCode=4104). It leverages logs to identify attempts to query all domain users using WMI. This activity is significant as it may indicate an adversary or Red Team operation attempting to enumerate domain users for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to further reconnaissance, enabling attackers to map out the network and identify potential targets for privilege escalation or lateral movement.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText
-  = "*ds_user*" ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer
-  UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user|
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs
-  to be imported. Modify the powershell macro as needed to match the sourcetype or
-  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*get-wmiobject*" ScriptBlockText = "*ds_user*" ScriptBlockText = "*-namespace*" ScriptBlockText = "*root\\directory\\ldap*" | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | rename Computer as dest | rename UserID as user| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getwmiobject_ds_user_with_powershell_script_block_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command for troubleshooting.
 references:
 - https://www.blackhillsinfosec.com/red-blue-purple/
 - https://docs.microsoft.com/en-us/windows/win32/wmisdk/describing-the-ldap-namespace
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: powershell process having commandline for user enumeration detected on
-    host - $dest$
+  message: powershell process having commandline for user enumeration detected on host - $dest$
   mitre_attack_id:
   - T1087.002
   - T1087
@@ -63,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: Windows RDP Connection Successful
 id: ceaed840-56b3-4a70-b8e1-d762b1c5c08c
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

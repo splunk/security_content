@@ -1,7 +1,7 @@
 name: DNS Query Length Outliers - MLTK
 id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
-version: 3
-date: '2024-05-22'
+version: 4
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly

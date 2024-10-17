@@ -1,7 +1,7 @@
 name: Prohibited Software On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-b6ae50145893
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: David Dorsey, Splunk
 status: deprecated
 type: Hunting

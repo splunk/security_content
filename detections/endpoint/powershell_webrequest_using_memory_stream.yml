@@ -1,34 +1,29 @@
 name: PowerShell WebRequest Using Memory Stream
 id: 103affa6-924a-4b53-aff4-1d5075342aab
-version: 2
-date: '2024-05-12'
+version: 3
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects the use of .NET classes in PowerShell
-  to download a URL payload directly into memory, a common fileless malware staging
-  technique. It leverages PowerShell Script Block Logging (EventCode=4104) to identify
-  suspicious PowerShell commands involving `system.net.webclient`, `system.net.webrequest`,
-  and `IO.MemoryStream`. This activity is significant as it indicates potential fileless
-  malware execution, which is harder to detect and can bypass traditional file-based
-  defenses. If confirmed malicious, this technique could allow attackers to execute
-  code in memory, evade detection, and maintain persistence in the environment.
+description: The following analytic detects the use of .NET classes in PowerShell to download a URL payload directly into memory, a common fileless malware staging technique. It leverages PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell commands involving `system.net.webclient`, `system.net.webrequest`, and `IO.MemoryStream`. This activity is significant as it indicates potential fileless malware execution, which is harder to detect and can bypass traditional file-based defenses. If confirmed malicious, this technique could allow attackers to execute code in memory, evade detection, and maintain persistence in the environment.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*")
-  AND ScriptBlockText="*IO.MemoryStream*" | eval Path = case(isnotnull(Path),Path,true(),"unknown")
-  | stats count min(_time) as firstTime max(_time) as lastTime list(ScriptBlockText)
-  as command values(Path) as file_name values(UserID) as user by ActivityID, Computer,
-  EventCode | rename Computer as dest, EventCode as signature_id | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `powershell_webrequest_using_memory_stream_filter`'
-how_to_implement: The following analytic requires PowerShell operational logs to be
-  imported. Modify the powershell macro as needed to match the sourcetype or add index.
-  This analytic is specific to 4104, or PowerShell Script Block Logging.
+search: '`powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*") AND ScriptBlockText="*IO.MemoryStream*" | eval Path = case(isnotnull(Path),Path,true(),"unknown") | stats count min(_time) as firstTime max(_time) as lastTime list(ScriptBlockText) as command values(Path) as file_name values(UserID) as user by ActivityID, Computer, EventCode | rename Computer as dest, EventCode as signature_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_webrequest_using_memory_stream_filter`'
+how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Unknown, possible custom scripting.
 references:
 - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
 - https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/
 - https://attack.mitre.org/techniques/T1059/001/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Malicious PowerShell
@@ -36,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 100
-  message: Powershell webrequest to memory stream behavior. Possible fileless malware
-    staging on $dest$ by $user$.
+  message: Powershell webrequest to memory stream behavior. Possible fileless malware staging on $dest$ by $user$.
   mitre_attack_id:
   - T1059.001
   - T1105
@@ -70,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/gootloader/partial_ttps/windows-powershell-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/gootloader/partial_ttps/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

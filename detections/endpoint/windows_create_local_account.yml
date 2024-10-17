@@ -1,32 +1,26 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 3
-date: '2024-05-19'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of a new local user account
-  on a Windows system. It leverages Windows Security Audit logs, specifically event
-  ID 4720, to identify this activity. Monitoring the creation of local accounts is
-  crucial for a SOC as it can indicate unauthorized access or lateral movement within
-  the network. If confirmed malicious, this activity could allow an attacker to establish
-  persistence, escalate privileges, or gain unauthorized access to sensitive systems
-  and data.
+description: The following analytic detects the creation of a new local user account on a Windows system. It leverages Windows Security Audit logs, specifically event ID 4720, to identify this activity. Monitoring the creation of local accounts is crucial for a SOC as it can indicate unauthorized access or lateral movement within the network. If confirmed malicious, this activity could allow an attacker to establish persistence, escalate privileges, or gain unauthorized access to sensitive systems and data.
 data_source: []
-search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as
-  result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change
-  where All_Changes.result_id=4720 by All_Changes.user All_Changes.dest All_Changes.result
-  All_Changes.action | `drop_dm_object_name("All_Changes")` | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)` | `windows_create_local_account_filter`'
-how_to_implement: 'This search requires you to have enabled your Group Management
-  Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More
-  information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
-known_false_positives: It is possible that an administrator created the account. Verifying
-  activity with an administrator is advised. This analytic is set to anomaly to allow
-  for risk to be added. Filter and tune as needed. Restrict to critical infrastructure
-  to reduce any volume.
+search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 by All_Changes.user All_Changes.dest All_Changes.result All_Changes.action | `drop_dm_object_name("All_Changes")` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_create_local_account_filter`'
+how_to_implement: 'This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/'
+known_false_positives: It is possible that an administrator created the account. Verifying activity with an administrator is advised. This analytic is set to anomaly to allow for risk to be added. Filter and tune as needed. Restrict to critical infrastructure to reduce any volume.
 references:
 - https://thedfirreport.com/2022/03/21/apt35-automates-initial-access-using-proxyshell/
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Password Spraying
@@ -61,8 +55,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/4720.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

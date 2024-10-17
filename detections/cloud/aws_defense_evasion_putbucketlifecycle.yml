@@ -1,7 +1,7 @@
 name: AWS Defense Evasion PutBucketLifecycle
 id: ce1c0e2b-9303-4903-818b-0d9002fc6ea4
-version: 2
-date: '2024-05-28'
+version: 3
+date: '2024-10-17'
 author: Bhavin Patel
 status: production
 type: Hunting

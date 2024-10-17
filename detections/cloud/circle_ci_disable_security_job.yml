@@ -1,32 +1,33 @@
 name: Circle CI Disable Security Job
 id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-30'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: |-
-  The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
+description: The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
 data_source:
 - CircleCI
-search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message
-  vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id
-  workflow_name user commit_message url branch | lookup mandatory_job_for_workflow
-  workflow_name OUTPUTNEW job_name AS mandatory_job | search mandatory_job=* | eval
-  mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) | where
-  mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$"
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
+search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id workflow_name user commit_message url branch | lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job | search mandatory_job=* | eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) | where mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
 how_to_implement: You must index CircleCI logs.
 known_false_positives: unknown
 references: []
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Dev Sec Ops
   asset_type: CircleCI
   confidence: 90
   impact: 80
-  message: Disable security job $mandatory_job$ in workflow $workflow_name$ from user
-    $user$
+  message: Disable security job $mandatory_job$ in workflow $workflow_name$ from user $user$
   mitre_attack_id:
   - T1554
   observable:
@@ -45,7 +46,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1554/circle_ci_disable_security_job/circle_ci_disable_security_job.json
     sourcetype: circleci
     source: circleci

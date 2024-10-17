@@ -1,30 +1,27 @@
 name: Windows Steal Authentication Certificates Certificate Request
 id: 747d7800-2eaa-422d-b994-04d8bb9e06d0
-version: 2
-date: '2024-05-24'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when a new certificate is requested from
-  Certificate Services - AD CS. It leverages Event ID 4886, which indicates that a
-  certificate request has been received. This activity is significant because unauthorized
-  certificate requests can be part of credential theft or lateral movement tactics.
-  If confirmed malicious, an attacker could use the certificate to impersonate users,
-  gain unauthorized access to resources, or establish persistent access within the
-  environment. Monitoring and correlating this event with other suspicious activities
-  is crucial for identifying potential security incidents.
+description: The following analytic detects when a new certificate is requested from Certificate Services - AD CS. It leverages Event ID 4886, which indicates that a certificate request has been received. This activity is significant because unauthorized certificate requests can be part of credential theft or lateral movement tactics. If confirmed malicious, an attacker could use the certificate to impersonate users, gain unauthorized access to resources, or establish persistent access within the environment. Monitoring and correlating this event with other suspicious activities is crucial for identifying potential security incidents.
 data_source:
 - Windows Event Log Security 4886
-search: '`wineventlog_security` EventCode=4886 | stats count min(_time) as firstTime
-  max(_time) as lastTime by dest, name, Requester, action, Attributes | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_steal_authentication_certificates_certificate_request_filter`'
-how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled
-  on AD CS and within Group Policy Management for CS server. See Page 115 of first
-  reference.
-known_false_positives: False positives will be generated based on normal certificate
-  requests. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
+search: '`wineventlog_security` EventCode=4886 | stats count min(_time) as firstTime max(_time) as lastTime by dest, name, Requester, action, Attributes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_steal_authentication_certificates_certificate_request_filter`'
+how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference.
+known_false_positives: False positives will be generated based on normal certificate requests. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
 references:
 - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Certificate Services
@@ -55,8 +52,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4886_windows-security.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4886_windows-security.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
     update_timestamp: true

@@ -1,43 +1,30 @@
 name: Detect Exchange Web Shell
 id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
-version: 6
-date: '2024-05-21'
+version: 7
+date: '2024-09-30'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the creation of suspicious .aspx files
-  in known drop locations for Exchange exploitation, specifically targeting paths
-  associated with HAFNIUM group and vulnerabilities like ProxyShell and ProxyNotShell.
-  It leverages data from the Endpoint datamodel, focusing on process and filesystem
-  events. This activity is significant as it may indicate a web shell deployment,
-  a common method for persistent access and remote code execution. If confirmed malicious,
-  attackers could gain unauthorized access, execute arbitrary commands, and potentially
-  escalate privileges within the Exchange environment.'
+description: The following analytic identifies the creation of suspicious .aspx files in known drop locations for Exchange exploitation, specifically targeting paths associated with HAFNIUM group and vulnerabilities like ProxyShell and ProxyNotShell. It leverages data from the Endpoint datamodel, focusing on process and filesystem events. This activity is significant as it may indicate a web shell deployment, a common method for persistent access and remote code execution. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary commands, and potentially escalate privileges within the Exchange environment.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name
-  Processes.dest Processes.user | `drop_dm_object_name(Processes)` | join process_guid,
-  _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*",
-  "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name
-  IN( "*.aspx", "*.ashx") by _time span=1h Filesystem.user Filesystem.dest Filesystem.file_create_time
-  Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` |
-  fields _time dest user file_create_time file_name file_path process_name process_path
-  process] | dedup file_create_time | table dest user file_create_time, file_name,
-  file_path, process_name | `detect_exchange_web_shell_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
-  node.
-known_false_positives: The query is structured in a way that `action` (read, create)
-  is not defined. Review the results of this query, filter, and tune as necessary.
-  It may be necessary to generate this query specific to your endpoint product.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=System  by _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.user | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*", "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name IN( "*.aspx", "*.ashx") by _time span=1h Filesystem.user Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest user file_create_time file_name file_path process_name process_path process] | dedup file_create_time | table dest user file_create_time, file_name, file_path, process_name | `detect_exchange_web_shell_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
+known_false_positives: The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 references:
 - https://raw.githubusercontent.com/Azure/Azure-Sentinel/master/Sample%20Data/Feeds/MSTICIoCs-ExchangeServerVulnerabilitiesDisclosedMarch2021.csv
 - https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
 - https://www.youtube.com/watch?v=FC6iHw258RI
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ProxyNotShell
@@ -48,9 +35,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: A file - $file_name$ was written to disk that is related to IIS exploitation
-    previously performed by HAFNIUM. Review further file modifications on endpoint
-    $dest$ by user $user$.
+  message: A file - $file_name$ was written to disk that is related to IIS exploitation previously performed by HAFNIUM. Review further file modifications on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1505
   - T1505.003
@@ -85,7 +70,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon_proxylogon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -1,7 +1,7 @@
 name: Local Account Discovery With Wmic
 id: 4902d7aa-0134-11ec-9d65-acde48001122
-version: 3
-date: '2024-05-25'
+version: 4
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

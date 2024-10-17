@@ -1,47 +1,27 @@
 name: Windows Common Abused Cmd Shell Risk Behavior
 id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
-version: 2
-date: '2024-05-18'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
 data_source: []
-description: The following analytic identifies instances where four or more distinct
-  detection analytics are associated with malicious command line behavior on a specific
-  host. This detection leverages the Command Line Interface (CLI) data from various
-  sources to identify suspicious activities. This behavior is significant as it often
-  indicates attempts to execute malicious commands, access sensitive data, install
-  backdoors, or perform other nefarious actions. If confirmed malicious, attackers
-  could gain unauthorized control, exfiltrate information, escalate privileges, or
-  launch further attacks within the network, leading to severe compromise.
-search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
-  as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
-  as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
-  annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id)
-  as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id)
-  as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id)
-  as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source,
-  dc(source) as source_count from datamodel=Risk.All_Risk where source IN ("*Cmdline
-  Tool Not Executed In CMD Shell*", "*Windows System Network Config Discovery Display
-  DNS*", "*Local Account Discovery With Wmic*", "*Net Localgroup Discovery*", "*Create
-  local admin accounts using net exe*", "*Local Account Discovery with Net*", "*Icacls
-  Deny Command*", "*ICACLS Grant Command*", "*Windows Proxy Via Netsh*", "*Processes
-  launching netsh*", "*Disabling Firewall with Netsh*", "*Windows System Network Connections
-  Discovery Netsh*", "*Network Connection Discovery With Arp*", "*Windows System Discovery
-  Using ldap Nslookup*", "*Windows System Shutdown CommandLine*") by All_Risk.risk_object
-  All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic | `drop_dm_object_name(All_Risk)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where
-  source_count >= 4 | `windows_common_abused_cmd_shell_risk_behavior_filter`'
-how_to_implement: Splunk Enterprise Security is required to utilize this correlation.
-  In addition, modify the source_count value to your environment. In our testing,
-  a count of 4 or 5 was decent in a lab, but the number may need to be increased base
-  on internal testing. In addition, based on false positives, modify any analytics
-  to be anomaly and lower or increase risk based on organization importance.
-known_false_positives: False positives will be present based on many factors. Tune
-  the correlation as needed to reduce too many triggers.
+description: The following analytic identifies instances where four or more distinct detection analytics are associated with malicious command line behavior on a specific host. This detection leverages the Command Line Interface (CLI) data from various sources to identify suspicious activities. This behavior is significant as it often indicates attempts to execute malicious commands, access sensitive data, install backdoors, or perform other nefarious actions. If confirmed malicious, attackers could gain unauthorized control, exfiltrate information, escalate privileges, or launch further attacks within the network, leading to severe compromise.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score) as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source, dc(source) as source_count from datamodel=Risk.All_Risk where source IN ("*Cmdline Tool Not Executed In CMD Shell*", "*Windows System Network Config Discovery Display DNS*", "*Local Account Discovery With Wmic*", "*Net Localgroup Discovery*", "*Create local admin accounts using net exe*", "*Local Account Discovery with Net*", "*Icacls Deny Command*", "*ICACLS Grant Command*", "*Windows Proxy Via Netsh*", "*Processes launching netsh*", "*Disabling Firewall with Netsh*", "*Windows System Network Connections Discovery Netsh*", "*Network Connection Discovery With Arp*", "*Windows System Discovery Using ldap Nslookup*", "*Windows System Shutdown CommandLine*") by All_Risk.risk_object All_Risk.risk_object_type All_Risk.annotations.mitre_attack.mitre_tactic | `drop_dm_object_name(All_Risk)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where source_count >= 4 | `windows_common_abused_cmd_shell_risk_behavior_filter`'
+how_to_implement: Splunk Enterprise Security is required to utilize this correlation. In addition, modify the source_count value to your environment. In our testing, a count of 4 or 5 was decent in a lab, but the number may need to be increased base on internal testing. In addition, based on false positives, modify any analytics to be anomaly and lower or increase risk based on organization importance.
+known_false_positives: False positives will be present based on many factors. Tune the correlation as needed to reduce too many triggers.
 references:
 - https://www.splunk.com/en_us/blog/security/from-macros-to-no-macros-continuous-malware-improvements-by-qakbot.html
 - https://www.splunk.com/en_us/blog/security/dark-crystal-rat-agent-deep-dive.html
+drilldown_searches:
+- name: View the detection results for $risk_object$
+  search: '%original_detection_search% | search  risk_object = $risk_object$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $risk_object$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($risk_object$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Azorult
@@ -58,8 +38,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: series of process commandline being abused by threat actor have been identified
-    on $risk_object$
+  message: series of process commandline being abused by threat actor have been identified on $risk_object$
   mitre_attack_id:
   - T1222
   - T1049
@@ -88,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/risk_behavior/abused_commandline/risk_recon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/risk_behavior/abused_commandline/risk_recon.log
     source: risk
     sourcetype: stash
