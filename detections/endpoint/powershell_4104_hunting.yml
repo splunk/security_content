@@ -67,6 +67,7 @@ tags:
   - CISA AA23-347A
   - Data Destruction
   - CISA AA24-241A
+  - Braodo Stealer
   asset_type: Endpoint
   confidence: 100
   impact: 80
