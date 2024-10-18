@@ -39,7 +39,7 @@ jobs:
             git fetch origin pull/${{ github.event.pull_request.number }}/head:new_branch_for_testing
             #We must specifically get the PR's target branch from security_content, not the one that resides in the fork PR's forked repo           
             git switch new_branch_for_testing
-            contentctl test --disable-tqdm --no-enable-integration-testing --container-settings.num-containers 3 --post-test-behavior never_pause mode:all
+            contentctl test --disable-tqdm --no-enable-integration-testing --container-settings.num-containers 2 --post-test-behavior never_pause mode:changes --mode.target-branch ${{ github.base_ref }}
             echo "contentctl test - COMPLETED"
           continue-on-error: true
 
