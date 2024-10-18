@@ -1,0 +1,60 @@
+name: Windows Screen Capture in TEMP folder
+id: 00524d1f-a032-46f5-9108-e7d9f01bfb3c
+version: 1
+date: '2024-09-24'
+author: Teoderick Contreras, Splunk
+data_sources:
+- Sysmon Event ID 11
+type: TTP
+status: production
+description: The following analytic detects the creation of screen capture files by the Braodo stealer malware. This stealer is known to capture screenshots of the victim's desktop as part of its data theft activities. The detection focuses on identifying unusual screen capture activity, especially when images are saved in directories often used by malware, such as temporary or hidden folders. Monitoring for these files helps to quickly identify malicious screen capture attempts, allowing security teams to respond and mitigate potential information exposure before sensitive data is compromised.
+kind: endpoint
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem 
+  where Filesystem.file_name IN ("screenshot.png", "screenshot.jpg","screenshot.bmp") Filesystem.file_path = "*\\temp\\*" 
+  by _time Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.file_create_time 
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_screen_capture_in_temp_folder_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://x.com/suyog41/status/1825869470323056748
+- https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
+tags:
+  analytic_story:
+  - Braodo Stealer
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A screen capture named as $file_name$ was created on $dest$.
+  mitre_attack_id:
+  - T1113
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.user
+  - Filesystem.file_path
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1113/braodo_screenshot/braodo_screenshot.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog
