@@ -14,7 +14,7 @@ description: The following analytic identifies outbound LDAP traffic to external
   network compromise.
 data_source:
 - Bro
-search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
+search: '| tstats `security_content_summariesonly` earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
   as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port
   = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = 10.0.0.0/8 OR
   All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip = 172.16.0.0/12) by All_Traffic.src_ip
