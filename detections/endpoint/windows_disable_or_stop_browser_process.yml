@@ -30,6 +30,15 @@ known_false_positives: Admin or user may choose to terminate browser via taskkil
 references:
 - https://x.com/suyog41/status/1825869470323056748
 - https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Braodo Stealer
