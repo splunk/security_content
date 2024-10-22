@@ -62,4 +62,4 @@ tags:
   - All_Changes.object_category
   - All_Changes.user
   risk_score: 25
-  security_domain: cloud
+  security_domain: threat

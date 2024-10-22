@@ -54,7 +54,7 @@ tags:
   - userAgent
   - errorCode
   risk_score: 63
-  security_domain: cloud
+  security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:

@@ -52,7 +52,7 @@ tags:
   - errorCode
   - requestParameters.groupName
   risk_score: 5
-  security_domain: cloud
+  security_domain: access
 tests:
 - name: True Positive Test
   attack_data:

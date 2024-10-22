@@ -42,7 +42,7 @@ tags:
   required_fields:
   - _time
   risk_score: 70
-  security_domain: cloud
+  security_domain: threat
 tests:
 - name: True Positive Test
   attack_data:
