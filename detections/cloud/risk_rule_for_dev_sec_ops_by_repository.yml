@@ -1,7 +1,7 @@
 name: Risk Rule for Dev Sec Ops by Repository
 id: 161bc0ca-4651-4c13-9c27-27770660cf67
-version: 3
-date: '2024-09-30'
+version: 4
+date: '2024-10-22'
 author: Bhavin Patel
 status: production
 type: Correlation
