@@ -1,7 +1,7 @@
 name: Wmic Group Discovery
 id: 83317b08-155b-11ec-8e00-acde48001122
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Windows Privileged Group Modification
 id: b8cbef2c-2cc3-4550-b0fc-9715b7852df9
-version: 3
-date: '2024-09-26'
+version: 4
+date: '2024-09-30'
 author: Brandon Sternfield, Optiv + ClearShark
 data_source:
 - Windows Event Log Security 4727
@@ -14,26 +14,23 @@ data_source:
 - Windows Event Log Security 4790
 type: TTP
 status: production
-description: 'This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.'
-search: '`wineventlog_security` EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790) TargetUserName IN ("Account Operators", "Administrators", "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins", "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators", "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users", "Replicators", "Schema Admins", "Server Operators")
-  | eval object_category=case(
-      EventCode="4731", "Local Group (Security)",
-      EventCode="4744", "Local Group (Distribution)",
-      EventCode="4727", "Global Group (Security)",
-      EventCode="4749", "Global Group (Distribution)",
-      EventCode="4754", "Universal Group (Security)",
-      EventCode="4759", "Universal Group (Distribution)",
-      EventCode="4783", "Basic Application Group",
-      EventCode="4790", "LDAP Query Group")
-  | rename Computer as dest, result AS change_type, TargetUserName AS object, TargetSid AS object_path
-  | stats count min(_time) as firstTime max(_time) as lastTime by EventCode src_user object_category object object_path dest change_type status
-  | `windows_privileged_group_modification_filter`'
+description: This analytic detects modifications to privileged groups in Active Directory, including creation, deletion, and changes to various types of groups such as local, global, universal, and LDAP query groups. It specifically monitors for changes to high-privilege groups like "Administrators", "Domain Admins", "Enterprise Admins", and "ESX Admins", among others. This detection is particularly relevant in the context of potential exploitation of vulnerabilities like the VMware ESXi Active Directory Integration Authentication Bypass (CVE-2024-37085), where attackers may attempt to manipulate privileged groups to gain unauthorized access to systems.
+search: '`wineventlog_security` EventCode IN (4727,4731,4744,4749,4754,4759,4783,4790) TargetUserName IN ("Account Operators", "Administrators", "Admins DNS", "Backup Operators", "DnsAdmins", "Domain Admins", "Enterprise Admins", "Enterprise Key Admins", "ESX Admins", "ESXi Admins", "Group Policy Creator Owners", "Hyper-V Administrators", "Key Admins", "Print Operators", "Remote Desktop Users", "Remote Management Users", "Replicators", "Schema Admins", "Server Operators") | eval object_category=case( EventCode="4731", "Local Group (Security)", EventCode="4744", "Local Group (Distribution)", EventCode="4727", "Global Group (Security)", EventCode="4749", "Global Group (Distribution)", EventCode="4754", "Universal Group (Security)", EventCode="4759", "Universal Group (Distribution)", EventCode="4783", "Basic Application Group", EventCode="4790", "LDAP Query Group") | rename Computer as dest, result AS change_type, TargetUserName AS object, TargetSid AS object_path | stats count min(_time) as firstTime max(_time) as lastTime by EventCode src_user object_category object object_path dest change_type status | `windows_privileged_group_modification_filter`'
 how_to_implement: To successfully implement this search, ensure that Windows Security Event logging is enabled and being ingested into Splunk, particularly for event codes 4727, 4730, and 4737. Configure Group Policy settings to audit these specific events.
 known_false_positives: Legitimate administrators might create, delete, or modify an a privileged group for valid reasons. Verify that the group changes are authorized and part of normal administrative tasks. Consider the context of the action, such as the user performing it and any related activities.
 references:
 - https://nvd.nist.gov/vuln/detail/CVE-2024-37085
 - https://www.rapid7.com/blog/post/2024/07/30/vmware-esxi-cve-2024-37085-targeted-in-ransomware-campaigns/%5C
 - https://x.com/mthcht/status/1818196168515461431?s=12&t=kwffmj0KM1sZtg3MrqC0QQ
+drilldown_searches:
+- name: View the detection results for $src_user$ and $dest$
+  search: '%original_detection_search% | search  src_user = $src_user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - VMware ESXi AD Integration Authentication Bypass CVE-2024-37085

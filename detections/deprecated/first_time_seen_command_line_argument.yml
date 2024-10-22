@@ -1,7 +1,7 @@
 name: First time seen command line argument
 id: a1b6e73f-98d5-470f-99ac-77aacd578473
-version: 6
-date: '2024-08-15'
+version: 7
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: Hunting

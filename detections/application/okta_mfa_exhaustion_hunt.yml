@@ -1,7 +1,7 @@
 name: Okta MFA Exhaustion Hunt
 id: 97e2fe57-3740-402c-988a-76b64ce04b8d
-version: 3
-date: '2024-05-18'
+version: 4
+date: '2024-10-17'
 author: Michael Haag, Marissa Bower, Mauricio Velazco, Splunk
 status: production
 type: Hunting

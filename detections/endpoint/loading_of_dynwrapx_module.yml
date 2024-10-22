@@ -1,34 +1,16 @@
 name: Loading Of Dynwrapx Module
 id: eac5e8ba-4857-11ec-9371-acde48001122
-version: 2
-date: '2024-05-26'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the loading of the dynwrapx.dll module,
-  which is associated with the DynamicWrapperX ActiveX component. This detection leverages
-  Sysmon EventCode 7 to identify processes that load or register dynwrapx.dll. This
-  activity is significant because DynamicWrapperX can be used to call Windows API
-  functions in scripts, making it a potential tool for malicious actions. If confirmed
-  malicious, this could allow an attacker to execute arbitrary code, escalate privileges,
-  or maintain persistence on the host. Immediate investigation of parallel processes
-  and registry modifications is recommended.
+description: The following analytic detects the loading of the dynwrapx.dll module, which is associated with the DynamicWrapperX ActiveX component. This detection leverages Sysmon EventCode 7 to identify processes that load or register dynwrapx.dll. This activity is significant because DynamicWrapperX can be used to call Windows API functions in scripts, making it a potential tool for malicious actions. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence on the host. Immediate investigation of parallel processes and registry modifications is recommended.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName
-  = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime
-  max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name
-  dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `loading_of_dynwrapx_module_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on processes that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem`
-  node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
-  latest TA for the endpoint product.
-known_false_positives: False positives should be limited, however it is possible to
-  filter by Processes.process_name and specific processes (ex. wscript.exe). Filter
-  as needed. This may need modification based on EDR telemetry and how it brings in
-  registry data. For example, removal of (Default).
+search: '`sysmon` EventCode=7 (ImageLoaded = "*\\dynwrapx.dll" OR OriginalFileName = "dynwrapx.dll" OR  Product = "DynamicWrapperX") | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded OriginalFileName Product process_name dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `loading_of_dynwrapx_module_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on processes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
 references:
 - https://blog.f-secure.com/hunting-for-koadic-a-com-based-rootkit/
 - https://www.script-coding.com/dynwrapx_eng.html
@@ -36,6 +18,15 @@ references:
 - https://tria.ge/210929-ap75vsddan
 - https://www.virustotal.com/gui/file/cb77b93150cb0f7fe65ce8a7e2a5781e727419451355a7736db84109fa215a89
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Remcos
@@ -72,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos_dynwrapx/sysmon_dynwraper.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

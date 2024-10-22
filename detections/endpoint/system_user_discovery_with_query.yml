@@ -1,7 +1,7 @@
 name: System User Discovery With Query
 id: ad03bfcf-8a91-4bc2-a500-112993deba87
-version: 2
-date: '2024-05-23'
+version: 3
+date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

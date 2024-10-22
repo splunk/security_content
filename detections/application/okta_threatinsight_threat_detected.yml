@@ -1,40 +1,34 @@
 name: Okta ThreatInsight Threat Detected
 id: 140504ae-5fe2-4d65-b2bc-a211813fbca6
-version: 3
-date: '2024-05-21'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies threats detected by Okta ThreatInsight,
-  such as password spraying, login failures, and high counts of unknown user login
-  attempts. It leverages Okta Identity Management logs, specifically focusing on security.threat.detected
-  events. This activity is significant for a SOC as it highlights potential unauthorized
-  access attempts and credential-based attacks. If confirmed malicious, these activities
-  could lead to unauthorized access, data breaches, and further exploitation of compromised
-  accounts, posing a significant risk to the organization's security posture.
-data_source: 
+description: The following analytic identifies threats detected by Okta ThreatInsight, such as password spraying, login failures, and high counts of unknown user login attempts. It leverages Okta Identity Management logs, specifically focusing on security.threat.detected events. This activity is significant for a SOC as it highlights potential unauthorized access attempts and credential-based attacks. If confirmed malicious, these activities could lead to unauthorized access, data breaches, and further exploitation of compromised accounts, posing a significant risk to the organization's security posture.
+data_source:
 - Okta
-search: '`okta` eventType = security.threat.detected | rename client.geographicalContext.country
-  as country, client.geographicalContext.state as state, client.geographicalContext.city
-  as city | stats count min(_time) as firstTime max(_time) as lastTime by app src_ip
-  signature eventType displayMessage client.device city state country user_agent outcome.reason
-  outcome.result severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `okta_threatinsight_threat_detected_filter`'
-how_to_implement: This detection utilizes logs from Okta Identity Management (IM)
-  environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on
-  for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
-known_false_positives: False positives may occur. It is recommended to fine-tune Okta
-  settings and the analytic to ensure high fidelity. Adjust the risk score as necessary.
+search: '`okta` eventType = security.threat.detected | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city | stats count min(_time) as firstTime max(_time) as lastTime by app src_ip signature eventType displayMessage client.device city state country user_agent outcome.reason outcome.result severity | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `okta_threatinsight_threat_detected_filter`'
+how_to_implement: This detection utilizes logs from Okta Identity Management (IM) environments. It requires the ingestion of OktaIm2 logs through the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+known_false_positives: False positives may occur. It is recommended to fine-tune Okta settings and the analytic to ensure high fidelity. Adjust the risk score as necessary.
 references:
 - https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
+drilldown_searches:
+- name: View the detection results for $app$
+  search: '%original_detection_search% | search  app = $app$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $app$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($app$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Okta Account Takeover
   asset_type: Infrastructure
   confidence: 50
   impact: 50
-  message: The following $src_ip$ has been identified as a threat by Okta ThreatInsight.
-    Investigate further to determine if this was authorized.
+  message: The following $src_ip$ has been identified as a threat by Okta ThreatInsight. Investigate further to determine if this was authorized.
   mitre_attack_id:
   - T1078
   - T1078.004
@@ -69,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_threatinsight_threat_detected/okta_threatinsight_threat_detected.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/okta_threatinsight_threat_detected/okta_threatinsight_threat_detected.log
     source: Okta
     sourcetype: OktaIM2:log

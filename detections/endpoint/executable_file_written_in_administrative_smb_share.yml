@@ -1,37 +1,31 @@
 name: Executable File Written in Administrative SMB Share
 id: f63c34fe-a435-11eb-935a-acde48001122
-version: 4
-date: '2024-05-16'
+version: 5
+date: '2024-09-30'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects executable files (.exe or .dll) being
-  written to Windows administrative SMB shares (Admin$, IPC$, C$). It leverages Windows
-  Security Event Logs with EventCode 5145 to identify this activity. This behavior
-  is significant as it is commonly used by tools like PsExec/PaExec for staging binaries
-  before creating and starting services on remote endpoints, a technique often employed
-  for lateral movement and remote code execution. If confirmed malicious, this activity
-  could allow an attacker to execute arbitrary code remotely, potentially compromising
-  additional systems within the network.
+description: The following analytic detects executable files (.exe or .dll) being written to Windows administrative SMB shares (Admin$, IPC$, C$). It leverages Windows Security Event Logs with EventCode 5145 to identify this activity. This behavior is significant as it is commonly used by tools like PsExec/PaExec for staging binaries before creating and starting services on remote endpoints, a technique often employed for lateral movement and remote code execution. If confirmed malicious, this activity could allow an attacker to execute arbitrary code remotely, potentially compromising additional systems within the network.
 data_source:
 - Windows Event Log Security 5145
-search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.exe","*.dll")
-  ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask=
-  "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode
-  ShareName RelativeTargetName ObjectType AccessMask src_user src_port IpAddress |
-  `security_content_ctime(firstTime)`  | `executable_file_written_in_administrative_smb_share_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also
-  required. Also enable the object Audit access success/failure in your group policy.
-known_false_positives: System Administrators may use looks like PsExec for troubleshooting
-  or administrations tasks. However, this will typically come only from certain users
-  and certain systems that can be added to an allow list.
+search: '`wineventlog_security` EventCode=5145 RelativeTargetName IN ("*.exe","*.dll") ObjectType=File ShareName IN ("\\\\*\\C$","\\\\*\\IPC$","\\\\*\\admin$") AccessMask= "0x2" | stats min(_time) as firstTime max(_time) as lastTime count by EventCode ShareName RelativeTargetName ObjectType AccessMask src_user src_port IpAddress | `security_content_ctime(firstTime)`  | `executable_file_written_in_administrative_smb_share_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 5145 EventCode enabled. The Windows TA is also required. Also enable the object Audit access success/failure in your group policy.
+known_false_positives: System Administrators may use looks like PsExec for troubleshooting or administrations tasks. However, this will typically come only from certain users and certain systems that can be added to an allow list.
 references:
 - https://attack.mitre.org/techniques/T1021/002/
 - https://www.rapid7.com/blog/post/2013/03/09/psexec-demystified/
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+drilldown_searches:
+- name: View the detection results for $src_user$
+  search: '%original_detection_search% | search  src_user = $src_user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src_user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Lateral Movement
@@ -46,8 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 70
-  message: $src_user$ dropped or created an executable file in known sensitive SMB
-    share.  Share name=$ShareName$, Target name=$RelativeTargetName$, and Access mask=$AccessMask$
+  message: $src_user$ dropped or created an executable file in known sensitive SMB share.  Share name=$ShareName$, Target name=$RelativeTargetName$, and Access mask=$AccessMask$
   mitre_attack_id:
   - T1021
   - T1021.002
@@ -75,7 +68,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/trickbot/exe_smbshare/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

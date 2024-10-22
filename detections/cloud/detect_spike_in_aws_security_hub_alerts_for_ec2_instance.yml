@@ -5,29 +5,22 @@ date: '2024-10-09'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a spike in the number of AWS Security
-  Hub alerts for an EC2 instance within a 4-hour interval. It leverages AWS Security
-  Hub findings data, calculating the average and standard deviation of alerts to detect
-  anomalies. This activity is significant for a SOC as a sudden increase in alerts
-  may indicate potential security incidents or misconfigurations requiring immediate
-  attention. If confirmed malicious, this could signify an ongoing attack, leading
-  to unauthorized access, data exfiltration, or disruption of services on the affected
-  EC2 instance.
+description: The following analytic identifies a spike in the number of AWS Security Hub alerts for an EC2 instance within a 4-hour interval. It leverages AWS Security Hub findings data, calculating the average and standard deviation of alerts to detect anomalies. This activity is significant for a SOC as a sudden increase in alerts may indicate potential security incidents or misconfigurations requiring immediate attention. If confirmed malicious, this could signify an ongoing attack, leading to unauthorized access, data exfiltration, or disruption of services on the affected EC2 instance.
 data_source:
 - AWS Security Hub
-search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket span=4h
-  _time | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account)
-  as vendor_account values(vendor_region) as vendor_region values(severity) as severity
-  by _time dest | eventstats avg(alerts) as total_alerts_avg, stdev(alerts) as total_alerts_stdev
-  | eval threshold_value = 3 | eval isOutlier=if(alerts > total_alerts_avg+(total_alerts_stdev
-  * threshold_value), 1, 0) | search isOutlier=1 | table _time dest alerts Title Types
-  vendor_account vendor_region severity isOutlier total_alerts_avg | `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security
-  Hub inputs. The threshold_value should be tuned to your environment and schedule
-  these searches according to the bucket span interval.
+search: '`aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance | bucket span=4h _time | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(severity) as severity by _time dest | eventstats avg(alerts) as total_alerts_avg, stdev(alerts) as total_alerts_stdev | eval threshold_value = 3 | eval isOutlier=if(alerts > total_alerts_avg+(total_alerts_stdev * threshold_value), 1, 0) | search isOutlier=1 | table _time dest alerts Title Types vendor_account vendor_region severity isOutlier total_alerts_avg | `detect_spike_in_aws_security_hub_alerts_for_ec2_instance_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
 known_false_positives: None
 references: []
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Security Hub Alerts

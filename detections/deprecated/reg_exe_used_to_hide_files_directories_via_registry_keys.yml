@@ -1,7 +1,7 @@
 name: Reg exe used to hide files directories via registry keys
 id: 61a7d1e6-f5d4-41d9-a9be-39a1ffe69459
-version: 3
-date: '2024-08-15'
+version: 4
+date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: deprecated
 type: TTP

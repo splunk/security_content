@@ -1,7 +1,7 @@
 name: Okta Account Locked Out
 id: d650c0ae-bdc5-400e-9f0f-f7aa0a010ef1
-version: 1
-date: '2022-09-21'
+version: 2
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: deprecated
 type: Anomaly

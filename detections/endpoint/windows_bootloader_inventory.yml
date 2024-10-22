@@ -1,7 +1,7 @@
 name: Windows BootLoader Inventory
 id: 4f7e3913-4db3-4ccd-afe4-31198982305d
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting

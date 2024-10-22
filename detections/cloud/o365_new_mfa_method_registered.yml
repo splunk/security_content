@@ -1,43 +1,29 @@
 name: O365 New MFA Method Registered
 id: 4e12db1f-f7c7-486d-8152-a221cad6ac2b
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-30'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - O365 Update user.
-description: The following analytic detects the registration of a new Multi-Factor
-  Authentication (MFA) method for a user account within Office 365. It leverages O365
-  audit logs to identify changes in MFA configurations. This activity is significant
-  as it may indicate an attacker's attempt to maintain persistence on a compromised
-  account. If confirmed malicious, the attacker could bypass existing security measures,
-  solidify their access, and potentially escalate privileges or access sensitive data.
-  Immediate verification and remediation are required to secure the affected account.
-search: >-
-  `o365_management_activity` Workload=AzureActiveDirectory  Operation="Update user."  |
-  eval propertyName = mvindex('ModifiedProperties{}.Name', 0)
-  | search propertyName = StrongAuthenticationMethod
-  | eval oldvalue = mvindex('ModifiedProperties{}.OldValue',0)
-  | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0)
-  | rex field=newvalue max_match=0 "(?i)(?<new_method_type>\"MethodType\")"
-  | rex field=oldvalue max_match=0 "(?i)(?<old_method_type>\"MethodType\")"
-  | eval count_new_method_type = coalesce(mvcount(new_method_type), 0)
-  | eval count_old_method_type = coalesce(mvcount(old_method_type), 0)
-  |  where count_new_method_type > count_old_method_type
-  |  stats earliest(_time) as firstTime latest(_time) as lastTime values(propertyName)
-  by user newvalue oldvalue
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `o365_new_mfa_method_registered_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Users may register MFA methods legitimally, investigate and
-  filter as needed.
+description: The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for a user account within Office 365. It leverages O365 audit logs to identify changes in MFA configurations. This activity is significant as it may indicate an attacker's attempt to maintain persistence on a compromised account. If confirmed malicious, the attacker could bypass existing security measures, solidify their access, and potentially escalate privileges or access sensitive data. Immediate verification and remediation are required to secure the affected account.
+search: '`o365_management_activity` Workload=AzureActiveDirectory  Operation="Update user."  | eval propertyName = mvindex(''ModifiedProperties{}.Name'', 0) | search propertyName = StrongAuthenticationMethod | eval oldvalue = mvindex(''ModifiedProperties{}.OldValue'',0) | eval newvalue = mvindex(''ModifiedProperties{}.NewValue'',0) | rex field=newvalue max_match=0 "(?i)(?<new_method_type>\"MethodType\")" | rex field=oldvalue max_match=0 "(?i)(?<old_method_type>\"MethodType\")" | eval count_new_method_type = coalesce(mvcount(new_method_type), 0) | eval count_old_method_type = coalesce(mvcount(old_method_type), 0) |  where count_new_method_type > count_old_method_type |  stats earliest(_time) as firstTime latest(_time) as lastTime values(propertyName) by user newvalue oldvalue | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_new_mfa_method_registered_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Users may register MFA methods legitimally, investigate and filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1098/005/
 - https://www.microsoft.com/en-us/security/blog/2023/06/08/detecting-and-mitigating-a-multi-stage-aitm-phishing-and-bec-campaign/
 - https://www.csoonline.com/article/573451/sophisticated-bec-scammers-bypass-microsoft-365-multi-factor-authentication.html
+drilldown_searches:
+- name: View the detection results for $user$
+  search: '%original_detection_search% | search  user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
@@ -69,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/o365_register_new_mfa_method/o365_register_new_mfa_method.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.005/o365_register_new_mfa_method/o365_register_new_mfa_method.log
     sourcetype: o365:management:activity
     source: o365

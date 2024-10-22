@@ -1,7 +1,7 @@
 name: Windows AppLocker Execution from Uncommon Locations
 id: d57ce957-151a-4aec-ada5-5fb1eb555b6b
-version: 2
-date: '2024-05-25'
+version: 3
+date: '2024-10-17'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting

@@ -1,41 +1,30 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
-version: 4
-date: '2024-05-11'
+version: 5
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of gpupdate.exe without
-  any command line arguments. This behavior is identified using data from Endpoint
-  Detection and Response (EDR) agents, focusing on process execution logs. It is significant
-  because gpupdate.exe typically runs with specific arguments, and its execution without
-  them is often associated with malicious activities, such as those performed by Cobalt
-  Strike. If confirmed malicious, this activity could indicate an attempt to execute
-  unauthorized commands or scripts, potentially leading to further system compromise
-  or lateral movement within the network.
+description: The following analytic detects the execution of gpupdate.exe without any command line arguments. This behavior is identified using data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. It is significant because gpupdate.exe typically runs with specific arguments, and its execution without them is often associated with malicious activities, such as those performed by Cobalt Strike. If confirmed malicious, this activity could indicate an attempt to execute unauthorized commands or scripts, potentially leading to further system compromise or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_gpupdate` by _time span=1h  Processes.process_id Processes.process_name
-  Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | regex process="(?i)(gpupdate\.exe.{0,4}$)" | `suspicious_gpupdate_no_command_line_arguments_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives may be present in small environments.
-  Tuning may be required based on parent process.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_gpupdate` by _time span=1h  Processes.process_id Processes.process_name Processes.dest Processes.user Processes.process_path Processes.process Processes.parent_process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | regex process="(?i)(gpupdate\.exe.{0,4}$)" | `suspicious_gpupdate_no_command_line_arguments_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives may be present in small environments. Tuning may be required based on parent process.
 references:
 - https://raw.githubusercontent.com/xx0hcd/Malleable-C2-Profiles/0ef8cf4556e26f6d4190c56ba697c2159faa5822/crimeware/trick_ryuk.profile
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - BlackByte Ransomware
@@ -44,8 +33,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: Suspicious gpupdate.exe process with no command line arguments executed
-    on $dest$ by $user$
+  message: Suspicious gpupdate.exe process with no command line arguments executed on $dest$ by $user$
   mitre_attack_id:
   - T1055
   observable:
@@ -79,7 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

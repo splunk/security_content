@@ -1,37 +1,30 @@
 name: ConnectWise ScreenConnect Path Traversal Windows SACL
 id: 4e127857-1fc9-4c95-9d69-ba24c91d52d7
-version: 2
-date: '2024-05-20'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 data_source:
 - Windows Event Log Security 4663
 type: TTP
 status: production
-description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect
-  CVE-2024-1708 vulnerability using Windows SACL EventCode 4663. It identifies path
-  traversal attacks by monitoring file system events related to the ScreenConnect
-  service. This activity is significant as it allows unauthorized access to sensitive
-  files and directories, potentially leading to data exfiltration or arbitrary code
-  execution. If confirmed malicious, attackers could gain unauthorized access to critical
-  data or execute harmful code, compromising the integrity and security of the affected
-  system. Immediate remediation by updating to version 23.9.8 or above is recommended.
-search: '`wineventlog_security` EventCode=4663  ProcessName=*\\ScreenConnect.Service.exe
-  file_path IN ("*\\ScreenConnect\\App_Extensions\\*") file_name IN ("*.aspx","*.ashx")
-  | stats count min(_time) as firstTime max(_time) as lastTime by  ObjectName ObjectType
-  ProcessName AccessMask process_id EventCode Computer Caller_User_Name | rename Computer
-  as dest Caller_User_Name as user ProcessName as process_name |  `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `connectwise_screenconnect_path_traversal_windows_sacl_filter`'
-how_to_implement: To implement the following query, enable SACL auditing for the ScreenConnect
-  directory(ies). With this data, the following analytic will work correctly. A GIST
-  is provided in the references to assist with enabling SACL Auditing.
-known_false_positives: False positives should be limited as the analytic is specific
-  to ScreenConnect path traversal attempts. Tune as needed, or restrict to specific
-  hosts if false positives are encountered.
+description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1708 vulnerability using Windows SACL EventCode 4663. It identifies path traversal attacks by monitoring file system events related to the ScreenConnect service. This activity is significant as it allows unauthorized access to sensitive files and directories, potentially leading to data exfiltration or arbitrary code execution. If confirmed malicious, attackers could gain unauthorized access to critical data or execute harmful code, compromising the integrity and security of the affected system. Immediate remediation by updating to version 23.9.8 or above is recommended.
+search: '`wineventlog_security` EventCode=4663  ProcessName=*\\ScreenConnect.Service.exe file_path IN ("*\\ScreenConnect\\App_Extensions\\*") file_name IN ("*.aspx","*.ashx") | stats count min(_time) as firstTime max(_time) as lastTime by  ObjectName ObjectType ProcessName AccessMask process_id EventCode Computer Caller_User_Name | rename Computer as dest Caller_User_Name as user ProcessName as process_name |  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `connectwise_screenconnect_path_traversal_windows_sacl_filter`'
+how_to_implement: To implement the following query, enable SACL auditing for the ScreenConnect directory(ies). With this data, the following analytic will work correctly. A GIST is provided in the references to assist with enabling SACL Auditing.
+known_false_positives: False positives should be limited as the analytic is specific to ScreenConnect path traversal attempts. Tune as needed, or restrict to specific hosts if false positives are encountered.
 references:
 - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4663
 - https://www.huntress.com/blog/a-catastrophe-for-control-understanding-the-screenconnect-authentication-bypass
 - https://www.huntress.com/blog/detection-guidance-for-connectwise-cwe-288-2
 - https://www.connectwise.com/company/trust/security-bulletins/connectwise-screenconnect-23.9.8
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ConnectWise ScreenConnect Vulnerabilities
@@ -67,7 +60,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/4663_connectwise_aspx_app_extensions.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/screenconnect/4663_connectwise_aspx_app_extensions.log
     sourcetype: XmlWinEventLog
     source: XmlWinEventLog:Security

@@ -1,7 +1,7 @@
 name: Detect AWS Console Login by New User
 id: bc91a8cd-35e7-4bb2-6140-e756cc46fd71
-version: 4
-date: '2024-05-28'
+version: 5
+date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Hunting

@@ -1,7 +1,7 @@
 name: ASL AWS Defense Evasion Impair Security Services
 id: 5029b681-0462-47b7-82e7-f7e3d37f5a2d
-version: 3
-date: '2024-05-13'
+version: 4
+date: '2024-10-17'
 author: Patrick Bareiss, Bhavin Patel, Gowthamaraj Rajendran, Splunk
 status: production
 type: Hunting

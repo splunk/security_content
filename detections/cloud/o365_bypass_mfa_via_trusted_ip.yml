@@ -1,46 +1,36 @@
 name: O365 Bypass MFA via Trusted IP
 id: c783dd98-c703-4252-9e8a-f19d9f66949e
-version: 4
-date: '2024-05-15'
+version: 5
+date: '2024-09-30'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic identifies instances where new IP addresses are
-  added to the trusted IPs list in Office 365, potentially allowing users from these
-  IPs to bypass Multi-Factor Authentication (MFA) during login. It leverages O365
-  audit logs, specifically focusing on events related to the modification of trusted
-  IP settings. This activity is significant because adding trusted IPs can weaken
-  the security posture by bypassing MFA, which is a critical security control. If
-  confirmed malicious, this could lead to unauthorized access, compromising sensitive
-  information and systems. Immediate investigation is required to validate the legitimacy
-  of the IP addition.
+description: The following analytic identifies instances where new IP addresses are added to the trusted IPs list in Office 365, potentially allowing users from these IPs to bypass Multi-Factor Authentication (MFA) during login. It leverages O365 audit logs, specifically focusing on events related to the modification of trusted IP settings. This activity is significant because adding trusted IPs can weaken the security posture by bypassing MFA, which is a critical security control. If confirmed malicious, this could lead to unauthorized access, compromising sensitive information and systems. Immediate investigation is required to validate the legitimacy of the IP addition.
 data_source:
 - O365 Set Company Information.
-search: '`o365_management_activity` Operation="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy
-  | rex max_match=100 field=ModifiedProperties{}.NewValue "(?<ip_addresses_new_added>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"
-  | rex max_match=100 field=ModifiedProperties{}.OldValue "(?<ip_addresses_old>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})"
-  | eval ip_addresses_old=if(isnotnull(ip_addresses_old),ip_addresses_old,"0") | mvexpand
-  ip_addresses_new_added | where isnull(mvfind(ip_addresses_old,ip_addresses_new_added))
-  |stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old)
-  as ip_addresses_old by user ip_addresses_new_added Operation Workload vendor_account
-  status user_id action | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `o365_bypass_mfa_via_trusted_ip_filter`'
-how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
-known_false_positives: Unless it is a special case, it is uncommon to continually
-  update Trusted IPs to MFA configuration.
+search: '`o365_management_activity` Operation="Set Company Information." ModifiedProperties{}.Name=StrongAuthenticationPolicy | rex max_match=100 field=ModifiedProperties{}.NewValue "(?<ip_addresses_new_added>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})" | rex max_match=100 field=ModifiedProperties{}.OldValue "(?<ip_addresses_old>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\/\d{1,2})" | eval ip_addresses_old=if(isnotnull(ip_addresses_old),ip_addresses_old,"0") | mvexpand ip_addresses_new_added | where isnull(mvfind(ip_addresses_old,ip_addresses_new_added)) |stats count min(_time) as firstTime max(_time) as lastTime values(ip_addresses_old) as ip_addresses_old by user ip_addresses_new_added Operation Workload vendor_account status user_id action | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `o365_bypass_mfa_via_trusted_ip_filter`'
+how_to_implement: You must install Splunk Microsoft Office 365 add-on. This search works with o365:management:activity
+known_false_positives: Unless it is a special case, it is uncommon to continually update Trusted IPs to MFA configuration.
 references:
 - https://i.blackhat.com/USA-20/Thursday/us-20-Bienstock-My-Cloud-Is-APTs-Cloud-Investigating-And-Defending-Office-365.pdf
 - https://attack.mitre.org/techniques/T1562/007/
 - https://learn.microsoft.com/en-us/azure/active-directory/authentication/howto-mfa-mfasettings
+drilldown_searches:
+- name: View the detection results for $user_id$
+  search: '%original_detection_search% | search  user_id = $user_id$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user_id$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_id$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Office 365 Persistence Mechanisms
   asset_type: O365 Tenant
   confidence: 60
   impact: 70
-  message: User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a
-    list of trusted IPs to bypass MFA
+  message: User $user_id$ has added new IP addresses $ip_addresses_new_added$ to a list of trusted IPs to bypass MFA
   mitre_attack_id:
   - T1562.007
   - T1562
@@ -73,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/o365_bypass_mfa_via_trusted_ip/o365_bypass_mfa_via_trusted_ip.json
     sourcetype: o365:management:activity
     source: o365

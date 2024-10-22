@@ -5,13 +5,7 @@ date: '2024-10-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a Java user agent performing a GET
-  request for a .class file from a remote site. It leverages web or proxy logs within
-  the Web Datamodel to detect this activity. This behavior is significant as it may
-  indicate exploitation attempts, such as those related to CVE-2021-44228 (Log4Shell).
-  If confirmed malicious, an attacker could exploit vulnerabilities in the Java application,
-  potentially leading to remote code execution and further compromise of the affected
-  system.
+description: The following analytic identifies a Java user agent performing a GET request for a .class file from a remote site. It leverages web or proxy logs within the Web Datamodel to detect this activity. This behavior is significant as it may indicate exploitation attempts, such as those related to CVE-2021-44228 (Log4Shell). If confirmed malicious, an attacker could exploit vulnerabilities in the Java application, potentially leading to remote code execution and further compromise of the affected system.
 data_source:
 - Splunk Stream HTTP
 search: '| tstats  `security_content_summariesonly` count from datamodel=Web where Web.http_user_agent="*Java*" Web.http_method="GET"
@@ -25,6 +19,15 @@ how_to_implement: To successfully implement this search, you need to be ingestin
 known_false_positives: Filtering may be required in some instances, filter as needed.
 references:
 - https://arstechnica.com/information-technology/2021/12/as-log4shell-wreaks-havoc-payroll-service-reports-ransomware-attack/
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Log4Shell CVE-2021-44228
@@ -33,8 +36,7 @@ tags:
   cve:
   - CVE-2021-44228
   impact: 80
-  message: A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve
-    a remote class file.
+  message: A Java user agent $http_user_agent$ was performing a $http_method$ to retrieve a remote class file.
   mitre_attack_id:
   - T1190
   observable:
@@ -63,7 +65,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/java.log
     source: stream:http
     sourcetype: stream:http

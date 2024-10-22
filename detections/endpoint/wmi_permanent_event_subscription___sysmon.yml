@@ -1,33 +1,30 @@
 name: WMI Permanent Event Subscription - Sysmon
 id: ad05aae6-3b2a-4f73-af97-57bd26cee3b9
-version: 3
-date: '2024-05-20'
+version: 4
+date: '2024-09-30'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
-description: 'The following analytic identifies the creation of WMI permanent event
-  subscriptions, which can be used to establish persistence or perform privilege escalation.
-  It leverages Sysmon data, specifically EventCodes 19, 20, and 21, to detect the
-  creation of WMI EventFilters, EventConsumers, and FilterToConsumerBindings. This
-  activity is significant as it may indicate an attacker setting up mechanisms to
-  execute code with elevated SYSTEM privileges when specific events occur. If confirmed
-  malicious, this could allow the attacker to maintain persistence, escalate privileges,
-  and execute arbitrary code, posing a severe threat to the environment.'
+description: The following analytic identifies the creation of WMI permanent event subscriptions, which can be used to establish persistence or perform privilege escalation. It leverages Sysmon data, specifically EventCodes 19, 20, and 21, to detect the creation of WMI EventFilters, EventConsumers, and FilterToConsumerBindings. This activity is significant as it may indicate an attacker setting up mechanisms to execute code with elevated SYSTEM privileges when specific events occur. If confirmed malicious, this could allow the attacker to maintain persistence, escalate privileges, and execute arbitrary code, posing a severe threat to the environment.
 data_source:
 - Sysmon EventID 21
-search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation,
-  EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
-how_to_implement: To successfully implement this search, you must be collecting Sysmon
-  data using Sysmon version 6.1 or greater and have Sysmon configured to generate
-  alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least
-  version 6.0.4 of the Sysmon TA installed to properly parse the fields.
-known_false_positives: Although unlikely, administrators may use event subscriptions
-  for legitimate purposes.
+search: '`sysmon` EventCode=21 | rename host as dest | table _time, dest, user, Operation, EventType, Query, Consumer, Filter | `wmi_permanent_event_subscription___sysmon_filter`'
+how_to_implement: To successfully implement this search, you must be collecting Sysmon data using Sysmon version 6.1 or greater and have Sysmon configured to generate alerts for WMI activity (eventID= 19, 20, 21). In addition, you must have at least version 6.0.4 of the Sysmon TA installed to properly parse the fields.
+known_false_positives: Although unlikely, administrators may use event subscriptions for legitimate purposes.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1546.003/T1546.003.md
 - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
 - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
 - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Suspicious WMI Use
@@ -66,7 +63,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

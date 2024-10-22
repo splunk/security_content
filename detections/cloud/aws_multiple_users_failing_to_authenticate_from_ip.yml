@@ -5,14 +5,7 @@ date: '2024-10-16'
 author: Bhavin Patel
 status: production
 type: Anomaly
-description: The following analytic identifies a single source IP failing to authenticate
-  into the AWS Console with 30 unique valid users within 10 minutes. It leverages
-  CloudTrail logs to detect multiple failed login attempts from the same IP address.
-  This behavior is significant as it may indicate a Password Spraying attack, where
-  an adversary attempts to gain unauthorized access or elevate privileges by trying
-  common passwords across many accounts. If confirmed malicious, this activity could
-  lead to unauthorized access, data breaches, or further exploitation within the AWS
-  environment.
+description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with 30 unique valid users within 10 minutes. It leverages CloudTrail logs to detect multiple failed login attempts from the same IP address. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain unauthorized access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail ConsoleLogin
 search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
@@ -28,6 +21,15 @@ references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
 - https://softwaresecuritydotblog.wordpress.com/2019/09/28/how-to-protect-against-credential-stuffing-on-aws/
+drilldown_searches:
+- name: View the detection results for $tried_accounts$
+  search: '%original_detection_search% | search  tried_accounts = $tried_accounts$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $tried_accounts$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($tried_accounts$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - AWS Identity and Access Management Account Takeover
@@ -35,8 +37,7 @@ tags:
   asset_type: AWS Account
   confidence: 90
   impact: 60
-  message: 'Multiple failed console login attempts (Count: $unique_accounts$) against
-    users from IP Address - $src_ip$'
+  message: 'Multiple failed console login attempts (Count: $unique_accounts$) against users from IP Address - $src_ip$'
   mitre_attack_id:
   - T1110
   - T1110.003
@@ -62,12 +63,10 @@ tags:
   - src_ip
   risk_score: 54
   security_domain: threat
-  manual_test: This search needs a specific number of events in a time window for
-    the alert to trigger and events split up in CI testing while updating timestamp.
+  manual_test: This search needs a specific number of events in a time window for the alert to trigger and events split up in CI testing while updating timestamp.
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_mulitple_failed_console_login/aws_cloudtrail.json
     source: aws_cloudtrail
     sourcetype: aws:cloudtrail

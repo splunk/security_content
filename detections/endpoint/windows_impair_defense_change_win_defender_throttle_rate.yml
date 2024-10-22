@@ -1,37 +1,29 @@
 name: Windows Impair Defense Change Win Defender Throttle Rate
 id: f7da5fca-9261-43de-a4d0-130dad1e4f4d
-version: 2
-date: '2024-05-27'
+version: 3
+date: '2024-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-description: The following analytic detects modifications to the ThrottleDetectionEventsRate
-  registry setting in Windows Defender. It leverages data from the Endpoint.Registry
-  datamodel to identify changes in the registry path related to Windows Defender's
-  event logging rate. This activity is significant because altering the ThrottleDetectionEventsRate
-  can reduce the frequency of logged detection events, potentially masking malicious
-  activities. If confirmed malicious, this could allow an attacker to evade detection
-  by decreasing the visibility of security events, thereby hindering incident response
-  and forensic investigations.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows
-  Defender\\NIS\\Consumers\\IPS\\ThrottleDetectionEventsRate" by Registry.registry_key_name
-  Registry.user Registry.registry_path Registry.registry_value_data Registry.action
-  Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_throttle_rate_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node.
-known_false_positives: It is unusual to turn this feature off a Windows system since
-  it is a default security control, although it is not rare for some policies to disable
-  it. Although no false positives have been identified, use the provided filter macro
-  to tune the search.
+description: The following analytic detects modifications to the ThrottleDetectionEventsRate registry setting in Windows Defender. It leverages data from the Endpoint.Registry datamodel to identify changes in the registry path related to Windows Defender's event logging rate. This activity is significant because altering the ThrottleDetectionEventsRate can reduce the frequency of logged detection events, potentially masking malicious activities. If confirmed malicious, this could allow an attacker to evade detection by decreasing the visibility of security events, thereby hindering incident response and forensic investigations.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\Windows Defender\\NIS\\Consumers\\IPS\\ThrottleDetectionEventsRate" by Registry.registry_key_name Registry.user Registry.registry_path Registry.registry_value_data Registry.action Registry.dest | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_change_win_defender_throttle_rate_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node.
+known_false_positives: It is unusual to turn this feature off a Windows system since it is a default security control, although it is not rare for some policies to disable it. Although no false positives have been identified, use the provided filter macro to tune the search.
 references:
 - https://x.com/malmoeb/status/1742604217989415386?s=20
 - https://github.com/undergroundwires/privacy.sexy
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Windows Defense Evasion Tactics
@@ -65,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable-windows-security-defender-features/windefender-bypas-2-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

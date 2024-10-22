@@ -1,35 +1,29 @@
 name: Windows Disable Memory Crash Dump
 id: 59e54602-9680-11ec-a8a6-acde48001122
-version: 3
-date: '2024-05-12'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to disable the memory crash dump
-  feature on Windows systems by setting the registry value to 0. It leverages data
-  from the Endpoint.Registry datamodel, specifically monitoring changes to the CrashDumpEnabled
-  registry key. This activity is significant because disabling crash dumps can hinder
-  forensic analysis and incident response efforts. If confirmed malicious, this action
-  could be part of a broader attack strategy, such as data destruction or system destabilization,
-  as seen with HermeticWiper, potentially leading to significant operational disruptions
-  and data loss.
+description: The following analytic detects attempts to disable the memory crash dump feature on Windows systems by setting the registry value to 0. It leverages data from the Endpoint.Registry datamodel, specifically monitoring changes to the CrashDumpEnabled registry key. This activity is significant because disabling crash dumps can hinder forensic analysis and incident response efforts. If confirmed malicious, this action could be part of a broader attack strategy, such as data destruction or system destabilization, as seen with HermeticWiper, potentially leading to significant operational disruptions and data loss.
 data_source:
-- Sysmon EventID 12 
+- Sysmon EventID 12
 - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  where (Registry.registry_path="*\\CurrentControlSet\\Control\\CrashControl\\CrashDumpEnabled")
-  AND Registry.registry_value_data="0x00000000" by _time span=1h Registry.dest Registry.user
-  Registry.registry_path Registry.registry_value_name Registry.registry_value_data
-  Registry.process_guid Registry.registry_key_name  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_memory_crash_dump_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry`
-  node.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\CurrentControlSet\\Control\\CrashControl\\CrashDumpEnabled") AND Registry.registry_value_data="0x00000000" by _time span=1h Registry.dest Registry.user Registry.registry_path Registry.registry_value_name Registry.registry_value_data Registry.process_guid Registry.registry_key_name  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_memory_crash_dump_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the Filesystem responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` and `Registry` node.
 known_false_positives: unknown
 references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 - https://docs.microsoft.com/en-us/troubleshoot/windows-server/performance/memory-dump-file-options
+drilldown_searches:
+- name: View the detection results for $user$ and $dest$
+  search: '%original_detection_search% | search  user = $user$ dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $user$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Ransomware
@@ -68,7 +62,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/hermetic_wiper/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

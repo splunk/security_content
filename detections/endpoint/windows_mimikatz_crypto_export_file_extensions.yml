@@ -1,34 +1,27 @@
 name: Windows Mimikatz Crypto Export File Extensions
 id: 3a9a6806-16a8-4cda-8d73-b49d10a05b16
-version: 2
-date: '2024-05-09'
+version: 3
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of files with extensions
-  commonly associated with the Mimikatz Crypto module. It leverages the Endpoint.Filesystem
-  data model to identify specific file names indicative of certificate export activities.
-  This behavior is significant as it may indicate the use of Mimikatz to export cryptographic
-  keys, which is a common tactic for credential theft. If confirmed malicious, this
-  activity could allow an attacker to exfiltrate sensitive cryptographic material,
-  potentially leading to unauthorized access and further compromise of the environment.
+description: The following analytic detects the creation of files with extensions commonly associated with the Mimikatz Crypto module. It leverages the Endpoint.Filesystem data model to identify specific file names indicative of certificate export activities. This behavior is significant as it may indicate the use of Mimikatz to export cryptographic keys, which is a common tactic for credential theft. If confirmed malicious, this activity could allow an attacker to exfiltrate sensitive cryptographic material, potentially leading to unauthorized access and further compromise of the environment.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k",
-  "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name
-  Filesystem.file_path | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `drop_dm_object_name(Filesystem)` | `windows_mimikatz_crypto_export_file_extensions_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
-known_false_positives: False positives may be present and may need to be reviewed
-  before this can be turned into a TTP. In addition, remove .pfx (standalone) if it's
-  too much volume.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.keyx.rsa.pvk","*sign.rsa.pvk","*sign.dsa.pvk","*dsa.ec.p8k","*dh.ec.p8k", "*.pfx", "*.der") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Filesystem)` | `windows_mimikatz_crypto_export_file_extensions_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives may be present and may need to be reviewed before this can be turned into a TTP. In addition, remove .pfx (standalone) if it's too much volume.
 references:
 - https://github.com/gentilkiwi/mimikatz/blob/master/mimikatz/modules/kuhl_m_crypto.c#L628-L645
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Sandworm Tools
@@ -37,8 +30,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 40
-  message: Certificate file extensions realted to Mimikatz were identified on disk
-    on $dest$.
+  message: Certificate file extensions realted to Mimikatz were identified on disk on $dest$.
   mitre_attack_id:
   - T1649
   observable:
@@ -61,8 +53,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certwrite_windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/certwrite_windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

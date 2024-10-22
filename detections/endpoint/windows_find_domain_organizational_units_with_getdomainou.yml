@@ -1,41 +1,36 @@
 name: Windows Find Domain Organizational Units with GetDomainOU
 id: 0ada2f82-b7af-40cc-b1d7-1e5985afcb4e
-version: 2
-date: '2024-05-17'
+version: 3
+date: '2024-09-30'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
 - Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the `Get-DomainOU` cmdlet,
-  a part of the PowerView toolkit used for Windows domain enumeration. It leverages
-  PowerShell Script Block Logging (EventCode=4104) to identify this activity. Detecting
-  `Get-DomainOU` usage is significant as adversaries may use it to gather information
-  about organizational units within Active Directory, which can facilitate lateral
-  movement or privilege escalation. If confirmed malicious, this activity could allow
-  attackers to map the domain structure, aiding in further exploitation and persistence
-  within the network.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" | stats count
-  min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer
-  UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_find_domain_organizational_units_with_getdomainou_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs
-  to be imported. Modify the powershell macro as needed to match the sourcetype or
-  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators may leverage PowerSploit tools for legitimate
-  reasons, filter as needed.
+description: The following analytic detects the execution of the `Get-DomainOU` cmdlet, a part of the PowerView toolkit used for Windows domain enumeration. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity. Detecting `Get-DomainOU` usage is significant as adversaries may use it to gather information about organizational units within Active Directory, which can facilitate lateral movement or privilege escalation. If confirmed malicious, this activity could allow attackers to map the domain structure, aiding in further exploitation and persistence within the network.
+search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer UserID | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_find_domain_organizational_units_with_getdomainou_filter`'
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:
 - https://powersploit.readthedocs.io/en/latest/Recon/Get-DomainOU/
 - https://attack.mitre.org/techniques/T1087/002/
 - https://book.hacktricks.xyz/windows-hardening/basic-powershell-for-pentesters/powerview
+drilldown_searches:
+- name: View the detection results for $dest$ and $user$
+  search: '%original_detection_search% | search  dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$ and $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: Suspicious PowerShell Get-DomainOU was identified on endpoint $dest$ by
-    user $user$.
+  message: Suspicious PowerShell Get-DomainOU was identified on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1087
   - T1087.002
@@ -63,7 +58,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-DomainOU-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-powershell-DomainOU-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

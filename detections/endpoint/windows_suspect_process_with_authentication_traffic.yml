@@ -1,49 +1,35 @@
 name: Windows Suspect Process With Authentication Traffic
 id: 953322db-128a-4ce9-8e89-56e039e33d98
-version: 2
-date: '2024-05-15'
+version: 3
+date: '2024-09-30'
 author: Steven Dick
 status: production
 type: Anomaly
-description: >-
-  The following analytic detects executables running from public or temporary locations
-  that are communicating over Windows domain authentication ports/protocols such as
-  LDAP (389), LDAPS (636), and Kerberos (88). It leverages network traffic data to
-  identify processes originating from user-controlled directories. This activity is
-  significant because legitimate applications rarely run from these locations and
-  attempt domain authentication, making it a potential indicator of compromise. If
-  confirmed malicious, attackers could leverage this to access domain resources, potentially
-  leading to further exploitation and lateral movement within the network.
+description: The following analytic detects executables running from public or temporary locations that are communicating over Windows domain authentication ports/protocols such as LDAP (389), LDAPS (636), and Kerberos (88). It leverages network traffic data to identify processes originating from user-controlled directories. This activity is significant because legitimate applications rarely run from these locations and attempt domain authentication, making it a potential indicator of compromise. If confirmed malicious, attackers could leverage this to access domain resources, potentially leading to further exploitation and lateral movement within the network.
 data_source:
 - Sysmon EventID 3
-search: >-
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(All_Traffic.process_id) as process_id  from datamodel=Network_Traffic.All_Traffic
-  where All_Traffic.dest_port IN ("88","389","636")  AND All_Traffic.app IN ("*\\users\\*",
-  "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")  by
-  All_Traffic.app,All_Traffic.src,All_Traffic.src_ip,All_Traffic.user,All_Traffic.dest,All_Traffic.dest_ip,All_Traffic.dest_port
-  | `drop_dm_object_name(All_Traffic)`  | rex field=app ".*\\\(?<process_name>.*)$"
-  | rename app as process
-  | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
-  | `windows_suspect_process_with_authentication_traffic_filter`
-how_to_implement: >-
-  To implement this analytic, Sysmon should be installed in the environment and generating
-  network events for  userland and/or known public writable locations.
-known_false_positives: >-
-  Known applications running from these locations for legitimate purposes. Targeting
-  only kerberos (port 88)
-  may significantly reduce noise.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.process_id) as process_id  from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port IN ("88","389","636")  AND All_Traffic.app IN ("*\\users\\*", "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")  by All_Traffic.app,All_Traffic.src,All_Traffic.src_ip,All_Traffic.user,All_Traffic.dest,All_Traffic.dest_ip,All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)`  | rex field=app ".*\\\(?<process_name>.*)$" | rename app as process | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` | `windows_suspect_process_with_authentication_traffic_filter`'
+how_to_implement: To implement this analytic, Sysmon should be installed in the environment and generating network events for  userland and/or known public writable locations.
+known_false_positives: Known applications running from these locations for legitimate purposes. Targeting only kerberos (port 88) may significantly reduce noise.
 references:
 - https://attack.mitre.org/techniques/T1069/002/
 - https://book.hacktricks.xyz/network-services-pentesting/pentesting-kerberos-88
+drilldown_searches:
+- name: View the detection results for $src$ and $dest$
+  search: '%original_detection_search% | search  src = $src$ dest = $dest$ user = $user$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $src$ and $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$, $dest$, $user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - Active Directory Discovery
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: The process $process_name$ on $src$ has been communicating with $dest$
-    on $dest_port$.
+  message: The process $process_name$ on $src$ has been communicating with $dest$ on $dest_port$.
   mitre_attack_id:
   - T1087
   - T1087.002
@@ -84,8 +70,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

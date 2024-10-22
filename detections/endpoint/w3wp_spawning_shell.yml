@@ -1,45 +1,32 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
-version: 3
-date: '2024-05-16'
+version: 4
+date: '2024-09-30'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic identifies instances where a shell (PowerShell.exe
-  or Cmd.exe) is spawned from W3WP.exe, the IIS worker process. This detection leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process creation
-  events where the parent process is W3WP.exe. This activity is significant as it
-  may indicate webshell activity, often associated with exploitation attempts like
-  those by the HAFNIUM Group on Exchange servers. If confirmed malicious, this behavior
-  could allow attackers to execute arbitrary commands, potentially leading to system
-  compromise, data exfiltration, or further lateral movement within the network.
+description: The following analytic identifies instances where a shell (PowerShell.exe or Cmd.exe) is spawned from W3WP.exe, the IIS worker process. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events where the parent process is W3WP.exe. This activity is significant as it may indicate webshell activity, often associated with exploitation attempts like those by the HAFNIUM Group on Exchange servers. If confirmed malicious, this behavior could allow attackers to execute arbitrary commands, potentially leading to system compromise, data exfiltration, or further lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
-  as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=w3wp.exe
-  AND `process_cmd` OR `process_powershell` by Processes.dest Processes.parent_process
-  Processes.original_file_name Processes.user | `drop_dm_object_name(Processes)` |
-  `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `w3wp_spawning_shell_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Baseline your environment before production. It is possible
-  build systems using IIS will spawn cmd.exe to perform a software build. Filter as
-  needed.
+search: '| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=w3wp.exe AND `process_cmd` OR `process_powershell` by Processes.dest Processes.parent_process Processes.original_file_name Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `w3wp_spawning_shell_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Baseline your environment before production. It is possible build systems using IIS will spawn cmd.exe to perform a software build. Filter as needed.
 references:
 - https://www.microsoft.com/security/blog/2020/02/04/ghost-in-the-shell-investigating-web-shell-attacks/
 - https://www.zerodayinitiative.com/blog/2021/8/17/from-pwn2own-2021-a-new-attack-surface-on-microsoft-exchange-proxyshell
 - https://www.youtube.com/watch?v=FC6iHw258RI
 - https://www.huntress.com/blog/rapid-response-microsoft-exchange-servers-still-vulnerable-to-proxyshell-exploit#what-should-you-do
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
   analytic_story:
   - ProxyNotShell
@@ -90,7 +77,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

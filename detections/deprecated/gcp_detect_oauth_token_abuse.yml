@@ -1,7 +1,7 @@
 name: gcp detect oauth token abuse
 id: a7e9f7bb-8901-4ad0-8d88-0a4ab07b1972
-version: 2
-date: '2024-08-15'
+version: 3
+date: '2024-10-17'
 author: Rod Soto, Splunk
 status: deprecated
 type: Hunting
