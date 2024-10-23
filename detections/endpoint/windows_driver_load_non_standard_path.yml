@@ -10,7 +10,7 @@ data_source:
 - Windows Event Log System 7045
 search: >-
   `wineventlog_system` EventCode=7045 ServiceType="kernel mode driver"
-  | regex ImagePath!="(?i)^(\w:\\\\Windows\\\\|\w:\\\\Program\sFile|\\\\systemroot\\\\|%SystemRoot%|system32\\\\"
+  | regex ImagePath!="(?i)^(\w:\\\\Windows\\\\|\w:\\\\Program\sFile|\\\\systemroot\\\\|%SystemRoot%|system32\\\\)"
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode ImagePath ServiceName ServiceType 
   | rename Computer as dest 
   | `security_content_ctime(firstTime)` 

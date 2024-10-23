@@ -14,12 +14,12 @@ search: >-
   | stats dc(ServiceName) AS unique_services values(ServiceName) as requested_services values(user_category) as user_category values(src_category) as src_category by _time, user, src
   | eventstats avg(unique_services) as comp_avg , stdev(unique_services) as comp_std by user, src
   | eval upperBound=(comp_avg+comp_std*3) 
-  | eval isOutlier=if(unique_services > 5 and unique_services >= upperBound, 1, 0) 
+  | eval isOutlier=if(unique_services > 2 and unique_services >= upperBound, 1, 0) 
   | search isOutlier=1
   | `unusual_number_of_kerberos_service_tickets_requested_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller and Kerberos events. The Advanced Security Audit policy setting
-  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled. 
 known_false_positives: An single endpoint requesting a large number of kerberos service
   tickets is not common behavior. Possible false positive scenarios include but are
   not limited to vulnerability scanners, administration systems and missconfigured
