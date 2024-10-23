@@ -1,12 +1,12 @@
-name: Inactive Account Have Activity Detected
+name: Detect Network Traffic From Inactive Accounts
 id: e08aa2f6-7d90-4ab8-af11-da4df38bb7ff
 version: 1
 date: '2024-10-14'
 author: Zaki Zarkasih Al Mustafa
 data_sources:
-- Windows Security 4624
-- Windows Security 4625
-type: Correlation
+- Windows Event Log Security 4624
+- Windows Event Log Security 4625
+type: Anomaly
 status: production
 description: This detection identifies users who have been inactive for more than 30 days and suddenly have activity based on network traffic logs.
 search: '| tstats summariesonly=true fillnull_value=null count min(_time) as firstTime
@@ -38,15 +38,29 @@ search: '| tstats summariesonly=true fillnull_value=null count min(_time) as fir
   | table "auth server", "vendor product", user, firstTime, lastTimeLogin, inactivityPeriodByDay,
   status,
 
-  action | `inactive_account_have_activity_detected_filter`'
+  action | `detect_network_traffic_from_inactive_accounts_filter`'
 how_to_implement: Ensure that the Network Traffic data model is properly populated and includes logs from relevant sources (e.g., firewalls, proxies, or other network monitoring tools). Configure the data model acceleration to ensure performance and availability for this detection. Make sure to adjust any environment-specific filter macros for false positive reduction.
 known_false_positives: False positives may include legitimate users returning to the network after extended vacations or periods of inactivity. System accounts or service accounts that are seldom used but have routine tasks may also trigger this detection.
 references:
   - https://attack.mitre.org/techniques/T1078/
   - https://docs.splunk.com/Documentation/Splunk/latest/Knowledge/Useaccelerateddatamodels
   - https://www.sans.org/white-papers/monitoring-inactive-accounts/
+drilldown_searches:
+- name: View network activity for $user$
+  search: '%original_search% | search user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View detailed inactivity and action history for $user$
+  search: '| tstats summariesonly=true fillnull_value=null count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.user, All_Traffic.action | search All_Traffic.user="$user$" | eval inactivityPeriodByDay = (now() - lastTime) / 86400 | eval status = if(inactivityPeriodByDay > 29, "inactive", "active") | eval inactivityPeriodByDay = round(inactivityPeriodByDay, 0) . " Days" | table user, action, firstTime, lastTime, inactivityPeriodByDay, status'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View associated risk events for $user$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 tags:
-  analytic_story: []
+  analytic_story: 
+  - Insider Threat
   asset_type: Network
   confidence: 85
   impact: 70
