@@ -1,7 +1,7 @@
 name: Abnormally High Number Of Cloud Instances Launched
 id: f2361e9f-3928-496c-a556-120cd4223a65
-version: 4
-date: '2024-10-17'
+version: 5
+date: '2024-10-22'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -62,4 +62,4 @@ tags:
   - All_Changes.object_category
   - All_Changes.user
   risk_score: 25
-  security_domain: cloud
+  security_domain: threat
