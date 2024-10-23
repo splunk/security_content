@@ -1,7 +1,7 @@
 name: AWS IAM Failure Group Deletion
 id: 723b861a-92eb-11eb-93b8-acde48001122
-version: 4
-date: '2024-09-30'
+version: 5
+date: '2024-10-22'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -52,7 +52,7 @@ tags:
   - errorCode
   - requestParameters.groupName
   risk_score: 5
-  security_domain: cloud
+  security_domain: access
 tests:
 - name: True Positive Test
   attack_data:
