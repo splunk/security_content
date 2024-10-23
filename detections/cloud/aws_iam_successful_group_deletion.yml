@@ -1,7 +1,7 @@
 name: AWS IAM Successful Group Deletion
 id: e776d06c-9267-11eb-819b-acde48001122
-version: 3
-date: '2024-10-17'
+version: 4
+date: '2024-10-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -65,7 +65,7 @@ tags:
   - errorCode
   - requestParameters.groupName
   risk_score: 5
-  security_domain: cloud
+  security_domain: access
 tests:
 - name: True Positive Test
   attack_data:
