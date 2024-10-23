@@ -1,7 +1,7 @@
 name: ASL AWS IAM Successful Group Deletion
 id: 1bbe54f1-93d7-4764-8a01-ddaa12ece7ac
-version: 3
-date: '2024-10-17'
+version: 4
+date: '2024-10-22'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -58,7 +58,7 @@ tags:
   - src_endpoint.ip
   - cloud.region
   risk_score: 5
-  security_domain: cloud
+  security_domain: access
 tests:
 - name: True Positive Test
   attack_data:
