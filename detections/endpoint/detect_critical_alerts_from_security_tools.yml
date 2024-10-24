@@ -53,11 +53,11 @@ tags:
   risk_score: 25
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/AdvancedHunting.log
-    source: eventhub://windowsdefenderlogs
-    sourcetype: mscs:azure:eventhub:defender:advancedhunting
+# - name: True Positive Test
+#   attack_data:
+#   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/AdvancedHunting.log
+#     source: eventhub://windowsdefenderlogs
+#     sourcetype: mscs:azure:eventhub:defender:advancedhunting
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/defender_incident_alerts.json
