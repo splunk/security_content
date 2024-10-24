@@ -1,0 +1,85 @@
+name: Windows Disable or Stop Browser Process
+id: 220d34b7-b6c7-45fe-8dbb-c35cdd9fe6d5
+version: 1
+date: '2024-09-24'
+author: Teoderick Contreras, Splunk
+data_sources:
+- Sysmon Event ID 1
+type: TTP
+status: production
+description: The following analytic detects the use of the taskkill command in a process command line to terminate several known browser processes, a technique commonly employed by the Braodo stealer malware to steal credentials. By forcefully closing browsers like Chrome, Edge, and Firefox, the malware can unlock files that store sensitive information, such as passwords and login data. This detection focuses on identifying taskkill commands targeting these browsers, signaling malicious intent. Early detection allows security teams to investigate and prevent further credential theft and system compromise.
+kind: endpoint
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where Processes.process = "*taskkill*" Processes.process IN("*chrome.exe","*firefox.exe","*brave.exe","*opera.exe","*msedge.exe","*chromium.exe")
+  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.original_file_name Processes.process Processes.process_id
+  Processes.parent_process_id 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_disable_or_stop_browser_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Admin or user may choose to terminate browser via taskkill.exe. Filter
+  as needed.
+references:
+- https://x.com/suyog41/status/1825869470323056748
+- https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+tags:
+  analytic_story:
+  - Braodo Stealer
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A process commandline- [$process$] that tries to kill browser on [$dest$].
+  mitre_attack_id:
+  - T1562.001
+  - T1562
+  observable:
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Processes.dest
+  - Processes.user
+  - Processes.parent_process_name
+  - Processes.parent_process
+  - Processes.original_file_name
+  - Processes.process_name
+  - Processes.process
+  - Processes.process_id
+  - Processes.parent_process_path
+  - Processes.process_path
+  - Processes.parent_process_id
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/taskkill_browser/braodo_taskkill.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

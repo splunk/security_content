@@ -1,0 +1,69 @@
+name: Windows Archived Collected Data In TEMP Folder
+id: cb56a1ea-e0b1-46d5-913f-e024cba40cbe
+version: 1
+date: '2024-09-24'
+author: Teoderick Contreras, Splunk
+data_sources:
+- Sysmon Event ID 11
+type: TTP
+status: production
+description: The following analytic detects the creation of archived files in a temporary folder, which may contain collected data. This behavior is often associated with malicious activity, where attackers compress sensitive information before exfiltration. The detection focuses on monitoring specific directories, such as temp folders, for the presence of newly created archive files (e.g., .zip, .rar, .tar). By identifying this pattern, security teams can quickly respond to potential data collection and exfiltration attempts, minimizing the risk of data breaches and improving overall threat detection.
+kind: endpoint
+search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem 
+  where Filesystem.file_name IN ("*.zip", "*.rar", "*.tar", "*.7z") Filesystem.file_path = "*\\temp\\*" 
+  by _time Filesystem.file_name Filesystem.file_path Filesystem.dest Filesystem.file_create_time 
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_archived_collected_data_in_temp_folder_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: unknown
+references:
+- https://x.com/suyog41/status/1825869470323056748
+- https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+tags:
+  analytic_story:
+  - Braodo Stealer
+  asset_type: Endpoint
+  confidence: 80
+  impact: 80
+  message: A archive file [$file_name$] was creatd in %temp% folder on [$dest$].
+  mitre_attack_id:
+  - T1560
+  observable:
+  - name: dest
+    type: Hostname
+    role:
+    - Victim
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  required_fields:
+  - _time
+  - Filesystem.dest
+  - Filesystem.file_create_time
+  - Filesystem.file_name
+  - Filesystem.user
+  - Filesystem.file_path
+  risk_score: 64
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560/archived_in_temp_dir/braodo_zip_temp.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: xmlwineventlog

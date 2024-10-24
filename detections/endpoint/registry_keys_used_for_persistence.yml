@@ -49,6 +49,7 @@ tags:
   - Snake Keylogger
   - MoonPeak
   - BlackSuit Ransomware
+  - Braodo Stealer
   asset_type: Endpoint
   confidence: 95
   impact: 80
