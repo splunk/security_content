@@ -47,15 +47,15 @@ references:
   - https://www.sans.org/white-papers/monitoring-inactive-accounts/
 drilldown_searches:
 - name: View network activity for $user$
-  search: '%original_search% | search user = "$user$"'
+  search: '%original_detection_search% | search user = "$user$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View detailed inactivity and action history for $user$
-  search: '| tstats summariesonly=true fillnull_value=null count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.user, All_Traffic.action | search All_Traffic.user="$user$" | eval inactivityPeriodByDay = (now() - lastTime) / 86400 | eval status = if(inactivityPeriodByDay > 29, "inactive", "active") | eval inactivityPeriodByDay = round(inactivityPeriodByDay, 0) . " Days" | table user, action, firstTime, lastTime, inactivityPeriodByDay, status'
+  search: '%original_detection_search% | search All_Traffic.user="$user$" | eval inactivityPeriodByDay = (now() - lastTime) / 86400 | eval status = if(inactivityPeriodByDay > 29, "inactive", "active") | eval inactivityPeriodByDay = round(inactivityPeriodByDay, 0) . " Days" | table user, action, firstTime, lastTime, inactivityPeriodByDay, status'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View associated risk events for $user$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  search: '%original_detection_search% | from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:
