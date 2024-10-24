@@ -5,29 +5,11 @@ date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the registration of a new Multi-Factor
-  Authentication (MFA) method for an AWS account, as logged through Amazon Security
-  Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice`
-  API operation within ASL logs. This behavior is significant because adversaries
-  who gain unauthorized access to an AWS account may register a new MFA method to
-  maintain persistence. If confirmed malicious, this activity could allow attackers
-  to secure their access, making it harder to detect and remove their presence from
-  the compromised environment.
+description: The following analytic identifies the registration of a new Multi-Factor Authentication (MFA) method for an AWS account, as logged through Amazon Security Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice` API operation within ASL logs. This behavior is significant because adversaries who gain unauthorized access to an AWS account may register a new MFA method to maintain persistence. If confirmed malicious, this activity could allow attackers to secure their access, making it harder to detect and remove their presence from the compromised environment.
 data_source: []
-search: '`amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull |
-  stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid
-  actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
-  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region,
-  http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_new_mfa_method_registered_for_user_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon
-  Web Services (AWS), which is a centralized data lake that provides security-related
-  data from AWS services. To use this detection, you must ingest CloudTrail logs from
-  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
-  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
-  or the Federated Analytics App.
-known_false_positives: Newly onboarded users who are registering an MFA method for
-  the first time will also trigger this detection.
+search: '`amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_new_mfa_method_registered_for_user_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
+known_false_positives: Newly onboarded users who are registering an MFA method for the first time will also trigger this detection.
 references:
 - https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
 - https://attack.mitre.org/techniques/T1556/
@@ -69,7 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

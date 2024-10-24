@@ -5,28 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the deletion of an IAM policy in AWS.
-  It leverages AWS CloudTrail logs to identify `DeletePolicy` events, excluding those
-  from AWS internal services. This activity is significant as unauthorized policy
-  deletions can disrupt access controls and weaken security postures. If confirmed
-  malicious, an attacker could remove critical security policies, potentially leading
-  to privilege escalation, unauthorized access, or data exfiltration. Monitoring this
-  behavior helps ensure that only authorized changes are made to IAM policies, maintaining
-  the integrity and security of the AWS environment.
+description: The following analytic detects the deletion of an IAM policy in AWS. It leverages AWS CloudTrail logs to identify `DeletePolicy` events, excluding those from AWS internal services. This activity is significant as unauthorized policy deletions can disrupt access controls and weaken security postures. If confirmed malicious, an attacker could remove critical security policies, potentially leading to privilege escalation, unauthorized access, or data exfiltration. Monitoring this behavior helps ensure that only authorized changes are made to IAM policies, maintaining the integrity and security of the AWS environment.
 data_source:
 - AWS CloudTrail DeletePolicy
-search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats
-  count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn)
-  as policyArn by src user_arn eventName eventSource aws_account_id errorCode errorMessage
-  userAgent eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `aws_iam_delete_policy_filter`'
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS CloudTrail logs.
-known_false_positives: This detection will require tuning to provide high fidelity
-  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
-  or by groups of users. Not every user with AWS access should have permission to
-  delete policies (least privilege). In addition, this may be saved seperately and
-  tuned for failed or success attempts only.
+search: '`cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyArn) as policyArn by src user_arn eventName eventSource aws_account_id errorCode errorMessage userAgent eventID awsRegion userIdentity.principalId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_iam_delete_policy_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS CloudTrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete policies (least privilege). In addition, this may be saved seperately and tuned for failed or success attempts only.
 references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
 - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
@@ -36,8 +20,7 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 20
-  message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing
-    the following command $eventName$
+  message: User $user_arn$ has deleted AWS Policies from IP address $src$ by executing the following command $eventName$
   mitre_attack_id:
   - T1098
   observable:
@@ -64,8 +47,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/aws_iam_delete_policy.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

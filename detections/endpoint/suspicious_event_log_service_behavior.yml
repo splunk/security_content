@@ -5,22 +5,12 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the shutdown of the Windows Event Log
-  service using Windows Event ID 1100. This event is logged every time the service
-  stops, including during normal system shutdowns. Monitoring this activity is crucial
-  as it can indicate attempts to cover tracks or disable logging. If confirmed malicious,
-  an attacker could hide their activities, making it difficult to trace their actions
-  and investigate further incidents. Analysts should verify if the shutdown was planned
-  and review other alerts and data sources for additional suspicious behavior.
+description: The following analytic detects the shutdown of the Windows Event Log service using Windows Event ID 1100. This event is logged every time the service stops, including during normal system shutdowns. Monitoring this activity is crucial as it can indicate attempts to cover tracks or disable logging. If confirmed malicious, an attacker could hide their activities, making it difficult to trace their actions and investigate further incidents. Analysts should verify if the shutdown was planned and review other alerts and data sources for additional suspicious behavior.
 data_source:
 - Windows Event Log Security 1100
-search: '(`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime
-  max(_time) as lastTime by dest name EventCode | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`| `suspicious_event_log_service_behavior_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
-known_false_positives: It is possible the Event Logging service gets shut down due
-  to system errors or legitimately administration tasks. Filter as needed.
+search: (`wineventlog_security` EventCode=1100) | stats count min(_time) as firstTime max(_time) as lastTime by dest name EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `suspicious_event_log_service_behavior_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
+known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimately administration tasks. Filter as needed.
 references:
 - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-1100
 - https://www.ired.team/offensive-security/defense-evasion/disabling-windows-event-logs-by-suspending-eventlog-service-threads
@@ -56,7 +46,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/suspicious_event_log_service_behavior/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

@@ -5,20 +5,10 @@ date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: "The following analytic detects the execution of the \"sudoedit -s *\"\
-  \ command, which is associated with the Baron Samedit CVE-2021-3156 heap-based buffer
-  overflow vulnerability. This detection leverages the `osquery_process` data source
-  to identify instances where this specific command is run. This activity is significant
-  because it indicates an attempt to exploit a known vulnerability that allows privilege
-  escalation. If confirmed malicious, an attacker could gain full control of the system,
-  execute arbitrary code, or access sensitive data, leading to potential data breaches
-  and system disruptions."
+description: The following analytic detects the execution of the "sudoedit -s *" command, which is associated with the Baron Samedit CVE-2021-3156 heap-based buffer overflow vulnerability. This detection leverages the `osquery_process` data source to identify instances where this specific command is run. This activity is significant because it indicates an attempt to exploit a known vulnerability that allows privilege escalation. If confirmed malicious, an attacker could gain full control of the system, execute arbitrary code, or access sensitive data, leading to potential data breaches and system disruptions.
 data_source: []
 search: '`osquery_process` | search "columns.cmdline"="sudoedit -s \\*" | `detect_baron_samedit_cve_2021_3156_via_osquery_filter`'
-how_to_implement: OSQuery installed and configured to pick up process events (info
-  at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
-  The vulnerability is exposed when a non privledged user tries passing in a single
-  \ character at the end of the command while using the shell and edit flags.
+how_to_implement: OSQuery installed and configured to pick up process events (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402. The vulnerability is exposed when a non privledged user tries passing in a single \ character at the end of the command while using the shell and edit flags.
 known_false_positives: unknown
 references: []
 tags:

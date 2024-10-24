@@ -5,24 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following analytic detects the loading of `msi.dll` by a binary
-  not located in `system32`, `syswow64`, `winsxs`, or `windows` directories. This
-  is identified using Sysmon EventCode 7, which logs DLL loads, and filters out legitimate
-  system paths. This activity is significant as it may indicate exploitation of CVE-2021-41379
-  or DLL side-loading attacks, both of which can lead to unauthorized system modifications.
-  If confirmed malicious, this could allow an attacker to execute arbitrary code,
-  escalate privileges, or persist within the environment.'
+description: The following analytic detects the loading of `msi.dll` by a binary not located in `system32`, `syswow64`, `winsxs`, or `windows` directories. This is identified using Sysmon EventCode 7, which logs DLL loads, and filters out legitimate system paths. This activity is significant as it may indicate exploitation of CVE-2021-41379 or DLL side-loading attacks, both of which can lead to unauthorized system modifications. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or persist within the environment.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
-  "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by
-  Image ImageLoaded process_name dest EventCode ProcessId | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and imageloaded executions from your endpoints. If you
-  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: It is possible some Administrative utilities will load msi.dll
-  outside of normal system paths, filter as needed.
+search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*", "*\\winsxs\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible some Administrative utilities will load msi.dll outside of normal system paths, filter as needed.
 references:
 - https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
 - https://github.com/AlexandrVIvanov/InstallerFileTakeOver
@@ -37,8 +25,7 @@ tags:
   cve:
   - CVE-2021-41379
   impact: 80
-  message: The following module $ImageLoaded$ was loaded by $Image$ outside of the
-    normal system paths on endpoint $dest$, potentally related to DLL side-loading.
+  message: The following module $ImageLoaded$ was loaded by $Image$ outside of the normal system paths on endpoint $dest$, potentally related to DLL side-loading.
   mitre_attack_id:
   - T1574.002
   - T1574
@@ -68,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

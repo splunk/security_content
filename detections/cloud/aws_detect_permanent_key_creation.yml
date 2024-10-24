@@ -5,21 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: The following analytic detects the creation of permanent access keys
-  in AWS accounts. It leverages CloudWatch logs to identify events where the `CreateAccessKey`
-  action is performed by IAM users. Monitoring the creation of permanent keys is crucial
-  as they are not created by default and are typically used for programmatic access.
-  If confirmed malicious, this activity could allow attackers to gain persistent access
-  to AWS resources, potentially leading to unauthorized actions and data exfiltration.
+description: The following analytic detects the creation of permanent access keys in AWS accounts. It leverages CloudWatch logs to identify events where the `CreateAccessKey` action is performed by IAM users. Monitoring the creation of permanent keys is crucial as they are not created by default and are typically used for programmatic access. If confirmed malicious, this activity could allow attackers to gain persistent access to AWS resources, potentially leading to unauthorized actions and data exfiltration.
 data_source: []
-search: '`aws_cloudwatchlogs_eks` CreateAccessKey | spath eventName | search eventName=CreateAccessKey
-  "userIdentity.type"=IAMUser | table sourceIPAddress userName userIdentity.type userAgent
-  action status responseElements.accessKey.createDate responseElements.accessKey.status
-  responseElements.accessKey.accessKeyId |`aws_detect_permanent_key_creation_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with cloudwatch logs
-known_false_positives: Not all permanent key creations are malicious. If there is
-  a policy of rotating keys this search can be adjusted to provide better context.
+search: '`aws_cloudwatchlogs_eks` CreateAccessKey | spath eventName | search eventName=CreateAccessKey "userIdentity.type"=IAMUser | table sourceIPAddress userName userIdentity.type userAgent action status responseElements.accessKey.createDate responseElements.accessKey.status responseElements.accessKey.accessKeyId |`aws_detect_permanent_key_creation_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with cloudwatch logs
+known_false_positives: Not all permanent key creations are malicious. If there is a policy of rotating keys this search can be adjusted to provide better context.
 references: []
 tags:
   analytic_story:

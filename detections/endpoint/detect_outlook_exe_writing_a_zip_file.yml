@@ -5,36 +5,12 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the execution of `outlook.exe` writing
-  a `.zip` file to the disk. It leverages data from the Endpoint data model, specifically
-  monitoring process and filesystem activities. This behavior is significant as it
-  may indicate the use of Outlook to deliver malicious payloads or exfiltrate data
-  via compressed files. If confirmed malicious, this activity could lead to unauthorized
-  data access, data exfiltration, or the delivery of malware, potentially compromising
-  the security of the affected system and network.
+description: The following analytic identifies the execution of `outlook.exe` writing a `.zip` file to the disk. It leverages data from the Endpoint data model, specifically monitoring process and filesystem activities. This behavior is significant as it may indicate the use of Outlook to deliver malicious payloads or exfiltrate data via compressed files. If confirmed malicious, this activity could lead to unauthorized data access, data exfiltration, or the delivery of malware, potentially compromising the security of the affected system and network.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe
-  by _time span=5m Processes.parent_process_id Processes.process_id Processes.dest
-  Processes.process_name Processes.parent_process_name Processes.user | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename
-  process_id as malicious_id| rename parent_process_id as outlook_id| join malicious_id
-  type=inner[| tstats `security_content_summariesonly` count values(Filesystem.file_path)
-  as file_path values(Filesystem.file_name) as file_name  FROM datamodel=Endpoint.Filesystem
-  where (Filesystem.file_path=*.zip*   OR Filesystem.file_name=*.lnk ) AND (Filesystem.file_path=C:\\Users*
-  OR Filesystem.file_path=*Local\\Temp*) by  _time span=5m Filesystem.process_id Filesystem.file_hash
-  Filesystem.dest  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | rename process_id as malicious_id| fields
-  malicious_id outlook_id dest file_path file_name file_hash count file_id] | table
-  firstTime lastTime user malicious_id outlook_id process_name parent_process_name
-  file_name  file_path | where file_name != "" | `detect_outlook_exe_writing_a_zip_file_filter`'
-how_to_implement: You must be ingesting data that records filesystem and process activity
-  from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response product, such as Carbon Black, or endpoint data
-  sources, such as Sysmon.
-known_false_positives: It is not uncommon for outlook to write legitimate zip files
-  to the disk.
+search: '| tstats `security_content_summariesonly`  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe by _time span=5m Processes.parent_process_id Processes.process_id Processes.dest Processes.process_name Processes.parent_process_name Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename process_id as malicious_id| rename parent_process_id as outlook_id| join malicious_id type=inner[| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path values(Filesystem.file_name) as file_name  FROM datamodel=Endpoint.Filesystem where (Filesystem.file_path=*.zip*   OR Filesystem.file_name=*.lnk ) AND (Filesystem.file_path=C:\\Users* OR Filesystem.file_path=*Local\\Temp*) by  _time span=5m Filesystem.process_id Filesystem.file_hash Filesystem.dest  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename process_id as malicious_id| fields malicious_id outlook_id dest file_path file_name file_hash count file_id] | table firstTime lastTime user malicious_id outlook_id process_name parent_process_name file_name  file_path | where file_name != "" | `detect_outlook_exe_writing_a_zip_file_filter`'
+how_to_implement: You must be ingesting data that records filesystem and process activity from your hosts to populate the Endpoint data model. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or endpoint data sources, such as Sysmon.
+known_false_positives: It is not uncommon for outlook to write legitimate zip files to the disk.
 references: []
 tags:
   analytic_story:

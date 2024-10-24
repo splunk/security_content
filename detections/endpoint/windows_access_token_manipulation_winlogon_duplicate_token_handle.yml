@@ -5,27 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects a process attempting to access winlogon.exe
-  to duplicate its handle. This is identified using Sysmon EventCode 10, focusing
-  on processes targeting winlogon.exe with specific access rights. This activity is
-  significant because it is a common technique used by adversaries to escalate privileges
-  by leveraging the high privileges and security tokens associated with winlogon.exe.
-  If confirmed malicious, this could allow an attacker to gain elevated privileges,
-  potentially leading to full system compromise and unauthorized access to sensitive
-  information.
+description: The following analytic detects a process attempting to access winlogon.exe to duplicate its handle. This is identified using Sysmon EventCode 10, focusing on processes targeting winlogon.exe with specific access rights. This activity is significant because it is a common technique used by adversaries to escalate privileges by leveraging the high privileges and security tokens associated with winlogon.exe. If confirmed malicious, this could allow an attacker to gain elevated privileges, potentially leading to full system compromise and unauthorized access to sensitive information.
 data_source:
 - Sysmon EventID 10
-search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
-  GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime
-  by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId
-  GrantedAccess CallTrace dest user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
-  of the Sysmon TA.
-known_false_positives: It is possible legitimate applications will request access
-  to winlogon, filter as needed.
+search: '`sysmon` EventCode=10 TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*") GrantedAccess = 0x1040 | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage SourceProcessGUID TargetProcessGUID SourceProcessId TargetProcessId GrantedAccess CallTrace dest user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_access_token_manipulation_winlogon_duplicate_token_handle_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible legitimate applications will request access to winlogon, filter as needed.
 references:
 - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
 - https://attack.mitre.org/techniques/T1134/001/
@@ -35,8 +20,7 @@ tags:
   asset_type: Endpoint
   confidence: 60
   impact: 60
-  message: A process $SourceImage$ is duplicating the handle token of winlogon.exe
-    in $dest$
+  message: A process $SourceImage$ is duplicating the handle token of winlogon.exe in $dest$
   mitre_attack_id:
   - T1134.001
   - T1134
@@ -70,8 +54,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

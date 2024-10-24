@@ -5,29 +5,10 @@ date: '2024-10-17'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects IPv6 network infrastructure threats by
-  identifying suspicious activities such as IP and MAC address theft or packet drops.
-  It leverages logs from Cisco network devices configured with First Hop Security
-  measures like RA Guard and DHCP Guard. This activity is significant as it can indicate
-  attempts to compromise network integrity and security. If confirmed malicious, attackers
-  could manipulate network traffic, leading to potential data interception, unauthorized
-  access, or network disruption.
+description: The following analytic detects IPv6 network infrastructure threats by identifying suspicious activities such as IP and MAC address theft or packet drops. It leverages logs from Cisco network devices configured with First Hop Security measures like RA Guard and DHCP Guard. This activity is significant as it can indicate attempts to compromise network integrity and security. If confirmed malicious, attackers could manipulate network traffic, leading to potential data interception, unauthorized access, or network disruption.
 data_source: []
-search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
-  | eval src_interface=src_int_prefix_long+src_int_suffix | eval dest_interface=dest_int_prefix_long+dest_int_suffix
-  | stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac
-  values(src_vlan) AS src_vlan values(mnemonic) AS mnemonic values(vendor_explanation)
-  AS vendor_explanation values(src_ip) AS src_ip values(dest_ip) AS dest_ip values(dest_interface)
-  AS dest_interface values(action) AS action count BY host src_interface | table host
-  src_interface dest_interface src_mac src_ip dest_ip src_vlan mnemonic vendor_explanation
-  action count | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`
-  | `detect_ipv6_network_infrastructure_threats_filter`'
-how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must be configured with one or more First Hop Security
-  measures such as RA Guard, DHCP Guard and/or device tracking. See References for
-  more information. The search also requires that the Cisco Networks Add-on for Splunk
-  (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco
-  network devices.
+search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP") | eval src_interface=src_int_prefix_long+src_int_suffix | eval dest_interface=dest_int_prefix_long+dest_int_suffix | stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac values(src_vlan) AS src_vlan values(mnemonic) AS mnemonic values(vendor_explanation) AS vendor_explanation values(src_ip) AS src_ip values(dest_ip) AS dest_ip values(dest_interface) AS dest_interface values(action) AS action count BY host src_interface | table host src_interface dest_interface src_mac src_ip dest_ip src_vlan mnemonic vendor_explanation action count | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `detect_ipv6_network_infrastructure_threats_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with one or more First Hop Security measures such as RA Guard, DHCP Guard and/or device tracking. See References for more information. The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
 known_false_positives: None currently known
 references:
 - https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2020/pdf/BRKSEC-3200.pdf

@@ -5,31 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies access to an S3 bucket from a new or
-  previously unseen remote IP address. It leverages S3 bucket-access logs, specifically
-  focusing on successful access events (http_status=200). This activity is significant
-  because access from unfamiliar IP addresses could indicate unauthorized access or
-  potential data exfiltration attempts. If confirmed malicious, this activity could
-  lead to unauthorized data access, data theft, or further exploitation of the compromised
-  S3 bucket, posing a significant risk to sensitive information stored within the
-  bucket.
+description: The following analytic identifies access to an S3 bucket from a new or previously unseen remote IP address. It leverages S3 bucket-access logs, specifically focusing on successful access events (http_status=200). This activity is significant because access from unfamiliar IP addresses could indicate unauthorized access or potential data exfiltration attempts. If confirmed malicious, this activity could lead to unauthorized data access, data theft, or further exploitation of the compromised S3 bucket, posing a significant risk to sensitive information stored within the bucket.
 data_source: []
-search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200
-  | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip
-  | inputlookup append=t previously_seen_S3_access_from_remote_ip | stats min(firstTime)
-  as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup
-  previously_seen_S3_access_from_remote_ip| eval newIP=if(firstTime >= relative_time(now(),
-  "-70m@m"), 1, 0) | where newIP=1 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip
-  | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access
-  logs' inputs. This search works best when you run the "Previously Seen S3 Bucket
-  Access by Remote IP" support search once to create a history of previously seen
-  remote IPs and bucket names.
-known_false_positives: S3 buckets can be accessed from any IP, as long as it can make
-  a successful connection. This will be a false postive, since the search is looking
-  for a new IP within the past hour
+search: '`aws_s3_accesslogs` http_status=200  [search `aws_s3_accesslogs` http_status=200 | stats earliest(_time) as firstTime latest(_time) as lastTime by bucket_name remote_ip | inputlookup append=t previously_seen_S3_access_from_remote_ip | stats min(firstTime) as firstTime, max(lastTime) as lastTime by bucket_name remote_ip | outputlookup previously_seen_S3_access_from_remote_ip| eval newIP=if(firstTime >= relative_time(now(), "-70m@m"), 1, 0) | where newIP=1 | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | table bucket_name remote_ip]| iplocation remote_ip |rename remote_ip as src_ip | table _time bucket_name src_ip City Country operation request_uri | `detect_s3_access_from_a_new_ip_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your S3 access logs' inputs. This search works best when you run the "Previously Seen S3 Bucket Access by Remote IP" support search once to create a history of previously seen remote IPs and bucket names.
+known_false_positives: S3 buckets can be accessed from any IP, as long as it can make a successful connection. This will be a false postive, since the search is looking for a new IP within the past hour
 references: []
 tags:
   analytic_story:

@@ -5,32 +5,12 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects email files (.pst or .ost) being created
-  outside the standard Outlook directories. It leverages the Endpoint.Filesystem data
-  model to identify file creation events and filters for email files not located in
-  "C:\Users\*\My Documents\Outlook Files\*" or "C:\Users\*\AppData\Local\Microsoft\Outlook*".
-  This activity is significant as it may indicate data exfiltration or unauthorized
-  access to email data. If confirmed malicious, an attacker could potentially access
-  sensitive email content, leading to data breaches or further exploitation within
-  the network.
+description: The following analytic detects email files (.pst or .ost) being created outside the standard Outlook directories. It leverages the Endpoint.Filesystem data model to identify file creation events and filters for email files not located in "C:\Users\*\My Documents\Outlook Files\*" or "C:\Users\*\AppData\Local\Microsoft\Outlook*". This activity is significant as it may indicate data exfiltration or unauthorized access to email data. If confirmed malicious, an attacker could potentially access sensitive email content, leading to data breaches or further exploitation within the network.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path)
-  as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
-  where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path
-  != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*"
-  by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest
-  | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `email_files_written_outside_of_the_outlook_directory_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records the file-system activity from your hosts to populate the Endpoint.Filesystem
-  data model node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
-  The data used for this search is typically generated via logs that report file-system
-  reads and writes.
-known_false_positives: Administrators and users sometimes prefer backing up their
-  email data by moving the email files into a different folder. These attempts will
-  be detected by the search.
+search: '| tstats `security_content_summariesonly` count values(Filesystem.file_path) as file_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where (Filesystem.file_name=*.pst OR Filesystem.file_name=*.ost) Filesystem.file_path != "C:\\Users\\*\\My Documents\\Outlook Files\\*"  Filesystem.file_path!="C:\\Users\\*\\AppData\\Local\\Microsoft\\Outlook*" by Filesystem.action Filesystem.process_id Filesystem.file_name Filesystem.dest | `drop_dm_object_name("Filesystem")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `email_files_written_outside_of_the_outlook_directory_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
+known_false_positives: Administrators and users sometimes prefer backing up their email data by moving the email files into a different folder. These attempts will be detected by the search.
 references: []
 tags:
   analytic_story:

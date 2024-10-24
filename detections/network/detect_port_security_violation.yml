@@ -5,30 +5,11 @@ date: '2024-10-17'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects port security violations on Cisco switches.
-  It leverages logs from Cisco network devices, specifically looking for events with
-  mnemonics indicating port security violations. This activity is significant because
-  it indicates an unauthorized device attempting to connect to a secured port, potentially
-  bypassing network access controls. If confirmed malicious, this could allow an attacker
-  to gain unauthorized access to the network, leading to data exfiltration, network
-  disruption, or further lateral movement within the environment.
+description: The following analytic detects port security violations on Cisco switches. It leverages logs from Cisco network devices, specifically looking for events with mnemonics indicating port security violations. This activity is significant because it indicates an unauthorized device attempting to connect to a secured port, potentially bypassing network access controls. If confirmed malicious, this could allow an attacker to gain unauthorized access to the network, leading to data exfiltration, network disruption, or further lateral movement within the environment.
 data_source: []
-search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="psecure-violation")
-  OR (facility="PORT_SECURITY" mnemonic="PSECURE_VIOLATION" OR mnemonic="PSECURE_VIOLATION_VLAN")
-  | eval src_interface=src_int_prefix_long+src_int_suffix | stats min(_time) AS firstTime
-  max(_time) AS lastTime values(disable_cause) AS disable_cause values(src_mac) AS
-  src_mac values(src_vlan) AS src_vlan values(action) AS action count by host src_interface
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_port_security_violation_filter`'
-how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must be configured with Port Security and Error Disable
-  for this to work (see 
-  https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html)
-  and log with a severity level of minimum "5 - notification". The search also requires
-  that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
-  is used to parse the logs from the Cisco network devices.
-known_false_positives: This search might be prone to high false positives if you have
-  malfunctioning devices connected to your ethernet ports or if end users periodically
-  connect physical devices to the network.
+search: '`cisco_networks` (facility="PM" mnemonic="ERR_DISABLE" disable_cause="psecure-violation") OR (facility="PORT_SECURITY" mnemonic="PSECURE_VIOLATION" OR mnemonic="PSECURE_VIOLATION_VLAN") | eval src_interface=src_int_prefix_long+src_int_suffix | stats min(_time) AS firstTime max(_time) AS lastTime values(disable_cause) AS disable_cause values(src_mac) AS src_mac values(src_vlan) AS src_vlan values(action) AS action count by host src_interface | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_port_security_violation_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with Port Security and Error Disable for this to work (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst4500/12-2/25ew/configuration/guide/conf/port_sec.html) and log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+known_false_positives: This search might be prone to high false positives if you have malfunctioning devices connected to your ethernet ports or if end users periodically connect physical devices to the network.
 references: []
 tags:
   analytic_story:

@@ -5,18 +5,10 @@ date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: |-
-  The following analytic detects attempts to exploit the Zerologon CVE-2020-1472 vulnerability via Zeek RPC. It leverages Zeek DCE-RPC data to identify specific operations: NetrServerPasswordSet2, NetrServerReqChallenge, and NetrServerAuthenticate3. This activity is significant because it indicates an attempt to gain unauthorized access to a domain controller, potentially leading to a complete takeover of an organization's IT infrastructure. If confirmed malicious, the impact could be severe, including data theft, ransomware deployment, or other devastating outcomes. Immediate investigation of the identified IP addresses and RPC operations is crucial.
+description: 'The following analytic detects attempts to exploit the Zerologon CVE-2020-1472 vulnerability via Zeek RPC. It leverages Zeek DCE-RPC data to identify specific operations: NetrServerPasswordSet2, NetrServerReqChallenge, and NetrServerAuthenticate3. This activity is significant because it indicates an attempt to gain unauthorized access to a domain controller, potentially leading to a complete takeover of an organization''s IT infrastructure. If confirmed malicious, the impact could be severe, including data theft, ransomware deployment, or other devastating outcomes. Immediate investigation of the identified IP addresses and RPC operations is crucial.'
 data_source: []
-search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,NetrServerAuthenticate3)
-  | bin span=5m _time | stats values(operation) dc(operation) as opscount count(eval(operation=="NetrServerReqChallenge"))
-  as challenge count(eval(operation=="NetrServerAuthenticate3")) as authcount count(eval(operation=="NetrServerPasswordSet2"))
-  as passcount count as totalcount by _time,src_ip,dest_ip | search opscount=3 authcount>4
-  passcount>0 | search `detect_zerologon_via_zeek_filter`'
-how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should
-  also be getting ingested in JSON format.  We are detecting when all three RPC operations
-  (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app
-  via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
+search: '`zeek_rpc` operation IN (NetrServerPasswordSet2,NetrServerReqChallenge,NetrServerAuthenticate3) | bin span=5m _time | stats values(operation) dc(operation) as opscount count(eval(operation=="NetrServerReqChallenge")) as challenge count(eval(operation=="NetrServerAuthenticate3")) as authcount count(eval(operation=="NetrServerPasswordSet2")) as passcount count as totalcount by _time,src_ip,dest_ip | search opscount=3 authcount>4 passcount>0 | search `detect_zerologon_via_zeek_filter`'
+how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting when all three RPC operations (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
 known_false_positives: unknown
 references:
 - https://www.secura.com/blog/zero-logon

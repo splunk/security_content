@@ -5,29 +5,12 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
-description: 'The following analytic identifies an unusual number of remote authentication
-  attempts from a single source by leveraging Windows Event ID 4624, which logs successful
-  account logons. It uses statistical analysis, specifically the 3-sigma rule, to
-  detect deviations from normal behavior. This activity is significant for a SOC as
-  it may indicate lateral movement, malware staging, or reconnaissance. If confirmed
-  malicious, this behavior could allow an attacker to move laterally within the network,
-  escalate privileges, or gather information for further attacks.'
+description: The following analytic identifies an unusual number of remote authentication attempts from a single source by leveraging Windows Event ID 4624, which logs successful account logons. It uses statistical analysis, specifically the 3-sigma rule, to detect deviations from normal behavior. This activity is significant for a SOC as it may indicate lateral movement, malware staging, or reconnaissance. If confirmed malicious, this behavior could allow an attacker to move laterally within the network, escalate privileges, or gather information for further attacks.
 data_source:
 - Windows Event Log Security 4624
-search: '`wineventlog_security` EventCode=4624 Logon_Type=3 Account_Name!="*$" |
-  eval Source_Account = mvindex(Account_Name, 1) | bucket span=2m _time | stats dc(ComputerName)
-  AS unique_targets values(ComputerName) as target_hosts by _time, Source_Network_Address,
-  Source_Account | eventstats avg(unique_targets) as comp_avg , stdev(unique_targets)
-  as comp_std by Source_Network_Address, Source_Account | eval upperBound=(comp_avg+comp_std*3)
-  | eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0) |
-  `unusual_number_of_remote_endpoint_authentication_events_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Event Logs from domain controllers as well as member servers and workstations.
-  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
-  to be enabled.
-known_false_positives: An single endpoint authenticating to a large number of hosts
-  is not common behavior. Possible false positive scenarios include but are not limited
-  to vulnerability scanners, jump servers and missconfigured systems.
+search: '`wineventlog_security` EventCode=4624 Logon_Type=3 Account_Name!="*$" | eval Source_Account = mvindex(Account_Name, 1) | bucket span=2m _time | stats dc(ComputerName) AS unique_targets values(ComputerName) as target_hosts by _time, Source_Network_Address, Source_Account | eventstats avg(unique_targets) as comp_avg , stdev(unique_targets) as comp_std by Source_Network_Address, Source_Account | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0) | `unusual_number_of_remote_endpoint_authentication_events_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
+known_false_positives: An single endpoint authenticating to a large number of hosts is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, jump servers and missconfigured systems.
 references:
 - https://attack.mitre.org/techniques/T1078/
 tags:

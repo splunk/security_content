@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the usage of a renamed 7-Zip executable
-  using Sysmon data. It leverages the OriginalFileName field to identify instances
-  where the 7-Zip process has been renamed. This activity is significant as attackers
-  often rename legitimate tools to evade detection while staging or exfiltrating data.
-  If confirmed malicious, this behavior could indicate data exfiltration attempts
-  or other unauthorized data manipulation, potentially leading to significant data
-  breaches or loss of sensitive information. Analysts should validate the legitimacy
-  of the 7-Zip executable and investigate parallel processes for further suspicious
-  activities.
+description: The following analytic detects the usage of a renamed 7-Zip executable using Sysmon data. It leverages the OriginalFileName field to identify instances where the 7-Zip process has been renamed. This activity is significant as attackers often rename legitimate tools to evade detection while staging or exfiltrating data. If confirmed malicious, this behavior could indicate data exfiltration attempts or other unauthorized data manipulation, potentially leading to significant data breaches or loss of sensitive information. Analysts should validate the legitimacy of the 7-Zip executable and investigate parallel processes for further suspicious activities.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.original_file_name=7z*.exe
-  AND Processes.process_name!=7z*.exe) by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_renamed_7_zip_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives, however this analytic will need to
-  be modified for each environment if Sysmon is not used.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.original_file_name=7z*.exe AND Processes.process_name!=7z*.exe) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_renamed_7_zip_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives, however this analytic will need to be modified for each environment if Sysmon is not used.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
 tags:
@@ -43,8 +21,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 30
-  message: The following $process_name$ has been identified as renamed, spawning from
-    $parent_process_name$ on $dest$ by $user$.
+  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
   - T1560.001
   - T1560
@@ -87,7 +64,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

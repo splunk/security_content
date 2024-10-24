@@ -5,23 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies a large volume of DNS ANY queries,
-  which may indicate a DNS amplification attack. It leverages the Network_Resolution
-  data model to count DNS queries of type "ANY" directed to specific destinations.
-  This activity is significant because DNS amplification attacks can overwhelm network
-  resources, leading to Denial of Service (DoS) conditions. If confirmed malicious,
-  this activity could disrupt services, degrade network performance, and potentially
-  be part of a larger Distributed Denial of Service (DDoS) attack, impacting the availability
-  of critical infrastructure.
+description: The following analytic identifies a large volume of DNS ANY queries, which may indicate a DNS amplification attack. It leverages the Network_Resolution data model to count DNS queries of type "ANY" directed to specific destinations. This activity is significant because DNS amplification attacks can overwhelm network resources, leading to Denial of Service (DoS) conditions. If confirmed malicious, this activity could disrupt services, degrade network performance, and potentially be part of a larger Distributed Denial of Service (DDoS) attack, impacting the availability of critical infrastructure.
 data_source: []
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest"
-  | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`'
-how_to_implement: To successfully implement this search you must ensure that DNS data
-  is populating the Network_Resolution data model.
-known_false_positives: Legitimate ANY requests may trigger this search, however it
-  is unusual to see a large volume of them under typical circumstances. You may modify
-  the threshold in the search to better suit your environment.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution where nodename=DNS "DNS.message_type"="QUERY" "DNS.record_type"="ANY" by "DNS.dest" | `drop_dm_object_name("DNS")` | where count>200 | `large_volume_of_dns_any_queries_filter`'
+how_to_implement: To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
+known_false_positives: Legitimate ANY requests may trigger this search, however it is unusual to see a large volume of them under typical circumstances. You may modify the threshold in the search to better suit your environment.
 references: []
 tags:
   analytic_story:

@@ -5,50 +5,26 @@ date: '2024-10-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies processes running from newly seen paths
-  within a Kubernetes environment. It leverages process metrics collected via an OTEL
-  collector and hostmetrics receiver, and data is pulled from Splunk Observability
-  Cloud using the Splunk Infrastructure Monitoring Add-on. This detection compares
-  processes observed in the last hour with those seen over the previous 30 days. This
-  activity is significant as it may indicate unauthorized changes, compromised nodes,
-  or the introduction of malicious software. If confirmed malicious, it could lead
-  to unauthorized process execution, control over critical resources, data exfiltration,
-  privilege escalation, or malware introduction within the Kubernetes cluster.
+description: The following analytic identifies processes running from newly seen paths within a Kubernetes environment. It leverages process metrics collected via an OTEL collector and hostmetrics receiver, and data is pulled from Splunk Observability Cloud using the Splunk Infrastructure Monitoring Add-on. This detection compares processes observed in the last hour with those seen over the previous 30 days. This activity is significant as it may indicate unauthorized changes, compromised nodes, or the introduction of malicious software. If confirmed malicious, it could lead to unauthorized process execution, control over critical resources, data exfiltration, privilege escalation, or malware introduction within the Kubernetes cluster.
 data_source: []
-search: '| mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name 
-  | eval current="True" 
-  | append 
-    [ mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name
-        ] 
-  | stats count values(current) as current by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name process.executable.path
-  | where count=1 and current="True"
-  | rename host.name as host
-  | `kubernetes_process_running_from_new_path_filter`'
-how_to_implement: 'To implement this detection, follow these steps: 
-  
+search: '| mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name | eval current="True" | append [ mstats count(process.memory.utilization) as process.memory.utilization_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by host.name k8s.cluster.name k8s.node.name process.pid process.executable.path process.executable.name ] | stats count values(current) as current by host.name k8s.cluster.name k8s.node.name process.pid process.executable.name process.executable.path | where count=1 and current="True" | rename host.name as host | `kubernetes_process_running_from_new_path_filter`'
+how_to_implement: 'To implement this detection, follow these steps:
+
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
 
   * Enable the hostmetrics/process receiver in the OTEL configuration.
 
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
-  are enabled.
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
 
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
 
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
-  Token.
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
 
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
 
-  * In the SIM configuration, set the Organization ID to your Observability Cloud
-  Organization ID.
+  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
 
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
-  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
-  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
-  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
-  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
-  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
 
   * Set the Metric Resolution to 10000.
 

@@ -8,27 +8,7 @@ data_sources:
 type: Hunting
 status: production
 description: This analytic detects and analyzes PowerShell Web Access (PSWA) usage in Windows environments. It tracks both connection attempts (EventID 4648) and successful logons (EventID 4624) associated with PSWA, providing a comprehensive view of access patterns. The analytic identifies PSWA's operational status, host servers, processes, and connection metrics. It highlights unique target accounts, domains accessed, and verifies logon types. This information is crucial for detecting potential misuse, such as lateral movement, brute force attempts, or unusual access patterns. By offering insights into PSWA activity, it enables security teams to quickly assess and investigate potential security incidents involving this powerful administrative tool.
-search: '`wineventlog_security` (EventCode=4648 OR EventCode=4624 OR EventCode=4625) SubjectUserName="pswa_pool"
-  | fields EventCode, SubjectUserName, TargetUserName, Computer, TargetDomainName, ProcessName, LogonType
-  | rename Computer as dest
-  | stats 
-      count(eval(EventCode=4648)) as "Connection Attempts",
-      count(eval(EventCode=4624)) as "Successful Logons",
-      count(eval(EventCode=4625)) as "Unsuccessful Logons",
-      dc(TargetUserName) as "Unique Target Accounts",
-      values(dest) as "PSWA Host",
-      dc(TargetDomainName) as "Unique Target Domains",
-      values(ProcessName) as "PSWA Process",
-      values(TargetUserName) as "Target Users List",
-      values(TargetServerName) as "Target Servers List",
-      values(LogonType) as "Logon Types"
-  | eval 
-      PSWA_Running = "Yes",
-      "PSWA Process" = mvindex(split(mvindex("PSWA Process", 0), "\\"), -1)
-  | fields PSWA_Running, "PSWA Host", "PSWA Process", "Connection Attempts", "Successful Logons","Unsuccessful Logons", "Unique Target Accounts", "Unique Target Domains", "Target Users List","Target Servers List", "Logon Types"
-  | `security_content_ctime(firstTime)` 
-  |`security_content_ctime(lastTime)`
-  | `windows_identify_powershell_web_access_iis_pool_filter`'
+search: '`wineventlog_security` (EventCode=4648 OR EventCode=4624 OR EventCode=4625) SubjectUserName="pswa_pool" | fields EventCode, SubjectUserName, TargetUserName, Computer, TargetDomainName, ProcessName, LogonType | rename Computer as dest | stats count(eval(EventCode=4648)) as "Connection Attempts", count(eval(EventCode=4624)) as "Successful Logons", count(eval(EventCode=4625)) as "Unsuccessful Logons", dc(TargetUserName) as "Unique Target Accounts", values(dest) as "PSWA Host", dc(TargetDomainName) as "Unique Target Domains", values(ProcessName) as "PSWA Process", values(TargetUserName) as "Target Users List", values(TargetServerName) as "Target Servers List", values(LogonType) as "Logon Types" | eval PSWA_Running = "Yes", "PSWA Process" = mvindex(split(mvindex("PSWA Process", 0), "\\"), -1) | fields PSWA_Running, "PSWA Host", "PSWA Process", "Connection Attempts", "Successful Logons","Unsuccessful Logons", "Unique Target Accounts", "Unique Target Domains", "Target Users List","Target Servers List", "Logon Types" | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `windows_identify_powershell_web_access_iis_pool_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event logs, specifically Event ID 4648 (A logon was attempted using explicit credentials). Ensure that your Windows systems are configured to audit logon events and that these logs are being forwarded to your SIEM or log management solution. You may need to enable advanced audit policy settings in Windows to capture these events. Additionally, make sure that your environment is set up to capture the necessary fields such as SubjectUserName, TargetUserName, Computer, TargetServerName, and ProcessName from these events. If you're using Splunk, ensure that you have the appropriate Windows TA installed and configured to collect these security logs.
 known_false_positives: False positives may occur if legitimate PSWA processes are used for administrative tasks. Careful review of the logs is recommended to distinguish between legitimate and malicious activity.
 references:

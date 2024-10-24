@@ -5,35 +5,12 @@ date: '2024-10-17'
 author: John Murphy, Okta, Michael Haag, Splunk
 type: Hunting
 status: experimental
-data_source: 
+data_source:
 - Okta
-description: 'The following analytic detects multiple failed attempts to access applications
-  in Okta, potentially indicating the reuse of a stolen web session cookie. It leverages
-  Okta logs to evaluate policy and SSO events, aggregating data by user, session,
-  and IP. The detection triggers when more than half of the app sign-on attempts are
-  unsuccessful across multiple applications. This activity is significant as it may
-  indicate an attempt to bypass authentication mechanisms. If confirmed malicious,
-  it could lead to unauthorized access to sensitive applications and data, posing
-  a significant security risk.'
-search: '`okta` target{}.type=AppInstance (eventType=policy.evaluate_sign_on outcome.result=CHALLENGE)
-  OR (eventType=user.authentication.sso outcome.result=SUCCESS) | eval targets=mvzip(''target{}.type'',
-  ''target{}.displayName'', ": ") | eval targets=mvfilter(targets LIKE "AppInstance%")
-  | stats count min(_time) as _time values(outcome.result) as outcome.result dc(eval(if(eventType="policy.evaluate_sign_on",targets,NULL)))
-  as total_challenges sum(eval(if(eventType="user.authentication.sso",1,0))) as total_successes
-  by authenticationContext.externalSessionId targets actor.alternateId client.ipAddress
-  | search total_challenges > 0 | stats min(_time) as _time values(*) as * sum(total_challenges)
-  as total_challenges sum(total_successes) as total_successes values(eval(if("outcome.result"="SUCCESS",targets,NULL)))
-  as success_apps values(eval(if(":outcome.result"!="SUCCESS",targets,NULL))) as no_success_apps
-  by authenticationContext.externalSessionId actor.alternateId client.ipAddress |
-  fillnull | eval ratio=round(total_successes/total_challenges,2), severity="HIGH",
-  mitre_technique_id="T1538", description="actor.alternateId". " from " . "client.ipAddress"
-  . " seen opening " . total_challenges . " chiclets/apps with " . total_successes
-  . " challenges successfully passed" | fields - count, targets | search ratio < 0.5
-  total_challenges > 2 | `okta_multiple_failed_requests_to_access_applications_filter`'
-how_to_implement: This analytic is specific to Okta and requires Okta:im2 logs to
-  be ingested.
-known_false_positives: False positives may be present based on organization size and
-  configuration of Okta.
+description: The following analytic detects multiple failed attempts to access applications in Okta, potentially indicating the reuse of a stolen web session cookie. It leverages Okta logs to evaluate policy and SSO events, aggregating data by user, session, and IP. The detection triggers when more than half of the app sign-on attempts are unsuccessful across multiple applications. This activity is significant as it may indicate an attempt to bypass authentication mechanisms. If confirmed malicious, it could lead to unauthorized access to sensitive applications and data, posing a significant security risk.
+search: '`okta` target{}.type=AppInstance (eventType=policy.evaluate_sign_on outcome.result=CHALLENGE) OR (eventType=user.authentication.sso outcome.result=SUCCESS) | eval targets=mvzip(''target{}.type'', ''target{}.displayName'', ": ") | eval targets=mvfilter(targets LIKE "AppInstance%") | stats count min(_time) as _time values(outcome.result) as outcome.result dc(eval(if(eventType="policy.evaluate_sign_on",targets,NULL))) as total_challenges sum(eval(if(eventType="user.authentication.sso",1,0))) as total_successes by authenticationContext.externalSessionId targets actor.alternateId client.ipAddress | search total_challenges > 0 | stats min(_time) as _time values(*) as * sum(total_challenges) as total_challenges sum(total_successes) as total_successes values(eval(if("outcome.result"="SUCCESS",targets,NULL))) as success_apps values(eval(if(":outcome.result"!="SUCCESS",targets,NULL))) as no_success_apps by authenticationContext.externalSessionId actor.alternateId client.ipAddress | fillnull | eval ratio=round(total_successes/total_challenges,2), severity="HIGH", mitre_technique_id="T1538", description="actor.alternateId". " from " . "client.ipAddress" . " seen opening " . total_challenges . " chiclets/apps with " . total_successes . " challenges successfully passed" | fields - count, targets | search ratio < 0.5 total_challenges > 2 | `okta_multiple_failed_requests_to_access_applications_filter`'
+how_to_implement: This analytic is specific to Okta and requires Okta:im2 logs to be ingested.
+known_false_positives: False positives may be present based on organization size and configuration of Okta.
 references:
 - https://attack.mitre.org/techniques/T1538
 - https://attack.mitre.org/techniques/T1550/004

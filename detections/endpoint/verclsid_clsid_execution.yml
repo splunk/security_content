@@ -5,37 +5,14 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the potential abuse of the verclsid.exe
-  utility to execute malicious files via generated CLSIDs. It leverages data from
-  Endpoint Detection and Response (EDR) agents, focusing on specific command-line
-  patterns associated with verclsid.exe. This activity is significant because verclsid.exe
-  is a legitimate Windows application used to verify CLSID COM objects, and its misuse
-  can indicate an attempt to bypass security controls. If confirmed malicious, this
-  technique could allow an attacker to execute arbitrary code, potentially leading
-  to system compromise or further malicious activities.
+description: The following analytic detects the potential abuse of the verclsid.exe utility to execute malicious files via generated CLSIDs. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific command-line patterns associated with verclsid.exe. This activity is significant because verclsid.exe is a legitimate Windows application used to verify CLSID COM objects, and its misuse can indicate an attempt to bypass security controls. If confirmed malicious, this technique could allow an attacker to execute arbitrary code, potentially leading to system compromise or further malicious activities.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  values(Processes.parent_process) as parent_process values(Processes.process_id)
-  as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_verclsid` AND Processes.process="*/S*" Processes.process="*/C*" AND  Processes.process="*{*"
-  AND Processes.process="*}*" by  Processes.process_name Processes.original_file_name
-  Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `verclsid_clsid_execution_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: windows can used this application for its normal COM object
-  validation.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process values(Processes.parent_process) as parent_process values(Processes.process_id) as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_verclsid` AND Processes.process="*/S*" Processes.process="*/C*" AND  Processes.process="*{*" AND Processes.process="*}*" by  Processes.process_name Processes.original_file_name Processes.dest Processes.user Processes.parent_process_name Processes.parent_process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `verclsid_clsid_execution_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: windows can used this application for its normal COM object validation.
 references:
 - https://gist.github.com/NickTyrer/0598b60112eaafe6d07789f7964290d5
 - https://bohops.com/2018/08/18/abusing-the-com-registry-structure-part-2-loading-techniques-for-evasion-and-persistence/
@@ -45,8 +22,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: process $process_name$ to execute possible clsid commandline $process$
-    in $dest$
+  message: process $process_name$ to execute possible clsid commandline $process$ in $dest$
   mitre_attack_id:
   - T1218.012
   - T1218
@@ -81,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.012/verclsid_exec/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

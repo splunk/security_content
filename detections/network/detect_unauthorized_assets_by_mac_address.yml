@@ -5,30 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies unauthorized devices attempting to
-  connect to the organization's network by inspecting DHCP request packets. It detects
-  this activity by comparing the MAC addresses in DHCP requests against a list of
-  known authorized devices stored in the assets_by_str.csv file. This activity is
-  significant for a SOC because unauthorized devices can pose security risks, including
-  potential data breaches or network disruptions. If confirmed malicious, this activity
-  could allow an attacker to gain unauthorized network access, potentially leading
-  to further exploitation or data exfiltration.
+description: The following analytic identifies unauthorized devices attempting to connect to the organization's network by inspecting DHCP request packets. It detects this activity by comparing the MAC addresses in DHCP requests against a list of known authorized devices stored in the assets_by_str.csv file. This activity is significant for a SOC because unauthorized devices can pose security risks, including potential data breaches or network disruptions. If confirmed malicious, this activity could allow an attacker to gain unauthorized network access, potentially leading to further exploitation or data exfiltration.
 data_source: []
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions
-  where nodename=All_Sessions.DHCP All_Sessions.tag=dhcp by All_Sessions.dest_ip All_Sessions.dest_mac
-  | dedup All_Sessions.dest_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")`
-  | search NOT [| inputlookup asset_lookup_by_str |rename mac as dest_mac | fields
-  + dest_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
-how_to_implement: This search uses the Network_Sessions data model shipped with Enterprise
-  Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv
-  file located in SA-IdentityManagement, which will contain a list of known authorized
-  organizational assets including their MAC addresses. Ensure that all inventoried
-  systems have their MAC address populated.
-known_false_positives: This search might be prone to high false positives. Please
-  consider this when conducting analysis or investigations. Authorized devices may
-  be detected as unauthorized. If this is the case, verify the MAC address of the
-  system responsible for the false positive and add it to the Assets and Identity
-  framework with the proper information.
+search: '| tstats `security_content_summariesonly` count from datamodel=Network_Sessions where nodename=All_Sessions.DHCP All_Sessions.tag=dhcp by All_Sessions.dest_ip All_Sessions.dest_mac | dedup All_Sessions.dest_mac| `drop_dm_object_name("Network_Sessions")`|`drop_dm_object_name("All_Sessions")` | search NOT [| inputlookup asset_lookup_by_str |rename mac as dest_mac | fields + dest_mac] | `detect_unauthorized_assets_by_mac_address_filter`'
+how_to_implement: This search uses the Network_Sessions data model shipped with Enterprise Security. It leverages the Assets and Identity framework to populate the assets_by_str.csv file located in SA-IdentityManagement, which will contain a list of known authorized organizational assets including their MAC addresses. Ensure that all inventoried systems have their MAC address populated.
+known_false_positives: This search might be prone to high false positives. Please consider this when conducting analysis or investigations. Authorized devices may be detected as unauthorized. If this is the case, verify the MAC address of the system responsible for the false positive and add it to the Assets and Identity framework with the proper information.
 references: []
 tags:
   analytic_story:

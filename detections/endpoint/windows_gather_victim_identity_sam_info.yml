@@ -5,26 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects processes loading the samlib.dll or samcli.dll
-  modules, which are often abused to access Security Account Manager (SAM) objects
-  or credentials on domain controllers. This detection leverages Sysmon EventCode
-  7 to identify these DLLs being loaded outside typical system directories. Monitoring
-  this activity is crucial as it may indicate attempts to gather sensitive identity
-  information. If confirmed malicious, this behavior could allow attackers to obtain
-  credentials, escalate privileges, or further infiltrate the network.
+description: The following analytic detects processes loading the samlib.dll or samcli.dll modules, which are often abused to access Security Account Manager (SAM) objects or credentials on domain controllers. This detection leverages Sysmon EventCode 7 to identify these DLLs being loaded outside typical system directories. Monitoring this activity is crucial as it may indicate attempts to gather sensitive identity information. If confirmed malicious, this behavior could allow attackers to obtain credentials, escalate privileges, or further infiltrate the network.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName
-  = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL")
-  AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats
-  count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name
-  dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_gather_victim_identity_sam_info_filter`'
-how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709
-  will add the ImageLoaded name to the process_name field, allowing this query to
-  work. Use as an example and implement for other products.
-known_false_positives: this module can be loaded by a third party application. Filter
-  is needed.
+search: '`sysmon` EventCode=7  (ImageLoaded = "*\\samlib.dll" AND OriginalFileName = "samlib.dll") OR (ImageLoaded = "*\\samcli.dll" AND OriginalFileName = "SAMCLI.DLL") AND NOT (Image IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded process_name dest EventCode Signed ProcessId | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_gather_victim_identity_sam_info_filter`'
+how_to_implement: The latest Sysmon TA 3.0 https://splunkbase.splunk.com/app/5709 will add the ImageLoaded name to the process_name field, allowing this query to work. Use as an example and implement for other products.
+known_false_positives: this module can be loaded by a third party application. Filter is needed.
 references:
 - https://redcanary.com/blog/active-breach-evading-defenses/
 - https://strontic.github.io/xcyclopedia/library/samlib.dll-0BDF6351009F6EBA5BA7E886F23263B1.html
@@ -34,8 +20,7 @@ tags:
   asset_type: Endpoint
   confidence: 30
   impact: 30
-  message: An instance of $dest$ that loads $ImageLoaded$ that are related to accessing
-    to SAM object information.
+  message: An instance of $dest$ that loads $ImageLoaded$ that are related to accessing to SAM object information.
   mitre_attack_id:
   - T1589.001
   - T1589
@@ -61,8 +46,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/loading_samlib/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

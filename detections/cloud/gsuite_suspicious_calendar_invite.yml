@@ -5,28 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting
-description: The following analytic detects suspicious calendar invites sent via GSuite,
-  potentially indicating compromised accounts or malicious internal activity. It leverages
-  GSuite calendar logs, focusing on events where a high volume of invites (over 100)
-  is sent within a 5-minute window. This behavior is significant as it may involve
-  the distribution of malicious links or attachments, posing a security risk. If confirmed
-  malicious, this activity could lead to widespread phishing attacks, unauthorized
-  access, or malware distribution within the organization.
+description: The following analytic detects suspicious calendar invites sent via GSuite, potentially indicating compromised accounts or malicious internal activity. It leverages GSuite calendar logs, focusing on events where a high volume of invites (over 100) is sent within a 5-minute window. This behavior is significant as it may involve the distribution of malicious links or attachments, posing a security risk. If confirmed malicious, this activity could lead to widespread phishing attacks, unauthorized access, or malware distribution within the organization.
 data_source: []
-search: '`gsuite_calendar` |bin span=5m _time |rename parameters.* as * |search target_calendar_id!=null
-  email="*yourdomain.com"| stats  count values(target_calendar_id) values(event_title)
-  values(event_guest) by email _time | where count >100| `gsuite_suspicious_calendar_invite_filter`'
-how_to_implement: In order to successfully implement this search, you need to be ingesting
-  logs related to gsuite (gsuite:calendar:json) having the file sharing metadata like
-  file type, source owner, destination target user, description, etc. This search
-  can also be made more specific by selecting specific emails, subdomains timeframe,
-  organizational units, targeted user, etc. In order for the search to work for your
-  environment please update `yourdomain.com` value in the query with the domain relavant
-  for your organization.
-known_false_positives: This search will also produce normal activity statistics. Fields
-  such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id
-  and parameters.event_title may give away phishing intent.For more specific results
-  use email parameter.
+search: '`gsuite_calendar` |bin span=5m _time |rename parameters.* as * |search target_calendar_id!=null email="*yourdomain.com"| stats  count values(target_calendar_id) values(event_title) values(event_guest) by email _time | where count >100| `gsuite_suspicious_calendar_invite_filter`'
+how_to_implement: In order to successfully implement this search, you need to be ingesting logs related to gsuite (gsuite:calendar:json) having the file sharing metadata like file type, source owner, destination target user, description, etc. This search can also be made more specific by selecting specific emails, subdomains timeframe, organizational units, targeted user, etc. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
+known_false_positives: This search will also produce normal activity statistics. Fields such as email, ip address, name, parameters.organizer_calendar_id, parameters.target_calendar_id and parameters.event_title may give away phishing intent.For more specific results use email parameter.
 references:
 - https://www.techrepublic.com/article/how-to-avoid-the-dreaded-google-calendar-malicious-invite-issue/
 - https://gcn.com/cybersecurity/2012/09/the-20-most-common-words-in-phishing-attacks/280956/

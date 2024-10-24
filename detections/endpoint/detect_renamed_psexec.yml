@@ -5,35 +5,14 @@ date: '2024-10-17'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
 status: production
 type: Hunting
-description: The following analytic identifies instances where `PsExec.exe` has been
-  renamed and executed on an endpoint. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process names and original file names. This activity
-  is significant because renaming `PsExec.exe` is a common tactic to evade detection.
-  If confirmed malicious, this could allow an attacker to execute commands remotely,
-  potentially leading to unauthorized access, lateral movement, or further compromise
-  of the network.
+description: The following analytic identifies instances where `PsExec.exe` has been renamed and executed on an endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because renaming `PsExec.exe` is a common tactic to evade detection. If confirmed malicious, this could allow an attacker to execute commands remotely, potentially leading to unauthorized access, lateral movement, or further compromise of the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name!=psexec.exe
-  AND Processes.process_name!=psexec64.exe) AND Processes.original_file_name=psexec.c
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_renamed_psexec_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives should be present. It is possible some
-  third party applications may use older versions of PsExec, filter as needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name!=psexec.exe AND Processes.process_name!=psexec64.exe) AND Processes.original_file_name=psexec.c by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.original_file_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_renamed_psexec_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
 - https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
@@ -52,8 +31,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 30
-  message: The following $process_name$ has been identified as renamed, spawning from
-    $parent_process_name$ on $dest$ by $user$.
+  message: The following $process_name$ has been identified as renamed, spawning from $parent_process_name$ on $dest$ by $user$.
   mitre_attack_id:
   - T1569
   - T1569.002
@@ -96,7 +74,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

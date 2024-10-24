@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies child processes spawned by spoolsv.exe,
-  the Print Spooler service in Windows, which typically runs with SYSTEM privileges.
-  This detection leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process and parent process relationships. Monitoring this activity is
-  crucial as it can indicate exploitation attempts, such as those associated with
-  CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers
-  could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate
-  privileges, and potentially compromise the entire system.
+description: The following analytic identifies child processes spawned by spoolsv.exe, the Print Spooler service in Windows, which typically runs with SYSTEM privileges. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. Monitoring this activity is crucial as it can indicate exploitation attempts, such as those associated with CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate privileges, and potentially compromise the entire system.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
-  as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe
-  AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process
-  Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Some legitimate printer-related processes may show up as children
-  of spoolsv.exe. You should confirm that any activity as legitimate and may be added
-  as exclusions in the search.
+search: '| tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe AND Processes.process_name!=regsvr32.exe by Processes.dest Processes.parent_process Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate printer-related processes may show up as children of spoolsv.exe. You should confirm that any activity as legitimate and may be added as exclusions in the search.
 references: []
 tags:
   analytic_story:

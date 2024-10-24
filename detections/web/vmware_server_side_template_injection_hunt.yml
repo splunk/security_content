@@ -5,27 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies potential server-side template injection
-  attempts related to CVE-2022-22954. It detects suspicious URL patterns containing
-  "deviceudid" and keywords like "java.lang.ProcessBuilder" or "freemarker.template.utility.ObjectConstructor"
-  using web or proxy logs within the Web Datamodel. This activity is significant as
-  it may indicate an attempt to exploit a known vulnerability in VMware, potentially
-  leading to remote code execution. If confirmed malicious, attackers could gain unauthorized
-  access, execute arbitrary code, and compromise the affected system, posing a severe
-  security risk.
+description: The following analytic identifies potential server-side template injection attempts related to CVE-2022-22954. It detects suspicious URL patterns containing "deviceudid" and keywords like "java.lang.ProcessBuilder" or "freemarker.template.utility.ObjectConstructor" using web or proxy logs within the Web Datamodel. This activity is significant as it may indicate an attempt to exploit a known vulnerability in VMware, potentially leading to remote code execution. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, and compromise the affected system, posing a severe security risk.
 data_source:
 - Palo Alto Network Threat
-search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*deviceudid=*"
-  AND Web.url IN ("*java.lang.ProcessBuilder*","*freemarker.template.utility.ObjectConstructor*")
-  by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest
-  sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `vmware_server_side_template_injection_hunt_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  web or proxy logs, or ensure it is being filled by a proxy like device, into the
-  Web Datamodel. For additional filtering, allow list private IP space or restrict
-  by known good.
-known_false_positives: False positives may be present if the activity is blocked or
-  was not successful. Filter known vulnerablity scanners. Filter as needed.
+search: '| tstats count from datamodel=Web where Web.http_method IN ("GET") Web.url="*deviceudid=*" AND Web.url IN ("*java.lang.ProcessBuilder*","*freemarker.template.utility.ObjectConstructor*") by Web.http_user_agent Web.http_method, Web.url,Web.url_length Web.src, Web.dest sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `vmware_server_side_template_injection_hunt_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting web or proxy logs, or ensure it is being filled by a proxy like device, into the Web Datamodel. For additional filtering, allow list private IP space or restrict by known good.
+known_false_positives: False positives may be present if the activity is blocked or was not successful. Filter known vulnerablity scanners. Filter as needed.
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa22-138b
 - https://github.com/wvu/metasploit-framework/blob/master/modules/exploits/linux/http/vmware_workspace_one_access_cve_2022_22954.rb
@@ -41,8 +26,7 @@ tags:
   cve:
   - CVE-2022-22954
   impact: 70
-  message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on
-    $dest$ has occurred.
+  message: An attempt to exploit a VMware Server Side Injection CVE-2022-22954 on $dest$ has occurred.
   mitre_attack_id:
   - T1190
   - T1133
@@ -67,8 +51,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/vmware/vmware_scanning_pan_threat.log
     source: pan:threat
     sourcetype: pan:threat
     update_timestamp: true

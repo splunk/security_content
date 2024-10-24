@@ -5,32 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the creation of new user accounts on Linux
-  systems using commands like "useradd" or "adduser." It leverages data from Endpoint
-  Detection and Response (EDR) agents, focusing on process names and command-line
-  executions. This activity is significant as adversaries often create new user accounts
-  to establish persistence on compromised hosts. If confirmed malicious, this could
-  allow attackers to maintain access, escalate privileges, and further compromise
-  the system, posing a severe security risk.
+description: The following analytic detects the creation of new user accounts on Linux systems using commands like "useradd" or "adduser." It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant as adversaries often create new user accounts to establish persistence on compromised hosts. If confirmed malicious, this could allow attackers to maintain access, escalate privileges, and further compromise the system, posing a severe security risk.
 data_source:
 - Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
-  where Processes.process_name IN ("useradd", "adduser") OR Processes.process IN ("*useradd
-  *", "*adduser *") by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `linux_add_user_account_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes where Processes.process_name IN ("useradd", "adduser") OR Processes.process IN ("*useradd *", "*adduser *") by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id Processes.process_guid | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_add_user_account_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:
 - https://linuxize.com/post/how-to-create-users-in-linux-using-the-useradd-command/
 tags:
@@ -67,7 +47,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_adduser/sysmon_linux.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_adduser/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux

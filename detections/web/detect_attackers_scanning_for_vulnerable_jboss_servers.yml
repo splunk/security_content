@@ -5,24 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies specific GET or HEAD requests to web
-  servers that indicate reconnaissance attempts to find vulnerable JBoss servers.
-  It leverages data from the Web data model, focusing on HTTP methods and URLs associated
-  with JBoss management interfaces. This activity is significant because it often
-  precedes exploitation attempts using tools like JexBoss, which can compromise the
-  server. If confirmed malicious, attackers could gain unauthorized access, execute
-  arbitrary code, or escalate privileges, leading to potential data breaches and system
-  compromise.
+description: The following analytic identifies specific GET or HEAD requests to web servers that indicate reconnaissance attempts to find vulnerable JBoss servers. It leverages data from the Web data model, focusing on HTTP methods and URLs associated with JBoss management interfaces. This activity is significant because it often precedes exploitation attempts using tools like JexBoss, which can compromise the server. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, or escalate privileges, leading to potential data breaches and system compromise.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD")
-  AND (Web.url="*/web-console/ServerInfo.jsp*" OR Web.url="*web-console*" OR Web.url="*jmx-console*"
-  OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name("Web")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`'
-how_to_implement: You must be ingesting data from the web server or network traffic
-  that contains web specific information, and populating the Web data model.
-known_false_positives: It's possible for legitimate HTTP requests to be made to URLs
-  containing the suspicious paths.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.http_method="GET" OR Web.http_method="HEAD") AND (Web.url="*/web-console/ServerInfo.jsp*" OR Web.url="*web-console*" OR Web.url="*jmx-console*" OR Web.url = "*invoker*") by Web.http_method, Web.url, Web.src, Web.dest | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_attackers_scanning_for_vulnerable_jboss_servers_filter`'
+how_to_implement: You must be ingesting data from the web server or network traffic that contains web specific information, and populating the Web data model.
+known_false_positives: It's possible for legitimate HTTP requests to be made to URLs containing the suspicious paths.
 references: []
 tags:
   analytic_story:

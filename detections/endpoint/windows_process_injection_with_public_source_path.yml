@@ -5,27 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects a process from a non-standard file path
-  on Windows attempting to create a remote thread in another process. This is identified
-  using Sysmon EventCode 8, focusing on processes not originating from typical system
-  directories. This behavior is significant as it often indicates process injection,
-  a technique used by adversaries to evade detection or escalate privileges. If confirmed
-  malicious, this activity could allow an attacker to execute arbitrary code within
-  another process, potentially leading to unauthorized actions and further compromise
-  of the system.
+description: The following analytic detects a process from a non-standard file path on Windows attempting to create a remote thread in another process. This is identified using Sysmon EventCode 8, focusing on processes not originating from typical system directories. This behavior is significant as it often indicates process injection, a technique used by adversaries to evade detection or escalate privileges. If confirmed malicious, this activity could allow an attacker to execute arbitrary code within another process, potentially leading to unauthorized actions and further compromise of the system.
 data_source:
 - Sysmon EventID 8
-search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*",
-  "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time)
-  as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid
-  TargetProcessId SourceProcessId StartAddress EventCode dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_process_injection_with_public_source_path_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records process activity from your hosts to populate the endpoint data model
-  in the processes node. If you are using Sysmon, you must have at least version 6.0.4
-  of the Sysmon TA.
-known_false_positives: Some security products or third party applications may utilize
-  CreateRemoteThread, filter as needed before enabling as a notable.
+search: '`sysmon` EventCode=8 TargetImage = "*.exe" AND NOT(SourceImage IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by SourceImage TargetImage signature TargetProcessGuid SourceProcessGuid TargetProcessId SourceProcessId StartAddress EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_with_public_source_path_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Some security products or third party applications may utilize CreateRemoteThread, filter as needed before enabling as a notable.
 references:
 - https://unit42.paloaltonetworks.com/brute-ratel-c4-tool/
 tags:
@@ -34,8 +19,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: process $SourceImage$ create a remote thread to process $TargetImage$ on
-    host $dest$
+  message: process $SourceImage$ create a remote thread to process $TargetImage$ on host $dest$
   mitre_attack_id:
   - T1055
   - T1055.002
@@ -74,8 +58,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/create_remote_thread/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

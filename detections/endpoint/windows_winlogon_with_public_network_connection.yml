@@ -7,35 +7,10 @@ status: experimental
 type: Hunting
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 3
-description: 'The following analytic detects instances of Winlogon.exe, a critical
-  Windows process, connecting to public IP addresses. This behavior is identified
-  using Endpoint Detection and Response (EDR) telemetry, focusing on network connections
-  made by Winlogon.exe. Under normal circumstances, Winlogon.exe should not connect
-  to public IPs, and such activity may indicate a compromise, such as the BlackLotus
-  bootkit attack. This detection is significant as it highlights potential system
-  integrity breaches. If confirmed malicious, attackers could maintain persistence,
-  bypass security measures, and compromise the system at a fundamental level.'
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN (winlogon.exe)  Processes.process!=unknown
-  by Processes.dest Processes.user Processes.parent_process_name Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id
-  [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-  where All_Traffic.dest_port != 0 NOT (All_Traffic.dest IN (127.0.0.1,10.0.0.0/8,172.16.0.0/12,
-  192.168.0.0/16, 0:0:0:0:0:0:0:1)) by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
-  | `drop_dm_object_name(All_Traffic)` | rename dest as publicIp ] | table dest parent_process_name
-  process_name process_path process process_id dest_port publicIp | `windows_winlogon_with_public_network_connection_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives will be present and filtering will be required.
-  Legitimate IPs will be present and need to be filtered.
+description: The following analytic detects instances of Winlogon.exe, a critical Windows process, connecting to public IP addresses. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on network connections made by Winlogon.exe. Under normal circumstances, Winlogon.exe should not connect to public IPs, and such activity may indicate a compromise, such as the BlackLotus bootkit attack. This detection is significant as it highlights potential system integrity breaches. If confirmed malicious, attackers could maintain persistence, bypass security measures, and compromise the system at a fundamental level.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN (winlogon.exe)  Processes.process!=unknown by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 NOT (All_Traffic.dest IN (127.0.0.1,10.0.0.0/8,172.16.0.0/12, 192.168.0.0/16, 0:0:0:0:0:0:0:1)) by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as publicIp ] | table dest parent_process_name process_name process_path process process_id dest_port publicIp | `windows_winlogon_with_public_network_connection_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives will be present and filtering will be required. Legitimate IPs will be present and need to be filtered.
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/04/11/guidance-for-investigating-attacks-using-cve-2022-21894-the-blacklotus-campaign/
 tags:
@@ -45,8 +20,7 @@ tags:
   atomic_guid: []
   confidence: 50
   impact: 50
-  message: Winlogon.exe has generated a network connection to a remote destination
-    on endpoint $dest$.
+  message: Winlogon.exe has generated a network connection to a remote destination on endpoint $dest$.
   mitre_attack_id:
   - T1542.003
   observable:
@@ -72,7 +46,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/bootkits/network-winlogon-windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1542.003/bootkits/network-winlogon-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

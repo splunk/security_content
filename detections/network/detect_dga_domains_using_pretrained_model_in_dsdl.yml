@@ -5,50 +5,27 @@ date: '2024-10-17'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies Domain Generation Algorithm (DGA) generated
-  domains using a pre-trained deep learning model. It leverages the Network Resolution
-  data model to analyze domain names and detect unusual character sequences indicative
-  of DGA activity. This behavior is significant as adversaries often use DGAs to generate
-  numerous domain names for command-and-control servers, making it harder to block
-  malicious traffic. If confirmed malicious, this activity could enable attackers
-  to maintain persistent communication with compromised systems, evade detection,
-  and execute further malicious actions.
+description: The following analytic identifies Domain Generation Algorithm (DGA) generated domains using a pre-trained deep learning model. It leverages the Network Resolution data model to analyze domain names and detect unusual character sequences indicative of DGA activity. This behavior is significant as adversaries often use DGAs to generate numerous domain names for command-and-control servers, making it harder to block malicious traffic. If confirmed malicious, this activity could enable attackers to maintain persistent communication with compromised systems, evade detection, and execute further malicious actions.
 data_source: []
-search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
-  as firstTime  max(_time) as lastTime from datamodel=Network_Resolution by DNS.src,
-  DNS.query | `drop_dm_object_name(DNS)` | rename query AS domain | fields IPs, src,
-  domain, firstTime, lastTime | apply pretrained_dga_model_dsdl | rename pred_dga_proba
-  AS dga_score | where dga_score>0.5 | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
-  | table src, domain, IPs, firstTime, lastTime, dga_score | `detect_dga_domains_using_pretrained_model_in_dsdl_filter`'
-how_to_implement: 'Steps to deploy DGA detection model into Splunk App DSDL.\ This
-  detection depends on the Splunk app for Data Science and Deep Learning which can
-  be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution
-  datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The
-  detection uses a pre-trained deep learning model that needs to be deployed in DSDL
-  app. Follow the steps for deployment here - https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU.
-  * Download the artifacts .tar.gz file from the link  `https://seal.splunkresearch.com/pretrained_dga_model_dsdl.tar.gz`
+search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime  max(_time) as lastTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(DNS)` | rename query AS domain | fields IPs, src, domain, firstTime, lastTime | apply pretrained_dga_model_dsdl | rename pred_dga_proba AS dga_score | where dga_score>0.5 | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` | table src, domain, IPs, firstTime, lastTime, dga_score | `detect_dga_domains_using_pretrained_model_in_dsdl_filter`'
+how_to_implement: 'Steps to deploy DGA detection model into Splunk App DSDL.\ This detection depends on the Splunk app for Data Science and Deep Learning which can be found here - https://splunkbase.splunk.com/app/4607/ and the Network Resolution datamodel which can be found here - https://splunkbase.splunk.com/app/1621/. The detection uses a pre-trained deep learning model that needs to be deployed in DSDL app. Follow the steps for deployment here - https://github.com/splunk/security_content/wiki/How-to-deploy-pre-trained-Deep-Learning-models-for-ESCU. * Download the artifacts .tar.gz file from the link  `https://seal.splunkresearch.com/pretrained_dga_model_dsdl.tar.gz`
 
   * Download the pretrained_dga_model_dsdl.ipynb Jupyter notebook from `https://github.com/splunk/security_content/notebooks`
 
-  * Login to the Jupyter Lab for pretrained_dga_model_dsdl container. This container
-  should be listed on Containers page for DSDL app.
+  * Login to the Jupyter Lab for pretrained_dga_model_dsdl container. This container should be listed on Containers page for DSDL app.
 
   * Below steps need to be followed inside Jupyter lab
 
-  * Upload the pretrained_dga_model_dsdl.tar.gz file into `app/model/data` path using
-  the upload option in the jupyter notebook.
+  * Upload the pretrained_dga_model_dsdl.tar.gz file into `app/model/data` path using the upload option in the jupyter notebook.
 
-  *  Untar the artifact `pretrained_dga_model_dsdl.tar.gz` using `tar -xf app/model/data/pretrained_dga_model_dsdl.tar.gz
-  -C app/model/data`
+  *  Untar the artifact `pretrained_dga_model_dsdl.tar.gz` using `tar -xf app/model/data/pretrained_dga_model_dsdl.tar.gz -C app/model/data`
 
-  * Upload `pretrained_dga_model_dsdl.pynb` into Jupyter lab notebooks folder using
-  the upload option in Jupyter lab
+  * Upload `pretrained_dga_model_dsdl.pynb` into Jupyter lab notebooks folder using the upload option in Jupyter lab
 
   * Save the notebook using the save option in jupyter notebook.
 
   * Upload `pretrained_dga_model_dsdl.json` into `notebooks/data` folder.'
-known_false_positives: False positives may be present if domain name is similar to
-  dga generated domains.
+known_false_positives: False positives may be present if domain name is similar to dga generated domains.
 references:
 - https://attack.mitre.org/techniques/T1568/002/
 - https://unit42.paloaltonetworks.com/threat-brief-understanding-domain-generation-algorithms-dga/
@@ -63,8 +40,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 70
-  message: A potential connection to a DGA domain $domain$ was detected from host
-    $src$, kindly review.
+  message: A potential connection to a DGA domain $domain$ was detected from host $src$, kindly review.
   mitre_attack_id:
   - T1568.002
   observable:

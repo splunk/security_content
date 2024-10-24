@@ -5,22 +5,11 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
-description: The following analytic detects the creation of a Scheduled Task with
-  a high entropy, randomly generated name, leveraging Event ID 4698. It uses the `ut_shannon`
-  function from the URL ToolBox Splunk application to measure the entropy of the Task
-  Name. This activity is significant as adversaries often use randomly named Scheduled
-  Tasks for lateral movement and remote code execution, employing tools like Impacket
-  or CrackMapExec. If confirmed malicious, this could allow attackers to execute arbitrary
-  code remotely, potentially leading to further compromise and persistence within
-  the network.
+description: The following analytic detects the creation of a Scheduled Task with a high entropy, randomly generated name, leveraging Event ID 4698. It uses the `ut_shannon` function from the URL ToolBox Splunk application to measure the entropy of the Task Name. This activity is significant as adversaries often use randomly named Scheduled Tasks for lateral movement and remote code execution, employing tools like Impacket or CrackMapExec. If confirmed malicious, this could allow attackers to execute arbitrary code remotely, potentially leading to further compromise and persistence within the network.
 data_source:
 - Windows Event Log Security 4698
-search: '`wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup
-  word as Task_Name | where ut_shannon > 3 | table  _time, dest, Task_Name, ut_shannon,
-  Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
-  as the URL ToolBox application are also required.
+search: '`wineventlog_security` EventCode=4698 | xmlkv Message | lookup ut_shannon_lookup word as Task_Name | where ut_shannon > 3 | table  _time, dest, Task_Name, ut_shannon, Command, Author, Enabled, Hidden | `randomly_generated_scheduled_task_name_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also required.
 known_false_positives: Legitimate applications may use random Scheduled Task names.
 references:
 - https://attack.mitre.org/techniques/T1053/005/

@@ -5,34 +5,14 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the execution of commonly used NirSoft
-  utilities on Windows systems. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process execution details such as process name, parent
-  process, and command-line arguments. This activity is significant for a SOC because
-  NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes
-  like credential theft or system reconnaissance. If confirmed malicious, this activity
-  could lead to unauthorized access, data exfiltration, or further system compromise.
+description: The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution details such as process name, parent process, and command-line arguments. This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance. If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further system compromise.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name
-  Processes.process_name Processes.process Processes.original_file_name Processes.process_path
-  Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_nirsoft_software_macro`
-  | `windows_nirsoft_utilities_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present. Filtering may be required before
-  setting to alert.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.original_file_name Processes.process_path Processes.process_id Processes.parent_process_id | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `is_nirsoft_software_macro` | `windows_nirsoft_utilities_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present. Filtering may be required before setting to alert.
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
 - http://www.nirsoft.net/
@@ -44,8 +24,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    on endpoint $dest$ by user $user$ related to NiRSoft software usage.
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified on endpoint $dest$ by user $user$ related to NiRSoft software usage.
   mitre_attack_id:
   - T1588.002
   observable:
@@ -87,7 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

@@ -5,24 +5,12 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `Get-AdComputer`
-  PowerShell commandlet using PowerShell Script Block Logging (EventCode=4104). This
-  detection leverages script block text to identify when this commandlet is run. The
-  `Get-AdComputer` commandlet is significant as it can be used by adversaries to enumerate
-  all domain computers, aiding in situational awareness and Active Directory discovery.
-  If confirmed malicious, this activity could allow attackers to map the network,
-  identify targets, and plan further attacks, potentially leading to unauthorized
-  access and data exfiltration.
+description: The following analytic detects the execution of the `Get-AdComputer` PowerShell commandlet using PowerShell Script Block Logging (EventCode=4104). This detection leverages script block text to identify when this commandlet is run. The `Get-AdComputer` commandlet is significant as it can be used by adversaries to enumerate all domain computers, aiding in situational awareness and Active Directory discovery. If confirmed malicious, this activity could allow attackers to map the network, identify targets, and plan further attacks, potentially leading to unauthorized access and data exfiltration.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | stats
-  count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode
-  ScriptBlockText | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
-  for troubleshooting.
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | stats count min(_time) as firstTime max(_time) as lastTime by Opcode Computer UserID EventCode ScriptBlockText | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1018/
 - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
@@ -58,7 +46,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog

@@ -5,38 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies a significant increase in data transfers
-  from your email server to client hosts. It leverages the Network_Traffic data model
-  to monitor outbound traffic from email servers, using statistical analysis to detect
-  anomalies based on average and standard deviation metrics. This activity is significant
-  as it may indicate a malicious actor exfiltrating data via your email server. If
-  confirmed malicious, this could lead to unauthorized data access and potential data
-  breaches, compromising sensitive information and impacting organizational security.
+description: The following analytic identifies a significant increase in data transfers from your email server to client hosts. It leverages the Network_Traffic data model to monitor outbound traffic from email servers, using statistical analysis to detect anomalies based on average and standard deviation metrics. This activity is significant as it may indicate a malicious actor exfiltrating data via your email server. If confirmed malicious, this could lead to unauthorized data access and potential data breaches, compromising sensitive information and impacting organizational security.
 data_source: []
-search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as bytes_out
-  from datamodel=Network_Traffic where All_Traffic.src_category=email_server by All_Traffic.dest_ip
-  _time span=1d | `drop_dm_object_name("All_Traffic")` | eventstats avg(bytes_out)
-  as avg_bytes_out stdev(bytes_out) as stdev_bytes_out | eventstats count as num_data_samples
-  avg(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_avg_bytes_out
-  stdev(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_stdev_bytes_out
-  by dest_ip | eval minimum_data_samples = 4, deviation_threshold = 3 | where num_data_samples
-  >= minimum_data_samples AND bytes_out > (avg_bytes_out + (deviation_threshold *
-  stdev_bytes_out)) AND bytes_out > (per_source_avg_bytes_out + (deviation_threshold
-  * per_source_stdev_bytes_out)) AND _time >= relative_time(now(), "@d") | eval num_standard_deviations_away_from_server_average
-  = round(abs(bytes_out - avg_bytes_out) / stdev_bytes_out, 2), num_standard_deviations_away_from_client_average
-  = round(abs(bytes_out - per_source_avg_bytes_out) / per_source_stdev_bytes_out,
-  2) | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out, num_standard_deviations_away_from_server_average,
-  num_standard_deviations_away_from_client_average | `email_servers_sending_high_volume_traffic_to_hosts_filter`'
-how_to_implement: This search requires you to be ingesting your network traffic and
-  populating the Network_Traffic data model.  Your email servers must be categorized
-  as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold
-  and minimum_data_samples values based on the network traffic in your environment.
-  The "deviation_threshold" field is a multiplying factor to control how much variation
-  you're willing to tolerate. The "minimum_data_samples" field is the minimum number
-  of connections of data samples required for the statistic to be valid.
-known_false_positives: The false-positive rate will vary based on how you set the
-  deviation_threshold and data_samples values. Our recommendation is to adjust these
-  values based on your network traffic to and from your email servers.
+search: '| tstats `security_content_summariesonly` sum(All_Traffic.bytes_out) as bytes_out from datamodel=Network_Traffic where All_Traffic.src_category=email_server by All_Traffic.dest_ip _time span=1d | `drop_dm_object_name("All_Traffic")` | eventstats avg(bytes_out) as avg_bytes_out stdev(bytes_out) as stdev_bytes_out | eventstats count as num_data_samples avg(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_avg_bytes_out stdev(eval(if(_time < relative_time(now(), "@d"), bytes_out, null))) as per_source_stdev_bytes_out by dest_ip | eval minimum_data_samples = 4, deviation_threshold = 3 | where num_data_samples >= minimum_data_samples AND bytes_out > (avg_bytes_out + (deviation_threshold * stdev_bytes_out)) AND bytes_out > (per_source_avg_bytes_out + (deviation_threshold * per_source_stdev_bytes_out)) AND _time >= relative_time(now(), "@d") | eval num_standard_deviations_away_from_server_average = round(abs(bytes_out - avg_bytes_out) / stdev_bytes_out, 2), num_standard_deviations_away_from_client_average = round(abs(bytes_out - per_source_avg_bytes_out) / per_source_stdev_bytes_out, 2) | table dest_ip, _time, bytes_out, avg_bytes_out, per_source_avg_bytes_out, num_standard_deviations_away_from_server_average, num_standard_deviations_away_from_client_average | `email_servers_sending_high_volume_traffic_to_hosts_filter`'
+how_to_implement: This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.  Your email servers must be categorized as "email_server" for the search to work, as well. You may need to adjust the deviation_threshold and minimum_data_samples values based on the network traffic in your environment. The "deviation_threshold" field is a multiplying factor to control how much variation you're willing to tolerate. The "minimum_data_samples" field is the minimum number of connections of data samples required for the statistic to be valid.
+known_false_positives: The false-positive rate will vary based on how you set the deviation_threshold and data_samples values. Our recommendation is to adjust these values based on your network traffic to and from your email servers.
 references: []
 tags:
   analytic_story:

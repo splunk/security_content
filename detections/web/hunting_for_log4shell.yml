@@ -5,36 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: 'The following analytic detects potential exploitation attempts of the
-  Log4Shell vulnerability (CVE-2021-44228) by analyzing HTTP headers for specific
-  patterns. It leverages the Web Datamodel and evaluates various indicators such as
-  the presence of `{jndi:`, environment variables, and common URI paths. This detection
-  is significant as Log4Shell allows remote code execution, posing a severe threat
-  to systems. If confirmed malicious, attackers could gain unauthorized access, execute
-  arbitrary code, and potentially compromise sensitive data, leading to extensive
-  damage and data breaches.'
+description: The following analytic detects potential exploitation attempts of the Log4Shell vulnerability (CVE-2021-44228) by analyzing HTTP headers for specific patterns. It leverages the Web Datamodel and evaluates various indicators such as the presence of `{jndi:`, environment variables, and common URI paths. This detection is significant as Log4Shell allows remote code execution, posing a severe threat to systems. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, and potentially compromise sensitive data, leading to extensive damage and data breaches.
 data_source:
 - Nginx Access
-search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]{4}:"),4,0)
-  | eval jndi_fastmatch=if(match(_raw, "[jJnNdDiI]{4}"),2,0) | eval jndi_proto=if(match(_raw,"(?i)jndi:(ldap[s]?|rmi|dns|nis|iiop|corba|nds|http|https):"),5,0)
-  | eval all_match = if(match(_raw, "(?i)(%(25){0,}20|\s)*(%(25){0,}24|\$)(%(25){0,}20|\s)*(%(25){0,}7B|{)(%(25){0,}20|\s)*(%(25){0,}(6A|4A)|J)(%(25){0,}(6E|4E)|N)(%(25){0,}(64|44)|D)(%(25){0,}(69|49)|I)(%(25){0,}20|\s)*(%(25){0,}3A|:)[\w\%]+(%(25){1,}3A|:)(%(25){1,}2F|\/)[^\n]+"),5,0)
-  | eval env_var = if(match(_raw, "env:") OR match(_raw, "env:AWS_ACCESS_KEY_ID")
-  OR match(_raw, "env:AWS_SECRET_ACCESS_KEY"),5,0) | eval uridetect = if(match(_raw,
-  "(?i)Basic\/Command\/Base64|Basic\/ReverseShell|Basic\/TomcatMemshell|Basic\/JBossMemshell|Basic\/WebsphereMemshell|Basic\/SpringMemshell|Basic\/Command|Deserialization\/CommonsCollectionsK|Deserialization\/CommonsBeanutils|Deserialization\/Jre8u20\/TomcatMemshell|Deserialization\/CVE_2020_2555\/WeblogicMemshell|TomcatBypass|GroovyBypass|WebsphereBypass"),4,0)
-  | eval keywords = if(match(_raw,"(?i)\$\{ctx\:loginId\}|\$\{map\:type\}|\$\{filename\}|\$\{date\:MM-dd-yyyy\}|\$\{docker\:containerId\}|\$\{docker\:containerName\}|\$\{docker\:imageName\}|\$\{env\:USER\}|\$\{event\:Marker\}|\$\{mdc\:UserId\}|\$\{java\:runtime\}|\$\{java\:vm\}|\$\{java\:os\}|\$\{jndi\:logging/context-name\}|\$\{hostName\}|\$\{docker\:containerId\}|\$\{k8s\:accountName\}|\$\{k8s\:clusterName\}|\$\{k8s\:containerId\}|\$\{k8s\:containerName\}|\$\{k8s\:host\}|\$\{k8s\:labels.app\}|\$\{k8s\:labels.podTemplateHash\}|\$\{k8s\:masterUrl\}|\$\{k8s\:namespaceId\}|\$\{k8s\:namespaceName\}|\$\{k8s\:podId\}|\$\{k8s\:podIp\}|\$\{k8s\:podName\}|\$\{k8s\:imageId\}|\$\{k8s\:imageName\}|\$\{log4j\:configLocation\}|\$\{log4j\:configParentLocation\}|\$\{spring\:spring.application.name\}|\$\{main\:myString\}|\$\{main\:0\}|\$\{main\:1\}|\$\{main\:2\}|\$\{main\:3\}|\$\{main\:4\}|\$\{main\:bar\}|\$\{name\}|\$\{marker\}|\$\{marker\:name\}|\$\{spring\:profiles.active[0]|\$\{sys\:logPath\}|\$\{web\:rootDir\}|\$\{sys\:user.name\}"),4,0)
-  | eval obf = if(match(_raw, "(\$|%24)[^ /]*({|%7b)[^ /]*(j|%6a)[^ /]*(n|%6e)[^ /]*(d|%64)[^
-  /]*(i|%69)[^ /]*(:|%3a)[^ /]*(:|%3a)[^ /]*(/|%2f)"),5,0) | eval lookups = if(match(_raw,
-  "(?i)({|%7b)(main|sys|k8s|spring|lower|upper|env|date|sd)"),4,0)  | addtotals fieldname=Score,
-  jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf,
-  lookups | where Score > 2 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect,
-  all_match, jndi_fastmatch, keywords, lookups, obf, dest, src, http_method, _raw
-  | `hunting_for_log4shell_filter`'
-how_to_implement: Out of the box, the Web datamodel is required to be pre-filled.
-  However, tested was performed against raw httpd access logs. Change the first line
-  to any dataset to pass the regex's against.
-known_false_positives: It is highly possible you will find false positives, however,
-  the base score is set to 2 for _any_ jndi found in raw logs. tune and change as
-  needed, include any filtering.
+search: '| from datamodel Web.Web | eval jndi=if(match(_raw, "(\{|%7B)[jJnNdDiI]{4}:"),4,0) | eval jndi_fastmatch=if(match(_raw, "[jJnNdDiI]{4}"),2,0) | eval jndi_proto=if(match(_raw,"(?i)jndi:(ldap[s]?|rmi|dns|nis|iiop|corba|nds|http|https):"),5,0) | eval all_match = if(match(_raw, "(?i)(%(25){0,}20|\s)*(%(25){0,}24|\$)(%(25){0,}20|\s)*(%(25){0,}7B|{)(%(25){0,}20|\s)*(%(25){0,}(6A|4A)|J)(%(25){0,}(6E|4E)|N)(%(25){0,}(64|44)|D)(%(25){0,}(69|49)|I)(%(25){0,}20|\s)*(%(25){0,}3A|:)[\w\%]+(%(25){1,}3A|:)(%(25){1,}2F|\/)[^\n]+"),5,0) | eval env_var = if(match(_raw, "env:") OR match(_raw, "env:AWS_ACCESS_KEY_ID") OR match(_raw, "env:AWS_SECRET_ACCESS_KEY"),5,0) | eval uridetect = if(match(_raw, "(?i)Basic\/Command\/Base64|Basic\/ReverseShell|Basic\/TomcatMemshell|Basic\/JBossMemshell|Basic\/WebsphereMemshell|Basic\/SpringMemshell|Basic\/Command|Deserialization\/CommonsCollectionsK|Deserialization\/CommonsBeanutils|Deserialization\/Jre8u20\/TomcatMemshell|Deserialization\/CVE_2020_2555\/WeblogicMemshell|TomcatBypass|GroovyBypass|WebsphereBypass"),4,0) | eval keywords = if(match(_raw,"(?i)\$\{ctx\:loginId\}|\$\{map\:type\}|\$\{filename\}|\$\{date\:MM-dd-yyyy\}|\$\{docker\:containerId\}|\$\{docker\:containerName\}|\$\{docker\:imageName\}|\$\{env\:USER\}|\$\{event\:Marker\}|\$\{mdc\:UserId\}|\$\{java\:runtime\}|\$\{java\:vm\}|\$\{java\:os\}|\$\{jndi\:logging/context-name\}|\$\{hostName\}|\$\{docker\:containerId\}|\$\{k8s\:accountName\}|\$\{k8s\:clusterName\}|\$\{k8s\:containerId\}|\$\{k8s\:containerName\}|\$\{k8s\:host\}|\$\{k8s\:labels.app\}|\$\{k8s\:labels.podTemplateHash\}|\$\{k8s\:masterUrl\}|\$\{k8s\:namespaceId\}|\$\{k8s\:namespaceName\}|\$\{k8s\:podId\}|\$\{k8s\:podIp\}|\$\{k8s\:podName\}|\$\{k8s\:imageId\}|\$\{k8s\:imageName\}|\$\{log4j\:configLocation\}|\$\{log4j\:configParentLocation\}|\$\{spring\:spring.application.name\}|\$\{main\:myString\}|\$\{main\:0\}|\$\{main\:1\}|\$\{main\:2\}|\$\{main\:3\}|\$\{main\:4\}|\$\{main\:bar\}|\$\{name\}|\$\{marker\}|\$\{marker\:name\}|\$\{spring\:profiles.active[0]|\$\{sys\:logPath\}|\$\{web\:rootDir\}|\$\{sys\:user.name\}"),4,0) | eval obf = if(match(_raw, "(\$|%24)[^ /]*({|%7b)[^ /]*(j|%6a)[^ /]*(n|%6e)[^ /]*(d|%64)[^ /]*(i|%69)[^ /]*(:|%3a)[^ /]*(:|%3a)[^ /]*(/|%2f)"),5,0) | eval lookups = if(match(_raw, "(?i)({|%7b)(main|sys|k8s|spring|lower|upper|env|date|sd)"),4,0)  | addtotals fieldname=Score, jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, obf, lookups | where Score > 2 | stats values(Score) by  jndi, jndi_proto, env_var, uridetect, all_match, jndi_fastmatch, keywords, lookups, obf, dest, src, http_method, _raw | `hunting_for_log4shell_filter`'
+how_to_implement: Out of the box, the Web datamodel is required to be pre-filled. However, tested was performed against raw httpd access logs. Change the first line to any dataset to pass the regex's against.
+known_false_positives: It is highly possible you will find false positives, however, the base score is set to 2 for _any_ jndi found in raw logs. tune and change as needed, include any filtering.
 references:
 - https://gist.github.com/olafhartong/916ebc673ba066537740164f7e7e1d72
 - https://gist.github.com/Neo23x0/e4c8b03ff8cdf1fa63b7d15db6e3860b#gistcomment-3994449
@@ -77,7 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/java/log4shell-nginx.log
     source: /var/log/nginx/access.log
     sourcetype: nginx:plus:kv

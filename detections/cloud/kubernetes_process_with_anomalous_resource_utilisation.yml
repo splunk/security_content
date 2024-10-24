@@ -5,58 +5,26 @@ date: '2024-10-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies high resource utilization anomalies
-  in Kubernetes processes. It leverages process metrics from an OTEL collector and
-  hostmetrics receiver, fetched via the Splunk Infrastructure Monitoring Add-on. The
-  detection uses a lookup table with average and standard deviation values to spot
-  anomalies. This activity is significant as high resource utilization can indicate
-  security threats like cryptojacking, unauthorized data exfiltration, or compromised
-  containers. If confirmed malicious, such anomalies can disrupt services, exhaust
-  resources, increase costs, and allow attackers to evade detection or maintain access.
+description: The following analytic identifies high resource utilization anomalies in Kubernetes processes. It leverages process metrics from an OTEL collector and hostmetrics receiver, fetched via the Splunk Infrastructure Monitoring Add-on. The detection uses a lookup table with average and standard deviation values to spot anomalies. This activity is significant as high resource utilization can indicate security threats like cryptojacking, unauthorized data exfiltration, or compromised containers. If confirmed malicious, such anomalies can disrupt services, exhaust resources, increase costs, and allow attackers to evade detection or maintain access.
 data_source: []
-search: '| mstats avg(process.*) as process.* where `kubernetes_metrics` by host.name k8s.cluster.name k8s.node.name process.executable.name span=10s 
-  | eval key = ''k8s.cluster.name'' + ":" + ''host.name'' + ":" + ''process.executable.name''
-  | lookup k8s_process_resource_baseline key 
-  | fillnull 
-  | eval anomalies = "" 
-  | foreach stdev_* 
-      [ eval anomalies =if( ''<<MATCHSTR>>'' > (''avg_<<MATCHSTR>>'' + 4 * ''stdev_<<MATCHSTR>>''), anomalies + "<<MATCHSTR>> higher than average by " + 
-          tostring(round((''<<MATCHSTR>>'' - ''avg_<<MATCHSTR>>'')/''stdev_<<MATCHSTR>>'' ,2)) + " Standard Deviations. <<MATCHSTR>>=" + tostring(''<<MATCHSTR>>'') + " avg_<<MATCHSTR>>=" 
-          + tostring(''avg_<<MATCHSTR>>'') + " ''stdev_<<MATCHSTR>>''=" + tostring(''stdev_<<MATCHSTR>>'') + ", "
-          , anomalies)
-          ] 
-  | eval anomalies = replace(anomalies, ",\s$", "") 
-  | where anomalies!="" 
-  | stats count values(anomalies) as anomalies by host.name k8s.cluster.name k8s.node.name process.executable.name 
-  | sort - count
-  | where count > 5
-  | rename host.name as host
-  | `kubernetes_process_with_anomalous_resource_utilisation_filter`'
-how_to_implement: 'To implement this detection, follow these steps: 
-  
+search: '| mstats avg(process.*) as process.* where `kubernetes_metrics` by host.name k8s.cluster.name k8s.node.name process.executable.name span=10s | eval key = ''k8s.cluster.name'' + ":" + ''host.name'' + ":" + ''process.executable.name'' | lookup k8s_process_resource_baseline key | fillnull | eval anomalies = "" | foreach stdev_* [ eval anomalies =if( ''<<MATCHSTR>>'' > (''avg_<<MATCHSTR>>'' + 4 * ''stdev_<<MATCHSTR>>''), anomalies + "<<MATCHSTR>> higher than average by " + tostring(round((''<<MATCHSTR>>'' - ''avg_<<MATCHSTR>>'')/''stdev_<<MATCHSTR>>'' ,2)) + " Standard Deviations. <<MATCHSTR>>=" + tostring(''<<MATCHSTR>>'') + " avg_<<MATCHSTR>>=" + tostring(''avg_<<MATCHSTR>>'') + " ''stdev_<<MATCHSTR>>''=" + tostring(''stdev_<<MATCHSTR>>'') + ", " , anomalies) ] | eval anomalies = replace(anomalies, ",\s$", "") | where anomalies!="" | stats count values(anomalies) as anomalies by host.name k8s.cluster.name k8s.node.name process.executable.name | sort - count | where count > 5 | rename host.name as host | `kubernetes_process_with_anomalous_resource_utilisation_filter`'
+how_to_implement: 'To implement this detection, follow these steps:
+
   * Deploy the OpenTelemetry Collector (OTEL) to your Kubernetes cluster.
 
   * Enable the hostmetrics/process receiver in the OTEL configuration.
 
-  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization,
-  are enabled.
+  * Ensure that the process metrics, specifically Process.cpu.utilization and process.memory.utilization, are enabled.
 
   * Install the Splunk Infrastructure Monitoring (SIM) add-on. (ref: https://splunkbase.splunk.com/app/5247)
 
-  * Configure the SIM add-on with your Observability Cloud Organization ID and Access
-  Token.
+  * Configure the SIM add-on with your Observability Cloud Organization ID and Access Token.
 
   * Set up the SIM modular input to ingest Process Metrics. Name this input "sim_process_metrics_to_metrics_index".
 
-  * In the SIM configuration, set the Organization ID to your Observability Cloud
-  Organization ID.
+  * In the SIM configuration, set the Organization ID to your Observability Cloud Organization ID.
 
-  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A'');
-  data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C'');
-  data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E'');
-  data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G'');
-  data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I'');
-  data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
+  * Set the Signal Flow Program to the following: data(''process.threads'').publish(label=''A''); data(''process.cpu.utilization'').publish(label=''B''); data(''process.cpu.time'').publish(label=''C''); data(''process.disk.io'').publish(label=''D''); data(''process.memory.usage'').publish(label=''E''); data(''process.memory.virtual'').publish(label=''F''); data(''process.memory.utilization'').publish(label=''G''); data(''process.cpu.utilization'').publish(label=''H''); data(''process.disk.operations'').publish(label=''I''); data(''process.handles'').publish(label=''J''); data(''process.threads'').publish(label=''K'')
 
   * Set the Metric Resolution to 10000.
 

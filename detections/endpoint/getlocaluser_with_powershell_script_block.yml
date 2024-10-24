@@ -5,25 +5,12 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `Get-LocalUser` PowerShell
-  commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet
-  lists all local users on a system. The detection leverages script block text from
-  PowerShell logs to identify this activity. Monitoring this behavior is significant
-  as adversaries and Red Teams may use it to enumerate local users for situational
-  awareness and Active Directory discovery. If confirmed malicious, this activity
-  could lead to further reconnaissance, enabling attackers to identify potential targets
-  for privilege escalation or lateral movement.
+description: The following analytic detects the execution of the `Get-LocalUser` PowerShell commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet lists all local users on a system. The detection leverages script block text from PowerShell logs to identify this activity. Monitoring this behavior is significant as adversaries and Red Teams may use it to enumerate local users for situational awareness and Active Directory discovery. If confirmed malicious, this activity could lead to further reconnaissance, enabling attackers to identify potential targets for privilege escalation or lateral movement.
 data_source:
 - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-LocalUser*") | stats
-  count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText
-  Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `getlocaluser_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
-  for troubleshooting.
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-LocalUser*") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText Computer user_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getlocaluser_with_powershell_script_block_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1087/001/
 - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
@@ -59,7 +46,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: xmlwineventlog
