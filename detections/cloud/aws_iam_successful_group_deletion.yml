@@ -5,27 +5,12 @@ date: '2024-10-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the successful deletion of an IAM group
-  in AWS. It leverages CloudTrail logs to detect `DeleteGroup` events with a success
-  status. This activity is significant as it could indicate potential changes in user
-  permissions or access controls, which may be a precursor to further unauthorized
-  actions. If confirmed malicious, an attacker could disrupt access management, potentially
-  leading to privilege escalation or unauthorized access to sensitive resources. Analysts
-  should review related IAM events, such as recent user additions or new group creations,
-  to assess the broader context.
+description: The following analytic identifies the successful deletion of an IAM group in AWS. It leverages CloudTrail logs to detect `DeleteGroup` events with a success status. This activity is significant as it could indicate potential changes in user permissions or access controls, which may be a precursor to further unauthorized actions. If confirmed malicious, an attacker could disrupt access management, potentially leading to privilege escalation or unauthorized access to sensitive resources. Analysts should review related IAM events, such as recent user additions or new group creations, to assess the broader context.
 data_source:
 - AWS CloudTrail DeleteGroup
-search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success
-  (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as
-  lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource
-  errorCode user_agent awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `aws_iam_successful_group_deletion_filter`'
-how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize
-  this data. The search requires AWS CloudTrail logs.
-known_false_positives: This detection will require tuning to provide high fidelity
-  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
-  or by groups of users. Not every user with AWS access should have permission to
-  delete groups (least privilege).
+search: '`cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com) | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.groupName) as group_deleted by src eventName eventSource errorCode user_agent awsRegion userIdentity.principalId user_arn | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_iam_successful_group_deletion_filter`'
+how_to_implement: The Splunk AWS Add-on and Splunk App for AWS is required to utilize this data. The search requires AWS CloudTrail logs.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete groups (least privilege).
 references:
 - https://awscli.amazonaws.com/v2/documentation/api/latest/reference/iam/delete-group.html
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteGroup.html
@@ -35,8 +20,7 @@ tags:
   asset_type: AWS Account
   confidence: 50
   impact: 10
-  message: User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$
-    from $src$
+  message: User $user_arn$ has sucessfully deleted mulitple groups $group_deleted$ from $src$
   mitre_attack_id:
   - T1069.003
   - T1098
@@ -69,8 +53,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_successful_group_deletion/aws_iam_successful_group_deletion.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

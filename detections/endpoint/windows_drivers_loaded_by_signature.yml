@@ -5,26 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies all drivers being loaded on Windows
-  systems using Sysmon EventCode 6 (Driver Load). It leverages fields such as driver
-  path, signature status, and hash to detect potentially suspicious drivers. This
-  activity is significant for a SOC as malicious drivers can be used to gain kernel-level
-  access, bypass security controls, or persist in the environment. If confirmed malicious,
-  this activity could allow an attacker to execute arbitrary code with high privileges,
-  leading to severe system compromise and potential data exfiltration.
+description: The following analytic identifies all drivers being loaded on Windows systems using Sysmon EventCode 6 (Driver Load). It leverages fields such as driver path, signature status, and hash to detect potentially suspicious drivers. This activity is significant for a SOC as malicious drivers can be used to gain kernel-level access, bypass security controls, or persist in the environment. If confirmed malicious, this activity could allow an attacker to execute arbitrary code with high privileges, leading to severe system compromise and potential data exfiltration.
 data_source:
 - Sysmon EventID 6
-search: '`sysmon` EventCode=6 | stats min(_time) as firstTime max(_time) as lastTime
-  values(ImageLoaded) count by dest Signed Signature service_signature_verified service_signature_exists
-  Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_drivers_loaded_by_signature_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have the latest version of the Sysmon
-  TA. Most EDR products provide the ability to review driver loads, or module loads,
-  and using a query as such help with hunting for malicious drivers.
-known_false_positives: This analytic is meant to assist with identifying drivers loaded
-  in the environment and not to be setup for notables off the bat.
+search: '`sysmon` EventCode=6 | stats min(_time) as firstTime max(_time) as lastTime values(ImageLoaded) count by dest Signed Signature service_signature_verified service_signature_exists Hashes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_drivers_loaded_by_signature_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have the latest version of the Sysmon TA. Most EDR products provide the ability to review driver loads, or module loads, and using a query as such help with hunting for malicious drivers.
+known_false_positives: This analytic is meant to assist with identifying drivers loaded in the environment and not to be setup for notables off the bat.
 references:
 - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
 - https://attack.mitre.org/techniques/T1014/
@@ -65,7 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

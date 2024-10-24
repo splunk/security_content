@@ -5,30 +5,11 @@ date: '2024-10-17'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies when a policy is deleted in AWS. It
-  leverages Amazon Security Lake logs to detect the DeletePolicy API operation. Monitoring
-  policy deletions is crucial as it can indicate unauthorized attempts to weaken security
-  controls. If confirmed malicious, this activity could allow an attacker to remove
-  critical security policies, potentially leading to privilege escalation or unauthorized
-  access to sensitive resources.
+description: The following analytic identifies when a policy is deleted in AWS. It leverages Amazon Security Lake logs to detect the DeletePolicy API operation. Monitoring policy deletions is crucial as it can indicate unauthorized attempts to weaken security controls. If confirmed malicious, this activity could allow an attacker to remove critical security policies, potentially leading to privilege escalation or unauthorized access to sensitive resources.
 data_source: []
-search: '`amazon_security_lake` api.operation=DeletePolicy | fillnull | stats count
-  min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid
-  actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region
-  | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region,
-  http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_iam_delete_policy_filter`'
-how_to_implement: The detection is based on Amazon Security Lake events from Amazon
-  Web Services (AWS), which is a centralized data lake that provides security-related
-  data from AWS services. To use this detection, you must ingest CloudTrail logs from
-  Amazon Security Lake into Splunk. To run this search, ensure that you ingest events
-  using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876)
-  or the Federated Analytics App.
-known_false_positives: This detection will require tuning to provide high fidelity
-  detection capabilties. Tune based on src addresses (corporate offices, VPN terminations)
-  or by groups of users. Not every user with AWS access should have permission to
-  delete policies (least privilege). In addition, this may be saved seperately and
-  tuned for failed or success attempts only.
+search: '`amazon_security_lake` api.operation=DeletePolicy | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by api.operation actor.user.account_uid actor.user.name actor.user.uid http_request.user_agent src_endpoint.ip cloud.region | rename actor.user.name as user, src_endpoint.ip as src_ip, cloud.region as region, http_request.user_agent as user_agent, actor.user.account_uid as aws_account_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_iam_delete_policy_filter`'
+how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
+known_false_positives: This detection will require tuning to provide high fidelity detection capabilties. Tune based on src addresses (corporate offices, VPN terminations) or by groups of users. Not every user with AWS access should have permission to delete policies (least privilege). In addition, this may be saved seperately and tuned for failed or success attempts only.
 references:
 - https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeletePolicy.html
 - https://docs.aws.amazon.com/cli/latest/reference/iam/delete-policy.html
@@ -67,7 +48,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/asl_ocsf_cloudtrail.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/aws_iam_delete_policy/asl_ocsf_cloudtrail.json
     sourcetype: aws:cloudtrail:lake
     source: aws_asl

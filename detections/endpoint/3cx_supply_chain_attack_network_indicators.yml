@@ -7,23 +7,10 @@ type: TTP
 status: experimental
 data_source:
 - Sysmon EventID 22
-description: The following analytic identifies DNS queries to domains associated with
-  the 3CX supply chain attack. It leverages the Network_Resolution datamodel to detect
-  these suspicious domain indicators. This activity is significant because it can
-  indicate a potential compromise stemming from the 3CX supply chain attack, which
-  is known for distributing malicious software through trusted updates. If confirmed
-  malicious, this activity could allow attackers to establish a foothold in the network,
-  exfiltrate sensitive data, or further propagate malware, leading to extensive damage
-  and data breaches.
-search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time)
-  as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(DNS)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | lookup
-  3cx_ioc_domains domain as query OUTPUT Description isIOC | search isIOC=true | `3cx_supply_chain_attack_network_indicators_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  into the `Network Resolution` datamodel in the `DNS` node. In addition, confirm
-  the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.
-known_false_positives: False positives will be present for accessing the 3cx[.]com
-  website. Remove from the lookup as needed.
+description: The following analytic identifies DNS queries to domains associated with the 3CX supply chain attack. It leverages the Network_Resolution datamodel to detect these suspicious domain indicators. This activity is significant because it can indicate a potential compromise stemming from the 3CX supply chain attack, which is known for distributing malicious software through trusted updates. If confirmed malicious, this activity could allow attackers to establish a foothold in the network, exfiltrate sensitive data, or further propagate malware, leading to extensive damage and data breaches.
+search: '| tstats `security_content_summariesonly` values(DNS.answer) as IPs min(_time) as firstTime from datamodel=Network_Resolution by DNS.src, DNS.query | `drop_dm_object_name(DNS)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC | search isIOC=true | `3cx_supply_chain_attack_network_indicators_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information into the `Network Resolution` datamodel in the `DNS` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.
+known_false_positives: False positives will be present for accessing the 3cx[.]com website. Remove from the lookup as needed.
 references:
 - https://www.sentinelone.com/blog/smoothoperator-ongoing-campaign-trojanizes-3cx-software-in-software-supply-chain-attack/
 - https://www.cisa.gov/news-events/alerts/2023/03/30/supply-chain-attack-against-3cxdesktopapp
@@ -63,7 +50,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.002/3CX/3cx_network-windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

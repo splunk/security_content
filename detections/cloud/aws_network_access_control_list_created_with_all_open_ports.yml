@@ -14,12 +14,12 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 known_false_positives: It's possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
 references: []
 drilldown_searches:
-- name: View the detection results for $user_arn$
-  search: '%original_detection_search% | search  user_arn = $user_arn$'
+- name: View the detection results for - "$user_arn$"
+  search: '%original_detection_search% | search  user_arn = "$user_arn$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $user_arn$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user_arn$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for - "$user_arn$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_arn$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:

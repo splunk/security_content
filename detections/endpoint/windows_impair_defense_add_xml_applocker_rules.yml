@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the use of a PowerShell commandlet to
-  import an AppLocker XML policy. This behavior is identified by monitoring processes
-  that execute the "Import-Module Applocker" and "Set-AppLockerPolicy" commands with
-  the "-XMLPolicy" parameter. This activity is significant because it can indicate
-  an attempt to disable or bypass security controls, as seen in the Azorult malware.
-  If confirmed malicious, this could allow an attacker to disable antivirus products,
-  leading to further compromise and persistence within the environment.
+description: The following analytic detects the use of a PowerShell commandlet to import an AppLocker XML policy. This behavior is identified by monitoring processes that execute the "Import-Module Applocker" and "Set-AppLockerPolicy" commands with the "-XMLPolicy" parameter. This activity is significant because it can indicate an attempt to disable or bypass security controls, as seen in the Azorult malware. If confirmed malicious, this could allow an attacker to disable antivirus products, leading to further compromise and persistence within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_powershell` AND Processes.process="*Import-Module Applocker*" AND
-  Processes.process="*Set-AppLockerPolicy *"  AND Processes.process="* -XMLPolicy
-  *" by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_impair_defense_add_xml_applocker_rules_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators may execute this command that may cause some
-  false positive.
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` AND Processes.process="*Import-Module Applocker*" AND Processes.process="*Set-AppLockerPolicy *"  AND Processes.process="* -XMLPolicy *" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_impair_defense_add_xml_applocker_rules_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators may execute this command that may cause some false positive.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 tags:
@@ -69,8 +47,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

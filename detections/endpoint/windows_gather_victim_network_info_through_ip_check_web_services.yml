@@ -5,29 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects processes attempting to connect to known
-  IP check web services. This behavior is identified using Sysmon EventCode 22 logs,
-  specifically monitoring DNS queries to services like "wtfismyip.com" and "ipinfo.io".
-  This activity is significant as it is commonly used by malware, such as Trickbot,
-  for reconnaissance to determine the infected machine's IP address. If confirmed
-  malicious, this could allow attackers to gather network information, aiding in further
-  attacks or lateral movement within the network.
+description: The following analytic detects processes attempting to connect to known IP check web services. This behavior is identified using Sysmon EventCode 22 logs, specifically monitoring DNS queries to services like "wtfismyip.com" and "ipinfo.io". This activity is significant as it is commonly used by malware, such as Trickbot, for reconnaissance to determine the infected machine's IP address. If confirmed malicious, this could allow attackers to gather network information, aiding in further attacks or lateral movement within the network.
 data_source:
 - Sysmon EventID 22
-search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.*", "*ipecho.net",
-  "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb",
-  "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org",
-  "*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net", "*iplogger.org*", "*ip-api.com*",
-  "*geoip.*", "*icanhazip.*") |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image
-  ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer
-  as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_gather_victim_network_info_through_ip_check_web_services_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, dns query name process path , and query ststus from
-  your endpoints like EventCode 22. If you are using Sysmon, you must have at least
-  version 12 of the Sysmon TA.
-known_false_positives: Filter internet browser application to minimize the false positive
-  of this detection.
+search: '`sysmon` EventCode=22  QueryName IN ("*wtfismyip.com", "*checkip.*", "*ipecho.net", "*ipinfo.io", "*api.ipify.org", "*icanhazip.com", "*ip.anysrc.com","*api.ip.sb", "ident.me", "www.myexternalip.com", "*zen.spamhaus.org", "*cbl.abuseat.org", "*b.barracudacentral.org", "*dnsbl-1.uceprotect.net", "*spam.dnsbl.sorbs.net", "*iplogger.org*", "*ip-api.com*", "*geoip.*", "*icanhazip.*") |  stats  min(_time) as firstTime max(_time) as lastTime count by  Image ProcessId QueryName QueryStatus QueryResults EventCode Computer | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_gather_victim_network_info_through_ip_check_web_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, dns query name process path , and query ststus from your endpoints like EventCode 22. If you are using Sysmon, you must have at least version 12 of the Sysmon TA.
+known_false_positives: Filter internet browser application to minimize the false positive of this detection.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 tags:
@@ -67,8 +50,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

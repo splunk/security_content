@@ -7,33 +7,10 @@ type: Anomaly
 status: experimental
 data_source:
 - Sysmon EventID 1
-description: The following analytic identifies suspicious process names using a pre-trained
-  Deep Learning model. It leverages Endpoint Detection and Response (EDR) telemetry
-  to analyze process names and predict their likelihood of being malicious. The model,
-  a character-level Recurrent Neural Network (RNN), classifies process names as benign
-  or suspicious based on a threshold score of 0.5. This detection is significant as
-  it helps identify malware, such as TrickBot, which often uses randomly generated
-  filenames to evade detection. If confirmed malicious, this activity could indicate
-  the presence of malware capable of propagating across the network and executing
-  harmful actions.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.parent_process_name
-  Processes.process Processes.user Processes.dest | `drop_dm_object_name(Processes)`
-  | rename process_name as text | fields text, parent_process_name, process, user,
-  dest | apply detect_suspicious_processnames_using_pretrained_model_in_dsdl | rename
-  predicted_label as is_suspicious_score | rename text as process_name | where is_suspicious_score
-  > 0.5 | `detect_suspicious_processnames_using_pretrained_model_in_dsdl_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present if a suspicious processname
-  is similar to a benign processname.
+description: The following analytic identifies suspicious process names using a pre-trained Deep Learning model. It leverages Endpoint Detection and Response (EDR) telemetry to analyze process names and predict their likelihood of being malicious. The model, a character-level Recurrent Neural Network (RNN), classifies process names as benign or suspicious based on a threshold score of 0.5. This detection is significant as it helps identify malware, such as TrickBot, which often uses randomly generated filenames to evade detection. If confirmed malicious, this activity could indicate the presence of malware capable of propagating across the network and executing harmful actions.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes by Processes.process_name Processes.parent_process_name Processes.process Processes.user Processes.dest | `drop_dm_object_name(Processes)` | rename process_name as text | fields text, parent_process_name, process, user, dest | apply detect_suspicious_processnames_using_pretrained_model_in_dsdl | rename predicted_label as is_suspicious_score | rename text as process_name | where is_suspicious_score > 0.5 | `detect_suspicious_processnames_using_pretrained_model_in_dsdl_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present if a suspicious processname is similar to a benign processname.
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa20-302a
 - https://www.splunk.com/en_us/blog/security/random-words-on-entropy-and-dns.html
@@ -46,8 +23,7 @@ tags:
   - Source:Endpoint
   - Stage:Execution
   impact: 50
-  message: The process $process$ is running from an unusual place by $user$ on $dest$
-    with a processname that appears to be randomly generated.
+  message: The process $process$ is running from an unusual place by $user$ on $dest$ with a processname that appears to be randomly generated.
   mitre_attack_id:
   - T1059
   observable:

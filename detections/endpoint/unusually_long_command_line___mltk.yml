@@ -5,41 +5,14 @@ date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies unusually long command lines executed
-  on hosts, which may indicate malicious activity. It leverages the Machine Learning
-  Toolkit (MLTK) to detect command lines with lengths that deviate from the norm for
-  a given user. This is significant for a SOC as unusually long command lines can
-  be a sign of obfuscation or complex malicious scripts. If confirmed malicious, this
-  activity could allow attackers to execute sophisticated commands, potentially leading
-  to unauthorized access, data exfiltration, or further compromise of the system.
+description: The following analytic identifies unusually long command lines executed on hosts, which may indicate malicious activity. It leverages the Machine Learning Toolkit (MLTK) to detect command lines with lengths that deviate from the norm for a given user. This is significant for a SOC as unusually long command lines can be a sign of obfuscation or complex malicious scripts. If confirmed malicious, this activity could allow attackers to execute sophisticated commands, potentially leading to unauthorized access, data exfiltration, or further compromise of the system.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name
-  Processes.process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`|
-  `security_content_ctime(lastTime)`| eval processlen=len(process) | search user!=unknown
-  | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier
-  | search isOutlier > 0 | table firstTime lastTime user dest process_name process
-  processlen count | `unusually_long_command_line___mltk_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Some legitimate applications use long command lines for installs
-  or updates. You should review identified command lines for legitimacy. You may modify
-  the first part of the search to omit legitimate command lines from consideration.
-  If you are seeing more results than desired, you may consider changing the value
-  of threshold in the search to a smaller value. You should also periodically re-run
-  the support search to re-build the ML model on the latest data. You may get unexpected
-  results if the user identified in the results is not present in the data used to
-  build the associated model.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.user Processes.dest Processes.process_name Processes.process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| eval processlen=len(process) | search user!=unknown | apply cmdline_pdfmodel threshold=0.01 | rename "IsOutlier(processlen)" as isOutlier | search isOutlier > 0 | table firstTime lastTime user dest process_name process processlen count | `unusually_long_command_line___mltk_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate applications use long command lines for installs or updates. You should review identified command lines for legitimacy. You may modify the first part of the search to omit legitimate command lines from consideration. If you are seeing more results than desired, you may consider changing the value of threshold in the search to a smaller value. You should also periodically re-run the support search to re-build the ML model on the latest data. You may get unexpected results if the user identified in the results is not present in the data used to build the associated model.
 references: []
 tags:
   analytic_story:

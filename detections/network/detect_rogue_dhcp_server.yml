@@ -5,27 +5,11 @@ date: '2024-10-17'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the presence of unauthorized DHCP servers
-  on the network. It leverages logs from Cisco network devices with DHCP Snooping
-  enabled, specifically looking for events where DHCP leases are issued from untrusted
-  ports. This activity is significant because rogue DHCP servers can facilitate Man-in-the-Middle
-  attacks, leading to potential data interception and network disruption. If confirmed
-  malicious, this could allow attackers to redirect network traffic, capture sensitive
-  information, and compromise the integrity of the network.
+description: The following analytic identifies the presence of unauthorized DHCP servers on the network. It leverages logs from Cisco network devices with DHCP Snooping enabled, specifically looking for events where DHCP leases are issued from untrusted ports. This activity is significant because rogue DHCP servers can facilitate Man-in-the-Middle attacks, leading to potential data interception and network disruption. If confirmed malicious, this could allow attackers to redirect network traffic, capture sensitive information, and compromise the integrity of the network.
 data_source: []
-search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT"
-  | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type)
-  AS message_type values(src_mac) AS src_mac BY host | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`|
-  `detect_rogue_dhcp_server_filter`'
-how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must be configured with DHCP Snooping enabled (see
-  https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html)
-  and log with a severity level of minimum "5 - notification". The search also requires
-  that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
-  is used to parse the logs from the Cisco network devices.
-known_false_positives: This search might be prone to high false positives if DHCP
-  Snooping has been incorrectly configured or in the unlikely event that the DHCP
-  server has been moved to another network interface.
+search: '`cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT" | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS message_type values(src_mac) AS src_mac BY host | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`| `detect_rogue_dhcp_server_filter`'
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must be configured with DHCP Snooping enabled (see https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst2960x/software/15-0_2_EX/security/configuration_guide/b_sec_152ex_2960-x_cg/b_sec_152ex_2960-x_cg_chapter_01101.html) and log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices.
+known_false_positives: This search might be prone to high false positives if DHCP Snooping has been incorrectly configured or in the unlikely event that the DHCP server has been moved to another network interface.
 references: []
 tags:
   analytic_story:

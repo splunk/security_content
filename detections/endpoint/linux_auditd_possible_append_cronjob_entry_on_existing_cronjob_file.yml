@@ -5,31 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects potential tampering with cronjob files
-  on a Linux system by identifying 'echo' commands that append code to existing cronjob
-  files. It leverages logs from Linux Auditd, focusing on process names, parent processes, and command-line executions. This activity is
-  significant because adversaries often use it for persistence or privilege escalation.
-  If confirmed malicious, this could allow attackers to execute unauthorized code
-  automatically, leading to system compromises and unauthorized data access, thereby
-  impacting business operations and data integrity.
+description: The following analytic detects potential tampering with cronjob files on a Linux system by identifying 'echo' commands that append code to existing cronjob files. It leverages logs from Linux Auditd, focusing on process names, parent processes, and command-line executions. This activity is significant because adversaries often use it for persistence or privilege escalation. If confirmed malicious, this could allow attackers to execute unauthorized code automatically, leading to system compromises and unauthorized data access, thereby impacting business operations and data integrity.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*")
-  | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime
-  by name nametype OGID  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: False positives may arise from legitimate actions by administrators
-  or network operators who may use these commands for automation purposes. Therefore,
-  it's recommended to adjust filter macros to eliminate such false positives.
+search: '`linux_auditd` type=PATH name IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*") | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `linux_auditd_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: False positives may arise from legitimate actions by administrators or network operators who may use these commands for automation purposes. Therefore, it's recommended to adjust filter macros to eliminate such false positives.
 references:
 - https://attack.mitre.org/techniques/T1053/003/
 - https://blog.aquasec.com/threat-alert-kinsing-malware-container-vulnerability

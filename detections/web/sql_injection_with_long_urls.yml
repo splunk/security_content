@@ -5,36 +5,11 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
-description: "The following analytic detects long URLs containing multiple SQL commands,
-  indicating a potential SQL injection attack. This detection leverages web traffic
-  data, specifically targeting web server destinations with URLs longer than 1024
-  characters or HTTP user agents longer than 200 characters. SQL injection is significant
-  as it allows attackers to manipulate a web application's database, potentially leading
-  to unauthorized data access or modification. If confirmed malicious, this activity
-  could result in data breaches, unauthorized access, and complete system compromise.
-  Immediate investigation and validation of alerts are crucial to mitigate these risks."
+description: The following analytic detects long URLs containing multiple SQL commands, indicating a potential SQL injection attack. This detection leverages web traffic data, specifically targeting web server destinations with URLs longer than 1024 characters or HTTP user agents longer than 200 characters. SQL injection is significant as it allows attackers to manipulate a web application's database, potentially leading to unauthorized data access or modification. If confirmed malicious, this activity could result in data breaches, unauthorized access, and complete system compromise. Immediate investigation and validation of alerts are crucial to mitigate these risks.
 data_source: []
-search: '| tstats `security_content_summariesonly` count from datamodel=Web where
-  Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length
-  > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")`
-  | eval url=lower(url) | eval num_sql_cmds=mvcount(split(url, "alter%20table")) +
-  mvcount(split(url, "between")) + mvcount(split(url, "create%20table")) + mvcount(split(url,
-  "create%20database")) + mvcount(split(url, "create%20index")) + mvcount(split(url,
-  "create%20view")) + mvcount(split(url, "delete")) + mvcount(split(url, "drop%20database"))
-  + mvcount(split(url, "drop%20index")) + mvcount(split(url, "drop%20table")) + mvcount(split(url,
-  "exists")) + mvcount(split(url, "exec")) + mvcount(split(url, "group%20by")) + mvcount(split(url,
-  "having")) + mvcount(split(url, "insert%20into")) + mvcount(split(url, "inner%20join"))
-  + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url,
-  "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct"))
-  + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url,
-  "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
-how_to_implement: To successfully implement this search, you need to be monitoring
-  network communications to your web servers or ingesting your HTTP logs and populating
-  the Web data model. You must also identify your web servers in the Enterprise Security
-  assets table.
-known_false_positives: It's possible that legitimate traffic will have long URLs or
-  long user agent strings and that common SQL commands may be found within the URL.
-  Please investigate as appropriate.
+search: '| tstats `security_content_summariesonly` count from datamodel=Web where Web.dest_category=web_server AND (Web.url_length > 1024 OR Web.http_user_agent_length > 200) by Web.src Web.dest Web.url Web.url_length Web.http_user_agent | `drop_dm_object_name("Web")` | eval url=lower(url) | eval num_sql_cmds=mvcount(split(url, "alter%20table")) + mvcount(split(url, "between")) + mvcount(split(url, "create%20table")) + mvcount(split(url, "create%20database")) + mvcount(split(url, "create%20index")) + mvcount(split(url, "create%20view")) + mvcount(split(url, "delete")) + mvcount(split(url, "drop%20database")) + mvcount(split(url, "drop%20index")) + mvcount(split(url, "drop%20table")) + mvcount(split(url, "exists")) + mvcount(split(url, "exec")) + mvcount(split(url, "group%20by")) + mvcount(split(url, "having")) + mvcount(split(url, "insert%20into")) + mvcount(split(url, "inner%20join")) + mvcount(split(url, "left%20join")) + mvcount(split(url, "right%20join")) + mvcount(split(url, "full%20join")) + mvcount(split(url, "select")) + mvcount(split(url, "distinct")) + mvcount(split(url, "select%20top")) + mvcount(split(url, "union")) + mvcount(split(url, "xp_cmdshell")) - 24 | where num_sql_cmds > 3 | `sql_injection_with_long_urls_filter`'
+how_to_implement: To successfully implement this search, you need to be monitoring network communications to your web servers or ingesting your HTTP logs and populating the Web data model. You must also identify your web servers in the Enterprise Security assets table.
+known_false_positives: It's possible that legitimate traffic will have long URLs or long user agent strings and that common SQL commands may be found within the URL. Please investigate as appropriate.
 references: []
 tags:
   analytic_story:

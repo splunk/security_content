@@ -5,22 +5,10 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: 'The following analytic detects suspicious behavior indicative of ProxyShell
-  exploitation against on-premise Microsoft Exchange servers. It identifies HTTP POST
-  requests to `autodiscover.json` containing `PowerShell` in the URI, leveraging server-side
-  request forgery (SSRF) to access backend PowerShell. This detection uses Exchange
-  server logs ingested into Splunk. Monitoring this activity is crucial as it may
-  indicate an attacker attempting to execute commands or scripts on the Exchange server.
-  If confirmed malicious, this could lead to unauthorized access, privilege escalation,
-  or persistent control over the Exchange environment.'
+description: The following analytic detects suspicious behavior indicative of ProxyShell exploitation against on-premise Microsoft Exchange servers. It identifies HTTP POST requests to `autodiscover.json` containing `PowerShell` in the URI, leveraging server-side request forgery (SSRF) to access backend PowerShell. This detection uses Exchange server logs ingested into Splunk. Monitoring this activity is crucial as it may indicate an attacker attempting to execute commands or scripts on the Exchange server. If confirmed malicious, this could lead to unauthorized access, privilege escalation, or persistent control over the Exchange environment.
 data_source: []
-search: '`exchange` c_uri="*//autodiscover*" cs_uri_query="*PowerShell*" cs_method="POST"
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query,
-  cs_method, c_uri | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `exchange_powershell_abuse_via_ssrf_filter`'
-how_to_implement: The following analytic requires on-premise Exchange to be logging
-  to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are
-  parsed correctly, or tune the analytic for your environment.
+search: '`exchange` c_uri="*//autodiscover*" cs_uri_query="*PowerShell*" cs_method="POST" | stats count min(_time) as firstTime max(_time) as lastTime by dest, cs_uri_query, cs_method, c_uri | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `exchange_powershell_abuse_via_ssrf_filter`'
+how_to_implement: The following analytic requires on-premise Exchange to be logging to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are parsed correctly, or tune the analytic for your environment.
 known_false_positives: Limited false positives, however, tune as needed.
 references:
 - https://github.com/GossiTheDog/ThreatHunting/blob/master/AzureSentinel/Exchange-Powershell-via-SSRF
@@ -34,8 +22,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: Activity related to ProxyShell has been identified on $dest$. Review events
-    and take action accordingly.
+  message: Activity related to ProxyShell has been identified on $dest$. Review events and take action accordingly.
   mitre_attack_id:
   - T1190
   - T1133

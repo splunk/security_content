@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: 'The following analytic identifies the use of the native macOS utility,
-  PlistBuddy, to create or modify property list (.plist) files. This detection leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process names
-  and command-line executions involving PlistBuddy. This activity is significant because
-  PlistBuddy can be used to establish persistence by modifying LaunchAgents, as seen
-  in the Silver Sparrow malware. If confirmed malicious, this could allow an attacker
-  to maintain persistence, execute arbitrary commands, and potentially escalate privileges
-  on the compromised macOS system.'
+description: The following analytic identifies the use of the native macOS utility, PlistBuddy, to create or modify property list (.plist) files. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions involving PlistBuddy. This activity is significant because PlistBuddy can be used to establish persistence by modifying LaunchAgents, as seen in the Silver Sparrow malware. If confirmed malicious, this could allow an attacker to maintain persistence, execute arbitrary commands, and potentially escalate privileges on the compromised macOS system.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=PlistBuddy
-  (Processes.process=*LaunchAgents* OR Processes.process=*RunAtLoad* OR Processes.process=*true*)
-  by Processes.dest Processes.user Processes.parent_process Processes.process_name
-  Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |  `suspicious_plistbuddy_usage_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Some legitimate applications may use PlistBuddy to create or
-  modify property lists and possibly generate false positives. Review the property
-  list being modified or created to confirm.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=PlistBuddy (Processes.process=*LaunchAgents* OR Processes.process=*RunAtLoad* OR Processes.process=*true*) by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |  `suspicious_plistbuddy_usage_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 references:
 - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 tags:

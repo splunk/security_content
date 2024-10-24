@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the Windows OS tool quser.exe,
-  commonly used to gather information about user sessions on a Remote Desktop Session
-  Host server. This detection leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process execution logs. Monitoring this activity is crucial
-  as quser.exe is often abused by post-exploitation tools like winpeas, used in ransomware
-  attacks to enumerate user sessions. If confirmed malicious, attackers could leverage
-  this information to further compromise the system, maintain persistence, or escalate
-  privileges.
+description: The following analytic detects the execution of the Windows OS tool quser.exe, commonly used to gather information about user sessions on a Remote Desktop Session Host server. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. Monitoring this activity is crucial as quser.exe is often abused by post-exploitation tools like winpeas, used in ransomware attacks to enumerate user sessions. If confirmed malicious, attackers could leverage this information to further compromise the system, maintain persistence, or escalate privileges.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name="quser.exe"
-  OR Processes.original_file_name = "quser.exe" by Processes.process_name Processes.original_file_name
-  Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name
-  Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_system_user_discovery_via_quser_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: network administrator can use this command tool to audit RDP
-  access of user in specific network or host.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name="quser.exe" OR Processes.original_file_name = "quser.exe" by Processes.process_name Processes.original_file_name Processes.process Processes.process_id Processes.process_guid Processes.parent_process_name Processes.parent_process Processes.parent_process_guid Processes.dest Processes.user | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_system_user_discovery_via_quser_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: network administrator can use this command tool to audit RDP access of user in specific network or host.
 references:
 - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/quser
 - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
@@ -78,8 +56,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winpeas/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog
     update_timestamp: true

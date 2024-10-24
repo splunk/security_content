@@ -5,38 +5,12 @@ date: '2024-10-17'
 author: Bhavin Patel, Eric McGinnis Splunk
 status: production
 type: Hunting
-description: The following analytic identifies AWS console login attempts by users
-  from a new region. It leverages AWS CloudTrail events and compares current login
-  regions against a baseline of previously seen regions for each user. This activity
-  is significant as it may indicate unauthorized access attempts or compromised credentials.
-  If confirmed malicious, an attacker could gain unauthorized access to AWS resources,
-  potentially leading to data breaches, resource manipulation, or further lateral
-  movement within the cloud environment.
+description: The following analytic identifies AWS console login attempts by users from a new region. It leverages AWS CloudTrail events and compares current login regions against a baseline of previously seen regions for each user. This activity is significant as it may indicate unauthorized access attempts or compromised credentials. If confirmed malicious, an attacker could gain unauthorized access to AWS resources, potentially leading to data breaches, resource manipulation, or further lateral movement within the cloud environment.
 data_source:
 - AWS CloudTrail
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
-  where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src
-  | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | rename
-  Region as justSeenRegion | table firstTime lastTime user justSeenRegion | join user
-  type=outer [| inputlookup previously_seen_users_console_logins | rename Region as
-  previouslySeenRegion | stats min(firstTime) AS earliestseen by user previouslySeenRegion
-  | fields earliestseen user previouslySeenRegion] | eval userRegion=if(firstTime
-  >= relative_time(now(), "-24h@h"), "New Region","Previously Seen Region") | where
-  userRegion= "New Region" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | table firstTime lastTime user previouslySeenRegion justSeenRegion userRegion |
-  `detect_aws_console_login_by_user_from_new_region_filter`'
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version
-  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
-  to the Authentication data model for cloud use cases. Run the `Previously Seen Users
-  in AWS CloudTrail - Initial` support search only once to create a baseline of previously
-  seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail
-  - Update` hourly (or more frequently depending on how often you run the detection
-  searches) to refresh the baselines. You can also provide additional filtering for
-  this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter`
-  macro.
-known_false_positives: When a legitimate new user logins for the first time, this
-  activity will be detected. Check how old the account is and verify that the user
-  activity is legitimate.
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user Authentication.src | iplocation Authentication.src | `drop_dm_object_name(Authentication)` | rename Region as justSeenRegion | table firstTime lastTime user justSeenRegion | join user type=outer [| inputlookup previously_seen_users_console_logins | rename Region as previouslySeenRegion | stats min(firstTime) AS earliestseen by user previouslySeenRegion | fields earliestseen user previouslySeenRegion] | eval userRegion=if(firstTime >= relative_time(now(), "-24h@h"), "New Region","Previously Seen Region") | where userRegion= "New Region" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | table firstTime lastTime user previouslySeenRegion justSeenRegion userRegion | `detect_aws_console_login_by_user_from_new_region_filter`'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in AWS CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in AWS CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines. You can also provide additional filtering for this search by customizing the `detect_aws_console_login_by_user_from_new_region_filter` macro.
+known_false_positives: When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 references: []
 tags:
   analytic_story:
@@ -47,8 +21,7 @@ tags:
   asset_type: AWS Instance
   confidence: 60
   impact: 60
-  message: User $user$ is logging into the AWS console from Region $Region$ for the
-    first time
+  message: User $user$ is logging into the AWS console from Region $Region$ for the first time
   mitre_attack_id:
   - T1586
   - T1586.003
@@ -69,13 +42,11 @@ tags:
   - Authentication.src
   risk_score: 36
   security_domain: threat
-  manual_test: This search needs the baseline to be run first to create a lookup.
-    It also requires that the timestamps in the dataset be updated.
+  manual_test: This search needs the baseline to be run first to create a lookup. It also requires that the timestamps in the dataset be updated.
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

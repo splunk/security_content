@@ -8,34 +8,10 @@ type: TTP
 data_source:
 - Windows Security 5136
 - Windows Security 5145
-description: This analytic looks for a the creation of potentially harmful GPO which could lead to persistence or code execution on remote hosts. 
-  Note, this analyic is looking for the absence of the corresponding 5136 events which is evidence of the GPOs being manually edited (using a tool like PowerView) or potentially missing logs. 
-search: >-
-    `wineventlog_security` EventCode=5145 ShareName="\\\\*\\SYSVOL" RelativeTargetName IN (*\\ScheduledTasks.xml, *\\Groups.xml, *\\Registry.xml, *\\Services.xml, *\\Scripts\\*) NOT RelativeTargetName=*\\Scripts\\scripts.ini AccessMask=0x2 
-    | rex field=AccessList max_match=0 "(?P<AccessList>%%\d+)" 
-    | table _time AccessMask src_ip src_user RelativeTargetName Logon_ID dvc 
-    | rex field=RelativeTargetName "Policies\\\(?P<gpo_guid>{.*?})\\\(?P<scope>\w+?)\\\(\w+)\\\(?P<folder>\w+)\\\(?P<file>\w+\.\w+)$"
-    | eval src=if(match(src_ip, "(?i)^fe80:"),dvc,src_ip), folder=case(RelativeTargetName like "%\\Scripts\\%","Scripts",folder="Groups","Local users and groups",1=1,folder)
-    | appendpipe 
-      [| map search="search `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames $gpo_guid$" 
-      | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId 
-      | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" 
-      | rex field=new_value max_match=10000 "(?P<new_values>\{.*?\})" 
-      | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" 
-      | mvexpand new_values 
-      | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") 
-      | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType 
-      | eval newPolicy=if(policyType like "%",policyType,new_values) 
-      | stats values(OpCorrelationID) as OpCorrelationID values(newPolicy) as newPolicy by ObjectDN 
-      | rex field=ObjectDN max_match=10000 "CN=(?P<gpo_guid>\{.*?\})" 
-      | fields - ObjectDN] 
-    | stats values(AccessMask) as AccessMask values(src) as src values(src_user) as src_user values(RelativeTargetName) as RelativeTargetName values(Logon_ID) as Logon_ID values(newPolicy) as newPolicy values(OpCorrelationID) as OpCorrelationID values(folder) as folder values(file) as file by gpo_guid 
-    | mvexpand folder 
-    | where NOT folder IN (newPolicy)
-    | `windows_ad_suspicious_gpo_modification_filter`
-how_to_implement: Ingest EventCodes 5145 and 5136 from domain controllers. Additional SACLs required to capture EventCode 5136, see references for further information on how to configure this. 
-  The Group Policy - Audit Detailed File Share will need to be enabled on the DCs to generate event code 5145, this event is very noisy on DCs, consider tuning out sysvol events which do not match access mask 0x2.
-known_false_positives: When a GPO is manually edited and 5136 events are not logging to Splunk. 
+description: This analytic looks for a the creation of potentially harmful GPO which could lead to persistence or code execution on remote hosts. Note, this analyic is looking for the absence of the corresponding 5136 events which is evidence of the GPOs being manually edited (using a tool like PowerView) or potentially missing logs.
+search: "`wineventlog_security` EventCode=5145 ShareName=\"\\\\\\\\*\\\\SYSVOL\" RelativeTargetName IN (*\\\\ScheduledTasks.xml, *\\\\Groups.xml, *\\\\Registry.xml, *\\\\Services.xml, *\\\\Scripts\\\\*) NOT RelativeTargetName=*\\\\Scripts\\\\scripts.ini AccessMask=0x2  | rex field=AccessList max_match=0 \"(?P<AccessList>%%\\d+)\"  | table _time AccessMask src_ip src_user RelativeTargetName Logon_ID dvc  | rex field=RelativeTargetName \"Policies\\\\\\(?P<gpo_guid>{.*?})\\\\\\(?P<scope>\\w+?)\\\\\\(\\w+)\\\\\\(?P<folder>\\w+)\\\\\\(?P<file>\\w+\\.\\w+)$\" | eval src=if(match(src_ip, \"(?i)^fe80:\"),dvc,src_ip), folder=case(RelativeTargetName like \"%\\\\Scripts\\\\%\",\"Scripts\",folder=\"Groups\",\"Local users and groups\",1=1,folder) | appendpipe \n  [| map search=\"search `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames $gpo_guid$\" \n  | stats min(_time) as _time values(eval(if(OperationType==\"%%14675\",AttributeValue,null))) as old_value values(eval(if(OperationType==\"%%14674\",AttributeValue,null))) as new_value values(OperationType) as OperationType by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId \n  | rex field=old_value max_match=10000 \"(?P<old_values>\\{.*?\\})\" \n  | rex field=new_value max_match=10000 \"(?P<new_values>\\{.*?\\})\" \n  | rex field=ObjectDN max_match=10000 \"CN=(?P<policy_guid>\\{.*?\\})\" \n  | mvexpand new_values \n  | where NOT new_values IN (old_values,\"{00000000-0000-0000-0000-000000000000}\",policy_guid) AND match(new_values, \"^\\{[A-Z|\\d]+\\-[A-Z|\\d]+\\-[A-Z|\\d]+\\-[A-Z|\\d]+\\-[A-Z|\\d]+\\}\") \n  | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType \n  | eval newPolicy=if(policyType like \"%\",policyType,new_values) \n  | stats values(OpCorrelationID) as OpCorrelationID values(newPolicy) as newPolicy by ObjectDN \n  | rex field=ObjectDN max_match=10000 \"CN=(?P<gpo_guid>\\{.*?\\})\" \n  | fields - ObjectDN] \n| stats values(AccessMask) as AccessMask values(src) as src values(src_user) as src_user values(RelativeTargetName) as RelativeTargetName values(Logon_ID) as Logon_ID values(newPolicy) as newPolicy values(OpCorrelationID) as OpCorrelationID values(folder) as folder values(file) as file by gpo_guid  | mvexpand folder  | where NOT folder IN (newPolicy) | `windows_ad_suspicious_gpo_modification_filter`"
+how_to_implement: Ingest EventCodes 5145 and 5136 from domain controllers. Additional SACLs required to capture EventCode 5136, see references for further information on how to configure this. The Group Policy - Audit Detailed File Share will need to be enabled on the DCs to generate event code 5145, this event is very noisy on DCs, consider tuning out sysvol events which do not match access mask 0x2.
+known_false_positives: When a GPO is manually edited and 5136 events are not logging to Splunk.
 references:
 - https://github.com/PowerShellMafia/PowerSploit/blob/26a0757612e5654b4f792b012ab8f10f95d391c9/Recon/PowerView.ps1#L5907-L6122
 - https://github.com/X-C3LL/GPOwned
@@ -45,7 +21,7 @@ references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 tags:
   analytic_story:
-    - Sneaky Active Directory Persistence Tricks
+  - Sneaky Active Directory Persistence Tricks
   asset_type: Endpoint
   confidence: 80
   impact: 100
@@ -56,34 +32,34 @@ tags:
   - T1222
   - T1222.001
   observable:
-    - name: user
-      type: User
-      role:
-        - Victim
-    - name: src_user
-      type: User
-      role:
-        - Victim
+  - name: user
+    type: User
+    role:
+    - Victim
+  - name: src_user
+    type: User
+    role:
+    - Victim
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   risk_score: 80
   required_fields:
-    - _time
-    - OperationType
-    - ObjectDN
-    - OpCorrelationID
-    - src_user
-    - AttributeLDAPDisplayName
-    - AttributeValue
-    - ObjectClass
-    - SubjectLogonId
-    - DSName
+  - _time
+  - OperationType
+  - ObjectDN
+  - OpCorrelationID
+  - src_user
+  - AttributeLDAPDisplayName
+  - AttributeValue
+  - ObjectClass
+  - SubjectLogonId
+  - DSName
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/gpo_new_cse/windows-security.log
-        source: XmlWinEventLog:Security
-        sourcetype: xmlwineventlog
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/gpo_new_cse/windows-security.log
+    source: XmlWinEventLog:Security
+    sourcetype: xmlwineventlog

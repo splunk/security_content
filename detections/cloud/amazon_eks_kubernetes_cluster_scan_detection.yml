@@ -5,25 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: The following analytic detects unauthenticated requests to an Amazon
-  EKS Kubernetes cluster, specifically identifying actions by the "system:anonymous"
-  user. It leverages AWS CloudWatch Logs data, focusing on user agents and authentication
-  details. This activity is significant as it may indicate unauthorized scanning or
-  probing of the Kubernetes cluster, which could be a precursor to an attack. If confirmed
-  malicious, this could lead to unauthorized access, data exfiltration, or disruption
-  of services within the Kubernetes environment.
+description: The following analytic detects unauthenticated requests to an Amazon EKS Kubernetes cluster, specifically identifying actions by the "system:anonymous" user. It leverages AWS CloudWatch Logs data, focusing on user agents and authentication details. This activity is significant as it may indicate unauthorized scanning or probing of the Kubernetes cluster, which could be a precursor to an attack. If confirmed malicious, this could lead to unauthorized access, data exfiltration, or disruption of services within the Kubernetes environment.
 data_source: []
-search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS
-  Security Scanner" | rename sourceIPs{} as src_ip | stats count min(_time) as firstTime
-  max(_time) as lastTime values(responseStatus.reason) values(source) as cluster_name
-  values(responseStatus.code) values(userAgent) as http_user_agent values(verb) values(requestURI)
-  by src_ip user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  |`amazon_eks_kubernetes_cluster_scan_detection_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch
-  EKS Logs inputs.
-known_false_positives: Not all unauthenticated requests are malicious, but frequency,
-  UA and source IPs will provide context.
+search: '`aws_cloudwatchlogs_eks` "user.username"="system:anonymous" userAgent!="AWS Security Scanner" | rename sourceIPs{} as src_ip | stats count min(_time) as firstTime max(_time) as lastTime values(responseStatus.reason) values(source) as cluster_name values(responseStatus.code) values(userAgent) as http_user_agent values(verb) values(requestURI) by src_ip user.username user.groups{} | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` |`amazon_eks_kubernetes_cluster_scan_detection_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your CloudWatch EKS Logs inputs.
+known_false_positives: Not all unauthenticated requests are malicious, but frequency, UA and source IPs will provide context.
 references: []
 tags:
   analytic_story:

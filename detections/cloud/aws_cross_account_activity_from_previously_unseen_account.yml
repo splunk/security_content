@@ -5,36 +5,12 @@ date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies AssumeRole events where an IAM role
-  in a different AWS account is accessed for the first time. It detects this activity
-  by analyzing authentication logs and comparing the requesting and requested account
-  IDs, flagging new cross-account activities. This behavior is significant because
-  unauthorized cross-account access can indicate potential lateral movement or privilege
-  escalation attempts. If confirmed malicious, an attacker could gain unauthorized
-  access to resources in another account, potentially leading to data exfiltration,
-  service disruption, or further compromise of the AWS environment.
-data_source: 
+description: The following analytic identifies AssumeRole events where an IAM role in a different AWS account is accessed for the first time. It detects this activity by analyzing authentication logs and comparing the requesting and requested account IDs, flagging new cross-account activities. This behavior is significant because unauthorized cross-account access can indicate potential lateral movement or privilege escalation attempts. If confirmed malicious, an attacker could gain unauthorized access to resources in another account, potentially leading to data exfiltration, service disruption, or further compromise of the AWS environment.
+data_source:
 - AWS CloudTrail
-search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication
-  where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user
-  Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)`
-  | rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" | where vendor_account
-  != dest_account | rename vendor_account as requestingAccountId dest_account as requestedAccountId
-  | lookup previously_seen_aws_cross_account_activity requestingAccountId, requestedAccountId,
-  OUTPUTNEW firstTime | eval status = if(firstTime > relative_time(now(), "-24h@h"),"New
-  Cross Account Activity","Previously Seen") |  where status = "New Cross Account
-  Activity" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `aws_cross_account_activity_from_previously_unseen_account_filter`'
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider. You should run the baseline search `Previously Seen AWS Cross Account
-  Activity - Initial` to build the initial table of source IP address, geographic
-  locations, and times. You must also enable the second baseline search `Previously
-  Seen AWS Cross Account Activity - Update` to keep this table up to date and to age
-  out old data. You can also provide additional filtering for this search by customizing
-  the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
-known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior.
-  It's suspicious when an account requests privileges of an account it hasn't before.
-  You should validate with the account owner that this is a legitimate request.
+search: '| tstats min(_time) as firstTime max(_time) as lastTime from datamodel=Authentication where Authentication.signature=AssumeRole by Authentication.vendor_account Authentication.user Authentication.src Authentication.user_role | `drop_dm_object_name(Authentication)` | rex field=user_role "arn:aws:sts:*:(?<dest_account>.*):" | where vendor_account != dest_account | rename vendor_account as requestingAccountId dest_account as requestedAccountId | lookup previously_seen_aws_cross_account_activity requestingAccountId, requestedAccountId, OUTPUTNEW firstTime | eval status = if(firstTime > relative_time(now(), "-24h@h"),"New Cross Account Activity","Previously Seen") |  where status = "New Cross Account Activity" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `aws_cross_account_activity_from_previously_unseen_account_filter`'
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud provider. You should run the baseline search `Previously Seen AWS Cross Account Activity - Initial` to build the initial table of source IP address, geographic locations, and times. You must also enable the second baseline search `Previously Seen AWS Cross Account Activity - Update` to keep this table up to date and to age out old data. You can also provide additional filtering for this search by customizing the `aws_cross_account_activity_from_previously_unseen_account_filter` macro.
+known_false_positives: Using multiple AWS accounts and roles is perfectly valid behavior. It's suspicious when an account requests privileges of an account it hasn't before. You should validate with the account owner that this is a legitimate request.
 references: []
 tags:
   analytic_story:
@@ -42,8 +18,7 @@ tags:
   asset_type: AWS Instance
   confidence: 50
   impact: 30
-  message: AWS account $requestingAccountId$ is trying to access resource from some
-    other account $requestedAccountId$, for the first time.
+  message: AWS account $requestingAccountId$ is trying to access resource from some other account $requestedAccountId$, for the first time.
   observable:
   - name: requestingAccountId
     type: Other
@@ -69,8 +44,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

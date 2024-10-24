@@ -5,29 +5,12 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
-description: 'The following analytic identifies an unusual number of computer service
-  ticket requests from a single source, leveraging Event ID 4769, "A Kerberos service
-  ticket was requested." It uses statistical analysis, including standard deviation
-  and the 3-sigma rule, to detect anomalies in service ticket requests. This activity
-  is significant as it may indicate malicious behavior such as lateral movement, malware
-  staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized
-  access to multiple endpoints, facilitating further compromise and potential data
-  exfiltration.'
+description: The following analytic identifies an unusual number of computer service ticket requests from a single source, leveraging Event ID 4769, "A Kerberos service ticket was requested." It uses statistical analysis, including standard deviation and the 3-sigma rule, to detect anomalies in service ticket requests. This activity is significant as it may indicate malicious behavior such as lateral movement, malware staging, or reconnaissance. If confirmed malicious, an attacker could gain unauthorized access to multiple endpoints, facilitating further compromise and potential data exfiltration.
 data_source:
 - Windows Event Log Security 4769
-search: '`wineventlog_security` EventCode=4769 Service_Name="*$" Account_Name!="*$*"
-  | bucket span=2m _time | stats dc(Service_Name) AS unique_targets values(Service_Name)
-  as host_targets by _time, Client_Address, Account_Name | eventstats avg(unique_targets)
-  as comp_avg , stdev(unique_targets) as comp_std by Client_Address, Account_Name
-  | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_targets >10 and
-  unique_targets >= upperBound, 1, 0) | `unusual_number_of_computer_service_tickets_requested_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
-  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: An single endpoint requesting a large number of computer service
-  tickets is not common behavior. Possible false positive scenarios include but are
-  not limited to vulnerability scanners, administration systeams and missconfigured
-  systems.
+search: '`wineventlog_security` EventCode=4769 Service_Name="*$" Account_Name!="*$*" | bucket span=2m _time | stats dc(Service_Name) AS unique_targets values(Service_Name) as host_targets by _time, Client_Address, Account_Name | eventstats avg(unique_targets) as comp_avg , stdev(unique_targets) as comp_std by Client_Address, Account_Name | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_targets >10 and unique_targets >= upperBound, 1, 0) | `unusual_number_of_computer_service_tickets_requested_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: An single endpoint requesting a large number of computer service tickets is not common behavior. Possible false positive scenarios include but are not limited to vulnerability scanners, administration systeams and missconfigured systems.
 references:
 - https://attack.mitre.org/techniques/T1078/
 tags:

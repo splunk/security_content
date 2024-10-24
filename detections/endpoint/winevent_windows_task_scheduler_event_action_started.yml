@@ -5,26 +5,13 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of tasks registered in Windows
-  Task Scheduler by monitoring EventID 200 (action run) and 201 (action completed)
-  from the Task Scheduler logs. This detection leverages Task Scheduler logs to identify
-  potentially suspicious or unauthorized task executions. Monitoring these events
-  is significant for a SOC as it helps uncover evasive techniques used for persistence,
-  unauthorized code execution, or other malicious activities. If confirmed malicious,
-  this activity could lead to unauthorized access, data exfiltration, or the execution
-  of harmful payloads, posing a significant threat to the environment.
+description: The following analytic detects the execution of tasks registered in Windows Task Scheduler by monitoring EventID 200 (action run) and 201 (action completed) from the Task Scheduler logs. This detection leverages Task Scheduler logs to identify potentially suspicious or unauthorized task executions. Monitoring these events is significant for a SOC as it helps uncover evasive techniques used for persistence, unauthorized code execution, or other malicious activities. If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or the execution of harmful payloads, posing a significant threat to the environment.
 data_source:
 - Windows Event Log TaskScheduler 200
 - Windows Event Log TaskScheduler 201
-search: '`wineventlog_task_scheduler` EventCode IN ("200","201")  | stats count min(_time)
-  as firstTime max(_time) as lastTime by TaskName dest EventCode | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `winevent_windows_task_scheduler_event_action_started_filter`'
-how_to_implement: Task Scheduler logs are required to be collected. Enable logging
-  with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational]
-  and renderXml=false. Note, not translating it in XML may require a proper extraction
-  of specific items in the Message.
-known_false_positives: False positives will be present. Filter based on ActionName
-  paths or specify keywords of interest.
+search: '`wineventlog_task_scheduler` EventCode IN ("200","201")  | stats count min(_time) as firstTime max(_time) as lastTime by TaskName dest EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winevent_windows_task_scheduler_event_action_started_filter`'
+how_to_implement: Task Scheduler logs are required to be collected. Enable logging with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational] and renderXml=false. Note, not translating it in XML may require a proper extraction of specific items in the Message.
+known_false_positives: False positives will be present. Filter based on ActionName paths or specify keywords of interest.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/

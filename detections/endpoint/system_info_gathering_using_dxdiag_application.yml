@@ -5,35 +5,14 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the execution of the dxdiag.exe process
-  with specific command-line arguments, which is used to gather system information.
-  This detection leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process creation events and command-line details. This activity is significant
-  because dxdiag.exe is rarely used in corporate environments and its execution may
-  indicate reconnaissance efforts by malicious actors. If confirmed malicious, this
-  activity could allow attackers to collect detailed system information, aiding in
-  further exploitation or lateral movement within the network.
+description: The following analytic identifies the execution of the dxdiag.exe process with specific command-line arguments, which is used to gather system information. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events and command-line details. This activity is significant because dxdiag.exe is rarely used in corporate environments and its execution may indicate reconnaissance efforts by malicious actors. If confirmed malicious, this activity could allow attackers to collect detailed system information, aiding in further exploitation or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process
-  = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process
-  Processes.process_name Processes.process Processes.process_id Processes.parent_process_id
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `system_info_gathering_using_dxdiag_application_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This commandline can be used by a network administrator to
-  audit host machine specifications. Thus, a filter is needed.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_dxdiag` AND Processes.process = "* /t *" by Processes.dest Processes.user Processes.parent_process_name Processes.parent_process Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `system_info_gathering_using_dxdiag_application_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: This commandline can be used by a network administrator to audit host machine specifications. Thus, a filter is needed.
 references:
 - https://app.any.run/tasks/df0baf9f-8baf-4c32-a452-16562ecb19be/
 tags:
@@ -76,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/t1592/host_info_dxdiag/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

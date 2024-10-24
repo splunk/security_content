@@ -5,28 +5,10 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Hunting
-description: The following analytic identifies Windows endpoints that have not generated
-  an event indicating a successful Windows update in the last 60 days. It leverages
-  the 'Update' data model in Splunk, specifically looking for the latest 'Installed'
-  status events from Microsoft Windows. This activity is significant for a SOC because
-  endpoints that are not regularly patched are vulnerable to known exploits and security
-  vulnerabilities. If confirmed malicious, this could indicate a compromised endpoint
-  that is intentionally being kept unpatched, potentially allowing attackers to exploit
-  unpatched vulnerabilities and gain unauthorized access or control.
+description: The following analytic identifies Windows endpoints that have not generated an event indicating a successful Windows update in the last 60 days. It leverages the 'Update' data model in Splunk, specifically looking for the latest 'Installed' status events from Microsoft Windows. This activity is significant for a SOC because endpoints that are not regularly patched are vulnerable to known exploits and security vulnerabilities. If confirmed malicious, this could indicate a compromised endpoint that is intentionally being kept unpatched, potentially allowing attackers to exploit unpatched vulnerabilities and gain unauthorized access or control.
 data_source: []
-search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates
-  where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest
-  Updates.status Updates.vendor_product | rename Updates.dest as Host | rename Updates.status
-  as "Update Status" | rename Updates.vendor_product as Product | eval isOutlier=if(lastTime
-  <= relative_time(now(), "-60d@d"), 1, 0)  | `security_content_ctime(lastTime)`  |
-  search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update
-  Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
-how_to_implement: To successfully implement this search, it requires that the 'Update'
-  data model is being populated. This can be accomplished by ingesting Windows events
-  or the Windows Update log via a universal forwarder on the Windows endpoints you
-  wish to monitor. The Windows add-on should be also be installed and configured to
-  properly parse Windows events in Splunk. There may be other data sources which can
-  populate this data model, including vulnerability management systems.
+search: '| tstats `security_content_summariesonly` max(_time) as lastTime from datamodel=Updates where Updates.status=Installed Updates.vendor_product="Microsoft Windows" by Updates.dest Updates.status Updates.vendor_product | rename Updates.dest as Host | rename Updates.status as "Update Status" | rename Updates.vendor_product as Product | eval isOutlier=if(lastTime <= relative_time(now(), "-60d@d"), 1, 0)  | `security_content_ctime(lastTime)`  | search isOutlier=1 | rename lastTime as "Last Update Time", | table Host, "Update Status", Product, "Last Update Time" | `no_windows_updates_in_a_time_frame_filter`'
+how_to_implement: To successfully implement this search, it requires that the 'Update' data model is being populated. This can be accomplished by ingesting Windows events or the Windows Update log via a universal forwarder on the Windows endpoints you wish to monitor. The Windows add-on should be also be installed and configured to properly parse Windows events in Splunk. There may be other data sources which can populate this data model, including vulnerability management systems.
 known_false_positives: None identified
 references: []
 tags:

@@ -5,36 +5,14 @@ date: '2024-10-17'
 author: David Dorsey, Michael Haag Splunk
 status: production
 type: Hunting
-description: The following analytic detects PowerShell commands using the WindowStyle
-  parameter to hide the window while connecting to the Internet. This behavior is
-  identified through Endpoint Detection and Response (EDR) telemetry, focusing on
-  command-line executions that include variations of the WindowStyle parameter. This
-  activity is significant because it attempts to bypass default PowerShell execution
-  policies and conceal its actions, which is often indicative of malicious intent.
-  If confirmed malicious, this could allow an attacker to execute commands stealthily,
-  potentially leading to unauthorized data exfiltration or further compromise of the
-  endpoint.
+description: The following analytic detects PowerShell commands using the WindowStyle parameter to hide the window while connecting to the Internet. This behavior is identified through Endpoint Detection and Response (EDR) telemetry, focusing on command-line executions that include variations of the WindowStyle parameter. This activity is significant because it attempts to bypass default PowerShell execution policies and conceal its actions, which is often indicative of malicious intent. If confirmed malicious, this could allow an attacker to execute commands stealthily, potentially leading to unauthorized data exfiltration or further compromise of the endpoint.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user
-  Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name
-  Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|– |—|―]w(in*d*o*w*s*t*y*l*e*)*\\\
-  s+[^-]\") | `powershell___connect_to_internet_with_hidden_window_filter`"
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Legitimate process can have this combination of command-line
-  options, but it's not common.
+search: "| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where `process_powershell` by Processes.user Processes.process_name Processes.process Processes.parent_process_name Processes.original_file_name Processes.dest Processes.process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where match(process,\"(?i)[\\-|\\/|\u2013 |\u2014|\u2015]w(in*d*o*w*s*t*y*l*e*)*\\s+[^-]\") | `powershell___connect_to_internet_with_hidden_window_filter`"
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate process can have this combination of command-line options, but it's not common.
 references:
 - https://regexr.com/663rr
 - https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/Windows/TestHarnesses/T1059.001_PowerShell/OutPowerShellCommandLineParameter.ps1
@@ -55,9 +33,7 @@ tags:
   cve:
   - CVE-2021-44228
   impact: 90
-  message: PowerShell processes $process$ started with parameters to modify the execution
-    policy of the run, run in a hidden window, and connect to the Internet on host
-    $dest$ executed by user $user$.
+  message: PowerShell processes $process$ started with parameters to modify the execution policy of the run, run in a hidden window, and connect to the Internet on host $dest$ executed by user $user$.
   mitre_attack_id:
   - T1059.001
   - T1059
@@ -90,7 +66,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/hidden_powershell/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

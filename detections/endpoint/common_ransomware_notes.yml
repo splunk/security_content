@@ -5,27 +5,12 @@ date: '2024-10-17'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the creation of files with names commonly
-  associated with ransomware notes. It leverages file-system activity data from the
-  Endpoint Filesystem data model, typically populated by endpoint detection and response
-  (EDR) tools or Sysmon logs. This activity is significant because ransomware notes
-  indicate a potential ransomware attack, which can lead to data encryption and extortion.
-  If confirmed malicious, this activity could result in significant data loss, operational
-  disruption, and financial impact due to ransom demands.
+description: The following analytic detects the creation of files with names commonly associated with ransomware notes. It leverages file-system activity data from the Endpoint Filesystem data model, typically populated by endpoint detection and response (EDR) tools or Sysmon logs. This activity is significant because ransomware notes indicate a potential ransomware attack, which can lead to data encryption and extortion. If confirmed malicious, this activity could result in significant data loss, operational disruption, and financial impact due to ransom demands.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path)
-  as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)`
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ransomware_notes`
-  | `common_ransomware_notes_filter`'
-how_to_implement: You must be ingesting data that records file-system activity from
-  your hosts to populate the Endpoint Filesystem data-model node. This is typically
-  populated via endpoint detection-and-response product, such as Carbon Black, or
-  via other endpoint data sources, such as Sysmon. The data used for this search is
-  typically generated via logs that report file-system reads and writes.
-known_false_positives: It's possible that a legitimate file could be created with
-  the same name used by ransomware note files.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Filesystem.user) as user values(Filesystem.dest) as dest values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name | `drop_dm_object_name(Filesystem)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ransomware_notes` | `common_ransomware_notes_filter`'
+how_to_implement: You must be ingesting data that records file-system activity from your hosts to populate the Endpoint Filesystem data-model node. This is typically populated via endpoint detection-and-response product, such as Carbon Black, or via other endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report file-system reads and writes.
+known_false_positives: It's possible that a legitimate file could be created with the same name used by ransomware note files.
 references: []
 tags:
   analytic_story:
@@ -39,8 +24,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$,
-    this is indicative of a known ransomware note file and should be reviewed immediately.
+  message: A file - $file_name$ was written to disk on endpoint $dest$ by user $user$, this is indicative of a known ransomware note file and should be reviewed immediately.
   mitre_attack_id:
   - T1485
   observable:
@@ -71,7 +55,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

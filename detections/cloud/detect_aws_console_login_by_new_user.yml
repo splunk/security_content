@@ -5,32 +5,12 @@ date: '2024-10-17'
 author: Rico Valdez, Splunk
 status: experimental
 type: Hunting
-description: The following analytic detects AWS console login events by new users.
-  It leverages AWS CloudTrail events and compares them against a lookup file of previously
-  seen users based on ARN values. This detection is significant because a new user
-  logging into the AWS console could indicate the creation of new accounts or potential
-  unauthorized access. If confirmed malicious, this activity could lead to unauthorized
-  access to AWS resources, data exfiltration, or further exploitation within the cloud
-  environment.
-data_source: 
+description: The following analytic detects AWS console login events by new users. It leverages AWS CloudTrail events and compares them against a lookup file of previously seen users based on ARN values. This detection is significant because a new user logging into the AWS console could indicate the creation of new accounts or potential unauthorized access. If confirmed malicious, this activity could lead to unauthorized access to AWS resources, data exfiltration, or further exploitation within the cloud environment.
+data_source:
 - AWS CloudTrail
-search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication
-  where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)`
-  | join user type=outer [ | inputlookup previously_seen_users_console_logins | stats
-  min(firstTime) as earliestseen by user] | eval userStatus=if(earliestseen >= relative_time(now(),
-  "-24h@h") OR isnull(earliestseen), "First Time Logging into AWS Console", "Previously
-  Seen User") | where userStatus="First Time Logging into AWS Console" | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `detect_aws_console_login_by_new_user_filter`'
-how_to_implement: You must install and configure the Splunk Add-on for AWS (version
-  5.1.0 or later) and Enterprise Security 6.2, which contains the required updates
-  to the Authentication data model for cloud use cases. Run the `Previously Seen Users
-  in CloudTrail - Initial` support search only once to create a baseline of previously
-  seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail
-  - Update` hourly (or more frequently depending on how often you run the detection
-  searches) to refresh the baselines.
-known_false_positives: When a legitimate new user logins for the first time, this
-  activity will be detected. Check how old the account is and verify that the user
-  activity is legitimate.
+search: '| tstats earliest(_time) as firstTime latest(_time) as lastTime from datamodel=Authentication where Authentication.signature=ConsoleLogin by Authentication.user | `drop_dm_object_name(Authentication)` | join user type=outer [ | inputlookup previously_seen_users_console_logins | stats min(firstTime) as earliestseen by user] | eval userStatus=if(earliestseen >= relative_time(now(), "-24h@h") OR isnull(earliestseen), "First Time Logging into AWS Console", "Previously Seen User") | where userStatus="First Time Logging into AWS Console" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_aws_console_login_by_new_user_filter`'
+how_to_implement: You must install and configure the Splunk Add-on for AWS (version 5.1.0 or later) and Enterprise Security 6.2, which contains the required updates to the Authentication data model for cloud use cases. Run the `Previously Seen Users in CloudTrail - Initial` support search only once to create a baseline of previously seen IAM users within the last 30 days. Run `Previously Seen Users in CloudTrail - Update` hourly (or more frequently depending on how often you run the detection searches) to refresh the baselines.
+known_false_positives: When a legitimate new user logins for the first time, this activity will be detected. Check how old the account is and verify that the user activity is legitimate.
 references: []
 tags:
   analytic_story:
@@ -62,8 +42,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
     sourcetype: aws:cloudtrail
     source: aws_cloudtrail
     update_timestamp: true

@@ -15,12 +15,12 @@ references:
 - https://www.redhat.com/en/topics/devops/what-is-devsecops
 - https://www.mandiant.com/resources/top-words-used-in-spear-phishing-attacks
 drilldown_searches:
-- name: View the detection results for $destination{}.address$
-  search: '%original_detection_search% | search  destination{}.address = $destination{}.address$'
+- name: View the detection results for - "$destination{}.address$"
+  search: '%original_detection_search% | search  destination{}.address = "$destination{}.address$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $destination{}.address$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($destination{}.address$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for - "$destination{}.address$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$destination{}.address$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:

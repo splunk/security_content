@@ -5,18 +5,11 @@ date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: |-
-  The following analytic identifies a heap-based buffer overflow in sudoedit by detecting Linux logs containing both "sudoedit" and "segfault" terms. This detection leverages Splunk to monitor for more than five occurrences of these terms on a single host within a specified timeframe. This activity is significant because exploiting this vulnerability (CVE-2021-3156) can allow attackers to gain root privileges, leading to potential system compromise, unauthorized access, and data breaches. If confirmed malicious, this could result in elevated privileges and full control over the affected system, posing a severe security risk.
+description: The following analytic identifies a heap-based buffer overflow in sudoedit by detecting Linux logs containing both "sudoedit" and "segfault" terms. This detection leverages Splunk to monitor for more than five occurrences of these terms on a single host within a specified timeframe. This activity is significant because exploiting this vulnerability (CVE-2021-3156) can allow attackers to gain root privileges, leading to potential system compromise, unauthorized access, and data breaches. If confirmed malicious, this could result in elevated privileges and full control over the affected system, posing a severe security risk.
 data_source: []
-search: '`linux_hosts` TERM(sudoedit) TERM(segfault) | stats count min(_time) as firstTime
-  max(_time) as lastTime by host | where count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
-how_to_implement: Splunk Universal Forwarder running on Linux systems (tested on Centos
-  and Ubuntu), where segfaults are being logged.  This also captures instances where
-  the exploit has been compiled into a binary. The detection looks for greater than
-  5 instances of sudoedit combined with segfault over your search time period on a
-  single host
-known_false_positives: If sudoedit is throwing segfaults for other reasons this will
-  pick those up too.
+search: '`linux_hosts` TERM(sudoedit) TERM(segfault) | stats count min(_time) as firstTime max(_time) as lastTime by host | where count > 5 | `detect_baron_samedit_cve_2021_3156_segfault_filter`'
+how_to_implement: Splunk Universal Forwarder running on Linux systems (tested on Centos and Ubuntu), where segfaults are being logged.  This also captures instances where the exploit has been compiled into a binary. The detection looks for greater than 5 instances of sudoedit combined with segfault over your search time period on a single host
+known_false_positives: If sudoedit is throwing segfaults for other reasons this will pick those up too.
 references: []
 tags:
   analytic_story:

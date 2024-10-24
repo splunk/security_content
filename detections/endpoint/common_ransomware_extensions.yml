@@ -5,33 +5,12 @@ date: '2024-10-17'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: Hunting
-description: "The following analytic detects modifications to files with extensions
-  commonly associated with ransomware. It leverages the Endpoint.Filesystem data model
-  to identify changes in file extensions that match known ransomware patterns. This
-  activity is significant because it suggests an attacker is attempting to encrypt
-  or alter files, potentially leading to severe data loss and operational disruption.
-  If confirmed malicious, this activity could result in the encryption of critical
-  data, rendering it inaccessible and causing significant damage to the organization's
-  data integrity and availability."
+description: The following analytic detects modifications to files with extensions commonly associated with ransomware. It leverages the Endpoint.Filesystem data model to identify changes in file extensions that match known ransomware patterns. This activity is significant because it suggests an attacker is attempting to encrypt or alter files, potentially leading to severe data loss and operational disruption. If confirmed malicious, this activity could result in the encryption of critical data, rendering it inaccessible and causing significant damage to the organization's data integrity and availability.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
-  as lastTime count latest(Filesystem.user) as user values(Filesystem.file_path) as
-  file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest
-  _time span=1h | `drop_dm_object_name(Filesystem)` | rex field=file_name "(?<file_extension>\.[^\.]+)$"
-  | rex field=file_path "(?<true_file_path>([^\\\]*\\\)*).*" | stats min(firstTime)
-  as firstTime max(lastTime) as lastTime latest(user) as user dc(true_file_path) as
-  path_count dc(file_name) as file_count latest(file_name) as file_name latest(true_file_path)
-  as file_path by dest file_extension | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | `ransomware_extensions` | where path_count > 1 OR file_count > 20 | `common_ransomware_extensions_filter`'
-how_to_implement: 'You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint Filesystem data model node. To see the
-  additional metadata, add the following fields, if not already present, please review
-  the detailed documentation on how to create a new field within Incident Review may
-  be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
-known_false_positives: It is possible for a legitimate file with these extensions
-  to be created. If this is a true ransomware attack, there will be a large number
-  of files created with these extensions.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime count latest(Filesystem.user) as user values(Filesystem.file_path) as file_path from datamodel=Endpoint.Filesystem by Filesystem.file_name Filesystem.dest _time span=1h | `drop_dm_object_name(Filesystem)` | rex field=file_name "(?<file_extension>\.[^\.]+)$" | rex field=file_path "(?<true_file_path>([^\\\]*\\\)*).*" | stats min(firstTime) as firstTime max(lastTime) as lastTime latest(user) as user dc(true_file_path) as path_count dc(file_name) as file_count latest(file_name) as file_name latest(true_file_path) as file_path by dest file_extension | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `ransomware_extensions` | where path_count > 1 OR file_count > 20 | `common_ransomware_extensions_filter`'
+how_to_implement: 'You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint Filesystem data model node. To see the additional metadata, add the following fields, if not already present, please review the detailed documentation on how to create a new field within Incident Review may be found here: `https://docs.splunk.com/Documentation/ES/5.3.0/Admin/Customizenotables#Add_a_field_to_the_notable_event_details`'
+known_false_positives: It is possible for a legitimate file with these extensions to be created. If this is a true ransomware attack, there will be a large number of files created with these extensions.
 references:
 - https://github.com/splunk/security_content/issues/2448
 tags:
@@ -46,9 +25,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 90
-  message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with
-    the $file_extension$ extension. This extension and behavior may indicate a $Name$
-    ransomware attack.
+  message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with the $file_extension$ extension. This extension and behavior may indicate a $Name$ ransomware attack.
   mitre_attack_id:
   - T1485
   observable:
@@ -75,7 +52,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

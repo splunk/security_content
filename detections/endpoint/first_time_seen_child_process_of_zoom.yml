@@ -5,39 +5,14 @@ date: '2024-10-17'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies the first-time execution of child processes
-  spawned by Zoom (zoom.exe or zoom.us). It leverages Endpoint Detection and Response
-  (EDR) data, specifically monitoring process creation events and comparing them against
-  previously seen child processes. This activity is significant because the execution
-  of unfamiliar child processes by Zoom could indicate malicious exploitation or misuse
-  of the application. If confirmed malicious, this could lead to unauthorized code
-  execution, data exfiltration, or further compromise of the endpoint.
+description: The following analytic identifies the first-time execution of child processes spawned by Zoom (zoom.exe or zoom.us). It leverages Endpoint Detection and Response (EDR) data, specifically monitoring process creation events and comparing them against previously seen child processes. This activity is significant because the execution of unfamiliar child processes by Zoom could indicate malicious exploitation or misuse of the application. If confirmed malicious, this could lead to unauthorized code execution, data exfiltration, or further compromise of the endpoint.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` min(_time) as firstTime values(Processes.parent_process_name)
-  as parent_process_name values(Processes.parent_process_id) as parent_process_id
-  values(Processes.process_name) as process_name values(Processes.process) as process
-  from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe
-  OR Processes.parent_process_name=zoom.us) by Processes.process_id Processes.dest
-  | `drop_dm_object_name(Processes)` | lookup zoom_first_time_child_process dest as
-  dest process_name as process_name OUTPUT firstTimeSeen | where isnull(firstTimeSeen)
-  OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`")
-  | `security_content_ctime(firstTime)` | table firstTime dest, process_id, process_name,
-  parent_process_id, parent_process_name |`first_time_seen_child_process_of_zoom_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: A new child process of zoom isn't malicious by that fact alone.
-  Further investigation of the actions of the child process is needed to verify any
-  malicious behavior is taken.
+search: '| tstats `security_content_summariesonly` min(_time) as firstTime values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_id) as parent_process_id values(Processes.process_name) as process_name values(Processes.process) as process from datamodel=Endpoint.Processes where (Processes.parent_process_name=zoom.exe OR Processes.parent_process_name=zoom.us) by Processes.process_id Processes.dest | `drop_dm_object_name(Processes)` | lookup zoom_first_time_child_process dest as dest process_name as process_name OUTPUT firstTimeSeen | where isnull(firstTimeSeen) OR firstTimeSeen > relative_time(now(), "`previously_seen_zoom_child_processes_window`") | `security_content_ctime(firstTime)` | table firstTime dest, process_id, process_name, parent_process_id, parent_process_name |`first_time_seen_child_process_of_zoom_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: A new child process of zoom isn't malicious by that fact alone. Further investigation of the actions of the child process is needed to verify any malicious behavior is taken.
 references: []
 tags:
   analytic_story:
@@ -45,8 +20,7 @@ tags:
   asset_type: Endpoint
   confidence: 80
   impact: 80
-  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us
-    which has not been previously on host $dest$
+  message: Child process $process_name$ with $process_id$ spawned by zoom.exe or zoom.us which has not been previously on host $dest$
   mitre_attack_id:
   - T1068
   observable:

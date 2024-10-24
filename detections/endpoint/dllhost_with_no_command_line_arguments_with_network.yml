@@ -5,37 +5,12 @@ date: '2024-10-17'
 author: Steven Dick, Michael Haag, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects instances of DLLHost.exe running without
-  command line arguments while establishing a network connection. This behavior is
-  identified using Endpoint Detection and Response (EDR) telemetry, focusing on process
-  execution and network activity data. It is significant because DLLHost.exe typically
-  runs with specific arguments, and its absence can indicate malicious activity, such
-  as Cobalt Strike usage. If confirmed malicious, this activity could allow attackers
-  to execute code, move laterally, or exfiltrate data, posing a severe threat to the
-  network's security.
+description: The following analytic detects instances of DLLHost.exe running without command line arguments while establishing a network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network activity data. It is significant because DLLHost.exe typically runs with specific arguments, and its absence can indicate malicious activity, such as Cobalt Strike usage. If confirmed malicious, this activity could allow attackers to execute code, move laterally, or exfiltrate data, posing a severe threat to the network's security.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=dllhost.exe
-  Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name
-  Processes.dest Processes.process_path Processes.process Processes.parent_process_name
-  Processes.parent_process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | regex process="(?i)(dllhost\.exe.{0,4}$)"
-  | rename dest as src | join host process_id [| tstats `security_content_summariesonly`
-  count latest(All_Traffic.dest) as dest latest(All_Traffic.dest_ip) as dest_ip latest(All_Traffic.dest_port)
-  as dest_port FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port
-  != 0 by host All_Traffic.process_id | `drop_dm_object_name(All_Traffic)`] | `dllhost_with_no_command_line_arguments_with_network_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Although unlikely, some legitimate third party applications
-  may use a moved copy of dllhost, triggering a false positive.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=dllhost.exe Processes.action!="blocked" by host _time span=1h Processes.process_id Processes.process_name Processes.dest Processes.process_path Processes.process Processes.parent_process_name Processes.parent_process | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | regex process="(?i)(dllhost\.exe.{0,4}$)" | rename dest as src | join host process_id [| tstats `security_content_summariesonly` count latest(All_Traffic.dest) as dest latest(All_Traffic.dest_ip) as dest_ip latest(All_Traffic.dest_port) as dest_port FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by host All_Traffic.process_id | `drop_dm_object_name(All_Traffic)`] | `dllhost_with_no_command_line_arguments_with_network_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Although unlikely, some legitimate third party applications may use a moved copy of dllhost, triggering a false positive.
 references:
 - https://raw.githubusercontent.com/threatexpress/malleable-c2/c3385e481159a759f79b8acfe11acf240893b830/jquery-c2.4.2.profile
 - https://www.cobaltstrike.com/blog/learn-pipe-fitting-for-all-of-your-offense-projects/
@@ -47,8 +22,7 @@ tags:
   asset_type: Endpoint
   confidence: 70
   impact: 70
-  message: The process $process_name$ was spawned by $parent_process_name$ without
-    any command-line arguments on $src$ by $user$.
+  message: The process $process_name$ was spawned by $parent_process_name$ without any command-line arguments on $src$ by $user$.
   mitre_attack_id:
   - T1055
   observable:
@@ -85,7 +59,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/cobalt_strike/windows-sysmon_dllhost.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

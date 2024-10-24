@@ -7,32 +7,10 @@ status: production
 type: Hunting
 data_source:
 - O365 UserLoginFailed
-description: The following analytic identifies a spike in failed authentication attempts
-  within an Office 365 environment, indicative of a potential distributed password
-  spraying attack. It leverages UserLoginFailed events from O365 Management Activity
-  logs, focusing on ErrorNumber 50126. This detection is significant as it highlights
-  attempts to bypass security controls using multiple IP addresses and user agents.
-  If confirmed malicious, this activity could lead to unauthorized access, data breaches,
-  privilege escalation, and lateral movement within the organization. Early detection
-  is crucial to prevent account takeovers and mitigate subsequent threats.
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed
-  ErrorNumber=50126 | bucket span=5m _time | eval uniqueIPUserCombo = src_ip . "-"
-  . user | stats dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers,
-  dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent)
-  as user_agents by _time | where uniqueIpUserCombinations > 20 AND uniqueUsers >
-  20 AND uniqueIPs > 20 | `o365_multi_source_failed_authentications_spike_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events. The thresholds set within the analytic (such
-  as unique IPs, unique users, etc.) are initial guidelines and should be customized
-  based on the organization's user behavior and risk profile. Security teams are encouraged
-  to adjust these thresholds to optimize the balance between detecting genuine threats
-  and minimizing false positives, ensuring the detection is tailored to their specific
-  environment.
-known_false_positives: This detection may yield false positives in scenarios where
-  legitimate bulk sign-in activities occur, such as during company-wide system updates
-  or when users are accessing resources from varying locations in a short time frame,
-  such as in the case of VPNs or cloud services that rotate IP addresses. Filter as
-  needed.
+description: The following analytic identifies a spike in failed authentication attempts within an Office 365 environment, indicative of a potential distributed password spraying attack. It leverages UserLoginFailed events from O365 Management Activity logs, focusing on ErrorNumber 50126. This detection is significant as it highlights attempts to bypass security controls using multiple IP addresses and user agents. If confirmed malicious, this activity could lead to unauthorized access, data breaches, privilege escalation, and lateral movement within the organization. Early detection is crucial to prevent account takeovers and mitigate subsequent threats.
+search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126 | bucket span=5m _time | eval uniqueIPUserCombo = src_ip . "-" . user | stats dc(uniqueIPUserCombo) as uniqueIpUserCombinations, dc(user) as uniqueUsers, dc(src_ip) as uniqueIPs, values(user) as user, values(src_ip) as ips, values(user_agent) as user_agents by _time | where uniqueIpUserCombinations > 20 AND uniqueUsers > 20 AND uniqueIPs > 20 | `o365_multi_source_failed_authentications_spike_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The thresholds set within the analytic (such as unique IPs, unique users, etc.) are initial guidelines and should be customized based on the organization's user behavior and risk profile. Security teams are encouraged to adjust these thresholds to optimize the balance between detecting genuine threats and minimizing false positives, ensuring the detection is tailored to their specific environment.
+known_false_positives: This detection may yield false positives in scenarios where legitimate bulk sign-in activities occur, such as during company-wide system updates or when users are accessing resources from varying locations in a short time frame, such as in the case of VPNs or cloud services that rotate IP addresses. Filter as needed.
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
@@ -75,7 +53,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_distributed_spray/o365_distributed_spray.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/o365_distributed_spray/o365_distributed_spray.log
     source: o365
     sourcetype: o365:management:activity

@@ -15,12 +15,12 @@ known_false_positives: 'This is a strictly behavioral search, so we define "fals
   This search will fire any time a new IP address is seen in the **GeoIP** database for any kind of provisioning activity. If you typically do all provisioning from tools inside of your country, there should be few false positives. If you are located in countries where the free version of **MaxMind GeoIP** that ships by default with Splunk has weak resolution (particularly small countries in less economically powerful regions), this may be much less valuable to you.'
 references: []
 drilldown_searches:
-- name: View the detection results for $user$ and $object$
-  search: '%original_detection_search% | search  user = $user$ object = $object$'
+- name: View the detection results for - "$user$" and "$object$"
+  search: '%original_detection_search% | search  user = "$user$" object = "$object$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $user$ and $object$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$, $object$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for - "$user$" and "$object$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$object$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:

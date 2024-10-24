@@ -5,36 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects a process writing the dynwrapx.dll file
-  to disk and registering it in the registry. It leverages data from the Endpoint
-  datamodel, specifically monitoring process and filesystem events. This activity
-  is significant because DynamicWrapperX is an ActiveX component often used in scripts
-  to call Windows API functions, and its presence in non-standard locations is highly
-  suspicious. If confirmed malicious, this could allow an attacker to execute arbitrary
-  code, escalate privileges, or maintain persistence within the environment. Immediate
-  investigation of parallel processes and registry modifications is recommended.
+description: The following analytic detects a process writing the dynwrapx.dll file to disk and registering it in the registry. It leverages data from the Endpoint datamodel, specifically monitoring process and filesystem events. This activity is significant because DynamicWrapperX is an ActiveX component often used in scripts to call Windows API functions, and its presence in non-standard locations is highly suspicious. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or maintain persistence within the environment. Immediate investigation of parallel processes and registry modifications is recommended.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid
-  Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats
-  `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where
-  Filesystem.file_name="dynwrapx.dll" by _time Filesystem.dest Filesystem.file_create_time
-  Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.user
-  | `drop_dm_object_name(Filesystem)` | fields _time process_guid file_path file_name
-  file_create_time user dest process_name] | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest process_name process_guid file_name file_path file_create_time
-  user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `process_writing_dynamicwrapperx_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem`
-  node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
-  latest TA for the endpoint product.
-known_false_positives: False positives should be limited, however it is possible to
-  filter by Processes.process_name and specific processes (ex. wscript.exe). Filter
-  as needed. This may need modification based on EDR telemetry and how it brings in
-  registry data. For example, removal of (Default).
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes by _time Processes.process_id Processes.process_name Processes.dest Processes.process_guid Processes.user | `drop_dm_object_name(Processes)` | join process_guid [| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem where Filesystem.file_name="dynwrapx.dll" by _time Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid Filesystem.user | `drop_dm_object_name(Filesystem)` | fields _time process_guid file_path file_name file_create_time user dest process_name] | stats count min(_time) as firstTime max(_time) as lastTime by dest process_name process_guid file_name file_path file_create_time user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `process_writing_dynamicwrapperx_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: False positives should be limited, however it is possible to filter by Processes.process_name and specific processes (ex. wscript.exe). Filter as needed. This may need modification based on EDR telemetry and how it brings in registry data. For example, removal of (Default).
 references:
 - https://blog.f-secure.com/hunting-for-koadic-a-com-based-rootkit/
 - https://www.script-coding.com/dynwrapx_eng.html
@@ -47,8 +23,7 @@ tags:
   asset_type: Endpoint
   confidence: 100
   impact: 80
-  message: An instance of $process_name$ was identified on endpoint $dest$ downloading
-    the DynamicWrapperX dll.
+  message: An instance of $process_name$ was identified on endpoint $dest$ downloading the DynamicWrapperX dll.
   mitre_attack_id:
   - T1059
   - T1559.001
@@ -82,7 +57,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/remcos/remcos/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

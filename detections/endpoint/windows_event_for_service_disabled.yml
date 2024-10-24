@@ -5,24 +5,12 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects when a Windows service is modified from
-  a start type to disabled. It leverages system event logs, specifically EventCode
-  7040, to identify this change. This activity is significant because adversaries
-  often disable security or other critical services to evade detection and maintain
-  control over a compromised host. If confirmed malicious, this action could allow
-  attackers to bypass security defenses, leading to further exploitation and persistence
-  within the environment.
+description: The following analytic detects when a Windows service is modified from a start type to disabled. It leverages system event logs, specifically EventCode 7040, to identify this change. This activity is significant because adversaries often disable security or other critical services to evade detection and maintain control over a compromised host. If confirmed malicious, this action could allow attackers to bypass security defenses, leading to further exploitation and persistence within the environment.
 data_source:
 - Windows Event Log System 7040
-search: '`wineventlog_system` EventCode=7040  EventData_Xml="*disabled*" | stats count
-  min(_time) as firstTime max(_time) as lastTime by Computer EventCode Name UserID
-  service ServiceName | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_event_for_service_disabled_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints.
-known_false_positives: Windows service update may cause this event. In that scenario,
-  filtering is needed.
+search: '`wineventlog_system` EventCode=7040  EventData_Xml="*disabled*" | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode Name UserID service ServiceName | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_for_service_disabled_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
+known_false_positives: Windows service update may cause this event. In that scenario, filtering is needed.
 references:
 - https://blog.talosintelligence.com/2018/02/olympic-destroyer.html
 tags:
@@ -57,7 +45,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/windows_excessive_disabled_services_event/windows-xml.log
     source: XmlWinEventLog:System
     sourcetype: XmlWinEventLog

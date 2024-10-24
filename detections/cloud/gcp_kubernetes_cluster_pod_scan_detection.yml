@@ -5,22 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: The following analytic identifies unauthenticated requests to Kubernetes
-  cluster pods. It detects this activity by analyzing GCP Pub/Sub messages for audit
-  logs where the response status code is 401, indicating unauthorized access attempts.
-  This activity is significant for a SOC because it may indicate reconnaissance or
-  scanning attempts by an attacker trying to identify vulnerable pods. If confirmed
-  malicious, this activity could lead to unauthorized access, allowing the attacker
-  to exploit vulnerabilities within the cluster, potentially compromising sensitive
-  data or gaining control over the Kubernetes environment.
+description: The following analytic identifies unauthenticated requests to Kubernetes cluster pods. It detects this activity by analyzing GCP Pub/Sub messages for audit logs where the response status code is 401, indicating unauthorized access attempts. This activity is significant for a SOC because it may indicate reconnaissance or scanning attempts by an attacker trying to identify vulnerable pods. If confirmed malicious, this activity could lead to unauthorized access, allowing the attacker to exploit vulnerabilities within the cluster, potentially compromising sensitive data or gaining control over the Kubernetes environment.
 data_source: []
-search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log
-  |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason
-  properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'
-how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later),
-  then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
-known_false_positives: Not all unauthenticated requests are malicious, but frequency,
-  User Agent, source IPs and pods  will provide context.
+search: '`google_gcp_pubsub_message` category=kube-audit |spath input=properties.log |search responseStatus.code=401 |table sourceIPs{} userAgent verb requestURI responseStatus.reason properties.pod | `gcp_kubernetes_cluster_pod_scan_detection_filter`'
+how_to_implement: You must install the GCP App for Splunk (version 2.0.0 or later), then configure stackdriver and set a Pub/Sub subscription to be imported to Splunk.
+known_false_positives: Not all unauthenticated requests are malicious, but frequency, User Agent, source IPs and pods  will provide context.
 references: []
 tags:
   analytic_story:

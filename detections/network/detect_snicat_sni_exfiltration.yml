@@ -5,23 +5,10 @@ date: '2024-10-17'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies the use of SNICat tool commands within
-  the TLS SNI field, indicating potential data exfiltration attempts. It leverages
-  Zeek SSL data to detect specific SNICat commands such as LIST, LS, SIZE, LD, CB,
-  EX, ALIVE, EXIT, WHERE, and finito in the server_name field. This activity is significant
-  as SNICat is a known tool for covert data exfiltration using TLS. If confirmed malicious,
-  this could allow attackers to exfiltrate sensitive data undetected, posing a severe
-  threat to data confidentiality and integrity.
+description: The following analytic identifies the use of SNICat tool commands within the TLS SNI field, indicating potential data exfiltration attempts. It leverages Zeek SSL data to detect specific SNICat commands such as LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito in the server_name field. This activity is significant as SNICat is a known tool for covert data exfiltration using TLS. If confirmed malicious, this could allow attackers to exfiltrate sensitive data undetected, posing a severe threat to data confidentiality and integrity.
 data_source: []
-search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)"
-  | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip
-  dest_ip server_name snicat | `detect_snicat_sni_exfiltration_filter`'
-how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data should
-  also be getting ingested in JSON format.  We are detecting when any of the predefined
-  SNICat commands are found within the server_name (SNI) field. These commands are
-  LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go further
-  once this has been detected, and run other searches to decode the SNI data to prove
-  or disprove if any data exfiltration has taken place.
+search: '`zeek_ssl` | rex field=server_name "(?<snicat>(LIST|LS|SIZE|LD|CB|CD|EX|ALIVE|EXIT|WHERE|finito)-[A-Za-z0-9]{16}\.)" | stats count by src_ip dest_ip server_name snicat | where count>0 | table src_ip dest_ip server_name snicat | `detect_snicat_sni_exfiltration_filter`'
+how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data should also be getting ingested in JSON format.  We are detecting when any of the predefined SNICat commands are found within the server_name (SNI) field. These commands are LIST, LS, SIZE, LD, CB, EX, ALIVE, EXIT, WHERE, and finito.  You can go further once this has been detected, and run other searches to decode the SNI data to prove or disprove if any data exfiltration has taken place.
 known_false_positives: Unknown
 references:
 - https://www.mnemonic.io/resources/blog/introducing-snicat/

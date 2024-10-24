@@ -5,29 +5,13 @@ date: '2024-10-17'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects suspicious Kerberos Ticket Granting Ticket
-  (TGT) requests that may indicate exploitation of CVE-2021-42278 and CVE-2021-42287.
-  It leverages Event ID 4781 (account name change) and Event ID 4768 (TGT request)
-  to identify sequences where a newly renamed computer account requests a TGT. This
-  behavior is significant as it could represent an attempt to escalate privileges
-  by impersonating a Domain Controller. If confirmed malicious, this activity could
-  allow attackers to gain elevated access and potentially control over the domain
-  environment.
+description: The following analytic detects suspicious Kerberos Ticket Granting Ticket (TGT) requests that may indicate exploitation of CVE-2021-42278 and CVE-2021-42287. It leverages Event ID 4781 (account name change) and Event ID 4768 (TGT request) to identify sequences where a newly renamed computer account requests a TGT. This behavior is significant as it could represent an attempt to escalate privileges by impersonating a Domain Controller. If confirmed malicious, this activity could allow attackers to gain elevated access and potentially control over the domain environment.
 data_source:
 - Windows Event Log Security 4768
 - Windows Event Log Security 4781
-search: '`wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$")
-  OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName,
-  TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781)
-  endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search
-  short_lived = TRUE | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount,
-  short_lived | rename Computer as dest | `suspicious_ticket_granting_ticket_request_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Domain Controller and Kerberos events. The Advanced Security Audit policy setting
-  `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
-known_false_positives: A computer account name change event inmediately followed by
-  a kerberos TGT request with matching fields is unsual. However, legitimate behavior
-  may trigger it. Filter as needed.
+search: '`wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$") OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781) endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search short_lived = TRUE | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount, short_lived | rename Computer as dest | `suspicious_ticket_granting_ticket_request_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
+known_false_positives: A computer account name change event inmediately followed by a kerberos TGT request with matching fields is unsual. However, legitimate behavior may trigger it. Filter as needed.
 references:
 - https://exploit.ph/cve-2021-42287-cve-2021-42278-weaponisation.html
 - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-42278
@@ -65,7 +49,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_ticket_granting_ticket_request/windows-xml.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.002/suspicious_ticket_granting_ticket_request/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

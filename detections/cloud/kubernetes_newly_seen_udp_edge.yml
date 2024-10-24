@@ -5,34 +5,12 @@ date: '2024-10-17'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
-description: 'The following analytic detects UDP communication between a newly seen
-  source and destination workload pair within a Kubernetes cluster. It leverages Network
-  Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk
-  Observability Cloud. This detection compares network activity over the last hour
-  with the past 30 days to identify new inter-workload communication. Such changes
-  in network behavior can indicate potential security threats or anomalies. If confirmed
-  malicious, unauthorized connections may enable attackers to infiltrate the application
-  ecosystem, leading to data breaches, privilege escalation, lateral movement, or
-  disruption of critical services.'
+description: The following analytic detects UDP communication between a newly seen source and destination workload pair within a Kubernetes cluster. It leverages Network Performance Monitoring metrics collected via an OTEL collector and pulled from Splunk Observability Cloud. This detection compares network activity over the last hour with the past 30 days to identify new inter-workload communication. Such changes in network behavior can indicate potential security threats or anomalies. If confirmed malicious, unauthorized connections may enable attackers to infiltrate the application ecosystem, leading to data breaches, privilege escalation, lateral movement, or disruption of critical services.
 data_source: []
-search: '| mstats count(udp.packets) as udp.packets_count where `kubernetes_metrics` AND earliest=-1h by k8s.cluster.name source.workload.name dest.workload.name
-  | eval current="True" 
-  | append 
-    [ mstats count(udp.packets) as udp.packets_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by source.workload.name dest.workload.name
-    | eval current="false"
-        ] 
-  | eventstats values(current) as current by source.workload.name dest.workload.name
-  | search current="true" current!="false"
-  | rename k8s.cluster.name as host
-  | `kubernetes_newly_seen_udp_edge_filter`'
-how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cluster and 
-  enable Network Performance Monitoring according to instructions found in Splunk Docs 
-  https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup 
-  In order to access those metrics from within Splunk Enterprise and ES, the Splunk Infrastructure Monitoring add-on must be installed and 
-  configured on a Splunk Search Head.  Once installed, first configure the add-on with your O11y Cloud Org ID and Access Token. 
-  Lastly set up the add-on to ingest metrics from O11y cloud using the following settings, and any other settings left at default:
-  
-  * Name sim_npm_metrics_to_metrics_index 
+search: '| mstats count(udp.packets) as udp.packets_count where `kubernetes_metrics` AND earliest=-1h by k8s.cluster.name source.workload.name dest.workload.name | eval current="True" | append [ mstats count(udp.packets) as udp.packets_count where `kubernetes_metrics` AND earliest=-30d latest=-1h by source.workload.name dest.workload.name | eval current="false" ] | eventstats values(current) as current by source.workload.name dest.workload.name | search current="true" current!="false" | rename k8s.cluster.name as host | `kubernetes_newly_seen_udp_edge_filter`'
+how_to_implement: 'To gather NPM metrics the Open Telemetry to the Kubernetes Cluster and enable Network Performance Monitoring according to instructions found in Splunk Docs https://docs.splunk.com/observability/en/infrastructure/network-explorer/network-explorer-setup.html#network-explorer-setup In order to access those metrics from within Splunk Enterprise and ES, the Splunk Infrastructure Monitoring add-on must be installed and configured on a Splunk Search Head.  Once installed, first configure the add-on with your O11y Cloud Org ID and Access Token. Lastly set up the add-on to ingest metrics from O11y cloud using the following settings, and any other settings left at default:
+
+  * Name sim_npm_metrics_to_metrics_index
 
   * Metric Resolution 10000'
 known_false_positives: unknown

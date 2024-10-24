@@ -9,33 +9,10 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-description: The following analytic detects the use of certutil to download software,
-  specifically when spawned by SQL-related processes. This detection leverages Endpoint
-  Detection and Response (EDR) data, focusing on command-line executions involving
-  certutil with parameters like *urlcache* and *split*. This activity is significant
-  as it may indicate a compromise by threat actors, such as Flax Typhoon, who use
-  certutil to establish persistent VPN connections. If confirmed malicious, this behavior
-  could allow attackers to maintain access, monitor system availability, and potentially
-  escalate to data theft or ransomware deployment.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  IN ("sqlservr.exe", "sqlagent.exe", "sqlps.exe", "launchpad.exe", "sqldumper.exe")
-  `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache*
-  by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name
-  Processes.process_name Processes.process Processes.process_id Processes.original_file_name
-  Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_sql_spawning_certutil_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: The occurrence of false positives should be minimal, given
-  that the SQL agent does not typically download software using CertUtil.
+description: The following analytic detects the use of certutil to download software, specifically when spawned by SQL-related processes. This detection leverages Endpoint Detection and Response (EDR) data, focusing on command-line executions involving certutil with parameters like *urlcache* and *split*. This activity is significant as it may indicate a compromise by threat actors, such as Flax Typhoon, who use certutil to establish persistent VPN connections. If confirmed malicious, this behavior could allow attackers to maintain access, monitor system availability, and potentially escalate to data theft or ransomware deployment.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name IN ("sqlservr.exe", "sqlagent.exe", "sqlps.exe", "launchpad.exe", "sqldumper.exe") `process_certutil` (Processes.process=*urlcache* Processes.process=*split*) OR Processes.process=*urlcache* by Processes.dest Processes.user Processes.parent_process Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.original_file_name Processes.parent_process_id | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sql_spawning_certutil_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: The occurrence of false positives should be minimal, given that the SQL agent does not typically download software using CertUtil.
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/08/24/flax-typhoon-using-legitimate-software-to-quietly-access-taiwanese-organizations/
 tags:
@@ -45,8 +22,7 @@ tags:
   atomic_guid: []
   confidence: 100
   impact: 90
-  message: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon
-    with the SQL process identified.
+  message: $process_name$ was launched on $dest$ by $user$. This behavior is uncommon with the SQL process identified.
   mitre_attack_id:
   - T1105
   observable:

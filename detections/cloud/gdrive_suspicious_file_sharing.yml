@@ -5,27 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting
-description: The following analytic identifies suspicious file-sharing activity on
-  Google Drive, where internal users share documents with more than 50 external recipients.
-  It leverages GSuite Drive logs, focusing on changes in user access and filtering
-  for emails outside the organization's domain. This activity is significant as it
-  may indicate compromised accounts or intentional data exfiltration. If confirmed
-  malicious, this behavior could lead to unauthorized access to sensitive information,
-  data leaks, and potential compliance violations.
+description: The following analytic identifies suspicious file-sharing activity on Google Drive, where internal users share documents with more than 50 external recipients. It leverages GSuite Drive logs, focusing on changes in user access and filtering for emails outside the organization's domain. This activity is significant as it may indicate compromised accounts or intentional data exfiltration. If confirmed malicious, this behavior could lead to unauthorized access to sensitive information, data leaks, and potential compliance violations.
 data_source: []
-search: '`gsuite_drive` name=change_user_access | rename parameters.* as * | search
-  email = "*@yourdomain.com" target_user != "*@yourdomain.com" | stats count values(owner)
-  as owner values(target_user) as target values(doc_type) as doc_type values(doc_title)
-  as doc_title dc(target_user) as distinct_target by src_ip email | where distinct_target
-  > 50 | `gdrive_suspicious_file_sharing_filter`'
-how_to_implement: Need to implement Gsuite logging targeting Google suite drive activity.
-  In order for the search to work for your environment please update `yourdomain.com`
-  value in the query with the domain relavant for your organization.
-known_false_positives: This is an anomaly search, you must specify your domain in
-  the parameters so it either filters outside domains or focus on internal domains.
-  This search may also help investigate compromise of accounts. By looking at for
-  example source ip addresses, document titles and abnormal number of shares and shared
-  target users.
+search: '`gsuite_drive` name=change_user_access | rename parameters.* as * | search email = "*@yourdomain.com" target_user != "*@yourdomain.com" | stats count values(owner) as owner values(target_user) as target values(doc_type) as doc_type values(doc_title) as doc_title dc(target_user) as distinct_target by src_ip email | where distinct_target > 50 | `gdrive_suspicious_file_sharing_filter`'
+how_to_implement: Need to implement Gsuite logging targeting Google suite drive activity. In order for the search to work for your environment please update `yourdomain.com` value in the query with the domain relavant for your organization.
+known_false_positives: This is an anomaly search, you must specify your domain in the parameters so it either filters outside domains or focus on internal domains. This search may also help investigate compromise of accounts. By looking at for example source ip addresses, document titles and abnormal number of shares and shared target users.
 references:
 - https://www.splunk.com/en_us/blog/security/investigating-gsuite-phishing-attacks-with-splunk.html
 tags:

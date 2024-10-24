@@ -14,12 +14,12 @@ known_false_positives: False positives may occur. It is recommended to fine-tune
 references:
 - https://developer.okta.com/docs/reference/api/event-types/?q=security.threat.detected
 drilldown_searches:
-- name: View the detection results for $app$
-  search: '%original_detection_search% | search  app = $app$'
+- name: View the detection results for - "$app$"
+  search: '%original_detection_search% | search  app = "$app$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $app$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($app$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for - "$app$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$app$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:

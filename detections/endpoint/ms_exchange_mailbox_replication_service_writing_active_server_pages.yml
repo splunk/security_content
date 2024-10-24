@@ -5,34 +5,12 @@ date: '2024-10-17'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: 'The following analytic identifies the creation of suspicious .aspx files
-  in specific directories associated with Exchange exploitation by the HAFNIUM group
-  and the ProxyShell vulnerability. It detects this activity by monitoring the MSExchangeMailboxReplication.exe
-  process, which typically does not write .aspx files. This behavior is significant
-  as it may indicate an active exploitation attempt on Exchange servers. If confirmed
-  malicious, attackers could gain unauthorized access, execute arbitrary code, or
-  maintain persistence within the environment. Immediate investigation and remediation
-  are crucial to prevent further compromise.'
+description: The following analytic identifies the creation of suspicious .aspx files in specific directories associated with Exchange exploitation by the HAFNIUM group and the ProxyShell vulnerability. It detects this activity by monitoring the MSExchangeMailboxReplication.exe process, which typically does not write .aspx files. This behavior is significant as it may indicate an active exploitation attempt on Exchange servers. If confirmed malicious, attackers could gain unauthorized access, execute arbitrary code, or maintain persistence within the environment. Immediate investigation and remediation are crucial to prevent further compromise.
 data_source:
 - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where Processes.process_name=MSExchangeMailboxReplication.exe  by _time span=1h
-  Processes.process_id Processes.process_name Processes.process_guid Processes.dest
-  | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly`
-  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*", "*\\inetpub\\wwwroot\\aspnet_client\\*",
-  "*\\HttpProxy\\OAB\\*") Filesystem.file_name="*.aspx" by _time span=1h Filesystem.dest
-  Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)`
-  | fields _time dest file_create_time file_name file_path process_name process_path
-  process process_guid] | dedup file_create_time | table dest file_create_time, file_name,
-  file_path, process_name | `ms_exchange_mailbox_replication_service_writing_active_server_pages_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
-  node.
-known_false_positives: The query is structured in a way that `action` (read, create)
-  is not defined. Review the results of this query, filter, and tune as necessary.
-  It may be necessary to generate this query specific to your endpoint product.
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=MSExchangeMailboxReplication.exe  by _time span=1h Processes.process_id Processes.process_name Processes.process_guid Processes.dest | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*\\HttpProxy\\owa\\auth\\*", "*\\inetpub\\wwwroot\\aspnet_client\\*", "*\\HttpProxy\\OAB\\*") Filesystem.file_name="*.aspx" by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time file_name file_path process_name process_path process process_guid] | dedup file_create_time | table dest file_create_time, file_name, file_path, process_name | `ms_exchange_mailbox_replication_service_writing_active_server_pages_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
+known_false_positives: The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 references:
 - https://redcanary.com/blog/blackbyte-ransomware/
 tags:
@@ -43,9 +21,7 @@ tags:
   asset_type: Endpoint
   confidence: 90
   impact: 90
-  message: A file - $file_name$ was written to disk that is related to IIS exploitation
-    related to ProxyShell. Review further file modifications on endpoint $dest$ by
-    user $user$.
+  message: A file - $file_name$ was written to disk that is related to IIS exploitation related to ProxyShell. Review further file modifications on endpoint $dest$ by user $user$.
   mitre_attack_id:
   - T1505
   - T1505.003

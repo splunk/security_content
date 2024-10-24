@@ -5,23 +5,11 @@ date: '2024-10-17'
 author: Rod Soto, Splunk
 status: experimental
 type: Hunting
-description: The following analytic identifies the creation of new IAM roles by users
-  in AWS. It leverages CloudWatch logs to detect events where the `CreateRole` action
-  is performed, focusing on roles with specific trust policies. This activity is significant
-  as unauthorized role creation can facilitate lateral movement and privilege escalation
-  within the AWS environment. If confirmed malicious, attackers could gain elevated
-  permissions, potentially compromising sensitive resources and data.
+description: The following analytic identifies the creation of new IAM roles by users in AWS. It leverages CloudWatch logs to detect events where the `CreateRole` action is performed, focusing on roles with specific trust policies. This activity is significant as unauthorized role creation can facilitate lateral movement and privilege escalation within the AWS environment. If confirmed malicious, attackers could gain elevated permissions, potentially compromising sensitive resources and data.
 data_source: []
-search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole
-  requestParameters.description=Allows* | table sourceIPAddress userIdentity.principalId
-  userIdentity.arn action event_name awsRegion http_user_agent mfa_auth msg requestParameters.roleName
-  requestParameters.description responseElements.role.arn responseElements.role.createDate
-  | `aws_detect_role_creation_filter`'
-how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This
-  search works with cloudwatch logs
-known_false_positives: CreateRole is not very common in common users. This search
-  can be adjusted to provide specific values to identify cases of abuse. In general
-  AWS provides plenty of trust policies that fit most use cases.
+search: '`aws_cloudwatchlogs_eks` event_name=CreateRole action=created userIdentity.type=AssumedRole requestParameters.description=Allows* | table sourceIPAddress userIdentity.principalId userIdentity.arn action event_name awsRegion http_user_agent mfa_auth msg requestParameters.roleName requestParameters.description responseElements.role.arn responseElements.role.createDate | `aws_detect_role_creation_filter`'
+how_to_implement: You must install splunk AWS add-on and Splunk App for AWS. This search works with cloudwatch logs
+known_false_positives: CreateRole is not very common in common users. This search can be adjusted to provide specific values to identify cases of abuse. In general AWS provides plenty of trust policies that fit most use cases.
 references: []
 tags:
   analytic_story:

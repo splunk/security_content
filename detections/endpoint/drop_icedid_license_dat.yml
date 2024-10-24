@@ -5,24 +5,11 @@ date: '2024-10-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the dropping of a suspicious file named
-  "license.dat" in %appdata% or %programdata%. This behavior is associated with the
-  IcedID malware, which uses this file to inject its core bot into other processes
-  for banking credential theft. The detection leverages Sysmon EventCode 11 to monitor
-  file creation events in these directories. This activity is significant as it indicates
-  a potential malware infection aiming to steal sensitive banking information. If
-  confirmed malicious, the attacker could gain unauthorized access to financial data,
-  leading to significant financial loss and data breaches.
+description: The following analytic detects the dropping of a suspicious file named "license.dat" in %appdata% or %programdata%. This behavior is associated with the IcedID malware, which uses this file to inject its core bot into other processes for banking credential theft. The detection leverages Sysmon EventCode 11 to monitor file creation events in these directories. This activity is significant as it indicates a potential malware infection aiming to steal sensitive banking information. If confirmed malicious, the attacker could gain unauthorized access to financial data, leading to significant financial loss and data breaches.
 data_source:
 - Sysmon EventID 11
-search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*"
-  OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time)
-  as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
+search: '`sysmon` EventCode= 11  TargetFilename = "*\\license.dat" AND (TargetFilename="*\\appdata\\*" OR TargetFilename="*\\programdata\\*") |stats count min(_time) as firstTime max(_time) as lastTime by TargetFilename EventCode process_id  process_name dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_icedid_license_dat_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: unknown
 references:
 - https://www.cisecurity.org/insights/white-papers/security-primer-icedid
@@ -56,7 +43,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: xmlwineventlog

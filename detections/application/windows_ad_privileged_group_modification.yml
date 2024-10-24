@@ -7,13 +7,9 @@ status: experimental
 type: TTP
 data_source:
 - Windows Event Log Security 4728
-description: Detect users added to privileged AD Groups. 
-search: '`wineventlog_security` EventCode IN (4728)
-  | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc by signature, Group_Name,src_user
-  | lookup admon_groups_def  cn as Group_Name OUTPUT category
-  | where category="privileged" | `windows_ad_privileged_group_modification_filter`'
-how_to_implement: This analytic requires eventCode 4728 to be ingested along with the admon_groups_def lookup being configured to include a list of AD groups along with a category to identify privileged groups. 
-  See splunkbase app listed in the references for further details.
+description: Detect users added to privileged AD Groups.
+search: '`wineventlog_security` EventCode IN (4728) | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc by signature, Group_Name,src_user | lookup admon_groups_def  cn as Group_Name OUTPUT category | where category="privileged" | `windows_ad_privileged_group_modification_filter`'
+how_to_implement: This analytic requires eventCode 4728 to be ingested along with the admon_groups_def lookup being configured to include a list of AD groups along with a category to identify privileged groups. See splunkbase app listed in the references for further details.
 known_false_positives: None
 references:
 - https://splunkbase.splunk.com/app/6853

@@ -5,41 +5,12 @@ date: '2024-10-17'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies a spike in API activity related to
-  the deletion of S3 buckets in your AWS environment. It leverages AWS CloudTrail
-  logs to detect anomalies by comparing current deletion activity against a historical
-  baseline. This activity is significant as unusual spikes in S3 bucket deletions
-  could indicate malicious actions such as data exfiltration or unauthorized data
-  destruction. If confirmed malicious, this could lead to significant data loss, disruption
-  of services, and potential exposure of sensitive information. Immediate investigation
-  is required to determine the legitimacy of the activity.
-data_source: 
+description: The following analytic identifies a spike in API activity related to the deletion of S3 buckets in your AWS environment. It leverages AWS CloudTrail logs to detect anomalies by comparing current deletion activity against a historical baseline. This activity is significant as unusual spikes in S3 bucket deletions could indicate malicious actions such as data exfiltration or unauthorized data destruction. If confirmed malicious, this could lead to significant data loss, disruption of services, and potential exposure of sensitive information. Immediate investigation is required to determine the legitimacy of the activity.
+data_source:
 - AWS CloudTrail
-search: '`cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=DeleteBucket
-  | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup
-  s3_deletion_baseline append=t | fields - latestCount | stats values(*) as * by arn
-  | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720
-  | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls, 2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720))
-  | eval avgApiCalls=coalesce(newAvgApiCalls, avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls,
-  stdevApiCalls), numDataPoints=if(isnull(latestCount), numDataPoints, numDataPoints+1)
-  | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup
-  s3_deletion_baseline | eval dataPointThreshold = 15, deviationThreshold = 3 | eval
-  isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls) AND numDataPoints
-  > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as userIdentity.arn |
-  table userIdentity.arn] | spath output=user userIdentity.arn | spath output=bucketName
-  path=requestParameters.bucketName | stats values(bucketName) as bucketName, count
-  as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user | `detect_spike_in_s3_bucket_deletion_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
-  inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit
-  your environment. The `dataPointThreshold` variable is the minimum number of data
-  points required to have a statistically significant amount of data to determine.
-  The `deviationThreshold` variable is the number of standard deviations away from
-  the mean that the value must be to be considered a spike. This search works best
-  when you run the "Baseline of S3 Bucket deletion activity by ARN" support search
-  once to create a baseline of previously seen S3 bucket-deletion activity.
-known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`,
-  the false positive rate may vary. Please modify this according the your environment.
+search: '`cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=DeleteBucket | spath output=arn path=userIdentity.arn | stats count as apiCalls by arn | inputlookup s3_deletion_baseline append=t | fields - latestCount | stats values(*) as * by arn | rename apiCalls as latestCount | eval newAvgApiCalls=avgApiCalls + (latestCount-avgApiCalls)/720 | eval newStdevApiCalls=sqrt(((pow(stdevApiCalls, 2)*719 + (latestCount-newAvgApiCalls)*(latestCount-avgApiCalls))/720)) | eval avgApiCalls=coalesce(newAvgApiCalls, avgApiCalls), stdevApiCalls=coalesce(newStdevApiCalls, stdevApiCalls), numDataPoints=if(isnull(latestCount), numDataPoints, numDataPoints+1) | table arn, latestCount, numDataPoints, avgApiCalls, stdevApiCalls | outputlookup s3_deletion_baseline | eval dataPointThreshold = 15, deviationThreshold = 3 | eval isSpike=if((latestCount > avgApiCalls+deviationThreshold*stdevApiCalls) AND numDataPoints > dataPointThreshold, 1, 0) | where isSpike=1 | rename arn as userIdentity.arn | table userIdentity.arn] | spath output=user userIdentity.arn | spath output=bucketName path=requestParameters.bucketName | stats values(bucketName) as bucketName, count as numberOfApiCalls, dc(eventName) as uniqueApisCalled by user | `detect_spike_in_s3_bucket_deletion_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs. You can modify `dataPointThreshold` and `deviationThreshold` to better fit your environment. The `dataPointThreshold` variable is the minimum number of data points required to have a statistically significant amount of data to determine. The `deviationThreshold` variable is the number of standard deviations away from the mean that the value must be to be considered a spike. This search works best when you run the "Baseline of S3 Bucket deletion activity by ARN" support search once to create a baseline of previously seen S3 bucket-deletion activity.
+known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`, the false positive rate may vary. Please modify this according the your environment.
 references: []
 tags:
   analytic_story:
