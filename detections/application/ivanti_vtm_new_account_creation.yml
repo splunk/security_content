@@ -15,14 +15,14 @@ references:
 - https://www.ivanti.com/security/security-advisories/ivanti-virtual-traffic-manager-vtm-cve-2024-7593
 - https://nvd.nist.gov/vuln/detail/CVE-2024-7593
 drilldown_searches:
-- name: View the detection results for - $MODUSER$
-  search: '%original_detection_search% | search  MODUSER = $MODUSER$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - $MODUSER$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($MODUSER$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+- name: View the detection results for - "$MODUSER$"
+  search: '%original_detection_search% | search  MODUSER = "$MODUSER$"'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
+- name: View risk events for the last 7 days for - "$MODUSER$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$MODUSER$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
 tags:
   analytic_story:
   - Ivanti Virtual Traffic Manager CVE-2024-7593

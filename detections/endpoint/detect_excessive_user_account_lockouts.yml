@@ -12,14 +12,14 @@ how_to_implement: ou must ingest your Windows security event logs in the `Change
 known_false_positives: It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
 references: []
 drilldown_searches:
-- name: View the detection results for - $user$
-  search: '%original_detection_search% | search  user = $user$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - $user$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($user$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
 tags:
   analytic_story:
   - Active Directory Password Spraying

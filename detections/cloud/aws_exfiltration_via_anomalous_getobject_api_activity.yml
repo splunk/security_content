@@ -16,14 +16,14 @@ references:
 - https://docs.splunk.com/Documentation/Splunk/9.0.4/SearchReference/Anomalydetection
 - https://www.vectra.ai/blogpost/abusing-the-replicator-silently-exfiltrating-data-with-the-aws-s3-replication-service
 drilldown_searches:
-- name: View the detection results for - $aws_account_id$
-  search: '%original_detection_search% | search  aws_account_id = $aws_account_id$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - $aws_account_id$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($aws_account_id$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+- name: View the detection results for - "$aws_account_id$"
+  search: '%original_detection_search% | search  aws_account_id = "$aws_account_id$"'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
+- name: View risk events for the last 7 days for - "$aws_account_id$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$aws_account_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
 tags:
   analytic_story:
   - Data Exfiltration

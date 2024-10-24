@@ -14,14 +14,14 @@ known_false_positives: False positives will be present based on organizations th
 references:
 - https://www.cisa.gov/uscert/sites/default/files/publications/aa22-320a_joint_csa_iranian_government-sponsored_apt_actors_compromise_federal%20network_deploy_crypto%20miner_credential_harvester.pdf
 drilldown_searches:
-- name: View the detection results for - $src$
-  search: '%original_detection_search% | search  src = $src$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - $src$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: '"$info_min_time$"'
+  latest_offset: '"$info_max_time$"'
 tags:
   analytic_story:
   - Reverse Network Proxy
