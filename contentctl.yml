@@ -182,6 +182,12 @@ apps:
   version: 1.4.1
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/microsoft-defender-advanced-hunting-add-on-for-splunk_141.tgz
+- uid: 6207
+  title: Splunk Add-on for Microsoft Security
+  appid: Splunk_TA_MS_Security
+  version: 2.3.0
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-security_230.tgz
 - uid: 2734
   title: URL Toolbox
   appid: URL_TOOLBOX
