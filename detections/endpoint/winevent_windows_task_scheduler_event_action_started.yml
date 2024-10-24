@@ -75,5 +75,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
-    source: XmlWinEventLog:Security
+    source: XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational
     sourcetype: XmlWinEventLog
