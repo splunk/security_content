@@ -21,11 +21,11 @@ references:
 - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
 - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
 drilldown_searches:
-- name: View the detection results for $dest$ and $user$
+- name: View the detection results for - $dest$ and $user$
   search: '%original_detection_search% | search  dest = $dest$ user = $user$'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $dest$ and $user$
+- name: View risk events for the last 7 days for - $dest$ and $user$
   search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$, $user$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$

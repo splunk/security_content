@@ -13,11 +13,11 @@ known_false_positives: unknown
 references:
 - https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
 drilldown_searches:
-- name: View the detection results for $src_host$
+- name: View the detection results for - $src_host$
   search: '%original_detection_search% | search  src_host = $src_host$'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $src_host$
+- name: View risk events for the last 7 days for - $src_host$
   search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($src_host$) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
