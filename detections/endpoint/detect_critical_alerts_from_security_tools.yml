@@ -2,15 +2,17 @@ name: Detect Critical Alerts from Security Tools
 id: 483e8a68-f2f7-45be-8fc9-bf725f0e22fd
 version: 1
 date: '2024-10-09'
-author: Gowthamaraj Rajendran, Patrick Bareiss, Bhavin Patel, Splunk
+author: Gowthamaraj Rajendran, Patrick Bareiss, Bhavin Patel, Bryan Pluta, Splunk
 status: production
 type: TTP
 data_source:
 - Windows Defender Alerts
 description: The following analytics is to detect high and critical alerts from endpoint security tools such as Microsoft Defender, Carbon Black, and Crowdstrike. This query aggregates and summarizes critical severity alerts from the Alerts data model, providing details such as the alert signature, application, description, source, destination, and timestamps, while applying custom filters and formatting for enhanced analysis in a SIEM environment.This capability allows security teams to efficiently allocate resources and maintain a strong security posture, while also supporting compliance with regulatory requirements by providing a clear record of critical security events. We tested these detections with logs from Microsoft Defender, however this detection should work for any security alerts that are ingested into the alerts data model.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Alerts where Alerts.severity IN ("high","critical") by Alerts.signature Alerts.app, Alerts.severity, Alerts.description, source, Alerts.id, Alerts.dest 
-  | `drop_dm_object_name("Alerts")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_critical_alerts_from_security_tools_filter`'
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Alerts.description) as description values(Alerts.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id values(Alerts.severity) as severity values(Alerts.type) as type values(Alerts.severity_id) as severity_id values(Alerts.signature) as signature values(Alerts.dest) as dest from datamodel=Alerts where  Alerts.severity IN ("high","critical") by Alerts.src Alerts.user Alerts.id Alerts.vendor sourcetype 
+| `drop_dm_object_name("Alerts")` 
+| `security_content_ctime(firstTime)` 
+| `security_content_ctime(lastTime)` 
+| eval risk_score=case(severity="informational", 2, severity="low", 5, severity="medium", 10, severity="high", 50, severity="critical" , 100) | `detect_critical_alerts_from_security_tools_filter`'
 how_to_implement: In order to properly run this search, you to ingest alerts data from other security products such as Crowdstrike, Microsoft Defender, or Carbon Black using appropriate TAs for that technology. Once ingested, the fields should be mapped to the Alerts data model. Make sure to apply transformation on the data if necessary. 
 known_false_positives: False positives may vary by endpoint protection tool; monitor and filter out the alerts that are not relevant to your environment.
 references:
@@ -31,11 +33,10 @@ tags:
   - Critical Alerts
   asset_type: Endpoint
   atomic_guid: []
-  confidence: 90
-  impact: 90
+  confidence: 50
+  impact: 50
   message: $severity$ alert for $dest$ from $source$ - $signature$
-  mitre_attack_id:
-  - T1484
+  mitre_attack_id: []
   observable:
   - name: dest
     type: Endpoint
@@ -49,7 +50,7 @@ tags:
   - _time
   - app
   - name
-  risk_score: 81
+  risk_score: 25
   security_domain: endpoint
 tests:
 - name: True Positive Test
@@ -57,3 +58,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/AdvancedHunting.log
     source: eventhub://windowsdefenderlogs
     sourcetype: mscs:azure:eventhub:defender:advancedhunting
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/defender_incident_alerts.json
+    source: m365_defender_incident_alerts
+    sourcetype: ms365:defender:incident:alerts
