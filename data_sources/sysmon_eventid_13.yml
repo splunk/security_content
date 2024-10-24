@@ -11,7 +11,7 @@ configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.1
+  version: 4.0.2
 fields:
 - _time
 - Channel
@@ -102,7 +102,7 @@ field_mappings:
     ProcessGuid: Registry.process_guid
     ProcessId: Registry.process_id
     TargetObject: Registry.registry_path
-    Details: Registry.registry_value_data 
+    Details: Registry.registry_value_data
 example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
   Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>13</EventID><Version>2</Version><Level>4</Level><Task>13</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
   SystemTime='2021-07-12T08:11:04.548083500Z'/><EventRecordID>810987</EventRecordID><Correlation/><Execution
