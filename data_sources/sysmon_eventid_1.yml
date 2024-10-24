@@ -11,7 +11,7 @@ configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.1
+  version: 4.0.2
 fields:
 - _time
 - Channel
@@ -111,45 +111,45 @@ fields:
 - user_id
 - vendor_product
 field_mappings:
-  - data_model: cim
-    data_set: Endpoint.Processes
-    mapping:
-      ProcessGuid: Processes.process_guid
-      ProcessId: Processes.process_id
-      Image: Processes.process_path
-      Image|endswith: Processes.process_name
-      CommandLine: Processes.process
-      CurrentDirectory: Processes.process_current_directory
-      User: Processes.user
-      IntegrityLevel: Processes.process_integrity_level
-      Hashes: Processes.process_hash
-      ParentProcessGuid: Processes.parent_process_guid
-      ParentProcessId: Processes.parent_process_id
-      ParentImage: Processes.parent_process_name
-      ParentCommandLine: Processes.parent_process
-      Computer: Processes.dest
-      OriginalFileName: Processes.original_file_name
+- data_model: cim
+  data_set: Endpoint.Processes
+  mapping:
+    ProcessGuid: Processes.process_guid
+    ProcessId: Processes.process_id
+    Image: Processes.process_path
+    Image|endswith: Processes.process_name
+    CommandLine: Processes.process
+    CurrentDirectory: Processes.process_current_directory
+    User: Processes.user
+    IntegrityLevel: Processes.process_integrity_level
+    Hashes: Processes.process_hash
+    ParentProcessGuid: Processes.parent_process_guid
+    ParentProcessId: Processes.parent_process_id
+    ParentImage: Processes.parent_process_name
+    ParentCommandLine: Processes.parent_process
+    Computer: Processes.dest
+    OriginalFileName: Processes.original_file_name
 convert_to_log_source:
-  - data_source: Windows Event Log Security 4688
-    mapping:
-      ProcessId: NewProcessId
-      Image: NewProcessName
-      Image|endswith: NewProcessName|endswith
-      CommandLine: Process_Command_Line
-      User: SubjectUserSid
-      ParentProcessId: ProcessId
-      ParentImage: ParentProcessName
-      ParentImage|endswith: ParentProcessName|endswith
-      Computer: Computer
-      OriginalFileName: NewProcessName|endswith
-  - data_source: Crowdstrike Process
-    mapping:
-      ProcessId: RawProcessId
-      Image: ImageFileName
-      CommandLine: CommandLine
-      User: UserSid
-      ParentProcessId: ParentProcessId
-      ParentImage: ParentBaseFileName
+- data_source: Windows Event Log Security 4688
+  mapping:
+    ProcessId: NewProcessId
+    Image: NewProcessName
+    Image|endswith: NewProcessName|endswith
+    CommandLine: Process_Command_Line
+    User: SubjectUserSid
+    ParentProcessId: ProcessId
+    ParentImage: ParentProcessName
+    ParentImage|endswith: ParentProcessName|endswith
+    Computer: Computer
+    OriginalFileName: NewProcessName|endswith
+- data_source: Crowdstrike Process
+  mapping:
+    ProcessId: RawProcessId
+    Image: ImageFileName
+    CommandLine: CommandLine
+    User: UserSid
+    ParentProcessId: ParentProcessId
+    ParentImage: ParentBaseFileName
 example_log: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider\
   \ Name='Microsoft-Windows-Sysmon' Guid='{5770385F-C22A-43E0-BF4C-06F5698FFBD9}'/><EventID>1</EventID><Version>5</Version><Level>4</Level><Task>1</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated\
   \ SystemTime='2020-10-08T11:03:46.617920300Z'/><EventRecordID>4522</EventRecordID><Correlation/><Execution\

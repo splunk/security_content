@@ -11,7 +11,7 @@ configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.1
+  version: 4.0.2
 fields:
 - _time
 - Archived
