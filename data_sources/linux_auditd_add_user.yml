@@ -1,11 +1,11 @@
 name: Linux Auditd Add User
 id: 30f79353-e1d2-4585-8735-1e0359559f3f
 version: 1
-date: '2024-08-08'
+date: '2024-08-24'
 author: Teoderick Contreras, Splunk
 description: Data source object for Linux Auditd Add User Type
-source: /var/log/audit/audit.log
-sourcetype: linux:audit
+source: auditd
+sourcetype: auditd
 supported_TA:
 - name: Splunk Add-on for Unix and Linux
   url: https://splunkbase.splunk.com/app/833
