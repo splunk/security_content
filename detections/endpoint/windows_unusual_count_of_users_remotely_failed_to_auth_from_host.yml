@@ -15,12 +15,12 @@ references:
 drilldown_searches:
 - name: View the detection results for - "$Computer$"
   search: '%original_detection_search% | search  Computer = "$Computer$"'
-  earliest_offset: '"$info_min_time$"'
-  latest_offset: '"$info_max_time$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$Computer$"
   search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: '"$info_min_time$"'
-  latest_offset: '"$info_max_time$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 search: '`wineventlog_security`  EventCode=4625 Logon_Type=3 IpAddress!="-" | bucket span=2m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, IpAddress, Computer | eventstats avg(unique_accounts) as comp_avg , stdev(unique_accounts) as comp_std by IpAddress, Computer | eval upperBound=(comp_avg+comp_std*3) | eval isOutlier=if(unique_accounts > 10 and unique_accounts >= upperBound, 1, 0) | search isOutlier=1 | `windows_unusual_count_of_users_remotely_failed_to_auth_from_host_filter`'
 status: production
 tags:

@@ -14,12 +14,12 @@ references:
 drilldown_searches:
 - name: View the detection results for - "$Workstation$"
   search: '%original_detection_search% | search  Workstation = "$Workstation$"'
-  earliest_offset: '"$info_min_time$"'
-  latest_offset: '"$info_max_time$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$Workstation$"
   search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Workstation$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: '"$info_min_time$"'
-  latest_offset: '"$info_max_time$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 search: '`wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A | bucket span=5m _time | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts by _time, Workstation | where unique_accounts > 30 | `windows_multiple_users_failed_to_authenticate_from_host_using_ntlm_filter`'
 status: production
 tags:
