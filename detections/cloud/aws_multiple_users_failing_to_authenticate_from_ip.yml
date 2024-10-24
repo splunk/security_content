@@ -1,16 +1,22 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
 version: 3
-date: '2024-09-30'
+date: '2024-10-16'
 author: Bhavin Patel
 status: production
 type: Anomaly
 description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with 30 unique valid users within 10 minutes. It leverages CloudTrail logs to detect multiple failed login attempts from the same IP address. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain unauthorized access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
 - AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip | `aws_multiple_users_failing_to_authenticate_from_ip_filter`'
-how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the tried account threshold to tune this search according to their environment.
-known_false_positives: No known false postives for this detection. Please review this alert
+search: '`cloudtrail` eventName=ConsoleLogin action=failure | bucket span=10m _time
+  | stats  dc(user_name) AS unique_accounts values(user_name) as tried_accounts by _time, src_ip 
+  | where unique_accounts>30
+  | `aws_multiple_users_failing_to_authenticate_from_ip_filter`'
+how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail.
+  We recommend the users to try different combinations of the bucket span time and
+  the tried account threshold to tune this search according to their environment.
+known_false_positives: No known false postives for this detection. Please review this
+  alert
 references:
 - https://attack.mitre.org/techniques/T1110/003/
 - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/

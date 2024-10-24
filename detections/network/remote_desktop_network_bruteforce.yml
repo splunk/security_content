@@ -1,7 +1,7 @@
 name: Remote Desktop Network Bruteforce
 id: a98727cc-286b-4ff2-b898-41df64695923
-version: 4
-date: '2024-10-17'
+version: 5
+date: '2024-10-16'
 author: Jose Hernandez, Splunk
 status: experimental
 type: TTP
@@ -14,12 +14,13 @@ description: The following analytic identifies potential Remote Desktop Protocol
   to gain unauthorized access to systems via RDP. If confirmed malicious, this could
   lead to unauthorized access, data exfiltration, or further network compromise.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Network_Traffic where All_Traffic.app=rdp by All_Traffic.src
-  All_Traffic.dest All_Traffic.dest_port | eventstats stdev(count) AS stdev avg(count)
-  AS avg p50(count) AS p50 | where count>(avg + stdev*2) | rename All_Traffic.src
-  AS src All_Traffic.dest AS dest | table firstTime lastTime src dest count avg p50
-  stdev | `remote_desktop_network_bruteforce_filter`'
+search: >-
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where (All_Traffic.app=rdp OR All_Traffic.dest_port=3389) AND All_Traffic.action=allowed by All_Traffic.src All_Traffic.dest All_Traffic.dest_port 
+  | eventstats stdev(count) AS stdev avg(count) AS avg p50(count) AS p50 
+  | where count>(avg + stdev*2) 
+  | rename All_Traffic.src AS src All_Traffic.dest AS dest 
+  | table firstTime lastTime src dest count avg p50 stdev 
+  | `remote_desktop_network_bruteforce_filter`
 how_to_implement: You must ensure that your network traffic data is populating the
   Network_Traffic data model.
 known_false_positives: RDP gateways may have unusually high amounts of traffic from
@@ -38,6 +39,10 @@ tags:
   - T1021
   observable:
   - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
     type: Hostname
     role:
     - Victim

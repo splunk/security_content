@@ -1,7 +1,7 @@
 name: Detect Large Outbound ICMP Packets
 id: e9c102de-4d43-42a7-b1c8-8062ea297419
-version: 4
-date: '2024-10-17'
+version: 5
+date: '2024-10-16'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -14,13 +14,14 @@ description: The following analytic identifies outbound ICMP packets with a size
   maintain covert communication channels, exfiltrate sensitive data, or further compromise
   the network.
 data_source: []
-search: '| tstats `security_content_summariesonly` count earliest(_time) as firstTime
-  latest(_time) as lastTime values(All_Traffic.action) values(All_Traffic.bytes) from
+search: >- 
+  | tstats `security_content_summariesonly` count earliest(_time) as firstTime
+  latest(_time) as lastTime values(All_Traffic.action) as action values(All_Traffic.bytes) as bytes from
   datamodel=Network_Traffic where All_Traffic.action !=blocked All_Traffic.dest_category
   !=internal (All_Traffic.protocol=icmp OR All_Traffic.transport=icmp) All_Traffic.bytes
-  > 1000 by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name("All_Traffic")`
-  | search ( dest_ip!=10.0.0.0/8 AND dest_ip!=172.16.0.0/12 AND dest_ip!=192.168.0.0/16)
-  | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` | `detect_large_outbound_icmp_packets_filter`'
+  > 1000 AND NOT All_Traffic.dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") by All_Traffic.src_ip All_Traffic.dest_ip | `drop_dm_object_name("All_Traffic")`
+  | iplocation dest_ip
+  | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` | `detect_large_outbound_icmp_packets_filter`
 how_to_implement: 'In order to run this search effectively, we highly recommend that
   you leverage the Assets and Identity framework. It is important that you have a
   good understanding of how your network segments are designed and that you are able
@@ -44,11 +45,15 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: tbd
+  message: Detect Large Outbound ICMP Packets Detected from $src_ip$ to $dest_ip$
   mitre_attack_id:
   - T1095
   observable:
-  - name: dest
+  - name: dest_ip
+    type: Hostname
+    role:
+    - Victim
+  - name: src_ip
     type: Hostname
     role:
     - Victim

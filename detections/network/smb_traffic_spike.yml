@@ -30,12 +30,12 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: tbd
+  message: Anomalous splike of SMB traffic sent from $src$
   mitre_attack_id:
   - T1021.002
   - T1021
   observable:
-  - name: dest
+  - name: src
     type: Hostname
     role:
     - Victim

@@ -14,9 +14,15 @@ description: The following analytic identifies unusually long strings in the Con
   or bypass security controls, potentially leading to unauthorized access or data
   breaches.
 data_source: []
-search: '`stream_http` | eval cs_content_type_length = len(cs_content_type) | where
-  cs_content_type_length > 100 | table endtime src_ip dest_ip cs_content_type_length
-  cs_content_type url | `unusually_long_content_type_length_filter`'
+search: >-
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web by Web.src Web.dest Web.url Web.http_user_agent Web.http_content_type
+  | `drop_dm_object_name("Web")` 
+  | eval http_content_type_length = len(http_content_type) 
+  | where http_content_type_length > 100
+  | table firstTime lastTime src dest http_content_type_length http_content_type url http_user_agent
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `unusually_long_content_type_length_filter`
 how_to_implement: This particular search leverages data extracted from Stream:HTTP.
   You must configure the http stream using the Splunk Stream App on your Splunk Stream
   deployment server to extract the cs_content_type field.
@@ -29,9 +35,13 @@ tags:
   asset_type: Web Server
   confidence: 50
   impact: 50
-  message: tbd
+  message: Unusually Long Content-Type Length ($http_content_type_length$ characters) In Web Request from $src$
   observable:
   - name: dest
+    type: Hostname
+    role:
+    - Victim
+  - name: src
     type: Hostname
     role:
     - Victim

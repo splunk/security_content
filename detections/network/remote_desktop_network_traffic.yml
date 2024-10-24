@@ -1,7 +1,7 @@
 name: Remote Desktop Network Traffic
 id: 272b8407-842d-4b3d-bead-a704584003d3
-version: 6
-date: '2024-09-30'
+version: 7
+date: '2024-10-16'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ tags:
   asset_type: Endpoint
   confidence: 50
   impact: 50
-  message: tbd
+  message: Remote Desktop Network Traffic Anomaly Detected from $src$ to $dest$
   mitre_attack_id:
   - T1021.001
   - T1021
