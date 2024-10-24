@@ -14,12 +14,12 @@ description: The following analytic identifies outbound LDAP traffic to external
   network compromise.
 data_source:
 - Bro
-search: '| tstats earliest(_time) as earliest_time latest(_time) as latest_time values(All_Traffic.dest_ip)
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_ip)
   as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port
   = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = 10.0.0.0/8 OR
   All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip = 172.16.0.0/12) by All_Traffic.src_ip
   All_Traffic.dest_ip |`drop_dm_object_name("All_Traffic")` | where src_ip != dest_ip
-  | `security_content_ctime(latest_time)`  | `security_content_ctime(earliest_time)`
+  | `security_content_ctime(lastTime)`  | `security_content_ctime(firstTime)`
   |`detect_outbound_ldap_traffic_filter`'
 how_to_implement: In order to properly run this search, Splunk needs to ingest data from Next Generation Firewalls like Palo Alto Networks Firewalls or other network control devices that mediate the traffic allowed into an environment. The search requires the Network_Traffic data model to be populated.
 known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
