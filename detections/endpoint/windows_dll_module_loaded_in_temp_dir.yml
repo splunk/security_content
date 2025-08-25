@@ -4,7 +4,7 @@ version: 1
 date: '2025-08-20'
 author: Teoderick Contreras, Splunk
 status: production
-type: Anomaly
+type: Hunting
 description: The following analytic detects instances where a Dynamic Link Library (DLL) is loaded from a temporary directory on a Windows system. Loading DLLs from non-standard paths such as %TEMP% is uncommon for legitimate applications and is often associated with adversary tradecraft, including DLL search order hijacking, side-loading, or execution of malicious payloads staged in temporary folders. Adversaries frequently leverage these directories because they are writable by standard users and often overlooked by security controls, making them convenient locations to drop and execute malicious files. This behavior may indicate attempts to evade detection, execute unauthorized code, or maintain persistence through hijacked execution flows. Detection of DLL loads from %TEMP% can help surface early signs of compromise and should be investigated in the context of the originating process, user account, and potential file creation or modification activity within the same directory.
 data_source:
 - Sysmon EventID 7
