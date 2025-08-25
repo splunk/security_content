@@ -1,0 +1,87 @@
+name: Cisco IOS Logs
+id: 9e4c8d7b-6f5e-4a3d-b2c1-0a9b8c7d6e5f
+version: 1
+date: '2025-08-21'
+author: Michael Haag, Splunk
+description: Data source object for Cisco IOS system logs. Cisco IOS logs provide operational and security telemetry from Cisco network devices (IOS, IOS XE, IOS XR, NX-OS, WLC, and APs). The Cisco Networks Add-on for Splunk (TA-cisco_ios) normalizes these events by setting proper sourcetypes and extracting fields for switches, routers, controllers, and access points; deploy the TA on indexers/HFs and search heads, and the Cisco Networks (cisco_ios) App on search heads. Supported platforms include Catalyst, ASR, ISR, Nexus, CRS, and other IOS-based devices, enabling consistent investigation, alerting, and reporting in Splunk Enterprise and Splunk Cloud. This data is ingested via SYSLOG.
+source: cisco:ios
+sourcetype: cisco:ios
+separator: null
+supported_TA:
+- name: Cisco Networks Add-on
+  url: https://splunkbase.splunk.com/app/1467
+  version: 2.7.8
+fields:
+- _time
+- aci_message_text
+- action
+- app
+- authenticator
+- bytes
+- change_type
+- cipher
+- cisco_header
+- command
+- config_source
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_interface
+- dest_mac
+- dest_port
+- device_time
+- direct_ap_mac
+- dvc
+- event_id
+- eventtype
+- facility
+- hmac
+- host
+- index
+- line
+- linecount
+- message_text
+- mnemonic
+- product
+- punct
+- reliable_time
+- severity
+- severity_description
+- severity_id
+- severity_id_and_name
+- severity_name
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_interface
+- src_ip
+- src_mac
+- subfacility
+- tag
+- tag::action
+- tag::app
+- tag::eventtype
+- timeendpos
+- timestartpos
+- transport
+- tty
+- type
+- user
+- vendor
+- vendor_action
+- vlan
+output_fields:
+- user
+- dest
+example_log: 'Aug 20 17:10:21.639: %AAA-6-USERNAME_CONFIGURATION: user with username: attacker configured
+  Aug 20 17:10:21.664: %AAA-6-USER_PRIVILEGE_UPDATE: username: attacker privilege updated with priv-15
+  Aug 20 17:10:21.665: %PARSER-5-CFGLOG_LOGGEDCMD: User:ec2-user logged command:username attacker privilege 15 secret *
+  Aug 20 17:10:21.665: %PARSER-5-CFGLOG_LOGGEDCMD: User:ec2-user logged command:!config: USER TABLE MODIFIED'
