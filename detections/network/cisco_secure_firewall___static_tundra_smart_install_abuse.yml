@@ -1,0 +1,93 @@
+name: Cisco Secure Firewall - Static Tundra Smart Install Abuse
+id: 7e9a5a2c-2f1a-4b6a-9a4b-9e7d9c8f5a21
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: TTP
+description: |
+  This analytic detects activity associated with "Static Tundra" threat actor abuse of the Cisco Smart Install (SMI) protocol
+  using Cisco Secure Firewall Intrusion Events. It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to
+  identify occurrences of Smart Install exploitation and protocol abuse, including denial-of-service and buffer overflow
+  attempts. The detection triggers when multiple Cisco Smart Install-related Snort signatures are observed in a short period from the
+  same source, which is indicative of active exploitation or reconnaissance against Cisco devices that expose SMI. 
+data_source:
+  - Cisco Secure Firewall Threat Defense Intrusion Event
+search: |
+  `cisco_secure_firewall` EventType=IntrusionEvent signature_id IN (46468, 46096, 41722, 41723, 41724, 41725)
+  | bin _time span=15m
+  | fillnull
+  | stats dc(signature_id) as unique_signature_count 
+          values(signature_id) as signature_id 
+          values(signature) as signature 
+          values(class_desc) as class_desc 
+          values(MitreAttackGroups) as MitreAttackGroups 
+          values(InlineResult) as InlineResult 
+          values(InlineResultReason) as InlineResultReason 
+          values(dest_ip) as dest_ip 
+          values(dest_port) as dest_port 
+          values(rule) as rule 
+          values(transport) as transport 
+          values(app) as app 
+          min(_time) as firstTime 
+          max(_time) as lastTime 
+          by src_ip
+  | where unique_signature_count >= 2
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_secure_firewall___static_tundra_smart_install_abuse_filter`
+how_to_implement: |
+  This search requires Cisco Secure Firewall Threat Defense logs with IntrusionEvent data. It uses the `cisco_secure_firewall`
+  input macro; configure it to match your environment (index, source, sourcetype). Ensure your intrusion policies include the
+  relevant Smart Install signatures and that events are collected via the Splunk Add-on for Cisco Security Cloud
+  (https://splunkbase.splunk.com/app/7404). The post-filter macro helps reduce known noise.
+known_false_positives: |
+  Network scanning or testing tools that probe Cisco Smart Install endpoints may trigger similar signatures.
+  Validate against maintenance windows or approved security assessments.
+references:
+- https://blog.talosintelligence.com/static-tundra/
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+drilldown_searches:
+- name: View the detection results for - "$dest_ip$"
+  search: '%original_detection_search% | search  dest_ip = "$dest_ip$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest_ip$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Smart Install exploitation or protocol abuse targeting $dest_ip$ originating from $src_ip$
+  risk_objects:
+    - field: dest_ip
+      type: system
+      score: 30
+  threat_objects:
+    - field: src_ip
+      type: ip_address
+    - field: signature
+      type: signature
+tags:
+  analytic_story: 
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  security_domain: network
+  mitre_attack_id:
+    - T1190
+    - T1210
+    - T1499
+  product:
+    - Splunk Enterprise
+    - Splunk Cloud
+    - Splunk Enterprise Security
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/static_tundra/static_tundra.log
+    source: not_applicable
+    sourcetype: cisco:sfw:estreamer

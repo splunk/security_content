@@ -92,6 +92,12 @@ snake,53107,MALWARE-OTHER,Win.Trojan.Snake malicious executable download attempt
 snake,64072,MALWARE-CNC,Win.KeyLogger.Snake outbound connection
 snake,64073,MALWARE-OTHER,Win.KeyLogger.Snake download attempt
 Snake,7717,MALWARE-BACKDOOR,snake trojan runtime detection
+Static Tundra,46468,SERVER-OTHER,Cisco Smart Install invalid init discovery message denial of service attempt
+Static Tundra,46096,SERVER-OTHER,Cisco Smart Install init discovery message stack buffer overflow attempt
+Static Tundra,41722,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
+Static Tundra,41723,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
+Static Tundra,41724,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
+Static Tundra,41725,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
 Xworm,62772,MALWARE-OTHER,Win.Trojan.Xworm download attempt
 Xworm,62773,MALWARE-OTHER,Win.Trojan.Xworm download attempt
 Xworm,62774,MALWARE-OTHER,Win.Trojan.Xworm download attempt
