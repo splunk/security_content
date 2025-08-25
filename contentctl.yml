@@ -101,9 +101,9 @@ apps:
 - uid: 5466
   title: TA for Zeek
   appid: SPLUNK_TA_FOR_ZEEK
-  version: 1.0.10
+  version: 1.0.11
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-for-zeek_1010.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-for-zeek_1011.tgz
 - uid: 3258
   title: Splunk Add-on for NGINX
   appid: SPLUNK_ADD_ON_FOR_NGINX
