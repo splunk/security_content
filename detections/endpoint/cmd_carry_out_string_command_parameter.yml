@@ -67,7 +67,7 @@ tags:
   - RedLine Stealer
   - Log4Shell CVE-2021-44228
   - Interlock Rat
-  - Obj3ctivity Stealer
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   cve:
   - CVE-2021-44228

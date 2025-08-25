@@ -33,7 +33,7 @@ tags:
   - Active Directory Lateral Movement
   - CISA AA22-257A
   - Scheduled Tasks
-  - Obj3ctivity Stealer
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

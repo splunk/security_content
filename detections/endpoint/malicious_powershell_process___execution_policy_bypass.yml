@@ -75,7 +75,7 @@ tags:
   - Salt Typhoon
   - XWorm
   - DarkCrystal RAT
-  - Obj3ctivity Stealer
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.001

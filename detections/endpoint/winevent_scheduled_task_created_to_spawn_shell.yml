@@ -67,7 +67,7 @@ tags:
   - Windows Error Reporting Service Elevation of Privilege Vulnerability
   - Windows Persistence Techniques
   - Winter Vivern
-  - Obj3ctivity Stealer
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

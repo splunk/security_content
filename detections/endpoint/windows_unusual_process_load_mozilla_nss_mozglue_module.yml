@@ -66,7 +66,7 @@ rba:
 tags:
   analytic_story:
   - Quasar RAT
-  - Obj3ctivity Stealer
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1218.003
