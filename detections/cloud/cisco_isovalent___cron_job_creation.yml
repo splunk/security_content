@@ -1,5 +1,5 @@
 name: Cisco Isovalent - Cron Job Creation
-id: 45678901-defg-4567-hi23-456789012def
+id: 94531a31-a041-4777-909f-cd92ed3b71ad
 version: 1
 date: '2025-08-12'
 author: Bhavin Patel, Splunk
@@ -54,3 +54,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
+    source: not_applicable
+    sourcetype: cisco:isovalent

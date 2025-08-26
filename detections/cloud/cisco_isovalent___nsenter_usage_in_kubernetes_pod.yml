@@ -1,5 +1,5 @@
 name: Cisco Isovalent - Nsenter Usage in Kubernetes Pod
-id: 34567890-cdef-3456-gh12-345678901cde
+id: cd07120d-4265-481a-ba0f-3b91fbc5a02f
 version: 1
 date: '2025-08-12'
 author: Bhavin Patel, Splunk
@@ -58,6 +58,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
       source: cisco_isovalent
       sourcetype: cisco:isovalent

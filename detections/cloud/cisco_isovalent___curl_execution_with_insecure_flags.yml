@@ -1,5 +1,5 @@
 name: Cisco Isovalent - Curl Execution With Insecure Flags
-id: ece07077-e577-42bb-a8d2-c3c102793723
+id: c16c4899-d3f7-461b-92c2-cc0ef5758855
 version: 1
 date: '2025-08-12'
 author: Bhavin Patel, Splunk
@@ -58,8 +58,8 @@ tags:
   - Splunk Cloud
   security_domain: endpoint
 tests:
-  - name: True Positive Test - Cisco Isovalent Process Exec
+  - name: True Positive Test
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
       source: not_applicable
       sourcetype: cisco:isovalent
