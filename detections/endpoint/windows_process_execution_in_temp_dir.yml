@@ -1,17 +1,18 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: '4'
-date: '2025-05-06'
+version: 5
+date: '2025-08-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies processes running from %temp% directory
-  file paths. It leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on specific process paths within the Endpoint data model. This activity
-  is significant because adversaries often use unconventional file paths to execute
-  malicious code without requiring administrative privileges. If confirmed malicious,
-  this behavior could indicate an attempt to bypass security controls, leading to
-  unauthorized software execution, potential system compromise, and further malicious
+description: The following analytic identifies processes running from %temp% 
+  directory file paths. It leverages data from Endpoint Detection and Response 
+  (EDR) agents, focusing on specific process paths within the Endpoint data 
+  model. This activity is significant because adversaries often use 
+  unconventional file paths to execute malicious code without requiring 
+  administrative privileges. If confirmed malicious, this behavior could 
+  indicate an attempt to bypass security controls, leading to unauthorized 
+  software execution, potential system compromise, and further malicious 
   activities within the environment.
 data_source:
 - Sysmon EventID 1
@@ -26,17 +27,18 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_process_execution_in_temp_dir_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators may allow execution of specific binaries in
-  non-standard paths. Filter as needed.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: Administrators may allow execution of specific binaries 
+  in non-standard paths. Filter as needed.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -58,8 +60,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Suspicious process $process_name$ running from temp directory- $process_path$
-    on host- $dest$
+  message: Suspicious process $process_name$ running from temp directory- 
+    $process_path$ on host- $dest$
   risk_objects:
   - field: dest
     type: system
@@ -77,6 +79,7 @@ tags:
   - Ransomware
   - Qakbot
   - Trickbot
+  - PathWiper
   asset_type: Endpoint
   mitre_attack_id:
   - T1543
@@ -89,6 +92,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/process_temp_path/process_temp_path.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/process_temp_path/process_temp_path.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

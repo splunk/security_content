@@ -1,0 +1,43 @@
+name: Windows DLL Module Loaded in Temp Dir
+id: c2998141-235a-4e31-83cf-46afb5208a87
+version: 1
+date: '2025-08-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Hunting
+description: The following analytic detects instances where a Dynamic Link Library (DLL) is loaded from a temporary directory on a Windows system. Loading DLLs from non-standard paths such as %TEMP% is uncommon for legitimate applications and is often associated with adversary tradecraft, including DLL search order hijacking, side-loading, or execution of malicious payloads staged in temporary folders. Adversaries frequently leverage these directories because they are writable by standard users and often overlooked by security controls, making them convenient locations to drop and execute malicious files. This behavior may indicate attempts to evade detection, execute unauthorized code, or maintain persistence through hijacked execution flows. Detection of DLL loads from %TEMP% can help surface early signs of compromise and should be investigated in the context of the originating process, user account, and potential file creation or modification activity within the same directory.
+data_source:
+- Sysmon EventID 7
+search: '`sysmon` EventCode=7 NOT (ImageLoaded IN("C:\\Program Files*")) AND ImageLoaded="*\\temp\\*" AND ImageLoaded="*.dll"
+  | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
+  process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
+  service_dll_signature_verified signature signature_id user_id vendor_product 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_dll_module_loaded_in_temp_dir_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and imageloaded executions from your endpoints. If you
+  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: unknown
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-203a
+- https://blog.sekoia.io/interlock-ransomware-evolving-under-the-radar/
+tags:
+  analytic_story:
+  - Interlock Rat
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1105
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/dll_loaded_in_temp/module_loaded_in_temp.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
