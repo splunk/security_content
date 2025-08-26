@@ -1,18 +1,19 @@
 name: Windows Remote Service Rdpwinst Tool Execution
 id: c8127f87-c7c9-4036-89ed-8fe4b30e678c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-08-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the RDPWInst.exe tool,
-  which is an RDP wrapper library used to enable remote desktop host support and concurrent
-  RDP sessions. This detection leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process names, original file names, and specific command-line
-  arguments. This activity is significant because adversaries can abuse this tool
-  to establish unauthorized RDP connections, facilitating remote access and potential
-  lateral movement within the network. If confirmed malicious, this could lead to
-  unauthorized access, data exfiltration, and further compromise of the targeted host.
+description: The following analytic detects the execution of the RDPWInst.exe 
+  tool, which is an RDP wrapper library used to enable remote desktop host 
+  support and concurrent RDP sessions. This detection leverages data from 
+  Endpoint Detection and Response (EDR) agents, focusing on process names, 
+  original file names, and specific command-line arguments. This activity is 
+  significant because adversaries can abuse this tool to establish unauthorized 
+  RDP connections, facilitating remote access and potential lateral movement 
+  within the network. If confirmed malicious, this could lead to unauthorized 
+  access, data exfiltration, and further compromise of the targeted host.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -28,17 +29,18 @@ search: '| tstats `security_content_summariesonly` values(Processes.process) as 
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_remote_service_rdpwinst_tool_execution_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: This tool was designed for home usage and not commonly seen
-  in production environment. Filter as needed.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: This tool was designed for home usage and not commonly 
+  seen in production environment. Filter as needed.
 references:
 - https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
 drilldown_searches:
@@ -66,6 +68,7 @@ tags:
   analytic_story:
   - Azorult
   - Compromised Windows Host
+  - Windows RDP Artifacts and Defense Evasion
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.001
@@ -77,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/azorult/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

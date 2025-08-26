@@ -1,7 +1,7 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 6
-date: '2025-05-22'
+version: 7
+date: '2025-08-18'
 author: Dean Luxton
 status: production
 type: TTP
@@ -60,6 +60,7 @@ tags:
   analytic_story:
   - Network Discovery
   - Cisco Secure Firewall Threat Defense Analytics
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1046

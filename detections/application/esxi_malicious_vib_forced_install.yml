@@ -1,7 +1,7 @@
 name: ESXi Malicious VIB Forced Install
 id: 5d4d2cd2-7b65-4474-97cf-e9b203bcd770
-version: 1
-date: '2025-05-09'
+version: 2
+date: '2025-08-06'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -54,6 +54,7 @@ tags:
   analytic_story:
   - ESXi Post Compromise
   - Black Basta Ransomware
+  - China-Nexus Threat Activity
   asset_type: Infrastructure
   mitre_attack_id:
   - T1505.006

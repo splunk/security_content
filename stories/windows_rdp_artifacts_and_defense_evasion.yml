@@ -1,0 +1,19 @@
+name: Windows RDP Artifacts and Defense Evasion
+id: 22c5dc79-b418-4933-b8ba-9431dfc436a8
+version: 2
+date: '2025-07-30'
+author: Teoderick Contreras, Splunk
+status: production
+description: Monitors for behaviors associated with Remote Desktop Protocol (RDP) usage on a Windows system, followed by actions consistent with artifact cleanup or defense evasion. When a user initiates an RDP session using the native client (mstsc.exe), Windows generates several artifacts, including Default.rdp in the user’s Documents folder and bitmap cache files (*.bmc, cache*.bin) under the Terminal Server Client cache directory. These files can be valuable for forensic analysis, as they indicate remote access activity and may sometimes reveal details about the accessed system’s graphical environment.
+narrative: Adversaries who know about these artifacts may try to delete or overwrite them after an RDP session to avoid detection and hinder incident response. When a user connects to a system using the native RDP client (mstsc.exe), Windows creates several files that can later be used as forensic evidence. These include Default.rdp in the user’s Documents folder, which stores recent connection details such as the last server accessed and user preferences, as well as bitmap cache files (*.bmc, cache*.bin) in the Terminal Server Client cache directory, which can contain fragments of the remote system’s graphical environment. Together, these artifacts help investigators confirm that RDP activity occurred, identify which hosts were accessed, and sometimes even reconstruct portions of what the attacker saw on screen. Because of their forensic value, attackers often attempt to remove them. Common evasion methods include manually deleting the files, running cleanup scripts, disabling RDP caching features, or using non-standard RDP clients that do not generate artifacts. This detection looks for signs of RDP usage followed by suspicious cleanup activity, surfacing post-access OPSEC behavior that frequently precedes or accompanies lateral movement, privilege escalation, or data theft. Detecting this pattern is key to exposing stealthy attacker behavior in interactive intrusions.
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

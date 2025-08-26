@@ -1,0 +1,86 @@
+name: Windows Suspicious VMWare Tools Child Process
+id: 1f77661a-0fe3-4b8d-a62c-7dff06906d26
+version: 1
+date: '2025-07-30'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic identifies child processes spawned by vmtoolsd.exe,
+  the VMWare Tools service in Windows, which typically runs with SYSTEM privileges.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process and parent process relationships. Monitoring this activity is
+  crucial as it can indicate exploitation attempts, such as CVE-2023-20867. If confirmed 
+  malicious, attackers could gain SYSTEM-level access, allowing them to execute arbitrary 
+  code, escalate privileges, and potentially compromise the entire system.
+data_source:
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=vmtoolsd.exe
+  AND Processes.process_name IN ("powershell.exe","cmd.exe", "msbuild.exe", "microsoft.workflow.compiler.exe", 
+  "searchprotocolhost.exe", "scrcons.exe", "cscript.exe", "wscript.exe","bitsadmin.exe", "rundll32.exe",
+  "wmic.exe", "mshta.exe", "certutil.exe", "schtasks.exe")
+  by Processes.action Processes.dest Processes.original_file_name
+  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_suspicious_vmware_tools_child_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Although unlikely, some legitimate Administrative scripts may utilize VMWare Tools
+  to execute commands on virtual machines.
+references:
+- https://cloud.google.com/blog/topics/threat-intelligence/vmware-esxi-zero-day-bypass/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious process spawned by vmtoolsd.exe on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 62
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+tags:
+  analytic_story:
+  - ESXi Post Compromise
+  - China-Nexus Threat Activity
+  asset_type: Endpoint
+  cve: 
+  - CVE-2023-20867 
+  mitre_attack_id:
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/vmtoolsd/vmtoolsd_execution.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

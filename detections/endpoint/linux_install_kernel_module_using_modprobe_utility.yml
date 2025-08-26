@@ -1,7 +1,7 @@
 name: Linux Install Kernel Module Using Modprobe Utility
 id: 387b278a-6326-11ec-aa2c-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-08-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,6 +65,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Linux Rootkit
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.006

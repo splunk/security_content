@@ -1,0 +1,4 @@
+definition: (source="XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational")
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk environment.
+name: wineventlog_appxpackaging

@@ -1,7 +1,7 @@
 name: ESXi Firewall Disabled
 id: e321804c-8eb5-42f2-a843-36b289a6c6b2
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2025-08-06'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -47,6 +47,7 @@ tags:
   analytic_story:
   - ESXi Post Compromise
   - Black Basta Ransomware
+  - China-Nexus Threat Activity
   asset_type: Infrastructure
   mitre_attack_id:
   - T1562.004

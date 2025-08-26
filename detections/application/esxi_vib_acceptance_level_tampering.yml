@@ -1,7 +1,7 @@
 name: ESXi VIB Acceptance Level Tampering
 id: d051d94f-c792-445e-b5d2-0b904f93ac09
-version: 1
-date: '2025-05-15'
+version: 2
+date: '2025-08-06'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -49,6 +49,7 @@ tags:
   analytic_story:
   - ESXi Post Compromise
   - Black Basta Ransomware
+  - China-Nexus Threat Activity
   asset_type: Infrastructure
   mitre_attack_id:
   - T1562

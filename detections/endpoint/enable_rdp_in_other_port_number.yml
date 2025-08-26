@@ -1,7 +1,7 @@
 name: Enable RDP In Other Port Number
 id: 99495452-b899-11eb-96dc-acde48001122
-version: 13
-date: '2025-07-28'
+version: 14
+date: '2025-08-07'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -59,6 +59,7 @@ tags:
   analytic_story:
   - Prohibited Traffic Allowed or Protocol Mismatch
   - Windows Registry Abuse
+  - Windows RDP Artifacts and Defense Evasion
   - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:

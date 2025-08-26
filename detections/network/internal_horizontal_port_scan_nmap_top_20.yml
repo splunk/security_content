@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan NMAP Top 20
 id: 3141a041-4f57-4277-9faa-9305ca1f8e5b
-version: 5
-date: '2025-05-22'
+version: 6
+date: '2025-08-18'
 author: Dean Luxton
 status: production
 type: TTP
@@ -62,6 +62,7 @@ tags:
   analytic_story:
   - Network Discovery
   - Cisco Secure Firewall Threat Defense Analytics
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1046

@@ -1,7 +1,7 @@
 name: ESXi Sensitive Files Accessed
 id: 6fa0073d-6ca0-4f93-913d-fb420c9de15b
-version: 1
-date: '2025-05-19'
+version: 2
+date: '2025-08-06'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -50,6 +50,7 @@ tags:
   analytic_story:
   - ESXi Post Compromise
   - Black Basta Ransomware
+  - China-Nexus Threat Activity
   asset_type: Infrastructure
   mitre_attack_id:
   - T1003.008

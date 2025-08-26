@@ -1,7 +1,7 @@
 name: Windows RDP File Execution
 id: 0b6b12b9-8ba9-48fe-b3b8-b4e3e1cd22b4
-version: 5
-date: '2025-07-28'
+version: 6
+date: '2025-08-07'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -82,6 +82,7 @@ rba:
 tags:
   analytic_story:
   - Spearphishing Attachments
+  - Windows RDP Artifacts and Defense Evasion
   - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:

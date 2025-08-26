@@ -1,7 +1,7 @@
 name: Linux Service File Created In Systemd Directory
 id: c7495048-61b6-11ec-9a37-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-08-06'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,6 +65,7 @@ tags:
   - Linux Living Off The Land
   - Scheduled Tasks
   - Gomir
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.006

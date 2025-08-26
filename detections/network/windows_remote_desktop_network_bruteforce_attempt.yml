@@ -1,18 +1,18 @@
 name: Windows Remote Desktop Network Bruteforce Attempt
 id: 908bf0d5-0983-4afd-b6a4-e9eb5d361a7d
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-08-01'
 author: Jose Hernandez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies potential Remote Desktop Protocol (RDP)
-  brute force attacks by monitoring network traffic for RDP application activity.
-  This query detects potential RDP brute force attacks by identifying source IPs that
-  have made more than 10 connection attempts to the same RDP port on a host within
-  a one-hour window. The results are presented in a table that includes the source
-  and destination IPs, destination port, number of attempts, and the times of the
-  first and last connection attempts, helping to prioritize IPs based on the intensity
-  of activity.
+description: The following analytic identifies potential Remote Desktop Protocol
+  (RDP) brute force attacks by monitoring network traffic for RDP application 
+  activity. This query detects potential RDP brute force attacks by identifying 
+  source IPs that have made more than 10 connection attempts to the same RDP 
+  port on a host within a one-hour window. The results are presented in a table 
+  that includes the source and destination IPs, destination port, number of 
+  attempts, and the times of the first and last connection attempts, helping to 
+  prioritize IPs based on the intensity of activity.
 data_source:
 - Sysmon EventID 3
 search: '| tstats `security_content_summariesonly` count, min(_time) as firstTime,
@@ -23,12 +23,13 @@ search: '| tstats `security_content_summariesonly` count, min(_time) as firstTim
   All_Traffic.user All_Traffic.vendor_product | `drop_dm_object_name("All_Traffic")`  |
   eval duration=lastTime-firstTime  | where count > 10 AND duration < 3600  | `security_content_ctime(firstTime)`  |
   `security_content_ctime(lastTime)`  | `windows_remote_desktop_network_bruteforce_attempt_filter`'
-how_to_implement: You must ensure that your network traffic data is populating the
-  Network_Traffic data model. Adjust the count and duration thresholds as necessary
-  to tune the sensitivity of your detection.
-known_false_positives: RDP gateways may have unusually high amounts of traffic from
-  all other hosts' RDP applications in the network.Any legitimate RDP traffic using
-  wrong/expired credentials will be also detected as a false positive.
+how_to_implement: You must ensure that your network traffic data is populating 
+  the Network_Traffic data model. Adjust the count and duration thresholds as 
+  necessary to tune the sensitivity of your detection.
+known_false_positives: RDP gateways may have unusually high amounts of traffic 
+  from all other hosts' RDP applications in the network.Any legitimate RDP 
+  traffic using wrong/expired credentials will be also detected as a false 
+  positive.
 references:
 - https://www.zscaler.com/blogs/security-research/ransomware-delivered-using-rdp-brute-force-attack
 - https://www.reliaquest.com/blog/rdp-brute-force-attacks/
@@ -60,6 +61,7 @@ tags:
   - SamSam Ransomware
   - Ryuk Ransomware
   - Compromised User Account
+  - Windows RDP Artifacts and Defense Evasion
   asset_type: Endpoint
   mitre_attack_id:
   - T1110.001
@@ -71,6 +73,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/rdp_brute_sysmon/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/rdp_brute_sysmon/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

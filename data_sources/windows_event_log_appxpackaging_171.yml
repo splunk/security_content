@@ -1,0 +1,48 @@
+name: Windows Event Log AppXPackaging 171
+id: 2d0f8e3c-a2d7-4b9e-8f1c-6a5d7e3e9f2b
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+description: |
+  This data source captures Windows Event Logs from the Microsoft-Windows-AppXPackaging/Operational channel, specifically focusing on EventCode 171. These events are generated when a user clicks on or attempts to interact with an MSIX package, even if the package is not fully installed.
+
+  Event ID 171 provides information about user interactions with MSIX packages, including the package full name and the user who initiated the interaction. This data is valuable for security monitoring as it can help identify what MSIX packages users are attempting to open in an environment, which may help detect malicious MSIX packages before they're fully installed.
+
+  MSIX package abuse has been observed in various threat campaigns, including those from FIN7, Zloader (Storm-0569), and FakeBat (Storm-1113). Monitoring these interactions can provide early warning of potential MSIX package abuse.
+source: XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational
+sourcetype: XmlWinEventLog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 9.0.1
+fields:
+- CategoryString
+- Channel
+- Computer
+- EventCode
+- EventData_Xml
+- EventID
+- EventRecordID
+- Keywords
+- Level
+- Opcode
+- ProcessID
+- RecordNumber
+- SourceName
+- SystemTime
+- System_Props_Xml
+- Task
+- TaskCategory
+- ThreadID
+- Version
+- _time
+- dest
+- host
+- packageFullName
+- user_id
+references:
+- https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+- https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
+- https://redcanary.com/blog/msix-installers/
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXPackaging' Guid='{4bfe0fde-99d6-5630-8a47-da7bfaefd876}'/><EventID>171</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x4000000000000000</Keywords><TimeCreated SystemTime='2025-08-05T12:34:56.7890123Z'/><EventRecordID>123456</EventRecordID><Correlation/><Execution ProcessID='1234' ThreadID='5678'/><Channel>Microsoft-Windows-AppXPackaging/Operational</Channel><Computer>DESKTOP-EXAMPLE</Computer><Security UserID='S-1-5-21-1234567890-1234567890-1234567890-1001'/></System><EventData><Data Name='packageFullName'>MaliciousApp_1.0.0.0_x64__abcd1234</Data></EventData></Event>

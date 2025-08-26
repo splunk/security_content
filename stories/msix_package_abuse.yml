@@ -1,0 +1,32 @@
+name: MSIX Package Abuse
+id: 55dad140-eeee-4e48-b7a7-9dc78ba92a49
+version: 1
+status: production
+date: '2025-08-05'
+author: Michael Haag, Splunk
+description: This analytic story addresses the increasing trend of adversaries leveraging MSIX installers to deliver malware. MSIX is Microsoft's latest Windows application package format, designed to improve upon MSI limitations. Since mid-2023, multiple threat actors have been observed abusing MSIX files to deliver various malware payloads, often through malvertising or SEO poisoning campaigns that masquerade as legitimate software installers.
+narrative: |
+  Since July 2023, security researchers have observed a significant rise in malicious MSIX installer usage across multiple threat campaigns. According to Red Canary research, at least three distinct threat clusters have been identified leveraging MSIX packages to deliver malware.
+
+  The FIN7 cluster utilizes MSIX-PackageSupportFramework to create malicious files. When victims open these MSIX packages, the StartingScriptWrapper.ps1 component launches embedded PowerShell scripts that employ process injection to execute POWERTRASH and Carbanak malware, which subsequently deliver NetSupport Manager RAT. Meanwhile, the Zloader cluster employs Advanced Installer to create MSIX files that leverage the legitimate AiStub.exe binary to execute malicious payloads. These payloads, typically named Install.exe, are constructed using compiled Python code with techniques consistent with Zloader/BatLoader. The third identified threat, the FakeBat cluster, also uses Advanced Installer but executes malicious PowerShell scripts via StartingScriptWrapper.ps1. These packages have been observed delivering ArechClient2, Redline stealer, and GHOSTPULSE payloads, with techniques consistent with FakeBat operations.
+
+  Victims are typically lured through malicious advertising or SEO poisoning campaigns, believing they are downloading legitimate software such as Grammarly, Microsoft Teams, Notion, or Zoom. These attacks appear opportunistic rather than targeted, affecting organizations across multiple industries and sectors. The widespread nature of these campaigns highlights the growing popularity of MSIX as an attack vector among threat actors.
+
+  Several key indicators can help identify malicious MSIX packages, including the execution of AI_STUBS components (such as AiStubX64Elevated.exe or AiStubX86Elevated.exe), PowerShell scripts executed from the WindowsApps directory, installation of unsigned packages using the -AllowUnsigned parameter, and the presence of Advanced Installer metadata in the package. These indicators serve as important warning signs for security teams monitoring their environments.
+
+  In response to the increasing abuse of MSIX for malware distribution, Microsoft has twice disabled the ms-appinstaller protocol, first in February 2022 and again in December 2023. However, these protective measures only mitigate remote installation capabilities, not the local execution of downloaded MSIX files, which remains a significant threat vector. This analytic story provides detections for identifying suspicious MSIX package installations and executions that may indicate malicious activity in your environment.
+references:
+- https://redcanary.com/blog/threat-intelligence/msix-installers/
+- https://redcanary.com/threat-detection-report/techniques/installer-packages/
+- https://learn.microsoft.com/en-us/windows/msix/package/unsigned-package
+- https://learn.microsoft.com/en-us/windows/msix/desktop/powershell-msix-cmdlets
+- https://learn.microsoft.com/en-us/powershell/module/appx/add-appxpackage
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve: []
