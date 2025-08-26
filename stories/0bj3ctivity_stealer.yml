@@ -1,0 +1,19 @@
+name: 0bj3ctivity Stealer
+id: 467ee9e6-6f84-424b-89d8-49a03581a4a9
+version: 3
+date: '2025-08-22'
+author: Teoderick Contreras, Splunk
+status: production
+description: ObjectivyStealer is an information-stealing malware designed to extract sensitive data from infected endpoints. It commonly targets web browsers, messaging applications, cryptocurrency wallets, and local system files to gather stored credentials, cookies, autofill data, and session tokens. The malware often arrives via phishing emails, malicious attachments, cracked software, or drive-by downloads. Upon execution, ObjectivyStealer attempts to evade detection by operating from user profile or temporary directories and leveraging obfuscation to disguise its activity. Persistence is typically established through registry run keys or scheduled tasks, ensuring it remains active after system reboots. Detection is primarily achieved through endpoint monitoring of abnormal process behaviors, including unauthorized access to browser storage files, creation of unusual persistence artifacts, and suspicious outbound network connections. Analysts may also identify compressed or encrypted data being exfiltrated to remote command-and-control (C2) infrastructure. Timely detection is critical, as successful infections can result in credential theft, financial fraud, or additional malware deployment.
+narrative: During analysis, 0bj3ctivityStealer was observed executing from a user profile directory, indicating likely delivery via a phishing attachment or trojanized software. Once active, the malware began enumerating system information and targeting browser credential stores, extracting cookies, saved passwords, and session tokens. Telemetry revealed unauthorized access attempts to directories belonging to Chrome and Edge, followed by data compression and encryption routines. Network monitoring detected abnormal HTTPS POST requests containing encoded payloads destined for a known 0bj3ctivityStealer command-and-control server. Persistence was established through registry modifications, ensuring execution on system reboot. The malware continued to operate silently, exfiltrating harvested data at regular intervals. Correlation with threat intelligence confirmed the activity matched 0bj3ctivityStealer campaigns seen in underground marketplaces, where stolen data is often sold or leveraged for further compromise. Without intervention, this activity would likely lead to unauthorized account access, financial theft, and potential secondary infections from additional malware dropped post-exfiltration.
+references:
+- https://www.trellix.com/blogs/research/a-deep-dive-into-obj3ctivitystealers-features/
+- https://www.esentire.com/blog/ande-loader-leads-to-0bj3ctivity-stealer-infection
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

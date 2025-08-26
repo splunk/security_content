@@ -1,17 +1,18 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 14
-date: '2025-08-07'
+version: 15
+date: '2025-08-22'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the use of `cmd.exe /c` to execute commands,
-  a technique often employed by adversaries and malware to run batch commands or invoke
-  other shells like PowerShell. This detection leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on command-line executions and process metadata.
-  Monitoring this activity is crucial as it can indicate script-based attacks or unauthorized
-  command execution. If confirmed malicious, this behavior could lead to unauthorized
-  code execution, privilege escalation, or persistence within the environment.
+description: The following analytic detects the use of `cmd.exe /c` to execute 
+  commands, a technique often employed by adversaries and malware to run batch 
+  commands or invoke other shells like PowerShell. This detection leverages data
+  from Endpoint Detection and Response (EDR) agents, focusing on command-line 
+  executions and process metadata. Monitoring this activity is crucial as it can
+  indicate script-based attacks or unauthorized command execution. If confirmed 
+  malicious, this behavior could lead to unauthorized code execution, privilege 
+  escalation, or persistence within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -25,17 +26,18 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
   Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cmd_carry_out_string_command_parameter_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be high based on legitimate scripted code
-  in any environment. Filter as needed.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: False positives may be high based on legitimate scripted 
+  code in any environment. Filter as needed.
 references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -65,6 +67,7 @@ tags:
   - RedLine Stealer
   - Log4Shell CVE-2021-44228
   - Interlock Rat
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   cve:
   - CVE-2021-44228
@@ -78,6 +81,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/cmd_carry_str_param/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
