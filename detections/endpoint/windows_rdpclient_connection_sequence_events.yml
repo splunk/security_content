@@ -1,7 +1,7 @@
 name: Windows RDPClient Connection Sequence Events
 id: 67340df1-3f1d-4470-93c8-9ac7249d11b0
-version: 4
-date: '2025-07-28'
+version: 5
+date: '2025-08-07'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
@@ -58,7 +58,7 @@ rba:
 tags:
   analytic_story:
   - Spearphishing Attachments
-  - Interlock Ransomware
+  - Windows RDP Artifacts and Defense Evasion
   asset_type: Endpoint
   mitre_attack_id:
   - T1133

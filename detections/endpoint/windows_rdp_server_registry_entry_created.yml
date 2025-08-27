@@ -1,0 +1,64 @@
+name: Windows RDP Server Registry Entry Created
+id: 61f10919-c360-4e56-9cda-f1f34500cfda
+version: 1
+date: '2025-07-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This detection identifies the creation of registry keys under HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers\, which occur when a user initiates a Remote Desktop Protocol (RDP) connection using the built-in Windows RDP client (mstsc.exe). These registry entries store information about previously connected remote hosts, including usernames and display settings. Their creation is a strong indicator that an outbound RDP session was initiated from the system. While the presence of these keys is normal during legitimate RDP use, their appearance can be used to track remote access activity, especially in environments where RDP is tightly controlled. In post-compromise scenarios, these artifacts may be created by threat actors using RDP for lateral movement or command-and-control. Monitoring the creation of these registry entries can help defenders detect initial use of RDP from a compromised host, particularly when correlated with unusual user behavior, logon patterns, or network activity.
+data_source:
+- Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path="*\\Microsoft\\Terminal Server Client\\Servers\\*" Registry.action != deleted
+  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` 
+  | `windows_rdp_server_registry_entry_created_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: False positives will be present, filter as needed or restrict
+  to critical assets on the perimeter.
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Risk Message goes here
+  risk_objects:
+  - field: dest
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Windows RDP Artifacts and Defense Evasion
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1021.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/terminal_server_reg_created/terminal_sever_client_Reg_created.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

@@ -1,0 +1,40 @@
+name: Windows MSIX Package Interaction
+id: 1a06689d-814e-4db2-b2c7-5a174f8c2d6d
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: This hunting query detects user interactions with MSIX packages by monitoring EventCode 171 in the Microsoft-Windows-AppXPackaging/Operational logs. These events are generated when a user clicks on or attempts to interact with an MSIX package, even if the package is not fully installed. This information can be valuable for security teams to identify what MSIX packages users are attempting to open in their environment, which may help detect malicious MSIX packages before they're fully installed. Monitoring these interactions can provide early warning of potential MSIX package abuse, which has been leveraged by threat actors such as FIN7, Zloader (Storm-0569), and FakeBat (Storm-1113).
+data_source:
+- Windows Event Log AppXPackaging 171
+search: '`wineventlog_appxpackaging` EventCode=171
+  | stats count min(_time) as firstTime max(_time) as lastTime values(packageFullName) as packageFullName values(user_id) as user_id by host EventCode
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_msix_package_interaction_filter`'
+how_to_implement: To implement this detection, you need to be collecting Windows Event logs from the Microsoft-Windows-AppXPackaging/Operational channel. In Splunk, this typically requires the Windows TA and configuration to collect from this specific channel. Ensure your Windows event collection is properly configured to capture EventCode 171 from the Microsoft-Windows-AppXPackaging/Operational log. This query is designed as a hunting query to help identify MSIX package interactions across your environment.
+known_false_positives: This hunting query will detect legitimate MSIX package interactions from normal users. It is not designed to specifically identify malicious activity but rather to provide visibility into all MSIX package interactions. Security teams should review the results and look for unusual patterns, unexpected packages, or suspicious file paths.
+references:
+- https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
+- https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+- https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
+- https://redcanary.com/blog/msix-installers/
+tags:
+  analytic_story:
+  - MSIX Package Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1204.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows-appxpackaging.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-AppxPackaging/Operational

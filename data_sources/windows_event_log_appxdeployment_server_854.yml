@@ -1,0 +1,55 @@
+name: Windows Event Log AppXDeployment-Server 854
+id: 4d2e6f8a-c9b7-5a3e-8d1f-2e9c7b5a4f3d
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+description: |
+  This data source captures Windows Event Logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel, specifically focusing on EventCode 854. These events are generated when an MSIX/AppX package has been successfully installed on a system.
+
+  Event ID 854 provides information about successful package installations, including the path to the installed package and the user who performed the installation. This data is valuable for security monitoring as it can help identify unauthorized or suspicious package installations.
+
+  While most package installations are legitimate, monitoring these events can help identify potentially malicious activity, especially when correlated with other events such as unsigned package installations (EventID 603 with Flags=8388608) or full trust package installations (EventID 400 with HasFullTrust=true).
+source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
+sourcetype: XmlWinEventLog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 9.0.1
+fields:
+- CategoryString
+- Channel
+- Computer
+- EventCode
+- EventData_Xml
+- EventID
+- EventRecordID
+- Keywords
+- Level
+- Opcode
+- Path
+- ProcessID
+- RecordNumber
+- SourceName
+- SystemTime
+- System_Props_Xml
+- Task
+- TaskCategory
+- ThreadID
+- Version
+- _time
+- dest
+- host
+- user_id
+output_fields:
+- _time
+- dest
+- dvc
+- EventCode
+- Path
+- user_id
+references:
+- https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+- https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
+- https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXDeploymentServer' Guid='{8127f6d4-59f9-4abf-8952-3e3a02073d5f}'/><EventID>854</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x4000000000000000</Keywords><TimeCreated SystemTime='2025-08-05T12:34:56.7890123Z'/><EventRecordID>123456</EventRecordID><Correlation/><Execution ProcessID='1234' ThreadID='5678'/><Channel>Microsoft-Windows-AppXDeploymentServer/Operational</Channel><Computer>DESKTOP-EXAMPLE</Computer><Security UserID='S-1-5-21-1234567890-1234567890-1234567890-1001'/></System><EventData><Data Name='Path'>C:\Users\User\Downloads\App.msix</Data></EventData></Event>

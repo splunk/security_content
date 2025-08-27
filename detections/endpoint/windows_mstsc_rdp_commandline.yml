@@ -1,36 +1,40 @@
 name: Windows MSTSC RDP Commandline
 id: 3718549b-867e-4084-b770-790e8dab6ab8
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-08-01'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the mstsc.exe command-line, which is commonly used to initiate Remote Desktop Protocol (RDP) connections. This detection focuses on instances where mstsc.exe is executed with specific parameters that may indicate suspicious or unauthorized remote access attempts. Monitoring command-line arguments such as /v:<target> for direct connections or /admin for administrative sessions can help identify potential misuse or lateral movement within a network.
+description: The following analytic detects the use of the mstsc.exe 
+  command-line, which is commonly used to initiate Remote Desktop Protocol (RDP)
+  connections. This detection focuses on instances where mstsc.exe is executed 
+  with specific parameters that may indicate suspicious or unauthorized remote 
+  access attempts. Monitoring command-line arguments such as /v:<target> for 
+  direct connections or /admin for administrative sessions can help identify 
+  potential misuse or lateral movement within a network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where Processes.process_name = "mstsc.exe" Processes.process = "*/v:*" 
-  by Processes.action
-  Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `windows_mstsc_rdp_commandline_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name = "mstsc.exe"
+  Processes.process = "*/v:*" by Processes.action Processes.dest Processes.original_file_name
+  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mstsc_rdp_commandline_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
 known_false_positives: administrator may remote desktop a spe
 references:
 - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
@@ -60,6 +64,7 @@ rba:
 tags:
   analytic_story:
   - Medusa Ransomware
+  - Windows RDP Artifacts and Defense Evasion
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.001
@@ -71,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/mstsc_rdp_cmd/mstsc_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/mstsc_rdp_cmd/mstsc_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

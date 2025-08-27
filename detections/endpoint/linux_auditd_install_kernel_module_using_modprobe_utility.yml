@@ -1,7 +1,7 @@
 name: Linux Auditd Install Kernel Module Using Modprobe Utility
 id: 95165985-ace5-4d42-9c42-93a89a5af901
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-08-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -64,6 +64,7 @@ tags:
   - Linux Rootkit
   - Linux Persistence Techniques
   - Compromised Linux Host
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.006

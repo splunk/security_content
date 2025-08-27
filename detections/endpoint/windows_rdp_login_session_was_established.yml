@@ -1,0 +1,62 @@
+name: Windows RDP Login Session Was Established
+id: 00ca7f9e-88ab-4841-a6c2-83979ab1ed29
+version: 1
+date: '2025-07-31'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects instances where a successful Remote Desktop Protocol (RDP) login session was established, as indicated by Windows Security Event ID 4624 with Logon Type 10. This event confirms that a user has not only provided valid credentials but has also initiated a full interactive RDP session. It is a key indicator of successful remote access to a Windows system. When correlated with Event ID 1149, which logs RDP authentication success, this analytic helps distinguish between mere credential acceptance and actual session establishment—critical for effective monitoring and threat detection.
+data_source:
+- Windows Event Log Security 4624
+search: '`wineventlog_security`  EventCode=4624 Logon_Type=10 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by action app authentication_method dest dvc process process_id process_name process_path signature signature_id src src_port status subject user user_group vendor_product Logon_Type
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_rdp_login_session_was_established_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Event Logs from domain controllers as well as member servers and workstations.
+  The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs
+  to be enabled.
+known_false_positives: This detection can catch for third party application updates or installation. In this scenario false positive filter is needed.
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: RDP Login Session was established on $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 20
+  threat_objects: []
+tags:
+  analytic_story:
+  - Windows RDP Artifacts and Defense Evasion
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1021.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.001/rdp_session_established/4624_10_logon.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog
