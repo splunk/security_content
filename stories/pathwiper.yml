@@ -1,0 +1,20 @@
+name: PathWiper
+id: 06abba56-d327-4ec6-9175-abc0a92d2b9c
+version: 1
+date: '2025-08-20'
+author: Teoderick ContrerasSplunk
+status: production
+description: This analytic story identifies activity linked to PathWiper, a destructive malware that targeted organizations in Ukraine. The attack typically begins with the execution of a malicious VBScript (e.g., uacinstall.vbs) delivered through a legitimate remote management tool. The script drops and launches a disguised payload such as sha256sum.exe. Once active, PathWiper enumerates local drives, volumes, and even disconnected network shares. It then attempts to dismount volumes and overwrites critical NTFS structures and boot sector, with random data, leaving the system unbootable and data irrecoverable. 
+narrative: PathWiper is a destructive malware campaign that surfaced during the conflict in Ukraine, designed with a single purpose, to render systems unusable. The operation begins quietly, leveraging a legitimate remote administration tool to deliver a malicious script (uacinstall.vbs). This script then drops and executes a disguised binary such as sha256sum.exe, masking its true intent. Once triggered, PathWiper systematically scans all available storage, including local drives, connected volumes, and even offline network shares. It dismounts volumes to bypass file locks and launches parallel threads to overwrite the very foundations of the NTFS file system—the master boot record, file table, logs, and boot sector. By corrupting these core structures with random data, PathWiper ensures that recovery is nearly impossible. Unlike earlier wipers, which indiscriminately destroyed data, PathWiper demonstrates a more deliberate approach, validating storage labels before carrying out its attack. This precision suggests a sophisticated adversary with both access and intent to maximize disruption. The campaign highlights how destructive malware can masquerade behind legitimate tools, evade casual detection, and inflict lasting operational damage on its targets.
+references:
+- https://blog.talosintelligence.com/pathwiper-targets-ukraine/
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
