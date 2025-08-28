@@ -17,7 +17,7 @@ search: '`linux_auditd` type=Path name="/proc/sysrq-trigger" OR name="/proc/sys/
   | stats count min(_time) as firstTime max(_time) as lastTime by dest name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `linux_macro_sysrq_abuse_filter`'
+  | `linux_magic_sysrq_key_abuse_filter`'
 how_to_implement: |
   To implement this detection, ensure auditd is configured to watch:
     - /proc/sysrq-trigger
