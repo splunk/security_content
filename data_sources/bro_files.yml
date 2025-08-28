@@ -17,4 +17,4 @@ sourcetype: bro:files:json
 supported_TA:
 - name: TA for Zeek
   url: https://splunkbase.splunk.com/app/5466
-  version: 1.0.10
+  version: 1.0.11

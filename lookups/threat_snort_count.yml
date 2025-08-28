@@ -1,6 +1,6 @@
 name: threat_snort_count
-date: 2025-05-13
-version: 1
+date: 2025-08-21
+version: 2
 id: 48a35e07-ed5f-42f9-a5da-b7f2ab892e3c
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 lookup_type: csv

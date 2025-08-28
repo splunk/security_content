@@ -39,7 +39,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Unsigned MSIX/AppX package $Path$ installation attempted on $dest$ by user $user_id$ using $CallingProcess$
+  message: Unsigned MSIX/AppX package $file_name$ installation attempted on $dest$ by user $user_id$ using $CallingProcess$
   risk_objects:
   - field: dest
     type: system

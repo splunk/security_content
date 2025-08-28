@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 2  
-date: '2025-07-03'
+version: 3  
+date: '2025-08-21'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ description: |
   events that occur in close temporal proximity.
 
   Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
-
+  * Static Tundra
   * AgentTesla
   * Amadey
   * AsyncRAT
@@ -55,6 +55,7 @@ how_to_implement: |
 known_false_positives: False positives may occur due to legitimate security testing or research activities.
 references:
   - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
+  - https://blog.talosintelligence.com/static-tundra/
 drilldown_searches:
 - name: View the detection results for - "$dest_ip$"
   search: '%original_detection_search% | search  dest_ip = "$dest_ip$"'
