@@ -1,15 +1,15 @@
 name: Windows SQL Server Critical Procedures Enabled
 id: d0434864-b043-41e3-8c08-30e53605e9cb
-version: 2
-date: '2025-05-02'
-author: Michael Haag, Splunk
+version: 3
+date: '2025-08-27'
+author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
 description: This detection identifies when critical SQL Server configuration options are modified, including "Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", and "clr strict security". These features can be abused by attackers for various malicious purposes - Ad Hoc Distributed Queries enables Active Directory reconnaissance through ADSI provider, external scripts and Ole Automation allow execution of arbitrary code, and CLR features can be used to run custom assemblies. Enabling these features could indicate attempts to gain code execution or perform reconnaissance through SQL Server.
 data_source:
 - Windows Event Log Application 15457
 search: '`wineventlog_application` EventCode=15457 
-  | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data>"
+  | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
   | where config_name IN ("Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", "clr strict security")
   | rename host as dest
   | eval change_type=case(
@@ -71,7 +71,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-  manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
 tests:
 - name: True Positive Test
   attack_data:
