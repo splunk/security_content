@@ -5,12 +5,14 @@ date: '2025-08-22'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: The SpeechRuntimeMove attack allows a user to run code on another user's session remotely and 
-  stealthily. It works by exploiting a Windows COM class called the "Speech Named Pipe COM". When this class 
+description: SpeechRuntime is vulnerable to an attack that allows a user to run code on another user's 
+  session remotely and stealthily by exploiting a Windows COM class. When this class 
   is invoked, it launches SpeechRuntime.exe in the context of the currently logged-on user. Because this 
   COM class is susceptible to COM Hijacking, the attacker can alter the registry remotely to point to a 
   malicious DLL. By dropping that DLL on the target system (e.g., via SMB) and triggering the COM object, 
-  the attacker causes the malicious DLL to load into SpeechRuntime.exe—executing under the user's context.
+  the attacker causes the malicious DLL to load into SpeechRuntime.exe and executing under the user's context. 
+  This detection identifies suspicious child processes of SpeechRuntime.exe that could indicate abuse 
+  of this vulnerability.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
