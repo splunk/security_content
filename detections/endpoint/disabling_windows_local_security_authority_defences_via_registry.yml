@@ -1,8 +1,8 @@
 name: Disabling Windows Local Security Authority Defences via Registry
 id: 45cd08f8-a2c9-4f4e-baab-e1a0c624b0ab
-version: 7
-date: '2025-05-02'
-author: Dean Luxton
+version: 8
+date: '2025-08-20'
+author: Dean Luxton,Teoderick Contreras Splunk
 status: production
 type: TTP
 data_source:
@@ -16,13 +16,15 @@ description: The following analytic identifies the deletion of registry keys tha
   If confirmed malicious, this action could allow attackers to bypass critical security
   mechanisms, leading to potential system compromise and persistent access.
 search: '| tstats `security_content_summariesonly` min(_time) as _time from datamodel=Endpoint.Registry
-  where Registry.registry_path IN ("*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\LsaCfgFlags",
-  "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\*", "*\\SYSTEM\\CurrentControlSet\\Control\\Lsa\\RunAsPPL")
-  Registry.action IN (deleted, unknown) by Registry.action Registry.dest Registry.process_guid
+  where Registry.registry_path IN ("*\\Lsa\\LsaCfgFlags", "*\\Lsa\\RunAsPPL", "*\\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\*") 
+  AND ((Registry.action = deleted) 
+  OR (Registry.action = modified AND Registry.registry_value_data IN(0x00000000, 0)))
+  by Registry.action Registry.dest Registry.process_guid
   Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
   Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
   Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_windows_local_security_authority_defences_via_registry_filter`'
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `disabling_windows_local_security_authority_defences_via_registry_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -77,6 +79,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/disable_lsa_protection/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/disable_lsa_protection_new/lsa_reg_deletion_modification.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
