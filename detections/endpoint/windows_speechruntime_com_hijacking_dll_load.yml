@@ -1,0 +1,69 @@
+name: Windows SpeechRuntime COM Hijacking DLL Load
+id: bd35738c-e93a-4e4f-be24-f6a3680b950a
+version: 1
+date: '2025-08-22'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: SpeechRuntime is vulnerable to an attack that allows a user to run code on another user's 
+  session remotely and stealthily by exploiting a Windows COM class. When this class 
+  is invoked, it launches SpeechRuntime.exe in the context of the currently logged-on user. Because this 
+  COM class is susceptible to COM Hijacking, the attacker can alter the registry remotely to point to a 
+  malicious DLL. By dropping that DLL on the target system (e.g., via SMB) and triggering the COM object, 
+  the attacker causes the malicious DLL to load into SpeechRuntime.exe and executing under the user's context. This
+  detection identifies suspicious DLL loads by SpeechRuntime.exe from outside the expected locations.
+data_source:
+- Sysmon EventID 7
+search: '`sysmon` EventCode=7 Image="*SpeechRuntime.exe" | eval image_loaded_lower = lower(ImageLoaded) 
+  | search NOT image_loaded_lower="*system32*" | fillnull | stats count min(_time) as firstTime
+  max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name 
+  parent_process_name parent_process_guid
+  process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
+  service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `windows_speechruntime_com_hijacking_dll_load_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Also be sure to include those monitored dll to your own sysmon config.
+known_false_positives: This process should normally never be loading dlls from outside the Windows system directory.
+references:
+- https://github.com/rtecCyberSec/SpeechRuntimeMove
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Possible Lateral Movement abusing Speech Runtime on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 55
+  threat_objects: []
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - Compromised Windows Host
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1021.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement_speechruntime/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
