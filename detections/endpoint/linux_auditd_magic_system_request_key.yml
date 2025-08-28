@@ -17,7 +17,7 @@ search: '`linux_auditd` type=Path name="/proc/sysrq-trigger" OR name="/proc/sys/
   | stats count min(_time) as firstTime max(_time) as lastTime by dest name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `linux_auditd_sysrq_abuse_filter`'
+  | `linux_macro_sysrq_abuse_filter`'
 how_to_implement: |
   To implement this detection, ensure auditd is configured to watch:
     - /proc/sysrq-trigger
@@ -26,9 +26,8 @@ how_to_implement: |
   with write and attribute changes (`-p wa`) and key `sysrq`.
   Use the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.
   This enables effective monitoring of Linux endpoints for SysRq abuse.
-known_false_positives:
-  - Legitimate administrative activity modifying SysRq for debugging or recovery.
-  - Please update the filter macros to remove false positives.
+known_false_positives: Legitimate administrative activity modifying SysRq for debugging or recovery.
+  Please update the filter macros to remove false positives.
 references:
   - https://www.kernel.org/doc/html/v4.10/_sources/admin-guide/sysrq.txt
   - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/reference_guide/s3-proc-sys-kernel
@@ -50,7 +49,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: A [$comm$] event was occurred on host - [$dest$] Used the Linux Magic SysRq mechanism.
+  message: Abuse of the Linux Magic System Request key detected on host - [$dest$]
   risk_objects:
     - field: dest
       type: system
