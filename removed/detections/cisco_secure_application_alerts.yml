@@ -3,7 +3,7 @@ id: 9982bff4-fc5d-49a3-ab9e-2dbbab2a711b
 version: 3
 date: '2025-08-04'
 author: Ryan Long, Bhavin Patel, Splunk
-status: deprecated
+status: removed
 type: Anomaly
 description: |
   The following analytic is to leverage alerts from Cisco SecureApp, which identifies and monitors exploit attempts targeting business applications. The primary attack observed involves exploiting vulnerabilities in web applications, including injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution attempts, LOG4J and zero day attacks. These attacks are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
