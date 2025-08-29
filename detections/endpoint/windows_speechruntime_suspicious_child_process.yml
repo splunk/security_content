@@ -1,0 +1,75 @@
+name: Windows SpeechRuntime Suspicious Child Process
+id: f7bb956f-b956-42a5-8c2c-ff9cdbbf7526
+version: 1
+date: '2025-08-22'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: SpeechRuntime is vulnerable to an attack that allows a user to run code on another user's 
+  session remotely and stealthily by exploiting a Windows COM class. When this class 
+  is invoked, it launches SpeechRuntime.exe in the context of the currently logged-on user. Because this 
+  COM class is susceptible to COM Hijacking, the attacker can alter the registry remotely to point to a 
+  malicious DLL. By dropping that DLL on the target system (e.g., via SMB) and triggering the COM object, 
+  the attacker causes the malicious DLL to load into SpeechRuntime.exe and executing under the user's context. 
+  This detection identifies suspicious child processes of SpeechRuntime.exe that could indicate abuse 
+  of this vulnerability.
+data_source:
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+  from datamodel=Endpoint.Processes where (Processes.parent_process_name="*SpeechRuntime.exe*")
+  Processes.process IN ("*cmd.exe*","*powershell.exe*","*rundll32.exe*","*bitsadmin.exe*","*wmic.exe*","*cscript.exe*")
+  by Processes.dest Processes.user Processes.original_file_name Processes.parent_process Processes.process_name Processes.process 
+  Processes.process_id Processes.parent_process_id Processes.parent_process_name action parent_process_exec 
+  parent_process_guid parent_process_path process_exec process_guid process_hash process_integrity_level 
+  process_path user_id vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`| `windows_speechruntime_suspicious_child_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: This process should normally never be spawning these child processes.
+references:
+- https://github.com/rtecCyberSec/SpeechRuntimeMove
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Possible Lateral Movement on $dest$ by abusing SpeechRuntime.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 65
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+tags:
+  analytic_story:
+  - Active Directory Lateral Movement
+  - Compromised Windows Host
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1021.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021.003/lateral_movement_speechruntime/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
