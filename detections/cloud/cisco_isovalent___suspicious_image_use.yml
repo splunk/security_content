@@ -6,17 +6,29 @@ author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: |
-  Detects use of container images that are not in an approved allowlist by leveraging
-  Cisco Isovalent/Tetragon runtime telemetry. This may indicate deployment of unvetted
-  or malicious software, image pull from untrusted registries, or supply‑chain abuse.
+  The following analytic detects use of container images that fall outside an approved
+  allowlist, leveraging Cisco Isovalent/Tetragon runtime telemetry (image name and
+  workload identity). Adversaries commonly introduce untrusted or newly published
+  images to deploy tooling, establish persistence, or abuse supply‑chain trust. This
+  behavior may indicate image pulls from unauthorized registries, execution of
+  unvetted software, or a drift from established deployment baselines. Extra scrutiny
+  is warranted for namespaces and workloads that normally source images from restricted
+  registries, and for pods that suddenly begin running images outside expected
+  prefixes.
+
+  Maintain an environment‑specific allowlist via the macro `cisco_isovalent_allowed_images`
+  (for example, allow trusted registries/prefixes such as ImageName="gcr.io/org/*",
+  "registry.local/*", or "myco/*") and keep it updated as new baseline images are
+  introduced. This analytic alerts on images NOT matching the allowlist.
 data_source:
 - Cisco Isovalent Process Exec
 search: |
-  `cisco_isovalent` process_exec.process.pod.name!=""
-  | eval ImageName=process_exec.process.pod.container.image.name
-  | eval Namespace=process_exec.process.pod.namespace, PodName=process_exec.process.pod.name
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
+  | rename process_exec.process.pod.container.image.name as ImageName
+  | rename process_exec.process.pod.namespace as Namespace
+  | rename process_exec.process.pod.name as pod_name
   | search NOT `cisco_isovalent_allowed_images`
-  | stats count min(_time) as firstTime max(_time) as lastTime by ImageName Namespace PodName process_exec.process.binary
+  | stats count min(_time) as firstTime max(_time) as lastTime by ImageName Namespace pod_name process_name cluster_name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___suspicious_image_use_filter`
@@ -33,19 +45,26 @@ references:
 - https://tetragon.io
 - https://isovalent.com
 drilldown_searches:
-- name: View results for image - "$ImageName$"
-  search: '%original_detection_search% | search ImageName = "$ImageName$"'
+- name: View the detection results for - "$pod_name$"
+  search: '%original_detection_search% | search user = "$pod_name$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$pod_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Suspicious (non‑allowlisted) image $ImageName$ used by pod $PodName$ in namespace $Namespace$
+  message: Suspicious (non‑allowlisted) image $ImageName$ used by pod $pod_name$ in namespace $Namespace$ in the cluster $cluster_name$
   risk_objects:
-  - field: ImageName
-    type: image
+  - field: pod_name
+    type: system
     score: 45
-  threat_objects:
-  - field: PodName
-    type: pod
+  threat_objects: []
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity

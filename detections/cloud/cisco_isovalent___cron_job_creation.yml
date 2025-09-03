@@ -25,12 +25,12 @@ references:
 - https://isovalent.com
 - https://tetragon.io
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
+- name: View the detection results for - "$pod_name$"
+  search: '%original_detection_search% | search user = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+- name: View risk events for the last 7 days for - "$pod_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
     as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -39,9 +39,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Cisco Isovalent cron job creation detected in namespace $cluster_name$
+  message: cron job creation detected in pod $pod_name$ in the cluster $cluster_name$
   risk_objects:
-  - field: cluster_name
+  - field: pod_name
     type: system
     score: 50
   threat_objects: []

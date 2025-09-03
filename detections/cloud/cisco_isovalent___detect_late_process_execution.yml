@@ -14,14 +14,14 @@ description: |
   launched more than 5 minutes (300 seconds) after initialization.
 search: |
   `cisco_isovalent_process_exec` process_name="/bin/sh"
-  | rename process_exec.process.pod.container.name as ContainerName 
+  | rename process_exec.process.pod.container.name as pod_name 
   | rename process_exec.process.start_time as ProcessStartTime 
   | rename process_exec.process.pod.container.start_time as ContainerStartTime 
   | eval ProcessStartTime=strptime(ProcessStartTime, "%Y-%m-%dT%H:%M:%S.%3Q")
   | eval ContainerStartTime=strptime(ContainerStartTime, "%Y-%m-%dT%H:%M:%S.%9Q")
   | eval ContainerTime5min=relative_time(ContainerStartTime, "+1m")
   | where ProcessStartTime > ContainerTime5min
-  | table ContainerName, process_name, ProcessStartTime, ContainerTime5min | `security_content_ctime(ProcessStartTime)`
+  | table pod_name, process_name, ProcessStartTime, ContainerTime5min | `security_content_ctime(ProcessStartTime)`
     | `security_content_ctime(ContainerTime5min)`
   | `cisco_isovalent___detect_late_process_execution_filter`
 how_to_implement: |
@@ -33,12 +33,12 @@ known_false_positives: |
 references:
 - https://docs.isovalent.com/user-guide/sec-ops-visibility/process-execution/index.html
 drilldown_searches:
-- name: View the detection results for pod - "$ContainerName$"
-  search: '%original_detection_search% | search ContainerName = "$ContainerName$"'
+- name: View the detection results for pod - "$pod_name$"
+  search: '%original_detection_search% | search pod_name = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+- name: View risk events for the last 7 days for - "$pod_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
     as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -47,9 +47,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Late process execution ($process_name$) detected in pod $ContainerName$
+  message: Late process execution ($process_name$) detected in pod $pod_name$
   risk_objects:
-  - field: ContainerName
+  - field: pod_name
     type: system
     score: 45
   threat_objects: []

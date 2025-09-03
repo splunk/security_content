@@ -11,23 +11,24 @@ description: The following analytic detects the execution of a shell inside a co
 search: |
   `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
   (process_exec.process.binary="*/bin/sh" OR process_exec.process.binary="*/bin/bash")
+  | rename process_exec.process.pod.container.name as pod_name 
   | rename process_exec.process.pod.namespace as WorkloadNamespace 
   | rename process_exec.process.pod.labels{} as WorkloadLabels
   | rename process_exec.ancestors{}.binary as WorkloadAncestorsBinary
   | eval WorkloadAncestorsBinary=mvjoin(WorkloadAncestorsBinary, " <- ")
   | eval WorkloadLabels=mvjoin(WorkloadLabels, "; ") 
-  | stats count by WorkloadNamespace, process_exec.process.binary, process_exec.parent.binary, WorkloadAncestorsBinary | `cisco_isovalent___detect_shell_execution_filter`
+  | stats count by pod_name WorkloadNamespace, process_exec.process.binary, process_exec.parent.binary, WorkloadAncestorsBinary | `cisco_isovalent___detect_shell_execution_filter`
 how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: Shell scripts executed by legitimate users or automated processes.
 references:
 - https://www.sysdig.com/blog/mitre-attck-framework-for-container-runtime-security-with-sysdig-falco
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
+- name: View the detection results for - "$pod_name$"
+  search: '%original_detection_search% | search pod_name = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+- name: View risk events for the last 7 days for - "$pod_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
     as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -36,9 +37,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A shell execution has been detected by user on container pod namespace $WorkloadNamespace$
+  message: A shell execution has been detected by user on container pod namespace $pod_name$
   risk_objects:
-  - field: WorkloadNamespace
+  - field: pod_name
     type: system
     score: 49
   threat_objects: []
