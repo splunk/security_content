@@ -1,15 +1,15 @@
 name: Windows SQL Server xp_cmdshell Config Change
 id: 5eb76fe2-a869-4865-8c4c-8cff424b18b1
-version: 4
-date: '2025-05-02'
-author: Michael Haag, Splunk
+version: 5
+date: '2025-08-27'
+author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
 description: This detection identifies when the xp_cmdshell configuration is modified in SQL Server. The xp_cmdshell extended stored procedure allows execution of operating system commands and programs from SQL Server, making it a high-risk feature commonly abused by attackers for privilege escalation and lateral movement.
 data_source:
 - Windows Event Log Application 15457
 search: '`wineventlog_application` EventCode=15457 
-    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data>"
+    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
     | rename host as dest
     | where config_name="xp_cmdshell"
     | eval change_type=case(
@@ -48,7 +48,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View all SQL Server configuration changes on this host in the last 7 days
-  search: '`wineventlog_application` EventCode=15457 host="$dest$" | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data>" | stats count values(config_name) as "Changed Settings" values(new_value) as "New Values" by _time dest'
+  search: '`wineventlog_application` EventCode=15457 host="$dest$" | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>" | stats count values(config_name) as "Changed Settings" values(new_value) as "New Values" by _time dest'
   earliest_offset: -7d
   latest_offset: now
 rba:
