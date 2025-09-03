@@ -10,7 +10,7 @@ data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode=22 process_name="python.exe" QueryName= "router.huggingface.co"
   | stats count min(_time) as firstTime max(_time) as lastTime 
-  by answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id
+  by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id
   vendor_product QueryName QueryResults QueryStatus 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
@@ -36,9 +36,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: a process $process_name$ made a DNS query for $query$ from host $dvc$.
+  message: a process $process_name$ made a DNS query for $query$ from host $dest$.
   risk_objects:
-  - field: dvc
+  - field: dest
     type: system
     score: 15
   threat_objects:
