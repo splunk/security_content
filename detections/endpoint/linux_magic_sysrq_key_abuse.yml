@@ -1,0 +1,78 @@
+name: Linux Magic SysRq Key Abuse
+id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
+version: 1
+date: '2025-08-28'
+author: Milad Cheraghi
+status: production
+type: TTP
+description: |
+  Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries
+  with root or sufficient privileges to manipulate or destabilize a system.
+  Writing to /proc/sysrq-trigger can crash the system, kill processes, or bypass standard logging.
+  Monitoring SysRq abuse helps detect stealthy post-exploitation activity.
+data_source:
+  - Linux Auditd Path
+search: '`linux_auditd` type=Path name="/proc/sysrq-trigger" OR name="/proc/sys/kernel/sysrq" OR name="/etc/sysctl.conf"
+  | rename host as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest name
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_magic_sysrq_key_abuse_filter`'
+how_to_implement: |
+  To implement this detection, ensure auditd is configured to watch:
+    - /proc/sysrq-trigger
+    - /proc/sys/kernel/sysrq
+    - /etc/sysctl.conf
+  with write and attribute changes (`-p wa`) and key `sysrq`.
+  Use the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.
+  This enables effective monitoring of Linux endpoints for SysRq abuse.
+known_false_positives: Legitimate administrative activity modifying SysRq for debugging or recovery.
+  Please update the filter macros to remove false positives.
+references:
+  - https://www.kernel.org/doc/html/v4.10/_sources/admin-guide/sysrq.txt
+  - https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/4/html/reference_guide/s3-proc-sys-kernel
+  - https://www.splunk.com/en_us/blog/security/threat-update-awfulshred-script-wiper.html
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search dest="$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168
+      | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name"
+        values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories"
+        values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+        as "ATT&CK Tactics" by normalized_risk_object
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Abuse of the Linux Magic System Request key detected on host - [$dest$]
+  risk_objects:
+    - field: dest
+      type: system
+      score: 70
+  threat_objects: []
+tags:
+  analytic_story:
+    - Compromised Linux Host
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1059.004
+    - T1529
+    - T1489
+    - T1499
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data:
+          https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/linux_sysrq_abuse/linux_sysrq_abuse.log
+        source: auditd
+        sourcetype: auditd
