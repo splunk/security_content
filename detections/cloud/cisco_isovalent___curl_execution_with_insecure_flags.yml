@@ -9,16 +9,16 @@ data_source:
 status: production
 description: Detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. This analytic monitors for the use of the -k or --insecure flags, which may indicate attempts to bypass SSL/TLS verification, potentially exposing the system to man-in-the-middle attacks.
 search: |
-  `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
-    (process_name="*curl") 
-  | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))" 
-  | rename process_exec.process.pod.namespace as WorkloadNamespace 
-  | rename process_exec.process.pod.labels{} as WorkloadLabels 
-  | rename process_exec.ancestors{}.binary as WorkloadAncestorsBinary 
-  | eval WorkloadAncestorsBinary=mvjoin(WorkloadAncestorsBinary, " <- ") 
-  | eval WorkloadLabels=mvjoin(WorkloadLabels, "; ") 
-  | stats count by cluster_name process_exec.parent.pod.container.name process_name process
-      WorkloadNamespace, parent_process, WorkloadAncestorsBinary user_id | `cisco_isovalent___curl_execution_with_insecure_flags_filter`
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!="" (process_name="*curl") 
+  | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(process_exec.process.arguments) as process
+      by process_exec.process.pod.name 
+      parent_process_name process_name cluster_name process_exec.process.pod.container.name
+  | rename process_exec.process.pod.name as pod_name | rename process_exec.process.pod.container.image.name
+      as process_image_name 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_isovalent___curl_execution_with_insecure_flags_filter`
 how_to_implement: This analytic leverages Tetragon logs to be ingested using the
   Cisco Security Cloud App.
 known_false_positives: Legitimate use of curl with insecure flags for testing purposes.
@@ -40,9 +40,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A curl execution with insecure flags has been detected by user on container pod namespace $WorkloadNamespace$
+  message: A curl execution with insecure flags has been detected by user on container pod namespace $cluster_name$
   risk_objects:
-  - field: WorkloadNamespace
+  - field: cluster_name
     type: system
     score: 45
   threat_objects: []
@@ -62,4 +62,4 @@ tests:
     attack_data:
     - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
       source: not_applicable
-      sourcetype: cisco:isovalent
+      sourcetype: cisco:isovalent:processExec

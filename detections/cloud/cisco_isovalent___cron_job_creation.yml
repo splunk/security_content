@@ -9,9 +9,15 @@ data_source:
 status: production
 description: The following analytic detects the creation of a cron job within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for cron job creation events. This behavior is significant for a SOC as it could allow an attacker to execute malicious tasks repeatedly and automatically, posing a threat to the Kubernetes infrastructure. If confirmed malicious, this activity could lead to persistent attacks, service disruptions, or unauthorized access to sensitive information.
 search: |
-  `cisco_isovalent_process_exec` process_exec.process.binary="*/bin/cron"
-  | stats count values(user.groups{}) as user_groups by process_exec.process.pod.name, process_exec.process.pod.namespace, process_exec.process.binary, process_exec.process.arguments, process_exec.process.start_time, process_exec.process.pod.container.image.name
-  | rename process_exec.process.pod.name as PodName, process_exec.process.pod.namespace as Namespace, process_exec.process.binary as Binary, process_exec.process.arguments as Arguments, process_exec.process.start_time as StartTime, process_exec.process.pod.container.image.name as ImageName
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!="" process_name IN ("*/crond","*/cron","*/crontab")
+    OR process_exec.process.arguments="*-l*" OR process_exec.process.arguments="*-e*" 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(process_exec.process.arguments) as process
+      by process_exec.process.pod.name  process_exec.process.pod.container.image.name
+  parent_process_name process_name cluster_name 
+  | rename process_exec.process.pod.name as pod_name | rename process_exec.process.pod.container.image.name
+  as process_image_name
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `cisco_isovalent___cron_job_creation_filter`
 how_to_implement: The detection is based on data that originates from Cisco Isovalent logs. Ensure that logging is enabled in your Cisco Isovalent environment. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: unknown
@@ -33,14 +39,10 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Cisco Isovalent cron job creation detected in namespace $Namespace$
+  message: Cisco Isovalent cron job creation detected in namespace $cluster_name$
   risk_objects:
-  - field: Namespace
+  - field: cluster_name
     type: system
-    score: 50
-  threat_objects:
-  - field: PodName
-    type: pod
     score: 50
   threat_objects: []
 tags:
@@ -59,4 +61,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
     source: not_applicable
-    sourcetype: cisco:isovalent
+    sourcetype: cisco:isovalent:processExec

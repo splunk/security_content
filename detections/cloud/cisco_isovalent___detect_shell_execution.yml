@@ -59,4 +59,4 @@ tests:
     attack_data:
     - data:  https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
       source: not_applicable
-      sourcetype: cisco:isovalent
+      sourcetype: cisco:isovalent:processExec

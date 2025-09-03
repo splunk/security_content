@@ -70,5 +70,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent_process_exec_delayed_shell.log
+    source: not_applicable
     sourcetype: cisco:isovalent:processExec
-    source: cisco_isovalent
