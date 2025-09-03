@@ -19,7 +19,7 @@ search: |
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___cron_job_creation_filter`
-how_to_implement: The detection is based on data that originates from Cisco Isovalent logs. Ensure that logging is enabled in your Cisco Isovalent environment. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
+how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: unknown
 references:
 - https://isovalent.com

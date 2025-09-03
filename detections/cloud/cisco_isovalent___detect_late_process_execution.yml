@@ -25,9 +25,7 @@ search: |
     | `security_content_ctime(ContainerTime5min)`
   | `cisco_isovalent___detect_late_process_execution_filter`
 how_to_implement: |
-  This analytic relies on Cisco Isovalent/Tetragon process execution telemetry that includes both
-  process and container start timestamps. Ensure these logs are onboarded (e.g., via the Cisco Security
-  Cloud App) and mapped to the `cisco_isovalent` macro. Tune the 300-second threshold to your environment
+  how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs. Tune the 300-second threshold to your environment
   and consider allowlisting known late-start maintenance or backup jobs.
 known_false_positives: |
   Legitimate scheduled tasks (cron jobs), health probes, or maintenance tooling may start well after

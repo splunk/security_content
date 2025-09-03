@@ -17,8 +17,7 @@ search: |
   | eval WorkloadAncestorsBinary=mvjoin(WorkloadAncestorsBinary, " <- ")
   | eval WorkloadLabels=mvjoin(WorkloadLabels, "; ") 
   | stats count by WorkloadNamespace, process_exec.process.binary, process_exec.parent.binary, WorkloadAncestorsBinary | `cisco_isovalent___nsenter_usage_in_kubernetes_pod_filter`
-how_to_implement: This analytic leverages Tetragon logs to be ingested using the
-  Cisco Security Cloud App.
+how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: Legitimate use of nsenter for administrative purposes.
 references:
 - https://isovalent.com/blog/post/2021-11-container-escape/

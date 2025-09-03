@@ -7,7 +7,7 @@ type: Anomaly
 data_source:
 - Cisco Isovalent Process Exec
 status: production
-description: Gaining shell access through a compromised workload is one of the primary goals of an attack. Isovalent Networking for Kubernetes uses eBPF to hook into the kernel and provide visibility into process_exec events, including information about the process ancestry tree (process_exec.process.binary, process_exec.ancestors{}.binary fields) and the Kubernetes workload identity (process_exec.process.pod.namespace, process_exec.process.pod.labels{} fields). Security teams can use this information to build a robust alert and threat detection system. This analytic monitors an exec of a shell inside a container namespace.
+description: The following analytic detects the execution of a shell inside a container namespace within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for the execution of a shell (sh or bash) inside a container namespace. This behavior is significant for a SOC as it could allow an attacker to gain shell access to the container, potentially leading to further compromise of the Kubernetes cluster. If confirmed malicious, this activity could lead to data theft, service disruption, privilege escalation, lateral movement, and further attacks, severely compromising the cluster's security and integrity.
 search: |
   `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
   (process_exec.process.binary="*/bin/sh" OR process_exec.process.binary="*/bin/bash")
@@ -17,8 +17,7 @@ search: |
   | eval WorkloadAncestorsBinary=mvjoin(WorkloadAncestorsBinary, " <- ")
   | eval WorkloadLabels=mvjoin(WorkloadLabels, "; ") 
   | stats count by WorkloadNamespace, process_exec.process.binary, process_exec.parent.binary, WorkloadAncestorsBinary | `cisco_isovalent___detect_shell_execution_filter`
-how_to_implement: This analytic leverages Tetragon logs to be ingested using the
-  Cisco Security Cloud App.
+how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: Shell scripts executed by legitimate users or automated processes.
 references:
 - https://www.sysdig.com/blog/mitre-attck-framework-for-container-runtime-security-with-sysdig-falco

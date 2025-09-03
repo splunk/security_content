@@ -7,7 +7,7 @@ type: Anomaly
 data_source:
 - Cisco Isovalent Process Exec
 status: production
-description: Detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. This analytic monitors for the use of the -k or --insecure flags, which may indicate attempts to bypass SSL/TLS verification, potentially exposing the system to man-in-the-middle attacks.
+description: The following analytic detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for curl commands that use the -k or --insecure flags. This behavior is significant for a SOC as it could allow an attacker to bypass SSL/TLS verification, potentially exposing the Kubernetes infrastructure to man-in-the-middle attacks. If confirmed malicious, this activity could lead to data interception, service disruptions, or unauthorized access to sensitive information.
 search: |
   `cisco_isovalent_process_exec` process_exec.process.pod.name!="" (process_name="*curl") 
   | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))"
@@ -19,8 +19,7 @@ search: |
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___curl_execution_with_insecure_flags_filter`
-how_to_implement: This analytic leverages Tetragon logs to be ingested using the
-  Cisco Security Cloud App.
+how_to_implement: The detection is based on data that originates from Cisco Isovalent. Ensure that logging is enabled in your environment where Cisco Isovalent is installed. These logs provide a record of the process execution events, which is crucial for monitoring and detecting suspicious activities. Use the Cisco Security Cloud App to collect the logs.
 known_false_positives: Legitimate use of curl with insecure flags for testing purposes.
 references:
 - https://isovalent.com
@@ -40,7 +39,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A curl execution with insecure flags has been detected by user on container pod namespace $cluster_name$
+  message: A curl execution with insecure flags has been detected on pod_name $pod_name$ in the cluster $cluster_name$
   risk_objects:
   - field: cluster_name
     type: system
