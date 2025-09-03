@@ -9,7 +9,7 @@ data_source:
 status: production
 description: The following analytic detects execution of nsenter from within a container, including explicit attempts to join the host’s mount namespace via --mount=/host/proc/1/ns/mnt. Adversaries commonly use nsenter when a pod is misconfigured with excessive privileges (e.g., privileged, hostPID, or broad hostPath mounts) to interact with the underlying node filesystem and processes. This behavior may indicate a container escape attempt to gain persistence or control over the Kubernetes node. Extra scrutiny is warranted for workloads running with privileged security contexts or access to host namespaces and for pods that suddenly begin invoking nsenter outside of normal maintenance activity.
 search: |
-  `cisco_isovalent` process_exec.process.binary IN ("/usr/bin/nsenter","/bin/nsenter","nsenter")
+  `cisco_isovalent_process_exec` process_exec.process.binary IN ("/usr/bin/nsenter","/bin/nsenter","nsenter")
   OR process_exec.process.args="--mount=/host/proc/1/ns/mnt"
   | rename process_exec.process.pod.namespace as WorkloadNamespace 
   | rename process_exec.process.pod.labels{} as WorkloadLabels

@@ -9,7 +9,7 @@ data_source:
 status: production
 description: Gaining shell access through a compromised workload is one of the primary goals of an attack. Isovalent Networking for Kubernetes uses eBPF to hook into the kernel and provide visibility into process_exec events, including information about the process ancestry tree (process_exec.process.binary, process_exec.ancestors{}.binary fields) and the Kubernetes workload identity (process_exec.process.pod.namespace, process_exec.process.pod.labels{} fields). Security teams can use this information to build a robust alert and threat detection system. This analytic monitors an exec of a shell inside a container namespace.
 search: |
-  `cisco_isovalent` process_exec.process.pod.name!=""
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
   (process_exec.process.binary="*/bin/sh" OR process_exec.process.binary="*/bin/bash")
   | rename process_exec.process.pod.namespace as WorkloadNamespace 
   | rename process_exec.process.pod.labels{} as WorkloadLabels

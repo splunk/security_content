@@ -9,7 +9,7 @@ data_source:
 status: production
 description: The following analytic detects the creation of a cron job within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for cron job creation events. This behavior is significant for a SOC as it could allow an attacker to execute malicious tasks repeatedly and automatically, posing a threat to the Kubernetes infrastructure. If confirmed malicious, this activity could lead to persistent attacks, service disruptions, or unauthorized access to sensitive information.
 search: |
-  `cisco_isovalent` process_exec.process.binary="*/bin/cron"
+  `cisco_isovalent_process_exec` process_exec.process.binary="*/bin/cron"
   | stats count values(user.groups{}) as user_groups by process_exec.process.pod.name, process_exec.process.pod.namespace, process_exec.process.binary, process_exec.process.arguments, process_exec.process.start_time, process_exec.process.pod.container.image.name
   | rename process_exec.process.pod.name as PodName, process_exec.process.pod.namespace as Namespace, process_exec.process.binary as Binary, process_exec.process.arguments as Arguments, process_exec.process.start_time as StartTime, process_exec.process.pod.container.image.name as ImageName
   | `cisco_isovalent___cron_job_creation_filter`

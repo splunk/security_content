@@ -9,7 +9,7 @@ data_source:
 status: production
 description: Detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. This analytic monitors for the use of the -k or --insecure flags, which may indicate attempts to bypass SSL/TLS verification, potentially exposing the system to man-in-the-middle attacks.
 search: |
-  `cisco_isovalent` process_exec.process.pod.name!=""
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!=""
     (process_name="*curl") 
   | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))" 
   | rename process_exec.process.pod.namespace as WorkloadNamespace 

@@ -13,7 +13,7 @@ description: |
   The analytic compares the process start time to the container start time and flags processes
   launched more than 5 minutes (300 seconds) after initialization.
 search: |
-  `cisco_isovalent` process_name="/bin/sh"
+  `cisco_isovalent_process_exec` process_name="/bin/sh"
   | rename process_exec.process.pod.container.name as ContainerName 
   | rename process_exec.process.start_time as ProcessStartTime 
   | rename process_exec.process.pod.container.start_time as ContainerStartTime 
@@ -69,7 +69,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
-    source: not_applicable
-    sourcetype: cisco:isovalent
-
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent_process_exec_delayed_shell.log
+    sourcetype: cisco:isovalent:processExec
+    source: cisco_isovalent
