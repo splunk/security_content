@@ -1,15 +1,15 @@
 name: Windows SQL Server Configuration Option Hunt
 id: 8dc9efd5-805a-460e-889e-bc79e5477af9
-version: 2
-date: '2025-05-02'
-author: Michael Haag, Splunk
+version: 3
+date: '2025-08-27'
+author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: Hunting
 description: This detection helps hunt for changes to SQL Server configuration options that could indicate malicious activity. It monitors for modifications to any SQL Server configuration settings, allowing analysts to identify potentially suspicious changes that may be part of an attack, such as enabling dangerous features or modifying security-relevant settings.
 data_source:
 - Windows Event Log Application 15457
 search: '`wineventlog_application` EventCode=15457 
-    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data>"
+    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
     | rename host as dest
     | eval change_type=case(
         old_value="0" AND new_value="1", "enabled",
