@@ -1,0 +1,65 @@
+name: Cisco Isovalent - Pods Running Offensive Tools
+id: e9d0b9e6-2f3c-4a8a-9d61-2b6f4a9c1c2e
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Splunk
+type: Anomaly
+data_source:
+- Cisco Isovalent Process Exec
+status: production
+description: The following analytic detects execution of known offensive tooling from within Kubernetes pods, including network scanners and post-exploitation frameworks (e.g., nmap, masscan, zmap, impacket-*, hashcat, john, SharpHound, kube-hunter, peirates, and mimikatz.exe). Adversaries commonly introduce these tools into compromised workloads to conduct discovery, lateral movement, credential access, or cluster reconnaissance. This behavior may indicate a compromised container or supply-chain abuse. Extra scrutiny is warranted for namespaces that do not typically run diagnostic scanners and for pods that suddenly begin invoking these binaries outside of normal maintenance activity.
+search: |
+  `cisco_isovalent_process_exec` process_exec.process.pod.name!="" process_name IN ("*nmap", "*masscan", "*zmap", "*impacket-", "*hashcat", "*SharpHound", "*kube-hunter", "*peirates", "*mimikatz.exe")
+  | stats count min(_time) as firstTime max(_time) as lastTime values(process_exec.process.arguments) as process
+      by process_exec.process.pod.name parent_process_name process_name cluster_name process_exec.process.pod.container.name
+  | rename process_exec.process.pod.name as pod_name 
+          process_exec.process.pod.container.name as container_name
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_isovalent___pods_running_offensive_tools_filter`
+how_to_implement: The detection is based on Cisco Isovalent/Tetragon process execution logs. Ensure telemetry is ingested via the Cisco Security Cloud App and mapped to the `cisco_isovalent_process_exec` macro. Tune by namespace or team, and consider allowlisting approved diagnostic images to reduce noise.
+known_false_positives: Security testing, approved red team exercises, or sanctioned diagnostics can trigger this analytic. Coordinate allowlists and maintenance windows with platform/SecOps teams.
+references:
+- https://isovalent.com
+- https://tetragon.io
+drilldown_searches:
+- name: View the detection results for - "$pod_name$"
+  search: '%original_detection_search% | search pod_name = "$pod_name$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$pod_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Offensive tool execution ($process_name$) detected in pod $pod_name$ on cluster $cluster_name$
+  risk_objects:
+  - field: pod_name
+    type: system
+    score: 48
+  threat_objects: []
+tags:
+  analytic_story:
+  - Cisco Isovalent Suspicious Activity
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1046
+  - T1033
+  - T1003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
+      source: not_applicable
+      sourcetype: cisco:isovalent:processExec
+
