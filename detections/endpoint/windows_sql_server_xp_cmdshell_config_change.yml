@@ -73,7 +73,7 @@ tags:
     - Splunk Enterprise Security
     - Splunk Cloud
     security_domain: endpoint
-      manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
+    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
 tests:
   - name: True Positive Test
     attack_data:
