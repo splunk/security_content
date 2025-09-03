@@ -2,7 +2,7 @@ name: Azure Automation Runbook Created
 id: 178d696d-6dc6-4ee8-9d25-93fee34eaf5b
 version: 10
 date: '2025-09-03'
-author: Mauricio Velazco, Splunk
+author: Mauricio Velazco, Brian Serocki, Splunk
 status: production
 type: TTP
 description: The following analytic detects the creation of a new Azure Automation
