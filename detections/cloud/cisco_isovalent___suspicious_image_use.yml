@@ -1,0 +1,66 @@
+name: Cisco Isovalent - Suspicious Image Use
+id: 9f2b7b1d-6c2f-4f2d-9a8b-8a1d7c5f2e11
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: |
+  Detects use of container images that are not in an approved allowlist by leveraging
+  Cisco Isovalent/Tetragon runtime telemetry. This may indicate deployment of unvetted
+  or malicious software, image pull from untrusted registries, or supply‑chain abuse.
+data_source:
+- Cisco Isovalent Process Exec
+search: |
+  `cisco_isovalent` process_exec.process.pod.name!=""
+  | eval ImageName=process_exec.process.pod.container.image.name
+  | eval Namespace=process_exec.process.pod.namespace, PodName=process_exec.process.pod.name
+  | search NOT `cisco_isovalent_allowed_images`
+  | stats count min(_time) as firstTime max(_time) as lastTime by ImageName Namespace PodName process_exec.process.binary
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_isovalent___suspicious_image_use_filter`
+how_to_implement: |
+  Ensure Cisco Isovalent/Tetragon process execution logs are ingested and mapped to the
+  `cisco_isovalent` macro. Create and maintain an environment‑specific macro named
+  `cisco_isovalent_allowed_images` that returns true for approved images, for example:
+  (ImageName="gcr.io/org/app:*" OR ImageName="registry.local/*" OR ImageName="myco/*").
+  The search alerts on images NOT matching that allowlist. Tune by namespace or team as needed.
+known_false_positives: |
+  New legitimate images during rollouts or blue/green deployments may appear until the allowlist
+  is updated. Coordinate with platform/DevOps teams to synchronize allowlist changes.
+references:
+- https://tetragon.io
+- https://isovalent.com
+drilldown_searches:
+- name: View results for image - "$ImageName$"
+  search: '%original_detection_search% | search ImageName = "$ImageName$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious (non‑allowlisted) image $ImageName$ used by pod $PodName$ in namespace $Namespace$
+  risk_objects:
+  - field: ImageName
+    type: image
+    score: 45
+  threat_objects:
+  - field: PodName
+    type: pod
+tags:
+  analytic_story:
+  - Cisco Isovalent Suspicious Activity
+  asset_type: Kubernetes
+  mitre_attack_id:
+  - T1526
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent_process_exec/cisco_isovalent_process_exec.log
+    sourcetype: cisco:isovalent
+    source: cisco_isovalent
+

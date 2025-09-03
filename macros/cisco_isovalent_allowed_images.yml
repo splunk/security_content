@@ -1,0 +1,3 @@
+definition: ImageName IN ("docker.io/library/ubuntu:22.04")
+description: List of image names which are allowed to be used in the Cisco Isovalent environment.
+name: cisco_isovalent_allowed_images
