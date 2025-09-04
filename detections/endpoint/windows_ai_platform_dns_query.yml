@@ -1,0 +1,64 @@
+name: Windows AI Platform DNS Query
+id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
+version: 1
+date: '2025-08-25'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects DNS queries initiated by the Windows AI Platform to domains associated with Hugging Face, a popular provider of machine learning models and services. Monitoring for such DNS requests is important because it can reveal when systems are reaching out to external AI platforms, which may indicate the use of third-party AI resources or the transfer of sensitive data outside the organization’s environment. Detecting these queries helps organizations enforce data governance policies, prevent unapproved use of external AI services, and maintain visibility into potential data exfiltration risks. Proactive monitoring ensures better control over AI model usage and organizational data flows.
+data_source:
+- Sysmon EventID 22
+search: '`sysmon` EventCode=22 process_name IN ("python.exe", "cmd.exe", "rundll32.exe","powershell.exe", "pwsh.exe") QueryName= "router.huggingface.co"
+  | rename dvc as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id
+  vendor_product QueryName QueryResults QueryStatus 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_ai_platform_dns_query_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: researcher, engineering and administrator may create a automation that queries huggingface ai platform hub for accomplishing task.
+references:
+- https://cert.gov.ua/article/6284730
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: a process $process_name$ made a DNS query for $query$ from host $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 15
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - LAMEHUG
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1071.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/lamehug/T1071.004/hugging_face/huggingface.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
