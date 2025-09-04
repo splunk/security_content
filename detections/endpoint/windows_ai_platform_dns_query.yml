@@ -11,7 +11,7 @@ data_source:
 search: '`sysmon` EventCode=22 process_name IN ("python.exe", "cmd.exe", "rundll32.exe","powershell.exe", "pwsh.exe") QueryName= "router.huggingface.co"
   | rename dvc as dest
   | stats count min(_time) as firstTime max(_time) as lastTime 
-  by answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id
+  by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id
   vendor_product QueryName QueryResults QueryStatus 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
