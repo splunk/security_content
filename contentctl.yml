@@ -143,9 +143,9 @@ apps:
 - uid: 1876
   title: Splunk Add-on for AWS
   appid: Splunk_TA_aws
-  version: 7.10.0
+  version: 7.11.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-amazon-web-services-aws_7100.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-amazon-web-services-aws_7110.tgz
 - uid: 3088
   title: Splunk Add-on for Google Cloud Platform
   appid: SPLUNK_ADD_ON_FOR_GOOGLE_CLOUD_PLATFORM
