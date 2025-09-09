@@ -1,7 +1,7 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 12
-date: '2025-07-04'
+version: 13
+date: '2025-09-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP

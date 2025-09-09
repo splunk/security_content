@@ -1,7 +1,7 @@
 name: Cisco NVM - Rclone Execution With Network Activity
 id: 719f8c78-b20d-4bb9-8c33-6d1a762e7a9a
-version: 1
-date: '2025-07-03'
+version: 2
+date: '2025-09-09'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

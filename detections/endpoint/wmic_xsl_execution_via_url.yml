@@ -1,7 +1,7 @@
 name: WMIC XSL Execution via URL
 id: 787e9dd0-4328-11ec-a029-acde48001122
-version: 10
-date: '2025-07-02'
+version: 11
+date: '2025-09-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP

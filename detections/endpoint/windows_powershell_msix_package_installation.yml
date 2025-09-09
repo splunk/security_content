@@ -1,7 +1,7 @@
 name: Windows PowerShell MSIX Package Installation
 id: d2f77901-dbfa-42d9-8af7-dcd0f1a50a2f
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2025-09-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
