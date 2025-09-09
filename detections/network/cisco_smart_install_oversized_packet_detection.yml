@@ -14,10 +14,10 @@ description: |
 data_source:
   - Splunk Stream TCP
 search: |
-  | tstats `security_content_summariesonly` 
+  | tstats `security_content_summariesonly`
       avg(All_Traffic.packets) as avg_packets,
-      max(All_Traffic.bytes) as max_bytes 
-      from datamodel=Network_Traffic 
+      max(All_Traffic.bytes) as max_bytes
+      from datamodel=Network_Traffic
       where All_Traffic.dest_port=4786 AND All_Traffic.transport=tcp
       by All_Traffic.src_ip, All_Traffic.dest_ip, _time span=1h
   | `drop_dm_object_name("All_Traffic")`
@@ -37,18 +37,19 @@ references:
   - https://blog.talosintelligence.com/static-tundra/
   - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$"
-  search: '%original_detection_search% | search dest_ip = "$dest_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest_ip$"
+    search: '%original_detection_search% | search dest_ip = "$dest_ip$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest_ip$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: Buffer overflow attempt detected in Cisco Smart Install message to $dest_ip$ from $src_ip$
   risk_objects:
@@ -60,21 +61,20 @@ rba:
       type: ip_address
 tags:
   analytic_story:
-  - Cisco Smart Install Remote Code Execution CVE-2018-0171
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
   asset_type: Network
   mitre_attack_id:
-  - T1190
+    - T1190
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
   cve:
-  - CVE-2018-0171
+    - CVE-2018-0171
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/stream_tcp.log
-    sourcetype: stream:tcp
-    source: stream:tcp
-
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/stream_tcp.log
+        sourcetype: stream:tcp
+        source: stream:tcp

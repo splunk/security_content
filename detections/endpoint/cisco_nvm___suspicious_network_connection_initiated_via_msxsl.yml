@@ -7,9 +7,9 @@ status: production
 type: Anomaly
 description: |
   This analytic identifies the use of `msxsl.exe` initiating a network connection to a non-private IP address.
-  Although `msxsl.exe` is a legitimate Microsoft utility used to apply XSLT transformations, adversaries can abuse it 
+  Although `msxsl.exe` is a legitimate Microsoft utility used to apply XSLT transformations, adversaries can abuse it
   to execute arbitrary code or load external resources in an evasive manner.
-  This detection leverages Cisco NVM telemetry to identify potentially malicious use of `msxsl.exe` making network connections 
+  This detection leverages Cisco NVM telemetry to identify potentially malicious use of `msxsl.exe` making network connections
   that may indicate command and control (C2) or data exfiltration activity.
 data_source:
   - Cisco Network Visibility Module Flow Data
@@ -62,7 +62,8 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
   - name: View risk events for the last 7 days for - "$src$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
       as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
       as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
       as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -91,6 +92,6 @@ tags:
 tests:
   - name: True Positive Test - Cisco NVM
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
-      source: not_applicable
-      sourcetype: cisco:nvm:flowdata
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata
