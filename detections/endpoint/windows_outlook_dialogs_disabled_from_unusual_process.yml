@@ -1,0 +1,84 @@
+name: Windows Outlook Dialogs Disabled from Unusual Process
+id: 94e3ba29-6245-4f25-8d47-d5b6b34c40ac
+version: 1
+date: '2025-09-08'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects the modification of the Windows Registry
+  key "PONT_STRING" under Outlook Options. This disables certain dialog popups,
+  which could allow malicious scripts to run without notice. This detection leverages data from
+  the Endpoint.Registry datamodel to search for this key changing from an unusual process. 
+  This activity is significant as it is commonly associated with some malware 
+  infections, indicating potential malicious intent to harvest email information.
+data_source:
+- Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry 
+  WHERE Registry.registry_path="*\\Outlook\\Options\\General*" Registry.registry_value_name="PONT_STRING" 
+  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive 
+  Registry.registry_path Registry.registry_key_name Registry.registry_value_data 
+  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user 
+  Registry.vendor_product | `drop_dm_object_name(Registry)`| join process_guid [| tstats
+  `security_content_summariesonly` count FROM datamodel=Endpoint.Processes WHERE NOT
+  (Processes.process_name = "Outlook.exe") by _time span=1h
+  Processes.action Processes.dest Processes.original_file_name
+  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`]
+  | fields _time parent_process_name parent_process process_name process_path process
+  process_guid registry_path registry_value_name registry_value_data registry_key_name
+  action dest user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `windows_outlook_dialogs_disabled_from_unusual_process_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the registry value name, registry path, and registry value data from your
+  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
+  Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: It is unusual for processes other than Outlook to modify this 
+  feature on a Windows system since it is a default Outlook functionality. Although no 
+  false positives have been identified, use the provided filter macro to tune the search.
+references:
+- https://lab52.io/blog/analyzing-notdoor-inside-apt28s-expanding-arsenal/
+- https://hackread.com/russian-apt28-notdoor-backdoor-microsoft-outlook/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Outlook Dialog registry key modified on $dest$ by unusual process
+  risk_objects:
+  - field: dest
+    type: system
+    score: 44
+  threat_objects: []
+tags:
+  analytic_story:
+  - NotDoor Malware
+  - Windows Registry Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1112
+  - T1562
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/notdoor/disable_dialogs/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
+
