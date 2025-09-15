@@ -8,9 +8,9 @@ type: Anomaly
 description: This analytic detects changes to SNMP community strings on Cisco devices, which could indicate an attacker establishing persistence or attempting to extract credentials. After gaining initial access to network devices, threat actors like Static Tundra often modify SNMP configurations to enable unauthorized monitoring and data collection. This detection specifically looks for the configuration of SNMP community strings with read-write (rw) or read-only (ro) permissions, as well as the configuration of SNMP hosts that may be used to exfiltrate data. These activities are particularly concerning as they may represent attempts to establish persistent access or extract sensitive information from compromised devices.
 data_source:
 - Cisco IOS Logs
-search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes 
+search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
   where (
-    (All_Changes.command="*snmp-server community*rw*") OR 
+    (All_Changes.command="*snmp-server community*rw*") OR
     (All_Changes.command="*snmp-server community*ro*") OR
     (All_Changes.command="*snmp-server host*")
   )
@@ -69,6 +69,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
     sourcetype: cisco:ios
     source: cisco:ios
