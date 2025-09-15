@@ -1,0 +1,18 @@
+name: LAMEHUG
+id: 3bc6c2d9-d901-4c33-8f82-a853bd03f261
+version: 1
+date: '2025-08-25'
+author: Teoderick Contreras, Splunk
+status: production
+description: The following analytic detects LAMEHUG by monitoring unusual endpoint behavior where a Python (often PyInstaller-packaged) process initiates outbound requests to the Hugging Face API, specifically the Qwen 2.5-Coder-32B-Instruct model. Such traffic is abnormal in most enterprise environments and may be embedded with base64-encoded prompts that instruct the malware to generate and execute dynamic Windows commands for reconnaissance and data theft. Detection should also flag execution of AI-generated command chains invoking utilities like systeminfo, net start, tasklist, dsquery, and recursive file copy operations into the %ProgramData%\info\ directory. Additional heuristics include spotting phishing ZIP attachments with .pif binaries disguised as PDF or image viewers, which are commonly used for initial delivery of LameHug.
+narrative: LAMEHUG is a Python-based infostealer discovered by CERT-UA in 2025 and linked with moderate confidence to APT28. It is distributed through spear-phishing emails impersonating Ukrainian government officials, where malicious ZIP archives contain decoy .pif executables. Once executed, the malware communicates with an LLM hosted on Hugging Face (Qwen 2.5-Coder-32B-Instruct) to dynamically generate Windows commands for reconnaissance, credential harvesting, and document collection. Stolen data is staged locally and later exfiltrated via SFTP or HTTP POST to attacker-controlled servers. LameHug represents a new evolution in malware design, leveraging AI for real-time adaptability, making it harder to detect using static signatures or traditional defensive methods.
+references:
+- https://cert.gov.ua/article/6284730
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

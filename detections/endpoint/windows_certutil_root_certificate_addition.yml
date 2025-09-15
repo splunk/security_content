@@ -1,0 +1,76 @@
+name: Windows Certutil Root Certificate Addition
+id: e9926391-ec0c-4bad-8a95-e450dbf6aae4
+version: 1
+date: '2025-08-06'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the use of certutil.exe to add a certificate to the Root certificate store using the -addstore root command. In this case, the certificate is loaded from a temporary file path (e.g., %TEMP%), which is highly suspicious and uncommon in legitimate administrative activity. This behavior may indicate an adversary is installing a malicious root certificate to intercept HTTPS traffic, impersonate trusted entities, or bypass security controls. The use of flags such as -f (force) and -Enterprise, combined with loading .tmp files from user-writable locations, is consistent with post-exploitation activity seen in credential theft and adversary-in-the-middle (AiTM) attacks. This should be investigated immediately, especially if correlated with unauthorized privilege use or prior certificate modifications.You should monitor when new certificates are added to the root store because this store is what your system uses to decide which websites, apps, and software can be trusted. If an attacker manages to add their own certificate there, they can silently intercept encrypted traffic, impersonate trusted websites, or make malicious programs look safe. This means they could steal sensitive data, bypass security tools, and keep access to your system even after other malware is removed. In simple terms, adding a rogue root certificate gives attackers a master key to your trust system — and if it goes unnoticed, the impact could be a complete compromise of your security.
+data_source:
+- Sysmon EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime values(Processes.process)
+  as process max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where `process_certutil` Processes.process=*-addstore* Processes.process=*root*
+  by Processes.action Processes.dest Processes.original_file_name
+  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+  Processes.user Processes.user_id Processes.vendor_product 
+  | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)` 
+  |`security_content_ctime(lastTime)` 
+  | `windows_certutil_root_certificate_addition_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: administrator may use certutil to add a root certificate to the store.
+  Filter as needed or restrict to critical assets on the perimeter.
+references:
+- https://www.microsoft.com/en-us/security/blog/2025/07/31/frozen-in-transit-secret-blizzards-aitm-campaign-against-diplomats/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A certificate was added to the Root certificate store by a suspicious process named $process_name$ with the process path $process_path$ on dest $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+tags:
+  analytic_story:
+  - Secret Blizzard
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1587.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1587.003/add_store_cert/addstore_cert.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

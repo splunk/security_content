@@ -13,7 +13,7 @@ source: aws_cloudwatchlogs_vpcflow
 sourcetype: aws:cloudwatchlogs:vpcflow
 supported_TA:
 - name: Splunk Add-on for AWS
-  version: 7.10.0
+  version: 7.11.0
   url: https://splunkbase.splunk.com/app/1876
 fields:
 - _raw
