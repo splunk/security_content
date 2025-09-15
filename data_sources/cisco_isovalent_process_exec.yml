@@ -10,6 +10,10 @@ mitre_components:
 - Kubernetes Monitoring
 source: cisco_isovalent
 sourcetype: cisco:isovalent
+supported_TA:
+- name: Cisco Networks Add-on
+  url: https://splunkbase.splunk.com/app/1467
+  version: 2.7.8
 fields:
 - _bkt
 - _cd

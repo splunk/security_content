@@ -7,7 +7,7 @@ type: Anomaly
 data_source:
 - Cisco Isovalent Process Exec
 status: production
-description: The following analytic detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for curl commands that use the -k or --insecure flags. This behavior is significant for a SOC as it could allow an attacker to bypass SSL/TLS verification, potentially exposing the Kubernetes infrastructure to man-in-the-middle attacks. If confirmed malicious, this activity could lead to data interception, service disruptions, or unauthorized access to sensitive information.
+ description: The following analytic detects the execution of curl commands with insecure flags within the Cisco Isovalent environment. It identifies this activity by monitoring process execution logs for curl commands that use the -k or --insecure flags. This behavior is significant for a SOC as it could allow an attacker to bypass SSL/TLS verification, potentially exposing the Kubernetes infrastructure to man-in-the-middle attacks. If confirmed malicious, this activity could lead to data interception, service disruptions, or unauthorized access to sensitive  information.
 search: |
   `cisco_isovalent_process_exec` process_exec.process.pod.name!="" (process_name="*curl") 
   | regex process="(?i)(?<!\w)-(?:[a-z]*k[a-z]*|-(insecure|proxy-insecure|doh-insecure))"
