@@ -8,8 +8,8 @@ mitre_components:
 - Process Execution
 - Container Monitoring
 - Kubernetes Monitoring
-source: cisco_isovalent
-sourcetype: cisco:isovalent
+source: not_applicable
+sourcetype: cisco:isovalent:processExec
 supported_TA:
 - name: Cisco Networks Add-on
   url: https://splunkbase.splunk.com/app/1467
