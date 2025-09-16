@@ -1,0 +1,78 @@
+name: Windows Outlook Macro Created by Suspicious Process
+id: 3ec347e3-a94a-4a8b-a918-8306ea403182
+version: 1
+date: '2025-09-09'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic detects the creation of an Outlook Macro
+  (VbaProject.OTM) by a suspicious process. This file is normally created when you
+  create a macro from within Outlook. If this file is created by a process other than
+  Outlook.exe it may be maliciously created. This detection leverages data from
+  the Filesystem datamodel, specifically looking for the file creation event for
+  VbaProject.OTM. This activity is significant as it is commonly associated with 
+  some malware infections, indicating potential malicious intent to harvest email information. 
+data_source:
+- Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime values(Filesystem.file_create_time) as file_create_time from datamodel=Endpoint.Filesystem
+  where Filesystem.file_path="*Appdata\\Roaming\\Microsoft\\Outlook\\VbaProject.OTM" 
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time
+  Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name
+  Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid
+  Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `windows_outlook_macro_created_by_suspicious_process_filter`'
+how_to_implement: You must be ingesting data that records file-system activity from
+  your hosts to populate the Endpoint file-system data-model node. If you are using
+  Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which you
+  want to collect data.
+known_false_positives: Because this file are always created by Outlook in normal operations,
+  you should investigate all results.
+references:
+- https://lab52.io/blog/analyzing-notdoor-inside-apt28s-expanding-arsenal/
+- https://hackread.com/russian-apt28-notdoor-backdoor-microsoft-outlook/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious Outlook macro $file_name$ created on $dest$
+  risk_objects:
+  - field: user
+    type: user
+    score: 70
+  - field: dest
+    type: system
+    score: 70
+  threat_objects:
+  - field: file_name
+    type: file_name
+tags:
+  analytic_story:
+  - NotDoor Malware
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1137
+  - T1059.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/notdoor/outlook_macro/windows-sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
