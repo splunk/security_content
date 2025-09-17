@@ -23,8 +23,12 @@ description: |
 data_source:
 - Cisco Isovalent Process Exec
 search: |
-  `cisco_isovalent_process_exec`
-  | stats count min(_time) as firstTime max(_time) as lastTime by ImageName Namespace pod_name process_name cluster_name
+  `cisco_isovalent_process_exec` pod_name!=""
+  | search NOT `cisco_isovalent_allowed_images`
+  | stats count 
+          min(_time) as firstTime 
+          max(_time) as lastTime 
+      by pod_image_name pod_namespace pod_name process_name cluster_name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___suspicious_image_use_filter`
@@ -69,6 +73,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
-    sourcetype: cisco:isovalent
-    source: cisco_isovalent
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec
 
