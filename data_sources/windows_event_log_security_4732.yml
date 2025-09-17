@@ -1,14 +1,14 @@
 name: Windows Event Log Security 4732
 id: b0d61c5d-aefe-486a-9152-de45cc10fbb4
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a member is added to a security-enabled local group
-  on a Windows system.
+description: Logs an event when a member is added to a security-enabled local 
+  group on a Windows system.
 mitre_components:
 - Group Modification
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4732'
 supported_TA:

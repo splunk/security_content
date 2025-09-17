@@ -1,17 +1,17 @@
 name: Windows Event Log System 7045
 id: 614dedc8-8a14-4393-ba9b-6f093cbcd293
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the successful installation of a new Windows service, including
-  details about the service name, executable path, and service type.
+description: Logs the successful installation of a new Windows service, 
+  including details about the service name, executable path, and service type.
 mitre_components:
 - Service Creation
 - Service Metadata
 - OS API Execution
 - Process Metadata
 source: XmlWinEventLog:System
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '7045'
 supported_TA:
@@ -81,11 +81,14 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service
-  Control Manager'/><EventID Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' 
+  EventSourceName='Service Control Manager'/><EventID 
+  Qualifiers='16384'>7045</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
   SystemTime='2024-03-04T10:11:25.483986000Z'/><EventRecordID>168145</EventRecordID><Correlation/><Execution
-  ProcessID='592' ThreadID='1712'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security
+  ProcessID='592' 
+  ThreadID='1712'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security
   UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data
-  Name='ServiceName'>KrbSCM</Data><Data Name='ImagePath'>powershell.exe -WindowStyle
-  Hiddenestno'
+  Name='ServiceName'>KrbSCM</Data><Data Name='ImagePath'>powershell.exe 
+  -WindowStyle Hiddenestno'

@@ -10,7 +10,7 @@ separator: operationName
 supported_TA:
 - name: Splunk Add-on for Microsoft Cloud Services
   url: https://splunkbase.splunk.com/app/3110
-  version: 5.5.0
+  version: 5.6.0
 fields:
 - _time
 example_log: '{"time": "2024-04-30T01:22:46.4948958Z", "resourceId": "/TENANTS/225E05A1-5914-4688-A404-7030E60F3143/PROVIDERS/MICROSOFT.AADIAM",

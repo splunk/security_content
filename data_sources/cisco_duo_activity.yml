@@ -1,0 +1,57 @@
+name: Cisco Duo Activity
+id: 83f727f6-8754-41f8-b9f7-8226886a659e
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+description: Data source object for Cisco Duo Activity
+source: cisco_duo
+sourcetype: cisco:duo:activity
+separator: null
+supported_TA:
+- name: Cisco Security Cloud
+  url: https://splunkbase.splunk.com/app/7404
+  version: 3.4.1
+fields:
+- access_device.browser
+- access_device.browser_version
+- access_device.ip.address
+- access_device.location.city
+- access_device.location.country
+- access_device.location.state
+- access_device.os
+- access_device.os_version
+- action.details
+- action.name
+- activity_id
+- actor.details
+- actor.key
+- actor.name
+- actor.type
+- akey
+- application
+- ctime
+- eventtype
+- extracted_eventtype
+- old_target
+- outcome.result
+- target.details
+- target.key
+- target.name
+- target.type
+- ts
+output_fields:
+- user
+- src_ip
+example_log: '{"ctime": "Thu Jul 10 07:37:49 2025", "access_device": {"browser": "Chrome",
+  "browser_version": "137.0.0.0", "ip": {"address": "1.2.3.4"}, "location": {"city":
+  "San Jose", "country": "United States", "state": "California"}, "os": "Windows",
+  "os_version": "11"}, "action": {"details": "{\"auth_method\": \"Password\", \"auth_device\":
+  \"WAPF4P9AJ344ZX3DGPNO\", \"factor\": \"webauthn\", \"role\": \"Owner\"}", "name":
+  "admin_login"}, "activity_id": "e9b8d7eb-f274-4250-8f52-d0bee46b8abc", "actor":
+  {"details": "{\"created\": \"2025-07-02T09:18:46.000000+00:00\", \"last_login\":
+  \"2025-07-10T07:37:33.000000+00:00\", \"email\": \"test@test.com\", \"status\":
+  null, \"groups\": null}", "key": "DEKXVXLFZBK5U0C9F1ST", "name": "Test Test", "type":
+  "admin"}, "akey": "DAYQ46XVNT0NKTYQ5L5O", "application": null, "old_target": null,
+  "outcome": {"result": "SUCCESS"}, "target": {"details": null, "key": null, "name":
+  null, "type": "admin_login"}, "ts": "2025-07-10T07:37:49.616714+00:00", "timestamp":
+  1752133069, "host": "api-41e72ada.duosecurity.com", "extracted_eventtype": "activity"}'

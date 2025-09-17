@@ -1,0 +1,75 @@
+name: Citrix ADC and Gateway CitrixBleed 2 Memory Disclosure
+id: bef92f3f-7dc8-413a-8989-50581039e250
+version: 1
+date: '2025-01-07'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: |
+  This detection identifies potential exploitation attempts of CVE-2025-5777 (CitrixBleed 2), a memory disclosure vulnerability in Citrix NetScaler ADC and Gateway.
+  The vulnerability is triggered by sending POST requests with incomplete form data to the /p/u/doAuthentication.do endpoint, causing the device to leak memory contents including session tokens and authentication materials.
+  This search looks for POST requests to the vulnerable endpoint that may indicate scanning or exploitation attempts.
+data_source:
+  - Suricata
+search: |
+  | tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where
+  Web.url IN ("*/p/u/doAuthentication.do*")
+  Web.http_method="POST"
+  Web.status=200
+  by Web.http_user_agent, Web.status, Web.http_method,
+     Web.url, Web.url_length, Web.src, Web.dest, sourcetype
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `citrix_adc_and_gateway_citrixbleed_2_memory_disclosure_filter`
+how_to_implement: |
+  To implement this search, ensure that web traffic logs from Citrix NetScaler ADC and Gateway devices are being ingested into Splunk and mapped to the Web data model.
+  The logs should include URL paths, HTTP methods, status codes, source and destination IPs, and user agents.
+  Look specifically for POST requests to /p/u/doAuthentication.do endpoint which is the primary attack vector for CVE-2025-5777.
+known_false_positives: |
+  Legitimate authentication flows will trigger this detection as they access the doAuthentication.do endpoint. However, repeated automated requests, especially from HeadlessChrome user agents or with incomplete form data, should be investigated. 
+  Focus on unusual patterns like multiple rapid requests or non-standard user agents.
+references:
+  - https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX693420
+  - https://www.netscaler.com/blog/news/critical-security-updates-for-netscaler-netscaler-gateway-and-netscaler-console/
+  - https://github.com/mingshenhk/CitrixBleed-2-CVE-2025-5777-PoC-
+  - https://horizon3.ai/attack-research/attack-blogs/cve-2025-5777-citrixbleed-2-write-up-maybe/
+  - https://labs.watchtowr.com/how-much-more-must-we-bleed-citrix-netscaler-memory-disclosure-citrixbleed-2-cve-2025-5777/
+  - https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2025/CVE-2025-5777.yaml
+drilldown_searches:
+  - name: View the detection results for - "$src$" and "$dest$"
+    search: '%original_detection_search% | search src="$src$" dest="$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$" and "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Potential CitrixBleed 2 (CVE-2025-5777) exploitation from $src$ to $dest$ detected. POST requests to /p/u/doAuthentication.do may indicate memory disclosure vulnerability exploitation.
+  risk_objects:
+    - field: dest
+      type: system
+      score: 85
+  threat_objects:
+    - field: src
+      type: system
+tags:
+  analytic_story:
+    - Citrix NetScaler ADC and NetScaler Gateway CVE-2025-5777
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1190
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+  cve:
+    - CVE-2025-5777
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/suricata_citrixbleed2.log
+      source: suricata
+      sourcetype: suricata

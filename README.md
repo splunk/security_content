@@ -36,12 +36,12 @@ This project gives you access to our repository of Analytic Stories, security gu
 
 # Get Content🛡
 The latest Splunk Security Content can be obtained via:
- 
+
 #### 🌐 [Website](https://research.splunk.com/)
 
 Best way to discover and access our content is by using the [research.splunk.com](https://research.splunk.com/) website.
 
-#### 🖥️ [Splunk Enterprise Security (ES) Content Update](https://docs.splunk.com/Documentation/ES/latest/Admin/Usecasecontentlibrary?#Update_the_Analytic_Stories)
+#### 🖥️ [Splunk Enterprise Security (ES) Content Update](https://help.splunk.com/en/splunk-enterprise-security-8/administer/8.1/managing-security-content/manage-analytic-stories-through-the-use-case-library-in-splunk-enterprise-security)
 
 Splunk security content ships as part of ESCU directly into, if you are an ES user, good news, you already have it!
 
@@ -117,7 +117,7 @@ YAML specs define the structure and required fields for various YAML configurati
 * [deployments/](deployments/): Configuration for the schedule and alert action for all content
 * [playbooks/](playbooks/): Incident Response Playbooks/Workflow for responding to a specific Use Case or Threat.
 * [baselines/](baselines/): Searches that must be executed before a detection runs. It is specifically useful for collecting data on a system before running your detection on the collected data.
-* [investigations/](investigations/): Investigations to further analyze the output from detections. For more information, you can refer to the [Splunk Enterprise Security documentation on timelines](https://docs.splunk.com/Documentation/ES/7.3.0/User/Timelines).
+* [investigations/](investigations/): Investigations to further analyze the output from detections. For more information, you can refer to the [Splunk Enterprise Security documentation on timelines](https://help.splunk.com/en/splunk-enterprise-security-7/user-guide/7.3/investigations/investigations-in-splunk-enterprise-security).
 * [macros/](macros/): Implements Splunk’s search macros, shortcuts to commonly used search patterns like sysmon source type. More on how macros are used to customize content below.
 * [lookups/](lookups/): Implements Splunk’s lookup, usually to provide a list of static values like commonly used ransomware extensions.
 * [data_sources/](data_sources/): Defines the data sources, the necessary TA or App to collect them and the fields provided that can be used by the detections.

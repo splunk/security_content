@@ -1,13 +1,14 @@
 name: Windows PowerShell ScheduleTask
 id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2025-07-29'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 data_source:
-- Powershell Script Block Logging 4104
-description: The following analytic detects potential malicious activities involving
+  - Powershell Script Block Logging 4104
+description:
+  The following analytic detects potential malicious activities involving
   PowerShell's task scheduling cmdlets. It leverages PowerShell Script Block Logging
   (EventCode 4104) to identify unusual or suspicious use of cmdlets like 'New-ScheduledTask'
   and 'Set-ScheduledTask'. This activity is significant as attackers often use these
@@ -15,65 +16,72 @@ description: The following analytic detects potential malicious activities invol
   this could allow attackers to maintain access, deliver additional payloads, or execute
   ransomware, leading to data theft or other severe impacts. Immediate investigation
   and mitigation are crucial to prevent further compromise.
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*",
+search:
+  '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*",
   "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*",
   "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*",
   "*Start-ScheduledTask*", "*Enable-ScheduledTask*") | fillnull | stats count min(_time)
   as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product
   EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_powershell_scheduletask_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Benign administrative tasks can also trigger alerts, necessitating
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  Benign administrative tasks can also trigger alerts, necessitating
   a firm understanding of the typical system behavior and precise tuning of the analytic
   to reduce false positives.
 references:
-- https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2022-ps
-- https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
+  - https://learn.microsoft.com/en-us/powershell/module/scheduledtasks/?view=windowsserver2022-ps
+  - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
 drilldown_searches:
-- name: View the detection results for - "$Computer$" and "$user_id$"
-  search: '%original_detection_search% | search  Computer = "$Computer$" user_id =
-    "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$Computer$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$Computer$" and "$user_id$"
+    search:
+      '%original_detection_search% | search  Computer = "$Computer$" user_id =
+      "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$Computer$" and "$user_id$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$",
+      "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: The PowerShell cmdlets related to task creation, modification and start
+  message:
+    The PowerShell cmdlets related to task creation, modification and start
     occurred on $dest$ by $user_id$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  - field: user_id
-    type: user
-    score: 25
+    - field: dest
+      type: system
+      score: 25
+    - field: user_id
+      type: user
+      score: 25
   threat_objects: []
 tags:
   analytic_story:
-  - Scheduled Tasks
+    - Scheduled Tasks
+    - Scattered Spider
   asset_type: Endpoint
   atomic_guid:
-  - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
+    - af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
   mitre_attack_id:
-  - T1053.005
-  - T1059.001
+    - T1053.005
+    - T1059.001
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/pwsh_scheduledtask.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/atomic_red_team/pwsh_scheduledtask.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

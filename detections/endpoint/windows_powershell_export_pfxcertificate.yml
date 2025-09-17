@@ -1,7 +1,7 @@
 name: Windows PowerShell Export PfxCertificate
 id: ed06725f-6da6-439f-9dcc-ab30e891297c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search:
 how_to_implement:
   To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives:
   It is possible administrators or scripts may run these commands,
   filtering may be required.

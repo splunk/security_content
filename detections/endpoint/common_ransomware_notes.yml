@@ -1,7 +1,7 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-07-29'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -42,6 +42,8 @@ tags:
   - Ryuk Ransomware
   - Black Basta Ransomware
   - Termite Ransomware
+  - Interlock Ransomware
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1485

@@ -1,7 +1,7 @@
 name: Linux Auditd Add User Account Type
 id: f8c325ea-506e-4105-8ccf-da1492e90115
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,8 +14,8 @@ description: The following analytic detects the suspicious add user account type
   early is essential to prevent potential security incidents.
 data_source:
 - Linux Auditd Add User
-search: '`linux_auditd` type=ADD_USER | rename hostname as dest| stats count min(_time)
-  as firstTime max(_time) as lastTime by exe pid dest res UID type | `security_content_ctime(firstTime)`
+search: '`linux_auditd` type=ADD_USER | rename host as dest| stats count min(_time)
+  as firstTime max(_time) as lastTime by exe pid dest res type | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`| `linux_auditd_add_user_account_type_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line

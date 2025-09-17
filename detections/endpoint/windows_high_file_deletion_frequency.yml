@@ -1,17 +1,18 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
-description: The following analytic identifies a high frequency of file deletions
-  by monitoring Sysmon EventCodes 23 and 26 for specific file extensions. This detection
-  leverages Sysmon logs to track deleted target filenames, process names, and process
-  IDs. Such activity is significant as it often indicates ransomware behavior, where
-  files are encrypted and the originals are deleted. If confirmed malicious, this
-  activity could lead to extensive data loss and operational disruption, as ransomware
-  can render critical files inaccessible, demanding a ransom for their recovery.
+description: The following analytic identifies a high frequency of file 
+  deletions by monitoring Sysmon EventCodes 23 and 26 for specific file 
+  extensions. This detection leverages Sysmon logs to track deleted target 
+  filenames, process names, and process IDs. Such activity is significant as it 
+  often indicates ransomware behavior, where files are encrypted and the 
+  originals are deleted. If confirmed malicious, this activity could lead to 
+  extensive data loss and operational disruption, as ransomware can render 
+  critical files inaccessible, demanding a ransom for their recovery.
 data_source:
 - Sysmon EventID 23
 - Sysmon EventID 26
@@ -27,12 +28,13 @@ search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","
   by action dest dvc signature signature_id user user_id vendor_product | where count
   >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_high_file_deletion_frequency_filter`'
-how_to_implement: To successfully implement this search, you need to ingest logs that
-  include the deleted target file name, process name, and process ID from your endpoints.
-  If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
-known_false_positives: Users may delete a large number of pictures or files in a folder,
-  which could trigger this detection. Additionally, heavy usage of PowerBI and Outlook
-  may also result in false positives.
+how_to_implement: To successfully implement this search, you need to ingest logs
+  that include the deleted target file name, process name, and process ID from 
+  your endpoints. If you are using Sysmon, ensure you have at least version 2.0 
+  of the Sysmon TA installed.
+known_false_positives: Users may delete a large number of pictures or files in a
+  folder, which could trigger this detection. Additionally, heavy usage of 
+  PowerBI and Outlook may also result in false positives.
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
@@ -52,8 +54,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Elevated file deletion rate observed from process [$process_name$] on machine
-    $dest$
+  message: Elevated file deletion rate observed from process [$process_name$] on
+    machine $dest$
   risk_objects:
   - field: user
     type: user
@@ -75,6 +77,8 @@ tags:
   - DarkCrystal RAT
   - Black Basta Ransomware
   - Clop Ransomware
+  - Interlock Ransomware
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1485
@@ -86,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

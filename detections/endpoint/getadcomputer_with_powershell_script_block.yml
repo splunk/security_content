@@ -1,11 +1,12 @@
 name: GetAdComputer with PowerShell Script Block
 id: a9a1da02-8e27-4bf7-a348-f4389c9da487
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `Get-AdComputer`
+description:
+  The following analytic detects the execution of the `Get-AdComputer`
   PowerShell commandlet using PowerShell Script Block Logging (EventCode=4104). This
   detection leverages script block text to identify when this commandlet is run. The
   `Get-AdComputer` commandlet is significant as it can be used by adversaries to enumerate
@@ -14,36 +15,39 @@ description: The following analytic detects the execution of the `Get-AdComputer
   identify targets, and plan further attacks, potentially leading to unauthorized
   access and data exfiltration.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | fillnull
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 (ScriptBlockText = "*Get-AdComputer*") | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)` | `getadcomputer_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
 references:
-- https://attack.mitre.org/techniques/T1018/
-- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+  - https://attack.mitre.org/techniques/T1018/
+  - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
 tags:
   analytic_story:
-  - Active Directory Discovery
-  - CISA AA22-320A
-  - Medusa Ransomware
-  - Gozi Malware
+    - Active Directory Discovery
+    - CISA AA22-320A
+    - Medusa Ransomware
+    - Gozi Malware
   asset_type: Endpoint
   mitre_attack_id:
-  - T1018
+    - T1018
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

@@ -1,0 +1,33 @@
+name: Microsoft SharePoint Vulnerabilities
+id: a6667fd2-3dbb-4de3-97ff-29356761ff57
+version: 1
+status: production
+date: '2025-07-20'
+author: Michael Haag, Splunk
+description: This analytic story addresses critical vulnerabilities in Microsoft SharePoint that allow attackers to gain unauthorized access, execute code remotely, and elevate privileges. It includes detections for known exploit patterns and post-exploitation activities to help organizations identify and respond to SharePoint-targeted attacks.
+narrative: |
+  Microsoft SharePoint is a widely deployed collaboration platform in enterprise environments, making it an attractive target for threat actors. Recent vulnerabilities have enabled attackers to compromise SharePoint servers through various attack vectors.
+  
+  The "ToolShell" vulnerability (CVE-2025-53770) allows unauthenticated remote code execution via the ToolPane.aspx endpoint. This vulnerability is particularly dangerous as it enables attackers to fully access SharePoint content, file systems, internal configurations, and execute code over the network without authentication. CISA has reported active exploitation in the wild with specific IP addresses identified as attack sources.
+  
+  Another significant vulnerability is the SharePoint Server Elevation of Privilege (CVE-2023-29357), which allows attackers to elevate their privileges by exploiting the SharePoint API.
+  
+  This analytic story provides detections for these vulnerabilities, focusing on identifying exploitation attempts through web traffic analysis. The detections look for specific indicators such as POST requests to vulnerable endpoints with particular parameters and suspicious API calls that may indicate privilege escalation attempts.
+  
+  Organizations should implement Microsoft's recommended mitigations, including configuring AMSI in SharePoint, deploying Microsoft Defender AV on all SharePoint servers, and applying the latest security updates. Additionally, monitoring web traffic to SharePoint servers and implementing comprehensive logging are essential for early detection of exploitation attempts.
+references:
+  - https://www.cisa.gov/news-events/alerts/2025/07/20/microsoft-releases-guidance-exploitation-sharepoint-vulnerability-cve-2025-53770
+  - https://msrc.microsoft.com/blog/2025/07/customer-guidance-for-sharepoint-vulnerability-cve-2025-53770/
+  - https://research.eye.security/sharepoint-under-siege/
+  - https://socradar.io/microsoft-sharepoint-server-elevation-of-privilege-vulnerability-exploit-cve-2023-29357/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2025-53770
+  - CVE-2023-29357

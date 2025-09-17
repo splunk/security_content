@@ -1,78 +1,81 @@
 name: Azure AD Service Principal Privilege Escalation
 id: 29eb39d3-2bc8-49cc-99b3-35593191a588
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-06-24'
 author: Dean Luxton
 data_source:
-- Azure Active Directory Add app role assignment to service principal
+  - Azure Active Directory Add app role assignment to service principal
 type: TTP
 status: production
-description: This detection identifies when an Azure Service Principal elevates privileges
+description:
+  This detection identifies when an Azure Service Principal elevates privileges
   by adding themself to a new app role assignment.
 search: >-
-  `azure_monitor_aad` category=AuditLogs operationName="Add app role assignment to service principal" properties.initiatedBy.app.displayName=* properties.result=Success 
-  | spath path=properties{}.targetResources{}.modifiedProperties{} output=targetResources 
-  | rename properties.* as * 
-  | eval user="NA" 
-  | eval src="NA" 
-  | stats min(_time) as firstTime max(_time) as lastTime values(eval(mvfilter(match(targetResources, "AppRole.Value")))) as appRole, values(eval(mvfilter(match(targetResources, "ServicePrincipal.DisplayName")))) as targetServicePrincipal values(eval(mvindex('properties.targetResources{}.displayName',0))) as targetAppContext 
+  `azure_monitor_aad` category=AuditLogs operationName="Add app role assignment to service principal" properties.initiatedBy.app.displayName=* properties.result=Success
+  | spath path=properties{}.targetResources{}.modifiedProperties{} output=targetResources
+  | rename properties.* as *
+  | eval user="NA"
+  | eval src="NA"
+  | stats min(_time) as firstTime max(_time) as lastTime values(eval(mvfilter(match(targetResources, "AppRole.Value")))) as appRole, values(eval(mvfilter(match(targetResources, "ServicePrincipal.DisplayName")))) as targetServicePrincipal values(eval(mvindex('properties.targetResources{}.displayName',0))) as targetAppContext
   values(user_agent) as user_agent values(identity) as servicePrincipal values(properties.initiatedBy.app.servicePrincipalId) as servicePrincipalId by dest user src vendor_account vendor_product signature
-  | spath input=appRole path=newValue output=appRole 
-  | spath input=targetServicePrincipal path=newValue output=targetServicePrincipal 
-  | eval appRole=trim(replace(appRole, "\"", "")), targetServicePrincipal=trim(replace(targetServicePrincipal, "\"", "")) 
-  | where servicePrincipal=targetServicePrincipal 
-  | `security_content_ctime(firstTime)` 
+  | spath input=appRole path=newValue output=appRole
+  | spath input=targetServicePrincipal path=newValue output=targetServicePrincipal
+  | eval appRole=trim(replace(appRole, "\"", "")), targetServicePrincipal=trim(replace(targetServicePrincipal, "\"", ""))
+  | where servicePrincipal=targetServicePrincipal
+  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `azure_ad_service_principal_privilege_escalation_filter`
-how_to_implement: The Splunk Add-on for Microsoft Cloud Services add-on is required
+how_to_implement:
+  The Splunk Add-on for Microsoft Cloud Services add-on is required
   to ingest EntraID audit logs via Azure EventHub. See reference for links for further
   details on how to onboard this log source.
 known_false_positives: Unknown
 references:
-- https://splunkbase.splunk.com/app/3110
-- https://docs.splunk.com/Documentation/AddOns/released/MSCloudServices/Install
-- https://github.com/mvelazc0/BadZure
-- https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
-- https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
+  - https://splunkbase.splunk.com/app/3110
+  - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/
+  - https://github.com/mvelazc0/BadZure
+  - https://www.splunk.com/en_us/blog/security/hunting-m365-invaders-navigating-the-shadows-of-midnight-blizzard.html
+  - https://posts.specterops.io/microsoft-breach-what-happened-what-should-azure-admins-do-da2b7e674ebc
 drilldown_searches:
-- name: View the detection results for - "$servicePrincipal$"
-  search: '%original_detection_search% | search  servicePrincipal = "$servicePrincipal$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$servicePrincipal$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$servicePrincipal$"
+    search: '%original_detection_search% | search  servicePrincipal = "$servicePrincipal$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$servicePrincipal$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: Service Principal $servicePrincipal$ has elevated privileges by adding
+  message:
+    Service Principal $servicePrincipal$ has elevated privileges by adding
     themself to app role $appRole$
   risk_objects:
-  - field: servicePrincipal
-    type: user
-    score: 100
+    - field: servicePrincipal
+      type: user
+      score: 100
   threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    - field: user_agent
+      type: http_user_agent
 tags:
   analytic_story:
-  - Azure Active Directory Privilege Escalation
+    - Azure Active Directory Privilege Escalation
   asset_type: Azure Tenant
   mitre_attack_id:
-  - T1098.003
+    - T1098.003
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_spn_privesc/azure_ad_spn_privesc.log
-    sourcetype: azure:monitor:aad
-    source: Azure AD
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_spn_privesc/azure_ad_spn_privesc.log
+        sourcetype: azure:monitor:aad
+        source: Azure AD

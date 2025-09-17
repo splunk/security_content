@@ -1,17 +1,17 @@
 name: Windows Event Log Security 4781
 id: 9732ffe7-ebce-4557-865c-1725a0f633cb
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs changes made to the name of a computer account, including the old
-  and new names and the user performing the action.
+description: Logs changes made to the name of a computer account, including the 
+  old and new names and the user performing the action.
 mitre_components:
 - User Account Modification
 - User Account Metadata
 - Active Directory Object Modification
 - Application Log Content
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4781'
 supported_TA:
@@ -106,13 +106,20 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4781</EventID><Version>0</Version><Level>0</Level><Task>13824</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4781</EventID><Version>0</Version><Level>0</Level><Task>13824</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2024-04-09T22:22:45.521723900Z'/><EventRecordID>148763</EventRecordID><Correlation
-  ActivityID='{b05ffbda-8ac8-0003-e6fb-5fb0c88ada01}'/><Execution ProcessID='620'
+  ActivityID='{b05ffbda-8ac8-0003-e6fb-5fb0c88ada01}'/><Execution 
+  ProcessID='620' 
   ThreadID='3936'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='OldTargetUserName'>AR-WIN-2$</Data><Data Name='NewTargetUserName'>Administrator</Data><Data
-  Name='TargetDomainName'>ATTACKRANGE</Data><Data Name='TargetSid'>ATTACKRANGE\AR-WIN-2$</Data><Data
-  Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data
-  Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x141a04</Data><Data
+  Name='OldTargetUserName'>AR-WIN-2$</Data><Data 
+  Name='NewTargetUserName'>Administrator</Data><Data 
+  Name='TargetDomainName'>ATTACKRANGE</Data><Data 
+  Name='TargetSid'>ATTACKRANGE\AR-WIN-2$</Data><Data 
+  Name='SubjectUserSid'>ATTACKRANGE\Administrator</Data><Data 
+  Name='SubjectUserName'>Administrator</Data><Data 
+  Name='SubjectDomainName'>ATTACKRANGE</Data><Data 
+  Name='SubjectLogonId'>0x141a04</Data><Data 
   Name='PrivilegeList'>-</Data></EventData></Event>

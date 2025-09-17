@@ -1,25 +1,25 @@
 name: Risk Notable Block Indicators
 id: 000edc96-ff2b-48b0-9f6f-83da3783fd63
 version: 1
-date: "2021-10-22"
+date: '2021-10-22'
 author: Kelby Shelton, Splunk
 type: Response
 description: This playbook handles locating indicators marked for blocking and determining if any blocking playbooks exist. If there is a match to the appropriate tags in the playbook, a filter block routes the name of the playbook to launch to a code block.
 playbook: risk_notable_block_indicators
-how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
+how_to_implement: For detailed implementation see https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 references:
-- https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Call_child_playbooks_with_the_dynamic_playbook_system
-- https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Indicator_tagging_system
+  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/build-playbooks-compatible-with-the-dispatch_input_playbooks-utility
+  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/use-the-tagging-system-with-the-playbook-pack-for-splunk-soar
 app_list: []
 tags:
   labels:
-  - risk_notable
+    - risk_notable
   playbook_outputs:
-  - note_title
-  - note_content
+    - note_title
+    - note_content
   playbook_type: Automation
   vpe_type: Modern
   platform_tags:
-  - Risk Notable
+    - Risk Notable
   product:
-  - Splunk SOAR
+    - Splunk SOAR

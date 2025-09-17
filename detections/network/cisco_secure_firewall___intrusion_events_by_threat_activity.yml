@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 1
-date: '2025-05-12'
+version: 3  
+date: '2025-08-21'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -9,11 +9,27 @@ description: |
   This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events. 
   It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures 
   associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a 
-  lookup table (cisco_snort_ids_to_threat_mapping.csv) to map Snort signature IDs to known threat actors and their techniques. 
+  lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques. 
   When multiple signatures associated with the same threat actor are triggered within the time window, and the count of 
   unique signatures matches or exceeds the expected number of signatures for that threat technique, an alert is generated. 
   This helps identify potential coordinated threat activity in your network environment by correlating related intrusion 
   events that occur in close temporal proximity.
+
+  Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
+  * Static Tundra
+  * AgentTesla
+  * Amadey
+  * AsyncRAT
+  * Chafer
+  * DCRAT
+  * Lumma Stealer
+  * Nobelium
+  * Quasar
+  * Remcos
+  * Snake
+  * Xworm
+
+  To add or update threat actors, update the cisco_snort_ids_to_threat_mapping.csv lookup file with new or modified threat names and associated Snort signature IDs.
 data_source:
   - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
@@ -39,6 +55,7 @@ how_to_implement: |
 known_false_positives: False positives may occur due to legitimate security testing or research activities.
 references:
   - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
+  - https://blog.talosintelligence.com/static-tundra/
 drilldown_searches:
 - name: View the detection results for - "$dest_ip$"
   search: '%original_detection_search% | search  dest_ip = "$dest_ip$"'

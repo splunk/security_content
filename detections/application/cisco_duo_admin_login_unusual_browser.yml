@@ -1,0 +1,72 @@
+name: Cisco Duo Admin Login Unusual Browser
+id: b38932ad-e663-4e90-bfdf-8446ee5b3f34
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Activity
+type: TTP
+status: production
+description: The following analytic identifies instances where a Duo admin logs in using a browser other than Chrome, which is considered unusual 
+  based on typical access patterns. Please adjust as needed to your environment. The detection leverages Duo activity logs ingested via the Cisco 
+  Security Cloud App and filters for admin login actions where the browser is not Chrome. By renaming and aggregating relevant fields such as user, 
+  browser, IP address, and location, the analytic highlights potentially suspicious access attempts that deviate from the norm. This behavior is 
+  significant for a SOC because the use of an unexpected browser may indicate credential compromise, session hijacking, or the use of unauthorized 
+  devices by attackers attempting to evade detection. Detecting such anomalies enables early investigation and response, helping to prevent privilege 
+  escalation, policy manipulation, or further compromise of sensitive administrative accounts. The impact of this attack could include unauthorized 
+  changes to security policies, user access, or the disabling of critical security controls, posing a substantial risk to the organizations security posture.
+search: '`cisco_duo_activity` "action.name"=admin_login NOT access_device.browser IN (Chrome)
+  | rename actor.name as user access_device.ip.address as src_ip
+  | stats count min(_time) as firstTime max(_time) as lastTime by access_device.browser 
+  access_device.browser_version src_ip access_device.location.city 
+  access_device.location.country access_device.location.state access_device.os access_device.os_version 
+  actor.details actor.type outcome.result user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_admin_login_unusual_browser_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A user $user$ has logged in using an unusual browser $access_device.browser$ from $src_ip$.
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: 
+  - field: access_device.browser
+    type: http_user_agent
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_unusual_admin_login/cisco_duo_activity.json
+    source: duo
+    sourcetype: cisco:duo:activity

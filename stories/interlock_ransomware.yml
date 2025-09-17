@@ -1,0 +1,18 @@
+name: Interlock Ransomware
+id: 4aad8560-07cb-4114-97fc-66963da3a354
+version: 1
+date: '2025-07-28'
+author: Teoderick Contreras, Splunk
+status: production
+description: Leverage searches that allow you to detect and investigate unusual activities associated with Interlock Ransomware, such as unexpected file encryption patterns, anomalous process execution (e.g., PowerShell or CMD spawning from Office applications), and large-scale file renaming. Look for indicators including creation of ransom notes (e.g.,  !__README__!.txt), high volumes of file modifications in short time spans, and suspicious outbound connections to command-and-control infrastructure. Correlate these behaviors with privilege escalation attempts, scheduled tasks or registry changes, and endpoint detections tied to known Interlock payloads. Implement behavioral analytics and MITRE ATT&CK mappings (e.g., T1486 - Data Encrypted for Impact) to surface early signs of ransomware activity before full encryption occurs.
+narrative: The Interlock ransomware variant was first observed in late September 2024, targeting various business, critical infrastructure, and other organizations in North America and Europe. FBI maintains these actors target their victims based on opportunity, and their activity is financially motivated. FBI is aware of Interlock ransomware encryptors designed for both Windows and Linux operating systems; these encryptors have been observed encrypting virtual machines (VMs) across both operating systems. FBI observed actors obtaining initial access via drive-by download from compromised legitimate websites, which is an uncommon method among ransomware groups. Actors were also observed using the ClickFix social engineering technique for initial access, in which victims are tricked into executing a malicious payload under the guise of fixing an issue on the victim’s system. Actors then use various methods for discovery, credential access, and lateral movement to spread to other systems on the network.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-203a
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

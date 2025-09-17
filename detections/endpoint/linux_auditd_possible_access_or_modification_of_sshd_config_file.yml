@@ -1,7 +1,7 @@
 name: Linux Auditd Possible Access Or Modification Of Sshd Config File
 id: acb3ea33-70f7-47aa-b335-643b3aebcb2f
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,10 +15,13 @@ description: The following analytic detects suspicious access or modification of
   access, posing a severe security risk.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID
-  type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
+search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" 
+  | rename host as dest
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by name nametype ogid type dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  |  `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
@@ -73,6 +76,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/linux_auditd_nopasswd/linux_auditd_ssh_config.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/linux_auditd_nopasswd/linux_path_ssh_config.log
     source: auditd
     sourcetype: auditd

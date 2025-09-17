@@ -1,17 +1,18 @@
 name: Windows Event Log Security 4798
 id: 29e97f72-eb2e-400e-b0c9-81277547e43b
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an enumeration of local group membership on a system, including
-  details about the groups queried and the account performing the action.
+description: Logs an enumeration of local group membership on a system, 
+  including details about the groups queried and the account performing the 
+  action.
 mitre_components:
 - Group Enumeration
 - Group Metadata
 - User Account Metadata
 - Application Log Content
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
@@ -95,13 +96,20 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4798</EventID><Version>0</Version><Level>0</Level><Task>13824</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4798</EventID><Version>0</Version><Level>0</Level><Task>13824</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2024-02-02T00:12:21.404799400Z'/><EventRecordID>386860</EventRecordID><Correlation
-  ActivityID='{A0011278-554F-0000-8212-01A04F55DA01}'/><Execution ProcessID='584'
+  ActivityID='{A0011278-554F-0000-8212-01A04F55DA01}'/><Execution 
+  ProcessID='584' 
   ThreadID='5616'/><Channel>Security</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='TargetUserName'>Guest</Data><Data Name='TargetDomainName'>AR-WIN-2</Data><Data
-  Name='TargetSid'>AR-WIN-2\Guest</Data><Data Name='SubjectUserSid'>AR-WIN-2\Administrator</Data><Data
-  Name='SubjectUserName'>Administrator</Data><Data Name='SubjectDomainName'>AR-WIN-2</Data><Data
-  Name='SubjectLogonId'>0x2f4df4</Data><Data Name='CallerProcessId'>0x1590</Data><Data
+  Name='TargetUserName'>Guest</Data><Data 
+  Name='TargetDomainName'>AR-WIN-2</Data><Data 
+  Name='TargetSid'>AR-WIN-2\Guest</Data><Data 
+  Name='SubjectUserSid'>AR-WIN-2\Administrator</Data><Data 
+  Name='SubjectUserName'>Administrator</Data><Data 
+  Name='SubjectDomainName'>AR-WIN-2</Data><Data 
+  Name='SubjectLogonId'>0x2f4df4</Data><Data 
+  Name='CallerProcessId'>0x1590</Data><Data 
   Name='CallerProcessName'>C:\Windows\ImmersiveControlPanel\telegram\telegram.exe</Data></EventData></Event>

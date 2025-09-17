@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Repeated Blocked Connections
 id: 1f57f10e-1dc5-47ea-852c-2e85b2503d79
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-07-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ description: |
 data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action=Block 
+  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
   | bin _time span=1m 
   | stats count min(_time) as firstTime max(_time) as lastTime
       Values(dest_port) as dest_port

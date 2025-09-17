@@ -1,7 +1,7 @@
 name: Sysmon EventID 20
 id: aeee5374-3203-4286-b744-a8cc4ad1cd7e
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs WMI (Windows Management Instrumentation) consumer activity, including
   details about the WMI event consumer, associated process, and event data.
@@ -11,13 +11,13 @@ mitre_components:
 - Application Log Content
 - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.3
+  version: 5.0.0
 fields:
 - _time
 - Channel

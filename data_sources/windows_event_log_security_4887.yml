@@ -1,17 +1,17 @@
 name: Windows Event Log Security 4887
 id: 994c7b19-a623-4231-9818-f00e453b9a75
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs cryptographic operations performed by a Windows system, including
-  details about the certificate or key used and the operation type.
+description: Logs cryptographic operations performed by a Windows system, 
+  including details about the certificate or key used and the operation type.
 mitre_components:
 - Certificate Registration
 - User Account Metadata
 - Application Log Content
 - OS API Execution
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4887'
 supported_TA:
@@ -85,10 +85,14 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4887</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4887</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2023-06-09T14:54:02.171703300Z'/><EventRecordID>1830974609</EventRecordID><Correlation
-  ActivityID='{28AAD79F-81AB-0001-BED7-AA28AB81D901}'/><Execution ProcessID='668'
+  ActivityID='{28AAD79F-81AB-0001-BED7-AA28AB81D901}'/><Execution 
+  ProcessID='668' 
   ThreadID='3160'/><Channel>Security</Channel><Computer>cert_authority.attack_range.local</Computer><Security/></System><EventData><Data
-  Name='RequestId'>7</Data><Data Name='Requester'>attack_range\attack_user</Data><Data
+  Name='RequestId'>7</Data><Data 
+  Name='Requester'>attack_range\attack_user</Data><Data 
   Name='Attributes'>CertificateTemplate:VulnerableTemplate_ESC1

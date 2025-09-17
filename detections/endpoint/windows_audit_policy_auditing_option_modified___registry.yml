@@ -1,8 +1,8 @@
 name: Windows Audit Policy Auditing Option Modified - Registry
 id: 27914692-9c62-44ea-9129-ceb429b61bd0
-version: 3
-date: '2025-05-02'
-author: Nasreddine Bencherchali, Splunk
+version: 4
+date: '2025-07-30'
+author: Nasreddine Bencherchali, Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects potentially suspicious modifications to
@@ -17,7 +17,7 @@ description: The following analytic detects potentially suspicious modifications
 data_source:
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_key_name="*\\Control\\Lsa"
+  as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Control\\Lsa*"
   Registry.registry_value_name IN ("CrashOnAuditFail", "FullPrivilegeAuditing", "AuditBaseObjects",
   "AuditBaseDirectories") by Registry.action Registry.dest Registry.process_guid Registry.process_id
   Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data

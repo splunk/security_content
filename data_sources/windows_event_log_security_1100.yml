@@ -1,14 +1,14 @@
 name: Windows Event Log Security 1100
 id: 2a25dafa-691e-4cb2-ae59-07a48867ed9a
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the event logging service has shut down.
 mitre_components:
 - Host Status
 - System Configuration Changes
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '1100'
 supported_TA:
@@ -78,23 +78,26 @@ fields:
 - vendor
 - vendor_product
 output_fields:
-- action 
-- app 
-- change_type 
-- dest 
-- dvc 
-- name 
-- object_attrs 
-- object_category 
-- service 
-- service_name 
-- signature 
-- signature_id 
-- status 
-- subject 
+- action
+- app
+- change_type
+- dest
+- dvc
+- name
+- object_attrs
+- object_category
+- service
+- service_name
+- signature
+- signature_id
+- status
+- subject
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Eventlog' Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1100</EventID><Version>0</Version><Level>4</Level><Task>103</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Eventlog' 
+  Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1100</EventID><Version>0</Version><Level>4</Level><Task>103</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated
   SystemTime='2024-04-08T18:48:10.378485000Z'/><EventRecordID>140874</EventRecordID><Correlation/><Execution
-  ProcessID='1108' ThreadID='4884'/><Channel>Security</Channel><Computer>ar-win-2</Computer><Security/></System><UserData><ServiceShutdown
+  ProcessID='1108' 
+  ThreadID='4884'/><Channel>Security</Channel><Computer>ar-win-2</Computer><Security/></System><UserData><ServiceShutdown
   xmlns='http://manifests.microsoft.com/win/2004/08/windows/eventlog'></ServiceShutdown></UserData></Event>

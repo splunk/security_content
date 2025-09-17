@@ -1,11 +1,12 @@
 name: Windows PowerShell Add Module to Global Assembly Cache
 id: 3fc16961-97e5-4a5b-a079-e4ab0d9763eb
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of a DLL to the Windows Global
+description:
+  The following analytic detects the addition of a DLL to the Windows Global
   Assembly Cache (GAC) using PowerShell. It leverages PowerShell Script Block Logging
   to identify commands containing "system.enterpriseservices.internal.publish". This
   activity is significant because adding a DLL to the GAC allows it to be shared across
@@ -14,56 +15,61 @@ description: The following analytic detects the addition of a DLL to the Windows
   privilege escalation, and persistent access across the operating system, posing
   a severe security risk.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN("*system.enterpriseservices.internal.publish*")
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText IN("*system.enterpriseservices.internal.publish*")
   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_powershell_add_module_to_global_assembly_cache_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: False positives may be present based on developers or third
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  False positives may be present based on developers or third
   party utilities adding items to the GAC.
 references:
-- https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
-- https://www.microsoft.com/en-us/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
+  - https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/
+  - https://www.microsoft.com/en-us/security/blog/2022/07/26/malicious-iis-extensions-quietly-open-persistent-backdoors-into-servers/
 drilldown_searches:
-- name: View the detection results for - "$Computer$"
-  search: '%original_detection_search% | search  Computer = "$Computer$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$Computer$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$Computer$"
+    search: '%original_detection_search% | search  Computer = "$Computer$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$Computer$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: PowerShell was used to install a module to the Global Assembly Cache on
+  message:
+    PowerShell was used to install a module to the Global Assembly Cache on
     $dest$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 64
+    - field: dest
+      type: system
+      score: 64
   threat_objects: []
 tags:
   analytic_story:
-  - IIS Components
+    - IIS Components
   asset_type: Endpoint
   mitre_attack_id:
-  - T1505.004
+    - T1505.004
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_publish_powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_publish_powershell.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

@@ -1,0 +1,153 @@
+name: CrowdStrike Falcon Stream Alert
+id: 52b38751-b0db-4965-a800-ebaabd1fd7d5
+version: 1
+date: '2025-07-01'
+author: Bhavin Patel, Bryan Pluta, Splunk
+description: Logs of CrowdStrike Falcon Stream Alerts
+mitre_components:
+- Process Creation
+- Process Termination
+- Process Metadata
+- Command Execution
+- OS API Execution
+source: CrowdStrike:Event:Streams
+sourcetype: CrowdStrike:Event:Streams:JSON
+separator: event.DetectName
+supported_TA:
+- name: Splunk Add-on for CrowdStrike FDR
+  url: https://splunkbase.splunk.com/app/5579
+  version: 2.0.5
+fields:
+- action
+- description
+- dest
+- dest_nt_domain
+- event.AssociatedFile
+- event.CommandLine
+- event.ComputerName
+- event.DetectDescription
+- event.DetectId
+- event.DetectName
+- event.DocumentsAccessed{}.FileName
+- event.DocumentsAccessed{}.FilePath
+- event.DocumentsAccessed{}.Timestamp
+- event.ExecutablesWritten{}.FileName
+- event.ExecutablesWritten{}.FilePath
+- event.ExecutablesWritten{}.Timestamp
+- event.FalconHostLink
+- event.FileName
+- event.FilePath
+- event.GrandparentCommandLine
+- event.GrandparentImageFileName
+- event.HostGroups
+- event.IOARuleGroupName
+- event.IOARuleInstanceID
+- event.IOARuleInstanceVersion
+- event.IOARuleName
+- event.IOCType
+- event.IOCValue
+- event.LocalIP
+- event.MACAddress
+- event.MD5String
+- event.MachineDomain
+- event.NetworkAccesses{}.AccessTimestamp
+- event.NetworkAccesses{}.AccessType
+- event.NetworkAccesses{}.ConnectionDirection
+- event.NetworkAccesses{}.IsIPV6
+- event.NetworkAccesses{}.LocalAddress
+- event.NetworkAccesses{}.LocalPort
+- event.NetworkAccesses{}.Protocol
+- event.NetworkAccesses{}.RemoteAddress
+- event.NetworkAccesses{}.RemotePort
+- event.Objective
+- event.ParentCommandLine
+- event.ParentImageFileName
+- event.ParentProcessId
+- event.PatternDispositionDescription
+- event.PatternDispositionFlags.BlockingUnsupportedOrDisabled
+- event.PatternDispositionFlags.BootupSafeguardEnabled
+- event.PatternDispositionFlags.CriticalProcessDisabled
+- event.PatternDispositionFlags.Detect
+- event.PatternDispositionFlags.FsOperationBlocked
+- event.PatternDispositionFlags.HandleOperationDowngraded
+- event.PatternDispositionFlags.InddetMask
+- event.PatternDispositionFlags.Indicator
+- event.PatternDispositionFlags.KillActionFailed
+- event.PatternDispositionFlags.KillParent
+- event.PatternDispositionFlags.KillProcess
+- event.PatternDispositionFlags.KillSubProcess
+- event.PatternDispositionFlags.OperationBlocked
+- event.PatternDispositionFlags.PolicyDisabled
+- event.PatternDispositionFlags.ProcessBlocked
+- event.PatternDispositionFlags.QuarantineFile
+- event.PatternDispositionFlags.QuarantineMachine
+- event.PatternDispositionFlags.RegistryOperationBlocked
+- event.PatternDispositionFlags.Rooting
+- event.PatternDispositionFlags.SensorOnly
+- event.PatternDispositionFlags.SuspendParent
+- event.PatternDispositionFlags.SuspendProcess
+- event.PatternDispositionValue
+- event.PatternId
+- event.ProcessEndTime
+- event.ProcessId
+- event.ProcessStartTime
+- event.SHA1String
+- event.SHA256String
+- event.SensorId
+- event.Severity
+- event.SeverityName
+- event.Tactic
+- event.Tags
+- event.Technique
+- event.UserName
+- eventtype
+- file_hash
+- file_name
+- file_path
+- host
+- id
+- index
+- ip
+- linecount
+- metadata.customerIDString
+- metadata.eventCreationTime
+- metadata.eventType
+- metadata.offset
+- metadata.version
+- parent_process
+- parent_process_id
+- parent_process_name
+- process_id
+- punct
+- severity
+- severity_id
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- subject
+- ta_data.App_id
+- ta_data.Cloud_environment
+- ta_data.Event_types
+- ta_data.Feed_id
+- ta_data.Initial_start
+- ta_data.Input
+- ta_data.Multiple_feeds
+- ta_data.TA_version
+- tag
+- tag::action
+- tag::eventtype
+- timestamp
+- url
+- user
+- vendor_product
+output_fields:
+- dest
+- user
+- process
+- file_name
+- DetectName
+example_log: |
+  {"metadata": {"customerIDString": "3061c7ff3b634e22b38274d4b586558e", "offset": 12570031, "eventType": "DetectionSummaryEvent", "eventCreationTime": 1748883058001, "version": "1.0"}, "event": {"ProcessStartTime": 1748883033, "ProcessEndTime": 1748883033, "ProcessId": 25482595567828, "ParentProcessId": 25482588177316, "ComputerName": "CROWDFAL1", "UserName": "Administrator", "DetectName": "Suspicious Activity", "DetectDescription": "For evaluation only - benign, no action needed.", "Severity": 2, "SeverityName": "Low", "FileName": "choice.exe", "FilePath": "\\Device\\HarddiskVolume2\\Windows\\System32", "CommandLine": "choice  /m crowdstrike_sample_detection", "SHA256String": "df8085fb7d979c644a751804ed6bd3b74b26ce682291b5e5ede4c76eca599e7e", "MD5String": "ed5fc58ec99a058ce9b7bb1ee3a96a8e", "SHA1String": "0000000000000000000000000000000000000000", "MachineDomain": "CROWDFAL1", "FalconHostLink": "https://falcon.crowdstrike.com/activity/detections/detail/12e75112bdc44ac7a60b5ad1d2765303/10907785292170?_cid=g03000lcf73zmc2nbaploaxbwbj4zvsu", "SensorId": "12e75112bdc44ac7a60b5ad1d2765303", "DetectId": "ldt:12e75112bdc44ac7a60b5ad1d2765303:10907785292170", "LocalIP": "10.1.17.3", "MACAddress": "00-50-56-aa-64-1f", "Tactic": "Malware", "Technique": "Malicious File", "Objective": "Falcon Detection Method", "PatternDispositionDescription": "Detection, standard detection.", "PatternDispositionValue": 0, "PatternDispositionFlags": {"Indicator": false, "Detect": false, "InddetMask": false, "SensorOnly": false, "Rooting": false, "KillProcess": false, "KillSubProcess": false, "QuarantineMachine": false, "QuarantineFile": false, "PolicyDisabled": false, "KillParent": false, "OperationBlocked": false, "ProcessBlocked": false, "RegistryOperationBlocked": false, "CriticalProcessDisabled": false, "BootupSafeguardEnabled": false, "FsOperationBlocked": false, "HandleOperationDowngraded": false, "KillActionFailed": false, "BlockingUnsupportedOrDisabled": false, "SuspendProcess": false, "SuspendParent": false}, "ParentImageFileName": "\\Device\\HarddiskVolume2\\Windows\\System32\\cmd.exe", "ParentCommandLine": "C:\\Windows\\SYSTEM32\\cmd.exe /c \"\"C:\\CS_Script.bat\"\"", "GrandparentImageFileName": "\\Device\\HarddiskVolume2\\Windows\\System32\\svchost.exe", "GrandparentCommandLine": "C:\\Windows\\system32\\svchost.exe -k netsvcs", "HostGroups": "0ebde3fe33d547fc9bbe24f50be44da8,fd63f5073f644377a8150e9c1e5a86d0", "PatternId": 10197}, "ta_data": {"Feed_id": "0", "Multiple_feeds": "False", "Cloud_environment": "us_commercial", "TA_version": "3.5.0", "Input": "crwd_events", "App_id": "s2_pl", "Event_types": "['All']", "Initial_start": "historic"}}
+

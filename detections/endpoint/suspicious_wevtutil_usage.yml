@@ -1,7 +1,7 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2025-07-29'
 author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -72,6 +72,7 @@ tags:
   - CISA AA23-347A
   - ShrinkLocker
   - Storm-2460 CLFS Zero Day Exploitation
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.001

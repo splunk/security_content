@@ -1,0 +1,697 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "File Restore",
+    "coa": {
+        "data": {
+            "description": "Accepts a hostname or device id as well as a file path as input and restores the file from the File Vault to a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_9_to_port_5",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_15_to_port_9",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_16_to_port_15",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_19_to_port_11",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_18_to_port_19",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_8_to_port_18",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_11_to_port_29",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "29",
+                    "targetPort": "29_in"
+                },
+                {
+                    "id": "port_29_to_port_16",
+                    "sourceNode": "29",
+                    "sourcePort": "29_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                }
+            ],
+            "hash": "3339fe23d90ca191d7151a1b509f9bc5879ea2da",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 2080
+                },
+                "11": {
+                    "data": {
+                        "action": "create session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "create session",
+                            "customNameId": 0,
+                            "description": "Creates a Real Time Response (RTR) session to interact with the endpoint",
+                            "join": [],
+                            "note": "Creates a Real Time Response (RTR) session to interact with the endpoint"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_session",
+                        "id": "11",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "device_id": "query_device:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1036
+                },
+                "15": {
+                    "data": {
+                        "action": "delete session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "delete session",
+                            "customNameId": 0,
+                            "description": "Closes a Real Time Response (RTR) session to interact with the endpoint",
+                            "join": [],
+                            "note": "Closes a Real Time Response (RTR) session to interact with the endpoint"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "delete_session",
+                        "id": "15",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "session_id": "create_session:action_result.summary.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1536
+                },
+                "16": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command put",
+                            "customNameId": 0,
+                            "description": "Run the put admin command via Real Time Response (RTR)",
+                            "join": [],
+                            "note": "Run the put admin command via Real Time Response (RTR)"
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_admin_command_put",
+                        "id": "16",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "put",
+                            "data": "artifact:*.cef.fileName",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.summary.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1360
+                },
+                "18": {
+                    "data": {
+                        "advanced": {
+                            "customName": "filter file artifacts",
+                            "customNameId": 0,
+                            "description": "Filter to ensure the requested file to restore was found in the vent artifacts.  This playbook assumes the file to restore has been previously collected by the CrowdStrike_OAuth_API_File_Collection input playbook.\n",
+                            "join": [],
+                            "note": "Filter to ensure the requested file to restore was found in the vent artifacts.  This playbook assumes the file to restore has been previously collected by the CrowdStrike_OAuth_API_File_Collection input playbook.\n"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "==",
+                                        "param": "artifact:*.label",
+                                        "value": "collected_file"
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "in",
+                                        "param": "playbook_input:file",
+                                        "value": "artifact:*.cef.fileName"
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "file artifact exists",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 2,
+                        "functionName": "filter_file_artifacts_0",
+                        "id": "18",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 680
+                },
+                "19": {
+                    "data": {
+                        "action": "upload put file",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "upload put file",
+                            "customNameId": 0,
+                            "description": "Upload the file to restore from the SOAR Vault to Crowdstrike.",
+                            "join": [],
+                            "note": "Upload the file to restore from the SOAR Vault to Crowdstrike."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "upload_put_file",
+                        "id": "19",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "comment": "File restored from Splunk SOAR",
+                            "description": "File restored from Splunk SOAR via the CrowdStrike_OAuth_API_File_Restore playbook.",
+                            "file_name": "filtered-data:filter_file_artifacts_0:condition_1:artifact:*.cef.fileName",
+                            "vault_id": "filtered-data:filter_file_artifacts_0:condition_1:artifact:*.cef.vaultId"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "vault_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "description"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 860
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determines if the provided inputs are present in the dataset.",
+                            "join": [],
+                            "note": "Determines if the provided inputs are present in the dataset."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": ""
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:file",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input device and file present",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 148
+                },
+                "29": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command cd",
+                            "customNameId": 0,
+                            "description": "Run the cd admin command via Real Time Response (RTR) to set the working directory properly for the following put command.",
+                            "join": [],
+                            "note": "Run the cd admin command via Real Time Response (RTR) to set the working directory properly for the following put command."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_admin_command_cd",
+                        "id": "29",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "cd",
+                            "data": "filtered-data:filter_file_artifacts_0:condition_1:artifact:*.cef.filePath",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.summary.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "29",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1212
+                },
+                "5": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "host observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each host",
+                            "join": [],
+                            "note": "Format a normalized output for each host."
+                        },
+                        "functionId": 1,
+                        "functionName": "host_observables",
+                        "id": "5",
+                        "inputParameters": [
+                            "create_session:action_result.parameter.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "run_admin_command_put:action_result.parameter.data",
+                            "run_admin_command_cd:action_result.parameter.data",
+                            "run_admin_command_put:action_result.status",
+                            "run_admin_command_put:action_result.message"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "    \n    host_observables__observable_array = []\n    \n    for device_id, hostname, file_name, file_path, status, status_message in zip(create_session_parameter_device_id, query_device_result_item_0, run_admin_command_put_parameter_data, run_admin_command_cd_parameter_data, run_admin_command_put_result_item_1, run_admin_command_put_result_message):\n        # Initialize the observable dictionary\n        observable = {\n            \"source\": \"Crowdstrike OAuth API\",         \n            \"type\": \"Endpoint\",     \n            \"activity_name\": \"File Restore\",\n            \"uid\": device_id,\n            \"hostname\": hostname,\n            \"status\": status,\n            \"status_detail\": status_message,\n            \"file_artifacts\": {\n                \"name\": file_name,\n                \"path\": file_path\n            },\n            \"d3fend\": {\n                \"d3f_tactic\": \"Restore\",\n                \"d3f_technique\": \"D3-RF\",\n                \"version\": \"1.0.0\"\n            }\n        }\n\n        # Add the observable to the array\n        host_observables__observable_array.append(observable)\n    \n    # Debug output for verification\n    phantom.debug(host_observables__observable_array)\n    \n",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1900
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format fql",
+                            "customNameId": 0,
+                            "description": "Format the FQL query to get the input device information using its ID or hostname.",
+                            "join": [],
+                            "note": "Format the FQL query to get the input device information using its ID or hostname."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_fql",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:device"
+                        ],
+                        "template": "%%\nhostname:['{0}'],device_id:['{0}']\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 328
+                },
+                "8": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query device",
+                            "customNameId": 0,
+                            "description": "Get information about the device using its hostname or device id.",
+                            "join": [],
+                            "note": "Get information about the device using its hostname or device id."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_device",
+                        "id": "8",
+                        "loop": {
+                            "conditions": [
+                                {
+                                    "comparisons": [
+                                        {
+                                            "conditionIndex": 0,
+                                            "op": "==",
+                                            "param": "",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "conditionIndex": 0,
+                                    "display": "If",
+                                    "logic": "and",
+                                    "type": "if"
+                                }
+                            ],
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "format_fql:formatted_data.*",
+                            "limit": 50
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 504
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format file restore report",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_file_restore_report",
+                        "id": "9",
+                        "parameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "run_admin_command_put:action_result.parameter.data",
+                            "run_admin_command_put:action_result.status"
+                        ],
+                        "template": "Endpoint Files were restored by Splunk SOAR. The table below summarizes the information gathered.\n\n| Device ID | File Path | Restore Status |\n| --- | --- | --- |\n%%\n| {0} | {1} | {2} |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1712
+                }
+            },
+            "notes": "Inputs: \ndevice (CrowdStrike Device ID or Hostname)\npath (File path)\nInteractions: CrowdStrike OAuth API\nActions: create session,  run admin command, delete session\nOutputs: observables, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "Device ID or hostname of the host where the file should be restored.",
+                "name": "device"
+            },
+            {
+                "contains": [
+                    "file name"
+                ],
+                "description": "Name of the file on the endpoint to restore.  Assumes a file is present in the File Vault and a matching file_collected artifact exists with the same name from a previous File Collection run.",
+                "name": "file"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "host_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_file_restore_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "A report of the devices that were isolated via Splunk SOAR.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.15",
+        "version": "6.3.1.178"
+    },
+    "create_time": "2025-04-09T16:44:19.014187+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "CrowdStrike_OAuth_API",
+        "host name",
+        "D3-RF"
+    ]
+}

@@ -1,7 +1,7 @@
 name: Windows Anonymous Pipe Activity
 id: ee301e1e-cd81-4011-a911-e5f049b9e3d5
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-08-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -51,6 +51,7 @@ tags:
   - Salt Typhoon
   - China-Nexus Threat Activity
   - SnappyBee
+  - Interlock Rat
   asset_type: Endpoint
   mitre_attack_id:
   - T1559

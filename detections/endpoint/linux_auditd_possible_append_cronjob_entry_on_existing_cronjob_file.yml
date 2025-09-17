@@ -1,7 +1,7 @@
 name: Linux Auditd Possible Append Cronjob Entry On Existing Cronjob File
 id: fea71cf0-fa10-4ef6-9202-9682b2e0c477
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -15,9 +15,12 @@ description: The following analytic detects potential tampering with cronjob fil
 data_source:
 - Linux Auditd Path
 search: '`linux_auditd` type=PATH name IN("*/etc/cron*", "*/var/spool/cron/*", "*/etc/anacrontab*")
-  | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime
-  by name nametype OGID  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
+  | rename host as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime
+  by name nametype ogid  dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_possible_append_cronjob_entry_on_existing_cronjob_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures
   command-line executions and process details on Unix/Linux systems. These logs should
@@ -54,6 +57,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/linux_auditd_cron_file_audited/linux_auditd_cron_file_audited2.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/linux_auditd_cron_file_audited/linux_path_cron.log
     source: auditd
     sourcetype: auditd

@@ -1,19 +1,28 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 10
-date: '2025-05-19'
+version: 11
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: |
-  The following analytic identifies the execution of ping sleep batch commands.
+description: 'The following analytic identifies the execution of ping sleep batch
+  commands.
+
   It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
+
   process and parent process command-line details. This activity is significant as
+
   it indicates an attempt to delay malicious code execution, potentially evading detection
+
   or sandbox analysis. If confirmed malicious, this technique allows attackers to
+
   bypass security measures, making it harder to detect and analyze their activities,
+
   thereby increasing the risk of prolonged unauthorized access and potential data
+
   exfiltration.
+
+  '
 data_source:
 - Sysmon EventID 1
 - CrowdStrike ProcessRollup2
@@ -79,11 +88,12 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - Warzone RAT
+  - Quasar RAT
   - Data Destruction
+  - Meduza Stealer
   - WhisperGate
   - BlackByte Ransomware
-  - Warzone RAT
-  - Meduza Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1497.003

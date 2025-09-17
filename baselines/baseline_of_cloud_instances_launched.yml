@@ -5,13 +5,15 @@ date: '2020-08-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
-description: This search is used to build a Machine Learning Toolkit (MLTK) model
+description:
+  This search is used to build a Machine Learning Toolkit (MLTK) model
   for how many instances are created in the environment. By default, the search uses
   the last 90 days of data to build the model and the model is rebuilt weekly. The
   model created by this search is then used in the corresponding detection search,
   which identifies subsequent outliers in the number of instances created in a small
   time window.
-search: '| tstats count as instances_launched from datamodel=Change where (All_Changes.action=created)
+search:
+  '| tstats count as instances_launched from datamodel=Change where (All_Changes.action=created)
   AND All_Changes.status=success AND All_Changes.object_category=instance by _time
   span=1h | makecontinuous span=1h _time | eval instances_launched=coalesce(instances_launched,
   (random()%2)*0.0000000001) | eval HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4
@@ -19,7 +21,8 @@ search: '| tstats count as instances_launched from datamodel=Change where (All_C
   <= 5, 0, 1) | table _time instances_launched, HourOfDay, isWeekend | fit DensityFunction
   instances_launched by "HourOfDay,isWeekend" into cloud_excessive_instances_created_v1
   dist=expon show_density=true'
-how_to_implement: "You must have Enterprise Security 6.0 or later, if not you will
+how_to_implement:
+  "You must have Enterprise Security 6.0 or later, if not you will
   need to verify that the Machine Learning Toolkit (MLTK) version 4.2 or later is
   installed, along with any required dependencies. Depending on the number of users
   in your environment, you may also need to adjust the value for max_inputs in the
@@ -28,19 +31,19 @@ how_to_implement: "You must have Enterprise Security 6.0 or later, if not you wi
   90 days of data. You can modify the search window to build the model over a longer
   period of time, which may give you better results. You may also want to periodically
   re-run this search to rebuild the model with the latest data.\nMore information
-  on the algorithm used in the search can be found at `https://docs.splunk.com/Documentation/MLApp/4.2.0/User/Algorithms#DensityFunction`."
+  on the algorithm used in the search can be found at `https://help.splunk.com/en/splunk-enterprise/apply-machine-learning/use-splunk-machine-learning-toolkit/5.5.0/algorithms-and-scoring-metrics-in-mltk/algorithms-in-the-splunk-machine-learning-toolkit#densityfunction-0`."
 known_false_positives: none
 references: []
 tags:
   analytic_story:
-  - Cloud Cryptomining
-  - Suspicious Cloud Instance Activities
+    - Cloud Cryptomining
+    - Suspicious Cloud Instance Activities
   detections:
-  - Abnormally High Number Of Cloud Instances Launched
+    - Abnormally High Number Of Cloud Instances Launched
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
 deployment:
   scheduling:

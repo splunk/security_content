@@ -1,0 +1,104 @@
+name: Cisco NVM - MSHTML or MSHTA Network Execution Without URL in CLI
+id: f2a9df84-9b01-4a21-9e3a-7aa1a217f69e
+version: 2
+date: '2025-09-09'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects suspicious use of 'mshta.exe' or 'rundll32.exe' invoking 'mshtml.dll'
+  or the 'RunHTMLApplication' export without including a direct HTTP/HTTPS URL in the command line.
+  This pattern could be associated with obfuscated script execution used by threat actors during
+  initial access or payload staging. The absence of a visible URL may indicate attempts to evade static
+  detections by embedding the URL via string concatenation, encoding (e.g., hex), or indirect script loaders
+  like 'GetObject()'.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+  (
+    (
+      process_name = "mshta.exe"
+      process_arguments IN ("*javascript*", "*vbscript*")
+    )
+    OR
+    ( process_name = "rundll32.exe" AND
+      process_arguments = "*mshtml*" AND
+      process_arguments = "*RunHTMLApplication*"
+    )
+  )
+  NOT process_arguments IN ("*http://*", "*https://*")
+  | stats count min(_time) as firstTime max(_time) as lastTime
+          values(parent_process_arguments) as parent_process_arguments
+          values(process_arguments) as process_arguments
+          values(parent_process_hash) as parent_process_hash
+          values(process_hash) as process_hash
+          values(module_name_list) as module_name_list
+          values(module_hash_list) as module_hash_list
+          values(dest_port) as dest_port
+          values(aliul) as additional_logged_in_users_list
+          values(dest_hostname) as dest_hostname
+          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table
+    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    process_integrity_level process_path process_name process_arguments process_hash process_id
+    additional_logged_in_users_list module_name_list module_hash_list
+    src dest_hostname dest dest_port transport firstTime lastTime
+  | `cisco_nvm___mshtml_or_mshta_network_execution_without_url_in_cli_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+  False positives should be minimal as the presence of a network connection during such executions increases the likelihood of malicious behavior.
+references:
+  - https://attack.mitre.org/techniques/T1218/005/
+  - https://redcanary.com/blog/mshta-attack-technique/
+  - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+  - https://learn.microsoft.com/en-us/windows/win32/api/mshtml/nf-mshtml-mshtml_runhtmlapplication
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: The host $src$ executed $process_name$ with potential obfuscated logic and initiated a network connection to $dest_hostname$ / $dest$ over $dest_port$.
+  risk_objects:
+    - field: src
+      type: system
+      score: 40
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1218.005
+    - T1059.005
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

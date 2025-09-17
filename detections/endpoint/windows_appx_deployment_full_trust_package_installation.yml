@@ -1,0 +1,60 @@
+name: Windows AppX Deployment Full Trust Package Installation
+id: 8560de46-ea2d-4c69-8ca3-5b78b90f1338
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic detects the installation of MSIX/AppX packages with full trust privileges. This detection leverages Windows event logs from the AppXDeployment-Server, specifically focusing on EventCode 400 which indicates a package deployment operation. Full trust packages are significant as they run with elevated privileges outside the normal AppX container restrictions, allowing them to access system resources that regular AppX packages cannot. Adversaries have been observed leveraging full trust MSIX packages to deliver malware, as documented in recent threat intelligence reports. If confirmed malicious, these packages could allow attackers to execute arbitrary code with elevated privileges, establish persistence, or deliver malware while evading traditional detection mechanisms.
+data_source:
+- Windows Event Log AppXDeployment-Server 400
+search: '`wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true"
+  | stats count min(_time) as firstTime max(_time) as lastTime values(PackageFullName) as PackageFullName values(Path) as PackagePath values(PackageSourceUri) as PackageSourceUri values(PackageDisplayName) as PackageDisplayName values(CallingProcess) as CallingProcess values(IsCentennial) as IsCentennial by dvc EventCode HasFullTrust user_id | rename dvc as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_appx_deployment_full_trust_package_installation_filter`'
+how_to_implement: To implement this search, you need to configure Windows event log collection for the Microsoft-Windows-AppXDeploymentServer/Operational channel. This can be done through Windows Event Forwarding, Splunk Universal Forwarders, or other log collection methods. Ensure that the log collection method preserves the full XML structure of the events. The sourcetype should be set to XmlWinEventLog or WinEventLog depending on your environment configuration. This detection specifically looks for EventCode 400, which indicates package deployment operations, and filters for packages with full trust privileges.
+known_false_positives: Legitimate applications may be deployed as full trust MSIX packages, especially line-of-business applications that require access to system resources. Microsoft Store applications, development tools, and enterprise applications may legitimately use full trust packages. Verify if the package is from a trusted source and signed by a trusted publisher before taking action. Review the package source URI and calling process to determine if the installation is expected in your environment.
+references:
+- https://redcanary.com/blog/threat-intelligence/msix-installers/
+- https://redcanary.com/threat-detection-report/techniques/installer-packages/
+- https://learn.microsoft.com/en-us/windows/msix/desktop/desktop-to-uwp-behind-the-scenes
+- https://learn.microsoft.com/en-us/windows/msix/package/package-identity
+- https://attack.mitre.org/techniques/T1553/005/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: Look for related PowerShell activity from the same dest
+  search: '`powershell` EventCode=4104 dest="$dest$" | stats count by ScriptBlockText'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+tags:
+  analytic_story:
+  - MSIX Package Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1553.005
+  - T1204.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational

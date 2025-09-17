@@ -1,6 +1,6 @@
 name: ransomware_extensions_lookup
-date: 2025-03-18
-version: 3
+date: 2025-07-28
+version: 4
 id: eaf9e6bb-55fa-4bab-89a5-b0229638c526
 author: Splunk Threat Research Team
 lookup_type: csv

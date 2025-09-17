@@ -1,7 +1,7 @@
 name: Linux Auditd Stop Services
 id: 43bc9281-753b-4743-b4b7-60af84f085f3
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -15,7 +15,7 @@ description: The following analytic detects attempts to stop a service on Linux 
 data_source:
 - Linux Auditd Service Stop
 search: '`linux_auditd` type=SERVICE_STOP | rename host as dest | stats count min(_time)
-  as firstTime max(_time) as lastTime by type pid UID comm exe dest | `security_content_ctime(firstTime)`|
+  as firstTime max(_time) as lastTime by type pid comm exe dest | `security_content_ctime(firstTime)`|
   `security_content_ctime(lastTime)`| `linux_auditd_stop_services_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures

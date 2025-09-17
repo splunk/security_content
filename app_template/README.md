@@ -4,4 +4,4 @@ This subscription service delivers pre-packaged Security Content for use with Sp
 
 Requires Splunk Enterprise Security version 4.5 or greater.
 
-For more information please visit the [Splunk ES Content Update user documentation](https://docs.splunk.com/Documentation/ESSOC).
+For more information please visit the [Splunk ES Content Update user documentation](https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update).

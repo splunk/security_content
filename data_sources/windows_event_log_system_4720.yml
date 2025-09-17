@@ -1,17 +1,17 @@
 name: Windows Event Log System 4720
 id: f01d4758-05c8-4ac4-a9a5-33500dd5eb6c
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the creation of a new user account, including details about the
-  account name, associated domain, and the account performing the action.
+description: Logs the creation of a new user account, including details about 
+  the account name, associated domain, and the account performing the action.
 mitre_components:
 - User Account Creation
 - User Account Metadata
 - Active Directory Object Creation
 - Application Log Content
 source: XmlWinEventLog:System
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4720'
 supported_TA:

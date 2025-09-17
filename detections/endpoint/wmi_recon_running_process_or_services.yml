@@ -1,11 +1,12 @@
 name: WMI Recon Running Process Or Services
 id: b5cd5526-cce7-11eb-b3bd-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies suspicious PowerShell script execution
+description:
+  The following analytic identifies suspicious PowerShell script execution
   via EventCode 4104, where WMI performs an event query to list running processes
   or services. This detection leverages PowerShell Script Block Logging to capture
   and analyze script block text for specific WMI queries. This activity is significant
@@ -14,63 +15,67 @@ description: The following analytic identifies suspicious PowerShell script exec
   to identify and potentially disable security defenses, facilitating further compromise
   and persistence within the environment.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*"
   OR ScriptBlockText="*Win32_Service*") | fillnull | stats count min(_time) as firstTime
   max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID
   Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Network administrator may used this command for checking purposes
 references:
-- https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
-- https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
-- https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
-- https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
+  - https://news.sophos.com/en-us/2020/05/12/maze-ransomware-1-year-counting/
+  - https://www.eideon.com/2018-03-02-THL03-WMIBackdoors/
+  - https://github.com/trustedsec/SysmonCommunityGuide/blob/master/chapters/WMI-events.md
+  - https://in.security/2019/04/03/an-intro-into-abusing-and-identifying-wmi-event-subscriptions-for-persistence/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$" and "$user_id$"
+    search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: Suspicious powerShell script execution by $user_id$ on $dest$ via EventCode
+  message:
+    Suspicious powerShell script execution by $user_id$ on $dest$ via EventCode
     4104, where WMI is performing an event query looking for running processes or
     running services
   risk_objects:
-  - field: dest
-    type: system
-    score: 20
-  - field: user_id
-    type: user
-    score: 20
+    - field: dest
+      type: system
+      score: 20
+    - field: user_id
+      type: user
+      score: 20
   threat_objects: []
 tags:
   analytic_story:
-  - Malicious PowerShell
-  - Hermetic Wiper
-  - Data Destruction
+    - Malicious PowerShell
+    - Hermetic Wiper
+    - Data Destruction
   asset_type: Endpoint
   mitre_attack_id:
-  - T1592
+    - T1592
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/win32process.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

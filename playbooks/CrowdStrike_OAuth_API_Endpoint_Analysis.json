@@ -1,0 +1,795 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Enrichment",
+    "coa": {
+        "data": {
+            "description": "Accepts a hostname or device id as input and collects running processes, network connections and various system information from the device via Crowdstrike. We then generate an observable report for each. This can be customized based on user preference.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_8_to_port_11",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_12",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                },
+                {
+                    "id": "port_12_to_port_17",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "17",
+                    "targetPort": "17_in"
+                },
+                {
+                    "id": "port_11_to_port_18",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_18_to_port_19",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "19",
+                    "targetPort": "19_in"
+                },
+                {
+                    "id": "port_8_to_port_20",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "20",
+                    "targetPort": "20_in"
+                },
+                {
+                    "id": "port_20_to_port_21",
+                    "sourceNode": "20",
+                    "sourcePort": "20_out",
+                    "targetNode": "21",
+                    "targetPort": "21_in"
+                },
+                {
+                    "id": "port_21_to_port_1",
+                    "sourceNode": "21",
+                    "sourcePort": "21_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_19_to_port_23",
+                    "sourceNode": "19",
+                    "sourcePort": "19_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "id": "port_17_to_port_23",
+                    "sourceNode": "17",
+                    "sourcePort": "17_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                },
+                {
+                    "id": "port_23_to_port_1",
+                    "sourceNode": "23",
+                    "sourcePort": "23_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_11_to_port_24",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "24",
+                    "targetPort": "24_in"
+                },
+                {
+                    "id": "port_24_to_port_25",
+                    "sourceNode": "24",
+                    "sourcePort": "24_out",
+                    "targetNode": "25",
+                    "targetPort": "25_in"
+                },
+                {
+                    "id": "port_25_to_port_23",
+                    "sourceNode": "25",
+                    "sourcePort": "25_out",
+                    "targetNode": "23",
+                    "targetPort": "23_in"
+                }
+            ],
+            "hash": "b056d8c5001ac05e31fe03ff61e1acb72c4b9281",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 360,
+                    "y": -3.197442310920451e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 440,
+                    "y": 1460
+                },
+                "11": {
+                    "data": {
+                        "action": "create session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "create session",
+                            "customNameId": 0,
+                            "description": "Create a Real Time Response (RTR) session on CS Falcon to interact with the endpoint.",
+                            "join": [],
+                            "note": "Create a Real Time Response (RTR) session on CS Falcon to interact with the endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_session",
+                        "id": "11",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "device_id": "query_device:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 170,
+                    "y": 680
+                },
+                "12": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command ps",
+                            "customNameId": 0,
+                            "description": "Gets a list of running processes on the specified endpoint.",
+                            "join": [],
+                            "note": "Gets a list of running processes on the specified endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_admin_command_ps",
+                        "id": "12",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "ps",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.data.*.resources.*.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 840
+                },
+                "17": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process process observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each process",
+                            "join": [],
+                            "note": "Format a normalized output for each process"
+                        },
+                        "functionId": 3,
+                        "functionName": "process_process_observables",
+                        "id": "17",
+                        "inputParameters": [
+                            "query_device:action_result.data.*.hostname",
+                            "run_admin_command_ps:action_result.parameter",
+                            "run_admin_command_ps:action_result.data",
+                            "run_admin_command_ps:action_result.status",
+                            "run_admin_command_ps:action_result.message"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "17",
+                    "type": "code",
+                    "userCode": "\n    import re\n    process_process_observables__observable_array = []\n    i = 0\n        \n    ################################################################################\n    # This returns process information from stdout as text, with lines separated by newlines (\\n).\n    # For example:\n    #\n    # Name                Id Start Time (UTC-7)   WorkingMemory(kb)    CPU(s) HandleCount Path                                                              \n    # ----                -- ------------------   -----------------    ------ ----------- ----                                                              \n    # conhost           2216 4/8/2025 12:14:21 PM             5,612      0.05          93 C:\\Windows\\system32\\conhost.exe                                   \n    # conhost           4192 4/8/2025 12:14:21 PM             5,620      0.03          93 C:\\Windows\\system32\\conhost.exe   \n    # CSFalconService    488 3/27/2025 9:05:13 AM            60,196    312.31         671  \n    # csrss              672 3/11/2025 4:21:37 AM             4,476    667.27         500\n    # powershell        3768 4/8/2025 12:14:21 PM            60,892      0.66         511 C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe \n    # VGAuthService     2412 3/11/2025 4:21:42 AM            10,920      0.05         149 C:\\Program Files\\VMware\\VMware Tools\\VMware                       \n    #                                                                                     VGAuth\\VGAuthService.exe                                          \n    # vm3dservice       2440 3/11/2025 4:21:42 AM             6,096      0.02         123 C:\\Windows\\system32\\vm3dservice.exe                               \n    # vm3dservice       2568 3/11/2025 4:21:42 AM             6,564      0.03         110 C:\\Windows\\system32\\vm3dservice.exe                               \n    # vm3dservice       4248 3/11/2025 4:25:31 AM             6,564      0.08         111 C:\\Windows\\system32\\vm3dservice.exe   \n    \n    for system in run_admin_command_ps_result_item_1:\n        device_id = run_admin_command_ps_result_item_0[i].get(\"device_id\")\n        hostname = query_device_result_item_0[i]\n        \n        observable = {\n                \"source\": \"Crowdstrike OAuth API\",\n                \"type\": \"Endpoint\",\n                \"activity_name\": \"Process Collection\",\n                \"uid\": device_id,\n                \"hostname\": hostname,\n                \"status\": run_admin_command_ps_result_item_2[i],\n                \"status_detail\": run_admin_command_ps_result_message[i],\n                \"process_artifacts\": []\n            }\n        \n        stdout = system[0][\"resources\"][0][\"stdout\"]\n        \n        # Skip header lines and read each one using REGEX (for lack of a better way).\n        for line in stdout.split('\\n')[3:]:\n            pattern = re.compile('^(?P<name>\\w+)\\s+(?P<pid>\\d+)\\s+(?P<start_time>[\\d\\/:\\s]+(AM|PM))\\s+(?P<working_memory>[\\d,]+)\\s+(?P<cpu>[\\d,\\.]+)\\s+(?P<handle_count>\\d+)\\s(?P<path>.*)$')\n            matches = pattern.match(line)\n            orphan_matches = pattern.match(line)\n            \n            if matches:\n                name = matches.group('name')\n                pid = matches.group('pid')\n                start_time = matches.group('start_time')\n                working_memory = matches.group('working_memory')\n                cpu = matches.group('cpu')\n                handle_count = matches.group('handle_count')\n                path = matches.group('path')          \n                \n                # Skip lines we don't care about.\n                if line.strip() and name not in ['Idle','System']:\n                    observable['process_artifacts'].append(\n                        {\n                            \"name\": name,\n                            \"pid\": pid,\n                            \"path\": path.strip(),\n                            \"created_time\": start_time,\n                            \"xattributes\": [\n                                {\n                                    \"working_memory\": working_memory,\n                                    \"handle_count\": handle_count,\n                                    \"cpu\": cpu\n                                }\n                            ]\n                        }\n                    )\n            else:\n                # Some paths are continued on the next line... fold them back into the correct observable.\n                orphan_pattern = re.compile('^\\s+(?P<orphaned_path>.*?)\\s+$')\n                orphan_matches = orphan_pattern.match(line)\n                \n                if orphan_matches:\n                    orphaned_path = orphan_matches.group('orphaned_path')\n                    previous_observable = observable['process_artifacts'][-1]\n                    if previous_observable:\n                        previous_observable[\"path\"] = previous_observable[\"path\"] + \" \" + orphaned_path\n                    \n  \n        #phantom.debug(f\"observable = {observable}\")\n        process_process_observables__observable_array.append(observable)\n        i+=1\n        \n",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1020
+                },
+                "18": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command netstat",
+                            "customNameId": 0,
+                            "description": "List the open sockets & network ports on the specified endpoint.",
+                            "join": [],
+                            "note": "List the open sockets & network ports on the specified endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "run_admin_command_netstat",
+                        "id": "18",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "netstat",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.data.*.resources.*.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 840
+                },
+                "19": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "process network observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each network connection",
+                            "join": [],
+                            "note": "Format a normalized output for each network connection"
+                        },
+                        "functionId": 4,
+                        "functionName": "process_network_observables",
+                        "id": "19",
+                        "inputParameters": [
+                            "run_admin_command_netstat:action_result.parameter.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "run_admin_command_netstat:action_result.status",
+                            "run_admin_command_netstat:action_result.message",
+                            "run_admin_command_netstat:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "19",
+                    "type": "code",
+                    "userCode": "\n    import re\n    process_network_observables__observable_array = []\n    i = 0\n    \n    ################################################################################\n    # This returns network connection information from stdout as text, with lines separated by newlines (\\n).\n    # For example:\n    #\n    # Proto Local Address                    Foreign Address         State Owning Process Id Owning Process Name             Process Start Time (UTC-8)\n    # ----- -------------                    ---------------         ----- ----------------- -------------------             --------------------------\n    # TCP   :::49689                         :::0                   Listen               920 C:\\Windows\\system32\\lsass.exe   10/25/2024 10:28:22 AM    \n    # TCP   :::49675                         :::0                   Listen              2060 C:\\Windows\\system32\\svchost.exe 10/25/2024 10:28:13 AM    \n    # TCP   :::49669                         :::0                   Listen              2164 C:\\Windows\\System32\\spoolsv.exe 10/25/2024 10:28:13 AM    \n    # TCP   :::49666                         :::0                   Listen              1056 C:\\Windows\\system32\\svchost.exe 10/25/2024 10:28:13 AM    \n    # TCP   :::49665                         :::0                   Listen              1116 C:\\Windows\\System32\\svchost.exe 10/25/2024 10:28:12 AM    \n    # TCP   :::49664                         :::0                   Listen               768                                 10/25/2024 10:28:12 AM    \n    # TCP   :::3389                          :::0                   Listen              1048 C:\\Windows\\System32\\svchost.exe 10/25/2024 10:28:13 AM    \n    # TCP   :::445                           :::0                   Listen                 4                                 10/25/2024 10:28:13 AM    \n    # TCP   :::135                           :::0                   Listen               352 C:\\Windows\\system32\\svchost.exe 10/25/2024 10:28:12 AM    \n    # TCP   0.0.0.0:58808                    0.0.0.0:0               Bound              1056 C:\\Windows\\system32\\svchost.exe 11/23/2024 9:31:16 PM     \n    # TCP   10.1.19.4:59929                  54.241.197.58:443 Established                 4                                 2/24/2025 2:34:34 PM      \n    # TCP   10.1.19.4:58808                  13.64.180.106:443 Established              1056 C:\\Windows\\system32\\svchost.exe 11/23/2024 9:31:16 PM     \n    # TCP   0.0.0.0:49689                    0.0.0.0:0              Listen               920 C:\\Windows\\system32\\lsass.exe   10/25/2024 10:28:22 AM    \n    # TCP   0.0.0.0:49679                    0.0.0.0:0              Listen               904                                 10/25/2024 10:28:13 AM    \n    # TCP   0.0.0.0:49675                    0.0.0.0:0              Listen              2060 C:\\Windows\\system32\\svchost.exe 10/25/2024 10:28:13 AM    \n    # TCP   0.0.0.0:49669                    0.0.0.0:0              Listen              2164 C:\\Windows\\System32\\spoolsv.exe 10/25/2024 10:28:13 AM    \n    # UDP   ::1:60661                        *:*                    Listen              5472 C:\\Windows\\system32\\svchost.exe 10/26/2024 9:03:09 AM     \n    # UDP   fe80::9c8b:6e28:cc9:6e2e%2:60660 *:*                    Listen              5472 C:\\Windows\\system32\\svchost.exe 10/26/2024 9:03:09 AM     \n    # UDP   :::5355                          *:*                    Listen              1488 C:\\Windows\\System32\\svchost.exe 2/25/2025 6:52:43 AM      \n    # UDP   :::5353                          *:*                    Listen              1488 C:\\Windows\\System32\\svchost.exe 2/25/2025 6:52:43 AM      \n\n    for system in run_admin_command_netstat_result_item_3:\n        device_id = run_admin_command_netstat_parameter_device_id[i]\n        hostname = query_device_result_item_0[i]\n    \n        observable = {\n            \"source\": \"Crowdstrike OAuth API\",\n            \"type\": \"Endpoint\",\n            \"activity_name\": \"Network Connections Collection\",\n            \"uid\": device_id,\n            \"hostname\": hostname,\n            \"status\": run_admin_command_netstat_result_item_1[i],\n            \"status_detail\": run_admin_command_netstat_result_message[i],\n            \"network_artifacts\": []\n        }\n\n        phantom.debug(f\"system -> {system}\")\n        \n        stdout = system[0][\"resources\"][0][\"stdout\"]\n        if stdout:\n            # Skip header lines and read each one, extracting fields via REGEX (for lack of a better way).\n            for line in stdout.split('\\n')[3:]:                                                \n                line_groups = re.search('^(\\w+)\\s+(.*?)\\s+(.*?)\\s+(\\w+)\\s+(\\d+)\\s(.*?)\\s(\\d.*?)\\s+$', line)\n                \n                if line_groups:\n                    proto = line_groups.group(1)\n                    local_address = line_groups.group(2)\n                    foreign_address = line_groups.group(3)\n                    state = line_groups.group(4)\n                    process_id = line_groups.group(5)\n                    process_path = line_groups.group(6)\n                    start_time = line_groups.group(7)\n                   \n                    observable['network_artifacts'].append(\n                         {\n                             \"protocol_name\": proto,\n                             \"local_address\": local_address,\n                             \"foreign_address\": foreign_address,\n                             \"state\": state,\n                             \"start_time\": start_time,\n                             \"process\": [\n                                 {\n                                     \"pid\": process_id,\n                                     \"path\": process_path\n                                 }\n                             ]\n                         }\n                    )           \n\n        #phantom.debug(observable)\n        process_network_observables__observable_array.append(observable)\n        i+=1\n    \n",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1020
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determines if the provided inputs are present in the dataset.",
+                            "join": [],
+                            "note": "Determines if the provided inputs are present in the dataset."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input device present",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 400,
+                    "y": 148
+                },
+                "20": {
+                    "data": {
+                        "action": "get system info",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "get system info",
+                            "customNameId": 0,
+                            "description": "Get information from the endpoint.",
+                            "join": [],
+                            "note": "Get information from the endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "get_system_info",
+                        "id": "20",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "id": "query_device:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "20",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 680
+                },
+                "21": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process system observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for the endpoint.",
+                            "join": [],
+                            "note": "Format a normalized output for the endpoint."
+                        },
+                        "functionId": 2,
+                        "functionName": "process_system_observables",
+                        "id": "21",
+                        "inputParameters": [
+                            "get_system_info:action_result.status",
+                            "get_system_info:action_result.message",
+                            "get_system_info:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "21",
+                    "type": "code",
+                    "userCode": "    process_system_observables__observable_array = []\n    i = 0\n    \n    for system in get_system_info_result_item_2:\n        data = system[0]\n        if data:\n            observable = {\n                \"source\": \"Crowdstrike OAuth API\",         \n                \"type\": \"Endpoint\",     \n                \"activity_name\": \"System Collection\",\n                \"uid\": data['device_id'],\n                \"hostname\": data['hostname'],\n                \"status\": get_system_info_result_item_0[i],\n                \"status_detail\": get_system_info_result_message[i],\n                \"endpoint_artifacts\": [\n                    {\n                        \"agents\": [\n                            {\n                                \"type\": \"Endpoint Detection and Response\",\n                                \"type_id\": 1,\n                                \"uid\": data['cid'],\n                                \"vendor_name\": \"Crowdstrike\",\n                                \"version\": data['agent_version']                        \n                            }\n                        ],\n                        \"ip\": data['local_ip'],\n                        \"external_ip\": data['external_ip'],\n                        \"mac\": data['mac_address'],\n                        \"domain\": data['machine_domain'],\n                        \"type\": data['product_type_desc'],\n                        \"last_seen\": data['last_seen'],\n                        \"last_reboot\": data['last_reboot'],\n                        \"last_login_user_sid\": data.get('last_login_user_sid', ''),\n                        \"last_login_timestamp\": data.get('last_login_timestamp', ''),\n                        \"operating_system\": {\n                            \"build:\": data['os_build'],\n                            \"kernel_release\": data['kernel_version'],\n                            \"name\": data['os_product_name'],\n                            \"type\": data['platform_name'],\n                            \"version\": data['os_version']\n                        },\n                        \"hw_info\": {\n                            \"bios_manufacturer\": data['bios_manufacturer'],\n                            \"bios_version\": data['bios_version'],\n                            \"serial_number\": data['serial_number'],\n                            \"chassis\": data['chassis_type_desc']\n                        }\n                    }\n                ]\n            }\n        \n        policies = []\n        for policy in data['policies']:\n            policies.append(\n                {\n                    \"name\": policy['policy_type'],\n                    \"uid\": policy['policy_id'],\n                    \"is_applied\": policy['applied']\n                }\n            )\n            observable['endpoint_artifacts'][0]['agents'][0]['policies'] = policies\n        \n        #phantom.debug(f\"---> OBSERVABLE: {observable}\")\n        process_system_observables__observable_array.append(observable)\n        i+=1\n\n",
+                    "warnings": {},
+                    "x": 680,
+                    "y": 1020
+                },
+                "23": {
+                    "data": {
+                        "action": "delete session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "delete session",
+                            "customNameId": 0,
+                            "description": "Deletes the Real Time Response (RTR) session on CS Falcon.",
+                            "join": [],
+                            "note": "Deletes the Real Time Response (RTR) session on CS Falcon."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "delete_session",
+                        "id": "23",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "session_id": "create_session:action_result.summary.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "23",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 180,
+                    "y": 1260
+                },
+                "24": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command services",
+                            "customNameId": 0,
+                            "description": "Runs a set of Powershell commands to gather details about the services on the endpoint.  This requires that the host response policy permits it on the CrowdStrike side.",
+                            "join": [],
+                            "note": "Runs a set of Powershell commands to gather details about the services on the endpoint.  This requires that the host response policy permits it on the CrowdStrike side."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "run_admin_command_services",
+                        "id": "24",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "runscript",
+                            "data": "-Raw=```Get-Service | Select-Object -Property Name, DisplayName, Status, ServiceType, StartType | ConvertTo-Json```",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.data.*.resources.*.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "24",
+                    "type": "action",
+                    "warnings": {},
+                    "x": -320,
+                    "y": 840
+                },
+                "25": {
+                    "data": {
+                        "advanced": {
+                            "customName": "process service observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each service",
+                            "join": [],
+                            "note": "Format a normalized output for each service"
+                        },
+                        "functionId": 1,
+                        "functionName": "process_service_observables",
+                        "id": "25",
+                        "inputParameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "run_admin_command_services:action_result.data.*.resources",
+                            "run_admin_command_services:action_result.status",
+                            "run_admin_command_services:action_result.message"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "25",
+                    "type": "code",
+                    "userCode": "\n    import json\n    \n    # Ref: https://learn.microsoft.com/en-us/dotnet/api/system.serviceprocess.servicestartmode?view=net-9.0-pp\n    ocsf_start_type_mapping = {\n        \"0\": { \"id\": \"1\", \"type\": \"Boot\" },     # Boot -> Boot\n        \"1\": { \"id\": \"2\", \"type\": \"System\" },   # System -> System\n        \"2\": { \"id\": \"3\", \"type\": \"Auto\" },     # Automatic -> Auto\n        \"3\": { \"id\": \"4\", \"type\": \"Demand\" },   # Manual -> Demand\n        \"4\": { \"id\": \"5\", \"type\": \"Disabled\" }  # Disabled -> Disabled\n    }\n    \n    # Ref: https://learn.microsoft.com/en-us/dotnet/api/system.serviceprocess.servicetype?view=net-9.0-pp\n    ocsf_service_type_mapping = {\n        # Unused for now.  OCSF doesn't seem to properly support BITWISE ENUMs yet.\n        # See \"service_type_id\" at https://schema.ocsf.io/1.4.0/objects/win/win_service\n    }\n    \n    process_service_observables__observable_array = []\n    for device_id, hostname, services, status, messsage in zip(query_device_result_item_0, query_device_result_item_1, run_admin_command_services_result_item_0, run_admin_command_services_result_item_1, run_admin_command_services_result_message):\n        \n        observable = {\n            \"source\": \"Crowdstrike OAuth API\",\n            \"type\": \"Endpoint\",\n            \"activity_name\": \"Services Collection\",\n            \"uid\": device_id,\n            \"hostname\": hostname,\n            \"status\": status,\n            \"status_detail\": messsage,\n            \"service_artifacts\": []\n        }\n        \n        if services[0] and services[0][\"stdout\"]:\n            services_json = json.loads(services[0][\"stdout\"])\n            for service in services_json:\n                start_type = ocsf_start_type_mapping.get(str(service[\"StartType\"]))\n          \n                observable[\"service_artifacts\"].append({\n                    \"type_id\": 3, \n                    \"type\": \"Service\",\n                    \"name\": service[\"Name\"],\n                    \"display_name\": service[\"DisplayName\"],\n                    \"service_start_type_id\": start_type[\"id\"],\n                    \"service_start_type\": start_type[\"type\"], \n                    \"service_type_id\": service[\"ServiceType\"], # No mapping to OCSF yet, see comment above.\n                })\n            \n        process_service_observables__observable_array.append(observable)\n      \n    #phantom.debug(process_service_observables__observable_array)\n    \n",
+                    "warnings": {},
+                    "x": -320,
+                    "y": 1020
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format fql",
+                            "customNameId": 0,
+                            "description": "Format the FQL query to get the input device information using its ID or hostname.",
+                            "join": [],
+                            "note": "Format the FQL query to get the input device information using its ID or hostname."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_fql",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:device"
+                        ],
+                        "template": "%%\nhostname:['{0}'],device_id:['{0}']\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 328
+                },
+                "8": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query device",
+                            "customNameId": 0,
+                            "description": "Get information about the device to unquarantine using its hostname or device id.",
+                            "join": [],
+                            "note": "Get information about the device to unquarantine using its hostname or device id."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_device",
+                        "id": "8",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "format_fql:formatted_data.*",
+                            "limit": 50
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 504
+                }
+            },
+            "notes": "Inputs: device (CrowdStrike Device ID or Hostname)\nInteractions: CrowdStrike OAuth API\nActions: unquarantine device\nOutputs: observables, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "Device ID or hostname of the host to quarantine",
+                "name": "device"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_process_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of process observable dictionaries",
+                "metadata": {},
+                "name": "process_observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_network_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of network connection observable dictionaries",
+                "metadata": {},
+                "name": "network_observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_system_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of endpoint observable dictionaries",
+                "metadata": {},
+                "name": "endpoint_observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "process_service_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of service observable dictionaries",
+                "metadata": {},
+                "name": "service_observable"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.15",
+        "version": "6.3.1.178"
+    },
+    "create_time": "2025-05-01T17:39:10.288392+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "CrowdStrike_OAuth_API",
+        "host name",
+        "enrichment",
+        "D3-NTA",
+        "D3-PA",
+        "D3-AI"
+    ]
+}

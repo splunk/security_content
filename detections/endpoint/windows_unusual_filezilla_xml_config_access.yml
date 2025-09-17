@@ -1,0 +1,72 @@
+name: Windows Unusual FileZilla XML Config Access
+id: 47dc0426-cbe4-4253-8b86-1a983c3f9951
+version: 1
+date: '2025-07-16'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies processes accessing FileZilla XML config files
+  such as recentservers.xml and sitemanager.xml. It leverages Windows Security Event
+  logs, specifically monitoring EventCode 4663, which tracks object access events.
+  This activity is significant because it can indicate unauthorized access or manipulation
+  of sensitive configuration files used by FileZilla, a popular FTP client. If confirmed
+  malicious, this could lead to data exfiltration, credential theft, or further compromise
+  of the system.
+data_source:
+- Windows Event Log Security 4663
+search: '`wineventlog_security` EventCode=4663  NOT (ProcessName IN("C:\\Program Files\\FileZilla FTP Client\\filezilla.exe", "C:\Program Files (x86)\\FileZilla FTP Client\\filezilla.exe", "C:\\Program Files\\Microsoft OneDrive\\OneDrive.exe", "C:\\Program Files (x86)\\Microsoft OneDrive\\OneDrive.exe"))
+  file_path IN ("*FileZilla\\recentservers.xml*", "*FileZilla\\sitemanager.xml*") 
+  | stats count min(_time) as firstTime max(_time) as lastTime by  ObjectName ObjectType
+  ProcessName AccessMask process_id EventCode Computer Caller_User_Name 
+  | rename Computer as dest Caller_User_Name as user ProcessName as process_name 
+  |  `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_unusual_filezilla_xml_config_access_filter`'
+how_to_implement: To successfully implement this search, you must ingest Windows Security
+  Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
+  Group Policy. Then check the two boxes listed for both "Success" and "Failure."
+known_false_positives: a third party application can access the FileZilla XML config files.
+  Filter is needed.
+references:
+- https://www.trendmicro.com/en_us/research/18/k/trickbot-shows-off-new-trick-password-grabber-module.html
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: a non filezilla process $process_name$ with $process_id$ accessed
+    FileZilla XML config files on host $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - Quasar RAT
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1552.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.001/file_xml_config/filezilla_obj.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

@@ -1,18 +1,19 @@
 name: Windows Multi hop Proxy TOR Website Query
 id: 4c2d198b-da58-48d7-ba27-9368732d0054
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies DNS queries to known TOR proxy websites,
-  such as "*.torproject.org" and "www.theonionrouter.com". It leverages Sysmon EventCode
-  22 to detect these queries by monitoring DNS query events from endpoints. This activity
-  is significant because adversaries often use TOR proxies to disguise the source
-  of their malicious traffic, making it harder to trace their actions. If confirmed
-  malicious, this behavior could indicate an attempt to obfuscate network traffic,
-  potentially allowing attackers to exfiltrate data or communicate with command and
-  control servers undetected.
+description: The following analytic identifies DNS queries to known TOR proxy 
+  websites, such as "*.torproject.org" and "www.theonionrouter.com". It 
+  leverages Sysmon EventCode 22 to detect these queries by monitoring DNS query 
+  events from endpoints. This activity is significant because adversaries often 
+  use TOR proxies to disguise the source of their malicious traffic, making it 
+  harder to trace their actions. If confirmed malicious, this behavior could 
+  indicate an attempt to obfuscate network traffic, potentially allowing 
+  attackers to exfiltrate data or communicate with command and control servers 
+  undetected.
 data_source:
 - Sysmon EventID 22
 search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
@@ -20,12 +21,12 @@ search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionro
   dvc process_exec process_guid process_name query query_count reply_code_id signature
   signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_multi_hop_proxy_tor_website_query_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and sysmon eventcode = 22 dns query events from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: third party application may use this proxies if allowed in
-  production environment. Filter is needed.
+how_to_implement: To successfully implement this search, you need to be 
+  ingesting logs with the process name and sysmon eventcode = 22 dns query 
+  events from your endpoints. If you are using Sysmon, you must have at least 
+  version 6.0.4 of the Sysmon TA.
+known_false_positives: third party application may use this proxies if allowed 
+  in production environment. Filter is needed.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.agent_tesla
 drilldown_searches:
@@ -43,8 +44,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: a process $process_name$ is having a dns query in a tor domain $QueryName$
-    in $dvc$
+  message: a process $process_name$ is having a dns query in a tor domain 
+    $QueryName$ in $dvc$
   risk_objects:
   - field: dvc
     type: system
@@ -53,6 +54,7 @@ rba:
 tags:
   analytic_story:
   - AgentTesla
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1071.003
@@ -64,6 +66,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_tor_dns_query/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/agent_tesla/agent_tesla_tor_dns_query/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

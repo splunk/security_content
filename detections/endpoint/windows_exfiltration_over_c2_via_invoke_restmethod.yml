@@ -1,7 +1,7 @@
 name: Windows Exfiltration Over C2 Via Invoke RestMethod
 id: 06ade821-f6fa-40d0-80af-15bc1d45b3ba
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search:
 how_to_implement:
   To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited. Filter as needed.
 references:
   - https://twitter.com/_CERT_UA/status/1620781684257091584

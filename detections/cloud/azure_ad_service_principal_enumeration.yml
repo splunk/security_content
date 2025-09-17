@@ -1,67 +1,68 @@
 name: Azure AD Service Principal Enumeration
 id: 3f0647ce-add5-4436-8039-cbd1abe74563
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-06-24'
 author: Dean Luxton
 data_source:
-- Azure Active Directory MicrosoftGraphActivityLogs
+  - Azure Active Directory MicrosoftGraphActivityLogs
 type: TTP
-status: production 
+status: production
 description: >-
-  This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals. 
+  This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals.
   This type of behaviour is associated with tools such as Azure enumberation tools such as AzureHound or ROADtools.
-search: '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals) 
-  | fillnull 
-  | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/beta\/servicePrincipals\/(?P<servicePrincipalb>.*?)\/" 
-  | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/v1.0\/servicePrincipals\/(?P<servicePrincipalv1>.*?)\/" 
-  | eval spn=coalesce(servicePrincipalb,servicePrincipalv1) 
-  | fillnull 
+search:
+  '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals)
+  | fillnull
+  | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/beta\/servicePrincipals\/(?P<servicePrincipalb>.*?)\/"
+  | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/v1.0\/servicePrincipals\/(?P<servicePrincipalv1>.*?)\/"
+  | eval spn=coalesce(servicePrincipalb,servicePrincipalv1)
+  | fillnull
   | stats count min(_time) as _time dc(spn) as spn_count values(user_id) as user_id by dest user src vendor_account vendor_product signature
-  | where spn_count>9 
+  | where spn_count>9
   | `azure_ad_service_principal_enumeration_filter`'
 how_to_implement: >-
-  Run this detection over historical data to identify then tune out any known services which may be performing this action. Thresholds can be lowered or raised to meet requirements. 
-  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest MicrosoftGraphActivityLogs via Azure EventHub. See reference for links for further details on how to onboard this log source. 
+  Run this detection over historical data to identify then tune out any known services which may be performing this action. Thresholds can be lowered or raised to meet requirements.
+  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest MicrosoftGraphActivityLogs via Azure EventHub. See reference for links for further details on how to onboard this log source.
 known_false_positives: Unknown
 references:
-- https://github.com/SpecterOps/AzureHound
-- https://github.com/dirkjanm/ROADtools
-- https://splunkbase.splunk.com/app/3110
-- https://docs.splunk.com/Documentation/AddOns/released/MSCloudServices/Install
+  - https://github.com/SpecterOps/AzureHound
+  - https://github.com/dirkjanm/ROADtools
+  - https://splunkbase.splunk.com/app/3110
+  - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/
 drilldown_searches:
-- name: View the detection results for - "$user_id$"
-  search: '%original_detection_search% | search  user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user_id$"
+    search: '%original_detection_search% | search  user_id = "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user_id$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: $spn_count$ Service Principals have been enumerated by $user_id$ from IP $src$
   risk_objects:
-  - field: user
-    type: user
-    score: 80
+    - field: user
+      type: user
+      score: 80
   threat_objects:
-  - field: src
-    type: ip_address
+    - field: src
+      type: ip_address
 tags:
   analytic_story:
-  - Azure Active Directory Privilege Escalation
-  - Compromised User Account
+    - Azure Active Directory Privilege Escalation
+    - Compromised User Account
   asset_type: Azure Tenant
   mitre_attack_id:
-  - T1087.004
-  - T1526
+    - T1087.004
+    - T1526
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/azurehound/azurehound.log
-    sourcetype: azure:monitor:aad
-    source: Azure AD
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/azurehound/azurehound.log
+        sourcetype: azure:monitor:aad
+        source: Azure AD

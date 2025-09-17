@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Bits Network Activity
 id: b08e69d4-b42d-494c-bd30-abaaa3571ba4
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-07-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -9,7 +9,7 @@ description: The following analytic detects the use of the Background Intelligen
 data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action=Allow ClientApplication="BITS" AND NOT url IN ("*://msedge.b.tlu.dl*")
+  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") ClientApplication="BITS" AND NOT url IN ("*://msedge.b.tlu.dl*")
   | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest, dest_port, transport, rule, url, EVE_Process, ClientApplication, ClientApplicationVersion, action
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

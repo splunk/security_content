@@ -1,7 +1,7 @@
 name: Windows Data Destruction Recursive Exec Files Deletion
 id: 3596a799-6320-4a2f-8772-a9e98ddb2960
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-27'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -62,6 +62,7 @@ tags:
   - Swift Slicer
   - Data Destruction
   - Handala Wiper
+  - Disk Wiper
   asset_type: Endpoint
   mitre_attack_id:
   - T1485

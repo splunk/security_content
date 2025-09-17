@@ -1,0 +1,26 @@
+name: CrowdStrike OAuth API Get Device Info
+id: d97f8a59-fbb0-40db-a4ca-a681000c3b6d
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Investigation
+description: "Given either a CrowdStrike device id (agentId) or a hostname, will query the device to get the other missing attribute.  This enables finding the hostname from a device id or the device id from a hostname and can be used in front of other CrowdStrike custom playbooks for added flexibility."
+playbook: CrowdStrike_OAuth_API_Get_Device_Info
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and will provide the correspoding information (hostname for a device id, and vice versa) for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Utility
+  - Endpoint
+  defend_technique_id: 

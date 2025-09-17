@@ -1,7 +1,7 @@
 name: Risk Notable Preprocess
 id: 060edc96-ff2b-48b0-9f6f-13da3783fd63
 version: 1
-date: "2021-10-22"
+date: '2021-10-22'
 author: Kelby Shelton, Splunk
 type: Investigation
 description: >-
@@ -10,21 +10,21 @@ description: >-
   2. Posts a link to this container in the comment field of Splunk ES.
   3. Updates the container name, description, and severity to reflect the data in the notable artifact."
 playbook: risk_notable_preprocess
-how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
+how_to_implement: For detailed implementation see https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 references:
-- https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
+  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 app_list:
-- "Splunk"
+  - 'Splunk'
 tags:
   labels:
-  - risk_notable
+    - risk_notable
   platform_tags:
-  - Risk Notable
+    - Risk Notable
   playbook_type: Automation
   vpe_type: Modern
   playbook_fields:
-  - event_id
-  - info_min_time
-  - info_max_time
+    - event_id
+    - info_min_time
+    - info_max_time
   product:
-  - Splunk SOAR
+    - Splunk SOAR

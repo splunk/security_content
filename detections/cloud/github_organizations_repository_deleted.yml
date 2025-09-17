@@ -1,66 +1,66 @@
 name: GitHub Organizations Repository Deleted
 id: 9ff4ca95-fdae-4eea-9ffa-6d8e1c202a71
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-06-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies when a repository is deleted within a GitHub organization. 
-  The detection monitors GitHub Organizations audit logs for repository deletion events by tracking actor details, 
-  repository information, and associated metadata. This behavior is concerning for SOC teams as malicious actors may 
-  attempt to delete repositories to destroy source code, intellectual property, or evidence of compromise. Repository 
-  deletion can result in permanent loss of code, documentation, and project history if proper backups are not maintained. 
-  Additionally, unauthorized repository deletion could indicate account compromise, insider threats, or attempts to disrupt 
-  business operations. The impact of a repository deletion attack includes loss of intellectual property, disruption to 
-  development workflows, and potential financial losses from lost work. Early detection of unauthorized repository deletions 
+description:
+  The following analytic identifies when a repository is deleted within a GitHub organization.
+  The detection monitors GitHub Organizations audit logs for repository deletion events by tracking actor details,
+  repository information, and associated metadata. This behavior is concerning for SOC teams as malicious actors may
+  attempt to delete repositories to destroy source code, intellectual property, or evidence of compromise. Repository
+  deletion can result in permanent loss of code, documentation, and project history if proper backups are not maintained.
+  Additionally, unauthorized repository deletion could indicate account compromise, insider threats, or attempts to disrupt
+  business operations. The impact of a repository deletion attack includes loss of intellectual property, disruption to
+  development workflows, and potential financial losses from lost work. Early detection of unauthorized repository deletions
   allows security teams to investigate potential compromises and restore from backups if needed.
 data_source:
-- GitHub Organizations Audit Logs
+  - GitHub Organizations Audit Logs
 search: '`github_organizations` vendor_action=repo.destroy
   | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, visibility, vendor_action
   | eval user=actor
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `github_organizations_repository_deleted_filter`'
-how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs .
+how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
 known_false_positives: unknown
 references:
-- https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+  - https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/
+  - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search  user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: $user$ deleted a repository in GitHub Organizations
   risk_objects:
-  - field: user
-    type: user
-    score: 25
+    - field: user
+      type: user
+      score: 25
   threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    - field: user_agent
+      type: http_user_agent
 tags:
   analytic_story:
-  - GitHub Malicious Activity
+    - GitHub Malicious Activity
   asset_type: GitHub
   mitre_attack_id:
-  - T1485
-  - T1195
+    - T1485
+    - T1195
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/github_delete_repository/github.json
-    source: github
-    sourcetype: github:cloud:audit
-
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/github_delete_repository/github.json
+        source: github
+        sourcetype: github:cloud:audit

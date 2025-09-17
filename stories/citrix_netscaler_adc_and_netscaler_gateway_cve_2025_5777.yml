@@ -1,0 +1,27 @@
+name: Citrix NetScaler ADC and NetScaler Gateway CVE-2025-5777
+id: f8a7d2e1-9b3c-4f5e-a8d6-c7b4e9a2f1d8
+version: 1
+date: '2025-01-07'
+author: Michael Haag, Splunk
+status: production
+description: A critical security update, CVE-2025-5777, has been released for NetScaler ADC and NetScaler Gateway. This vulnerability, dubbed "CitrixBleed 2," represents a memory disclosure flaw that can result in unauthorized data disclosure if exploited. Unlike CVE-2023-4966 (the original CitrixBleed), this vulnerability is triggered by sending POST requests with incomplete form data to the /p/u/doAuthentication.do endpoint, causing the device to leak memory contents including session tokens, authentication cookies, and other critical data that can lead to session hijacking and unauthorized access. The Cybersecurity and Infrastructure Security Agency (CISA) has added CVE-2025-5777 to its Known Exploited and Vulnerabilities Catalog due to active exploitation in the wild since mid-June 2025. No workarounds are available for this vulnerability, and immediate installation of the recommended builds is strongly advised.
+narrative: On June 17, 2025, Cloud Software Group released emergency security updates to fix CVE-2025-5777, a critical vulnerability affecting NetScaler ADC and NetScaler Gateway. This vulnerability, known as "CitrixBleed 2," is a memory disclosure flaw that allows unauthenticated remote attackers to obtain sensitive information from NetScaler appliances configured as Gateway (VPN virtual server, ICA Proxy, CVPN, RDP Proxy) or AAA virtual servers. The primary attack vector involves sending POST requests with incomplete form data (such as "login=" without a value) to the "/p/u/doAuthentication.do" endpoint, causing the device to leak up to 127 bytes of adjacent memory contents including session tokens, SAML StateContext, MFA tokens, and other authentication materials. A secondary attack vector still uses oversized Host headers targeting "/nf/auth/startwebview.do" similar to the original CitrixBleed, but the primary exploitation method represents a new vulnerability in form data processing. Security researchers have observed active exploitation attempts since mid-June 2025, with threat actors using automated tools including HeadlessChrome user agents to scan for vulnerable instances. The leaked session tokens can be directly reused to bypass authentication, including multi-factor authentication (MFA), allowing attackers to gain unauthorized access to protected resources and deploy web shells for persistence. CISA added CVE-2025-5777 to its Known Exploited Vulnerabilities Catalog on June 23, 2025, indicating widespread exploitation attempts. Organizations are strongly advised to immediately apply patches, kill all active sessions, monitor for signs of compromise, and implement additional detection for both the primary POST-based attack vector and the secondary Host header attack vector as no workarounds are available for this critical vulnerability.
+references:
+  - https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX693420
+  - https://www.netscaler.com/blog/news/critical-security-updates-for-netscaler-netscaler-gateway-and-netscaler-console/
+  - https://github.com/mingshenhk/CitrixBleed-2-CVE-2025-5777-PoC-
+  - https://horizon3.ai/attack-research/attack-blogs/cve-2025-5777-citrixbleed-2-write-up-maybe/
+  - https://labs.watchtowr.com/how-much-more-must-we-bleed-citrix-netscaler-memory-disclosure-citrixbleed-2-cve-2025-5777/
+  - https://doublepulsar.com/citrixbleed-2-exploitation-started-mid-june-how-to-spot-it-f3106392aa71
+  - https://reliaquest.com/blog/threat-spotlight-citrix-bleed-2-vulnerability-in-netscaler-adc-gateway-devices/
+  - https://arcticwolf.com/resources/blog/cve-2025-5777/
+  - https://www.computerweekly.com/news/366626717/Citrix-Bleed-2-under-active-attack-reports-suggest
+  - https://www.tenable.com/blog/cve-2025-5777-cve-2025-6543-frequently-asked-questions-about-citrixbleed-2
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection 

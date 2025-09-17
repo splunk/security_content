@@ -1,11 +1,12 @@
 name: GetLocalUser with PowerShell Script Block
 id: 2e891cbe-0426-11ec-9c9c-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `Get-LocalUser` PowerShell
+description:
+  The following analytic detects the execution of the `Get-LocalUser` PowerShell
   commandlet using PowerShell Script Block Logging (EventCode=4104). This commandlet
   lists all local users on a system. The detection leverages script block text from
   PowerShell logs to identify this activity. Monitoring this behavior is significant
@@ -14,35 +15,38 @@ description: The following analytic detects the execution of the `Get-LocalUser`
   could lead to further reconnaissance, enabling attackers to identify potential targets
   for privilege escalation or lateral movement.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-LocalUser*") | fillnull
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 (ScriptBlockText = "*Get-LocalUser*") | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getlocaluser_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
 references:
-- https://attack.mitre.org/techniques/T1087/001/
-- https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
+  - https://attack.mitre.org/techniques/T1087/001/
+  - https://www.splunk.com/en_us/blog/security/hunting-for-malicious-powershell-using-script-block-logging.html
 tags:
   analytic_story:
-  - Active Directory Discovery
-  - Malicious PowerShell
+    - Active Directory Discovery
+    - Malicious PowerShell
   asset_type: Endpoint
   mitre_attack_id:
-  - T1059.001
-  - T1087.001
+    - T1059.001
+    - T1087.001
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.001/AD_discovery/windows-powershell-xml.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

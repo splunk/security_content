@@ -7,9 +7,10 @@ status: production
 type: TTP
 description: This analytic identifies potential exploitation attempts of ProxyShell (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) and ProxyNotShell (CVE-2022-41040, CVE-2022-41082) vulnerabilities in Microsoft Exchange Server. The detection focuses on identifying the SSRF attack patterns used in these exploit chains. The analytic monitors for suspicious POST requests to /autodiscover/autodiscover.json endpoints that may indicate attempts to enumerate LegacyDN attributes as part of initial reconnaissance. It also detects requests containing X-Rps-CAT parameters that could indicate attempts to impersonate Exchange users and access the PowerShell backend. Additionally, it looks for MAPI requests that may be used to obtain user SIDs, along with suspicious user agents (particularly Python-based) commonly used in automated exploit attempts. If successful, these attacks can lead to remote code execution as SYSTEM, allowing attackers to deploy webshells, access mailboxes, or gain persistent access to the Exchange server and potentially the broader network environment.
 data_source:
-- Windows IIS
-search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.status=200) AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method Web.uri_query Web.http_user_agent
-  | `drop_dm_object_name("Web")` 
+  - Windows IIS
+search:
+  ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.status=200) AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method Web.uri_query Web.http_user_agent
+  | `drop_dm_object_name("Web")`
   | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover/autodiscover.json%"),1,0)
   | eval has_rps_cat=if(like(lower(uri_query),"%x-rps-cat=%"),1,0)
   | eval exchange_backend=if(like(lower(uri_query),"%/powershell/?%"),1,0)
@@ -22,63 +23,64 @@ search: ' | tstats `security_content_summariesonly` count min(_time) as firstTim
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node. In addition, confirm the latest CIM App 4.20 or higher is installed.
 known_false_positives: False positives are limited.
 references:
-- https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
-- https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
-- https://twitter.com/GossiTheDog/status/1575762721353916417?s=20&t=67gq9xCWuyPm1VEm8ydfyA
-- https://twitter.com/cglyer/status/1575793769814728705?s=20&t=67gq9xCWuyPm1VEm8ydfyA
-- https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
-- https://research.splunk.com/stories/proxyshell/
-- https://docs.splunk.com/Documentation/AddOns/released/MSIIS
-- https://highon.coffee/blog/ssrf-cheat-sheet/
-- https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
-- https://m365internals.com/2022/10/18/hunting-and-responding-to-proxyshell-attacks/
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://msrc-blog.microsoft.com/2022/09/29/customer-guidance-for-reported-zero-day-vulnerabilities-in-microsoft-exchange-server/
+  - https://twitter.com/GossiTheDog/status/1575762721353916417?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://twitter.com/cglyer/status/1575793769814728705?s=20&t=67gq9xCWuyPm1VEm8ydfyA
+  - https://www.gteltsc.vn/blog/warning-new-attack-campaign-utilized-a-new-0day-rce-vulnerability-on-microsoft-exchange-server-12715.html
+  - https://research.splunk.com/stories/proxyshell/
+  - https://splunk.github.io/splunk-add-on-for-microsoft-iis/
+  - https://highon.coffee/blog/ssrf-cheat-sheet/
+  - https://owasp.org/Top10/A10_2021-Server-Side_Request_Forgery_%28SSRF%29/
+  - https://m365internals.com/2022/10/18/hunting-and-responding-to-proxyshell-attacks/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: Activity related to ProxyShell or ProxyNotShell has been identified on
+  message:
+    Activity related to ProxyShell or ProxyNotShell has been identified on
     $dest$. Review events and take action accordingly.
   risk_objects:
-  - field: dest
-    type: system
-    score: 72
+    - field: dest
+      type: system
+      score: 72
   threat_objects: []
 tags:
   analytic_story:
-  - ProxyShell
-  - BlackByte Ransomware
-  - ProxyNotShell
-  - Seashell Blizzard
+    - ProxyShell
+    - BlackByte Ransomware
+    - ProxyNotShell
+    - Seashell Blizzard
   asset_type: Web Server
   cve:
-  - CVE-2021-34523
-  - CVE-2021-34473
-  - CVE-2021-31207
-  - CVE-2022-41040
-  - CVE-2022-41082
+    - CVE-2021-34523
+    - CVE-2021-34473
+    - CVE-2021-31207
+    - CVE-2022-41040
+    - CVE-2022-41082
   mitre_attack_id:
-  - T1190
-  - T1133
+    - T1190
+    - T1133
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
-    source: ms:iis:splunk
-    sourcetype: ms:iis:splunk
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/proxyshell/proxyshell.log
+        source: ms:iis:splunk
+        sourcetype: ms:iis:splunk

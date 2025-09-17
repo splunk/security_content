@@ -1,0 +1,69 @@
+name: Cisco Duo Policy Skip 2FA for Other Countries
+id: ab59d5ee-8694-4832-a332-cefcf66a9057
+version: 1
+date: '2025-07-08'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Administrator
+type: TTP
+status: production
+description: |
+  The following analytic detects when a Duo policy is created or updated to allow access without two-factor authentication (2FA) 
+  for users in countries other than the default. It identifies this behavior by searching Duo administrator activity logs for policy 
+  creation or update actions where the policy description indicates that access is permitted without 2FA for certain user locations. 
+  This is achieved by parsing the relevant fields in the logs and filtering for the specific condition of 'Allow access without 2FA.'
+  This behavior is significant for a Security Operations Center (SOC) because bypassing 2FA for any user group or location weakens 
+  the organization's security posture and increases the risk of unauthorized access. Attackers or malicious insiders may exploit 
+  such policy changes to circumvent strong authentication controls, potentially leading to account compromise, data breaches, or 
+  lateral movement within the environment. Early detection of these policy modifications enables the SOC to investigate and respond 
+  before attackers can leverage the weakened controls, thereby reducing the risk and impact of a successful attack.
+search: '`cisco_duo_administrator` action=policy_update OR action=policy_create
+  | spath input=description
+  | search user_locations_default_action="Allow access without 2FA"
+  | rename object as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by action actionlabel description user admin_email
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_policy_skip_2fa_for_other_countries_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A policy has been created or updated to allow access without 2FA for other countries by user $user$ with email $admin_email$
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: []
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_policy_bypass_2FA_other_countries/cisco_duo_administrator.json
+    source: duo
+    sourcetype: cisco:duo:administrator

@@ -1,7 +1,7 @@
 name: Sdelete Application Execution
 id: 31702fc0-2682-11ec-85c3-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-07-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -66,6 +66,7 @@ rba:
 tags:
   analytic_story:
   - Masquerading - Rename System Utilities
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.004

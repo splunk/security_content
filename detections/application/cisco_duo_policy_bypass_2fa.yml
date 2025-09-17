@@ -1,0 +1,66 @@
+name: Cisco Duo Policy Bypass 2FA
+id: 65862e8a-799a-4509-ae1c-4602aa139580
+version: 1
+date: '2025-07-08'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Administrator
+type: TTP
+status: production
+description: The following analytic detects instances where a Duo policy is created or updated to allow access without two-factor authentication (2FA). 
+  It identifies this behavior by searching Duo administrator activity logs for policy changes that set the authentication status to "Allow access without 2FA." 
+  By monitoring for these specific actions, the analytic highlights potential attempts to weaken authentication controls, which could be indicative of 
+  malicious activity or insider threats. This behavior is critical for a SOC to identify, as bypassing 2FA significantly reduces the security posture 
+  of an organization, making it easier for attackers to gain unauthorized access to sensitive systems and data. Detecting and responding to such policy 
+  changes promptly helps prevent potential account compromise and mitigates the risk of broader security breaches.
+search: '`cisco_duo_administrator` action=policy_update OR action=policy_create
+  | spath input=description
+  | search auth_status="Allow access without 2FA"
+  | rename object as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by action actionlabel description user admin_email
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_policy_bypass_2fa_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A policy has been created or updated to allow access without 2FA by user $user$ with email $admin_email$
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: []
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_policy_bypass_2FA/cisco_duo_administrator.json
+    source: duo
+    sourcetype: cisco:duo:administrator

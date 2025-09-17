@@ -1,7 +1,7 @@
 name: Windows Mark Of The Web Bypass
 id: 8ca13343-7405-4916-a2d1-ae34ce0c28ae
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -52,6 +52,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - Quasar RAT
   - Warzone RAT
   asset_type: Endpoint
   mitre_attack_id:

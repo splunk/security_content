@@ -1,14 +1,14 @@
 name: Windows Event Log Security 4699
 id: 4727dead-d063-4333-9ddd-59823a416aff
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a scheduled task is deleted from the system.
 mitre_components:
 - Scheduled Job Metadata
 - Scheduled Job Modification
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4699'
 supported_TA:

@@ -1,7 +1,7 @@
 name: Linux Auditd Sysmon Service Stop
 id: 20901256-633a-40de-8753-7b88811a460f
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,7 +15,7 @@ description: The following analytic detects the suspicious sysmon service stop. 
 data_source:
 - Linux Auditd Service Stop
 search: '`linux_auditd` type=SERVICE_STOP unit IN ("sysmon") | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by type pid UID comm
+  | stats count min(_time) as firstTime max(_time) as lastTime by type pid comm
   exe unit dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `linux_auditd_sysmon_service_stop_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd

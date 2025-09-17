@@ -1,0 +1,98 @@
+name: Cisco NVM - Installation of Typosquatted Python Package
+id: 5e3f6b44-42cb-4f8a-99f0-59e78a52ea1d
+version: 1
+date: '2025-07-03'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |
+  This analytic detects suspicious python package installations where the package name resembles popular Python libraries but may be typosquatted or slightly altered.
+  Typosquatting is a common technique used by attackers to trick users into installing malicious packages that mimic legitimate ones.
+  This detection leverages Cisco NVM flow telemetry and checks for pip or poetry package managers with the "install" or "add" flags, making outbound connections to package repository such as `pypi.org` with known or suspected typo package names.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+  dest_hostname IN ("*.pythonhosted.org", "*pypi.org", "*python-poetry.org")
+  (
+    (process_arguments = "*pip*" process_arguments = "*install*")
+    OR
+    (process_arguments = "*poetry*" process_arguments = "*add*")
+  )
+  | rex field=process_arguments "(?i)(?:pip|poetry)[^|]*?\s+(?:install|add)\s+(?P<package_name>[^\s\"']+)$"
+  | lookup typo_squatted_python_packages
+           typosquatted_package_name as package_name
+           OUTPUTNEW comment package_official_url
+  | where isnotnull(comment)
+  | stats count min(_time) as firstTime max(_time) as lastTime
+          values(parent_process_arguments) as parent_process_arguments
+          values(process_arguments) as process_arguments
+          values(parent_process_hash) as parent_process_hash
+          values(process_hash) as process_hash
+          values(module_name_list) as module_name_list
+          values(module_hash_list) as module_hash_list
+          values(dest_port) as dest_port
+          values(aliul) as additional_logged_in_users_list
+          values(dest_hostname) as dest_hostname
+          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport package_name comment package_official_url
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table firstTime lastTime src dest_hostname dest dest_port transport  package_name comment package_official_url
+    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    process_integrity_level process_path process_name process_arguments process_hash process_id
+    additional_logged_in_users_list module_name_list module_hash_list
+  | `cisco_nvm___installation_of_typosquatted_python_package_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+  In addition to this, the search make use of the lookup "typo_squatted_python_packages". Which needs to be configured and tuned.
+known_false_positives: |
+  False positives should be very minimal to non existent, as the names of the packages in the lookup are all extracted from previously malicious packages.
+references:
+  - https://securelist.com/two-more-malicious-python-packages-in-the-pypi/107218/
+  - https://blog.checkpoint.com/securing-the-cloud/pypi-inundated-by-malicious-typosquatting-campaign/
+  - https://rhisac.org/threat-intelligence/typosquatting-campaign-targets-python-developers-with-hundreds-of-malicious-libraries/
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Host $src$ used pip or poetry to install a likely typosquatted python package $package_name$ from $dest_hostname$
+  risk_objects:
+    - field: src
+      type: system
+      score: 60
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1059
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

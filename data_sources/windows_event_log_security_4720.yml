@@ -1,13 +1,14 @@
 name: Windows Event Log Security 4720
 id: 7ef1c9e5-691b-48c2-811b-eba91d2d2f1d
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a new user account is created on a Windows system.
+description: Logs an event when a new user account is created on a Windows 
+  system.
 mitre_components:
 - User Account Creation
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4720'
 supported_TA:

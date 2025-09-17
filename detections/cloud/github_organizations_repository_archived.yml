@@ -1,66 +1,66 @@
 name: GitHub Organizations Repository Archived
 id: 4f568a0e-896f-4d94-a2f7-fa6d82ab1f77
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-06-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when a repository is archived in GitHub Organizations. 
-  The detection monitors GitHub Organizations audit logs for repository archival events by tracking actor details, 
-  repository information, and associated metadata. For a SOC, identifying repository archival is important as it could 
-  indicate attempts to make critical code inaccessible or preparation for repository deletion. While archiving is a legitimate 
-  feature, unauthorized archival of active repositories could signal account compromise, insider threats, or attempts to disrupt 
-  development operations. The impact of unauthorized repository archival includes loss of active development access, disruption 
-  to workflows and CI/CD pipelines, and potential business delays if critical repositories are affected. Additionally, archived 
-  repositories may be targeted for subsequent deletion, potentially resulting in permanent loss of intellectual property if 
+description:
+  The following analytic detects when a repository is archived in GitHub Organizations.
+  The detection monitors GitHub Organizations audit logs for repository archival events by tracking actor details,
+  repository information, and associated metadata. For a SOC, identifying repository archival is important as it could
+  indicate attempts to make critical code inaccessible or preparation for repository deletion. While archiving is a legitimate
+  feature, unauthorized archival of active repositories could signal account compromise, insider threats, or attempts to disrupt
+  development operations. The impact of unauthorized repository archival includes loss of active development access, disruption
+  to workflows and CI/CD pipelines, and potential business delays if critical repositories are affected. Additionally, archived
+  repositories may be targeted for subsequent deletion, potentially resulting in permanent loss of intellectual property if
   proper backups are not maintained.
 data_source:
-- GitHub Organizations Audit Logs
+  - GitHub Organizations Audit Logs
 search: '`github_organizations` vendor_action=repo.archived
   | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, visibility, vendor_action
   | eval user=actor
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `github_organizations_repository_archived_filter`'
-how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs .
+how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
 known_false_positives: unknown
 references:
-- https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+  - https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/
+  - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search  user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: $user$ archived a repository in GitHub Organizations
   risk_objects:
-  - field: user
-    type: user
-    score: 25
+    - field: user
+      type: user
+      score: 25
   threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    - field: user_agent
+      type: http_user_agent
 tags:
   analytic_story:
-  - GitHub Malicious Activity
+    - GitHub Malicious Activity
   asset_type: GitHub
   mitre_attack_id:
-  - T1485
-  - T1195
+    - T1485
+    - T1195
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/github_archived_repository/github.json
-    source: github
-    sourcetype: github:cloud:audit
-
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/github_archived_repository/github.json
+        source: github
+        sourcetype: github:cloud:audit

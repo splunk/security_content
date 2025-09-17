@@ -1,7 +1,7 @@
 name: Sysmon EventID 12
 id: 3ef28798-8eaa-4fd2-b074-6f36d08a1b33
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new registry key, including details about the
   key name, registry path, and associated process metadata.
@@ -11,14 +11,14 @@ mitre_components:
 - Application Log Content
 - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 separator_value: '12'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.3
+  version: 5.0.0
 fields:
 - _time
 - Channel

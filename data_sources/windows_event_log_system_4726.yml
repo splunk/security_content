@@ -1,17 +1,17 @@
 name: Windows Event Log System 4726
 id: 05e6b2df-b50e-441b-8ac8-565f2e80d62f
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the deletion of a user account, including details about the account
-  name, associated domain, and the account performing the action.
+description: Logs the deletion of a user account, including details about the 
+  account name, associated domain, and the account performing the action.
 mitre_components:
 - User Account Deletion
 - User Account Metadata
 - Active Directory Object Modification
 - Application Log Content
 source: XmlWinEventLog:System
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4726'
 supported_TA:

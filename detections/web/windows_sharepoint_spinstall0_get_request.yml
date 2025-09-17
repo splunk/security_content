@@ -1,0 +1,62 @@
+name: Windows SharePoint Spinstall0 GET Request
+id: ac490de2-ee39-421c-b61b-1c4005dde427
+version: 1
+date: '2025-07-21'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic detects potential post-exploitation activity related to the Microsoft SharePoint CVE-2025-53770 vulnerability. After successful exploitation via the ToolPane.aspx endpoint, attackers typically deploy a webshell named "spinstall0.aspx" in the SharePoint layouts directory. This detection identifies GET requests to this webshell, which indicates active use of the backdoor for command execution, data exfiltration, or credential/key extraction. Attackers commonly use these webshells to extract encryption keys, authentication tokens, and other sensitive information from the compromised SharePoint server.
+data_source:
+- Suricata
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/_layouts/15/spinstall0.aspx*" Web.http_method="GET" by Web.url Web.src Web.dest Web.status Web.http_user_agent Web.url_length sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sharepoint_spinstall0_get_request_filter`'
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Microsoft SharePoint or web proxy logs that capture SharePoint traffic. The detection focuses on GET requests to the spinstall0.aspx file, which is a known webshell deployed after successful exploitation of the CVE-2025-53770 vulnerability. Configure comprehensive logging for your SharePoint web servers and ensure that all HTTP requests are being captured and forwarded to your SIEM. Ensure proper IIS logging is enabled. Tune, modify the analytic as needed based on HTTP methods.
+known_false_positives: Limited false positives are expected as spinstall0.aspx is not a legitimate SharePoint component. However, security teams investigating the incident might also access this file for analysis purposes. Verify the source IP addresses against known security team IPs and the timing of the requests in relation to the initial exploitation attempt.
+references:
+- https://research.eye.security/sharepoint-under-siege/
+- https://www.cisa.gov/news-events/alerts/2025/07/20/microsoft-releases-guidance-exploitation-sharepoint-vulnerability-cve-2025-53770
+- https://msrc.microsoft.com/blog/2025/07/customer-guidance-for-sharepoint-vulnerability-cve-2025-53770/
+- https://splunkbase.splunk.com/app/3185
+drilldown_searches:
+- name: View the detection results for - "$dest$" and "$src$"
+  search: '%original_detection_search% | search dest = "$dest$" src = "$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Potential access to SharePoint webshell (spinstall0.aspx) detected from $src$ targeting $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 85
+  threat_objects:
+  - field: src
+    type: ip_address
+tags:
+  analytic_story:
+  - Microsoft SharePoint Vulnerabilities
+  asset_type: Web Server
+  mitre_attack_id:
+  - T1190
+  - T1505.003
+  - T1552
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+  cve:
+  - CVE-2025-53770
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/sharepoint/spinstall0.log
+    sourcetype: suricata
+    source: suricata

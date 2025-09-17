@@ -1,0 +1,21 @@
+name: ESXi Post Compromise
+id: 25f5b685-adfe-4914-9105-83ebc152cecf
+version: 1
+status: production
+date: '2025-05-08'
+author: Raven Tait, Splunk
+description: This analytic story contains detections for malicous activity on VMware ESXi. Adversaries who 
+  gain access to an ESXi shell or exploit management interfaces may attempt to maintain persistence, 
+  disrupt virtual machines, modify security settings, or prepare for lateral movement.
+narrative: Ransomware groups have been observed abusing ESXi to deploy malware and encrypt virtual machines. This story focuses on detecting potential post-compromise activities. It aims to help defenders identify and respond to attacks on ESXi systems in their environments.
+references:
+  - https://www.securityweek.com/microsoft-says-ransomware-gangs-exploiting-just-patched-vmware-esxi-flaw/
+tags:
+  category:
+  - Adversary Tactics
+  - Ransomware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Application Security

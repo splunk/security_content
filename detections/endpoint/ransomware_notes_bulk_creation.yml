@@ -1,17 +1,18 @@
 name: Ransomware Notes bulk creation
 id: eff7919a-8330-11eb-83f8-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the bulk creation of ransomware notes
-  (e.g., .txt, .html, .hta files) on an infected machine. It leverages Sysmon EventCode
-  11 to detect multiple instances of these file types being created within a short
-  time frame. This activity is significant as it often indicates an active ransomware
-  attack, where the attacker is notifying the victim of the encryption. If confirmed
-  malicious, this behavior could lead to widespread data encryption, rendering critical
-  files inaccessible and potentially causing significant operational disruption.
+description: The following analytic identifies the bulk creation of ransomware 
+  notes (e.g., .txt, .html, .hta files) on an infected machine. It leverages 
+  Sysmon EventCode 11 to detect multiple instances of these file types being 
+  created within a short time frame. This activity is significant as it often 
+  indicates an active ransomware attack, where the attacker is notifying the 
+  victim of the encryption. If confirmed malicious, this behavior could lead to 
+  widespread data encryption, rendering critical files inaccessible and 
+  potentially causing significant operational disruption.
 data_source:
 - Sysmon EventID 11
 search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") | bin _time
@@ -24,10 +25,10 @@ search: '`sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta") | bin 
   values(user) as user values(vendor_product) as vendor_product by dest file_name
   | where unique_readme_path_count >= 15 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `ransomware_notes_bulk_creation_filter`'
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint file-system data model node. If you are
-  using Sysmon, you will need a Splunk Universal Forwarder on each endpoint from which
-  you want to collect data.
+how_to_implement: You must be ingesting data that records the filesystem 
+  activity from your hosts to populate the Endpoint file-system data model node.
+  If you are using Sysmon, you will need a Splunk Universal Forwarder on each 
+  endpoint from which you want to collect data.
 known_false_positives: unknown
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
@@ -47,8 +48,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A high frequency file creation of $file_name$ in different file path in
-    host $dest$
+  message: A high frequency file creation of $file_name$ in different file path 
+    in host $dest$
   risk_objects:
   - field: dest
     type: system
@@ -66,6 +67,8 @@ tags:
   - Clop Ransomware
   - Cactus Ransomware
   - Termite Ransomware
+  - Interlock Ransomware
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1486
@@ -77,6 +80,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

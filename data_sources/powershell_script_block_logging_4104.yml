@@ -1,10 +1,10 @@
 name: Powershell Script Block Logging 4104
 id: 5cfd0c72-d989-47a0-92f9-6edc6f8d3564
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs detailed content of PowerShell script blocks as they are executed,
-  including the full command text and context for the execution.
+description: Logs detailed content of PowerShell script blocks as they are 
+  executed, including the full command text and context for the execution.
 mitre_components:
 - Script Execution
 - Command Execution
@@ -12,7 +12,7 @@ mitre_components:
 - OS API Execution
 - Application Log Content
 source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 separator_value: '4104'
 supported_TA:
@@ -74,17 +74,17 @@ fields:
 - user_id
 - vendor_product
 output_fields:
-- dest 
-- signature 
-- signature_id 
-- user_id 
-- vendor_product 
-- Guid 
-- Opcode 
+- dest
+- signature
+- signature_id
+- user_id
+- vendor_product
+- Guid
+- Opcode
 - Name
 - Path
-- ProcessID 
-- ScriptBlockId 
+- ProcessID
+- ScriptBlockId
 - ScriptBlockText
 field_mappings:
 - data_model: cim
@@ -102,11 +102,14 @@ field_mappings:
     ScriptBlockId: process.uid
     ScriptBlockText: process.cmd_line
     UserID: actor.user.uid
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-PowerShell' Guid='{A0C1853B-5C40-4B15-8766-3CF1C58F985A}'/><EventID>4104</EventID><Version>1</Version><Level>5</Level><Task>2</Task><Opcode>15</Opcode><Keywords>0x0</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-PowerShell' 
+  Guid='{A0C1853B-5C40-4B15-8766-3CF1C58F985A}'/><EventID>4104</EventID><Version>1</Version><Level>5</Level><Task>2</Task><Opcode>15</Opcode><Keywords>0x0</Keywords><TimeCreated
   SystemTime='2022-05-02T12:39:41.710158900Z'/><EventRecordID>112748</EventRecordID><Correlation
-  ActivityID='{547232D9-5B2B-0007-6CA6-72542B5BD801}'/><Execution ProcessID='5336'
+  ActivityID='{547232D9-5B2B-0007-6CA6-72542B5BD801}'/><Execution 
+  ProcessID='5336' 
   ThreadID='2228'/><Channel>Microsoft-Windows-PowerShell/Operational</Channel><Computer>win-dc-mhaag-attack-range-270.attackrange.local</Computer><Security
   UserID='S-1-5-21-2059343465-2300599999-2417073716-500'/></System><EventData><Data
-  Name='MessageNumber'>1</Data><Data Name='MessageTotal'>1</Data><Data Name='ScriptBlockText'>function
-  New-Mutex($MutexName) {
+  Name='MessageNumber'>1</Data><Data Name='MessageTotal'>1</Data><Data 
+  Name='ScriptBlockText'>function New-Mutex($MutexName) {

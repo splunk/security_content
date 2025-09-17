@@ -1,7 +1,7 @@
 name: Script Execution via WMI
 id: aa73f80d-d728-4077-b226-81ea0c8be589
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-07-29'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -67,6 +67,7 @@ rba:
 tags:
   analytic_story:
   - Suspicious WMI Use
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1047

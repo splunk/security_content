@@ -1,17 +1,18 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: '8'
-date: '2025-05-06'
+version: 10
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of files in the Windows %startup%
-  folder, a common persistence technique. It leverages the Endpoint.Filesystem data
-  model to identify file creation events in this specific directory. This activity
-  is significant because adversaries often use the startup folder to ensure their
-  malicious code executes automatically upon system boot or user logon. If confirmed
-  malicious, this could allow attackers to maintain persistence on the host, potentially
-  leading to further system compromise and unauthorized access to sensitive information.
+description: The following analytic detects the creation of files in the Windows
+  %startup% folder, a common persistence technique. It leverages the 
+  Endpoint.Filesystem data model to identify file creation events in this 
+  specific directory. This activity is significant because adversaries often use
+  the startup folder to ensure their malicious code executes automatically upon 
+  system boot or user logon. If confirmed malicious, this could allow attackers 
+  to maintain persistence on the host, potentially leading to further system 
+  compromise and unauthorized access to sensitive information.
 data_source:
 - Sysmon EventID 11
 search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -21,11 +22,12 @@ search: '|tstats `security_content_summariesonly` count min(_time) as firstTime 
   Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid
   Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_boot_or_logon_autostart_execution_in_startup_folder_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in this
-  path.
+how_to_implement: To successfully implement this search you need to be ingesting
+  information on process that include the name of the Filesystem responsible for
+  the changes from your endpoints into the `Endpoint` datamodel in the 
+  `Filesystem` node.
+known_false_positives: Administrators may allow creation of script or exe in 
+  this path.
 references:
 - https://attack.mitre.org/techniques/T1204/002/
 - https://www.fortinet.com/blog/threat-research/chaos-ransomware-variant-sides-with-russia
@@ -55,12 +57,14 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Chaos Ransomware
-  - Gozi Malware
-  - NjRAT
-  - RedLine Stealer
   - XWorm
+  - Chaos Ransomware
+  - NjRAT
   - Crypto Stealer
+  - Gozi Malware
+  - Quasar RAT
+  - RedLine Stealer
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.001
@@ -72,6 +76,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/chaos_ransomware/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

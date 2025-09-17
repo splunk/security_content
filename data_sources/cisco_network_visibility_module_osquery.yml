@@ -1,0 +1,51 @@
+name: Cisco Network Visibility Module OSquery
+id: d59bcd3c-da06-41c6-b33e-8b8d23078f68
+version: 1
+date: '2025-06-30'
+author: Nasreddine Bencherchali, Splunk
+description: Data source object for OSquery events from Cisco Network Visibility Module
+source: not_applicable
+sourcetype: cisco:nvm:osquery
+supported_TA:
+- name: Cisco NVM Add-on for Splunk
+  url: https://splunkbase.splunk.com/app/4221
+  version: 4.0.7
+fields:
+- current_page
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- eventtype
+- fv
+- host
+- index
+- linecount
+- osquery_version
+- punct
+- qid
+- qjr
+- qpi
+- qpn
+- qt
+- query_id
+- query_json_response
+- query_timestamp
+- qv
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- tag
+- tag::eventtype
+- timeendpos
+- timestartpos
+- total_pages
+- udid
+output_fields:
+- query_json_response
+example_log: 'Jun 30 09:20:43 127.0.0.1 Jun 30 09:20:43 ip-172-31-30-201  fv="nvzFlow_v8" udid="10E8A7F940225180BFDB748D2AE336EA7285CB8C" qv="5.5.1-dirty" qid="38654705666" qt="1751275242" qpi="1" qpn="1" qjr="[{\"active\":\"1\",\"autoupdate\":\"1\",\"creator\":\"null\",\"description\":\"\",\"disabled\":\"0\",\"identifier\":\"addons-search-detection@mozilla.com\",\"location\":\"app-builtin\",\"name\":\"Add-ons Search Detection\",\"native\":\"\",\"path\":\"null\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"2.0.0\",\"visible\":\"1\"},{\"active\":\"0\",\"autoupdate\":\"1\",\"creator\":\"Mozilla <screenshots-feedback@mozilla.com>\",\"description\":\"Take clips and screenshots from the Web and save them temporarily or permanently.\",\"disabled\":\"1\",\"identifier\":\"screenshots@mozilla.org\",\"location\":\"app-system-defaults\",\"name\":\"Firefox Screenshots\",\"native\":\"\",\"path\":\"C:\\Program Files\\Mozilla Firefox\\browser\\features\\screenshots@mozilla.org.xpi\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"39.0.1\",\"visible\":\"1\"},{\"active\":\"1\",\"autoupdate\":\"1\",\"creator\":\"null\",\"description\":\"\",\"disabled\":\"0\",\"identifier\":\"formautofill@mozilla.org\",\"location\":\"app-system-defaults\",\"name\":\"Form Autofill\",\"native\":\"\",\"path\":\"C:\\Program Files\\Mozilla Firefox\\browser\\features\\formautofill@mozilla.org.xpi\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"1.0.1\",\"visible\":\"1\"},{\"active\":\"1\",\"autoupdate\":\"1\",\"creator\":\"null\",\"description\":\"Fixes for web compatibility with Picture-in-Picture\",\"disabled\":\"0\",\"identifier\":\"pictureinpicture@mozilla.org\",\"location\":\"app-system-defaults\",\"name\":\"Picture-In-Picture\",\"native\":\"\",\"path\":\"C:\\Program Files\\Mozilla Firefox\\browser\\features\\pictureinpicture@mozilla.org.xpi\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"1.0.0\",\"visible\":\"1\"},{\"active\":\"1\",\"autoupdate\":\"1\",\"creator\":\"null\",\"description\":\"Urgent post-release fixes for web compatibility.\",\"disabled\":\"0\",\"identifier\":\"webcompat@mozilla.org\",\"location\":\"app-system-defaults\",\"name\":\"Web Compatibility Interventions\",\"native\":\"\",\"path\":\"C:\\Program Files\\Mozilla Firefox\\browser\\features\\webcompat@mozilla.org.xpi\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"137.7.0\",\"visible\":\"1\"},{\"active\":\"0\",\"autoupdate\":\"1\",\"creator\":\"Thomas Wisniewski <twisniewski@mozilla.com>\",\"description\":\"Report site compatibility issues on webcompat.com\",\"disabled\":\"1\",\"identifier\":\"webcompat-reporter@mozilla.org\",\"location\":\"app-system-defaults\",\"name\":\"WebCompat Reporter\",\"native\":\"\",\"path\":\"C:\\Program Files\\Mozilla Firefox\\browser\\features\\webcompat-reporter@mozilla.org.xpi\",\"source_url\":\"null\",\"type\":\"extension\",\"uid\":\"500\",\"version\":\"2.1.0\",\"visible\":\"1\"}]"'

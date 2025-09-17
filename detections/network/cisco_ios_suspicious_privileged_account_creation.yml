@@ -1,0 +1,75 @@
+name: Cisco IOS Suspicious Privileged Account Creation
+id: 63e3aff9-45d7-4d41-bcdb-9da561fb4533
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: Anomaly
+description: This analytic detects the creation of privileged user accounts on Cisco IOS devices, which could indicate an attacker establishing backdoor access. The detection focuses on identifying when user accounts are created with privilege level 15 (the highest administrative privilege level in Cisco IOS) or when existing accounts have their privileges elevated. This type of activity is particularly concerning when performed by unauthorized users or during unusual hours, as it may represent a key step in establishing persistence following the exploitation of vulnerabilities like CVE-2018-0171 in Cisco Smart Install. Threat actors like Static Tundra have been observed creating privileged accounts as part of their attack chain after gaining initial access to network devices.
+data_source:
+  - Cisco IOS Logs
+search:
+  '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  where (
+  (All_Changes.command="*username * privilege 15*") OR
+  (All_Changes.command="*username * password*" AND All_Changes.command="*USER TABLE MODIFIED*") OR
+  (All_Changes.command="*USER_PRIVILEGE_UPDATE*priv-15*")
+  )
+  by All_Changes.dvc All_Changes.user
+  | `drop_dm_object_name("All_Changes")`
+  | rename dvc as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_ios_suspicious_privileged_account_creation_filter`'
+how_to_implement: To implement this search, you need to be ingesting Cisco IOS logs with the sourcetype "cisco:ios" and have these logs mapped to the Change datamodel, with AAA accounting and command logging enabled on your Cisco devices.
+known_false_positives: Legitimate account creation and privilege elevation activities by authorized administrators will generate alerts with this detection. To reduce false positives, consider implementing a baseline of expected administrative activities, including approved administrative usernames, typical times for account management, and authorized administrators who regularly perform these actions. You may also want to create a lookup table of approved administrative accounts and filter out alerts for these accounts. Additionally, scheduled maintenance windows should be taken into account when evaluating alerts.
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/security/a1/sec-a1-cr-book/sec-cr-a2.html#wp3796044403
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: A suspicious privileged account was created or modified on Cisco IOS device $dest$ by user $user$
+  risk_objects:
+    - field: dest
+      type: system
+      score: 50
+    - field: user
+      type: user
+      score: 50
+  threat_objects:
+    - field: command
+      type: command
+tags:
+  analytic_story:
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  mitre_attack_id:
+    - T1136
+    - T1078
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+  cve:
+    - CVE-2018-0171
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+        sourcetype: cisco:ios
+        source: cisco:ios

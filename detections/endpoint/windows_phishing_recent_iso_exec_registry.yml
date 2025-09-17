@@ -1,8 +1,8 @@
 name: Windows Phishing Recent ISO Exec Registry
 id: cb38ee66-8ae5-47de-bd66-231c7bbc0b2c
-version: 8
-date: '2025-05-02'
-author: Teoderick Contreras, Splunk
+version: 9
+date: '2025-07-30'
+author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
 description: The following analytic detects the creation of registry artifacts when
@@ -16,8 +16,8 @@ description: The following analytic detects the creation of registry artifacts w
 data_source:
 - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso"
-  OR Registry.registry_key_name= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.img"
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.iso*"
+  OR Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RecentDocs\\.img*"
   by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive
   Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
   Registry.registry_value_type Registry.status Registry.user Registry.vendor_product

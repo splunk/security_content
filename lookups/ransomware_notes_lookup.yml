@@ -1,6 +1,6 @@
 name: ransomware_notes_lookup
-date: 2025-03-03
-version: 3
+date: 2025-07-28
+version: 4
 id: 93d9fb06-035e-496c-91d5-7a79543ce1e1
 author: Splunk Threat Research Team
 lookup_type: csv

@@ -1,0 +1,497 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Process Termination",
+    "coa": {
+        "data": {
+            "description": "Accepts a hostname or device id as well as one or more process IDs as input and terminates those process(es) on a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference.  Note that the Markdown report can report a status of \"success\" even when a particular PID is not actually killed.  Rely on the observable output if you need to reliably check that.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_9_to_port_5",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_8_to_port_14",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_14_to_port_15",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "15",
+                    "targetPort": "15_in"
+                },
+                {
+                    "id": "port_16_to_port_9",
+                    "sourceNode": "16",
+                    "sourcePort": "16_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_15_to_port_16",
+                    "sourceNode": "15",
+                    "sourcePort": "15_out",
+                    "targetNode": "16",
+                    "targetPort": "16_in"
+                }
+            ],
+            "hash": "efab1b66882b7dade8150195f014248b9575d250",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 0
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 1576
+                },
+                "14": {
+                    "data": {
+                        "action": "create session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "create session",
+                            "customNameId": 0,
+                            "description": "Create an RTR session on the selected Crowdstrike endpoint.",
+                            "join": [],
+                            "note": "Create an RTR session on the selected Crowdstrike endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_session",
+                        "id": "14",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "device_id": "query_device:action_result.data.*.device_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 680
+                },
+                "15": {
+                    "data": {
+                        "action": "run admin command",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "run admin command",
+                            "customNameId": 0,
+                            "description": "Runs the kill command against a Crowdstrike endpoint via an RTR session to terminate the selected process PID.",
+                            "join": [],
+                            "note": "Runs the kill command against a Crowdstrike endpoint via an RTR session to terminate the selected process PID."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "run_admin_command",
+                        "id": "15",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "command": "kill",
+                            "data": "playbook_input:pid",
+                            "device_id": "query_device:action_result.data.*.device_id",
+                            "session_id": "create_session:action_result.data.*.resources.*.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "command"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "device_id"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "15",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 856
+                },
+                "16": {
+                    "data": {
+                        "action": "delete session",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "delete session",
+                            "customNameId": 0,
+                            "description": "Deletes an RTR session on the selected Crowdstrike endpoint.",
+                            "join": [],
+                            "note": "Deletes an RTR session on the selected Crowdstrike endpoint."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "delete_session",
+                        "id": "16",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "session_id": "create_session:action_result.summary.session_id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "session_id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "16",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1032
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determines if the provided inputs are present in the dataset.",
+                            "join": [],
+                            "note": "Determines if the provided inputs are present in the dataset."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": ""
+                                    },
+                                    {
+                                        "op": "!=",
+                                        "param": "playbook_input:pid",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input device present",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 148
+                },
+                "5": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "host observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each host",
+                            "join": [],
+                            "note": "Format a normalized output for each host."
+                        },
+                        "functionId": 1,
+                        "functionName": "host_observables",
+                        "id": "5",
+                        "inputParameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "run_admin_command:action_result.parameter.data",
+                            "run_admin_command:action_result.data"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "    \n    host_observables__observable_array = []\n    i = 0\n    \n    for system in run_admin_command_result_item_1:\n        # Handle case where a single host is passed with multiple PIDs to kill.\n        device_id = query_device_result_item_0[i] if i < len(query_device_result_item_0) else query_device_result_item_0[0]\n        hostname = query_device_result_item_1[i] if i < len(query_device_result_item_1) else query_device_result_item_1[0]\n\n        # Initialize the observable dictionary\n        observable = {\n            \"source\": \"Crowdstrike OAuth API\",\n            \"type\": \"Endpoint\",\n            \"activity_name\": \"Process Termination\",\n            \"uid\": device_id,\n            \"hostname\": hostname,       \n            \"processes\": [],\n            \"d3fend\": {\n                \"d3f_tactic\": \"Evict\",\n                \"d3f_technique\": \"D3-PT\",\n                \"version\": \"1.0.0\"\n            }\n        }\n\n        for process in system[0][\"resources\"]:\n            pid = run_admin_command_parameter_data[i]\n            status = \"success\" if process[\"stdout\"] and not process[\"stderr\"] else \"failed\"\n            message = process[\"stdout\"].strip() if process[\"stdout\"] else process[\"stderr\"].rstrip()\n            observable[\"processes\"].append(\n                {\n                    \"pid\": pid,\n                    \"status\": status,\n                    \"message\": message\n                }\n            )\n            \n        # Add the observable to the array\n        host_observables__observable_array.append(observable)\n        i+=1\n    \n    # Debug output for verification\n    #phantom.debug(host_observables__observable_array)\n    \n",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1400
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format fql",
+                            "customNameId": 0,
+                            "description": "Format the FQL query to get the input device information using its ID or hostname.",
+                            "join": [],
+                            "note": "Format the FQL query to get the input device information using its ID or hostname."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_fql",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:device"
+                        ],
+                        "template": "%%\nhostname:['{0}'],device_id:['{0}']\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 340
+                },
+                "8": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query device",
+                            "customNameId": 0,
+                            "description": "Get information about the device where the process should be terminated using its hostname or device id.",
+                            "join": [],
+                            "note": "Get information about the device where the process should be terminated using its hostname or device id."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_device",
+                        "id": "8",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "format_fql:formatted_data.*",
+                            "limit": 50
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 504
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format process termination report",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_process_termination_report",
+                        "id": "9",
+                        "parameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "filtered-data:input_filter:condition_1:playbook_input:pid",
+                            "run_admin_command:action_result.status",
+                            "run_admin_command:action_result.data.*.resources.*.stdout",
+                            "run_admin_command:action_result.data.*.resources.*.stderr"
+                        ],
+                        "template": "Devices processes were terminated via Splunk SOAR. The table below summarizes the information gathered.\n\n%%\n| Device ID | DNS Name | Process ID | Request Status |\n| --- | --- | --- | --- |\n| {0} | {1} | {2} | {3} |\n\n```\n{4}{5}\n```\n%%\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 0,
+                    "y": 1208
+                }
+            },
+            "notes": "Inputs: device (CrowdStrike Device ID or Hostname)\npid (one or more process IDs to terminate)\nInteractions: CrowdStrike OAuth API\nActions: run admin command (kill)\nOutputs: observables, markdown report"
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "Device ID or hostname of the host to quarantine",
+                "name": "device"
+            },
+            {
+                "contains": [],
+                "description": "Process ID of the process to terminate",
+                "name": "pid"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "host_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_process_termination_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "A report of the devices that were isolated via Splunk SOAR.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.15",
+        "version": "6.3.1.178"
+    },
+    "create_time": "2025-04-09T14:46:26.643171+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "CrowdStrike_OAuth_API",
+        "host name",
+        "D3-PT"
+    ]
+}

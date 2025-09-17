@@ -1,0 +1,32 @@
+name: VMWare ESXi Syslog
+id: f91c5ad1-2a44-4be3-93df-43150fa243e5
+version: 1
+date: '2025-05-08'
+author: Raven Tait, Splunk
+description: Data source object for syslog data from VMWare ESXi
+source: vmware:esxlog
+sourcetype: vmw-syslog
+supported_TA:
+- name: Add-on for VMware ESXi Logs
+  url: https://splunkbase.splunk.com/app/5603
+  version: 4.2.2
+fields:
+- _time
+- host
+- Message
+example_log: '{"preview":false,"lastrow":true,"result":{"Application":"May","Message":
+  "54:23 192.168.8.233 2025-05-08T17:52:34.409Z localhost.lan Hostd[263196]: [Originator@6876
+  sub=Vimsvc.ha-eventmgr opID=esxui-6983-6230 sid=52eb1a76] Event 854 : User root@192.168.196.95
+  logged in as Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
+  (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36","_raw":"May  8 17:54:23 192.168.8.233
+  2025-05-08T17:52:34.409Z localhost.lan Hostd[263196]: [Originator@6876 sub=Vimsvc.ha-eventmgr
+  opID=esxui-6983-6230 sid=52eb1a76] Event 854 : User root@192.168.196.95 logged in
+  as Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like
+  Gecko) Chrome/135.0.0.0 Safari/537.36","_time": "2025-05-08T17:52:34.409+0000","date_hour":"17","date_mday":"8","date_minute":"52","date_month":
+  "may","date_second":"34","date_wday":"thursday","date_year":"2025","date_zone":"0","host":
+  "192.168.8.233","index":"vmware-esxilog","linecount":"1","opID":"esxui-6983-6230","punct":
+  "___::_..._--::._._[]:_[@_=.-_=--_=]___:__@...____/","sid":"52eb1a76","source":
+  "vmware:esxlog:source::udp:514","sourcetype":"vmw-syslog","splunk_server":"splunk",
+  "sub":"Vimsvc.ha-eventmgr","timeendpos":"54","timestartpos":"30"}}'
+output_fields:
+- dest

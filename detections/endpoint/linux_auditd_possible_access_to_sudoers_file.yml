@@ -1,7 +1,7 @@
 name: Linux Auditd Possible Access To Sudoers File
 id: 8be88f46-f7e8-4ae6-b15e-cf1b13392834
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,10 +14,13 @@ description: The following analytic detects potential access or modification of 
   targeted host.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/sudoers*" | rename host as dest | stats
-  count min(_time) as firstTime max(_time) as lastTime by name nametype OGID type
-  dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_possible_access_to_sudoers_file_filter`'
+search: '`linux_auditd` type=PATH name="/etc/sudoers*" 
+  | rename host as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by name nametype ogid type dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_possible_access_to_sudoers_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
@@ -72,6 +75,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_auditd_sudoers_access/linux_auditd_sudoers_access.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_auditd_sudoers_access/linux_path_sudoers.log
     source: auditd
     sourcetype: auditd

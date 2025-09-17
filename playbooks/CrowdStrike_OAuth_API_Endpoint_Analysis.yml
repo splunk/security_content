@@ -1,0 +1,34 @@
+name: CrowdStrike OAuth API Endpoint Analysis
+id: 1356baeb-9ad4-4d2c-b6ae-55dda6bd9db5
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Investigation
+description: "Accepts a hostname or device id as input and collects running processes, network connections and various system information from the device via Crowdstrike. We then generate an observable report for each. This can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_Endpoint_Analysis
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and collect key information about the system, network connections and running processes for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "enrichment"
+    - "D3-NTA"
+    - "D3-PA"
+    - "D3-AI"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Enrichment
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-NTA
+  - D3-PA
+  - D3-AI

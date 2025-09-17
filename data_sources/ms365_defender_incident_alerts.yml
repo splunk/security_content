@@ -16,7 +16,7 @@ sourcetype: ms365:defender:incident:alerts
 supported_TA:
 - name: Splunk Add-on for Microsoft Security
   url: https://splunkbase.splunk.com/app/6207
-  version: 2.5.1
+  version: 2.5.4
 fields:
 - actorName
 - alertId

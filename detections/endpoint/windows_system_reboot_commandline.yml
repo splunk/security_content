@@ -1,7 +1,7 @@
 name: Windows System Reboot CommandLine
 id: 97fc2b60-c8eb-4711-93f7-d26fade3686f
-version: '7'
-date: '2025-05-06'
+version: '8'
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,10 +65,11 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - NjRAT
   - XWorm
-  - DarkCrystal RAT
   - DarkGate Malware
+  - NjRAT
+  - Quasar RAT
+  - DarkCrystal RAT
   - MoonPeak
   asset_type: Endpoint
   mitre_attack_id:

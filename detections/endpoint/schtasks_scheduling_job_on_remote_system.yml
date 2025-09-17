@@ -1,7 +1,7 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 15
-date: '2025-05-19'
+version: 16
+date: '2025-07-16'
 author: David Dorsey, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -69,14 +69,15 @@ rba:
     type: process_name
 tags:
   analytic_story:
-  - Active Directory Lateral Movement
-  - Living Off The Land
-  - Phemedrone Stealer
-  - Prestige Ransomware
-  - NOBELIUM Group
   - Scheduled Tasks
-  - Compromised Windows Host
+  - Phemedrone Stealer
+  - Living Off The Land
+  - Prestige Ransomware
+  - Quasar RAT
   - RedLine Stealer
+  - Active Directory Lateral Movement
+  - NOBELIUM Group
+  - Compromised Windows Host
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

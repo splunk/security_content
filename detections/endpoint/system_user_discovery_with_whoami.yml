@@ -1,18 +1,18 @@
 name: System User Discovery With Whoami
 id: 894fc43e-6f50-47d5-a68b-ee9ee23e18f4
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-08-27'
 author: Mauricio Velazco, Splunk
 status: production
-type: Hunting
-description: The following analytic detects the execution of `whoami.exe` without
-  any arguments. It leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process execution logs. This activity is significant because both Red
-  Teams and adversaries use `whoami.exe` to identify the current logged-in user, aiding
-  in situational awareness and Active Directory discovery. If confirmed malicious,
-  this behavior could indicate an attacker is gathering information to further compromise
-  the system, potentially leading to privilege escalation or lateral movement within
-  the network.
+type: Anomaly
+description: The following analytic detects the execution of `whoami.exe` 
+  without any arguments. It leverages data from Endpoint Detection and Response 
+  (EDR) agents, focusing on process execution logs. This activity is significant
+  because both Red Teams and adversaries use `whoami.exe` to identify the 
+  current logged-in user, aiding in situational awareness and Active Directory 
+  discovery. If confirmed malicious, this behavior could indicate an attacker is
+  gathering information to further compromise the system, potentially leading to
+  privilege escalation or lateral movement within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -26,18 +26,49 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `system_user_discovery_with_whoami_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators or power users may use this command for troubleshooting.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: Administrators or power users may use this command for 
+  troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1033/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+    on endpoint $dest$ by user $user$.
+  risk_objects:
+  - field: user
+    type: user
+    score: 3
+  - field: dest
+    type: system
+    score: 3
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+  - field: process_name
+    type: process_name
 tags:
   analytic_story:
   - Winter Vivern
@@ -46,6 +77,7 @@ tags:
   - Qakbot
   - CISA AA23-347A
   - PHP-CGI RCE Attack on Japanese Organizations
+  - LAMEHUG
   asset_type: Endpoint
   mitre_attack_id:
   - T1033
@@ -57,6 +89,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: Runas Execution in CommandLine
 id: 4807e716-43a4-11ec-a0e7-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -43,9 +43,10 @@ references:
 - https://app.any.run/tasks/ad4c3cda-41f2-4401-8dba-56cc2d245488/
 tags:
   analytic_story:
+  - Quasar RAT
   - Data Destruction
-  - Hermetic Wiper
   - Windows Privilege Escalation
+  - Hermetic Wiper
   asset_type: Endpoint
   mitre_attack_id:
   - T1134.001

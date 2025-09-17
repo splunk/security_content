@@ -1,7 +1,7 @@
 name: Linux Auditd Doas Conf File Creation
 id: 61059783-574b-40d2-ac2f-69b898afd6b4
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -14,10 +14,13 @@ description: The following analytic detects the creation of the doas.conf file o
   commands with root privileges, leading to full system compromise.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name ="/etc/doas.conf*" | rename host as dest |
-  stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID
-  type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_doas_conf_file_creation_filter`'
+search: '`linux_auditd` type=PATH name ="/etc/doas.conf*" 
+  | rename host as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by name nametype ogid type dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_doas_conf_file_creation_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
@@ -70,6 +73,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_audited_doas_conf/linux_audited_doas_conf.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_audited_doas_conf/linux_path_doas_config.log
     source: auditd
     sourcetype: auditd

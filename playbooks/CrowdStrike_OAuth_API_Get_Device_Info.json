@@ -1,0 +1,300 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Attribute Lookup",
+    "coa": {
+        "data": {
+            "description": "Given either a CrowdStrike device id (agentId) or a hostname, will query the device to get the other missing attribute.  This enables finding the hostname from a device id or the device id from a hostname and can be used in front of other CrowdStrike custom playbooks for added flexibility.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_3_to_port_2",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_6",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "71712736c224e12b9baf5c81a571a973fa95b728",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -6.394884621840902e-14
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 20,
+                    "y": 800
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format fql",
+                            "customNameId": 0,
+                            "description": "Format the FQL query to get the input device information using its Device ID or hostname.",
+                            "join": [],
+                            "note": "Format the FQL query to get the input device information using its Device ID or hostname."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_fql",
+                        "id": "2",
+                        "parameters": [
+                            "playbook_input:device"
+                        ],
+                        "template": "%%\nhostname:['{0}'],device_id:['{0}']\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 328
+                },
+                "3": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determines if the provided inputs are present in the dataset.",
+                            "join": [],
+                            "note": "Determines if the provided inputs are present in the dataset."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "playbook inputs are present",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "3",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 148
+                },
+                "4": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query device",
+                            "customNameId": 0,
+                            "description": "Get information about the CrowdStrike device using its hostname or device id.",
+                            "join": [],
+                            "note": "Get information about the CrowdStrike device using its hostname or device id."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_device",
+                        "id": "4",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "format_fql:formatted_data.*",
+                            "limit": 50
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 504
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format output data",
+                            "customNameId": 0,
+                            "description": "This code block removes null values returned in some cases for device_id or hostname values.  It also provides a default value of \"No results found\" when nothing is returned.",
+                            "join": [],
+                            "note": "This code block removes null values returned in some cases for device_id or hostname values.  It also provides a default value of \"No results found\" when nothing is returned."
+                        },
+                        "functionId": 1,
+                        "functionName": "format_output_data",
+                        "id": "6",
+                        "inputParameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "query_device:action_result.data.*.hostname"
+                        ],
+                        "outputVariables": [
+                            "device_ids",
+                            "hostnames"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "code",
+                    "userCode": "\n    format_output_data__device_ids = [x for x in query_device_result_item_0 if x is not None] \n    format_output_data__hostnames = [x for x in query_device_result_item_1 if x is not None] \n    if not format_output_data__device_ids:\n        format_output_data__device_ids = [\"No result found\"]\n    if not format_output_data__hostnames:\n        format_output_data__hostnames = [\"No result found\"]\n    \n",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 660
+                }
+            },
+            "notes": "This playbook can be customized to return other key attributes as required by customers in the End block."
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "Hostname or Device ID of the Crowdstrike Endpoint to query",
+                "name": "device"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [
+                    "crowdstrike device id"
+                ],
+                "datapaths": [
+                    "format_output_data:custom_function:device_ids"
+                ],
+                "deduplicate": true,
+                "description": "The device_id of the CrowdStrike Endpoint",
+                "metadata": {
+                    "device_id_drop_none:custom_function_result.data.*.item": {
+                        "contains": [
+                            "*"
+                        ]
+                    },
+                    "query_device:action_result.data.*.device_id": {
+                        "contains": [
+                            "crowdstrike device id"
+                        ]
+                    }
+                },
+                "name": "device_id"
+            },
+            {
+                "contains": [
+                    "host name"
+                ],
+                "datapaths": [
+                    "format_output_data:custom_function:hostnames"
+                ],
+                "deduplicate": true,
+                "description": "The hostname of the CrowdStrike Endpoint",
+                "metadata": {
+                    "hostname_drop_none:custom_function_result.data.*.item": {
+                        "contains": [
+                            "*"
+                        ]
+                    },
+                    "query_device:action_result.data.*.hostname": {
+                        "contains": [
+                            "host name"
+                        ]
+                    }
+                },
+                "name": "hostname"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.15",
+        "version": "6.3.1.178"
+    },
+    "create_time": "2025-05-02T17:31:33.721278+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "host name",
+        "device id",
+        "CrowdStrike_OAuth_API"
+    ]
+}

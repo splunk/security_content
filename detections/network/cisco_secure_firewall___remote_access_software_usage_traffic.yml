@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 1
-date: '2025-05-02'
+version: 2
+date: '2025-07-29'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -61,7 +61,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Traffic to known remote access software [$ClientApplication$] was detected from $src_ip$.
+  message: Traffic to known remote access software [$ClientApplication$] was 
+    detected from $src_ip$.
   risk_objects:
   - field: src_ip
     type: system
@@ -76,6 +77,8 @@ tags:
   - Ransomware
   - Remote Monitoring and Management Software
   - Cisco Secure Firewall Threat Defense Analytics
+  - Scattered Spider
+  - Interlock Ransomware
   asset_type: Network
   mitre_attack_id:
   - T1219
@@ -88,6 +91,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
     source: not_applicable
     sourcetype: cisco:sfw:estreamer

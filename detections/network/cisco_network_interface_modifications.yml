@@ -1,0 +1,74 @@
+name: Cisco Network Interface Modifications
+id: 61ae09c2-079e-44b1-8be0-74e35c5a679e
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: Anomaly
+description: This analytic detects the creation or modification of network interfaces on Cisco devices, which could indicate an attacker establishing persistence or preparing for lateral movement. After gaining initial access to network devices, threat actors like Static Tundra often create new interfaces (particularly loopback interfaces) to establish covert communication channels or maintain persistence. This detection specifically looks for the configuration of new interfaces, interface state changes, and the assignment of IP addresses to interfaces. These activities are particularly concerning when they involve unusual interface names or descriptions containing suspicious terms.
+data_source:
+- Cisco IOS Logs
+search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  where (
+    (All_Changes.command="*interface*") OR
+    (All_Changes.command="*LINEPROTO-5-UPDOWN*") OR
+    (All_Changes.command="*ip address*")
+  )
+  by All_Changes.dvc All_Changes.user
+| `drop_dm_object_name("All_Changes")`
+| rename dvc as dest
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_network_interface_modifications_filter`'
+how_to_implement: To implement this search, you need to be ingesting Cisco IOS logs with the sourcetype "cisco:ios" and have these logs mapped to the Change datamodel. Ensure that your Cisco IOS devices are configured to send logs to your Splunk environment, with appropriate logging levels enabled to capture interface configuration changes and line protocol state changes. Configure command logging on Cisco IOS devices using the "archive log config logging enable" command and ensure that syslog is properly configured to capture LINEPROTO-5-UPDOWN messages.
+known_false_positives: Legitimate network interface configuration changes may trigger this detection during routine network maintenance or initial device setup. Network administrators often need to create or modify interfaces as part of normal operations. To reduce false positives, consider implementing a baseline of expected administrative activities, including approved administrative usernames, typical times for interface configuration changes, and scheduled maintenance windows. You may also want to create a lookup table of approved interface naming conventions and filter out alerts for standard interface configurations.
+references:
+- https://blog.talosintelligence.com/static-tundra/
+- https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+- https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/interface/command/ir-cr-book/ir-i1.html#wp1389942834
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious network interface modifications detected on Cisco device $dest$ by user $user$, which may indicate persistence establishment
+  risk_objects:
+  - field: dest
+    type: system
+    score: 55
+  - field: user
+    type: user
+    score: 45
+  threat_objects:
+  - field: command
+    type: command
+tags:
+  analytic_story:
+  - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  mitre_attack_id:
+  - T1556
+  - T1021
+  - T1133
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+  cve:
+  - CVE-2018-0171
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+    sourcetype: cisco:ios
+    source: cisco:ios

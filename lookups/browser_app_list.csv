@@ -37,6 +37,7 @@ browser_process_name,browser_object_path,isAllowed
 "*KometaBrowser.exe","*Kometa\User Data\Default\Login Data*", true
 "*XpomBrowser.exe","*Xpom\User Data\Default\Login Data*", true
 "*msedge.exe","*Microsoft\Edge\User Data\Default\Login Data*", true
+"*msedge.exe","*Microsoft\Edge\User Data\Local State*", true
 "*LiebaoBrowser.exe","*Liebao7\User Data\Default\EncryptedStorage*", true
 "*AvastBrowser.exe","*AVAST Software\Browser\User Data\Default\Login Data*", true
 "*Kinza.exe","*Kinza\User Data\Default\Login Data*", true
@@ -45,3 +46,7 @@ browser_process_name,browser_object_path,isAllowed
 "*cyberfox.exe","*8pecxstudios\Cyberfox\Profiles\logins.json*", true
 "*SlimBrowser.exe","*FlashPeak\SlimBrowser\Profiles\logins.json*", true
 "*palemoon.exe","*Moonchild Productions\Pale Moon\Profiles\logins.json*", true
+"*opera.exe","*Opera Software\Opera GX Stable\Login Data*", true
+"*opera.exe","*Opera Software\Opera GX Stable\Local State*", true
+"*yandex.exe","*Yandex\YandexBrowser\User Data\Default\Ya Passman Data*", true
+"*yandex.exe","*Yandex\YandexBrowser\User Data\Local State*", true

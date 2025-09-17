@@ -1,0 +1,64 @@
+name: Windows Rdp AutomaticDestinations Deletion
+id: e40a40a1-9fea-4554-abdf-b164422f0627
+version: 1
+date: '2025-07-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This detection identifies the deletion of files within the AutomaticDestinations folder, located under a user’s AppData\Roaming\Microsoft\Windows\Recent directory. These files are part of the Windows Jump List feature, which records recently accessed files and folders tied to specific applications. Each .automaticDestinations-ms file corresponds to a program (e.g., Explorer, Word, Notepad) and can be valuable for forensic analysis of user activity. Adversaries may target this folder to erase evidence of their actions, such as which documents or directories were accessed during a session. This type of deletion is rarely seen during normal user activity and may indicate deliberate anti-forensic behavior. When correlated with suspicious logon events, RDP usage, or script execution, this activity may represent an attempt to cover tracks after data access, lateral movement, or staging for exfiltration. Detecting removal of these artifacts can highlight post-compromise cleanup efforts and help analysts reconstruct attacker behavior.
+data_source:
+- Sysmon EventID 23
+- Sysmon EventID 26
+search: '`sysmon` EventCode=23 TargetFilename IN ("*\\Recent\\AutomaticDestinations*")
+  | stats count min(_time) as firstTime, max(_time) as lastTime 
+  by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_rdp_automaticdestinations_deletion_filter`'
+how_to_implement: To successfully implement this search, you must ingest logs that
+  include the process name, TargetFilename, and ProcessID executions from your endpoints.
+  If you are utilizing Sysmon, ensure you have at least version 2.0 of the Sysmon
+  TA installed.
+known_false_positives: False positives will be present, filter as needed or restrict
+  to critical assets on the perimeter.
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A file related to rdp automatic destination folder has been deleted on $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+  - Windows RDP Artifacts and Defense Evasion
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1070.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/automatic_file_deleted/automatic_file_deleted.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-07-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -78,11 +78,13 @@ tags:
   - Flax Typhoon
   - WS FTP Server Critical Vulnerabilities
   - PHP-CGI RCE Attack on Japanese Organizations
+  - Microsoft SharePoint Vulnerabilities
   asset_type: Endpoint
   cve:
   - CVE-2021-34473
   - CVE-2021-34523
   - CVE-2021-31207
+  - CVE-2025-53770
   mitre_attack_id:
   - T1505.003
   product:

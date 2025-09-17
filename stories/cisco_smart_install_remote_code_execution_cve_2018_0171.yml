@@ -1,0 +1,44 @@
+name: Cisco Smart Install Remote Code Execution CVE-2018-0171
+id: 41178b4d-7dde-4ea6-a886-3e8b5b82fe3b
+version: 1
+status: production
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+description: This analytic story focuses on detecting exploitation attempts and successful compromises related to CVE-2018-0171, a critical vulnerability in Cisco's Smart Install feature. This vulnerability allows unauthenticated, remote attackers to execute arbitrary code on affected devices or trigger device reloads resulting in denial of service conditions. Recently highlighted by Cisco Talos as being actively exploited by the Russian state-sponsored threat actor "Static Tundra," this vulnerability continues to be a significant threat vector for organizations with unpatched or end-of-life network devices.
+narrative: |
+  The Cisco Smart Install feature vulnerability (CVE-2018-0171) has emerged as a significant threat to network infrastructure security, particularly as it continues to be actively exploited years after patches were released. In August 2025, Cisco Talos revealed that a Russian state-sponsored espionage group dubbed "Static Tundra" has been actively exploiting this seven-year-old vulnerability to compromise unpatched and end-of-life network devices.
+  
+  The vulnerability exists in the Smart Install feature of Cisco IOS and IOS XE software, which is a plug-and-play configuration and image-management feature that helps customers to deploy new switches. When exploited, CVE-2018-0171 allows unauthenticated remote attackers to execute arbitrary code or cause denial of service conditions by triggering device reloads.
+  
+  Static Tundra, linked to the FSB's Center 16 unit and possibly associated with the "Energetic Bear" (BERSERK BEAR) threat group, has been observed using this vulnerability since at least 2021. Their attack chain typically begins with exploiting the Smart Install vulnerability to gain initial access, followed by modifying device configurations to enable SNMP with read-write permissions using community strings like "anonymous" and "public." Once access is established, the group employs sophisticated persistence techniques, including the historic SYNful Knock firmware implant (first reported in 2015) and bespoke SNMP tooling to maintain undetected access for multiple years.
+  
+  The threat actor primarily targets organizations in telecommunications, higher education, and manufacturing sectors across North America, Asia, Africa, and Europe. Their objectives include compromising network devices to gather sensitive configuration information and establishing persistent access for long-term espionage operations aligned with Russian strategic interests.
+  
+  After gaining initial access, Static Tundra uses various techniques for execution, persistence, defense evasion, discovery, collection, and exfiltration:
+  
+  - They interact with SNMP services using compromised community strings, sometimes spoofing source addresses to bypass access control lists
+  - They leverage SNMP to modify configurations, create privileged local accounts, and establish additional access methods
+  - They use the SYNful Knock firmware implant for persistent access that survives device reboots
+  - They modify TACACS+ configurations to hinder remote logging capabilities
+  - They establish GRE tunnels to redirect traffic to attacker-controlled infrastructure for capture and analysis
+  - They exfiltrate configuration information through various means, including TFTP, FTP, and SNMP connections
+  
+  While this analytic story focuses on Static Tundra's exploitation of CVE-2018-0171, it's important to note that other state-sponsored actors are likely conducting similar campaigns targeting network devices. Organizations should implement comprehensive security measures, including patching vulnerable devices, disabling Smart Install when not needed, implementing strong authentication mechanisms, and monitoring for suspicious activities related to network device configurations and communications.
+references:
+- https://blog.talosintelligence.com/static-tundra/
+- https://github.com/AlrikRr/Cisco-Smart-Exploit
+- https://github.com/hellowenying/CVE2018-0171
+- https://www.exploit-db.com/exploits/44451
+- https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+- https://attack.mitre.org/techniques/T1190/
+- https://attack.mitre.org/techniques/T1059/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2018-0171

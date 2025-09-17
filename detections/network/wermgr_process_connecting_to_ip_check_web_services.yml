@@ -1,7 +1,7 @@
 name: Wermgr Process Connecting To IP Check Web Services
 id: ed313326-a0f9-11eb-a89c-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-07-16'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP

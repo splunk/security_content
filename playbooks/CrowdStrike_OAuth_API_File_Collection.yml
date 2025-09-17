@@ -1,0 +1,31 @@
+name: CrowdStrike OAuth API File Collection
+id: 2296ce3f-171f-467f-8025-f046f5d59133
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Investigation
+description: "Accepts a hostname or device id as well as a file path as input and collects the file to the event File Vault from a device in Crowdstrike. An artifact is created from the collected file.  We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_File_Collection
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or agent id and collect a specific file from the endpoint (using an absolute path) for forensics or later use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "path"
+    - "File Collection"
+    - "D3-FA"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device,path]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Collection
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-FA

@@ -1,0 +1,19 @@
+name: Interlock Rat
+id: b2d83c79-b50e-4aff-a9f7-8ea315369de1
+version: 1
+date: '2025-07-28'
+author: Teoderick Contreras, Splunk
+status: production
+description: This detection identifies behavioral indicators consistent with the Interlock RAT (Remote Access Trojan) malware family. Interlock RAT is a stealthy and modular backdoor primarily used for unauthorized remote control, data exfiltration, and system reconnaissance. The malware typically arrives via phishing campaigns or is dropped by other malware strains. Upon execution, it establishes persistence, connects to a command-and-control (C2) server, and allows attackers full access to the compromised system.
+narrative: Interlock RAT is a relatively new entrant in the malware ecosystem, first observed in mid-to-late 2024.  Interlock RAT distinguishes itself with a lightweight binary, encrypted communications, and a plugin-based architecture that allows attackers to load new capabilities post-compromise. Interlock employs a multi-stage attack chain, starting by compromising legitimate websites that deliver fake browser updates, such as Google Chrome or MS Edge installers. These fake installers execute a PowerShell backdoor facilitating the execution of multiple tools, and ultimately leading to the ransomware payload delivery.
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-203a
+- https://blog.sekoia.io/interlock-ransomware-evolving-under-the-radar/
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

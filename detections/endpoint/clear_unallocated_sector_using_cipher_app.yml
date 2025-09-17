@@ -1,7 +1,7 @@
 name: Clear Unallocated Sector Using Cipher App
 id: cd80a6ac-c9d9-11eb-8839-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-07-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -72,6 +72,7 @@ tags:
   analytic_story:
   - Ransomware
   - Compromised Windows Host
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.004

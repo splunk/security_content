@@ -1,0 +1,74 @@
+name: Cisco Smart Install Port Discovery and Status
+id: ded9f9d7-edb8-48cf-8b72-1b459eee6785
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: TTP
+description: This analytic detects network traffic to TCP port 4786, which is used by the Cisco Smart Install protocol. Smart Install is a plug-and-play configuration and image-management feature that helps customers to deploy Cisco switches. This protocol has been exploited via CVE-2018-0171, a vulnerability that allows unauthenticated remote attackers to execute arbitrary code or cause denial of service conditions. Recently, Cisco Talos reported that a Russian state-sponsored threat actor called "Static Tundra" has been actively exploiting this vulnerability to compromise unpatched and end-of-life network devices. Monitoring for traffic to this port can help identify potential exploitation attempts or unauthorized Smart Install activity.
+data_source:
+  - Splunk Stream TCP
+search: '| tstats `security_content_summariesonly`
+  count
+  values(All_Traffic.src_ip) as src_ip
+  values(All_Traffic.src_port) as src_port
+  values(All_Traffic.dest_ip) as dest_ip
+  earliest(_time) as firstTime
+  latest(_time) as lastTime
+  from datamodel=Network_Traffic
+  where All_Traffic.dest_port=4786 AND All_Traffic.transport=tcp
+  by All_Traffic.dest_ip All_Traffic.dest_port
+  | `drop_dm_object_name("All_Traffic")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_smart_install_port_discovery_and_status_filter`'
+how_to_implement: To implement this search, you need to be ingesting network traffic data into the Network_Traffic data model. This can be accomplished using Splunk Stream, which captures and indexes network traffic. Specifically, you need to ensure that TCP traffic is being monitored and indexed with the sourcetype "stream:tcp". The search looks for traffic destined to port 4786, which is used by the Cisco Smart Install protocol. For optimal security, organizations should consider blocking this port at their network perimeter to prevent external exploitation attempts. However, monitoring for both external and internal traffic to this port is valuable for detecting potential malicious activity. You may need to modify this search to focus on traffic patterns specific to your environment, such as monitoring only for inbound traffic from external sources or for unexpected internal communications using this protocol.
+known_false_positives: Legitimate use of Cisco Smart Install may generate traffic to port 4786 within environments that actively use this feature for switch deployment and management. Network administrators might use Smart Install for legitimate device configuration purposes, especially during network deployment or maintenance windows. To reduce false positives, baseline normal Smart Install usage patterns in your environment and consider implementing time-based filtering to alert only on unexpected usage outside of scheduled maintenance periods. Additionally, consider whitelisting known management stations that legitimately use Smart Install.
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://github.com/AlrikRr/Cisco-Smart-Exploit
+  - https://www.exploit-db.com/exploits/44451
+drilldown_searches:
+  - name: View the detection results for - "$dest_ip$"
+    search: '%original_detection_search% | search dest_ip = "$dest_ip$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest_ip$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message"
+      values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations"
+      values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Detected network traffic to Cisco Smart Install port (4786) on $dest_ip$. Possible access to Cisco Smart Install.
+  risk_objects:
+    - field: dest_ip
+      type: system
+      score: 50
+  threat_objects:
+    - field: src_ip
+      type: ip_address
+tags:
+  analytic_story:
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  mitre_attack_id:
+    - T1190
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+  cve:
+    - CVE-2018-0171
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/stream_tcp.log
+        sourcetype: stream:tcp
+        source: stream:tcp

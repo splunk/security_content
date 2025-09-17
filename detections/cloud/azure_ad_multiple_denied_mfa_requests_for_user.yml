@@ -1,7 +1,7 @@
 name: Azure AD Multiple Denied MFA Requests For User
 id: d0895c20-de71-4fd2-b56c-3fcdb888eba1
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-07-31'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity
   | bucket span=10m _time 
   | rename userAgent as user_agent 
   | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(user_agent) as user_agent values(src) as src by user status.additionalDetails vendor_account vendor_product signature
+  | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(user_agent) as user_agent values(src) as src by user status.additionalDetails vendor_account vendor_product signature _time
   | where count > 9 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

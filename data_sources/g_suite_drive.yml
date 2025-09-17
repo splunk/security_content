@@ -16,7 +16,7 @@ sourcetype: gsuite:drive:json
 supported_TA:
 - name: Splunk Add-on for Google Workspace
   url: https://splunkbase.splunk.com/app/5556
-  version: 3.0.4
+  version: 3.1.0
 fields:
 - _time
 - email

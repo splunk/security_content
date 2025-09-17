@@ -1,7 +1,7 @@
 name: Windows User Execution Malicious URL Shortcut File
 id: 5c7ee6ad-baf4-44fb-b2f0-0cfeddf82dbc
-version: '8'
-date: '2025-05-06'
+version: 9
+date: '2025-07-16'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -60,9 +60,10 @@ rba:
 tags:
   analytic_story:
   - XWorm
-  - NjRAT
-  - Snake Keylogger
   - Chaos Ransomware
+  - NjRAT
+  - Quasar RAT
+  - Snake Keylogger
   asset_type: Endpoint
   mitre_attack_id:
   - T1204.002

@@ -1,7 +1,7 @@
 name: Linux Auditd Unix Shell Configuration Modification
 id: 66f737c6-3f7f-46ed-8e9b-cc0e5bf01f04
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -20,10 +20,13 @@ search: '`linux_auditd` type=PATH name IN ("/etc/profile", "/etc/shells", "/etc/
   "/etc/zsh/zlogout", "/etc/csh.cshrc", "/etc/csh.login", "/root/.bashrc", "/root/.bash_profile",
   "root/.profile", "/root/.zshrc", "/root/.zprofile", "/home/*/.bashrc", "/home/*/.zshrc",
   "/home/*/.bash_profile", "/home/*/.zprofile", "/home/*/.profile", "/home/*/.bash_login",
-  "/home/*/.bash_logout", "/home/*/.zlogin", "/home/*/.zlogout") | rename host as
-  dest | stats count min(_time) as firstTime max(_time) as lastTime by name nametype
-  OGID type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_unix_shell_configuration_modification_filter`'
+  "/home/*/.bash_logout", "/home/*/.zlogin", "/home/*/.zlogout")
+    | rename host as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by name nametype ogid type dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_unix_shell_configuration_modification_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
@@ -78,6 +81,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_auditd_unix_shell_mod_config/linux_auditd_unix_shell_mod_config.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_auditd_unix_shell_mod_config//linux_path_profile_d.log
     source: auditd
     sourcetype: auditd

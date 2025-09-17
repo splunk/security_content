@@ -1,0 +1,76 @@
+name: Linux Medusa Rootkit
+id: 7add8520-71d5-43aa-b262-ee082b1f0238
+version: 1
+date: '2025-08-05'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: This detection identifies file creation events associated with the installation of the Medusa 
+  rootkit, a userland LD_PRELOAD-based rootkit known for deploying shared objects, loader binaries, and
+  configuration files into specific system directories. These files typically facilitate process hiding, 
+  credential theft, and backdoor access. Monitoring for such file creation patterns enables early 
+  detection of rootkit deployment before full compromise.
+data_source:
+- Sysmon for Linux EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/lib/libseconf", 
+  "*.backup_ld.so", "*.boot.sh", "*.logpam", "*sshpass.txt", "*sshpass2.txt", "*/lib/libdsx.so", 
+  "*rkload", "*/lib/libseconf/local.txt", "*/lib/locate/local.txt", "*/var/log/remote.txt", 
+  "*/lib/libseconf/.pts", "*/lib/locate /.pts", "*/libseconf/.ports")
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+  Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+  Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+  Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
+  `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_medusa_rootkit_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Little to no false positives in most environments. Tune as needed.
+references:
+- https://cloud.google.com/blog/topics/threat-intelligence/uncovering-unc3886-espionage-operations
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Medusa rootkit files were identified on endpoint $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 62
+  threat_objects: []
+tags:
+  analytic_story:
+  - China-Nexus Threat Activity
+  - Medusa Rootkit
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1014
+  - T1589.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1014/medusa_rootkit/sysmon_linux.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon:linux

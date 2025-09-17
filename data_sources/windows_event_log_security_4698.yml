@@ -1,14 +1,14 @@
 name: Windows Event Log Security 4698
 id: 32c06703-02d3-47ec-8856-b0dc3045866c
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs an event when a new scheduled task is created
 mitre_components:
 - Scheduled Job Creation
 - Scheduled Job Metadata
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4698'
 supported_TA:

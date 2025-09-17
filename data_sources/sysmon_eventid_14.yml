@@ -1,17 +1,17 @@
 name: Sysmon EventID 14
 id: 77c4b345-0eab-415e-98c6-f4114b021723
-version: 1
-date: '2025-02-21'
+version: 2
+date: '2025-07-10'
 author: Bhavin Patel, Splunk
 description: Data source object for Sysmon EventID 14
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.3
+  version: 5.0.0
 fields:
 - _time
 example_log: ''

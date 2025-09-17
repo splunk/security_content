@@ -1,0 +1,24 @@
+name: Cisco Duo Suspicious Activity
+id: f2f0713d-2aa3-47c7-b773-ec1e9935e35a
+version: 1
+date: '2024-07-08'
+author: Patrick Bareiss, Splunk
+status: production
+description: This analytics story focuses on identifying suspicious activities and potential account compromise events within environments protected by Duo multi-factor authentication (MFA). It provides detection rules and guidance to help security teams recognize signs of adversary tactics such as bypassing MFA, unauthorized access attempts, and other behaviors indicative of account takeover or credential abuse.
+narrative: |
+  Multi-factor authentication (MFA) solutions like Duo are critical for protecting user accounts and sensitive resources from unauthorized access. However, attackers continue to develop techniques to circumvent or exploit MFA controls, including social engineering, phishing, and exploiting misconfigurations. This story brings together detections that highlight suspicious activity patterns in Duo-protected environments, such as users being set to bypass MFA, anomalous login attempts, and other indicators of account compromise. By leveraging these detections, security teams can quickly identify and respond to threats targeting authentication mechanisms, reducing the risk of successful account takeover and subsequent malicious activity.
+references:
+- https://attack.mitre.org/techniques/T1586/
+- https://www.imperva.com/learn/application-security/account-takeover-ato/
+- https://www.barracuda.com/glossary/account-takeover
+- https://www.okta.com/customer-identity/
+tags:
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Cloud Security  
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,0 +1,77 @@
+name: Cisco TFTP Server Configuration for Data Exfiltration
+id: 1abce487-f480-4d5f-a551-01de0bece0bd
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: TTP
+description: This analytic detects the configuration of TFTP services on Cisco IOS devices that could be used to exfiltrate sensitive configuration files. Threat actors like Static Tundra have been observed configuring TFTP servers to make device configuration files accessible for exfiltration after gaining initial access. The detection specifically looks for commands that expose critical configuration files such as startup-config, running-config, and other sensitive system information through TFTP. This activity is particularly concerning as it may represent an attempt to steal credentials, network topology information, and other sensitive data stored in device configurations.
+data_source:
+- Cisco IOS Logs
+search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  where  (All_Changes.command="*tftp-server*")
+  AND (
+    All_Changes.command="*nvram:startup-config*" OR
+    All_Changes.command="*bootflash:running-config*" OR
+    All_Changes.command="*system:running-config*" OR
+    All_Changes.command="*bootflash:info*" OR
+    All_Changes.command="*startup-config*" OR
+    All_Changes.command="*running-config*"
+  )
+  by All_Changes.dvc All_Changes.user
+| `drop_dm_object_name("All_Changes")`
+| rename dvc as dest
+| `security_content_ctime(firstTime)`
+| `security_content_ctime(lastTime)`
+| `cisco_tftp_server_configuration_for_data_exfiltration_filter`'
+how_to_implement: To implement this search, you need to be ingesting Cisco IOS logs with the sourcetype "cisco:ios" and have these logs mapped to the Change datamodel. Ensure that your Cisco IOS devices are configured to send logs to your Splunk environment, with appropriate logging levels enabled to capture command logging events (PARSER-5-CFGLOG_LOGGEDCMD). Configure command logging on Cisco IOS devices using the "archive log config logging enable" command.
+known_false_positives: Legitimate TFTP server configurations may be detected by this analytic during authorized backup operations or device maintenance. Network administrators sometimes use TFTP for legitimate configuration backups, firmware updates, or during troubleshooting. To reduce false positives, consider implementing a baseline of expected administrative activities, including approved administrative usernames and scheduled maintenance windows.
+references:
+- https://blog.talosintelligence.com/static-tundra/
+- https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+- https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/fundamentals/command/cf_command_ref/T_through_X.html#wp3081407060
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious TFTP server configuration detected on Cisco device $dest$ by user $user$, potentially exposing sensitive configuration files
+  risk_objects:
+  - field: dest
+    type: system
+    score: 60
+  - field: user
+    type: user
+    score: 40
+  threat_objects:
+  - field: command
+    type: command
+tags:
+  analytic_story:
+  - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  mitre_attack_id:
+  - T1567
+  - T1005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+  cve:
+  - CVE-2018-0171
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+    sourcetype: cisco:ios
+    source: cisco:ios

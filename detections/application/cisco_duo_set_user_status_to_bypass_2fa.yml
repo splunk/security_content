@@ -1,0 +1,75 @@
+name: Cisco Duo Set User Status to Bypass 2FA
+id: 8728d224-9cd5-4aa7-b75f-f8520a569979
+version: 1
+date: '2025-07-08'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Administrator
+type: TTP
+status: production
+description: |
+  The following analytic detects instances where a Duo user's status is changed to "Bypass" for 2FA, specifically when the 
+  previous status was "Active." This behavior is identified by analyzing Duo activity logs for user update actions, extracting 
+  the status transitions, and filtering for cases where a user is set to bypass multi-factor authentication. This is a critical 
+  event for a Security Operations Center (SOC) to monitor, as bypassing 2FA significantly weakens account security and may 
+  indicate malicious insider activity or account compromise. Attackers or unauthorized administrators may exploit this change to 
+  disable strong authentication controls, increasing the risk of unauthorized access to sensitive systems and data. Early detection 
+  of such changes enables rapid investigation and response, helping to prevent potential breaches and limit the impact of 
+  credential-based attacks. 
+search: '`cisco_duo_activity` action.name=user_update 
+  | spath input=target.details path=status output=status
+  | spath input=old_target.details path=status output=old_status
+  | search status=Bypass old_status=Active
+  | rename target.name as user access_device.ip.address as src_ip
+  | stats count min(_time) as firstTime max(_time) as lastTime by access_device.browser 
+  access_device.browser_version src_ip access_device.location.city 
+  access_device.location.country access_device.location.state access_device.os access_device.os_version 
+  action.name actor.details actor.name actor.type old_target.details target.details status old_status user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `cisco_duo_set_user_status_to_bypass_2fa_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A user $user$ has set their status to bypass 2FA from IP Address - $src_ip$
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects:
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_bypass_2FA/cisco_duo_activity.json
+    source: duo
+    sourcetype: cisco:duo:activity

@@ -1,17 +1,18 @@
 name: Domain Account Discovery with Wmic
 id: 383572e0-04c5-11ec-bdcc-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-07-28'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of `wmic.exe` with command-line
-  arguments used to query for domain users. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on specific command-line patterns indicative
-  of domain account discovery. This activity is significant as it often precedes lateral
-  movement or privilege escalation attempts by adversaries. If confirmed malicious,
-  this behavior could allow attackers to map out user accounts within the domain,
-  facilitating further attacks and potentially compromising sensitive information.
+description: The following analytic detects the execution of `wmic.exe` with 
+  command-line arguments used to query for domain users. It leverages data from 
+  Endpoint Detection and Response (EDR) agents, focusing on specific 
+  command-line patterns indicative of domain account discovery. This activity is
+  significant as it often precedes lateral movement or privilege escalation 
+  attempts by adversaries. If confirmed malicious, this behavior could allow 
+  attackers to map out user accounts within the domain, facilitating further 
+  attacks and potentially compromising sensitive information.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -27,16 +28,18 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `domain_account_discovery_with_wmic_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators or power users may use this command for troubleshooting.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: Administrators or power users may use this command for 
+  troubleshooting.
 references:
 - https://attack.mitre.org/techniques/T1087/002/
 drilldown_searches:
@@ -54,7 +57,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: an instance of process $process_name$ with commandline $process$ on $dest$
+  message: an instance of process $process_name$ with commandline $process$ on 
+    $dest$
   risk_objects:
   - field: user
     type: user
@@ -68,6 +72,7 @@ rba:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1087.002
@@ -79,6 +84,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/AD_discovery/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

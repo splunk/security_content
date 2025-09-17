@@ -1,14 +1,14 @@
 name: Windows Event Log Security 4625
 id: 365a02c2-7d18-4baf-b76e-d90c20bbe6ed
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs an event when an account fails to log on to a system.
 mitre_components:
 - User Account Authentication
 - Logon Session Metadata
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4625'
 supported_TA:
@@ -117,24 +117,33 @@ fields:
 - vendor
 - vendor_product
 output_fields:
-- action 
-- app 
-- authentication_method 
-- dest 
-- signature 
-- signature_id 
-- src  
-- user 
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4625</EventID><Version>0</Version><Level>0</Level><Task>12544</Task><Opcode>0</Opcode><Keywords>0x8010000000000000</Keywords><TimeCreated
+- action
+- app
+- authentication_method
+- dest
+- signature
+- signature_id
+- src
+- user
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4625</EventID><Version>0</Version><Level>0</Level><Task>12544</Task><Opcode>0</Opcode><Keywords>0x8010000000000000</Keywords><TimeCreated
   SystemTime='2023-03-22T20:25:15.594676400Z'/><EventRecordID>367348</EventRecordID><Correlation
-  ActivityID='{6C54D781-5C05-0000-8CD7-546C055CD901}'/><Execution ProcessID='588'
+  ActivityID='{6C54D781-5C05-0000-8CD7-546C055CD901}'/><Execution 
+  ProcessID='588' 
   ThreadID='3564'/><Channel>Security</Channel><Computer>ar-win-8.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='SubjectUserSid'>NULL SID</Data><Data Name='SubjectUserName'>-</Data><Data
-  Name='SubjectDomainName'>-</Data><Data Name='SubjectLogonId'>0x0</Data><Data Name='TargetUserSid'>NULL
-  SID</Data><Data Name='TargetUserName'>Administrator</Data><Data Name='TargetDomainName'>builtin</Data><Data
-  Name='Status'>0xc000006d</Data><Data Name='FailureReason'>%%2313</Data><Data Name='SubStatus'>0xc000006a</Data><Data
-  Name='LogonType'>3</Data><Data Name='LogonProcessName'>NtLmSsp </Data><Data Name='AuthenticationPackageName'>NTLM</Data><Data
-  Name='WorkstationName'>-</Data><Data Name='TransmittedServices'>-</Data><Data Name='LmPackageName'>-</Data><Data
-  Name='KeyLength'>0</Data><Data Name='ProcessId'>0x0</Data><Data Name='ProcessName'>-</Data><Data
-  Name='IpAddress'>10.0.1.30</Data><Data Name='IpPort'>59450</Data></EventData></Event>
+  Name='SubjectUserSid'>NULL SID</Data><Data 
+  Name='SubjectUserName'>-</Data><Data Name='SubjectDomainName'>-</Data><Data 
+  Name='SubjectLogonId'>0x0</Data><Data Name='TargetUserSid'>NULL 
+  SID</Data><Data Name='TargetUserName'>Administrator</Data><Data 
+  Name='TargetDomainName'>builtin</Data><Data 
+  Name='Status'>0xc000006d</Data><Data Name='FailureReason'>%%2313</Data><Data 
+  Name='SubStatus'>0xc000006a</Data><Data Name='LogonType'>3</Data><Data 
+  Name='LogonProcessName'>NtLmSsp </Data><Data 
+  Name='AuthenticationPackageName'>NTLM</Data><Data 
+  Name='WorkstationName'>-</Data><Data Name='TransmittedServices'>-</Data><Data 
+  Name='LmPackageName'>-</Data><Data Name='KeyLength'>0</Data><Data 
+  Name='ProcessId'>0x0</Data><Data Name='ProcessName'>-</Data><Data 
+  Name='IpAddress'>10.0.1.30</Data><Data 
+  Name='IpPort'>59450</Data></EventData></Event>

@@ -1,11 +1,11 @@
 name: Windows Event Log Security 4946
 id: d7dafd01-a22d-4b05-b793-7571ef1fa789
-version: 1
-date: '2025-03-20'
+version: 2
+date: '2025-07-10'
 author: Teoderick Contreras, Splunk
 description: Data source object for Windows Event Log Security 4946
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4946'
 supported_TA:
@@ -22,11 +22,21 @@ fields:
 - ProfileChanged
 - RuleName
 - RuleId
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4946</EventID><Version>0</Version><Level>0</Level><Task>13571</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated SystemTime='2025-01-15T15:37:10.140309700Z'/><EventRecordID>893174</EventRecordID><Correlation ActivityID='{F11D9656-675C-0002-5B96-1DF15C67DB01}'/><Execution ProcessID='592' ThreadID='5816'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data Name='ProfileChanged'>All</Data><Data Name='RuleId'>{2B6C38C7-0EBB-4010-80E5-45BF5F2CB8DD}</Data><Data Name='RuleName'>Allow Dummy Rule</Data></EventData></Event>
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4946</EventID><Version>0</Version><Level>0</Level><Task>13571</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+  SystemTime='2025-01-15T15:37:10.140309700Z'/><EventRecordID>893174</EventRecordID><Correlation
+  ActivityID='{F11D9656-675C-0002-5B96-1DF15C67DB01}'/><Execution 
+  ProcessID='592' 
+  ThreadID='5816'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
+  Name='ProfileChanged'>All</Data><Data 
+  Name='RuleId'>{2B6C38C7-0EBB-4010-80E5-45BF5F2CB8DD}</Data><Data 
+  Name='RuleName'>Allow Dummy Rule</Data></EventData></Event>
 output_fields:
-- RuleName 
-- signature 
-- subject 
-- status 
-- dest 
+- RuleName
+- signature
+- subject
+- status
+- dest
 - ProcessID

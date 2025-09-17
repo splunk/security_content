@@ -1,13 +1,14 @@
 name: Windows PowerSploit GPP Discovery
 id: 0130a0df-83a1-4647-9011-841e950ff302
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the Get-GPPPassword PowerShell
+  - Powershell Script Block Logging 4104
+description:
+  The following analytic detects the execution of the Get-GPPPassword PowerShell
   cmdlet, which is used to search for unsecured credentials in Group Policy Preferences
   (GPP). This detection leverages PowerShell Script Block Logging to identify specific
   script block text associated with this cmdlet. Monitoring this activity is crucial
@@ -15,60 +16,63 @@ description: The following analytic detects the execution of the Get-GPPPassword
   potentially leading to unauthorized access. If confirmed malicious, this activity
   could allow an attacker to escalate privileges or move laterally within the network
   by exploiting exposed credentials.
-search: '`powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
+search:
+  '`powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
   | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_powersploit_gpp_discovery_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Unknown
 references:
-- https://attack.mitre.org/techniques/T1552/006/
-- https://pentestlab.blog/2017/03/20/group-policy-preferences/
-- https://adsecurity.org/?p=2288
-- https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
-- https://adsecurity.org/?p=2288
-- https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
+  - https://attack.mitre.org/techniques/T1552/006/
+  - https://pentestlab.blog/2017/03/20/group-policy-preferences/
+  - https://adsecurity.org/?p=2288
+  - https://www.hackingarticles.in/credential-dumping-group-policy-preferences-gpp/
+  - https://adsecurity.org/?p=2288
+  - https://support.microsoft.com/en-us/topic/ms14-025-vulnerability-in-group-policy-preferences-could-allow-elevation-of-privilege-may-13-2014-60734e15-af79-26ca-ea53-8cd617073c30
 drilldown_searches:
-- name: View the detection results for - "$Computer$" and "$user$"
-  search: '%original_detection_search% | search  Computer = "$Computer$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$Computer$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$Computer$" and "$user$"
+    search: '%original_detection_search% | search  Computer = "$Computer$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$Computer$" and "$user$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: Commandlets leveraged to discover GPP credentials were executed on $dest$
   risk_objects:
-  - field: dest
-    type: system
-    score: 56
-  - field: user_id
-    type: user
-    score: 56
+    - field: dest
+      type: system
+      score: 56
+    - field: user_id
+      type: user
+      score: 56
   threat_objects: []
 tags:
   analytic_story:
-  - Active Directory Privilege Escalation
+    - Active Directory Privilege Escalation
   asset_type: Endpoint
   mitre_attack_id:
-  - T1552.006
+    - T1552.006
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1552.006/powershell_gpp_discovery/win-powershell.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

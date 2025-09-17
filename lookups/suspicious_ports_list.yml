@@ -1,0 +1,11 @@
+name: suspicious_ports_list
+date: 2025-07-01
+version: 1
+id: 5fa401d1-f0d4-4a6d-b3e4-db7cc45acc28
+author: mthcht, Splunk Threat Research Team
+lookup_type: csv
+description: A list of suspicious ports that are used or abused by threat actors, malware or PUA software.
+match_type: 
+- WILDCARD(file)
+min_matches: 1
+case_sensitive_match: false

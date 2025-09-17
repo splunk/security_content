@@ -1,0 +1,78 @@
+name: Windows Advanced Installer MSIX with AI_STUBS Execution
+id: 56b2e58c-5909-49a3-998e-1f4815186ec2
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the execution of Advanced Installer MSIX Package Support Framework (PSF) components, specifically the AI_STUBS executables with the original filename 'popupwrapper.exe'. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process paths and original filenames. This activity is significant as adversaries have been observed packaging malicious content within MSIX files built with Advanced Installer to bypass security controls. These AI_STUBS executables (with original filename 'popupwrapper.exe') are hallmark artifacts of potentially malicious MSIX packages. If confirmed malicious, this could allow attackers to execute arbitrary code, establish persistence, or deliver malware while evading traditional detection mechanisms.
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search:
+  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes where Processes.process_path IN ("*\\AI_STUBS\\AiStubX64Elevated.exe",
+  "*\\AI_STUBS\\AiStubX86Elevated.exe", "*\\AI_STUBS\\AiStubX64.exe", "*\\AI_STUBS\\AiStubX86.exe") AND
+  Processes.original_file_name="popupwrapper.exe" by Processes.action Processes.dest
+  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
+  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
+  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
+  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_advanced_installer_msix_with_ai_stubs_execution_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain process execution information, including process paths. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate applications packaged with Advanced Installer using the Package Support Framework may trigger this detection. Verify if the MSIX package is from a trusted source and signed by a trusted publisher before taking action. Organizations that use Advanced Installer for legitimate software packaging may see false positives.
+references:
+  - https://redcanary.com/blog/threat-intelligence/msix-installers/
+  - https://redcanary.com/threat-detection-report/techniques/installer-packages/
+  - https://learn.microsoft.com/en-us/windows/msix/package/package-support-framework
+  - https://learn.microsoft.com/en-us/windows/msix/desktop/desktop-to-uwp-behind-the-scenes
+  - https://attack.mitre.org/techniques/T1218/
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Advanced Installer MSIX package with AI_STUBS execution detected on $dest$ by user $user$
+  risk_objects:
+    - field: dest
+      type: system
+      score: 60
+  threat_objects:
+    - field: process_path
+      type: file_path
+tags:
+  analytic_story:
+    - MSIX Package Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1218
+    - T1553.005
+    - T1204.002
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/msix_ai_stubs/windows_sysmon.log
+        sourcetype: XmlWinEventLog
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

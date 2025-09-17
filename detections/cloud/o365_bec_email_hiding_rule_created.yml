@@ -1,19 +1,25 @@
 name: O365 BEC Email Hiding Rule Created
 id: 603ebac2-f157-4df7-a6ac-34e8d0350f86
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2025-07-23'
 author: '0xC0FFEEEE, Github Community'
 type: TTP
 status: production
 description: This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers.
   This may indicate that an attacker has gained access to the account.
-search: '`o365_management_activity` Workload=Exchange Operation="New-InboxRule" |
-  stats values(Name) as Name, values(MarkAsRead) as MarkAsRead, values(MoveToFolder)
-  as MoveToFolder by _time Id user | lookup ut_shannon_lookup word as Name | eval
-  entropy_score=if(ut_shannon<=2, 1, 0) | eval len_score=if(len(Name)<=3, 1,0) | eval
-  read_score=if(MarkAsRead="True", 1, 0) | eval folder_score=if(match(MoveToFolder,
-  "^(RSS|Conversation History|Archive)"), 1, 0) | eval suspicious_score=entropy_score+len_score+read_score+folder_score
-  | where suspicious_score>2 | `o365_bec_email_hiding_rule_created_filter`'
+search: |-
+  `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
+  | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | lookup ut_shannon_lookup word as Name 
+  | eval entropy_score=if(ut_shannon<=2, 1, 0) 
+  | eval len_score=if(len(Name)<=3, 1,0) 
+  | eval read_score=if(MarkAsRead="True", 1, 0) 
+  | eval folder_score=if(match(MoveToFolder, "^(RSS|Conversation History|Archive)"), 1, 0) 
+  | eval suspicious_score=entropy_score+len_score+read_score+folder_score 
+  | where suspicious_score>2 
+  | `o365_bec_email_hiding_rule_created_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
   Office 365 management activity events. You also need to have the Splunk TA URL 
   Toolbox (https://splunkbase.splunk.com/app/2734/) installed.
@@ -23,7 +29,7 @@ references:
 - https://attack.mitre.org/techniques/T1564/008/
 drilldown_searches:
 - name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  dest = "$user$"'
+  search: '%original_detection_search% | search  user = "$user$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for $user$
@@ -31,7 +37,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Potential BEC mailbox rule was created by $user$
+  message: Potential BEC mailbox rule - $Name$ was created by user - $user$
   risk_objects:
   - field: user
     type: user

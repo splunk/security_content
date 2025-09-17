@@ -1,0 +1,31 @@
+name: CrowdStrike OAuth API Executable Denylisting
+id: 9d87f2d5-2578-4f39-9eee-c1a88af658bb
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Response
+description: "Accepts a hostname or device id as well as a file hash as input and add an indicator (IOC) for a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_Executable_Denylisting
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and create an indicator in CrowdStrike Falcon based on the malicious process hash value (preventing it from running on other endpoints) for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "file_hash"
+    - "Executable Denylisting"
+    - "D3-EDL"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device,file_hash]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Response
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-EDL

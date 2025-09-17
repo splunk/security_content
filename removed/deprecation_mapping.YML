@@ -1,4 +1,24 @@
 detections:
+  - content: Cisco Secure Application Alerts
+    removed_in_version: 5.14.0
+    reason: Detection has been deprecated since it has been replaced with a better named detection to reflect the correct product
+    replacement_content:
+    - Splunk AppDynamics Secure Application Alerts
+  - content: Windows InstallUtil Uninstall Option with Network
+    removed_in_version: 5.12.0
+    reason: Detection has been deprecated as its scope is already covered by "Windows InstallUtil Remote Network Connection".
+    replacement_content:
+    - Windows InstallUtil Remote Network Connection
+  - content: Any Powershell DownloadString
+    removed_in_version: 5.12.0
+    reason: Detection has been replaced by a new detection with a better logic and grouping in order to ease its management.
+    replacement_content:
+    - Windows File Download Via PowerShell
+  - content: Any Powershell DownloadFile
+    removed_in_version: 5.12.0
+    reason: Detection has been replaced by a new detection with a better logic and grouping in order to ease its management.
+    replacement_content:
+    - Windows File Download Via PowerShell
   - content: Windows AD Suspicious GPO Modification
     removed_in_version: 5.10.0
     reason: Detection deprecated due to lack of data and consistency. Research is being done to create potential replacement in a future release.

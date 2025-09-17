@@ -3,17 +3,18 @@ id: ce520b1c-79fe-48ef-a0f9-71fbbd4837b0
 version: 1
 date: '2025-01-15'
 author: Patrick Bareiss, Splunk
-description: Data source object for GitHub Organizations logs using the Splunk Add-on for Github using a Personal Access Token.
+description: Data source object for GitHub Organizations logs using the Splunk Add-on
+  for Github using a Personal Access Token.
 source: github
 sourcetype: github:cloud:audit
-supported_TA: 
+supported_TA:
 - name: Splunk Add-on for Github
   url: https://splunkbase.splunk.com/app/6254
-  version: 3.1.0
+  version: 3.2.0
 fields:
 - _document_id
 - action
-- actor 
+- actor
 - actor_id
 - actor_is_bot
 - business
@@ -29,4 +30,11 @@ fields:
 - user
 - user_agent
 - user_id
-example_log: '{ @timestamp: 1736850926658 _document_id: fHPRFHOMZNXLxTZrk1w2IQ action: repository_vulnerability_alerts.disable actor: P4T12ICK actor_id: 8362376 actor_ip: 84.128.62.13 actor_is_bot: false actor_location: { [+] } business: pb business_id: 273781 created_at: 1736850926658 operation_type: modify org: pbtest2 org_id: 194489467 public_repo: false repo: pbtest2/pbtest5 repo_id: 916529548 request_access_security_header: null user: P4T12ICK user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 user_id: 8362376 }'
+example_log: '{ @timestamp: 1736850926658 _document_id: fHPRFHOMZNXLxTZrk1w2IQ action:
+  repository_vulnerability_alerts.disable actor: P4T12ICK actor_id: 8362376 actor_ip:
+  84.128.62.13 actor_is_bot: false actor_location: { [+] } business: pb business_id:
+  273781 created_at: 1736850926658 operation_type: modify org: pbtest2 org_id: 194489467
+  public_repo: false repo: pbtest2/pbtest5 repo_id: 916529548 request_access_security_header:
+  null user: P4T12ICK user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)
+  AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 user_id: 8362376
+  }'

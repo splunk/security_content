@@ -1,60 +1,61 @@
 name: Azure AD AzureHound UserAgent Detected
-id: d62852db-a1f1-40db-a7fc-c3d56fa8bda3 
+id: d62852db-a1f1-40db-a7fc-c3d56fa8bda3
 version: 4
 date: '2025-05-02'
-author: Dean Luxton 
+author: Dean Luxton
 data_source:
-- Azure Active Directory NonInteractiveUserSignInLogs
-- Azure Active Directory MicrosoftGraphActivityLogs
+  - Azure Active Directory NonInteractiveUserSignInLogs
+  - Azure Active Directory MicrosoftGraphActivityLogs
 type: TTP
 status: production
 description: This detection identifies the presence of the default AzureHound user-agent string within Microsoft Graph Activity logs and NonInteractive SignIn Logs. AzureHound is a tool used for gathering information about Azure Active Directory environments, often employed by security professionals for legitimate auditing purposes. However, it can also be leveraged by malicious actors to perform reconnaissance activities, mapping out the Azure AD infrastructure to identify potential vulnerabilities and targets for further exploitation. Detecting its usage can help in identifying unauthorized access attempts and preemptively mitigating potential security threats to your Azure environment.
-search: '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs, NonInteractiveUserSignInLogs) properties.userAgent=azurehound* 
+search:
+  '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs, NonInteractiveUserSignInLogs) properties.userAgent=azurehound*
   | rename properties.userAgent as user_agent
-  | fillnull 
+  | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature
   | iplocation src
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_azurehound_useragent_detected_filter`'
-how_to_implement: The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest NonInteractiveUserSignInLogs and MicrosoftGraphActivityLogs via an Azure EventHub. See reference for links for further details. 
+how_to_implement: The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest NonInteractiveUserSignInLogs and MicrosoftGraphActivityLogs via an Azure EventHub. See reference for links for further details.
 known_false_positives: None
 references:
-- https://github.com/SpecterOps/AzureHound
-- https://splunkbase.splunk.com/app/3110
-- https://docs.splunk.com/Documentation/AddOns/released/MSCloudServices/Install
+  - https://github.com/SpecterOps/AzureHound
+  - https://splunkbase.splunk.com/app/3110
+  - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search  user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: AzureHound UserAgent String $user_agent$ Detected on Tenant $dest$
   risk_objects:
-  - field: user
-    type: user
-    score: 80
+    - field: user
+      type: user
+      score: 80
   threat_objects:
-  - field: src
-    type: ip_address
+    - field: src
+      type: ip_address
 tags:
   analytic_story:
-  - Azure Active Directory Privilege Escalation
-  - Compromised User Account
+    - Azure Active Directory Privilege Escalation
+    - Compromised User Account
   asset_type: Azure Tenant
   mitre_attack_id:
-  - T1087.004
-  - T1526
+    - T1087.004
+    - T1526
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/azurehound/azurehound.log
-    sourcetype: azure:monitor:aad
-    source: Azure AD
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/azurehound/azurehound.log
+        sourcetype: azure:monitor:aad
+        source: Azure AD

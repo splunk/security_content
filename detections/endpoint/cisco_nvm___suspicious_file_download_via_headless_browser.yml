@@ -1,0 +1,134 @@
+name: Cisco NVM - Suspicious File Download via Headless Browser
+id: cd0e816f-f67d-4dbe-a153-480b546e867e
+version: 2
+date: '2025-09-09'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |
+  This analytic identifies the use of Chromium-based browsers (like Microsoft Edge) running in headless mode with the `--dump-dom` argument.
+  This behavior has been observed in attack campaigns such as DUCKTAIL, where browsers are automated to stealthily download content from the internet using direct URLs or suspicious hosting platforms.
+  The detection focuses on identifying connections to known file-sharing domains or direct IPs extracted from command-line arguments and cross-checks those against the destination of the flow.
+  Since it leverages Cisco Network Visibility Module telemetry, the rule triggers only if a network connection is made.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+
+   ``` Usually the initiator of the connection is the child process, meaning the parent will contain the suspicious command.```
+
+   (
+     parent_process_name IN ("brave.exe", "chrome.exe", "msedge.exe", "opera.exe", "vivaldi.exe")
+     OR
+     process_name IN ("brave.exe", "chrome.exe", "msedge.exe", "opera.exe", "vivaldi.exe")
+   )
+   (
+     (parent_process_arguments="*--headless*" parent_process_arguments="*--dump-dom*")
+     OR
+     (process_arguments="*--headless*" process_arguments="*--dump-dom*")
+   )
+   NOT dest IN (
+           "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+           "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+           "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+           "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+           "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+           )
+
+   ``` In order to avoid matching with any public IP, we extract the IP value from the CommandLine and filter on it```
+
+   | rex field=parent_process_arguments "(?i)\\b(?:https?|ftp)://(?<extracted_ip_parent>(?:\\d{1,3}\\.){3}\\d{1,3})"
+   | rex field=process_arguments "(?i)\\b(?:https?|ftp)://(?<extracted_ip_child>(?:\\d{1,3}\\.){3}\\d{1,3})"
+   | eval direct_ip_match=if(dest == extracted_ip_child, 1, if(dest == extracted_ip_parent, 1, 0))
+
+   | where (
+       dest_hostname IN (
+           "*.githubusercontent.com*", "*anonfiles.com*", "*cdn.discordapp.com*", "*ddns.net*",
+           "*dl.dropboxusercontent.com*", "*ghostbin.co*", "*glitch.me*", "*gofile.io*",
+           "*hastebin.com*", "*mediafire.com*", "*mega.nz*", "*onrender.com*", "*pages.dev*",
+           "*paste.ee*", "*pastebin.*", "*pastetext.net*", "*privatlab.*",
+           "*send.exploit.in*", "*sendspace.com*", "*storage.googleapis.com*",
+           "*storjshare.io*", "*supabase.co*", "*temp.sh*", "*transfer.sh*", "*trycloudflare.com*",
+           "*ufile.io*", "*w3spaces.com*", "*workers.dev*"
+       )
+       OR direct_ip_match = 1
+     )
+
+   | stats count min(_time) as firstTime max(_time) as lastTime
+           values(parent_process_arguments) as parent_process_arguments
+           values(process_arguments) as process_arguments
+           values(parent_process_hash) as parent_process_hash
+           values(process_hash) as process_hash
+           values(module_name_list) as module_name_list
+           values(module_hash_list) as module_hash_list
+           values(dest_port) as dest_port
+           values(aliul) as additional_logged_in_users_list
+           values(dest_hostname) as dest_hostname
+           by src dest parent_process_path parent_process_name parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+   | `security_content_ctime(firstTime)`
+   | `security_content_ctime(lastTime)`
+   | table
+     parent_process_integrity_level parent_process_path parent_process_name parent_process_arguments parent_process_hash
+     process_integrity_level process_path process_name process_arguments process_hash process_id
+     additional_logged_in_users_list module_name_list module_hash_list
+     src dest_hostname dest dest_port transport firstTime lastTime
+   | `cisco_nvm___suspicious_file_download_via_headless_browser_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+  Some internal automation frameworks may invoke Chromium browsers in headless mode to programmatically access internal services or webpages.
+  These tools may occasionally download legitimate resources as part of their normal behavior.
+  Tuning based on command-line patterns or known dest hostnames may be required to avoid noise.
+references:
+  - https://labs.withsecure.com/content/dam/labs/docs/WithSecure_Research_DUCKTAIL.pdf
+  - https://www.trendmicro.com/en_us/research/23/e/managed-xdr-investigation-of-ducktail-in-trend-micro-vision-one.html
+  - https://x.com/mrd0x/status/1478234484881436672?s=12
+  - https://developer.chrome.com/docs/chromium/headless
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message:
+    Suspicious file download using the Chromium-based browser $parent_process_name$ via the commandline $process_arguments$.
+    Observed on host $src$ communicating with $dest$ / $dest_hostname$
+  risk_objects:
+    - field: src
+      type: system
+      score: 40
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1105
+    - T1059
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

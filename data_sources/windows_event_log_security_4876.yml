@@ -1,17 +1,17 @@
 name: Windows Event Log Security 4876
 id: 4a78722a-9cd9-44e8-b010-dffad5c7f170
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the result of a cryptographic operation, including details about
-  the key, algorithm used, and whether the operation succeeded or failed.
+description: Logs the result of a cryptographic operation, including details 
+  about the key, algorithm used, and whether the operation succeeded or failed.
 mitre_components:
 - Certificate Registration
 - User Account Metadata
 - Application Log Content
 - OS API Execution
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4876'
 supported_TA:
@@ -90,11 +90,16 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4876</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4876</EventID><Version>0</Version><Level>0</Level><Task>12805</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2023-02-06T16:27:05.403719800Z'/><EventRecordID>15379961</EventRecordID><Correlation
-  ActivityID='{E37FFFB9-381B-0002-BFFF-7FE31B38D901}'/><Execution ProcessID='652'
+  ActivityID='{E37FFFB9-381B-0002-BFFF-7FE31B38D901}'/><Execution 
+  ProcessID='652' 
   ThreadID='692'/><Channel>Security</Channel><Computer>win-dc-mhaag-attack-range-84.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='BackupType'>1</Data><Data Name='SubjectUserSid'>S-1-5-21-2690122726-1172718210-436210976-500</Data><Data
-  Name='SubjectUserName'>administrator</Data><Data Name='SubjectDomainName'>ATTACKRANGE</Data><Data
+  Name='BackupType'>1</Data><Data 
+  Name='SubjectUserSid'>S-1-5-21-2690122726-1172718210-436210976-500</Data><Data
+  Name='SubjectUserName'>administrator</Data><Data 
+  Name='SubjectDomainName'>ATTACKRANGE</Data><Data 
   Name='SubjectLogonId'>0xeb075</Data></EventData></Event>

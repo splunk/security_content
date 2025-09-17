@@ -1,17 +1,20 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-07-29'
 author: Steven Dick, Sebastian Wurl, Splunk Community
 status: production
 type: Anomaly
-description: The following analytic detects the execution of known remote access software
-  within the environment. It leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on process names and parent processes mapped to the Endpoint data
-  model. We then compare with with a list of known remote access software shipped as a lookup file - remote_access_software. This activity is significant as adversaries often use remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access.
-  If confirmed malicious, this could allow attackers to control systems remotely,
-  exfiltrate data, or deploy additional malware, posing a severe threat to the organization's
-  security.
+description: The following analytic detects the execution of known remote access
+  software within the environment. It leverages data from Endpoint Detection and
+  Response (EDR) agents, focusing on process names and parent processes mapped 
+  to the Endpoint data model. We then compare with with a list of known remote 
+  access software shipped as a lookup file - remote_access_software. This 
+  activity is significant as adversaries often use remote access tools like 
+  AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access. If
+  confirmed malicious, this could allow attackers to control systems remotely, 
+  exfiltrate data, or deploy additional malware, posing a severe threat to the 
+  organization's security.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -33,22 +36,25 @@ search: |
   | search isutility = TRUE
   | `remote_access_software_usage_exceptions`
   | `detect_remote_access_software_usage_process_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process. The "exceptions" macro leverages both
-  an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions"
-  that lets you track and maintain device- based exceptions for this set of detections.
-known_false_positives: It is possible that legitimate remote access software is used
-  within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment. Known false
-  positives can be added to the remote_access_software_usage_exception.csv lookup
-  to globally suppress these situations across all remote access content
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process. The "exceptions" macro leverages both an Assets 
+  and Identities lookup, as well as a KVStore collection called 
+  "remote_software_exceptions" that lets you track and maintain device- based 
+  exceptions for this set of detections.
+known_false_positives: It is possible that legitimate remote access software is 
+  used within the environment. Ensure that the lookup is reviewed and updated 
+  with any additional remote access software that is used within the 
+  environment. Known false positives can be added to the 
+  remote_access_software_usage_exception.csv lookup to globally suppress these 
+  situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -72,8 +78,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A process for a known remote access software $process_name$ was identified
-    on $dest$.
+  message: A process for a known remote access software $process_name$ was 
+    identified on $dest$.
   risk_objects:
   - field: dest
     type: system
@@ -96,6 +102,8 @@ tags:
   - Remote Monitoring and Management Software
   - Cactus Ransomware
   - Seashell Blizzard
+  - Scattered Spider
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1219
@@ -108,9 +116,11 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

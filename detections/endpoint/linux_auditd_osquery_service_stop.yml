@@ -1,7 +1,7 @@
 name: Linux Auditd Osquery Service Stop
 id: 0c320fea-6e87-4b99-a884-74d09d4b655d
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,7 @@ description: The following analytic detects suspicious stopping of the `osquery`
 data_source:
 - Linux Auditd Service Stop
 search: '`linux_auditd` type=SERVICE_STOP unit IN ("osqueryd") | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by type pid UID comm
+  | stats count min(_time) as firstTime max(_time) as lastTime by type pid comm
   exe unit dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
   `linux_auditd_osquery_service_stop_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd

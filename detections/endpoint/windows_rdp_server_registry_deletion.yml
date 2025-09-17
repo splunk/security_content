@@ -1,0 +1,71 @@
+name: Windows RDP Server Registry Deletion
+id: 1a058296-7c68-4d66-9560-464764d6e26c
+version: 1
+date: '2025-07-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This detection identifies the deletion of registry keys under HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers\, which store records of previously connected remote systems via Remote Desktop Protocol (RDP). These keys are created automatically when a user connects to a remote host using the native Windows RDP client (mstsc.exe) and can be valuable forensic artifacts for tracking remote access activity. Malicious actors aware of this behavior may delete these keys after using RDP to hide evidence of their activity and avoid detection during incident response. This form of artifact cleanup is a known defense evasion technique, often performed during or after lateral movement. Legitimate users rarely delete these keys manually, making such actions highly suspicious—especially when correlated with RDP usage, unusual logon behavior, or other signs of compromise. Detecting the deletion of these registry entries can provide crucial insight into attempts to cover tracks following interactive remote access.
+data_source:
+- Sysmon EventID 12
+- Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path="*\\Microsoft\\Terminal Server Client\\Servers\\*" Registry.action = deleted
+  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)`
+  | `windows_rdp_server_registry_deletion_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives:
+  This detection can catch for third party application updates
+  or installation. In this scenario false positive filter is needed.
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: The registry was deleted on dest $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+  - Windows RDP Artifacts and Defense Evasion
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1070.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/terminal_server_reg_deleted/terminal_server_client_reg_deleted.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

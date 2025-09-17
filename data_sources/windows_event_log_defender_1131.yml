@@ -1,11 +1,11 @@
 name: Windows Event Log Defender 1131
 id: 638f884e-439a-4328-923c-ec5a2679f450
-version: 1
-date: '2025-02-21'
+version: 2
+date: '2025-07-10'
 author: Bhavin Patel, Splunk
 description: Data source object for Windows Event Log Defender 1131
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
@@ -98,4 +98,4 @@ fields:
 - _si
 - _sourcetype
 - _time
-example_log: |-
+example_log: |

@@ -1,17 +1,18 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
-version: 16
-date: '2025-05-26'
+version: 18
+date: '2025-08-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of scheduled tasks within
-  user-writable paths using Windows Security EventCode 4698. It identifies tasks registered
-  via schtasks.exe or TaskService that execute commands from directories like Public,
-  ProgramData, Temp, and AppData. This behavior is significant as it may indicate
-  an attempt to establish persistence or execute unauthorized commands. If confirmed
-  malicious, an attacker could maintain long-term access, escalate privileges, or
-  execute arbitrary code, posing a severe threat to system integrity and security.
+description: The following analytic detects the creation of scheduled tasks 
+  within user-writable paths using Windows Security EventCode 4698. It 
+  identifies tasks registered via schtasks.exe or TaskService that execute 
+  commands from directories like Public, ProgramData, Temp, and AppData. This 
+  behavior is significant as it may indicate an attempt to establish persistence
+  or execute unauthorized commands. If confirmed malicious, an attacker could 
+  maintain long-term access, escalate privileges, or execute arbitrary code, 
+  posing a severe threat to system integrity and security.
 data_source:
 - Windows Event Log Security 4698
 search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public\\*",
@@ -19,12 +20,12 @@ search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public
   | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName,
   TaskContent |  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `winevent_scheduled_task_created_within_public_path_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
-  required.
-known_false_positives: False positives are possible if legitimate applications are
-  allowed to register tasks in public paths. Filter as needed based on paths that
-  are used legitimately.
+how_to_implement: To successfully implement this search, you need to be 
+  ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows
+  TA is also required.
+known_false_positives: False positives are possible if legitimate applications 
+  are allowed to register tasks in public paths. Filter as needed based on paths
+  that are used legitimately.
 references:
 - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
 - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
@@ -54,26 +55,28 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Windows Persistence Techniques
+  - Data Destruction
   - Winter Vivern
-  - Ryuk Ransomware
-  - Medusa Ransomware
-  - Malicious Inno Setup Loader
+  - Industroyer2
   - Compromised Windows Host
+  - Quasar RAT
   - China-Nexus Threat Activity
-  - Prestige Ransomware
   - XWorm
   - Ransomware
-  - Active Directory Lateral Movement
   - IcedID
-  - Data Destruction
-  - Salt Typhoon
-  - Industroyer2
-  - CISA AA22-257A
-  - SystemBC
-  - AsyncRAT
   - CISA AA23-347A
+  - Salt Typhoon
+  - Ryuk Ransomware
+  - Active Directory Lateral Movement
+  - Malicious Inno Setup Loader
+  - CISA AA22-257A
+  - Medusa Ransomware
+  - SystemBC
   - Scheduled Tasks
+  - Prestige Ransomware
+  - AsyncRAT
+  - Windows Persistence Techniques
+  - 0bj3ctivity Stealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005
@@ -85,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog

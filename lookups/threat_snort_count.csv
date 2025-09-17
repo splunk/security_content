@@ -9,4 +9,5 @@ Nobelium,"Nobelium is a Russian APT group linked to the SolarWinds supply chain 
 Quasar,"Quasar is an open-source RAT that supports remote desktop, file exfiltration, and surveillance. While used legitimately by some, it's also abused in targeted attacks.",1
 Remcos,"Remcos (Remote Control & Surveillance) is a commercial RAT designed for remote access and data exfiltration. It's often distributed via phishing and malspam campaigns.",2
 Snake,"Snake, also known as Turla or Uroburos, is a sophisticated modular rootkit used for long-term espionage. It's linked to Russian state-sponsored actors and designed for stealth and persistence.",1
+Static Tundra,"Static Tundra is a threat actor that is actively exploiting CVE-2018-0171 in Cisco Smart Install protocol to gain unauthorized access to networks. It's known for its use of Cisco Smart Install protocol to gain unauthorized access to networks.",2
 Xworm,"Xworm is a customizable .NET-based stealer and RAT that exfiltrates credentials, files, and system data. It's sold on underground forums and used in commodity malware campaigns.",2

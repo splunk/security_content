@@ -1,0 +1,95 @@
+name: Cisco NVM - Rundll32 Abuse of MSHTML.DLL for Payload Download
+id: 18f0d27d-569e-4bc4-96e1-09b214fa73c0
+version: 2
+date: '2025-09-09'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects suspicious use of `rundll32.exe` in combination with `mshtml.dll` and the export `RunHTMLApplication`.
+  This behavior is often observed in malware to execute JavaScript or VBScript in memory, enabling payload staging or
+  bypassing script execution policies and bypassing the usage of the "mshta.exe" binary.
+  The detection leverages Cisco Network Visibility Module telemetry which offers network flow activity
+  along with process information such as command-line arguments
+  If confirmed malicious, this activity may indicate initial access or payload download.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+  process_name = "rundll32.exe"
+  process_arguments = "*mshtml*"
+  process_arguments IN ("*135*", "*RunHTMLApplication*")
+  | stats count min(_time) as firstTime max(_time) as lastTime
+          values(parent_process_arguments) as parent_process_arguments
+          values(process_arguments) as process_arguments
+          values(parent_process_hash) as parent_process_hash
+          values(process_hash) as process_hash
+          values(module_name_list) as module_name_list
+          values(module_hash_list) as module_hash_list
+          values(dest_port) as dest_port
+          values(aliul) as additional_logged_in_users_list
+          values(dest_hostname) as dest_hostname
+          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table
+    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    process_integrity_level process_path process_name process_arguments process_hash process_id
+    additional_logged_in_users_list module_name_list module_hash_list
+    src dest_hostname dest dest_port transport firstTime lastTime
+  | `cisco_nvm___rundll32_abuse_of_mshtml_dll_for_payload_download_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+  `rundll32.exe` using `mshtml.dll` is rare in legitimate environments. However, edge cases might exist. Tuning may be needed in environments with custom automation scripts.
+references:
+  - https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
+  - https://redcanary.com/blog/threat-detection/threat-research-questions/
+  - https://twitter.com/n1nj4sec/status/1421190238081277959
+  - https://hyp3rlinx.altervista.org/advisories/MICROSOFT_WINDOWS_DEFENDER_TROJAN.WIN32.POWESSERE.G_MITIGATION_BYPASS_PART2.txt
+  - http://hyp3rlinx.altervista.org/advisories/MICROSOFT_WINDOWS_DEFENDER_DETECTION_BYPASS.txt
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: $process_path$ was executed on $src$ leveraging the mshtml.dll and the RunHTMLApplication export to download a potentially suspicious file from $dest_hostname$.
+  risk_objects:
+    - field: src
+      type: system
+      score: 40
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1218.005
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

@@ -6,68 +6,71 @@ author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 data_source:
-- AWS CloudTrail GetObject
-description: The following analytic identifies anomalous GetObject API activity in
+  - AWS CloudTrail GetObject
+description:
+  The following analytic identifies anomalous GetObject API activity in
   AWS, indicating potential data exfiltration attempts. It leverages AWS CloudTrail
   logs and uses the `anomalydetection` command to detect unusual patterns in the frequency
   of GetObject API calls by analyzing fields such as "count," "user_type," and "user_arn"
   within a 10-minute window. This activity is significant as it may indicate unauthorized
   data access or exfiltration from S3 buckets. If confirmed malicious, attackers could
   exfiltrate sensitive data, leading to data breaches and compliance violations.
-search: '`cloudtrail` eventName=GetObject 
-  | bin _time span=10m 
+search: '`cloudtrail` eventName=GetObject
+  | bin _time span=10m
   | rename user_name as user
   | stats count values(requestParameters.bucketName) as bucketName by signature dest user user_agent src vendor_account vendor_region vendor_product
-  | anomalydetection "count" "user" action=annotate 
+  | anomalydetection "count" "user" action=annotate
   | search probable_cause=*
   |`aws_exfiltration_via_anomalous_getobject_api_activity_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
+how_to_implement:
+  You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: It is possible that a user downloaded these files to use them
+known_false_positives:
+  It is possible that a user downloaded these files to use them
   locally and there are AWS services in configured that perform these activities for
   a legitimate reason. Filter is needed.
 references:
-- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
-- https://docs.splunk.com/Documentation/Splunk/9.0.4/SearchReference/Anomalydetection
-- https://www.vectra.ai/blogpost/abusing-the-replicator-silently-exfiltrating-data-with-the-aws-s3-replication-service
+  - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+  - https://help.splunk.com/en/splunk-enterprise/search/spl-search-reference/9.4/search-commands/anomalydetection
+  - https://www.vectra.ai/blogpost/abusing-the-replicator-silently-exfiltrating-data-with-the-aws-s3-replication-service
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search  user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: Anomalous S3 activities detected by user $user$ from $src$
   risk_objects:
-  - field: user
-    type: user
-    score: 64
+    - field: user
+      type: user
+      score: 64
   threat_objects:
-  - field: src
-    type: ip_address
+    - field: src
+      type: ip_address
 tags:
   analytic_story:
-  - Data Exfiltration
+    - Data Exfiltration
   asset_type: AWS Account
   mitre_attack_id:
-  - T1119
+    - T1119
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1530/aws_exfil_high_no_getobject/cloudtrail.json
+        sourcetype: aws:cloudtrail
+        source: aws_cloudtrail

@@ -9,13 +9,13 @@ jobs:
     steps:
         #For fork PRs, always check out security_content and the PR target in security content!
         - name: Check out the repository code
-          uses: actions/checkout@v4
+          uses: actions/checkout@v5
           with:
             repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
             ref: ${{ github.base_ref }}
           
 
-        - uses: actions/setup-python@v5
+        - uses: actions/setup-python@v6
           with:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified

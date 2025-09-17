@@ -1,45 +1,49 @@
 name: Windows Account Discovery With NetUser PreauthNotRequire
 id: cf056b65-44b2-4d32-9172-d6b6f081a376
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 data_source:
-- Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the PowerView PowerShell
+  - Powershell Script Block Logging 4104
+description:
+  The following analytic detects the execution of the PowerView PowerShell
   cmdlet Get-NetUser with the -PreauthNotRequire parameter, leveraging Event ID 4104.
   This method identifies attempts to query Active Directory user accounts that do
   not require Kerberos preauthentication. Monitoring this activity is crucial as it
   can indicate reconnaissance efforts by an attacker to identify potentially vulnerable
   accounts. If confirmed malicious, this behavior could lead to further exploitation,
   such as unauthorized access or privilege escalation within the network.
-search: '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText
+search:
+  '`powershell` EventCode=4104  ScriptBlockText = "*Get-NetUser*" ScriptBlockText
   = "*-PreauthNotRequire*" | fillnull | stats count min(_time) as firstTime max(_time)
   as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_account_discovery_with_netuser_preauthnotrequire_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
-known_false_positives: Administrators may leverage PowerView for legitimate purposes,
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.=
+known_false_positives:
+  Administrators may leverage PowerView for legitimate purposes,
   filter as needed.
 references:
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-347a
 tags:
   analytic_story:
-  - CISA AA23-347A
+    - CISA AA23-347A
   asset_type: Endpoint
   mitre_attack_id:
-  - T1087
+    - T1087
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087/powerview_get_netuser_preauthnotrequire/get-netuser-not-require-pwh.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

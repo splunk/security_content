@@ -1,7 +1,7 @@
 name: Sysmon EventID 22
 id: 911538b2-eba7-4d3e-85e8-d82d380c37bf
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs DNS query events, including details about the queried domain, source
   IP, query type, and response data.
@@ -12,14 +12,14 @@ mitre_components:
 - Network Traffic Flow
 - Application Log Content
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 separator_value: '22'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.3
+  version: 5.0.0
 field_mappings:
 - data_model: cim
   data_set: DNS

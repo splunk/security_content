@@ -1,7 +1,7 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
-version: 11
-date: '2025-05-25'
+version: 12
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,12 +15,11 @@ description: The following analytic detects a non-Chrome process accessing files
   and further compromise of the affected system.
 data_source:
 - Windows Event Log Security 4663
-search: '`wineventlog_security` EventCode=4663 
-  NOT (ProcessName IN ("*\\chrome.exe", "*\\explorer.exe", "*sql*", "*\\dllhost.exe")) ObjectName="*\\Google\\Chrome\\User Data\\Default*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by ObjectName ObjectType ProcessName AccessMask EventCode dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `non_chrome_process_accessing_chrome_default_dir_filter`'
+search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.exe",
+  "*\\explorer.exe", "*sql*", "*\\dllhost.exe")) ObjectName="*\\Google\\Chrome\\User
+  Data\\Default*" | stats count min(_time) as firstTime max(_time) as lastTime by
+  ObjectName ObjectType ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `non_chrome_process_accessing_chrome_default_dir_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
@@ -50,21 +49,22 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - AgentTesla
-  - Snake Keylogger
   - CISA AA23-347A
-  - China-Nexus Threat Activity
-  - Remcos
-  - FIN7
   - Phemedrone Stealer
-  - SnappyBee
-  - RedLine Stealer
-  - Warzone RAT
-  - Salt Typhoon
-  - 3CX Supply Chain Attack
   - DarkGate Malware
   - NjRAT
   - Malicious Inno Setup Loader
+  - Salt Typhoon
+  - Remcos
+  - Warzone RAT
+  - Quasar RAT
+  - 3CX Supply Chain Attack
+  - AgentTesla
+  - FIN7
+  - SnappyBee
+  - RedLine Stealer
+  - Snake Keylogger
+  - China-Nexus Threat Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1555.003

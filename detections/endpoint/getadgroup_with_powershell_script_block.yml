@@ -1,11 +1,12 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `Get-AdGroup` PowerShell
+description:
+  The following analytic detects the execution of the `Get-AdGroup` PowerShell
   cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is used
   to enumerate all domain groups, which adversaries may exploit for situational awareness
   and Active Directory discovery. Monitoring this activity is crucial as it can indicate
@@ -13,33 +14,36 @@ description: The following analytic detects the execution of the `Get-AdGroup` P
   could lead to further exploitation, such as privilege escalation or lateral movement,
   by providing attackers with detailed information about the domain's group structure.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-ADGroup*" | fillnull
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText = "*Get-ADGroup*" | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getadgroup_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
 references:
-- https://attack.mitre.org/techniques/T1069/002/
-- https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
+  - https://attack.mitre.org/techniques/T1069/002/
+  - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
 tags:
   analytic_story:
-  - Active Directory Discovery
+    - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
-  - T1069.002
+    - T1069.002
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1069.002/AD_discovery/windows-powershell-xml.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

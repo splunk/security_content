@@ -1,0 +1,3 @@
+definition: sourcetype="cisco:nvm:flowdata"
+description: customer specific splunk configurations(eg- index, source, sourcetype) for Cisco Network Visibility Module flow logs. Replace the macro definition with configurations for your Splunk Environment.
+name: cisco_network_visibility_module_flowdata

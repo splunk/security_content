@@ -1,0 +1,71 @@
+name: Cisco Duo Admin Login Unusual Os
+id: c4824cc6-d644-458e-a39a-67cd67da75e3
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Activity
+type: TTP
+status: production
+description: The following analytic identifies Duo admin login attempts from operating systems that are unusual for your environment, excluding commonly 
+  used OS such as Mac OS X. Please adjust to your environment. It works by analyzing Duo activity logs for admin login actions and filtering out logins 
+  from expected operating systems. The analytic then aggregates events by browser, version, source IP, location, and OS details to highlight anomalies. 
+  Detecting admin logins from unexpected operating systems is critical for a SOC, as it may indicate credential compromise, unauthorized access, or 
+  attacker activity using unfamiliar devices. Such behavior can precede privilege escalation, policy changes, or other malicious actions within the 
+  Duo environment. Early detection enables rapid investigation and response, reducing the risk of account takeover and minimizing potential damage 
+  to organizational security controls.
+search: '`cisco_duo_activity` "action.name"=admin_login NOT access_device.os IN ("Mac OS X")
+  | rename actor.name as user access_device.ip.address as src_ip
+  | stats count min(_time) as firstTime max(_time) as lastTime by access_device.browser 
+  access_device.browser_version src_ip access_device.location.city 
+  access_device.location.country access_device.location.state access_device.os access_device.os_version 
+  actor.details actor.type outcome.result user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_admin_login_unusual_os_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A user $user$ has logged in using an unusual OS $access_device.os$ using browser $access_device.browser$ from $src_ip$.
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: 
+  - field: access_device.browser
+    type: http_user_agent
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_unusual_admin_login/cisco_duo_activity.json
+    source: duo
+    sourcetype: cisco:duo:activity

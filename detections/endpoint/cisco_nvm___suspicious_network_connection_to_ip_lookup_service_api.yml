@@ -1,0 +1,108 @@
+name: Cisco NVM - Suspicious Network Connection to IP Lookup Service API
+id: 568cb83e-d79e-4a23-85ec-6e1f6c30cb2f
+version: 3
+date: '2025-09-09'
+author: Nasreddine Bencherchali, Splunk, Janantha Marasinghe
+status: production
+type: Anomaly
+description: |
+  This analytic identifies non-browser processes reaching out to public IP lookup or geolocation services,
+  such as `ipinfo.io`, `icanhazip.com`, `ip-api.com`, and others.
+  These domains are commonly used by legitimate tools, but their usage outside of browsers may indicate
+  network reconnaissance, virtual machine detection, or staging by malware.
+  This activity is observed in post-exploitation frameworks, stealer malware, and advanced threat actor campaigns.
+  The detection relies on Cisco Network Visibility Module (NVM) telemetry and excludes known browser
+  processes to reduce noise.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+  dest_hostname IN (
+          "*api.2ip.ua*", "*api.bigdatacloud.net*", "*api.ipify.org*", "*whatismyipaddress.com*",
+          "*canireachthe.net*", "*checkip.amazonaws.com*", "*checkip.dyndns.org*", "*curlmyip.com*",
+          "*db-ip.com*", "*edns.ip-api.com*", "*eth0.me*", "*freegeoip.app*", "*geoipy.com*", "*getip.pro*",
+          "*icanhazip.com*", "*ident.me*", "*ifconfig.io*", "*ifconfig.me*", "*ip-api.com*", "*ip.360.cn*",
+          "*ip.anysrc.net*", "*ip.taobao.com*", "*ip.tyk.nu*", "*ipaddressworld.com*", "*ipapi.co*",
+          "*ipconfig.io*", "*ipecho.net*", "*ipinfo.io*", "*ipip.net*", "*iplocation.net*",
+          "*ipof.in*", "*ipv6-test.com*", "*ipwho.is*", "*trackip.net*", "*inet-ip.info*",
+          "*jsonip.com*", "*myexternalip.com*", "*seeip.org*",  "*wgetip.com*",
+          "*whatismyip.akamai.com*", "*whois.pconline.com.cn*", "*wtfismyip.com*", "*ip.cn"
+          )
+  NOT process_name IN (
+          "brave.exe", "chrome.exe", "firefox.exe", "iexplore.exe", "maxthon.exe",
+          "MicrosoftEdge.exe", "msedge.exe", "msedgewebview2.exe", "opera.exe", "safari.exe",
+          "seamonkey.exe", "vivaldi.exe", "whale.exe"
+    )
+  | stats count min(_time) as firstTime max(_time) as lastTime
+          values(parent_process_arguments) as parent_process_arguments
+          values(process_arguments) as process_arguments
+          values(parent_process_hash) as parent_process_hash
+          values(process_hash) as process_hash
+          values(module_name_list) as module_name_list
+          values(module_hash_list) as module_hash_list
+          values(dest_port) as dest_port
+          values(aliul) as additional_logged_in_users_list
+          values(dest_hostname) as dest_hostname
+          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table
+    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    process_integrity_level process_path process_name process_arguments process_hash process_id
+    additional_logged_in_users_list module_name_list module_hash_list
+    src dest_hostname dest dest_port transport firstTime lastTime
+  | `cisco_nvm___suspicious_network_connection_to_ip_lookup_service_api_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+  Internal scripts or agents performing network checks may query IP geolocation services.
+  Tune by excluding known tools or adding internal allowlists for destination domains or process names and commandlines.
+references:
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_external_ip_lookup.yml
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-302a
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: The host $src$ made a network request to IP lookup service $dest_hostname$ using suspicious process $process_path$
+  risk_objects:
+    - field: src
+      type: system
+      score: 40
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1590.005
+    - T1016
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

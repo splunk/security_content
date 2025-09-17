@@ -18,7 +18,7 @@ separator_value: Add owner to application.
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
-  version: 4.8.1
+  version: 4.9.0
 fields:
 - _time
 - ActorContextId

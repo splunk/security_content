@@ -1,7 +1,7 @@
 name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-07-30'
 author: Steven Dick, Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -19,7 +19,7 @@ data_source:
   - Sysmon EventID 13
 search:
   '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
-  WHERE (Registry.registry_key_name=*\\Software\\Remcos*) by Registry.action Registry.dest
+  WHERE (Registry.registry_path=*\\Software\\Remcos*) by Registry.action Registry.dest
   Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
   Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
   Registry.registry_value_type Registry.status Registry.user Registry.vendor_product

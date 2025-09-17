@@ -1,11 +1,12 @@
 name: Detect Certify With PowerShell Script Block Logging
 id: f533ca6c-9440-4686-80cb-7f294c07812a
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects the use of the Certify tool via an in-memory
+description:
+  The following analytic detects the use of the Certify tool via an in-memory
   PowerShell function to enumerate Active Directory Certificate Services (AD CS) environments.
   It leverages PowerShell Script Block Logging (EventCode 4104) to identify specific
   command patterns associated with Certify's enumeration and exploitation functions.
@@ -14,8 +15,9 @@ description: The following analytic detects the use of the Certify tool via an i
   confirmed malicious, attackers could leverage this to escalate privileges, persist
   in the environment, or access sensitive information by abusing AD CS.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText
   IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*"))
   OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","*
   -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND
@@ -24,53 +26,55 @@ search: '`powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptB
   Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown")
   | eval signature = substr(command,0,256) | `detect_certify_with_powershell_script_block_logging_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell..
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba..
 known_false_positives: Unknown, partial script block matches.
 references:
-- https://github.com/GhostPack/Certify
-- https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
+  - https://github.com/GhostPack/Certify
+  - https://specterops.io/wp-content/uploads/sites/3/2022/06/Certified_Pre-Owned.pdf
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$" and "$user_id$"
+    search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: Certify arguments through PowerShell detected on $dest$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  - field: user_id
-    type: user
-    score: 90
+    - field: dest
+      type: system
+      score: 90
+    - field: user_id
+      type: user
+      score: 90
   threat_objects: []
 tags:
   analytic_story:
-  - Windows Certificate Services
-  - Malicious PowerShell
+    - Windows Certificate Services
+    - Malicious PowerShell
   asset_type: Endpoint
   mitre_attack_id:
-  - T1059.001
-  - T1649
+    - T1059.001
+    - T1649
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/certify_abuse/certify_esc1_abuse_powershell.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

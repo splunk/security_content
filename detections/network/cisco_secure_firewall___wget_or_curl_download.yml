@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Wget or Curl Download
 id: 173a1cb9-1814-4128-a9dc-f29dade89957
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-07-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,8 @@ description: |
 data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action=Allow AND ( EVE_Process IN ("*curl*", "*wget*") OR ClientApplication IN ("cURL", "Wget") )
+  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") AND
+  ( EVE_Process IN ("*curl*", "*wget*") OR ClientApplication IN ("cURL", "Wget") )
   | stats count min(_time) as firstTime max(_time) as lastTime
       Values(rule) as rule
       Values(url) as url

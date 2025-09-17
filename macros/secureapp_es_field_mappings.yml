@@ -1,0 +1,4 @@
+definition: '| eval rule_number=attackName | eval app=app_name | eval action=attackOutcome | eval view=blockedReason | eval product=btName | eval ids_type=eventType | eval process=jvmId | eval cve=matchedCveName | eval record_type=ptype | eval ip=socketAddr | eval package_title=tierName | eval signature_id=vulnerableMethod | eval url=webTransactionUrl | eval location=applicationId | eval package=tierId | eval rule_number=attackId | eval mode=attackStatus'
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environment.
+name: secureapp_es_field_mappings

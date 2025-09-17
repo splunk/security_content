@@ -1,28 +1,39 @@
 name: Windows Scheduled Task with Suspicious Command
 id: 1f44c126-c26a-4dd3-83bb-0f9a0f03ecc3
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-07-16'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects the creation of scheduled tasks designed to execute commands using native Windows shells like PowerShell, Cmd, Wscript, or Cscript or from public folders such as Users, Temp, or ProgramData. It leverages Windows Security EventCode 4698, 4700, and 4702 to identify when such tasks are registered, enabled, or modified. This activity is significant as it may indicate an attempt to establish persistence or execute malicious commands on a system. If confirmed malicious, this could allow an attacker to maintain access, execute arbitrary code, or escalate privileges, posing a severe threat to the environment.
-data_source: 
+description: The following analytic detects the creation of scheduled tasks designed
+  to execute commands using native Windows shells like PowerShell, Cmd, Wscript, or
+  Cscript or from public folders such as Users, Temp, or ProgramData. It leverages
+  Windows Security EventCode 4698, 4700, and 4702 to identify when such tasks are
+  registered, enabled, or modified. This activity is significant as it may indicate
+  an attempt to establish persistence or execute malicious commands on a system. If
+  confirmed malicious, this could allow an attacker to maintain access, execute arbitrary
+  code, or escalate privileges, posing a severe threat to the environment.
+data_source:
 - Windows Event Log Security 4698
 - Windows Event Log Security 4700
 - Windows Event Log Security 4702
-search: |-
-  `wineventlog_security` EventCode IN (4698,4700,4702)
-  | eval TaskContent = case(isnotnull(TaskContentNew),TaskContentNew,true(),TaskContent)
-  | xmlkv TaskContent
-  | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author by Computer, Caller_User_Name, TaskName, Command, Enabled, Hidden, EventCode
-  | lookup windows_suspicious_tasks task_command as Command 
-  | where tool == "shell command use" OR tool == "suspicious paths"
-  | eval command=TaskName, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name, dest = Computer, signature_id = EventCode 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_scheduled_task_with_suspicious_command_filter` 
-how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
-known_false_positives: False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately. Windows Defender, Google Chrome, and MS Edge updates may trigger this detection.
+search: "`wineventlog_security` EventCode IN (4698,4700,4702)\n| eval TaskContent\
+  \ = case(isnotnull(TaskContentNew),TaskContentNew,true(),TaskContent)\n| xmlkv TaskContent\n\
+  | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as\
+  \ Arguments latest(Author) as Author by Computer, Caller_User_Name, TaskName, Command,\
+  \ Enabled, Hidden, EventCode\n| lookup windows_suspicious_tasks task_command as\
+  \ Command \n| where tool == \"shell command use\" OR tool == \"suspicious paths\"\
+  \n| eval command=TaskName, process=Command+if(isnotnull(Arguments),\" \".Arguments,\"\
+  \"), src_user=Author, user = Caller_User_Name, dest = Computer, signature_id = EventCode\
+  \ \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\n\
+  | `windows_scheduled_task_with_suspicious_command_filter` "
+how_to_implement: To successfully implement this search, you need to be ingesting
+  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also
+  required.
+known_false_positives: False positives are possible if legitimate applications are
+  allowed to register tasks that call a shell to be spawned. Filter as needed based
+  on command-line or processes that are used legitimately. Windows Defender, Google
+  Chrome, and MS Edge updates may trigger this detection.
 references:
 - https://attack.mitre.org/techniques/T1053/005/
 - https://www.ic3.gov/CSA/2023/231213.pdf
@@ -34,36 +45,44 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: Investigate schedule tasks on $dest$ 
-  search: '`wineventlog_security` EventCode IN (4698,4700,4702) Computer="$dest$" Caller_User_Name="$user$"'
+- name: Investigate schedule tasks on $dest$
+  search: '`wineventlog_security` EventCode IN (4698,4700,4702) Computer="$dest$"
+    Caller_User_Name="$user$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A suspicious windows scheduled task named [$TaskName$] was detected on $dest$, this may be an indicator of [$tool$]
-  risk_objects: 
+  message: A suspicious windows scheduled task named [$TaskName$] was detected on
+    $dest$, this may be an indicator of [$tool$]
+  risk_objects:
   - field: dest
     type: system
     score: 70
   - field: user
     type: user
     score: 70
-  threat_objects: 
+  threat_objects:
   - field: Command
     type: signature
 tags:
-  analytic_story: 
+  analytic_story:
   - Scheduled Tasks
-  - Windows Persistence Techniques
   - Ransomware
+  - Quasar RAT
   - Ryuk Ransomware
+  - Windows Persistence Techniques
   - Seashell Blizzard
   asset_type: Endpoint
-  mitre_attack_id: 
+  mitre_attack_id:
   - T1053.005
-  product: 
+  product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud

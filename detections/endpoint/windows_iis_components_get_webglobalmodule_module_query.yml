@@ -5,7 +5,8 @@ date: '2025-05-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the execution of the PowerShell cmdlet
+description:
+  The following analytic identifies the execution of the PowerShell cmdlet
   Get-WebGlobalModule, which lists all IIS Modules installed on a system. It leverages
   PowerShell input data to detect this activity by capturing the module names and
   the image paths of the DLLs. This activity is significant for a SOC because it can
@@ -14,34 +15,36 @@ description: The following analytic identifies the execution of the PowerShell c
   could allow an attacker to gain insights into the web server's configuration, potentially
   leading to further exploitation or privilege escalation.
 data_source:
-- Powershell Installed IIS Modules
-search: '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
+  - Powershell Installed IIS Modules
+search:
+  '`iis_get_webglobalmodule` | stats count min(_time) as firstTime max(_time)
   as lastTime by host name image | rename host as dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_iis_components_get_webglobalmodule_module_query_filter`'
-how_to_implement: You must ingest the PwSh cmdlet Get-WebGlobalModule in order to
+how_to_implement:
+  You must ingest the PwSh cmdlet Get-WebGlobalModule in order to
   utilize this analytic. Follow https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
-known_false_positives: This analytic is meant to assist with hunting modules across
+known_false_positives:
+  This analytic is meant to assist with hunting modules across
   a fleet of IIS servers. Filter and modify as needed.
 references:
-- https://docs.splunk.com/Documentation/Splunk/9.0.2/Data/MonitorWindowsdatawithPowerShellscripts
-- https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
-- https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
+  - https://help.splunk.com/en/splunk-cloud-platform/get-started/get-data-in/9.3.2411/get-windows-data/monitor-windows-data-with-powershell-scripts
+  - https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040
+  - https://github.com/redcanaryco/atomic-red-team/tree/master/atomics/T1505.004
 tags:
   analytic_story:
-  - IIS Components
-  - WS FTP Server Critical Vulnerabilities
+    - IIS Components
+    - WS FTP Server Critical Vulnerabilities
   asset_type: Endpoint
   mitre_attack_id:
-  - T1505.004
+    - T1505.004
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
-    source: powershell://AppCmdModules
-    sourcetype: Pwsh:InstalledIISModules
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.004/pwsh_installediismodules.log
+        source: powershell://AppCmdModules
+        sourcetype: Pwsh:InstalledIISModules

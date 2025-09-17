@@ -1,13 +1,14 @@
 name: Windows File Share Discovery With Powerview
 id: a44c0be1-d7ab-41e4-92fd-aa9af4fe232c
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
 data_source:
-- Powershell Script Block Logging 4104
-description: The following analytic detects the execution of the Invoke-ShareFinder
+  - Powershell Script Block Logging 4104
+description:
+  The following analytic detects the execution of the Invoke-ShareFinder
   PowerShell cmdlet from PowerView. This detection leverages PowerShell Script Block
   Logging to identify instances where this specific command is executed. Monitoring
   this activity is crucial as it indicates an attempt to enumerate network file shares,
@@ -15,58 +16,62 @@ description: The following analytic detects the execution of the Invoke-ShareFin
   If confirmed malicious, this activity could enable an attacker to escalate privileges
   or move laterally within the network, potentially compromising additional systems
   and sensitive data.
-search: '`powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*) | fillnull
+search:
+  '`powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*) | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_file_share_discovery_with_powerview_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.=
-known_false_positives: Security teams may leverage PowerView proactively to identify
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.=
+known_false_positives:
+  Security teams may leverage PowerView proactively to identify
   and remediate sensitive file shares. Filter as needed.
 references:
-- https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1
-- https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
-- https://attack.mitre.org/techniques/T1135/
+  - https://github.com/PowerShellEmpire/PowerTools/blob/master/PowerView/powerview.ps1
+  - https://thedfirreport.com/2023/01/23/sharefinder-how-threat-actors-discover-file-shares/
+  - https://attack.mitre.org/techniques/T1135/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$" and "$user_id$"
+    search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: Invoke-ShareFinder commandlet was executed on $dest$
   risk_objects:
-  - field: dest
-    type: system
-    score: 48
-  - field: user_id
-    type: user
-    score: 48
+    - field: dest
+      type: system
+      score: 48
+    - field: user_id
+      type: user
+      score: 48
   threat_objects: []
 tags:
   analytic_story:
-  - Active Directory Privilege Escalation
-  - Active Directory Discovery
+    - Active Directory Privilege Escalation
+    - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
-  - T1135
+    - T1135
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1135/powerview_sharefinder/windows-powershell.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

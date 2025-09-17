@@ -1,0 +1,62 @@
+name: Windows Event Log AppXDeployment-Server 400
+id: 3e5f9d2a-b8c7-4d1e-a6f3-7b9c8d5e4f2a
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+description: |
+  This data source captures Windows Event Logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel, specifically focusing on EventCode 400. These events are generated when a package deployment operation begins, providing details about the package being deployed.
+
+  Event ID 400 is particularly significant for security monitoring as it includes information about whether the package has full trust privileges. Full trust packages run with elevated privileges outside the normal AppX container restrictions, allowing them to access system resources that regular AppX packages cannot.
+
+  Adversaries have been observed leveraging full trust MSIX packages to deliver malware, as documented in recent threat intelligence reports. Monitoring these events can help identify potentially malicious package installations that request elevated privileges.
+source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational
+sourcetype: XmlWinEventLog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 9.0.1
+fields:
+- CategoryString
+- Channel
+- Computer
+- EventCode
+- EventData_Xml
+- EventID
+- EventRecordID
+- HasFullTrust
+- IsCentennial
+- Keywords
+- Level
+- Opcode
+- PackageDisplayName
+- PackageFullName
+- PackageSourceUri
+- Path
+- CallingProcess
+- ProcessID
+- RecordNumber
+- SourceName
+- SystemTime
+- System_Props_Xml
+- Task
+- TaskCategory
+- ThreadID
+- Version
+- _time
+- dest
+- host
+- user_id
+output_fields:
+- _time
+- dest
+- dvc
+- EventCode
+- Path
+- ProcessID
+- user_id
+references:
+- https://learn.microsoft.com/en-us/windows/msix/desktop/desktop-to-uwp-behind-the-scenes
+- https://learn.microsoft.com/en-us/windows/msix/package/package-identity
+- https://redcanary.com/blog/threat-intelligence/msix-installers/
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-AppXDeployment-Server' Guid='{3f471139-acb7-4a01-b7a7-ff5da4ba2d43}'/><EventID>400</EventID><Version>0</Version><Level>4</Level><Task>3</Task><Opcode>2</Opcode><Keywords>0x4000000000000001</Keywords><TimeCreated SystemTime='2025-08-06T16:21:23.2487289Z'/><EventRecordID>16489</EventRecordID><Correlation ActivityID='{df6fb197-9b7b-0003-0230-a39ded06dc01}'/><Execution ProcessID='5820' ThreadID='5960'/><Channel>Microsoft-Windows-AppXDeploymentServer/Operational</Channel><Computer>HaagMSIX</Computer><Security UserID='S-1-5-21-2568234075-4274264167-1034506908-500'/></System><EventData><Data Name='DeploymentOperation'>6</Data><Data Name='PackageFullName'>Microsoft.DesktopAppInstaller_2025.717.1857.0_neutral_~_8wekyb3d8bbwe</Data><Data Name='Path'> (AppxBundleManifest.xml) </Data><Data Name='MountPoint'>C:</Data><Data Name='TargetPlatform'>0x0</Data><Data Name='SystemVolume'>true</Data><Data Name='StorageId'>\\?\Volume{de26f417-916d-40a6-aaa9-9675b36f2d21}</Data><Data Name='IsCentennial'>false</Data><Data Name='PackageType'>0x8</Data><Data Name='IsPackageEncrypted'>false</Data><Data Name='DeploymentOptions'>0x40040040</Data><Data Name='IsStreamingPackage'>false</Data><Data Name='IsInRelatedSet'>false</Data><Data Name='IsPackageUsingBDC'>false</Data><Data Name='MainPackageFamilyName'>NULL</Data><Data Name='CallingProcess'>sihost.exe</Data><Data Name='IsOptional'>false</Data><Data Name='PackageFlags'>0x400</Data><Data Name='PackageFlags2'>0x800</Data><Data Name='HasWin32alacarte'>false</Data><Data Name='HasFullTrust'>false</Data><Data Name='ExternalLocation'></Data><Data Name='PackageSourceUri'>x-windowsupdate://05C4B27B-6E00-4A05-9B94-15C77E54E690/F855810C-9F77-45FF-A0F5-CD0FEAA945C6/508bfda4dcfb262c40e6f5d8e8811b3f47ee98a2</Data><Data Name='PackageDisplayName'> </Data></EventData></Event>

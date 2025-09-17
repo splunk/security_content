@@ -1,0 +1,62 @@
+name: Windows Default Rdp File Deletion
+id: 30a334c1-f9a5-4fbd-8958-5b65a8435cb2
+version: 1
+date: '2025-07-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: This detection identifies the deletion of the Default.rdp file from a user’s Documents folder. This file is automatically created or updated by the Remote Desktop Connection client (mstsc.exe) whenever a user initiates an RDP session. It contains session configuration data, such as the remote hostname and display settings. While the presence of this file is normal during legitimate RDP usage, its deletion may indicate an attempt to conceal evidence of remote access activity. Threat actors and red team operators often remove Default.rdp as part of post-access cleanup to evade forensic detection. Detecting this action—especially when correlated with recent RDP activity—can help identify defense evasion techniques and uncover potentially malicious use of remote desktop connections. Monitoring for this file's deletion adds an important layer of visibility into user behavior and can serve as an early indicator of interactive attacker presence.
+data_source:
+- Sysmon EventID 23
+- Sysmon EventID 26
+search: '`sysmon` EventCode IN ("23", "26") TargetFilename = "*\\default.rdp" 
+  | stats count min(_time) as firstTime, max(_time) as lastTime 
+  by action dest dvc file_path file_hash file_name file_modify_time process_exec process_guid process_id process_name process_path signature signature_id user user_id vendor_product 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_default_rdp_file_deletion_filter`'
+how_to_implement: To successfully implement this search, you need to ingest logs that
+  include the deleted target file name, process name, and process ID from your endpoints.
+  If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: unknown
+references:
+- https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
+- https://thelocalh0st.github.io/posts/rdp/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: a file related to rdp connection named as default.rdp has been deleted on $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+  - Windows RDP Artifacts and Defense Evasion
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1070.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.004/rdp_deletion/rdp_file_deleted.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

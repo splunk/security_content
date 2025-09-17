@@ -1,0 +1,18 @@
+name: NailaoLocker Ransomware
+id: c6f0be6f-698b-4e55-adfa-e81f92822a23
+version: 1
+date: '2025-07-29'
+author: Teoderick Contreras, Splunk
+status: production
+description: This detection identifies behaviors consistent with NaiLaoLocker, a novel ransomware variant observed in targeted attacks. NaiLaoLocker exhibits typical ransomware behavior, including multi-threaded file encryption using AES-256-CBC, appending a .locked extension to affected files, and dropping customized HTML ransom notes. However, it also includes several unique characteristics, it excludes system-critical files and directories from encryption to maintain host stability and uses SM2, a Chinese elliptic curve encryption standard, to secure the AES keys. The ransomware achieves execution via DLL side-loading, where a legitimate signed binary (usysdiag.exe) is abused to load a malicious DLL (sensapi.dll), which in turn decrypts and executes the core payload. Persistence and stealth are enhanced by mutex creation (Global\lockv7) to avoid re-execution, and the malware attempts to clean up after itself by deleting the loader DLL post-infection. NaiLaoLocker logs activity to a file (lock.log) in the ProgramData directory and makes encrypted files hidden. Analysts should look for unusual DLL loading behavior, AES-encrypted files with .locked extensions, and suspicious command-line or RDP usage in the environment.
+narrative: The campaign, discovered by Orange Cyberdefense and later analyzed by Fortinet, typically began with the exploitation of CVE-2024-24919, a critical vulnerability in Check Point VPN appliances. After gaining initial access, threat actors deployed post-exploitation tools and malware such as PlugX and ShadowPad before launching NaiLaoLocker in the final stage. The ransomware stands out due to its use of SM2 encryption, rarely seen outside of Chinese cryptographic implementations, and an embedded decryption routine — a feature unusual for ransomware and possibly indicative of a test or decoy build. Despite the presence of an SM2 private key, the decryption function is not operational with the hardcoded values, suggesting either incomplete development or intentional misdirection. This, along with the use of Chinese malware loaders and exploitation of a zero-day, suggests potential links to Chinese state-sponsored actors or at least actors mimicking their TTPs. NaiLaoLocker’s operational design and technical nuances imply it may serve multiple purposes — not only for financial extortion, but also to obscure espionage-related activity under the guise of ransomware.
+references:
+- https://www.fortinet.com/blog/threat-research/nailaolocker-ransomware-cheese
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

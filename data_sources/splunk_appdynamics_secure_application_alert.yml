@@ -1,0 +1,143 @@
+name: Splunk AppDynamics Secure Application Alert
+id: 5c963eb0-010e-4386-875f-5134879f14a7
+version: 1
+date: '2025-02-04'
+author: Bhavin Patel, Splunk
+description: Data source object for alerts from Cisco Secure Application
+source: AppDynamics Security
+sourcetype: appdynamics_security
+supported_TA:
+- name: Splunk Add-on for AppDynamics
+  url: https://splunkbase.splunk.com/app/3471
+  version: 3.1.4
+fields:
+- SourceType
+- apiServerExternal
+- app_name
+- application
+- attackEventTrigger
+- attackEvents{}.applicationName
+- attackEvents{}.attackOutcome
+- attackEvents{}.attackTypes
+- attackEvents{}.blocked
+- attackEvents{}.blockedReason
+- attackEvents{}.clientAddress
+- attackEvents{}.clientAddressType
+- attackEvents{}.clientPort
+- attackEvents{}.cveId
+- attackEvents{}.detailJson.apiServerExternal
+- attackEvents{}.detailJson.apiServerInUrl
+- attackEvents{}.detailJson.classname
+- attackEvents{}.detailJson.hostContext
+- attackEvents{}.detailJson.methodName
+- attackEvents{}.detailJson.ptype
+- attackEvents{}.detailJson.socketOut
+- attackEvents{}.eventType
+- attackEvents{}.jvmId
+- attackEvents{}.keyInfo
+- attackEvents{}.maliciousIpOut
+- attackEvents{}.maliciousIpSource
+- attackEvents{}.maliciousIpSourceOut
+- attackEvents{}.matchedCveName
+- attackEvents{}.serverAddress
+- attackEvents{}.serverName
+- attackEvents{}.serverPort
+- attackEvents{}.stackTrace
+- attackEvents{}.tierName
+- attackEvents{}.timestamp
+- attackEvents{}.vulnerabilityInfo.cveNvdUrl
+- attackEvents{}.vulnerabilityInfo.cvePublishDate
+- attackEvents{}.vulnerabilityInfo.cvssScore
+- attackEvents{}.vulnerabilityInfo.cvssSeverity
+- attackEvents{}.vulnerabilityInfo.incidentFirstDetected
+- attackEvents{}.vulnerabilityInfo.kennaActiveInternetBreach
+- attackEvents{}.vulnerabilityInfo.kennaEasilyExploitable
+- attackEvents{}.vulnerabilityInfo.kennaMalwareExploitable
+- attackEvents{}.vulnerabilityInfo.kennaPopularTarget
+- attackEvents{}.vulnerabilityInfo.kennaPredictedExploitable
+- attackEvents{}.vulnerabilityInfo.kennaScore
+- attackEvents{}.vulnerabilityInfo.library
+- attackEvents{}.vulnerabilityInfo.title
+- attackEvents{}.vulnerabilityInfo.type
+- attackEvents{}.vulnerableMethod
+- attackEvents{}.webTransactionUrl
+- attackId
+- attackLastDetected
+- attackOutcome
+- attackSource
+- attackStatus
+- attackTypes
+- blocked
+- blockedReason
+- businessTransaction
+- classname
+- clientAddressType
+- cveId
+- cveNvdUrl
+- cvePublishDate
+- cvssScore
+- cvssSeverity
+- dest_ip
+- dest_nt_host
+- dest_port
+- eventType
+- eventtype
+- host
+- incidentFirstDetected
+- index
+- jvmId
+- kennaActiveInternetBreach
+- kennaEasilyExploitable
+- kennaMalwareExploitable
+- kennaPopularTarget
+- kennaPredictedExploitable
+- kennaScore
+- keyInfo
+- linecount
+- maliciousIpOut
+- maliciousIpSource
+- maliciousIpSourceOut
+- matchedCveName
+- methodName
+- ptype
+- punct
+- signature
+- socketAddr
+- socketFromLog4j
+- socketOut
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src_category
+- src_ip
+- src_port
+- stackTrace
+- status
+- tag
+- tag::eventtype
+- tier
+- tierName
+- timestamp
+- vulnLibrary
+- vulnTitle
+- vulnType
+- vulnerableMethod
+- webTransactionUrl
+- _bkt
+- _cd
+- _eventtype_color
+- _indextime
+- _raw
+- _serial
+- _si
+- _sourcetype
+- _time
+example_log: '{  "SourceType": "secure_app_attacks",  "attackId": "24815279",  "attackSource":
+  "EXTERNAL",  "attackOutcome": "EXPLOITED",  "attackTypes": "{SSRF}",  "attackEventTrigger":
+  "",  "application": "AD-Ecommerce",  "tier": "Order-Processing-Services",  "businessTransaction":
+  "Checkout",  "attackStatus": "OPEN",  "attackLastDetected": "2025-01-31 12:30:22
+  +0000 UTC",  "attackEvents": [{"attackOutcome":"EXPLOITED","eventType":"SOCKET_RESOLVE","attackTypes":"SSRF","timestamp":"2025-01-31T12:30:22Z","applicationName":"AD-Ecommerce","tierName":"Order-Processing-Services","maliciousIpOut":"","maliciousIpSourceOut":"","detailJson":{"classname":"java.net.SocketPermission","ptype":"SOCKET","socketOut":"www.cisco.com","hostContext":"www.cisco.com","methodName":"sun.net.www.http.HttpClient.openServer","apiServerExternal":true,"apiServerInUrl":true},"blocked":false,"blockedReason":"","vulnerableMethod":"org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)","matchedCveName":"CVE-2020-13934","keyInfo":"","cveId":"a21931cd-52fa-11ec-a8b2-8e3051145156","stackTrace":"java.lang.SecurityManager.checkConnect(SecurityManager.java:1051)\nsun.net.www.http.HttpClient.openServer(HttpClient.java:510)\nsun.net.www.protocol.https.HttpsClient.\u003cinit\u003e(HttpsClient.java:264)\nsun.net.www.protocol.https.HttpsClient.New(HttpsClient.java:367)\nsun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.getNewHttpClient(AbstractDelegateHttpsURLConnection.java:191)\norg.apache.activemq.artemis.spi.core.security.jaas.LDAPLoginModule.login(SomeFile.java:12)\nsun.net.www.protocol.http.HttpURLConnection.plainConnect0(HttpURLConnection.java:1138)\nsun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1022)\nsun.net.www.protocol.http.HttpURLConnection$6.run(HttpURLConnection.java:1020)\njava.security.AccessController.doPrivileged(Native
+  Method)\njava.security.AccessController.doPrivilegedWithCombiner(AccessController.java:782)\nsun.net.www.protocol.http.HttpURLConnection.plainConnect(HttpURLConnection.java:1019)\nsun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:177)\nsun.net.www.protocol.http.HttpURLConnection.getInputStream0(HttpURLConnection.java:1546)\nsun.net.www.protocol.http.HttpURLConnection.access$200(HttpURLConnection.java:91)\nsun.net.www.protocol.http.HttpURLConnection$9.run(HttpURLConnection.java:1466)\nsun.net.www.protocol.http.HttpURLConnection$9.run(HttpURLConnection.java:1464)\njava.security.AccessController.doPrivileged(Native
+  Method)\njava.security.AccessController.doPrivilegedWithCombiner(AccessController.java:782)\nsun.net.www.protocol.http.HttpURLConnection.getInputStream(HttpURLConnection.java:1463)\nsun.net.www.protocol.https.HttpsURLConnectionImpl.getInputStream(HttpsURLConnectionImpl.java:254)\nservlet.ArgentoDemoApp$GenericExecution._executeServletCommand(ArgentoDemoApp.java:850)\nservlet.ArgentoDemoApp$GenericExecution.executeServletCommand(ArgentoDemoApp.java:778)\nservlet.ArgentoDemoApp$MyApplicationExecution.executeServletCommand(ArgentoDemoApp.java:718)\nservlet.ArgentoDemoApp._doGet(ArgentoDemoApp.java:441)\nservlet.ArgentoDemoApp.doGet(ArgentoDemoApp.java:376)\njavax.servlet.http.HttpServlet.service(HttpServlet.java:634)\njavax.servlet.http.HttpServlet.service(HttpServlet.java:741)\norg.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)\norg.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)\norg.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)\norg.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)\norg.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)\norg.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202)\norg.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)\norg.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:541)\norg.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:139)\norg.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92)\norg.apache.catalina.valves.AbstractAccessLogValve.invoke(AbstractAccessLogValve.java:690)\norg.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)\norg.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)\norg.apache.coyote.http11.Http11Processor.service(Http11Processor.java:373)\norg.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65)\norg.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:868)\norg.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1590)\norg.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)\njava.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)\njava.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)\norg.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)\njava.lang.Thread.run(Thread.java:745)\n","jvmId":"EEcommerce_MS_NODE","maliciousIpSource":"","webTransactionUrl":"https://localhost:8088/argentoDemoApp/execute?upload=https://www.cisco.com/c/dam/cdc/t/ctm-core.js","clientAddressType":4,"clientAddress":"218.132.217.179","serverPort":"1047","serverAddress":"75.155.150.130","clientPort":"68389","serverName":"/usr/src/argento/prod/demo-run/tomcat-demo-app/webapps/argentoDemoApp/","vulnerabilityInfo":{"cvePublishDate":"2020-07-15T16:40:14.601976Z","cvssScore":5.3,"cvssSeverity":"MEDIUM","cveNvdUrl":"https://security.snyk.io/vuln/SNYK-JAVA-ORGAPACHETOMCATEMBED-584427","incidentFirstDetected":"2020-07-15T16:40:14.601976Z","kennaScore":53.0971,"library":"org.apache.tomcat.embed:tomcat-embed-core","title":"Denial
+  of Service (DoS)","type":"java","kennaActiveInternetBreach":false,"kennaEasilyExploitable":false,"kennaMalwareExploitable":false,"kennaPredictedExploitable":true,"kennaPopularTarget":false}}]}'

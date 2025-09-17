@@ -1,17 +1,17 @@
 name: Windows Event Log System 4728
 id: 4549f0ac-3df9-4bfb-bea5-1459690c8040
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the addition of a user to a security-enabled group, including details
-  about the group name, user account, and associated domain.
+description: Logs the addition of a user to a security-enabled group, including 
+  details about the group name, user account, and associated domain.
 mitre_components:
 - Group Modification
 - Group Metadata
 - User Account Metadata
 - Active Directory Object Modification
 source: XmlWinEventLog:System
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4728'
 supported_TA:

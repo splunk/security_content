@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Blocked Connection
 id: 17e9b764-3a2b-4d36-9751-32d13ce4718b
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-07-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ description: The following analytic detects a blocked connection event by
 data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action=Block
+  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
   | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest, dest_port, transport, rule, url, EVE_Process, action
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 

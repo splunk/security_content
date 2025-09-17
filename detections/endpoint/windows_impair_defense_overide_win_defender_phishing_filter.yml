@@ -1,8 +1,8 @@
 name: Windows Impair Defense Overide Win Defender Phishing Filter
 id: 10ca081c-57b1-4a78-ba56-14a40a7e116a
-version: 7
-date: '2025-05-02'
-author: Teoderick Contreras, Splunk
+version: 8
+date: '2025-07-30'
+author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: TTP
 data_source:
@@ -16,8 +16,8 @@ description: The following analytic detects modifications to the Windows registr
   lead to users unknowingly accessing harmful sites, resulting in potential security
   incidents or data compromises.
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_key_name =
-  "*\\MicrosoftEdge\\PhishingFilter" Registry.registry_value_name IN ("EnabledV9",
+  as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path =
+  "*\\MicrosoftEdge\\PhishingFilter*" Registry.registry_value_name IN ("EnabledV9",
   "PreventOverride") Registry.registry_value_data="0x00000000" by Registry.action
   Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
   Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name

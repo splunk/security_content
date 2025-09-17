@@ -1,7 +1,7 @@
 name: Windows MSExchange Management Mailbox Cmdlet Usage
 id: 396de86f-25e7-4b0e-be09-a330be35249d
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-07-29'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -53,6 +53,7 @@ tags:
   - ProxyShell
   - BlackByte Ransomware
   - ProxyNotShell
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.001

@@ -1,18 +1,19 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 13
-date: '2025-05-26'
+version: 15
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies processes running from file paths not
-  typically associated with legitimate software. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on specific process paths within the Endpoint
-  data model. This activity is significant because adversaries often use unconventional
-  file paths to execute malicious code without requiring administrative privileges.
-  If confirmed malicious, this behavior could indicate an attempt to bypass security
-  controls, leading to unauthorized software execution, potential system compromise,
-  and further malicious activities within the environment.
+description: The following analytic identifies processes running from file paths
+  not typically associated with legitimate software. It leverages data from 
+  Endpoint Detection and Response (EDR) agents, focusing on specific process 
+  paths within the Endpoint data model. This activity is significant because 
+  adversaries often use unconventional file paths to execute malicious code 
+  without requiring administrative privileges. If confirmed malicious, this 
+  behavior could indicate an attempt to bypass security controls, leading to 
+  unauthorized software execution, potential system compromise, and further 
+  malicious activities within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -31,17 +32,18 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_suspicious_process_file_path_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators may allow execution of specific binaries in
-  non-standard paths. Filter as needed.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: Administrators may allow execution of specific binaries 
+  in non-standard paths. Filter as needed.
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -63,8 +65,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Suspicious process $process_name$ running from a suspicious process path-
-    $process_path$ on host- $dest$
+  message: Suspicious process $process_name$ running from a suspicious process 
+    path- $process_path$ on host- $dest$
   risk_objects:
   - field: dest
     type: system
@@ -75,47 +77,51 @@ rba:
 tags:
   analytic_story:
   - PlugX
-  - BlackByte Ransomware
-  - Rhysida Ransomware
-  - ValleyRAT
-  - Malicious Inno Setup Loader
-  - Double Zero Destructor
-  - Remcos
-  - Handala Wiper
-  - Trickbot
-  - DarkGate Malware
-  - China-Nexus Threat Activity
-  - Prestige Ransomware
-  - Amadey
-  - Phemedrone Stealer
-  - Earth Alux
-  - Azorult
-  - XMRig
-  - Qakbot
-  - XWorm
-  - Chaos Ransomware
-  - IcedID
-  - Graceful Wipe Out Attack
-  - Meduza Stealer
+  - Water Gamayun
+  - Warzone RAT
+  - Swift Slicer
+  - Data Destruction
+  - AgentTesla
   - LockBit Ransomware
   - Volt Typhoon
-  - Data Destruction
-  - Salt Typhoon
   - Brute Ratel C4
   - WhisperGate
-  - Water Gamayun
-  - AgentTesla
-  - Swift Slicer
-  - SystemBC
-  - AsyncRAT
-  - CISA AA23-347A
-  - Hermetic Wiper
-  - RedLine Stealer
-  - DarkCrystal RAT
-  - Warzone RAT
-  - SnappyBee
   - Industroyer2
+  - DarkGate Malware
+  - ValleyRAT
+  - XMRig
+  - Chaos Ransomware
+  - Hermetic Wiper
+  - Remcos
+  - Quasar RAT
+  - Rhysida Ransomware
+  - DarkCrystal RAT
+  - Qakbot
+  - China-Nexus Threat Activity
+  - XWorm
+  - IcedID
+  - CISA AA23-347A
+  - Azorult
+  - Handala Wiper
+  - Salt Typhoon
+  - Earth Alux
+  - Double Zero Destructor
+  - Trickbot
+  - Malicious Inno Setup Loader
+  - BlackByte Ransomware
+  - SystemBC
+  - Phemedrone Stealer
+  - Graceful Wipe Out Attack
+  - Prestige Ransomware
+  - Amadey
+  - AsyncRAT
+  - RedLine Stealer
+  - SnappyBee
+  - Meduza Stealer
   - MoonPeak
+  - Interlock Ransomware
+  - Interlock Rat
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1543
@@ -128,6 +134,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/suspicious_process_path/susp_path_sysmon1.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/suspicious_process_path/susp_path_sysmon1.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

@@ -38,7 +38,6 @@ how_to_implement: The detection is based on data that originates from Endpoint D
 known_false_positives: Unknown. Filter as needed.
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
-- https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 rba:
   message: Suspicious usage of curl on $dest$
   risk_objects:

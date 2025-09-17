@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 9
-date: '2025-06-17'
+version: 10
+date: '2025-08-04'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ search: |
     "\\spoolss_*",
     "\\srvsvc_*",
     "\\status_*",
-    "\\UIA_PIPE"*
+    "\\UIA_PIPE*",
     "\\win_svc*",
     "\\winsock*",
     "\\wkssvc_*",

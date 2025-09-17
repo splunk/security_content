@@ -1,0 +1,65 @@
+name: Windows Developer-Signed MSIX Package Installation
+id: 2c0427aa-982c-4e97-bc33-bddeda4fd095
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: This detection identifies the installation of developer-signed MSIX packages that lack Microsoft Store signatures. All malicious MSIX packages observed in recent threat campaigns (including those from FIN7, Zloader/Storm-0569, and FakeBat/Storm-1113) were developer-signed rather than Microsoft Store signed. Microsoft Store apps have specific publisher IDs containing '8wekyb3d8bbwe' or 'cw5n1h2txyewy', while developer-signed packages lack these identifiers. This detection focuses on EventID 855 from the Microsoft-Windows-AppXDeployment-Server/Operational logs, which indicates a completed package installation.
+data_source:
+- Windows Event Log AppXDeployment-Server 855
+search: '`wineventlog_appxdeploymentserver` EventCode=855 
+  NOT PackageMoniker IN ("*8wekyb3d8bbwe*","*cw5n1h2txyewy*")
+  | stats count min(_time) as firstTime max(_time) as lastTime values(PackageMoniker) as PackageMoniker by dvc EventCode user_id | rename dvc as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_developer_signed_msix_package_installation_filter`'
+how_to_implement: To implement this detection, you need to be collecting Windows Event logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel. In Splunk, this typically requires the Windows TA and configuration to collect from this specific channel. Ensure your Windows event collection is properly configured to capture EventCode 855 from the Microsoft-Windows-AppXDeploymentServer/Operational log.
+known_false_positives: Legitimate developer-signed applications that are not from the Microsoft Store will trigger this detection. Organizations should maintain a baseline of expected developer-signed applications in their environment and tune the detection accordingly. Common legitimate developer-signed applications include in-house developed applications and some third-party applications that are not distributed through the Microsoft Store.
+references:
+- https://redcanary.com/blog/threat-intelligence/msix-installers/
+- https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+- https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
+- https://redcanary.com/blog/threat-detection/code-signing-certificates/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A developer-signed MSIX package "$PackageMoniker$" was installed on $dest$ by user $user_id$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: PackageMoniker
+    type: file_name
+tags:
+  analytic_story:
+  - MSIX Package Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1553.005
+  - T1204.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational

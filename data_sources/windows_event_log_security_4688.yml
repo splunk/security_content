@@ -1,18 +1,19 @@
 name: Windows Event Log Security 4688
 id: d195eb26-a81c-45ed-aeb3-25792e8a985a
-version: 3
-date: '2025-01-23'
+version: 4
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new process
 mitre_components:
 - Process Creation
 - Command Execution
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4688'
-configuration: Enabling Windows event log process command line logging via group policy
-  object https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_Windows_event_log_process_command_line_logging_via_group_policy_object
+configuration: Enabling Windows event log process command line logging via group
+  policy object 
+  https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_Windows_event_log_process_command_line_logging_via_group_policy_object
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
@@ -95,26 +96,26 @@ fields:
 - vendor
 - vendor_product
 output_fields:
-  - action 
-  - dest 
-  - original_file_name 
-  - parent_process 
-  - parent_process_exec 
-  - parent_process_guid 
-  - parent_process_id 
-  - parent_process_name 
-  - parent_process_path 
-  - process 
-  - process_exec 
-  - process_guid 
-  - process_hash 
-  - process_id 
-  - process_integrity_level 
-  - process_name 
-  - process_path 
-  - user 
-  - user_id
-  - vendor_product
+- action
+- dest
+- original_file_name
+- parent_process
+- parent_process_exec
+- parent_process_guid
+- parent_process_id
+- parent_process_name
+- parent_process_path
+- process
+- process_exec
+- process_guid
+- process_hash
+- process_id
+- process_integrity_level
+- process_name
+- process_path
+- user
+- user_id
+- vendor_product
 field_mappings:
 - data_model: cim
   data_set: Endpoint.Processes
@@ -149,16 +150,25 @@ convert_to_log_source:
     ProcessId: ParentProcessId
     ParentProcessName: ParentImage
     Computer: Computer
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4688</EventID><Version>2</Version><Level>0</Level><Task>13312</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4688</EventID><Version>2</Version><Level>0</Level><Task>13312</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2024-04-23T08:48:30.449376800Z'/><EventRecordID>432820</EventRecordID><Correlation/><Execution
-  ProcessID='4' ThreadID='276'/><Channel>Security</Channel><Computer>ar-win-1</Computer><Security/></System><EventData><Data
-  Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data Name='SubjectUserName'>AR-WIN-1$</Data><Data
-  Name='SubjectDomainName'>WORKGROUP</Data><Data Name='SubjectLogonId'>0x3e7</Data><Data
-  Name='NewProcessId'>0xf84</Data><Data Name='NewProcessName'>C:\Program Files\SplunkUniversalForwarder\bin\splunk-powershell.exe</Data><Data
-  Name='TokenElevationType'>%%1936</Data><Data Name='ProcessId'>0xb2c</Data><Data
-  Name='CommandLine'>"C:\Program Files\SplunkUniversalForwarder\bin\splunk-powershell.exe"
-  --ps2</Data><Data Name='TargetUserSid'>NULL SID</Data><Data Name='TargetUserName'>-</Data><Data
-  Name='TargetDomainName'>-</Data><Data Name='TargetLogonId'>0x0</Data><Data Name='ParentProcessName'>C:\Program
-  Files\SplunkUniversalForwarder\bin\splunkd.exe</Data><Data Name='MandatoryLabel'>Mandatory
-  Label\System Mandatory Level</Data></EventData></Event>
+  ProcessID='4' 
+  ThreadID='276'/><Channel>Security</Channel><Computer>ar-win-1</Computer><Security/></System><EventData><Data
+  Name='SubjectUserSid'>NT AUTHORITY\SYSTEM</Data><Data 
+  Name='SubjectUserName'>AR-WIN-1$</Data><Data 
+  Name='SubjectDomainName'>WORKGROUP</Data><Data 
+  Name='SubjectLogonId'>0x3e7</Data><Data Name='NewProcessId'>0xf84</Data><Data 
+  Name='NewProcessName'>C:\Program 
+  Files\SplunkUniversalForwarder\bin\splunk-powershell.exe</Data><Data 
+  Name='TokenElevationType'>%%1936</Data><Data 
+  Name='ProcessId'>0xb2c</Data><Data Name='CommandLine'>"C:\Program 
+  Files\SplunkUniversalForwarder\bin\splunk-powershell.exe" --ps2</Data><Data 
+  Name='TargetUserSid'>NULL SID</Data><Data Name='TargetUserName'>-</Data><Data 
+  Name='TargetDomainName'>-</Data><Data Name='TargetLogonId'>0x0</Data><Data 
+  Name='ParentProcessName'>C:\Program 
+  Files\SplunkUniversalForwarder\bin\splunkd.exe</Data><Data 
+  Name='MandatoryLabel'>Mandatory Label\System Mandatory 
+  Level</Data></EventData></Event>

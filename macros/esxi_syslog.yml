@@ -1,0 +1,4 @@
+definition: sourcetype=vmw-syslog OR sourcetype=vmware:esxlog*
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environment.
+name: esxi_syslog

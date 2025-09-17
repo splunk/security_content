@@ -1,11 +1,11 @@
 name: Windows Event Log Security 4700
 id: 89895c7b-2aba-41ca-ad12-8b6d290b5dde
-version: 1
-date: '2025-03-11'
+version: 2
+date: '2025-07-10'
 author: Steven Dick
 description: Data source object for Windows Event Log Security 4700
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
@@ -13,4 +13,24 @@ supported_TA:
   version: 9.0.1
 fields:
 - EventID
-example_log: '<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System> <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}" />  <EventID>4700</EventID>  <Version>0</Version>  <Level>0</Level>  <Task>12804</Task>  <Opcode>0</Opcode>  <Keywords>0x8020000000000000</Keywords>  <TimeCreated SystemTime="2015-09-23T02:32:47.606423000Z" />  <EventRecordID>344861</EventRecordID>  <Correlation />  <Execution ProcessID="516" ThreadID="756" />  <Channel>Security</Channel>  <Computer>DC01.contoso.local</Computer>  <Security />  </System><EventData> <Data Name="SubjectUserSid">S-1-5-21-3457937927-2839227994-823803824-1104</Data>  <Data Name="SubjectUserName">dadmin</Data>  <Data Name="SubjectDomainName">CONTOSO</Data>  <Data Name="SubjectLogonId">0x364eb</Data>  <Data Name="TaskName">\\Microsoft\\StartListener</Data>  <Data Name="TaskContent"><?xml version="1.0" encoding="UTF-16"?> <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task"> <RegistrationInfo> <Date>2015-09-22T19:03:06.9258653</Date> <Author>CONTOSO\\dadmin</Author> </RegistrationInfo> <Triggers /> <Principals> <Principal id="Author"> <RunLevel>LeastPrivilege</RunLevel> <UserId>CONTOSO\\dadmin</UserId> <LogonType>InteractiveToken</LogonType> </Principal> </Principals> <Settings> <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy> <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries> <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries> <AllowHardTerminate>true</AllowHardTerminate> <StartWhenAvailable>false</StartWhenAvailable> <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable> <IdleSettings> <StopOnIdleEnd>true</StopOnIdleEnd> <RestartOnIdle>false</RestartOnIdle> </IdleSettings> <AllowStartOnDemand>true</AllowStartOnDemand> <Enabled>true</Enabled> <Hidden>false</Hidden> <RunOnlyIfIdle>false</RunOnlyIfIdle> <WakeToRun>false</WakeToRun> <ExecutionTimeLimit>P3D</ExecutionTimeLimit> <Priority>7</Priority> </Settings> <Actions Context="Author"> <Exec> <Command>C:\\Documents\\listener.exe</Command> </Exec> </Actions> </Task></Data>  </EventData> </Event>'
+example_log: '<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System>
+  <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}"
+  />  <EventID>4700</EventID>  <Version>0</Version>  <Level>0</Level>  <Task>12804</Task>  <Opcode>0</Opcode>  <Keywords>0x8020000000000000</Keywords>  <TimeCreated
+  SystemTime="2015-09-23T02:32:47.606423000Z" />  <EventRecordID>344861</EventRecordID>  <Correlation
+  />  <Execution ProcessID="516" ThreadID="756" />  <Channel>Security</Channel>  <Computer>DC01.contoso.local</Computer>  <Security
+  />  </System><EventData> <Data Name="SubjectUserSid">S-1-5-21-3457937927-2839227994-823803824-1104</Data>  <Data
+  Name="SubjectUserName">dadmin</Data>  <Data Name="SubjectDomainName">CONTOSO</Data>  <Data
+  Name="SubjectLogonId">0x364eb</Data>  <Data Name="TaskName">\\Microsoft\\StartListener</Data>  <Data
+  Name="TaskContent"><?xml version="1.0" encoding="UTF-16"?> <Task version="1.2" xmlns="http://schemas.microsoft.com/windows/2004/02/mit/task">
+  <RegistrationInfo> <Date>2015-09-22T19:03:06.9258653</Date> <Author>CONTOSO\\dadmin</Author>
+  </RegistrationInfo> <Triggers /> <Principals> <Principal id="Author"> <RunLevel>LeastPrivilege</RunLevel>
+  <UserId>CONTOSO\\dadmin</UserId> <LogonType>InteractiveToken</LogonType> </Principal>
+  </Principals> <Settings> <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+  <DisallowStartIfOnBatteries>true</DisallowStartIfOnBatteries> <StopIfGoingOnBatteries>true</StopIfGoingOnBatteries>
+  <AllowHardTerminate>true</AllowHardTerminate> <StartWhenAvailable>false</StartWhenAvailable>
+  <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable> <IdleSettings> <StopOnIdleEnd>true</StopOnIdleEnd>
+  <RestartOnIdle>false</RestartOnIdle> </IdleSettings> <AllowStartOnDemand>true</AllowStartOnDemand>
+  <Enabled>true</Enabled> <Hidden>false</Hidden> <RunOnlyIfIdle>false</RunOnlyIfIdle>
+  <WakeToRun>false</WakeToRun> <ExecutionTimeLimit>P3D</ExecutionTimeLimit> <Priority>7</Priority>
+  </Settings> <Actions Context="Author"> <Exec> <Command>C:\\Documents\\listener.exe</Command>
+  </Exec> </Actions> </Task></Data>  </EventData> </Event>'

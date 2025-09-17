@@ -1,0 +1,19 @@
+name: Quasar RAT
+id: 0e75c517-fe19-491a-859d-f8b7494a8aa2
+version: 1
+date: '2025-07-16'
+author: Teoderick Contreras, Splunk
+status: production
+description: Leverage searches that help you detect and investigate unusual activities potentially associated with Quasar RAT. These includes processes accessing FileZilla XML configuration files (which may store FTP credentials for exfiltration), loading Mozilla NSS and Mozglue libraries (often targeted for DLL side-loading attacks to evade detection), steal credential via browsers and accessing Intelliform Storage Registry keys used by Internet Explorer (which can contain saved credentials and autocomplete data valuable for credential theft).
+narrative: Quasar RAT is an open-source remote access Trojan (RAT) written in .NET, widely used by both cybercriminals and advanced threat actors for espionage, credential theft, and lateral movement. First appearing around 2014, Quasar offers a rich feature set including remote desktop control, file management, keylogging, and password dumping. Its open-source nature makes it easy for attackers to customize and rebrand, complicating attribution efforts. Quasar is often delivered through phishing emails, malicious attachments, or cracked software, establishing persistence via registry keys or scheduled tasks. Once installed, it communicates with command-and-control servers over configurable ports, often using encrypted channels to evade network detection.
+references:
+  - https://malpedia.caad.fkie.fraunhofer.de/details/win.quasar_rat
+  - https://www.proofpoint.com/us/blog/threat-insight/around-world-90-days-state-sponsored-actors-try-clickfix
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

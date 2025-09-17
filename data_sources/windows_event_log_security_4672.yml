@@ -1,15 +1,15 @@
 name: Windows Event Log Security 4672
 id: 43f189b6-369d-4a32-a34c-57e0d38d92f1
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a user with administrative privileges logs on to a
-  system.
+description: Logs an event when a user with administrative privileges logs on to
+  a system.
 mitre_components:
 - Logon Session Creation
 - User Account Authentication
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4672'
 supported_TA:
@@ -88,11 +88,16 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4672</EventID><Version>0</Version><Level>0</Level><Task>12548</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-a5ba-3e3b0328c30d}'/><EventID>4672</EventID><Version>0</Version><Level>0</Level><Task>12548</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2023-03-27T18:35:15.439521100Z'/><EventRecordID>148946</EventRecordID><Correlation
-  ActivityID='{a51712a7-60c1-0000-3513-17a5c160d901}'/><Execution ProcessID='624'
+  ActivityID='{a51712a7-60c1-0000-3513-17a5c160d901}'/><Execution 
+  ProcessID='624' 
   ThreadID='728'/><Channel>Security</Channel><Computer>ar-win-6.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='SubjectUserSid'>ATTACKRANGE\REED_MORSE</Data><Data Name='SubjectUserName'>REED_MORSE</Data><Data
-  Name='SubjectDomainName'>ATTACKRANGE</Data><Data Name='SubjectLogonId'>0x509b11</Data><Data
+  Name='SubjectUserSid'>ATTACKRANGE\REED_MORSE</Data><Data 
+  Name='SubjectUserName'>REED_MORSE</Data><Data 
+  Name='SubjectDomainName'>ATTACKRANGE</Data><Data 
+  Name='SubjectLogonId'>0x509b11</Data><Data 
   Name='PrivilegeList'>SeSecurityPrivilege

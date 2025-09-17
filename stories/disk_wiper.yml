@@ -1,0 +1,20 @@
+name: Disk Wiper
+id: 493a72ab-abd2-4787-a47b-589f817fd1ce
+version: 1
+date: '2025-06-27'
+author: Teoderick Contreras, Splunk
+status: production
+description: This malware sample is identified as a destructive disk wiper designed to irreversibly erase data on infected systems. Once executed, it overwrites or corrupts disk partitions, rendering files and operating systems unusable. Often deployed in targeted attacks or sabotage campaigns, it aims to cripple victims by destroying critical data rather than stealing it. Analysis on VirusTotal shows multiple detections labeling it as “Trojan.Wiper” or “DiskWiper,” indicating destructive intent and possible use of raw disk access to bypass file-level recovery. Such tools are frequently employed in cyber warfare, ransomware incidents (as fake “wipers”), or hacktivist attacks to maximize damage and disruption.
+narrative: When this wiper malware lands on a system, it doesn’t bother with stealth or theft—it’s here to destroy. Once launched, it hunts for disks and partitions to corrupt, overwriting data in a deliberate act of sabotage. Victims see their machines reduced to useless bricks, with operating systems unbootable and files lost forever. Security analysts on VirusTotal tag it plainly a wiper, engineered to inflict maximum damage. It’s the kind of tool favored in cyberwarfare and hacktivist attacks, leaving no ransom note—just devastation. For its operators, data isn’t treasure to steal; it’s fuel to burn in a campaign of pure destruction.
+references:
+- https://x.com/cyb3rops/status/1935707307805134975
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

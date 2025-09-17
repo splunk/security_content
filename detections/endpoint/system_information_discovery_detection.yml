@@ -1,18 +1,19 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 9
-date: '2025-05-02'
+version: 11
+date: '2025-08-27'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic identifies system information discovery techniques,
-  such as the execution of commands like `wmic qfe`, `systeminfo`, and `hostname`.
-  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
-  process execution logs. This activity is significant because attackers often use
-  these commands to gather system configuration details, which can aid in further
-  exploitation. If confirmed malicious, this behavior could allow attackers to tailor
-  their attacks based on the discovered system information, potentially leading to
-  privilege escalation, persistence, or data exfiltration.
+description: The following analytic identifies system information discovery 
+  techniques, such as the execution of commands like `wmic qfe`, `systeminfo`, 
+  and `hostname`. It leverages data from Endpoint Detection and Response (EDR) 
+  agents, focusing on process execution logs. This activity is significant 
+  because attackers often use these commands to gather system configuration 
+  details, which can aid in further exploitation. If confirmed malicious, this 
+  behavior could allow attackers to tailor their attacks based on the discovered
+  system information, potentially leading to privilege escalation, persistence, 
+  or data exfiltration.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -36,15 +37,16 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   as process_path values(user_id) as user_id values(vendor_product) as vendor_product  min(firstTime)
   as firstTime max(lastTime) as lastTime by user, dest parent_process_name | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `system_information_discovery_detection_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
 known_false_positives: Administrators debugging servers
 references:
 - https://web.archive.org/web/20210119205146/https://oscp.infosecsanyam.in/priv-escalation/windows-priv-escalation
@@ -79,6 +81,8 @@ tags:
   - Medusa Ransomware
   - BlackSuit Ransomware
   - Cleo File Transfer Software
+  - Interlock Ransomware
+  - LAMEHUG
   asset_type: Windows
   mitre_attack_id:
   - T1082
@@ -90,6 +94,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

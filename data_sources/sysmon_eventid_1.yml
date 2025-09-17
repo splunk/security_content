@@ -1,7 +1,7 @@
 name: Sysmon EventID 1
 id: b375f4d1-d7ca-4bc0-9103-294825c0af17
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs the creation of a new process, including details such as process
   ID, parent process, command line arguments, and hashes of the executable.
@@ -11,14 +11,14 @@ mitre_components:
 - Command Execution
 - OS API Execution
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventID
 separator_value: '1'
 configuration: https://github.com/SwiftOnSecurity/sysmon-config
 supported_TA:
 - name: Splunk Add-on for Sysmon
   url: https://splunkbase.splunk.com/app/5709
-  version: 4.0.3
+  version: 5.0.0
 fields:
 - _time
 - Channel
@@ -189,9 +189,9 @@ example_log: "<Event xmlns='http://schemas.microsoft.com/win/2004/08/events/even
   \ Command Processor</Data><Data Name='Product'>Microsoft\xAE Windows\xAE Operating\
   \ System</Data><Data Name='Company'>Microsoft Corporation</Data><Data Name='OriginalFileName'>Cmd.Exe</Data><Data\
   \ Name='CommandLine'>\"C:\\Windows\\system32\\cmd.exe\" /c \"reg save HKLM\\sam\
-  \ %%temp%%\\sam &amp; reg save HKLM\\system %%temp%%\\system &amp; reg save HKLM\\\
+  \ %%temp%%\\ sam &amp; reg save HKLM\\system %%temp%%\\system &amp; reg save HKLM\\\
   security %%temp%%\\security\" </Data><Data Name='CurrentDirectory'>C:\\Users\\ADMINI~1\\\
-  AppData\\Local\\Temp\\</Data><Data Name='User'>ATTACKRANGE\\Administrator</Data><Data\
+  AppData\\Local\\ Temp\\</Data><Data Name='User'>ATTACKRANGE\\Administrator</Data><Data\
   \ Name='LogonGuid'>{96128EA2-F210-5F7E-ACD4-080000000000}</Data><Data Name='LogonId'>0x8d4ac</Data><Data\
   \ Name='TerminalSessionId'>0</Data><Data Name='IntegrityLevel'>High</Data><Data\
   \ Name='Hashes'>MD5=F4F684066175B77E0C3A000549D2922C,SHA256=935C1861DF1F4018D698E8B65ABFA02D7E9037D8F68CA3C2065B6CA165D44AD2,IMPHASH=3062ED732D4B25D1C64F084DAC97D37A</Data><Data\

@@ -1,24 +1,24 @@
 name: Risk Notable Protect Assets and Users
 id: 070edc96-ff2b-48b0-9f6f-93da3783fd63
 version: 1
-date: "2021-10-22"
+date: '2021-10-22'
 author: Kelby Shelton, Splunk
 type: Response
 description: This playbook attempts to find assets and users from the notable event and match those with assets and identities from Splunk ES. If a match was found and the user has playbooks available to contain entities, the analyst decides which entities to disable or quarantine.
 playbook: risk_notable_protect_assets_and_users
-how_to_implement: For detailed implementation see https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack
+how_to_implement: For detailed implementation see https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/get-started-with-the-risk-notable-playbook-pack-for-splunk-soar
 references:
-- https://docs.splunk.com/Documentation/ESSOC/latest/user/Useplaybookpack#Call_child_playbooks_with_the_dynamic_playbook_system
+  - https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update/how-to-use-splunk-security-content/5.8/use-splunk-soar-playbooks-and-workbooks-from-the-risk-notable-playbook-pack/build-playbooks-compatible-with-the-dispatch_input_playbooks-utility
 app_list: []
 tags:
   labels:
-  - risk_notable
+    - risk_notable
   playbook_outputs:
-  - note_title
-  - note_content
+    - note_title
+    - note_content
   playbook_type: Automation
   vpe_type: Modern
   platform_tags:
-  - Risk Notable
+    - Risk Notable
   product:
-  - Splunk SOAR
+    - Splunk SOAR

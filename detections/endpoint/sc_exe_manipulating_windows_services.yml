@@ -1,7 +1,7 @@
 name: Sc exe Manipulating Windows Services
 id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2025-07-29'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -77,6 +77,7 @@ tags:
   - Windows Service Abuse
   - DHS Report TA18-074A
   - Crypto Stealer
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1543.003

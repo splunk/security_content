@@ -1,0 +1,46 @@
+name: Scattered Spider
+id: 3df97513-d898-4168-927a-ed3595d6ea41
+version: 1
+status: production
+date: '2025-07-29'
+author: Michael Haag, Splunk
+description: >
+  Detects tactics, techniques, and procedures (TTPs) associated with Scattered Spider (UNC3944, Octo Tempest, Storm-0875), 
+  a sophisticated cybercriminal group targeting large enterprises through advanced social engineering and legitimate tool abuse. 
+  This analytic story provides comprehensive detection coverage for their complete attack chain, from initial social engineering 
+  campaigns through data exfiltration and ransomware deployment. The group is known for bypassing traditional security controls 
+  by abusing legitimate remote access tools like TeamViewer, AnyDesk, and Ngrok, while conducting sophisticated vishing operations 
+  to compromise IT helpdesks and steal MFA tokens.
+  
+  
+  Recent intelligence from the July 2025 CISA advisory reveals significant evolution in their capabilities, including deployment 
+  of DragonForce ransomware, enhanced Snowflake database targeting for rapid data exfiltration, and advanced cloud infrastructure 
+  exploitation. The analytics in this story detect their signature behaviors including MFA bombing attacks, unauthorized remote 
+  access tool deployment, cloud API abuse, credential harvesting with tools like Mimikatz, and their unique operational security 
+  practices of monitoring victim communications to evade detection. Coverage includes process monitoring, network analytics, 
+  cloud API detection, and behavioral correlation rules designed to identify the subtle indicators that traditional signature-based 
+  tools miss while providing actionable intelligence for incident response teams.
+
+narrative: >
+  Scattered Spider represents a critical threat to enterprise security, utilizing sophisticated social engineering to bypass 
+  technical controls and gain initial access to large organizations. Unlike traditional cybercriminals who rely on malware, 
+  this group exploits human psychology and abuses legitimate administrative tools, making detection extremely challenging. 
+  Their attacks result in significant business disruption through data theft, ransomware deployment, and operational downtime. 
+  Recent evolution includes advanced cloud targeting capabilities and VMware ESXi encryption, posing escalating risks to 
+  critical infrastructure and cloud-dependent organizations. Organizations must implement behavioral detection capabilities 
+  and enhanced user training to defend against these advanced persistent social engineering campaigns.
+
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-320a
+  - https://attack.mitre.org/groups/G1015/
+  - https://www.crowdstrike.com/blog/scattered-spider-attempts-to-avoid-detection-with-bring-your-own-vulnerable-driver-tactic/
+  - https://www.trellix.com/en-us/about/newsroom/stories/research/scattered-spider-the-modus-operandi.html
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve: []

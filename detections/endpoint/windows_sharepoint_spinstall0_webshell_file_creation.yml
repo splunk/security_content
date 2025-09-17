@@ -1,0 +1,60 @@
+name: Windows SharePoint Spinstall0 Webshell File Creation
+id: 7a0dda67-4cc7-4113-b3bd-b3f1489a98bf
+version: 1
+date: '2025-07-21'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: This detection identifies the creation or modification of the "spinstall0.aspx" webshell file in Microsoft SharePoint directories. This file is a known indicator of compromise associated with the exploitation of CVE-2025-53770 (ToolShell vulnerability). Attackers exploit the vulnerability to drop webshells that provide persistent access to compromised SharePoint servers, allowing them to execute arbitrary commands, access sensitive data, and move laterally within the network.
+data_source:
+- Sysmon EventID 11
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_name="spinstall0.aspx" AND (Filesystem.file_path="*\\microsoft shared\\Web Server Extensions\\16\\TEMPLATE\\LAYOUTS*" OR Filesystem.file_path="*\\microsoft shared\\Web Server Extensions\\15\\TEMPLATE\\LAYOUTS*") by Filesystem.dest Filesystem.user Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.action Filesystem.process_guid Filesystem.process_id Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sharepoint_spinstall0_webshell_file_creation_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the file name, file path, and process information from your endpoints. If you are using Sysmon, you must have at least Sysmon version 6.0.4 with Event Code 11 enabled. You can also use other EDR products or Windows Event Logs that capture file creation events. The detection requires the Endpoint data model, populated with file creation events in the SharePoint directories.
+known_false_positives: Limited false positives are expected as the spinstall0.aspx file is not a legitimate SharePoint component. However, there might be rare cases where legitimate files with similar names are created during SharePoint updates or maintenance. Verify the process that created the file and the file content to confirm malicious intent.
+references:
+- https://research.eye.security/sharepoint-under-siege/
+- https://www.cisa.gov/news-events/alerts/2025/07/20/microsoft-releases-guidance-exploitation-sharepoint-vulnerability-cve-2025-53770
+- https://msrc.microsoft.com/blog/2025/07/customer-guidance-for-sharepoint-vulnerability-cve-2025-53770/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Potential SharePoint webshell (spinstall0.aspx) detected on $dest$ related to CVE-2025-53770.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 90
+  threat_objects:
+  - field: file_name
+    type: file_name
+tags:
+  analytic_story:
+  - Microsoft SharePoint Vulnerabilities
+  asset_type: Web Server
+  mitre_attack_id:
+  - T1190
+  - T1505.003
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve:
+  - CVE-2025-53770
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.003/sharepoint_webshell/sysmon_spinstall0.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

@@ -1,17 +1,18 @@
 name: Detect Remote Access Software Usage URL
 id: 9296f515-073c-43a5-88ec-eda5a4626654
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-07-28'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects the execution of known remote access software
-  within the environment. It leverages network logs mapped to the Web data model,
-  identifying specific URLs and user agents associated with remote access tools like
-  AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is significant as adversaries
-  often use these utilities to maintain unauthorized remote access. If confirmed malicious,
-  this could allow attackers to control systems remotely, exfiltrate data, or further
-  compromise the network, posing a severe security risk.
+description: The following analytic detects the execution of known remote access
+  software within the environment. It leverages network logs mapped to the Web 
+  data model, identifying specific URLs and user agents associated with remote 
+  access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer. This activity is
+  significant as adversaries often use these utilities to maintain unauthorized 
+  remote access. If confirmed malicious, this could allow attackers to control 
+  systems remotely, exfiltrate data, or further compromise the network, posing a
+  severe security risk.
 data_source:
 - Palo Alto Network Threat
 search: '| tstats count min(_time) as firstTime max(_time) as lastTime latest(Web.http_method)
@@ -22,18 +23,20 @@ search: '| tstats count min(_time) as firstTime max(_time) as lastTime latest(We
   remote_domain AS url_domain OUTPUT isutility, description as signature, comment_reference
   as desc, category | search isutility = True | `remote_access_software_usage_exceptions`
   | `detect_remote_access_software_usage_url_filter`'
-how_to_implement: The detection is based on data that originates from network logs.
-  These logs must be processed using the appropriate Splunk Technology Add-ons that
-  are specific to the network logs. The logs must also be mapped to the `Web` data
-  model. Use the Splunk Common Information Model (CIM) to normalize the field names
-  and speed up the data modeling process. The "exceptions" macro leverages both an
-  Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions"
-  that lets you track and maintain device- based exceptions for this set of detections.
-known_false_positives: It is possible that legitimate remote access software is used
-  within the environment. Ensure that the lookup is reviewed and updated with any
-  additional remote access software that is used within the environment. Known false
-  positives can be added to the remote_access_software_usage_exception.csv lookup
-  to globally suppress these situations across all remote access content
+how_to_implement: The detection is based on data that originates from network 
+  logs. These logs must be processed using the appropriate Splunk Technology 
+  Add-ons that are specific to the network logs. The logs must also be mapped to
+  the `Web` data model. Use the Splunk Common Information Model (CIM) to 
+  normalize the field names and speed up the data modeling process. The 
+  "exceptions" macro leverages both an Assets and Identities lookup, as well as 
+  a KVStore collection called "remote_software_exceptions" that lets you track 
+  and maintain device- based exceptions for this set of detections.
+known_false_positives: It is possible that legitimate remote access software is 
+  used within the environment. Ensure that the lookup is reviewed and updated 
+  with any additional remote access software that is used within the 
+  environment. Known false positives can be added to the 
+  remote_access_software_usage_exception.csv lookup to globally suppress these 
+  situations across all remote access content
 references:
 - https://attack.mitre.org/techniques/T1219/
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
@@ -57,8 +60,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A domain for a known remote access software $url_domain$ was contacted
-    by $src$.
+  message: A domain for a known remote access software $url_domain$ was 
+    contacted by $src$.
   risk_objects:
   - field: src
     type: system
@@ -78,6 +81,7 @@ tags:
   - Ransomware
   - CISA AA24-241A
   - Remote Monitoring and Management Software
+  - Interlock Ransomware
   asset_type: Network
   mitre_attack_id:
   - T1219
@@ -90,6 +94,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_palo.log
     source: screenconnect_palo
     sourcetype: pan:threat

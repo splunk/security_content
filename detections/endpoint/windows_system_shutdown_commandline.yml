@@ -1,7 +1,7 @@
 name: Windows System Shutdown CommandLine
 id: 4fee57b8-d825-4bf3-9ea8-bf405cdb614c
-version: '8'
-date: '2025-05-06'
+version: 9
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -64,11 +64,12 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Sandworm Tools
-  - NjRAT
   - XWorm
-  - DarkCrystal RAT
   - DarkGate Malware
+  - NjRAT
+  - Quasar RAT
+  - Sandworm Tools
+  - DarkCrystal RAT
   - MoonPeak
   asset_type: Endpoint
   mitre_attack_id:

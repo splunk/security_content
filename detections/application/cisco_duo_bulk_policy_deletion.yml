@@ -1,0 +1,69 @@
+name: Cisco Duo Bulk Policy Deletion
+id: 983be012-e408-4cb0-b87f-6756bb5f7047
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Administrator
+type: TTP
+status: production
+description: The following analytic detects instances where a Duo administrator performs a bulk deletion of more than three policies in a single action. 
+  It identifies this behavior by searching Duo activity logs for the policy_bulk_delete action, extracting the names of deleted policies, and counting 
+  them. If the count exceeds three, the event is flagged. This behavior is significant for a Security Operations Center (SOC) because mass deletion of 
+  security policies can indicate malicious activity, such as an attacker or rogue administrator attempting to weaken or disable security controls, 
+  potentially paving the way for further compromise. Detecting and investigating such actions promptly is critical, as the impact of this attack could 
+  include reduced security posture, increased risk of unauthorized access, and potential data breaches. Monitoring for bulk policy deletions helps ensure 
+  that any suspicious or unauthorized changes to security configurations are quickly identified and addressed to protect organizational assets and maintain 
+  compliance.
+search: '`cisco_duo_administrator` action=policy_bulk_delete
+  | rename username as user
+  | spath input=description
+  | rex field=policies max_match=0 "(?<policy_name>[^:,]+):\s+"
+  | eval policy_count=mvcount(policy_name)
+  | where policy_count > 3
+  | stats count min(_time) as firstTime max(_time) as lastTime by action actionlabel description user admin_email policy_count
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_bulk_policy_deletion_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A user $user$ has deleted more than 3 policies
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: []
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_bulk_policy_deletion/cisco_duo_administrator.json
+    source: duo
+    sourcetype: cisco:duo:administrator

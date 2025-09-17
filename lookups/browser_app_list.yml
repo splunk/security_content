@@ -1,6 +1,6 @@
 name: browser_app_list
-date: 2024-12-23
-version: 2
+date: 2025-07-17
+version: 3
 id: a80ccd19-e46f-4a12-9ad7-e653ad646347
 author: Splunk Threat Research Team
 lookup_type: csv

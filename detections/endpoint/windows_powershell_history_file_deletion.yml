@@ -1,62 +1,66 @@
 name: Windows Powershell History File Deletion
 id: f1369394-48e1-4327-bf6d-14377f4b8687
-version: 2
-date: '2025-05-02'
-author: Teoderick Contreras, Splunk 
+version: 3
+date: '2025-06-24'
+author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the usage of PowerShell to delete its command history file, which may indicate an attempt to evade detection by removing evidence of executed commands. PowerShell stores command history in ConsoleHost_history.txt under the user’s profile directory. Adversaries or malicious scripts may delete this file using Remove-Item, del, or similar commands. This detection focuses on file deletion events targeting the history file, correlating them with recent PowerShell activity. While legitimate users may occasionally clear history, frequent or automated deletions should be investigated for potential defense evasion or post-exploitation cleanup activities.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Remove-Item*" ScriptBlockText = "*.HistorySavePath" | fillnull
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText = "*Remove-Item*" ScriptBlockText = "*.HistorySavePath" | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime
-    by dest signature signature_id user_id vendor_product Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
+  by dest signature signature_id user_id vendor_product Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `windows_powershell_history_file_deletion_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: administrators may execute this command that may cause some
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  administrators may execute this command that may cause some
   false positive.
 references:
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: A PowerShell related to deleting commandline history file deletion was executed on $dest$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 20
+    - field: dest
+      type: system
+      score: 20
   threat_objects: []
 tags:
   analytic_story:
-  - Medusa Ransomware
+    - Medusa Ransomware
   asset_type: Endpoint
   mitre_attack_id:
-  - T1059.003
-  - T1070.003
+    - T1059.003
+    - T1070.003
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.003/ConsoleHost_History_deletion/HistorySavePath_powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.003/ConsoleHost_History_deletion/HistorySavePath_powershell.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

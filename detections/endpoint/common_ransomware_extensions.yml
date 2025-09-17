@@ -1,7 +1,7 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 14
-date: '2025-05-02'
+version: 15
+date: '2025-07-29'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: TTP
@@ -79,6 +79,8 @@ tags:
   - Ryuk Ransomware
   - Black Basta Ransomware
   - Termite Ransomware
+  - Interlock Ransomware
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1485

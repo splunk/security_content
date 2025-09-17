@@ -1,18 +1,18 @@
 name: Windows Suspicious Driver Loaded Path
 id: 2ca1c4a1-8342-4750-9363-905650e0c933
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the loading of drivers from suspicious
-  paths, which is a technique often used by malicious software such as coin miners
-  (e.g., xmrig). It leverages Sysmon EventCode 6 to identify drivers loaded from non-standard
-  directories. This activity is significant because legitimate drivers typically reside
-  in specific system directories, and deviations may indicate malicious activity.
-  If confirmed malicious, this could allow an attacker to execute code at the kernel
-  level, potentially leading to privilege escalation, persistence, or further system
-  compromise.
+description: The following analytic detects the loading of drivers from 
+  suspicious paths, which is a technique often used by malicious software such 
+  as coin miners (e.g., xmrig). It leverages Sysmon EventCode 6 to identify 
+  drivers loaded from non-standard directories. This activity is significant 
+  because legitimate drivers typically reside in specific system directories, 
+  and deviations may indicate malicious activity. If confirmed malicious, this 
+  could allow an attacker to execute code at the kernel level, potentially 
+  leading to privilege escalation, persistence, or further system compromise.
 data_source:
 - Sysmon EventID 6
 search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*",
@@ -21,11 +21,11 @@ search: '`sysmon` EventCode=6 ImageLoaded = "*.sys" NOT (ImageLoaded IN("*\\WIND
   as lastTime count by ImageLoaded dest dvc process_hash process_path signature signature_id
   user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_suspicious_driver_loaded_path_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the driver loaded and Signature from your endpoints. If you are using
-  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present. Some applications
-  do load drivers
+how_to_implement: To successfully implement this search, you need to be 
+  ingesting logs with the driver loaded and Signature from your endpoints. If 
+  you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Limited false positives will be present. Some 
+  applications do load drivers
 references:
 - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
 - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
@@ -57,6 +57,7 @@ tags:
   - AgentTesla
   - BlackByte Ransomware
   - Snake Keylogger
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1543.003
@@ -68,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

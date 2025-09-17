@@ -1,0 +1,103 @@
+name: Cisco NVM - Webserver Download From File Sharing Website
+id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
+version: 2
+date: '2025-09-09'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: TTP
+description: |
+  This analytic detects unexpected outbound network connections initiated by known webserver processes such as `httpd.exe`, `nginx.exe`, or `tomcat.exe` to common file sharing or public content hosting services like GitHub, Discord CDN, Transfer.sh, or Pastebin.
+  Webservers are rarely expected to perform outbound downloads, especially to dynamic or anonymous file hosting domains. This behavior is often associated with server compromise,
+  where an attacker uses a reverse shell, webshell, or injected task to fetch malware or tools post-exploitation.
+  The detection leverages Cisco Network Visibility Module flow data, enriched with process context, to identify this highly suspicious behavior.
+data_source:
+  - Cisco Network Visibility Module Flow Data
+search: |
+  `cisco_network_visibility_module_flowdata`
+  process_name IN (
+      "http*.exe", "nginx*.exe", "php*.exe", "php-cgi*.exe", "tomcat*.exe"
+    )
+  dest_hostname IN (
+      "*.githubusercontent.com*", "*anonfiles.com*", "*cdn.discordapp.com*", "*ddns.net*",
+      "*dl.dropboxusercontent.com*", "*ghostbin.co*", "*glitch.me*", "*gofile.io*",
+      "*hastebin.com*", "*mediafire.com*", "*mega.nz*", "*onrender.com*", "*pages.dev*",
+      "*paste.ee*", "*pastebin.*", "*pastetext.net*", "*privatlab.*",
+      "*send.exploit.in*", "*sendspace.com*", "*storage.googleapis.com*",
+      "*storjshare.io*", "*supabase.co*", "*temp.sh*", "*transfer.sh*", "*trycloudflare.com*",
+      "*ufile.io*", "*w3spaces.com*", "*workers.dev*"
+    )
+  | stats count min(_time) as firstTime max(_time) as lastTime
+          values(parent_process_arguments) as parent_process_arguments
+          values(process_arguments) as process_arguments
+          values(parent_process_hash) as parent_process_hash
+          values(process_hash) as process_hash
+          values(module_name_list) as module_name_list
+          values(module_hash_list) as module_hash_list
+          values(dest_port) as dest_port
+          values(aliul) as additional_logged_in_users_list
+          values(dest_hostname) as dest_hostname
+          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table
+    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+    process_integrity_level process_path process_name process_arguments process_hash process_id
+    additional_logged_in_users_list module_name_list module_hash_list
+    src dest_hostname dest dest_port transport firstTime lastTime
+  | `cisco_nvm___webserver_download_from_file_sharing_website_filter`
+how_to_implement: |
+  This search requires Network Visibility Module logs, which includes the flow data sourcetype.
+  This search uses an input macro named `cisco_network_visibility_module_flowdata`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Network Visibility Module logs.
+  Replace the macro definition with configurations for your Splunk environment.
+  The search also uses a post-filter macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Endpoint Security Analytics (CESA) (https://splunkbase.splunk.com/app/4221).
+known_false_positives: |
+  In rare cases, a web server may make outbound connections to pull content for legitimate purposes (e.g., downloading templates or updates from a trusted source).
+  However, communication to anonymous file-sharing or temporary content domains is strongly suspicious.
+  If legitimate use is confirmed, domain- or process-level allowlisting is recommended.
+references:
+  - https://www.cisa.gov/news-events/alerts/2023/04/13/cisa-adds-3-known-exploited-vulnerabilities-kev-catalog
+  - https://www.microsoft.com/en-us/security/blog/2024/01/17/new-ttps-observed-in-mint-sandstorm-campaign-targeting-high-profile-individuals-at-universities-and-research-orgs/
+  - https://research.splunk.com/endpoint/4e8391eb-527e-4e39-9a17-c5bde2f89158/
+rba:
+  message: The host $src$ ran web server process $process_path$ which downloaded content from $dest_hostname$ over port $dest_port$
+  risk_objects:
+    - field: src
+      type: system
+      score: 40
+  threat_objects:
+    - field: process_name
+      type: process_name
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+tags:
+  analytic_story:
+    - Cisco Network Visibility Module Analytics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1105
+    - T1190
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: endpoint
+tests:
+  - name: True Positive Test - Cisco NVM
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata

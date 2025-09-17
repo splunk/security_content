@@ -1,0 +1,67 @@
+name: Cisco Configuration Archive Logging Analysis
+id: f52d5c0b-d45d-4304-b300-a4f6a1130dec
+version: 1
+date: '2025-08-21'
+author: Bhavin Patel, Michael Haag, Splunk
+status: production
+type: Hunting
+description: This analytic provides comprehensive monitoring of configuration changes on Cisco devices by analyzing archive logs. Configuration archive logging captures all changes made to a device's configuration, providing a detailed audit trail that can be used to identify suspicious or malicious activities. This detection is particularly valuable for identifying patterns of malicious configuration changes that might indicate an attacker's presence, such as the creation of backdoor accounts, SNMP community string modifications, and TFTP server configurations for data exfiltration. By analyzing these logs, security teams can gain a holistic view of configuration changes across sessions and users, helping to detect sophisticated attack campaigns like those conducted by threat actors such as Static Tundra.
+data_source:
+  - Cisco IOS Logs
+search:
+  '| tstats `security_content_summariesonly` count values(All_Changes.command) as commands min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  where (
+  (All_Changes.command="*username*privilege 15*") OR
+  (All_Changes.command="*username*password*") OR
+  (All_Changes.command="*USER TABLE MODIFIED*") OR
+  (All_Changes.command="*tftp-server*") OR
+  (All_Changes.command="*snmp-server community*")
+  )
+  by All_Changes.dvc All_Changes.user
+  | `drop_dm_object_name("All_Changes")`
+  | rename dvc as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_configuration_archive_logging_analysis_filter`'
+how_to_implement: To implement this search, you need to be ingesting Cisco IOS logs with the sourcetype "cisco:ios" and have these logs mapped to the Change datamodel. Ensure that your Cisco IOS devices are configured to send logs to your Splunk environment, with configuration archive logging enabled. On Cisco devices, enable archive logging with the commands "archive" and "log config" in global configuration mode. Configure command logging with "archive log config logging enable" and ensure that the appropriate logging levels are set with "logging trap informational". The detection looks for patterns of suspicious configuration changes across sessions, focusing on account creation, SNMP modifications, and TFTP server configurations.
+known_false_positives: Legitimate configuration changes during routine maintenance or device setup may trigger this detection, especially when multiple related changes are made in a single session. Network administrators often make several configuration changes in sequence during maintenance windows. To reduce false positives, consider implementing a baseline of expected administrative activities, including approved administrative usernames and scheduled maintenance windows. The detection includes a threshold (count > 2) to filter out isolated configuration changes, but this threshold may need to be adjusted based on your environment's normal activity patterns.
+references:
+  - https://blog.talosintelligence.com/static-tundra/
+  - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
+  - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/config-mgmt/configuration/15-mt/config-mgmt-15-mt-book/cm-config-logger.html
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+tags:
+  analytic_story:
+    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  asset_type: Network
+  mitre_attack_id:
+    - T1562.001
+    - T1098
+    - T1505.003
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+  cve:
+    - CVE-2018-0171
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+        sourcetype: cisco:ios
+        source: cisco:ios

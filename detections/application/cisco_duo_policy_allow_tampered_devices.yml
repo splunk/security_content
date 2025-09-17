@@ -1,0 +1,68 @@
+name: Cisco Duo Policy Allow Tampered Devices
+id: 6b813efd-8859-406f-b677-719458387fac
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Administrator
+type: TTP
+status: production
+description: |
+  The following analytic detects when a Duo policy is created or updated to allow tampered or rooted devices, such as jailbroken smartphones, 
+  to access protected resources. It identifies this behavior by searching Duo administrator activity logs for policy changes where the allow_rooted_devices 
+  setting is enabled. This is accomplished by filtering for policy creation or update actions and parsing the policy description for the relevant configuration. 
+  Allowing tampered devices poses a significant security risk, as these devices may bypass built-in security controls, run unauthorized software, or be more 
+  susceptible to compromise. For a Security Operations Center (SOC), identifying such policy changes is critical because it may indicate either a 
+  misconfiguration or a malicious attempt to weaken authentication requirements, potentially enabling attackers to access sensitive systems with 
+  compromised devices. The impact of this attack can include unauthorized access, data breaches, and lateral movement within the environment, 
+  making prompt detection and response essential to maintaining organizational security.
+search: '`cisco_duo_administrator` action=policy_update OR action=policy_create
+  | spath input=description
+  | search allow_rooted_devices=true
+  | rename object as user
+  | stats count min(_time) as firstTime max(_time) as lastTime by action actionlabel description user admin_email 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_policy_allow_tampered_devices_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A policy has been created or updated to allow tampered devices by user $user$ with email $admin_email$
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: []
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_policy_allow_tampered_devices/cisco_duo_administrator.json
+    source: duo
+    sourcetype: cisco:duo:administrator

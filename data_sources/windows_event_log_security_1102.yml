@@ -1,7 +1,7 @@
 name: Windows Event Log Security 1102
 id: 8db7b91a-6d7a-40e7-bfac-06f8e901a9cb
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
 description: Logs an event when the audit log is cleared.
 mitre_components:
@@ -9,7 +9,7 @@ mitre_components:
 - Logon Session Metadata
 - File Deletion
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '1102'
 supported_TA:
@@ -84,23 +84,26 @@ fields:
 - vendor
 - vendor_product
 output_fields:
-- action 
-- app 
-- change_type 
-- dest 
-- dvc 
-- name 
-- object_attrs 
-- object_category 
-- signature 
+- action
+- app
+- change_type
+- dest
+- dvc
+- name
+- object_attrs
+- object_category
+- signature
 - signature_id
-- src_user 
-- status 
-- subject 
-- user 
+- src_user
+- status
+- subject
+- user
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Eventlog' Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1102</EventID><Version>0</Version><Level>4</Level><Task>104</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Eventlog' 
+  Guid='{fc65ddd8-d6ef-4962-83d5-6e5cfe9ce148}'/><EventID>1102</EventID><Version>0</Version><Level>4</Level><Task>104</Task><Opcode>0</Opcode><Keywords>0x4020000000000000</Keywords><TimeCreated
   SystemTime='2024-03-05T09:18:29.313328400Z'/><EventRecordID>1826166</EventRecordID><Correlation/><Execution
-  ProcessID='412' ThreadID='1072'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><UserData><LogFileCleared
+  ProcessID='412' 
+  ThreadID='1072'/><Channel>Security</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><UserData><LogFileCleared
   xmlns='http://manifests.microsoft.com/win/2004/08/windows/eventlog'><SubjectUserSid>ATTACKRANGE\Administrator</SubjectUserSid><SubjectUserName>Administrator</SubjectUserName><SubjectDomainName>ATTACKRANGE</SubjectDomainName><SubjectLogonId>0x34a3a27</SubjectLogonId></LogFileCleared></UserData></Event>

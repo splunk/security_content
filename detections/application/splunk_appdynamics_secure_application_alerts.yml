@@ -1,0 +1,88 @@
+name: Splunk AppDynamics Secure Application Alerts
+id: d1a45d84-8dd1-4b31-8854-62b0b1d5da0b
+version: 1
+date: '2025-05-02'
+author: Ryan Long, Bhavin Patel, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic is to leverage alerts from Splunk AppDynamics SecureApp, which identifies and monitors exploit attempts targeting business applications. The primary attack observed involves exploiting vulnerabilities in web applications, including injection attacks (SQL, API abuse), deserialization vulnerabilities, remote code execution attempts, LOG4J and zero day attacks. These attacks are typically aimed at gaining unauthorized access, exfiltrating sensitive data, or disrupting application functionality.
+
+  Splunk AppDynamics SecureApp provides real-time detection of these threats by analyzing application-layer events and correlating attack behavior with known vulnerability signatures. This detection methodology helps the Security Operations Center (SOC) by:
+
+  * Identifying active exploitation attempts in real-time, allowing for quicker incident response.
+  * Categorizing attack severity to prioritize remediation efforts based on risk level.
+  * Providing visibility into attacker tactics, including source IP, attack techniques, and affected applications.
+  * Generating risk-based scoring and contextual alerts to enhance decision-making within SOC workflows.
+  * Helping analysts determine whether an attack was merely an attempt or if it successfully exploited a vulnerability.
+
+  By leveraging this information, SOC teams can proactively mitigate security threats, patch vulnerable applications, and enforce security controls to prevent further exploitation.
+data_source:
+- Splunk AppDynamics Secure Application Alert
+search: |-
+  `appdynamics_security`  blocked=false
+  | rename attackEvents{}.* AS *, detailJson.* AS *, vulnerabilityInfo.* AS *
+  | fields - tag::eventtype, eventtype, host, id, index, linecount, punct, source, sourcetype, splunk_server, tag, SourceType, app clientAddressType, application, tier, "attackEvents{}.* status"  
+  | eval socketOut=mvjoin(socketOut," AND ")  
+  | eval risk_score=kennaScore  
+  | fillnull risk_score value="0"  
+  `secureapp_es_field_mappings`
+  | stats values(*) as * by attackId  
+  | eval severity=case( 
+      risk_score>=100 OR signature="LOG4J", "critical", 
+      risk_score>50 AND risk_score<75, "high", 
+      risk_score=0 AND attackOutcome="EXPLOITED", "high", 
+      risk_score<=50 AND attackOutcome!="OBSERVED", "medium", 
+      risk_score=0 AND attackOutcome="ATTEMPTED", "medium", 
+      risk_score=0, "low", 
+      risk_score=0 AND attackOutcome="OBSERVED", "low" 
+      )  
+  | eval risk_message=case( 
+    (signature="API" OR signature="LOG4J" OR signature="SSRF"), "An attempt to exploit a ".signature." vulnerability was made from a ".src_category." IP address ".src_ip.". The server ".dest_nt_host." hosting application ".app_name." was accessed, and data may have been exfiltrated to ".socketOut.".", 
+    (signature="MALIP" OR signature="SQL"), "A vulnerability is being ".attackOutcome." from a ".src_category." IP address ".src_ip.". The server ".dest_nt_host." hosting application ".app_name." was accessed.", 
+    (signature="DESEREAL"), "The application ".app_name." deserializes untrusted data without sufficiently verifying that the resulting data will be valid. Data which is untrusted cannot be trusted to be well-formed. Malformed data or unexpected data could be used to abuse application logic, deny service, or execute arbitrary code, when deserialized." 
+    ) 
+  | `splunk_appdynamics_secure_application_alerts_filter`
+how_to_implement: In order to properly run this search, you need to ingest alerts data from AppD SecureApp, specifically ingesting data via HEC. You will also need to ensure that the data is going to sourcetype - `appdynamics_security`. You will need to install the Splunk Add-on for AppDynamics.
+known_false_positives: No known false positives for this detection. If the alerts are noisy, consider tuning this detection by using the _filter macro in this search, and/or updating the tool this alert originates from.
+references:
+- https://docs.appdynamics.com/appd/24.x/latest/en/application-security-monitoring/integrate-cisco-secure-application-with-splunk
+drilldown_searches:
+- name: View the detection results for - "$app_name$"
+  search: '%original_detection_search% | search  app_name = "$app_name$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$app_name$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$app_name$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: $risk_message$
+  risk_objects:
+  - field: app_name
+    type: other
+    score: 10
+  threat_objects:
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - Critical Alerts
+  asset_type: Web Application
+  mitre_attack_id: []
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: threat
+  manual_test: We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection. Setting these to manual test since otherwise we fail integration testing. The detection is also failing on unit-testing as some of the fields set in the observables are empty.
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/alerts/cisco_secure_app_alerts.log
+    sourcetype: appdynamics_security
+    source: AppDynamics Security

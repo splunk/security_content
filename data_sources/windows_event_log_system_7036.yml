@@ -1,17 +1,17 @@
 name: Windows Event Log System 7036
 id: a6e9b34f-1507-4fa1-a4ba-684d1b676a34
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs state changes of a Windows service, including details about the
-  service name and its new state (e.g., started or stopped).
+description: Logs state changes of a Windows service, including details about 
+  the service name and its new state (e.g., started or stopped).
 mitre_components:
 - Service Metadata
 - OS API Execution
 - Application Log Content
 - Host Status
 source: XmlWinEventLog:System
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '7036'
 supported_TA:
@@ -77,9 +77,13 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service
-  Control Manager'/><EventID Qualifiers='16384'>7036</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' 
+  EventSourceName='Service Control Manager'/><EventID 
+  Qualifiers='16384'>7036</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
   SystemTime='2024-03-11T01:38:35.892897800Z'/><EventRecordID>168530</EventRecordID><Correlation/><Execution
-  ProcessID='588' ThreadID='2272'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='param1'>sppsvc</Data><Data Name='param2'>stopped</Data><Binary>7300700070007300760063002F0031000000</Binary></EventData></Event>
+  ProcessID='588' 
+  ThreadID='2272'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security/></System><EventData><Data
+  Name='param1'>sppsvc</Data><Data 
+  Name='param2'>stopped</Data><Binary>7300700070007300760063002F0031000000</Binary></EventData></Event>

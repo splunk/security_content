@@ -1,16 +1,16 @@
 name: Windows Event Log Defender 1129
 id: 0572e119-a48a-4c70-bc58-90e453edacd2
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a user overrides a security policy set by an Attack
-  Surface Reduction rule in Microsoft Defender.
+description: Logs an event when a user overrides a security policy set by an 
+  Attack Surface Reduction rule in Microsoft Defender.
 mitre_components:
 - User Account Authentication
 - Security Policy Modification
 - Application Log Content
 source: WinEventLog:Microsoft-Windows-Windows Defender/Operational
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '1129'
 supported_TA:
@@ -64,4 +64,4 @@ fields:
 - timeendpos
 - timestartpos
 - vendor_product
-example_log: |- 
+example_log: |

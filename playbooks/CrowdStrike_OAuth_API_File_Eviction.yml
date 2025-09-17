@@ -1,0 +1,31 @@
+name: CrowdStrike OAuth API File Eviction
+id: 4750935c-0105-416f-aca4-0d7a4207666d
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Response
+description: "Accepts a hostname or device id as well as a file path as input and deletes the file from a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_File_Eviction
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and delete a specific file from the endpoint (using an absolute path) for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "path"
+    - "File Eviction"
+    - "D3-FEV"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device,path]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Response
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-FEV

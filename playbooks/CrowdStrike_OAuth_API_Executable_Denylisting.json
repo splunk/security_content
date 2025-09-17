@@ -1,0 +1,407 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Executable Denylisting",
+    "coa": {
+        "data": {
+            "description": "Accepts a hostname or device id as well as a file hash as input and add an indicator (IOC) for a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_5_to_port_1",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_2_to_port_7",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_8",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_9_to_port_5",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_8_to_port_18",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "18",
+                    "targetPort": "18_in"
+                },
+                {
+                    "id": "port_18_to_port_9",
+                    "sourceNode": "18",
+                    "sourcePort": "18_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                }
+            ],
+            "hash": "7505d40f9e5d889d81302b51e4d2f10f2d245c5f",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -1.9184653865522705e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 1196
+                },
+                "18": {
+                    "data": {
+                        "action": "upload indicator",
+                        "actionType": "contain",
+                        "advanced": {
+                            "customName": "upload indicator",
+                            "customNameId": 0,
+                            "description": "Upload indicator that we want CrowdStrike to prevent and watch for all platforms.",
+                            "join": [],
+                            "note": "Upload indicator that we want CrowdStrike to prevent and watch for all platforms."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "upload_indicator",
+                        "id": "18",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "action": "prevent",
+                            "description": "File Indicator blocked from Splunk SOAR",
+                            "ioc": "filtered-data:input_filter:condition_1:playbook_input:hash",
+                            "platforms": "linux,mac,windows",
+                            "severity": "MEDIUM",
+                            "source": "IOC uploaded via Splunk SOAR"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "ioc"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "action"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "IOC uploaded via Splunk SOAR",
+                                "field": "source"
+                            },
+                            {
+                                "data_type": "string",
+                                "field": "platforms"
+                            }
+                        ],
+                        "tab": "byAction",
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "18",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 680
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input filter",
+                            "customNameId": 0,
+                            "description": "Determines if the provided inputs are present in the dataset.",
+                            "join": [],
+                            "note": "Determines if the provided inputs are present in the dataset."
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:device",
+                                        "value": ""
+                                    },
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:hash",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "customName": "input device and hash present",
+                                "logic": "and"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "input_filter",
+                        "id": "2",
+                        "type": "filter"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "filter",
+                    "warnings": {},
+                    "x": 60,
+                    "y": 148
+                },
+                "5": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "file observables",
+                            "customNameId": 0,
+                            "description": "Format a normalized output for each host",
+                            "join": [],
+                            "note": "Format a normalized output for each host."
+                        },
+                        "functionId": 1,
+                        "functionName": "file_observables",
+                        "id": "5",
+                        "inputParameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "query_device:action_result.data.*.hostname",
+                            "filtered-data:input_filter:condition_1:playbook_input:hash",
+                            "upload_indicator:action_result.status",
+                            "upload_indicator:action_result.message"
+                        ],
+                        "outputVariables": [
+                            "observable_array"
+                        ],
+                        "type": "code"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "code",
+                    "userCode": "    \n    file_observables__observable_array = []\n    \n    for device_id, hostname, file_hash, status, status_message in zip(query_device_result_item_0, query_device_result_item_1, filtered_input_0_hash_values, upload_indicator_result_item_0, upload_indicator_result_message):\n        # Initialize the observable dictionary\n        observable = {\n            \"source\": \"Crowdstrike OAuth API\",\n            \"type\": \"Endpoint\",\n            \"activity_name\": \"File Execution Prevention\",\n            \"uid\": device_id,\n            \"hostname\": hostname,\n            \"status\": status,\n            \"status_detail\": status_message,\n            \"file\": {\n                \"hashes\": [\n                    {\n                        \"algorithm\": \"SHA-256\",\n                        \"algorithm_id\": 3,\n                        \"value\": file_hash \n                    }\n                ]\n            },\n            \"d3fend\": {\n                \"d3f_tactic\": \"Isolate\",\n                \"d3f_technique\": \"D3-EDL\",\n                \"version\": \"1.0.0\"\n            }\n        }   \n\n        # Add the observable to the array\n        file_observables__observable_array.append(observable)\n    \n    # Debug output for verification\n    phantom.debug(file_observables__observable_array)\n    \n",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1020
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format fql",
+                            "customNameId": 0,
+                            "description": "Format the FQL query to get the input device information using its ID or hostname.",
+                            "join": [],
+                            "note": "Format the FQL query to get the input device information using its ID or hostname."
+                        },
+                        "functionId": 2,
+                        "functionName": "format_fql",
+                        "id": "7",
+                        "parameters": [
+                            "playbook_input:device"
+                        ],
+                        "template": "%%\nhostname:['{0}'],device_id:['{0}']\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 320
+                },
+                "8": {
+                    "data": {
+                        "action": "query device",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "query device",
+                            "customNameId": 0,
+                            "description": "Get information about the device to unquarantine using its hostname or device id.",
+                            "join": [],
+                            "note": "Get information about the device to unquarantine using its hostname or device id."
+                        },
+                        "connector": "CrowdStrike OAuth API",
+                        "connectorConfigs": [
+                            "crowdstrike_oauth_api"
+                        ],
+                        "connectorId": "ae971ba5-3117-444a-8ac5-6ce779f3a232",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "query_device",
+                        "id": "8",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "format_fql:formatted_data.*",
+                            "limit": 50
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "numeric",
+                                "default": 50,
+                                "field": "limit"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 504
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "format executable denylisting report",
+                            "customNameId": 0,
+                            "description": "Format a summary table with the information gathered from the playbook.",
+                            "join": [],
+                            "note": "Format a summary table with the information gathered from the playbook."
+                        },
+                        "functionId": 3,
+                        "functionName": "format_executable_denylisting_report",
+                        "id": "9",
+                        "parameters": [
+                            "query_device:action_result.data.*.device_id",
+                            "filtered-data:input_filter:condition_1:playbook_input:hash",
+                            "upload_indicator:action_result.parameter.action",
+                            "upload_indicator:action_result.status",
+                            "upload_indicator:action_result.message"
+                        ],
+                        "template": "Endpoint Files were denylisted by Splunk SOAR. The table below summarizes the information gathered.\n\n| Device ID | Executable Hash | Action | Denylisting Status | Message |\n| --- | --- | --- | --- | --- |\n%%\n| {0} | {1} | {2} | {3} | {4} |\n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 828
+                }
+            },
+            "notes": "Inputs: \ndevice (CrowdStrike Device ID or Hostname)\nhash (SHA-256 File hash)\nInteractions: CrowdStrike OAuth API\nActions: query device,  upload indicator\nOutputs: observables, markdown report",
+            "origin": {
+                "playbook_id": 232,
+                "playbook_name": "CrowdStrike_OAuth_API_File_Eviction",
+                "playbook_repo_id": 2,
+                "playbook_repo_name": "local"
+            }
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name"
+                ],
+                "description": "Device ID or hostname of the host to deny a file on",
+                "name": "device"
+            },
+            {
+                "contains": [
+                    "sha256"
+                ],
+                "description": "Hash of the executable file on the endpoint to deny",
+                "name": "hash"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "file_observables:custom_function:observable_array"
+                ],
+                "deduplicate": false,
+                "description": "An array of observable dictionaries",
+                "metadata": {},
+                "name": "observable"
+            },
+            {
+                "contains": [],
+                "datapaths": [
+                    "format_executable_denylisting_report:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "A report of the devices that were isolated via Splunk SOAR.",
+                "metadata": {},
+                "name": "markdown_report"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3",
+        "schema": "5.0.15",
+        "version": "6.3.1.178"
+    },
+    "create_time": "2025-04-09T12:54:45.902287+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "CrowdStrike_OAuth_API",
+        "host name",
+        "D3-EDL",
+        "file_hash",
+        "response_option"
+    ]
+}

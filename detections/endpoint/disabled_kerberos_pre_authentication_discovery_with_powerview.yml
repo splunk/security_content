@@ -1,18 +1,19 @@
 name: Disabled Kerberos Pre-Authentication Discovery With PowerView
 id: b0b34e2c-90de-11ec-baeb-acde48001122
-version: 9
-date: '2025-05-02'
+version: 11
+date: '2025-07-28'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the `Get-DomainUser`
-  commandlet with the `-PreauthNotRequired` parameter using PowerShell Script Block
-  Logging (EventCode=4104). This command is part of PowerView, a tool used for enumerating
-  Windows Active Directory networks. Identifying domain accounts with Kerberos Pre-Authentication
-  disabled is significant because adversaries can leverage this information to attempt
-  offline password cracking. If confirmed malicious, this activity could lead to unauthorized
-  access to domain accounts, potentially compromising sensitive information and escalating
-  privileges within the network.
+description: The following analytic detects the execution of the 
+  `Get-DomainUser` commandlet with the `-PreauthNotRequired` parameter using 
+  PowerShell Script Block Logging (EventCode=4104). This command is part of 
+  PowerView, a tool used for enumerating Windows Active Directory networks. 
+  Identifying domain accounts with Kerberos Pre-Authentication disabled is 
+  significant because adversaries can leverage this information to attempt 
+  offline password cracking. If confirmed malicious, this activity could lead to
+  unauthorized access to domain accounts, potentially compromising sensitive 
+  information and escalating privileges within the network.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
@@ -20,10 +21,12 @@ search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND S
   signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
   ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use PowerView for troubleshooting
+how_to_implement: To successfully implement this analytic, you will need to 
+  enable PowerShell Script Block Logging on some or all endpoints. Additional 
+  setup here 
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives: Administrators or power users may use PowerView for 
+  troubleshooting
 references:
 - https://attack.mitre.org/techniques/T1558/004/
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
@@ -43,7 +46,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from $dest$
+  message: Disabled Kerberos Pre-Authentication Discovery With PowerView from 
+    $dest$
   risk_objects:
   - field: dest
     type: system
@@ -52,6 +56,7 @@ rba:
 tags:
   analytic_story:
   - Active Directory Kerberos Attacks
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1558.004
@@ -63,6 +68,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/getdomainuser.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

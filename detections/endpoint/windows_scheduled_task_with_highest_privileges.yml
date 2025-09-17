@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Highest Privileges
 id: 2f15e1a4-0fc2-49dd-919e-cbbe60699218
-version: '9'
-date: '2025-05-06'
+version: 10
+date: '2025-07-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -65,12 +65,13 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Compromised Windows Host
-  - CISA AA23-347A
-  - AsyncRAT
-  - Scheduled Tasks
-  - RedLine Stealer
   - XWorm
+  - CISA AA23-347A
+  - Scheduled Tasks
+  - Quasar RAT
+  - AsyncRAT
+  - RedLine Stealer
+  - Compromised Windows Host
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

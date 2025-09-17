@@ -1,11 +1,12 @@
 name: Powershell Using memory As Backing Store
 id: c396a0c4-c9f2-11eb-b4f5-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-06-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious PowerShell script execution
+description:
+  The following analytic detects suspicious PowerShell script execution
   using memory streams as a backing store, identified via EventCode 4104. It leverages
   PowerShell Script Block Logging to capture scripts that create new objects with
   memory streams, often used to decompress and execute payloads in memory. This activity
@@ -14,67 +15,71 @@ description: The following analytic detects suspicious PowerShell script executi
   could allow attackers to execute arbitrary code, maintain persistence, or escalate
   privileges without leaving a trace on the disk.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText
   = *IO.MemoryStream* | fillnull | stats count min(_time) as firstTime max(_time)
   as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `powershell_using_memory_as_backing_store_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: powershell may used this function to store out object into
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  powershell may used this function to store out object into
   memory.
 references:
-- https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/
-- https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-- https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
-- https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
-- https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
-- https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
+  - https://web.archive.org/web/20201112031711/https://www.carbonblack.com/blog/decoding-malicious-powershell-streams/
+  - https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+  - https://blog.palantir.com/tampering-with-windows-event-tracing-background-offense-and-defense-4be7ac62ac63
+  - https://static1.squarespace.com/static/552092d5e4b0661088167e5c/t/59c1814829f18782e24f1fe2/1505853768977/Windows+PowerShell+Logging+Cheat+Sheet+ver+Sept+2017+v2.1.pdf
+  - https://www.crowdstrike.com/blog/investigating-powershell-command-and-script-logging/
+  - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$" and "$user_id$"
+    search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: A PowerShell script contains memorystream command on host $dest$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 40
-  - field: user_id
-    type: user
-    score: 40
+    - field: dest
+      type: system
+      score: 40
+    - field: user_id
+      type: user
+      score: 40
   threat_objects: []
 tags:
   analytic_story:
-  - Data Destruction
-  - MoonPeak
-  - Medusa Ransomware
-  - Hermetic Wiper
-  - IcedID
-  - Malicious PowerShell
+    - Data Destruction
+    - MoonPeak
+    - Medusa Ransomware
+    - Hermetic Wiper
+    - IcedID
+    - Malicious PowerShell
   asset_type: Endpoint
   mitre_attack_id:
-  - T1059.001
+    - T1059.001
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/honeypots/pwsh/windows-powershell-xml.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

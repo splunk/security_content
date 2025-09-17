@@ -1,11 +1,12 @@
 name: Windows PowerShell Export Certificate
 id: 5e38ded4-c964-41f4-8cb6-4a1a53c6929f
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-24'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the PowerShell Cmdlet `export-certificate`
+description:
+  The following analytic detects the use of the PowerShell Cmdlet `export-certificate`
   by leveraging Script Block Logging. This activity is significant as it may indicate
   an adversary attempting to exfiltrate certificates from the local Certificate Store
   on a Windows endpoint. Monitoring this behavior is crucial because stolen certificates
@@ -14,57 +15,62 @@ description: The following analytic detects the use of the PowerShell Cmdlet `ex
   to encrypted communications and sensitive information, posing a severe security
   risk.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*export-certificate*") |
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText IN ("*export-certificate*") |
   rename Computer as dest | fillnull | stats count min(_time) as firstTime max(_time)
   as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `windows_powershell_export_certificate_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: It is possible administrators or scripts may run these commands,
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  It is possible administrators or scripts may run these commands,
   filtering may be required.
 references:
-- https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
-- https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2022-ps
+  - https://dev.to/iamthecarisma/managing-windows-pfx-certificates-through-powershell-3pj
+  - https://learn.microsoft.com/en-us/powershell/module/pki/export-certificate?view=windowsserver2022-ps
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: A PowerShell Cmdlet related to exporting a Certificate was ran on $dest$,
+  message:
+    A PowerShell Cmdlet related to exporting a Certificate was ran on $dest$,
     attempting to export a certificate.
   risk_objects:
-  - field: dest
-    type: system
-    score: 36
+    - field: dest
+      type: system
+      score: 36
   threat_objects: []
 tags:
   analytic_story:
-  - Windows Certificate Services
+    - Windows Certificate Services
   asset_type: Endpoint
   mitre_attack_id:
-  - T1552.004
-  - T1649
+    - T1552.004
+    - T1649
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_certificate.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1649/atomic_red_team/4104_export_certificate.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

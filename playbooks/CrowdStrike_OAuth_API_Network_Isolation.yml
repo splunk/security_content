@@ -1,0 +1,30 @@
+name: CrowdStrike OAuth API Network Isolation
+id: dd7ef79b-2bfd-4844-821d-a9e8db570d0a
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Response
+description: "Accepts a hostname or device id as input and attempts to isolate (quarantine) the device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report from the results. Both reports can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_Network_Isolation
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and contain the corresponding endpoint for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "Network Isolation"
+    - "D3-NAM"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Response
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-NAM

@@ -1,0 +1,31 @@
+name: CrowdStrike OAuth API File Restore
+id: 8afd7816-bab2-41f6-a848-395115c46d1c
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Response
+description: "Accepts a hostname or device id as well as a file path as input and restores the file from the File Vault to a device in Crowdstrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference."
+playbook: CrowdStrike_OAuth_API_File_Restore
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and restore a specific file to the endpoint (based on a previous run of the CrowdStrike_OAuth_API_File_Collection playbook) for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "file name"
+    - "File Restore"
+    - "D3-RF"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device,file]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Response
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-RF

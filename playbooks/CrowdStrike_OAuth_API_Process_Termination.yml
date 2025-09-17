@@ -1,0 +1,31 @@
+name: CrowdStrike OAuth API Process Termination
+id: 4a64ee9b-09fa-42fa-8b43-0de75908ff08
+version: 1
+date: '2025-06-09'
+author: Christian Cloutier, Splunk
+type: Response
+description: "Accepts a hostname or device id as well as one or more process IDs as input and terminates those process(es) on a device in CrowdStrike. We then generate an observable report as well as a Markdown formatted report. Both reports can be customized based on user preference.  Note that the Markdown report can report a status of success even when a particular PID is not actually killed.  Rely on the observable output if you need to reliably check that."
+playbook: CrowdStrike_OAuth_API_Process_Termination
+how_to_implement: This input playbook requires the CrowdStrike OAuth API connector to be configured. It is designed to work with an endpoint hostname or device id and terminate the corresponding process on the endpoint for use in automation playbooks. 
+references: []
+app_list: 
+  - CrowdStrike OAuth API
+tags:
+  platform_tags:
+    - "host name"
+    - "device id"
+    - "pid"
+    - "Process Termination"
+    - "D3-PT"
+    - "CrowdStrike_OAuth_API"
+  playbook_type: Input
+  vpe_type: Modern
+  playbook_fields: [device,pid]
+  product:
+  - Splunk SOAR
+  use_cases:
+  - Response
+  - Malware
+  - Endpoint
+  defend_technique_id: 
+  - D3-PT

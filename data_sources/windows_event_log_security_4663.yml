@@ -1,15 +1,15 @@
 name: Windows Event Log Security 4663
 id: 5d6dca8c-dad9-494f-a321-ef2b0b92fbf4
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a user or process tried to access a file, directory,
-  registry key, or other system object on the computer
+description: Logs an event when a user or process tried to access a file, 
+  directory, registry key, or other system object on the computer
 mitre_components:
 - File Access
 - File Modification
 source: XmlWinEventLog:Security
-sourcetype: xmlwineventlog
+sourcetype: XmlWinEventLog
 separator: EventCode
 separator_value: '4663'
 supported_TA:
@@ -103,12 +103,18 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Microsoft-Windows-Security-Auditing' Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4663</EventID><Version>1</Version><Level>0</Level><Task>12800</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
+example_log: <Event 
+  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Auditing' 
+  Guid='{54849625-5478-4994-A5BA-3E3B0328C30D}'/><EventID>4663</EventID><Version>1</Version><Level>0</Level><Task>12800</Task><Opcode>0</Opcode><Keywords>0x8020000000000000</Keywords><TimeCreated
   SystemTime='2024-02-21T14:08:33.452364300Z'/><EventRecordID>10525869</EventRecordID><Correlation/><Execution
-  ProcessID='4' ThreadID='1212'/><Channel>Security</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data
-  Name='SubjectUserSid'>AR-WIN-2\Administrator</Data><Data Name='SubjectUserName'>Administrator</Data><Data
-  Name='SubjectDomainName'>AR-WIN-2</Data><Data Name='SubjectLogonId'>0x6cfe7</Data><Data
-  Name='ObjectServer'>Security</Data><Data Name='ObjectType'>File</Data><Data Name='ObjectName'>C:\Program
-  Files (x86)\ScreenConnect\App_Extensions\evilapp - Copy (2).aspx</Data><Data Name='HandleId'>0x2220</Data><Data
+  ProcessID='4' 
+  ThreadID='1212'/><Channel>Security</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data
+  Name='SubjectUserSid'>AR-WIN-2\Administrator</Data><Data 
+  Name='SubjectUserName'>Administrator</Data><Data 
+  Name='SubjectDomainName'>AR-WIN-2</Data><Data 
+  Name='SubjectLogonId'>0x6cfe7</Data><Data 
+  Name='ObjectServer'>Security</Data><Data Name='ObjectType'>File</Data><Data 
+  Name='ObjectName'>C:\Program Files (x86)\ScreenConnect\App_Extensions\evilapp 
+  - Copy (2).aspx</Data><Data Name='HandleId'>0x2220</Data><Data 
   Name='AccessList'>%%4424

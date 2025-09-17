@@ -5,5 +5,5 @@
   <collection label="Dashboards">
     <view source="unclassified" match="__"/>
   </collection>
-  <a href="https://docs.splunk.com/Documentation/ESCU">Docs</a>
+  <a href="https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update">Docs</a>
 </nav>

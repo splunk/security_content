@@ -1,7 +1,7 @@
 name: Linux Auditd Preload Hijack Via Preload File
 id: c1b7abca-55cb-4a39-bdfb-e28c1c12745f
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,10 +15,13 @@ description: The following analytic detects suspicious preload hijacking via the
   and security.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/ld.so.preload*" | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by name nametype OGID
-  type dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
-  `linux_auditd_preload_hijack_via_preload_file_filter`'
+search: '`linux_auditd` type=PATH name="/etc/ld.so.preload*"
+  | rename host as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by name nametype ogid type dest 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `linux_auditd_preload_hijack_via_preload_file_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
@@ -72,6 +75,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/linux_auditd_preload_file/linux_auditd_preload_file.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/linux_auditd_preload_file/linux_path_preload.log
     source: auditd
     sourcetype: auditd

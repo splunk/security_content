@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 14
-date: '2025-05-02'
+version: 16
+date: '2025-07-29'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
@@ -60,6 +60,8 @@ tags:
   - DarkCrystal RAT
   - WhisperGate
   - Crypto Stealer
+  - Microsoft SharePoint Vulnerabilities
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1027

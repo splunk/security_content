@@ -1,11 +1,12 @@
 name: GetCurrent User with PowerShell Script Block
 id: 80879283-c30f-44f7-8471-d1381f6d437a
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-06-24'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of the `GetCurrent` method
+description:
+  The following analytic detects the execution of the `GetCurrent` method
   from the WindowsIdentity .NET class using PowerShell Script Block Logging (EventCode=4104).
   This method identifies the current Windows user. The detection leverages PowerShell
   script block logs to identify when this method is called. This activity is significant
@@ -14,34 +15,37 @@ description: The following analytic detects the execution of the `GetCurrent` me
   could allow attackers to map out user accounts and potentially escalate privileges
   or move laterally within the network.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*[System.Security.Principal.WindowsIdentity]*"  ScriptBlockText
+  - Powershell Script Block Logging 4104
+search:
+  '`powershell` EventCode=4104 ScriptBlockText = "*[System.Security.Principal.WindowsIdentity]*"  ScriptBlockText
   = "*GetCurrent()*" | fillnull | stats count min(_time) as firstTime max(_time) as
   lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
   Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `getcurrent_user_with_powershell_script_block_filter`'
-how_to_implement: To successfully implement this analytic, you will need to enable
+how_to_implement:
+  To successfully implement this analytic, you will need to enable
   PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://docs.splunk.com/Documentation/UBA/5.0.4.1/GetDataIn/AddPowerShell#Configure_module_logging_for_PowerShell.
-known_false_positives: Administrators or power users may use this PowerShell commandlet
+  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives:
+  Administrators or power users may use this PowerShell commandlet
   for troubleshooting.
 references:
-- https://attack.mitre.org/techniques/T1033/
-- https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0
+  - https://attack.mitre.org/techniques/T1033/
+  - https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.windowsidentity.getcurrent?view=net-6.0&viewFallbackFrom=net-5.0
 tags:
   analytic_story:
-  - Active Directory Discovery
+    - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
-  - T1033
+    - T1033
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1033/AD_discovery/windows-powershell-xml.log
+        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+        sourcetype: XmlWinEventLog

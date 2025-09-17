@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Connection to File Sharing Domain
 id: f7e5e792-d907-46c1-a58e-4ff974dc462a
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-07-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ description: |
 data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` action=Allow EventType=ConnectionEvent url IN ("*//objects.githubusercontent.com*", "*anonfiles.com*", "*cdn.discordapp.com*", "*ddns.net*", "*dl.dropboxusercontent.com*", "*ghostbin.co*", "*glitch.me*", "*gofile.io*", "*hastebin.com*", "*mediafire.com*", "*mega.nz*", "*onrender.com*", "*pages.dev*", "*paste.ee*", "*pastebin.com*", "*pastebin.pl*", "*pastetext.net*", "*privatlab.com*", "*privatlab.net*", "*send.exploit.in*", "*sendspace.com*", "*storage.googleapis.com*", "*storjshare.io*", "*supabase.co*", "*temp.sh*", "*transfer.sh*", "*trycloudflare.com*", "*ufile.io*", "*w3spaces.com*", "*workers.dev*")
+  `cisco_secure_firewall` action IN ("Trust", "Allow", "allowed") EventType=ConnectionEvent url IN ("*//objects.githubusercontent.com*", "*anonfiles.com*", "*cdn.discordapp.com*", "*ddns.net*", "*dl.dropboxusercontent.com*", "*ghostbin.co*", "*glitch.me*", "*gofile.io*", "*hastebin.com*", "*mediafire.com*", "*mega.nz*", "*onrender.com*", "*pages.dev*", "*paste.ee*", "*pastebin.com*", "*pastebin.pl*", "*pastetext.net*", "*privatlab.com*", "*privatlab.net*", "*send.exploit.in*", "*sendspace.com*", "*storage.googleapis.com*", "*storjshare.io*", "*supabase.co*", "*temp.sh*", "*transfer.sh*", "*trycloudflare.com*", "*ufile.io*", "*w3spaces.com*", "*workers.dev*")
   | stats count min(_time) as firstTime max(_time) as lastTime 
     Values(src_port) as src_port
     Values(dest) as dest

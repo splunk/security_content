@@ -1,7 +1,7 @@
 name: Linux Auditd Disable Or Modify System Firewall
 id: 07052556-d4b5-4bae-89aa-cbdc1bb11250
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,8 +15,8 @@ description: The following analytic detects the suspicious disable or modify sys
 data_source:
 - Linux Auditd Service Stop
 search: '`linux_auditd` type=SERVICE_STOP unit IN ("firewalld", "ufw") | rename host
-  as dest | stats count min(_time) as firstTime max(_time) as lastTime by type pid
-  UID comm exe unit dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
+  as dest | stats count min(_time) as firstTime max(_time) as lastTime by type pid comm exe unit dest 
+  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   `linux_auditd_disable_or_modify_system_firewall_filter`'
 how_to_implement: To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line

@@ -1,0 +1,18 @@
+name: Medusa Rootkit
+id: 9b63bd61-16e9-4adf-b40c-652706dfcd72
+version: 1
+status: production
+date: '2025-08-05'
+author: Raven Tait, Splunk
+description: Medusa is a powerful, stealthy, versatile, and, modular rootkit designed to give attackers complete control over Linux systems. Medusa is compiled and ready to be executed as a small ELF executable file, which no means extra building or configuration requirements! Medusa is larger than a few hundred kilobytes in size. Once installed, the rootkit sets up a dynamic linker that modifies the way applications are loaded and executed on the system. At this point the Medusa hooks a plethora of API system calls, library functions and signal handlers to achieve imbreakable and uninterceptable persistence.
+narrative: The open-source Medusa rootkit has been used China-Nexus threat actors since 2023. This malware is designed to infiltrate targeted systems, establish persistence, and provide hidden ssh backdoors, enabling remote attackers to execute malicious activities. Medusa often evades detection by leveraging hooking of a plethora of system API calls, making it challenging for traditional security measures to identify its presence.
+references: 
+- https://cloud.google.com/blog/topics/threat-intelligence/uncovering-unc3886-espionage-operations
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,65 +1,65 @@
 name: GitHub Organizations Delete Branch Ruleset
 id: 8e454f64-4bd6-45e6-8a94-1b482593d721
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-06-24'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when branch rulesets are deleted in GitHub Organizations. 
-  The detection monitors GitHub Organizations audit logs for branch ruleset deletion events by tracking actor details, repository information, 
-  and associated metadata. For a SOC, identifying deleted branch rulesets is critical as it could indicate attempts to bypass code review requirements 
-  and security controls. Branch rulesets are essential security controls that enforce code review, prevent force pushes, and maintain code quality. 
-  Disabling these protections could allow malicious actors to directly push unauthorized code changes or backdoors to protected branches. 
-  The impact of disabled branch protection includes potential code tampering, bypass of security reviews, introduction of vulnerabilities or malicious code, 
-  and compromise of software supply chain integrity. This activity could be part of a larger attack chain where an adversary first disables security controls 
+description:
+  The following analytic detects when branch rulesets are deleted in GitHub Organizations.
+  The detection monitors GitHub Organizations audit logs for branch ruleset deletion events by tracking actor details, repository information,
+  and associated metadata. For a SOC, identifying deleted branch rulesets is critical as it could indicate attempts to bypass code review requirements
+  and security controls. Branch rulesets are essential security controls that enforce code review, prevent force pushes, and maintain code quality.
+  Disabling these protections could allow malicious actors to directly push unauthorized code changes or backdoors to protected branches.
+  The impact of disabled branch protection includes potential code tampering, bypass of security reviews, introduction of vulnerabilities or malicious code,
+  and compromise of software supply chain integrity. This activity could be part of a larger attack chain where an adversary first disables security controls
   before attempting to inject malicious code.
 data_source:
-- GitHub Organizations Audit Logs
-search: '`github_organizations` vendor_action=repository_ruleset.destroy 
+  - GitHub Organizations Audit Logs
+search: '`github_organizations` vendor_action=repository_ruleset.destroy
   | fillnull
   | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, vendor_action, ruleset_name
   | eval user=actor
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `github_organizations_delete_branch_ruleset_filter`'
-how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs .
+how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
 known_false_positives: unknown
 references:
-- https://docs.splunk.com/Documentation/AddOns/released/GitHub/Configureinputs
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+  - https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/
+  - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search  user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: $user$ deleted a branch ruleset in repo $repo$
   risk_objects:
-  - field: user
-    type: user
-    score: 25
+    - field: user
+      type: user
+      score: 25
   threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    - field: user_agent
+      type: http_user_agent
 tags:
   analytic_story:
-  - GitHub Malicious Activity
+    - GitHub Malicious Activity
   asset_type: GitHub
   mitre_attack_id:
-  - T1562.001
-  - T1195
+    - T1562.001
+    - T1195
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/github_delete_branch_ruleset/github.json
-    source: github
-    sourcetype: github:cloud:audit
-
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/github_delete_branch_ruleset/github.json
+        source: github
+        sourcetype: github:cloud:audit

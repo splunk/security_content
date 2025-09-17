@@ -1,10 +1,10 @@
 name: China-Nexus Threat Activity
 id: ac8b8e7c-ed27-428b-871f-ceb9400c733a
-version: 2
-date: '2025-02-24'
+version: 3
+date: '2025-08-18'
 author: Teoderick Contreras, Splunk
 status: production
-description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Nexus, Chinese state-nexus adversaries known for its stealth and strategic targeting of high-value sectors. Monitor for indicators such as spear-phishing campaigns, exploitation of zero-day vulnerabilities, and unauthorized lateral movement within your network. Investigate anomalous data exfiltration, encrypted communications, and behaviors aligning with their known tactics, techniques, and procedures (TTPs). Combining threat intelligence with real-time monitoring helps identify and respond to Nexus APT activity, minimizing potential damage and data loss.
+description: Leverage searches that allow you to detect and investigate unusual activities that might relate to Nexus, Chinese state-nexus adversaries known for its stealth and strategic targeting of high-value sectors. Monitor for indicators such as spear-phishing campaigns, exploitation of zero-day vulnerabilities, and unauthorized lateral movement within your network. Investigate anomalous data exfiltration, encrypted communications, and behaviors aligning with their known tactics, techniques, and procedures (TTPs). Combining threat intelligence with real-time monitoring helps identify and respond to Nexus APT activity, minimizing potential damage and data loss. This includes TTPs for groups such as APT31, APT40, and more. Also covers UNC groups such as UNC3886.
 narrative: As described by Crowdstrike, Chinese state-nexus threat group or adversary are known to target the telecommunications and technology sectors in multiple countries, including the US, to maintain sustained access as well as conduct espionage. Compromised entities in either sector represent potential supply chain vectors of concern to Splunk, although telecommunications entities are a more pervasive and acute concern in this regard. These actors are also known to broadly target unpatched routers, switches and other edge devices across various sectors. Given these threats, Splunk Threat Intelligence (TI) undertook a detailed investigation into China-nexus tactics and techniques that could be used in attempts to compromise Splunk. This report is the result of that investigation, detailing noteworthy behaviors and tools employed by China-nexus targeted intrusion actors.
 references:
 - https://news.sophos.com/en-us/2024/10/31/pacific-rim-neutralizing-china-based-threat/
@@ -12,6 +12,9 @@ references:
 - https://www.judiciary.senate.gov/imo/media/doc/2024-11-19_pm_-_testimony_-_meyers.pdf
 - https://go.crowdstrike.com/rs/281-OBQ-266/images/GlobalThreatReport2024.pdf
 - https://www.crowdstrike.com/adversaries/envoy-panda/
+- https://www.trendmicro.com/en_us/research/25/g/revisiting-unc3886-tactics-to-defend-against-present-risk.html
+- https://cloud.google.com/blog/topics/threat-intelligence/apt40-examining-a-china-nexus-espionage-actor
+- https://cloud.google.com/blog/topics/threat-intelligence/uncovering-unc3886-espionage-operations
 tags:
   category:
   - Malware

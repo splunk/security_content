@@ -1,7 +1,7 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-07-20'
 author: Steven Dick
 status: production
 type: TTP
@@ -90,6 +90,7 @@ tags:
   - WS FTP Server Critical Vulnerabilities
   - Compromised Windows Host
   - Citrix ShareFile RCE CVE-2023-24489
+  - Microsoft SharePoint Vulnerabilities
   asset_type: Endpoint
   mitre_attack_id:
   - T1505.003

@@ -1,0 +1,72 @@
+name: Cisco Duo Admin Login Unusual Country
+id: 1bf631d1-44a0-472b-98c4-2975b8b281df
+version: 1
+date: '2025-07-10'
+author: Patrick Bareiss, Splunk
+data_source:
+- Cisco Duo Activity
+type: TTP
+status: production
+description: The following analytic detects instances where a Duo admin login originates from a country outside of the United States, 
+  which may indicate suspicious or unauthorized access attempts. Please adjust as needed to your environment. It works by analyzing Duo activity logs 
+  for admin login actions and filtering out events where the access device's country is not within the expected region. By correlating user, device, 
+  browser, and location details, the analytic highlights anomalies in geographic login patterns. This behavior is critical for a SOC to identify because 
+  admin accounts have elevated privileges, and access from unusual countries can be a strong indicator of credential compromise, account takeover, 
+  or targeted attacks. Early detection of such activity enables rapid investigation and response, reducing the risk of unauthorized changes, data breaches, 
+  or further lateral movement within the environment. The impact of this attack can be severe, potentially allowing attackers to bypass security controls, 
+  alter configurations, or exfiltrate sensitive information.
+search: '`cisco_duo_activity` "action.name"=admin_login NOT access_device.location.country IN ("United States")
+  | rename actor.name as user access_device.ip.address as src_ip
+  | stats count min(_time) as firstTime max(_time) as lastTime by access_device.browser 
+  access_device.browser_version src_ip access_device.location.city 
+  access_device.location.country access_device.location.state access_device.os access_device.os_version 
+  actor.details actor.type outcome.result user
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `cisco_duo_admin_login_unusual_country_filter`'
+how_to_implement: The analytic leverages Duo activity logs to be ingested using the
+  Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
+known_false_positives: unknown
+references:
+- https://splunkbase.splunk.com/app/7404
+drilldown_searches:
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  user = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A user $user$ has logged in using an unusual country using browser $access_device.browser$ from $src_ip$.
+  risk_objects:
+  - field: user
+    type: user
+    score: 48
+  threat_objects: 
+  - field: access_device.browser
+    type: http_user_agent
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - Cisco Duo Suspicious Activity
+  asset_type: Identity
+  mitre_attack_id:
+  - T1556
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: identity
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556/cisco_duo_unusual_admin_login/cisco_duo_activity.json
+    source: duo
+    sourcetype: cisco:duo:activity

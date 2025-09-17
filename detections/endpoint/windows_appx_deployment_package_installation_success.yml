@@ -1,0 +1,61 @@
+name: Windows AppX Deployment Package Installation Success
+id: 1234abcd-5678-90ef-1234-56789abcdef0
+version: 1
+date: '2025-08-05'
+author: Michael Haag, Splunk
+status: production
+type: Anomaly
+description: This analytic detects successful MSIX/AppX package installations on Windows systems by monitoring EventID 854 in the Microsoft-Windows-AppXDeployment-Server/Operational log. This event is generated when an MSIX/AppX package has been successfully installed on a system. While most package installations are legitimate, monitoring these events can help identify unauthorized or suspicious package installations, especially when correlated with other events such as unsigned package installations (EventID 603 with Flags=8388608) or full trust package installations (EventID 400 with HasFullTrust=true).
+data_source:
+- Windows Event Log AppXDeployment-Server 854
+search: '`wineventlog_appxdeploymentserver` EventCode=854
+  | stats count min(_time) as firstTime max(_time) as lastTime values(Path) as PackagePath by dvc EventCode user_id | rename dvc as dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_appx_deployment_package_installation_success_filter`'
+how_to_implement: To implement this detection, you need to be collecting Windows Event Logs from your endpoints, specifically the Microsoft-Windows-AppXDeploymentServer/Operational log. Ensure that your Splunk deployment is ingesting these logs with the source type "XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational". This detection works best when used in conjunction with other MSIX package abuse detections such as unsigned package installations (EventID 603) and full trust package installations (EventID 400).
+known_false_positives: Legitimate MSIX/AppX package installations will trigger this detection. This is expected behavior and not necessarily indicative of malicious activity. This analytic is designed to provide visibility into package installations and should be used as part of a broader detection strategy. Consider correlating these events with other suspicious indicators such as unsigned packages or packages from unusual sources.
+references:
+- https://learn.microsoft.com/en-us/windows/win32/appxpkg/troubleshooting
+- https://www.appdeploynews.com/packaging-types/msix/troubleshooting-an-msix-package/
+- https://www.advancedinstaller.com/msix-installation-or-launching-errors-and-fixes.html
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View related unsigned package installations for - "$dest$"
+  search: 'source="XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational" EventCode=603 Flags="8388608" host="$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View related full trust package installations for - "$dest$"
+  search: 'source="XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational" EventCode=400 HasFullTrust="true" host="$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A MSIX/AppX package $PackagePath$ was successfully installed on $dest$ by user $user_id$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 10
+  threat_objects:
+  - field: PackagePath
+    type: file_path
+tags:
+  analytic_story:
+  - MSIX Package Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1204.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/appx/windows_appxdeploymentserver.log
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-AppXDeploymentServer/Operational

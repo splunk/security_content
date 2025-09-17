@@ -1,7 +1,7 @@
 name: Windows Unsigned DLL Side-Loading In Same Process Path
 id: 3cf85c02-f9d6-4186-bf3c-e70ee99fbc7f
-version: 13
-date: '2025-05-26'
+version: 14
+date: '2025-07-29'
 author: Teoderick Contreras, Splunk
 type: TTP
 status: production
@@ -63,6 +63,7 @@ tags:
   - Salt Typhoon
   - XWorm
   - SnappyBee
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.001

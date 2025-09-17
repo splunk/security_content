@@ -1,37 +1,39 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 16
-date: '2025-05-06'
+version: 18
+date: '2025-07-28'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the creation of executables or scripts
-  in suspicious file paths on Windows systems. It leverages the Endpoint.Filesystem
-  data model to detect files with specific extensions (e.g., .exe, .dll, .ps1) created
-  in uncommon directories (e.g., \windows\fonts\, \users\public\). This activity is
-  significant as adversaries often use these paths to evade detection and maintain
-  persistence. If confirmed malicious, this behavior could allow attackers to execute
-  unauthorized code, escalate privileges, or persist within the environment, posing
-  a significant security threat.
+description: The following analytic identifies the creation of executables or 
+  scripts in suspicious file paths on Windows systems. It leverages the 
+  Endpoint.Filesystem data model to detect files with specific extensions (e.g.,
+  .exe, .dll, .ps1) created in uncommon directories (e.g., \windows\fonts\, 
+  \users\public\). This activity is significant as adversaries often use these 
+  paths to evade detection and maintain persistence. If confirmed malicious, 
+  this behavior could allow attackers to execute unauthorized code, escalate 
+  privileges, or persist within the environment, posing a significant security 
+  threat.
 data_source:
 - Sysmon EventID 11
 search: '| tstats `security_content_summariesonly` values(Filesystem.file_path) as
   file_path count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem
   where Filesystem.file_name IN ("*.exe", "*.dll", "*.sys", "*.com", "*.vbs", "*.vbe",
-  "*.js", "*.ps1", "*.bat", "*.cmd", "*.pif", "*.msc") AND Filesystem.file_path IN ("*\\windows\\fonts\\*",
-  "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*", "*\\Users\\Administrator\\Music\\*",
-  "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*",
-  "*\\Windows\\repair\\*", "*\\PerfLogs\\*")
+  "*.js", "*.ps1", "*.bat", "*.cmd", "*.pif", "*.msc") AND Filesystem.file_path IN
+  ("*\\windows\\fonts\\*", "*\\windows\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*",
+  "*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*",
+  "*Recycle.bin*", "*\\Windows\\Media\\*", "*\\Windows\\repair\\*", "*\\PerfLogs\\*")
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
   Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `executables_or_script_creation_in_suspicious_path_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the Filesystem responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
-known_false_positives: Administrators may allow creation of script or exe in the paths
-  specified. Filter as needed.
+how_to_implement: To successfully implement this search you need to be ingesting
+  information on process that include the name of the Filesystem responsible for
+  the changes from your endpoints into the `Endpoint` datamodel in the 
+  `Filesystem` node.
+known_false_positives: Administrators may allow creation of script or exe in the
+  paths specified. Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
@@ -52,8 +54,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Suspicious executable or scripts with file name $file_name$, $file_path$
-    and process_id $process_id$ executed in suspicious file path in Windows by $user$
+  message: Suspicious executable or scripts with file name $file_name$, 
+    $file_path$ and process_id $process_id$ executed in suspicious file path in 
+    Windows by $user$
   risk_objects:
   - field: user
     type: user
@@ -63,50 +66,54 @@ rba:
     type: file_name
 tags:
   analytic_story:
-  - AcidPour
-  - AgentTesla
-  - Amadey
-  - AsyncRAT
-  - Azorult
-  - BlackByte Ransomware
-  - Brute Ratel C4
-  - Cactus Ransomware
-  - Chaos Ransomware
-  - China-Nexus Threat Activity
-  - Crypto Stealer
-  - CISA AA23-347A
-  - DarkCrystal RAT
-  - DarkGate Malware
-  - Data Destruction
-  - Derusbi
-  - Double Zero Destructor
-  - Graceful Wipe Out Attack
-  - Handala Wiper
-  - Hermetic Wiper
-  - IcedID
-  - Industroyer2
-  - LockBit Ransomware
-  - Meduza Stealer
-  - MoonPeak
-  - NjRAT
   - PlugX
-  - Qakbot
-  - RedLine Stealer
-  - Remcos
-  - Rhysida Ransomware
-  - Salt Typhoon
-  - SnappyBee
-  - Snake Keylogger
-  - Swift Slicer
-  - SystemBC
-  - Trickbot
-  - ValleyRAT
-  - Volt Typhoon
   - Warzone RAT
+  - Swift Slicer
+  - Data Destruction
+  - AgentTesla
+  - LockBit Ransomware
+  - Volt Typhoon
+  - Brute Ratel C4
+  - Industroyer2
   - WhisperGate
-  - WinDealer RAT
+  - DarkGate Malware
+  - Chaos Ransomware
+  - ValleyRAT
   - XMRig
+  - Hermetic Wiper
+  - Remcos
+  - Quasar RAT
+  - Rhysida Ransomware
+  - DarkCrystal RAT
+  - Qakbot
+  - Snake Keylogger
+  - China-Nexus Threat Activity
+  - IcedID
+  - CISA AA23-347A
+  - Azorult
+  - Handala Wiper
+  - Crypto Stealer
+  - Salt Typhoon
   - Earth Alux
+  - Double Zero Destructor
+  - Trickbot
+  - Cactus Ransomware
+  - BlackByte Ransomware
+  - SystemBC
+  - AcidPour
+  - NjRAT
+  - Graceful Wipe Out Attack
+  - Amadey
+  - Derusbi
+  - AsyncRAT
+  - RedLine Stealer
+  - SnappyBee
+  - Meduza Stealer
+  - WinDealer RAT
+  - MoonPeak
+  - Interlock Ransomware
+  - Interlock Rat
+  - NailaoLocker Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1036
@@ -118,6 +125,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/executables_suspicious_file_path/exec_susp_path2.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/executables_suspicious_file_path/exec_susp_path2.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

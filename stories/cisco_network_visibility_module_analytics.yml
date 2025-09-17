@@ -1,0 +1,27 @@
+name: Cisco Network Visibility Module Analytics
+id: cf276930-de9f-484c-9d92-f358534890a1
+version: 1
+date: '2025-07-01'
+author: Nasreddine Bencherchali, Splunk
+status: production
+description: |
+  This analytic story provides a suite of detections built to analyze endpoint-based network telemetry captured by the Cisco Network Visibility Module (NVM).
+  It focuses on identifying suspicious and potentially malicious activity such as process injection, unauthorized downloads, network connections by non-network-aware processes, and potential command-and-control (C2) behavior, etc.
+  Leveraging the rich metadata from NVM, including process names, command-line arguments, user context, and module information, these detections provide high-fidelity insights into host behavior and outbound network activity.
+narrative: |
+  Cisco Network Visibility Module (NVM), part of Cisco Secure Client (formerly AnyConnect), collects granular telemetry directly from endpoints to provide enhanced visibility into process-level network activity.
+  This includes detailed fields such as process names, parent-child relationships, command-line arguments, loaded modules, user accounts, and DNS destinations.
+  This analytic story leverages that context to detect threats across various tactics and techniques including Command and Control, Execution, Defense Evasion, and Credential Access.
+  It is particularly useful for detecting living-off-the-land (LOLBins) behavior, abuse of legitimate system processes, or exfiltration attempts from otherwise trusted binaries.
+references:
+- https://www.cisco.com/c/en/us/td/docs/security/vpn_client/anyconnect/anyconnect42/administration/guide/b_AnyConnect_Administrator_Guide_4-2/b_AnyConnect_Administrator_Guide_4-2_chapter_01100.pdf
+- https://www.cisco.com/c/en/us/td/docs/security/vpn_client/anyconnect/Cisco-Secure-Client-5/admin/guide/nvm-collector-5-1-1-admin-guide.html
+- https://community.cisco.com/t5/security-knowledge-base/cisco-network-visibility-nvm-collector/ta-p/4309825
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

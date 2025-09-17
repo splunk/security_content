@@ -1,7 +1,7 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 10
-date: '2025-05-02'
+version: 12
+date: '2025-07-29'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
@@ -80,6 +80,7 @@ tags:
   - Living Off The Land
   - Flax Typhoon
   - Gozi Malware
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
   - T1197
@@ -90,12 +91,12 @@ tags:
   - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
+- name: True Positive Test - Sysmon
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
-- name: True Positive Test
+- name: True Positive Test - CrowdStrike
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1197/atomic_red_team/crowdstrike_falcon.log
     source: crowdstrike

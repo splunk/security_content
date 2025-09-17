@@ -1,0 +1,86 @@
+dest_port,comment,confidence,category
+801,manjusaka (cobalstrike chinese clone) default panel ui,medium,malware
+1005,Nitedrem trojan Downloader + Pest + Theef,medium,malware
+1015,Doly trojan,high,malware
+1042,Bla trojan,high,malware
+1075,Backdoor.Win32.LanaFTP.k listening on this port,high,malware
+1080,Was seen being used by multiple malware and is also the default port of the pentest utility ligolo,medium,C2
+1170,Psyber Stream Server - PSS,high,malware
+1243,SubSeven backdoor,high,malware
+1337,Was seen being used by multiple malware and red team or pentest utilities such as empire; crackmapexec; icebreaker; KittyStager; Cyberghost VPN; gophish; gtunnel. The port is also associated with various other types of exploits or shellcode,high,exploitation
+1981,Shockrave malware,high,malware
+2001,Millennium Worm and multiple malwares,medium,malware
+2773,SubSeven trojan and some backup services,medium,malware
+2989,Multiple RAT instances were seen using this port,high,malware
+3000,ptunnel-ng + beefproject http panel default port,medium,C2
+3024,WinCrash trojan,high,malware
+3030,nuages C2 default port and other malwares,high,C2
+3129,Master's Paradise trojan,high,malware
+3200,manjusaka (cobalstrike chinese clone) default panel ui,medium,C2
+3333,gophish + Xmrig coinminer,high,Cryptominer
+3410,Optix Pro trojan,high,malware
+3790,often used for metasploit but also legit service like quickbooksrds,high,C2
+4000,ptunnel-ng + multiple malwares and RAT but also some legit usages,medium,C2
+4041,Masters Paradise trojan,high,malware
+4051,AlanFramework C2 default port but also used by cisco P2P,high,C2
+4092,WinCrash trojan,high,malware
+4433,AlanFramework C2 default port and Acidoor backdoor,high,C2
+4444,Default listener port for Metasploit exploits and RemotePC transfer port and gophish,high,C2
+4567,PrimusC2 + File Nail trojan and legit usage for verizon,medium,C2
+4590,ICQTrojan,high,malware
+4747,RPC-Backdoor - RPC over TCP/IP with the hard-coded port number 4747,medium,Persistence
+5000,hardhatC2 and HRShell default port + other malwares and legit usages,medium,C2
+5001,FudgeC2 + spiderfoot and other malwares but also used by synology NAS and yahoo messenger,medium,C2
+5096,hardhatC2 default port,high,C2
+5321,Firehotcker trojan,high,malware
+5400,BladeRunner and Back Construction trojans but also some games,medium,malware
+5556,AlanFramework C2 default port and H0rtiga trojan,high,C2
+6666,kali default port - IRC botnets and RAT - CVE-2024-38112/Void Banshee,high,exploitation
+6667,IRC channel used by botnet and multiple malwares but also legit usages,medium,malware
+6722,default port for socks reverse proxy of XiebroC2,high,C2
+7096,hardhatC2 default port and other legit usages,high,C2
+7444,mythic C2 default port and legit vmware port,medium,C2
+7474,default port for bloodhound neo4j,medium,exploitation
+7681,Supershell C2 default port,high,C2
+7682,Supershell C2 default port,high,C2
+7687,Neo4j default port,medium,exploitation
+7712,cobaltstrike samples wih lumma stealer used this port,medium,C2
+7844,cloudfare tunnel,high,C2
+8022,MaccaroniC2 default port,high ,C2
+8848,DcRat,medium,malware
+8888,POSHC2 default port but also legit usages,medium,exploitation
+8936,MoonPeak malware,medium,C2
+8999,PrimusC2,medium,malware
+9631,hardhatC2 default port and other legit usages,high,C2
+9936,MoonPeak malware,medium,C2
+9966,MoonPeak malware,medium,C2
+9988,Rbot-GR trojan and other legit usages,medium,malware
+10002,multiple malwares,medium,malware
+10426,Backdoor.Win32.Agent.cu,medium,malware
+12122,Backdoor.Hellza server listening on this port,medium,malware
+12345,netbus trojan and other malwares,high,malware
+12346,netbus trojan and other malwares,high,malware
+13333,Xmrig coinminer,high,Cryptominer
+15555,Xmrig coinminer,high,Cryptominer
+17300,Kuang2 trojan,high,malware
+19999,Xmrig coinminer,high,Cryptominer
+20034,netbus trojan and other malwares,high,malware
+21802,HardhatC2 default port,high,C2
+27374,SubSeven backdoor and multiple other malwares,high,malware
+30662,o365-attack-toolkit default port,high,exploitation
+31335,Trinoo distributed attack tool port,high,exploitation
+31337,Associated with various types of exploits; shellcode and command and control servers such as SliverC2. Also serves as ThunderShell default port; and was seen used by Back Orifice backdoor.,high,C2
+31338,Was seen being used by the Back Orifice backdoor and other malwares,high,malware
+31785,Hack’a’Tack RAT,high,malware
+31789,Hack’a’Tack RAT,high,malware
+35000,evilqr,medium,exploitation
+48101,W32.Blastclan.Worm,high,malware
+50050,Sharpc2 and CobaltStrike default port,high,C2
+50501,TEMP.Veles used port-protocol mismatches on ports such as 443 - 4444 - 8531 and 50501 during C2,high,C2
+52935,C3 webcontroller default port,medium,C2
+53531,dnscat2 default port,high,C2
+54320,Back Orifice backdoor,medium,malware
+55553,Metasploit RPC daemon default port; also used by Armitage team server,high,exploitation
+57230,Covenant C2 default port,high,C2
+61466,Backdoor:Win32/Thething.F and telecommando trojan,medium,malware
+65000,Devil RAT,medium,malware
