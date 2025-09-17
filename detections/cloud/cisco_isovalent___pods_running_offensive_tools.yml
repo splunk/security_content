@@ -9,11 +9,12 @@ data_source:
 status: production
 description: The following analytic detects execution of known offensive tooling from within Kubernetes pods, including network scanners and post-exploitation frameworks (e.g., nmap, masscan, zmap, impacket-*, hashcat, john, SharpHound, kube-hunter, peirates, and mimikatz.exe). Adversaries commonly introduce these tools into compromised workloads to conduct discovery, lateral movement, credential access, or cluster reconnaissance. This behavior may indicate a compromised container or supply-chain abuse. Extra scrutiny is warranted for namespaces that do not typically run diagnostic scanners and for pods that suddenly begin invoking these binaries outside of normal maintenance activity.
 search: |
-  `cisco_isovalent_process_exec` process_exec.process.pod.name!="" process_name IN ("*nmap", "*masscan", "*zmap", "*impacket-", "*hashcat", "*SharpHound", "*kube-hunter", "*peirates", "*mimikatz.exe")
-  | stats count min(_time) as firstTime max(_time) as lastTime values(process_exec.process.arguments) as process
-      by process_exec.process.pod.name parent_process_name process_name cluster_name process_exec.process.pod.container.name
-  | rename process_exec.process.pod.name as pod_name 
-          process_exec.process.pod.container.name as container_name
+  `cisco_isovalent_process_exec`  process_name IN ("nmap","masscan","zmap","impacket-","hashcat","SharpHound","kube-hunter","peirates")
+  | stats count 
+          min(_time) as firstTime 
+          max(_time) as lastTime 
+          values(process) as process
+      by cluster_name container_id pod_name pod_namespace pod_image_name parent_process_name process_name process_exec process_id node_name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___pods_running_offensive_tools_filter`
