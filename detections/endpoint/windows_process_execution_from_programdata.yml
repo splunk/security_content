@@ -1,6 +1,6 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: '4'
+version: '5'
 date: '2025-09-16'
 author: Teoderick Contreras, Splunk
 status: production
