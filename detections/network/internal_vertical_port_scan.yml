@@ -1,7 +1,7 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 7
-date: '2025-08-18'
+version: 8
+date: '2025-09-18'
 author: Dean Luxton,Splunk, troyheady2, Github Community
 status: production 
 type: TTP
