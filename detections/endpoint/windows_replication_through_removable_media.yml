@@ -1,7 +1,7 @@
 name: Windows Replication Through Removable Media
 id: 60df805d-4605-41c8-bbba-57baa6a4eb97
-version: 11
-date: '2025-05-06'
+version: 12
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -66,6 +66,7 @@ tags:
   - Derusbi
   - Salt Typhoon
   - NjRAT
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1091

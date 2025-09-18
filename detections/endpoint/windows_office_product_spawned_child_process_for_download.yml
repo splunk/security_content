@@ -1,7 +1,7 @@
 name: Windows Office Product Spawned Child Process For Download
 id: f02b64b8-cbea-4f75-bf77-7a05111566b1
-version: 5
-date: '2025-06-26'
+version: 6
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -77,6 +77,7 @@ tags:
   - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
   - PlugX
   - NjRAT
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1566.001

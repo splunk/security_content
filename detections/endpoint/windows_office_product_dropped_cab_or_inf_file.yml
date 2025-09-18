@@ -1,7 +1,7 @@
 name: Windows Office Product Dropped Cab or Inf File
 id: dbdd251e-dd45-4ec9-a555-f5e151391746
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -72,6 +72,7 @@ tags:
   - Spearphishing Attachments
   - Microsoft MSHTML Remote Code Execution CVE-2021-40444
   - Compromised Windows Host
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   cve:
   - CVE-2021-40444

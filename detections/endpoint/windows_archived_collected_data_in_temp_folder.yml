@@ -1,7 +1,7 @@
 name: Windows Archived Collected Data In TEMP Folder
 id: cb56a1ea-e0b1-46d5-913f-e024cba40cbe
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 11
@@ -56,6 +56,7 @@ rba:
 tags:
   analytic_story:
   - Braodo Stealer
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1560

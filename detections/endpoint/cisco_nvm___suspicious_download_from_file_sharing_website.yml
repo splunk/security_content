@@ -1,7 +1,7 @@
 name: Cisco NVM - Suspicious Download From File Sharing Website
 id: 94ebc001-35e7-4ae8-9b0e-52766b2f99c7
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2025-09-18'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -97,6 +97,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - Cisco Network Visibility Module Analytics
   asset_type: Endpoint
   mitre_attack_id:

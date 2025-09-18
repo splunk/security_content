@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Name
 id: 9e9ab4e3-c9d0-4967-a197-6d755e8a7e6e
-version: 3
-date: '2025-08-22'
+version: 4
+date: '2025-09-18'
 author: Steven Dick
 status: production
 type: TTP
@@ -78,6 +78,7 @@ tags:
   - Ransomware
   - Ryuk Ransomware
   - 0bj3ctivity Stealer
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

@@ -1,7 +1,7 @@
 name: Suspicious Image Creation In Appdata Folder
 id: f6f904c4-1ac0-11ec-806b-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -64,6 +64,7 @@ rba:
 tags:
   analytic_story:
   - Remcos
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1113

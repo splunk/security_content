@@ -1,7 +1,7 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2025-09-18'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -53,6 +53,7 @@ tags:
   - Remcos
   - PXA Stealer
   - Meduza Stealer
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1566.001

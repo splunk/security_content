@@ -1,7 +1,7 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
-version: 15
-date: '2025-07-29'
+version: 16
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -87,6 +87,7 @@ tags:
   - MoonPeak
   - China-Nexus Threat Activity
   - Scattered Spider
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

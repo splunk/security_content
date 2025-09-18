@@ -1,7 +1,7 @@
 name: Windows Exfiltration Over C2 Via Powershell UploadString
 id: 59e8bf41-7472-412a-90d3-00f3afa452e9
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -56,6 +56,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - Winter Vivern
   asset_type: Endpoint
   mitre_attack_id:

@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 15
-date: '2025-08-07'
+version: 16
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -102,6 +102,7 @@ tags:
   - Amadey
   - IcedID
   - Interlock Rat
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1036
