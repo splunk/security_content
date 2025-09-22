@@ -1,11 +1,11 @@
-name: Windows Set Private Network Profile via Registry
+name: Windows Set Public Network Profile via Registry
 id: a277acde-9bfd-4edb-b201-7cfc504003e2
 version: 1
-date: '2025-08-06'
+date: '2025-09-22'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects attempts to modify the Windows Registry to change a network profile's category to "Private", which may indicate an adversary is preparing the environment for lateral movement or reducing firewall restrictions. Specifically, this activity involves changes to the Category value within the HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{GUID} registry path. A value of 1 corresponds to a private network profile, which typically enables less restrictive firewall policies. While this action can occur during legitimate network configuration, it may also be a sign of malicious behavior when combined with other indicators such as suspicious account activity, unexpected administrative privilege usage, or execution of unsigned binaries. Monitoring for this registry modification—especially outside standard IT processes or correlated with persistence mechanisms—can help identify stealthy post-exploitation activity.
+description: The following analytic detects attempts to modify the Windows Registry to change a network profile's category to "Private", which may indicate an adversary is preparing the environment for lateral movement or reducing firewall restrictions. Specifically, this activity involves changes to the Category value within the HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{GUID} registry path. This Category value is a REG_DWORD that defines the network type, where 0 typically represents a Public Network, 1 represents a Private Network, and 2 represents a Domain Network. Each of these network classifications dictates distinct default firewall policies and network discovery settings, meaning that modifications to this value can significantly alter the host's security posture by enabling or disabling network access for various services and applications. For instance, a change from a Public to a Private profile often leads to less restrictive firewall policies, potentially exposing more services to the network. While such registry modifications can occur during legitimate network configuration, they may also signal malicious behavior, especially when correlated with other suspicious activities like unusual account activity, unexpected administrative privilege usage, or the execution of unsigned binaries. Therefore, monitoring for these specific registry modifications, particularly when they occur outside of standard IT processes or in conjunction with persistence mechanisms, is crucial for identifying stealthy post-exploitation activity.
 data_source:
   - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Registry)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `windows_set_private_network_profile_via_registry_filter`'
+  | `windows_set_public_network_profile_via_registry_filter`'
 how_to_implement:
   To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
