@@ -1,4 +1,4 @@
-name: Windows Set Public Network Profile via Registry
+name: Windows Set Network Profile Category to Public via Registry
 id: a277acde-9bfd-4edb-b201-7cfc504003e2
 version: 1
 date: '2025-09-22'
@@ -14,7 +14,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Registry)` 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `windows_set_public_network_profile_via_registry_filter`'
+  | `windows_set_network_profile_category_to_public_via_registry_filter`'
 how_to_implement:
   To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
