@@ -21,8 +21,7 @@ how_to_implement:
   your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
   that this registry was included in your config files ex. sysmon config to be monitored.
 known_false_positives:
-  Administrators may enable or disable this feature that may
-  cause some false positive, however is not common. Filter as needed.
+  Administrators may enable or disable this feature that may cause some false positive, legitimate Windows svchost.exe process may acess this registry to identifies the network to which a computer is connected and provides network category information to other applications. However is not common, Filter as needed.
 references:
 - https://www.microsoft.com/en-us/security/blog/2025/07/31/frozen-in-transit-secret-blizzards-aitm-campaign-against-diplomats/
 drilldown_searches:
