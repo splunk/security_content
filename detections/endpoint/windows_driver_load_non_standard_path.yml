@@ -19,16 +19,8 @@ search: >-
   `wineventlog_system` 
   EventCode = 7045 
   ServiceType = "kernel mode driver"
-  | regex ImagePath != "(?i)^(
-      \w:\\\\Program Files\\\\|
-      \w:\\\\Program Files (x86)\\\\|
-      \w:\\\\Windows\\\\System32\\\\|
-      \w:\\\\Windows\\\\SysWOW64\\\\|
-      \w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Definition Updates\\\\|
-      \w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Platform\\\\|
-      %SystemRoot%|
-    )"
-  | stats count min(_time) as firstTime max(_time) as lastTime by 
+  | regex ImagePath != "(?i)^(\w:\\\\Program Files\\\\|\w:\\\\Program Files \(x86\)\\\\|\w:\\\\Windows\\\\System32\\\\|\w:\\\\Windows\\\\SysWOW64\\\\|\w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Definition Updates\\\\|\w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Platform\\\\|%SystemRoot%|\\\\SystemRoot\\\\|SystemRoot\\\\)"
+  | stats count min(_time) as firstTime max(_time) as lastTime by
     Computer EventCode ImagePath ServiceName ServiceType
   | rename Computer as dest
   | `security_content_ctime(firstTime)` 
