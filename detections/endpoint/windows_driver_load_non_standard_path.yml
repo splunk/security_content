@@ -1,7 +1,7 @@
 name: Windows Driver Load Non-Standard Path
 id: 9216ef3d-066a-4958-8f27-c84589465e62
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-09-23'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,36 +14,50 @@ description: The following analytic detects the loading of new Kernel Mode Drive
   escalate privileges, or maintain persistence within the environment, posing a severe
   threat to system integrity and security.
 data_source:
-- Windows Event Log System 7045
+  - Windows Event Log System 7045
 search: >-
-  `wineventlog_system` EventCode=7045 ServiceType="kernel mode driver"
-  | regex ImagePath!="(?i)^(\w:\\\\Windows\\\\|\w:\\\\Program\sFile|\\\\systemroot\\\\|%SystemRoot%|system32\\\\|\\\\ProgramData\\\\Microsoft\\\\Windows\sDefender\\\\Definition\sUpdates\\\\)"
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer EventCode
-  ImagePath ServiceName ServiceType  | rename Computer as dest  | `security_content_ctime(firstTime)`  |
-  `security_content_ctime(lastTime)`  | `windows_driver_load_non_standard_path_filter`
-how_to_implement: To implement this analytic, the Windows EventCode 7045 will need
-  to be logged. The Windows TA for Splunk is also recommended.
-known_false_positives: False positives may be present based on legitimate third party
-  applications needing to install drivers. Filter, or allow list known good drivers
-  consistently being installed in these paths.
+  `wineventlog_system` 
+  EventCode = 7045 
+  ServiceType = "kernel mode driver"
+  | regex ImagePath != "(?i)^(
+      \w:\\\\Program Files\\\\|
+      \w:\\\\Program Files (x86)\\\\|
+      \w:\\\\Windows\\\\System32\\\\|
+      \w:\\\\Windows\\\\SysWOW64\\\\|
+      \w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Definition Updates\\\\|
+      \w:\\\\ProgramData\\\\Microsoft\\\\Windows Defender\\\\Platform\\\\|
+      %SystemRoot%|
+    )"
+  | stats count min(_time) as firstTime max(_time) as lastTime by 
+    Computer EventCode ImagePath ServiceName ServiceType
+  | rename Computer as dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`  
+  | `windows_driver_load_non_standard_path_filter`
+how_to_implement: |
+  To implement this analytic, the Windows EventCode 7045 will need to be logged.
+  The Windows TA for Splunk is also recommended.
+known_false_positives: |
+  False positives may be present based on legitimate third party applications needing to install drivers.
+  Filter, or allow list known good drivers consistently being installed in these paths.
 references:
-- https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
-- https://attack.mitre.org/techniques/T1014/
-- https://www.fuzzysecurity.com/tutorials/28.html
+  - https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/
+  - https://attack.mitre.org/techniques/T1014/
+  - https://www.fuzzysecurity.com/tutorials/28.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: A kernel mode driver was loaded from a non-standard path on $dest$.
   risk_objects:
@@ -53,24 +67,24 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Windows Drivers
-  - CISA AA22-320A
-  - AgentTesla
-  - BlackByte Ransomware
-  - BlackSuit Ransomware
+    - Windows Drivers
+    - CISA AA22-320A
+    - AgentTesla
+    - BlackByte Ransomware
+    - BlackSuit Ransomware
   asset_type: Endpoint
   mitre_attack_id:
-  - T1014
-  - T1068
+    - T1014
+    - T1068
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/xml7045_windows-system.log
-    source: XmlWinEventLog:System
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+    - data: 
+        https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1068/drivers/xml7045_windows-system.log
+      source: XmlWinEventLog:System
+      sourcetype: XmlWinEventLog
