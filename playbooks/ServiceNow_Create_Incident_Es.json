@@ -1,0 +1,280 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Uncategorized",
+    "coa": {
+        "data": {
+            "description": "This Playbook was designed to be added to a Response Plan inside of Enterprise Security 8.x, to create a correlating SNOW incident and a custom field inside of the ES investigation to continue to track the investigation. ",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_1",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_2_to_port_4",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_1",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "826a7c49983d5f1dd79d3cbbe425f503fe731f75",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {
+                        "input_spec": [
+                            {
+                                "name": "Name is required"
+                            }
+                        ]
+                    },
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 200,
+                    "y": -1.9184653865522705e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 200,
+                    "y": 479.9999999999998
+                },
+                "2": {
+                    "data": {
+                        "action": "create ticket",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "create snow ticket",
+                            "customNameId": 0,
+                            "description": "This will create a Service Now ticket to track your Security Investigation in SNOW",
+                            "join": [],
+                            "note": "Typically you will use the \n\nthe Rule Title and Description field in Enterprise Security "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_snow_ticket",
+                        "id": "2",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "description": "finding:consolidated_findings.source",
+                            "short_description": "finding:consolidated_findings.rule_title",
+                            "table": "incident"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 180,
+                    "y": 140
+                },
+                "3": {
+                    "data": {
+                        "action": "set custom fields",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "create snow incident field",
+                            "customNameId": 0,
+                            "description": " We create this so that you can use it downstream with other ServiceNow playbooks to update the Snow Incident as you work thru the investigation.  ",
+                            "join": [],
+                            "note": "This can be added as an Automation Rule , as a Phase:Task in a Response Plan or run ad hoc in ES 8.x"
+                        },
+                        "connector": "Enterprise Security",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": "7e971d03-6ae7-4429-b4e1-cf461003e75b",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "create_snow_incident_field",
+                        "id": "3",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "incident_id": "finding:id",
+                            "pairs": [
+                                {
+                                    "name": "snow_incident",
+                                    "value": "create_snow_ticket:action_result.data.*.number"
+                                }
+                            ]
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "array",
+                                "field": "pairs"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "incident_id"
+                            }
+                        ],
+                        "type": "enterpriseSecurity"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "enterpriseSecurity",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 320
+                },
+                "4": {
+                    "data": {
+                        "action": "add finding or investigation note",
+                        "actionType": "post",
+                        "advanced": {
+                            "customName": "snow ticket number note",
+                            "customNameId": 0,
+                            "description": "We add the Snow ticket number as a note in the Investigation (or Finding)",
+                            "join": [],
+                            "note": "We add the Snow ticket number as a note in the Investigation (or Finding)"
+                        },
+                        "connector": "Enterprise Security",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": "7e971d03-6ae7-4429-b4e1-cf461003e75b",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "snow_ticket_number_note",
+                        "id": "4",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": {
+                            "content": {
+                                "functionId": 1,
+                                "parameters": [
+                                    "create_snow_ticket:action_result.data.*.number"
+                                ],
+                                "template": "ServiceNow ticket created: {0}\n"
+                            },
+                            "id": "finding:id",
+                            "title": "ServiceNow ticket created"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "title"
+                            },
+                            {
+                                "data_type": "string",
+                                "default": "",
+                                "field": "content"
+                            }
+                        ],
+                        "type": "enterpriseSecurity"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "enterpriseSecurity",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 320
+                }
+            },
+            "notes": "You could also run this on demand from the automation tab inside ES Investigation and get the same results. ",
+            "origin": {
+                "playbook_id": 239,
+                "playbook_name": "servicenow_create_incident_es",
+                "playbook_repo_id": 2,
+                "playbook_repo_name": "local"
+            }
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "es",
+        "python_version": "3.13",
+        "schema": "5.0.20",
+        "version": "6.4.1.361"
+    },
+    "create_time": "2025-08-26T15:21:45.941136+00:00",
+    "draft_mode": false,
+    "labels": [
+        "es_soar_integration"
+    ],
+    "tags": [
+        "ServiceNow",
+        "ticket"
+    ]
+}

@@ -1,0 +1,478 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Uncategorized",
+    "coa": {
+        "data": {
+            "description": "This ES Playbook will be added as the last phase in a response plan to send all the notes from an investigation to the SNOW incident created earlier in investigation.",
+            "edges": [
+                {
+                    "id": "port_0_to_port_3",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_6_to_port_1",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_5_to_port_7",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_7_to_port_6",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_9_to_port_11",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "id": "port_11_to_port_4",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_3_to_port_9",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                }
+            ],
+            "hash": "dd470fed9604cfc368f2e7500c17fe8d4fe8051f",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {
+                        "input_spec": [
+                            {
+                                "name": "Name is required"
+                            }
+                        ]
+                    },
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": -2.5579538487363607e-13
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 19.999999999999986,
+                    "y": 1382
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "loop convert to html",
+                            "customNameId": 0,
+                            "description": "This block loops thru the items in the ES notes and  converts the ES data to HTML which for service now looks better. ",
+                            "join": [],
+                            "note": "This block converts the ES data to HTML which for service now looks better. "
+                        },
+                        "functionId": 3,
+                        "functionName": "loop_convert_to_html",
+                        "id": "11",
+                        "parameters": [
+                            "list_demux:custom_function_result.data.output.content",
+                            "list_demux:custom_function_result.data.output.title",
+                            "list_demux:custom_function_result.data.output.create_time",
+                            "list_demux:custom_function_result.data.output.author.realname",
+                            "list_demux:custom_function_result.data.output.response_plan_info.response_task.name"
+                        ],
+                        "template": "[code]\n<h4>ES Notes</h4>\n%%\n<b>Task</b> {4}\n<br/><b>Author</b> {3}\n<br/><b>Created Time</b> {2}\n<br/><b>title</b> {1}\n<br/><b>content</b> {0}\n<br/><br/>\n%%\n[/code]",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 480
+                },
+                "3": {
+                    "data": {
+                        "action": "get notes in finding or investigation",
+                        "actionType": "get",
+                        "advanced": {
+                            "customName": "finding and investigation notes",
+                            "customNameId": 0,
+                            "description": "This will retrieve that notes from your investigation. Not only the General notes but any notes in Response plans also. ",
+                            "join": [],
+                            "note": "This will retrieve that notes from your investigation. Not only the General notes but any notes in Response plans also. "
+                        },
+                        "connector": "Enterprise Security",
+                        "connectorConfigs": [
+                            "builtin_mc_connector"
+                        ],
+                        "connectorId": "7e971d03-6ae7-4429-b4e1-cf461003e75b",
+                        "connectorVersion": "v1",
+                        "functionId": 3,
+                        "functionName": "finding_and_investigation_notes",
+                        "id": "3",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "id": "finding:id"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "enterpriseSecurity"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "enterpriseSecurity",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 148
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "convert note to json",
+                            "customNameId": 0,
+                            "description": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. ",
+                            "join": [],
+                            "note": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. "
+                        },
+                        "functionId": 1,
+                        "functionName": "convert_note_to_json",
+                        "id": "4",
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": [
+                            "loop_convert_to_html:formatted_data.*"
+                        ],
+                        "template": "{{\"comments\":\"{0}\"}}\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 662
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "string remove crlf",
+                            "customNameId": 0,
+                            "description": "Remove any \\n characters from the input string",
+                            "join": [],
+                            "note": "Remove any \\n characters from the input string"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_remove_crlf",
+                            "repoName": "local"
+                        },
+                        "functionId": 1,
+                        "functionName": "string_remove_crlf",
+                        "id": "5",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_remove_crlf": {
+                                "description": "Sanitize the provided string to remove carriage return/line feed characters (CR/LF, \\r \\n).",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The string to remove CR/LF characters from.",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "string to sanitize",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_remove_crlf",
+                                "name": "string_remove_crlf"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_remove_crlf": {
+                                "input_string": "convert_note_to_json:formatted_data"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 838
+                },
+                "6": {
+                    "data": {
+                        "action": "update ticket",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "update servicenow incident",
+                            "customNameId": 0,
+                            "description": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. ",
+                            "join": [],
+                            "note": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "update_servicenow_incident",
+                        "id": "6",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": {
+                            "fields": {
+                                "functionId": 1,
+                                "parameters": [
+                                    "string_uri_decode:custom_function_result.data.decoded_string"
+                                ],
+                                "template": "{0}\n"
+                            },
+                            "id": "finding:custom_fields.snow_incident",
+                            "table": "incident"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1200
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "string uri decode",
+                            "customNameId": 0,
+                            "description": "Remove any uri encoding",
+                            "join": [],
+                            "note": "Remove any uri encoding"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_uri_decode",
+                            "repoName": "local"
+                        },
+                        "functionId": 2,
+                        "functionName": "string_uri_decode",
+                        "id": "7",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_uri_decode": {
+                                "description": "Decodes a URI-encoded string to a plain text string.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The URI encoded string to decode",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "The URI encoded string to decode",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_uri_decode",
+                                "name": "string_uri_decode"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_uri_decode": {
+                                "input_string": "string_remove_crlf:custom_function_result.data.sanitized_string"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1020
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "list demux",
+                            "customNameId": 0,
+                            "description": "We use to take the multiple notes that may be in a ES investigation and convert them into something we can loop thru and format better. ",
+                            "join": [],
+                            "note": "We use to take the multiple notes that may be in a ES investigation and convert them into something we can loop thru and format better. "
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "list_demux",
+                            "repoName": "community"
+                        },
+                        "functionId": 3,
+                        "functionName": "list_demux",
+                        "id": "9",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "list_demux": {
+                                "description": "Accepts a single list and converts it into multiple custom function output results. All output will be placed in the \"output\" datapath. Sub-items and sub-item variable names are dependent on the input.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [
+                                            "*"
+                                        ],
+                                        "description": "A list of objects. Nested lists are not unpacked.",
+                                        "inputType": "item",
+                                        "label": "input_list",
+                                        "name": "input_list",
+                                        "placeholder": "[\"list_item_1\", \"list_item_2\", \"list_item_3\"]",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "list_demux",
+                                "name": "list_demux"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "list_demux": {
+                                "input_list": "finding_and_investigation_notes:action_result.data.*.items"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 320
+                }
+            },
+            "notes": "This ES Playbook will be added as the last phase in a response plan to send all the notes from an investigation to the SNOW incident created earlier in investigation.",
+            "origin": {
+                "playbook_id": 264,
+                "playbook_name": "servicenow_update_incident_esNotes",
+                "playbook_repo_id": 2,
+                "playbook_repo_name": "local"
+            }
+        },
+        "input_spec": null,
+        "output_spec": null,
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "es",
+        "python_version": "3.13",
+        "schema": "5.0.20",
+        "version": "6.4.1.361"
+    },
+    "create_time": "2025-08-26T15:13:05.134048+00:00",
+    "draft_mode": false,
+    "labels": [
+        "es_soar_integration"
+    ],
+    "tags": [
+        "ServiceNow"
+    ]
+}

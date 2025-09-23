@@ -1,0 +1,24 @@
+name: ServiceNow Update Incident EsNotes
+id: 34ad8269-b17b-40a2-abbe-37da655ce837
+version: 1
+date: '2025-08-26'
+author: Kenneth Bouchard, Christian Cloutier, Splunk
+type: Response
+description: "This ES Playbook will be added as the last phase in a response plan to send all the notes from an investigation to the SNOW incident created earlier in investigation.  You could also run this on demand from the automation tab inside ES Investigation and get the same results."
+playbook: ServiceNow_Update_Incident_EsNotes
+how_to_implement: This Enterprise Security playbook requires the ServiceNow connector to be configured. It is designed to work Enterprise Security 8.1 or above to communicate the notes from an investigation to your ServiceNow Incident. 
+references: []
+app_list: 
+  - ServiceNow
+tags:
+  platform_tags:
+    - "ServiceNow"
+  playbook_type: Enterprise Security
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  - Splunk Enterprise Security
+  use_cases:
+  - Response
+  defend_technique_id: 

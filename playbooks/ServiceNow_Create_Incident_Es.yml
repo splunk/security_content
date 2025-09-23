@@ -1,0 +1,25 @@
+name: ServiceNow Create Incident
+id: a972fd32-53a0-4e15-ad9f-d6968a465e94
+version: 1
+date: '2025-08-26'
+author: Kenneth Bouchard, Christian Cloutier, Splunk
+type: Response
+description: "This Playbook was designed to be added to a Response Plan inside of Enterprise Security 8.x, to create a correlating SNOW incident and a custom field inside of the ES investigation to continue to track the investigation.  You could also run this on demand from the automation tab inside ES Investigation and get the same results."
+playbook: ServiceNow_Create_Incident
+how_to_implement: This Enterprise Security playbook requires the ServiceNow connector to be configured. It is designed to work Enterprise Security 8.1 or above to create a ServiceNow Incident, add a custom field and add a general note in the Splunk Enterprise Security Investigation. 
+references: []
+app_list: 
+  - ServiceNow
+tags:
+  platform_tags:
+    - "ServiceNow"
+    - "ticket"
+  playbook_type: Enterprise Security
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  - Splunk Enterprise Security
+  use_cases:
+  - Response
+  defend_technique_id: 

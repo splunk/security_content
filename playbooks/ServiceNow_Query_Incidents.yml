@@ -1,0 +1,25 @@
+name: ServiceNow Query Incident
+id: 831b2957-3c3c-473a-8e75-b51193af8c79
+version: 1
+date: '2025-08-26'
+author: Kenneth Bouchard, Christian Cloutier, Splunk
+type: Response
+description: "This will query your SNOW Incident table looking for incidents that have a cmdb_ci entry that matches your affected entity in the detections from ES or SOAR and give a report of the found SNOW Incidents."
+playbook: ServiceNow_Query_Incident
+how_to_implement: This input playbook requires the ServiceNow connector to be configured. It is designed to work with Enterprise Security 8.1 or above and SOAR 6.4.1 and above. Use this to query ServiceNow Incident for related incidents to the entity(risk_object, dest, src, srcip) in the finding. 
+references: []
+app_list: 
+  - ServiceNow
+tags:
+  platform_tags:
+    - "ServiceNow"
+    - "ticket"
+  playbook_type: Enterprise Security
+  vpe_type: Modern
+  playbook_fields: [device]
+  product:
+  - Splunk SOAR
+  - Splunk Enterprise Security
+  use_cases:
+  - Response
+  defend_technique_id: 

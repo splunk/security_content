@@ -1,0 +1,220 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Uncategorized",
+    "coa": {
+        "data": {
+            "description": "This will query your SNOW Incident table looking for incidents that have a cmdb_ci entry that matches your affected entity in the detections from ES or SOAR and give a report of the found SNOW Incidents ",
+            "edges": [
+                {
+                    "id": "port_0_to_port_2",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_1",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                }
+            ],
+            "hash": "37b00d3d544c9742c3186af15aabd1d9b19f064e",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 1000,
+                    "y": 419.9999999999993
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 1000,
+                    "y": 1020
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "snow format incident query",
+                            "customNameId": 0,
+                            "description": "This will format a query to look for SNOW incidents over the last 7 days for a entity in a detection",
+                            "join": [],
+                            "note": "You will need to define. the entity in the input block that gets passed into the format we are doing. "
+                        },
+                        "functionId": 1,
+                        "functionName": "snow_format_incident_query",
+                        "id": "2",
+                        "parameters": [
+                            "playbook_input:entity"
+                        ],
+                        "template": "cmdb_ci.name={0}^sys_created_onONLast%207%20days\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 980,
+                    "y": 560
+                },
+                "3": {
+                    "data": {
+                        "action": "list tickets",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list snow tickets",
+                            "customNameId": 0,
+                            "description": "this will list the SNOW Incidents relating to affected entity in the detection. ",
+                            "join": [],
+                            "note": "An entity could be a user, device, application. "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_snow_tickets",
+                        "id": "3",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "filter": "snow_format_incident_query:formatted_data",
+                            "max_results": 100,
+                            "table": "incident"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 980,
+                    "y": 700
+                },
+                "4": {
+                    "customCode": null,
+                    "data": {
+                        "advanced": {
+                            "customName": "snow incident markdown",
+                            "customNameId": 0,
+                            "description": "This will give you a table of the SNOW incidents related to the detection entity affected.",
+                            "join": [],
+                            "note": "This will be used to output to notes in SOAR Workbook or in ES Notes."
+                        },
+                        "functionId": 2,
+                        "functionName": "snow_incident_markdown",
+                        "id": "4",
+                        "parameters": [
+                            "list_snow_tickets:action_result.data.*.number",
+                            "list_snow_tickets:action_result.data.*.short_description",
+                            "list_snow_tickets:action_result.data.*.sys_id",
+                            "list_snow_tickets:artifact:*.severity",
+                            "list_snow_tickets:action_result.data.*.priority",
+                            "list_snow_tickets:action_result.data.*.opened_at",
+                            "list_snow_tickets:action_result.data.*.closed_at"
+                        ],
+                        "template": "#### SNOW Related Incidents\n| Ticket Number | Short Description | ID | Severity | Priority | Opened On | Closed On |\n| --- | --- | --- | --- | --- | --- | --- | \n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | \n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "format",
+                    "userCode": null,
+                    "warnings": {},
+                    "x": 980,
+                    "y": 820
+                }
+            },
+            "notes": "This will query your SNOW Incident table looking for incidents that have a cmdb_ci entry that matches your affected entity in the detections from ES or SOAR and give a report of the found SNOW Incidents  This is an input playbook that is designed to be added to a larger automation playbook you have that does initial triage of a detection",
+            "origin": {
+                "playbook_id": 240,
+                "playbook_name": "servicenow_query_incidents",
+                "playbook_repo_id": 2,
+                "playbook_repo_name": "local"
+            }
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "user name"
+                ],
+                "description": "If ES fields like risk_object, user, src or dest.  If SOAR data source sourceHostName, SourceUserName, destinationHostName, destinationAddress",
+                "name": "entity"
+            }
+        ],
+        "output_spec": [
+            {
+                "contains": [],
+                "datapaths": [
+                    "snow_incident_markdown:formatted_data"
+                ],
+                "deduplicate": false,
+                "description": "This tells you about related SNOW incidents",
+                "metadata": {},
+                "name": "snow_tickets"
+            }
+        ],
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3.13",
+        "schema": "5.0.20",
+        "version": "6.4.1.361"
+    },
+    "create_time": "2025-08-12T17:57:02.113752+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "ServiceNow",
+        "ticket"
+    ]
+}

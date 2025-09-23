@@ -1,0 +1,816 @@
+{
+    "blockly": false,
+    "blockly_xml": "<xml></xml>",
+    "category": "Uncategorized",
+    "coa": {
+        "data": {
+            "description": "This Playbook will take the output from automation run upstream in the playbook and send a report of that to a SNOW Incident of your choice. ",
+            "edges": [
+                {
+                    "id": "port_2_to_port_3",
+                    "sourceNode": "2",
+                    "sourcePort": "2_out",
+                    "targetNode": "3",
+                    "targetPort": "3_in"
+                },
+                {
+                    "id": "port_3_to_port_4",
+                    "sourceNode": "3",
+                    "sourcePort": "3_out",
+                    "targetNode": "4",
+                    "targetPort": "4_in"
+                },
+                {
+                    "id": "port_4_to_port_5",
+                    "sourceNode": "4",
+                    "sourcePort": "4_out",
+                    "targetNode": "5",
+                    "targetPort": "5_in"
+                },
+                {
+                    "id": "port_5_to_port_6",
+                    "sourceNode": "5",
+                    "sourcePort": "5_out",
+                    "targetNode": "6",
+                    "targetPort": "6_in"
+                },
+                {
+                    "id": "port_8_to_port_1",
+                    "sourceNode": "8",
+                    "sourcePort": "8_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "id": "port_6_to_port_7",
+                    "sourceNode": "6",
+                    "sourcePort": "6_out",
+                    "targetNode": "7",
+                    "targetPort": "7_in"
+                },
+                {
+                    "id": "port_0_to_port_9",
+                    "sourceNode": "0",
+                    "sourcePort": "0_out",
+                    "targetNode": "9",
+                    "targetPort": "9_in"
+                },
+                {
+                    "id": "port_10_to_port_11",
+                    "sourceNode": "10",
+                    "sourcePort": "10_out",
+                    "targetNode": "11",
+                    "targetPort": "11_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "conditionKey": "condition_key_0",
+                            "index": 0
+                        }
+                    ],
+                    "id": "port_9_to_port_10",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "10",
+                    "targetPort": "10_in"
+                },
+                {
+                    "id": "port_12_to_port_1",
+                    "sourceNode": "12",
+                    "sourcePort": "12_out",
+                    "targetNode": "1",
+                    "targetPort": "1_in"
+                },
+                {
+                    "conditions": [
+                        {
+                            "conditionKey": "condition_key_3",
+                            "index": 1
+                        }
+                    ],
+                    "id": "port_9_to_port_2",
+                    "sourceNode": "9",
+                    "sourcePort": "9_out",
+                    "targetNode": "2",
+                    "targetPort": "2_in"
+                },
+                {
+                    "id": "port_7_to_port_13",
+                    "sourceNode": "7",
+                    "sourcePort": "7_out",
+                    "targetNode": "13",
+                    "targetPort": "13_in"
+                },
+                {
+                    "id": "port_11_to_port_14",
+                    "sourceNode": "11",
+                    "sourcePort": "11_out",
+                    "targetNode": "14",
+                    "targetPort": "14_in"
+                },
+                {
+                    "id": "port_13_to_port_8",
+                    "sourceNode": "13",
+                    "sourcePort": "13_out",
+                    "targetNode": "8",
+                    "targetPort": "8_in"
+                },
+                {
+                    "id": "port_14_to_port_12",
+                    "sourceNode": "14",
+                    "sourcePort": "14_out",
+                    "targetNode": "12",
+                    "targetPort": "12_in"
+                }
+            ],
+            "hash": "acc9c7c08d418f145e56d88c105c97380731ccc3",
+            "nodes": {
+                "0": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_start",
+                        "id": "0",
+                        "type": "start"
+                    },
+                    "errors": {},
+                    "id": "0",
+                    "type": "start",
+                    "warnings": {},
+                    "x": 200,
+                    "y": -20.000000000000384
+                },
+                "1": {
+                    "data": {
+                        "advanced": {
+                            "join": []
+                        },
+                        "functionName": "on_finish",
+                        "id": "1",
+                        "type": "end"
+                    },
+                    "errors": {},
+                    "id": "1",
+                    "type": "end",
+                    "warnings": {},
+                    "x": 180,
+                    "y": 1800
+                },
+                "10": {
+                    "data": {
+                        "advanced": {
+                            "customName": "convert note to json2",
+                            "customNameId": 0,
+                            "description": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. ",
+                            "join": [],
+                            "note": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. "
+                        },
+                        "functionId": 4,
+                        "functionName": "convert_note_to_json2",
+                        "id": "10",
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": [
+                            "playbook_input:note"
+                        ],
+                        "template": "{{\"comments\":\"{0}\"}}\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "10",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1080
+                },
+                "11": {
+                    "data": {
+                        "advanced": {
+                            "customName": "string remove crlf 2",
+                            "customNameId": 0,
+                            "description": "Remove any \\n characters from the input string",
+                            "join": [],
+                            "note": "Remove any \\n characters from the input string"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_remove_crlf",
+                            "repoName": "local"
+                        },
+                        "functionId": 2,
+                        "functionName": "string_remove_crlf_2",
+                        "id": "11",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_remove_crlf": {
+                                "description": "Sanitize the provided string to remove carriage return/line feed characters (CR/LF, \\r \\n).",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The string to remove CR/LF characters from.",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "string to sanitize",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_remove_crlf",
+                                "name": "string_remove_crlf"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_remove_crlf": {
+                                "input_string": "convert_note_to_json2:formatted_data"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "11",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1260
+                },
+                "12": {
+                    "data": {
+                        "action": "update ticket",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "update servicenow incident 2",
+                            "customNameId": 0,
+                            "description": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. ",
+                            "join": [],
+                            "note": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 2,
+                        "functionName": "update_servicenow_incident_2",
+                        "id": "12",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": {
+                            "fields": {
+                                "functionId": 2,
+                                "parameters": [
+                                    "stiring_uri_decode2:custom_function_result.data.decoded_string"
+                                ],
+                                "template": "{0}\n"
+                            },
+                            "id": "playbook_input:snow_incident",
+                            "table": "incident"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "12",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1580
+                },
+                "13": {
+                    "data": {
+                        "advanced": {
+                            "customName": "string uri decode",
+                            "customNameId": 0,
+                            "description": "Remove any uri encoding",
+                            "join": [],
+                            "note": "Remove any uri encoding"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_uri_decode",
+                            "repoName": "local"
+                        },
+                        "functionId": 3,
+                        "functionName": "string_uri_decode",
+                        "id": "13",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_uri_decode": {
+                                "description": "Decodes a URI-encoded string to a plain text string.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The URI encoded string to decode",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "The URI encoded string to decode",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_uri_decode",
+                                "name": "string_uri_decode"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_uri_decode": {
+                                "input_string": "string_remove_crlf:custom_function_result.data.sanitized_string"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "13",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1460
+                },
+                "14": {
+                    "data": {
+                        "advanced": {
+                            "customName": "stiring uri decode2",
+                            "customNameId": 0,
+                            "description": "Remove any uri encoding",
+                            "join": [],
+                            "note": "Remove any uri encoding"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_uri_decode",
+                            "repoName": "local"
+                        },
+                        "functionId": 4,
+                        "functionName": "stiring_uri_decode2",
+                        "id": "14",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_uri_decode": {
+                                "description": "Decodes a URI-encoded string to a plain text string.",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The URI encoded string to decode",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "The URI encoded string to decode",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_uri_decode",
+                                "name": "string_uri_decode"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_uri_decode": {
+                                "input_string": "string_remove_crlf_2:custom_function_result.data.sanitized_string"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "14",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 340,
+                    "y": 1460
+                },
+                "2": {
+                    "data": {
+                        "advanced": {
+                            "customName": "snow format incident query",
+                            "customNameId": 0,
+                            "description": "This will format a query to look for SNOW incidents over the last 7 days for a entity in a detection",
+                            "join": [],
+                            "note": "You will need to define. the entity in the input block that gets passed into the format we are doing. "
+                        },
+                        "functionId": 1,
+                        "functionName": "snow_format_incident_query",
+                        "id": "2",
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": [
+                            "playbook_input:entity"
+                        ],
+                        "template": "cmdb_ci.name={0}^sys_created_onONLast%207%20days\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "2",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 320
+                },
+                "3": {
+                    "data": {
+                        "action": "list tickets",
+                        "actionType": "investigate",
+                        "advanced": {
+                            "customName": "list snow tickets",
+                            "customNameId": 0,
+                            "description": "this will list the SNOW Incidents relating to affected entity in the detection. ",
+                            "join": [],
+                            "note": "An entity could be a user, device, application. "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "list_snow_tickets",
+                        "id": "3",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": {
+                            "filter": "snow_format_incident_query:formatted_data",
+                            "max_results": 100,
+                            "table": "incident"
+                        },
+                        "requiredParameters": [],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "3",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 520
+                },
+                "4": {
+                    "data": {
+                        "advanced": {
+                            "customName": "snow incident markdown",
+                            "customNameId": 0,
+                            "description": "This will give you a table of the SNOW incidents related to the detection entity affected.",
+                            "join": [],
+                            "note": "This will be used to output to notes in SOAR Workbook or in ES Notes."
+                        },
+                        "functionId": 2,
+                        "functionName": "snow_incident_markdown",
+                        "id": "4",
+                        "nestedNodeChildren": [],
+                        "nestedNodeParent": null,
+                        "parameters": [
+                            "list_snow_tickets:action_result.data.*.number",
+                            "list_snow_tickets:action_result.data.*.short_description",
+                            "list_snow_tickets:action_result.data.*.sys_id",
+                            "list_snow_tickets:artifact:*.severity",
+                            "list_snow_tickets:action_result.data.*.priority",
+                            "list_snow_tickets:action_result.data.*.opened_at",
+                            "list_snow_tickets:action_result.data.*.closed_at"
+                        ],
+                        "template": "#### SNOW Related Incidents\n| Ticket Number | Short Description | ID | Severity | Priority | Opened On | Closed On |\n| --- | --- | --- | --- | --- | --- | --- | \n%%\n| {0} | {1} | {2} | {3} | {4} | {5} | {6} | \n%%",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "4",
+                    "type": "format",
+                    "userCode": null,
+                    "warnings": {},
+                    "x": -19.999999999999986,
+                    "y": 700
+                },
+                "5": {
+                    "data": {
+                        "advanced": {
+                            "customName": "input snow incident",
+                            "customNameId": 0,
+                            "description": "this will operate two queries. \n1. Query ES or SOAR for Snow Incident in the investigation or case already documented\n2. Query the SNOW incidents \n\nThen prompt our user that submitted the automation to input the SNOW incident they want to update. ",
+                            "join": [],
+                            "note": "You can only input 1 incident."
+                        },
+                        "approver": {
+                            "type": "user",
+                            "value": "launching_user"
+                        },
+                        "functionId": 1,
+                        "functionName": "input_snow_incident",
+                        "id": "5",
+                        "message": "Associated Service Now Incidents\n{0}",
+                        "parameters": [
+                            "snow_incident_markdown:formatted_data",
+                            "playbook_input:snow_incident"
+                        ],
+                        "responseTime": 30,
+                        "responses": [
+                            {
+                                "required": true,
+                                "responsePrompt": "Add Snow Incident number",
+                                "responseType": "message"
+                            }
+                        ],
+                        "type": "prompt"
+                    },
+                    "errors": {},
+                    "id": "5",
+                    "type": "prompt",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 880
+                },
+                "6": {
+                    "data": {
+                        "advanced": {
+                            "customName": "convert note to json",
+                            "customNameId": 0,
+                            "description": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. ",
+                            "join": [],
+                            "note": "this takes the Observables from SOAR automation and converts to json fromat that SOAR will accept. "
+                        },
+                        "functionId": 3,
+                        "functionName": "convert_note_to_json",
+                        "id": "6",
+                        "parameters": [
+                            "playbook_input:note"
+                        ],
+                        "template": "{{\"comments\":\"{0}\"}}\n",
+                        "type": "format"
+                    },
+                    "errors": {},
+                    "id": "6",
+                    "type": "format",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1080
+                },
+                "7": {
+                    "data": {
+                        "advanced": {
+                            "customName": "string remove crlf",
+                            "customNameId": 0,
+                            "description": "Remove any \\n characters from the input string",
+                            "join": [],
+                            "note": "Remove any \\n characters from the input string"
+                        },
+                        "customFunction": {
+                            "draftMode": false,
+                            "name": "string_remove_crlf",
+                            "repoName": "local"
+                        },
+                        "functionId": 1,
+                        "functionName": "string_remove_crlf",
+                        "id": "7",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "selectMore": false,
+                        "type": "utility",
+                        "utilities": {
+                            "string_remove_crlf": {
+                                "description": "Sanitize the provided string to remove carriage return/line feed characters (CR/LF, \\r \\n).",
+                                "fields": [
+                                    {
+                                        "dataTypes": [],
+                                        "description": "The string to remove CR/LF characters from.",
+                                        "inputType": "item",
+                                        "label": "input_string",
+                                        "name": "input_string",
+                                        "placeholder": "string to sanitize",
+                                        "renderType": "datapath",
+                                        "required": false
+                                    }
+                                ],
+                                "label": "string_remove_crlf",
+                                "name": "string_remove_crlf"
+                            }
+                        },
+                        "utilityType": "custom_function",
+                        "values": {
+                            "string_remove_crlf": {
+                                "input_string": "convert_note_to_json:formatted_data"
+                            }
+                        }
+                    },
+                    "errors": {},
+                    "id": "7",
+                    "type": "utility",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1240
+                },
+                "8": {
+                    "data": {
+                        "action": "update ticket",
+                        "actionType": "generic",
+                        "advanced": {
+                            "customName": "update servicenow incident",
+                            "customNameId": 0,
+                            "description": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. ",
+                            "join": [],
+                            "note": "This will input the note that was configured to be sent from parent playbook in the start block to the Service Now Incident. "
+                        },
+                        "connector": "ServiceNow",
+                        "connectorConfigs": [
+                            "servicenow"
+                        ],
+                        "connectorId": "a590c3bc-ca41-4a0e-b063-8066ca868794",
+                        "connectorVersion": "v1",
+                        "functionId": 1,
+                        "functionName": "update_servicenow_incident",
+                        "id": "8",
+                        "loop": {
+                            "enabled": false,
+                            "exitAfterUnit": "m",
+                            "exitAfterValue": 10,
+                            "exitConditionEnabled": false,
+                            "exitLoopAfter": 2,
+                            "pauseUnit": "m",
+                            "pauseValue": 2
+                        },
+                        "parameters": {
+                            "fields": {
+                                "functionId": 1,
+                                "parameters": [
+                                    "string_uri_decode:custom_function_result.data.decoded_string"
+                                ],
+                                "template": "{0}\n"
+                            },
+                            "id": "input_snow_incident:action_result.summary.responses.0",
+                            "table": "incident"
+                        },
+                        "requiredParameters": [
+                            {
+                                "data_type": "string",
+                                "field": "id"
+                            }
+                        ],
+                        "type": "action"
+                    },
+                    "errors": {},
+                    "id": "8",
+                    "type": "action",
+                    "warnings": {},
+                    "x": 1.4210854715202004e-14,
+                    "y": 1580
+                },
+                "9": {
+                    "data": {
+                        "advanced": {
+                            "customName": "check local snow incident",
+                            "customNameId": 0,
+                            "description": "Looks for snow_incident field",
+                            "join": [],
+                            "note": "Looks for snow_incident field"
+                        },
+                        "conditions": [
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 0,
+                                        "op": "!=",
+                                        "param": "playbook_input:snow_incident",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 0,
+                                "conditionKey": "condition_key_0",
+                                "customName": "local snow incident",
+                                "display": "If",
+                                "logic": "and",
+                                "type": "if"
+                            },
+                            {
+                                "comparisons": [
+                                    {
+                                        "conditionIndex": 1,
+                                        "op": "==",
+                                        "param": "",
+                                        "value": ""
+                                    }
+                                ],
+                                "conditionIndex": 1,
+                                "conditionKey": "condition_key_3",
+                                "customName": "run snow query",
+                                "display": "Else",
+                                "logic": "and",
+                                "type": "else"
+                            }
+                        ],
+                        "functionId": 1,
+                        "functionName": "check_local_snow_incident",
+                        "id": "9",
+                        "type": "decision"
+                    },
+                    "errors": {},
+                    "id": "9",
+                    "type": "decision",
+                    "warnings": {},
+                    "x": 260,
+                    "y": 140
+                }
+            },
+            "notes": "This is an input playbook that is designed to be added to a larger automation playbook you have that does initial triage of a detection.",
+            "origin": {
+                "playbook_id": 243,
+                "playbook_name": "servicenow_update_incident",
+                "playbook_repo_id": 2,
+                "playbook_repo_name": "local"
+            }
+        },
+        "input_spec": [
+            {
+                "contains": [
+                    "host name",
+                    "user name"
+                ],
+                "description": "",
+                "name": "entity"
+            },
+            {
+                "contains": [],
+                "description": "",
+                "name": "note"
+            },
+            {
+                "contains": [],
+                "description": "",
+                "name": "snow_incident"
+            }
+        ],
+        "output_spec": null,
+        "playbook_trigger": "artifact_created",
+        "playbook_type": "data",
+        "python_version": "3.13",
+        "schema": "5.0.20",
+        "version": "6.4.1.361"
+    },
+    "create_time": "2025-08-20T19:07:43.098342+00:00",
+    "draft_mode": false,
+    "labels": [
+        "*"
+    ],
+    "tags": [
+        "ServiceNow",
+        "ticket"
+    ]
+}
