@@ -1,0 +1,25 @@
+{
+    "create_time": "2025-06-27T16:58:50.260630+00:00",
+    "custom_function_id": "2ef5fc852a4c91328480c3d373481fbe91cfcc39",
+    "description": "Sanitize the provided string to remove carriage return/line feed characters (LF, \\n).",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "The string to replace LF characters from.",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": "string to sanitize"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "sanitized_string",
+            "description": "The sanitized string."
+        }
+    ],
+    "outputs_type": "item",
+    "platform_version": "6.4.1.342",
+    "python_version": "3.9"
+}

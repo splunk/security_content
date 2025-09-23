@@ -1,0 +1,25 @@
+{
+    "create_time": "2025-07-30T18:18:16.991915+00:00",
+    "custom_function_id": "0db183c85d111765993faa406edbf00873fda5b5",
+    "description": "Decodes a URI-encoded string to a plain text string.",
+    "draft_mode": false,
+    "inputs": [
+        {
+            "contains_type": [],
+            "description": "The URI encoded string to decode",
+            "input_type": "item",
+            "name": "input_string",
+            "placeholder": "The URI encoded string to decode"
+        }
+    ],
+    "outputs": [
+        {
+            "contains_type": [],
+            "data_path": "decoded_string",
+            "description": "The decoded, plain text string"
+        }
+    ],
+    "outputs_type": "item",
+    "platform_version": "6.4.1.356",
+    "python_version": "3.9"
+}
