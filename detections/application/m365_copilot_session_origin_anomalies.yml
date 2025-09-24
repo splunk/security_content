@@ -54,6 +54,7 @@ rba:
     - field: userPrincipalName
       type: user
       score: 10
+  threat_objects: []
 tags:
   analytic_story:
     - M365 Copilot
