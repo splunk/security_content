@@ -45,7 +45,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Risk Message goes here
+  message: User $userPrincipalName$ exhibited anomalous M365 Copilot usage patterns including multi-location access, excessive activity levels, or multiple application usage indicating potential account compromise or automated abuse.
   risk_objects:
   - field: userPrincipalName
     type: user

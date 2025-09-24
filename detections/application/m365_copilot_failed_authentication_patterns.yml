@@ -1,0 +1,69 @@
+name: M365 Copilot Failed Authentication patterns
+id: 0ae94cdd-021a-4a62-a96d-9cec90b61530
+version: 1
+date: '2025-09-24'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise.
+search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+| stats count as events,
+    dc(location.city) as cities_count,
+    values(location.city) as city_list,
+    dc(location.countryOrRegion) as countries_count,
+    values(location.countryOrRegion) as country_list,
+    dc(ipAddress) as ip_count,
+    values(ipAddress) as ip_addresses,
+    sum(eval(if(match(status, "(?i)fail|error"), 1, 0))) as failed_attempts,
+    sum(eval(if(match(_raw, "50074"), 1, 0))) as mfa_failures,
+    dc(deviceDetail.browser) as browser_count,
+    values(deviceDetail.browser) as browsers_used,
+    min(_time) as first_seen,
+    max(_time) as last_seen
+    by userPrincipalName
+| eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+| eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+| where cities_count > 1 OR failed_attempts > 0 OR mfa_failures > 0
+| sort -mfa_failures, -failed_attempts, -countries_count | `m365_copilot_failed_authentication_patterns_filter`'
+how_to_implement:  Need to ingest M365 Copilot access logs via Splunk Add-on for Microsoft Office 365.
+known_false_positives: Legitimate users experiencing network connectivity issues, traveling employees with intermittent VPN connections, users in regions with unstable internet infrastructure, or password reset activities during business travel may trigger false positives.
+references:
+- https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+- name: View the detection results for "$userPrincipalName$"
+  search: '%original_detection_search% | search  "$userPrincipalName = $userPrincipalName$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for "$userPrincipalName$"
+  search: '| from datamodel Risk.All_Risk 
+  | search normalized_risk_object="$userPrincipalName$" 
+  | where _time >= relative_time(now(), "-168h@h") 
+  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $userPrincipalName$ exhibited suspicious M365 Copilot authentication patterns with $failed_attempts$ failed login attempts, $mfa_failures$ MFA failures, and access from $cities_count$ different locations, indicating potential credential compromise or brute force attack. 
+  risk_objects:
+  - field: userPrincipalName
+    type: user
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - M365 Copilot
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1110
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/m365accesslogs.txt
+    sourcetype: "o365:graph:api"
+    source: "AuditLogs.SignIns"
