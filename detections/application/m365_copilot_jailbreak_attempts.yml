@@ -1,0 +1,56 @@
+name: M365 Copilot Jailbreak Attempts
+id: b05a4f25-e07d-436f-ab03-f954afa922c0
+version: 1
+date: 2025-09-24
+author: Rod Soto
+status: production
+type: TTP
+description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls.
+search: '| `m365_exported_ediscovery_prompt_logs` sourcetype=csv 
+  | search Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*" OR Subject_Title="*pretend you are*" 
+  | eval jailbreak_score=case(match(Subject_Title, "(?i)rules\s*="), 4, match(Subject_Title, "(?i)(ignore|bypass|override)"), 3, match(Subject_Title, "(?i)(pretend you are|act as).*AI"), 3, match(Subject_Title, "(?i)amoral.*AI"), 4, 1=1, 1) 
+  | where jailbreak_score >= 2 
+  | table *time, Sender, Subject*Title, jailbreak_score, Workload, "Conversation name" 
+  | sort -jailbreak_score, -_time 
+  | `m365_copilot_jailbreak_attempts_filter`'
+how_to_implement: Need to export Prompt logs using Purview eDiscovery into csv. 
+known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
+references:
+- https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+- name: View the detection results for - "$Sender$" 
+  search: '%original_detection_search% | search  "$Sender = "$Sender$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for "$Sender$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Sender$", starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $Sender$ attempted M365 Copilot Jailbreak with score $jailbreak_score$ using prompt injection techniques to bypass AI safety controls and manipulate system behavior, potentially violating acceptable use policies.
+  risk_objects:
+  - field: Sender
+    type: user
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - M365 Copilot
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/copilotpromptlogs.txt
+    sourcetype: csv
+    source: csv
