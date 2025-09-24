@@ -1,0 +1,66 @@
+name: M365 Copilot Non Compliant Devices Accessing M365 Copilot
+id: e26bc52d-9cbc-4743-9745-e8781d935042
+version: 1
+date: '2025-09-24'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects M365 Copilot access from non-compliant or unmanaged devices that violate corporate security policies, indicating potential shadow IT usage, BYOD policy violations, or compromised endpoint access.
+search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*"" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false 
+| stats count as events,
+    dc(ipAddress) as unique_ips,
+    values(ipAddress) as ip_addresses,
+    dc(location.city) as unique_cities,
+    values(location.city) as cities,
+    dc(location.countryOrRegion) as unique_countries,
+    values(location.countryOrRegion) as countries,
+    values(deviceDetail.isCompliant) as compliance_status,
+    values(deviceDetail.isManaged) as management_status,
+    min(_time) as first_seen,
+    max(_time) as last_seen
+    by userPrincipalName, deviceDetail.operatingSystem, deviceDetail.browser
+| eval days_active = round((last_seen - first_seen)/86400, 1)
+| eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+| eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+| sort -events, -unique_countries | `m365_copilot_non_compliant_devices_accessing_m365_copilot_filter`'
+how_to_implement: Need to ingest M365 Copilot access logs via Splunk Add-on for Microsoft Office 365.
+known_false_positives: Legitimate employees using personal devices during emergencies, new hires awaiting device provisioning, temporary workers with unmanaged equipment, or users accessing Copilot from approved but temporarily non-compliant devices may trigger false positives.
+references:
+- https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+- name: View the detection results for "$userPrincipalName$" 
+  search: '%original_detection_search% | search  "$userPrincipalName = "$userPrincipalName$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for "$userPrincipalName$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$userPrincipalName$", starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $userPrincipalName$ accessed M365 Copilot from non-compliant or unmanaged devices accross $unique_countries$ countries, violating corporate security policies and creating potential data exposure risks.
+  risk_objects:
+  - field: userPrincipalName
+    type: user
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - M365 Copilot
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1562
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/m365accesslogs.txt
+    sourcetype: "o365:graph:api"
+    source: "AuditLogs.SignIns"
