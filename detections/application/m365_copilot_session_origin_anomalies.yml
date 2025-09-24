@@ -68,6 +68,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://github.com/splunk/security-research/tree/develop/datasets/attack_techniques/T1078.004/
+      - data: data/m365accesslogs.txt
         sourcetype: "o365:graph:api"
         source: "AuditLogs.SignIns"
