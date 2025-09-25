@@ -54,6 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/copilotpromptlogs.txt
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/m365_copilot/copilot_prompts.log
     sourcetype: csv
     source: csv
