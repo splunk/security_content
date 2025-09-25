@@ -8,7 +8,7 @@ description: >
   operational and security telemetry (connection events, ACL denies, VPN events,
   NAT translations, and device health). Deploy the Splunk Add-on for Cisco ASA
   (TA-cisco_asa) on indexers/heavy forwarders and the Cisco ASA App on search
-  heads for best parsing, CIM mapping, and dashboards. This data is ingested via SYSLOG. You must be ingesting Cisco ASA syslog data into your Splunk environment. To ensure all detections work, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. TA few analytics are designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs.
+  heads for best parsing, CIM mapping, and dashboards. This data is ingested via SYSLOG. You must be ingesting Cisco ASA syslog data into your Splunk environment. To ensure all detections work, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. A few analytics are designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs. You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880. 
 source: cisco:asa
 sourcetype: cisco:asa 
 separator: null

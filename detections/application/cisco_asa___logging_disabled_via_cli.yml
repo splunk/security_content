@@ -26,7 +26,7 @@ search: |
   | `security_content_ctime(lastTime)`  
   | `cisco_asa___logging_disabled_via_cli_filter`
 how_to_implement: |
-    This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA. To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. This analytic is designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs.
+    This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA. To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. This analytic is designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs. You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880. 
 known_false_positives: |
   Administrators may intentionally disable or modify logging during maintenance,
   troubleshooting, or device reconfiguration. These events should be verified
