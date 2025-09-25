@@ -1,7 +1,7 @@
 name: Cisco ASA - Core Syslog Message Volume Drop
 id: 4b4f8fdd-1f9e-45d8-9b0f-1f64c0b297a4
-version: 1
-date: '2025-09-23'
+version: 2
+date: '2025-09-25'
 author: Bhavin Patel, Micheal Haag, Splunk
 status: production
 type: Hunting
@@ -12,7 +12,7 @@ data_source:
 search: |
   `cisco_asa`
   | rex "%ASA-[^-]+-\d+-(?<message_id>\d+):"
-  | search message_id IN (710005)
+  | search message_id IN (302013,302014,609002,710005)
   | eval msg_desc=case(
     message_id="302013","Built inbound TCP connection",
     message_id="302014","Teardown TCP connection",
