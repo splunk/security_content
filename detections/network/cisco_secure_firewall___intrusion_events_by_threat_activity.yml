@@ -82,6 +82,7 @@ rba:
 tags:
   analytic_story: 
     - Cisco Secure Firewall Threat Defense Analytics
+    - ArcaneDoor
   asset_type: Network
   security_domain: network
   mitre_attack_id:
