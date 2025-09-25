@@ -1,6 +1,6 @@
 name: ArcaneDoor
 id: 7f2b9eac-0df5-4d0c-9e35-2b8fd552c9f1
-version: 1
+version: 2
 date: '2025-09-23'
 author: Bhavin Patel, Micheal Haag, Splunk
 status: production
@@ -14,8 +14,12 @@ narrative: |
 references:
 - https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/  
 - https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks 
-- https://ciscovulnmgmtprod.service-now.com/psirt?id=advisory_preview&sysparm_sys_id=bd8313cb47a7ea10f61dfa74116d43d8 
-- https://ciscovulnmgmtprod.service-now.com/psirt?id=advisory_preview&sysparm_sys_id=cf28925747636e10f61dfa74116d43d9 
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-z5xP8EUB
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-YROOTUW
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+- https://www.cisa.gov/news-events/directives/ed-25-03-identify-and-mitigate-potential-compromise-cisco-devices
+- https://www.ncsc.gov.uk/news/persistent-malicious-targeting-cisco-devices
 tags:
   category:
   - Adversary Tactics
