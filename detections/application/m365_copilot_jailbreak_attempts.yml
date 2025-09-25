@@ -6,7 +6,7 @@ author: Rod Soto
 status: production
 type: TTP
 description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls.
-search: '| `m365_exported_ediscovery_prompt_logs`  
+search: ' `m365_exported_ediscovery_prompt_logs`  
   | search Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*" OR Subject_Title="*pretend you are*" 
   | eval jailbreak_score=case(match(Subject_Title, "(?i)rules\s*="), 4, match(Subject_Title, "(?i)(ignore|bypass|override)"), 3, match(Subject_Title, "(?i)(pretend you are|act as).*AI"), 3, match(Subject_Title, "(?i)amoral.*AI"), 4, 1=1, 1) 
   | where jailbreak_score >= 2 
