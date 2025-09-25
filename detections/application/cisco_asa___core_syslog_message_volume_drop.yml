@@ -24,13 +24,7 @@ search: |
   | xyseries _time message_id count
   | `cisco_asa___core_syslog_message_volume_drop_filter`
 how_to_implement: |
-  This search requires Cisco ASA syslog data to be ingested into Splunk.
-  Ensure comprehensive syslog collection (including key connection-related messages)
-  is configured for ASA/FTD devices. The search produces a time-series suitable for
-  dashboards to visualize drops across message IDs 302013, 302014, 609002, and 710005.
-  For alerting, consider pairing this with a baseline or anomaly detection approach
-  (e.g., comparing rolling averages or historical medians) to identify statistically
-  significant downward shifts.
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA. To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. This analytic is designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs. The search produces a time-series suitable for dashboards to visualize drops across message IDs 302013, 302014, 609002, and 710005.
 known_false_positives: |
   Planned maintenance, network outages, routing changes, or benign configuration
   updates may reduce log volume temporarily. Validate against change management
