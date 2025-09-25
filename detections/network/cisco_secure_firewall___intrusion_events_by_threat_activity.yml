@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 3  
-date: '2025-08-21'
+version: 4  
+date: '2025-09-25'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -16,6 +16,7 @@ description: |
   events that occur in close temporal proximity.
 
   Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
+  * ArcaneDoor
   * Static Tundra
   * AgentTesla
   * Amadey
@@ -81,6 +82,7 @@ rba:
 tags:
   analytic_story: 
     - Cisco Secure Firewall Threat Defense Analytics
+    - ArcaneDoor
   asset_type: Network
   security_domain: network
   mitre_attack_id:

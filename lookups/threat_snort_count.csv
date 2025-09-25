@@ -1,4 +1,5 @@
 threat,description,distinct_count_snort_ids
+ArcaneDoor,"ArcaneDoor is a state-sponsored cyberespionage campaign targeting perimeter network devices from multiple vendors, with a particular focus on Cisco Secure Firewall ASA/FTD appliances.",2
 AgentTesla,"AgentTesla is a widely used .NET-based infostealer that exfiltrates credentials, clipboard data, and keystrokes. It often spreads via phishing emails with malicious attachments.",2
 Amadey,"Amadey is a lightweight malware primarily used as a loader for deploying additional payloads. It collects system information and often works alongside other malware like SmokeLoader.",1
 AsyncRAT,"AsyncRAT is an open-source Remote Access Trojan (RAT) used for remote control, keylogging, and credential theft. It's commonly used by both amateurs and cybercriminals due to its ease of deployment.",1
