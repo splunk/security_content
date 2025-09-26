@@ -60,10 +60,10 @@ rba:
       type: ip_address
 tags:
   analytic_story:
-    - ArcaneDoor
+    - Suspicious Cisco Adaptive Security Appliance Activity
   asset_type: Network
   mitre_attack_id:
-    - T1562.002
+    - T1562
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
