@@ -6,7 +6,7 @@ author: Rod Soto
 status: production
 type: Anomaly
 description: Detects M365 Copilot access from non-compliant or unmanaged devices that violate corporate security policies, indicating potential shadow IT usage, BYOD policy violations, or compromised endpoint access.
-search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*"" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false 
+search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false 
 | stats count as events,
     dc(ipAddress) as unique_ips,
     values(ipAddress) as ip_addresses,
