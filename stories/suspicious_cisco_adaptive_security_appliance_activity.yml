@@ -20,10 +20,8 @@ narrative: |
 
   Monitoring activity from Cisco ASA and FTD devices is critical because these appliances serve as key security controls at the network perimeter. Analyzing their telemetry and syslog data helps organizations maintain visibility into device health, policy enforcement, and potential threats. Regular monitoring enables early detection of unusual or unauthorized activity, supports compliance requirements, and strengthens the overall security posture by ensuring that any deviations from expected behavior are promptly investigated.
 references:
-- https://www.cisco.com/c/en/us/support/docs/security/asa-5500-x-series-next-generation-firewalls/200184-Configure-Syslog-on-ASA.html
-- https://www.cisco.com/c/en/us/support/security/adaptive-security-appliance-asa-software/series.html
-- https://www.cisco.com/c/en/us/support/web/tsd-products-support-series-home.html#~security
-- https://blog.talosintelligence.com
+- https://www.cisco.com/site/us/en/products/security/firewalls/adaptive-security-appliance-asa-software/index.html
+- https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
 tags:
   category:
   - Adversary Tactics

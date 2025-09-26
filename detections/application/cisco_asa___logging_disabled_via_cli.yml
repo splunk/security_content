@@ -32,14 +32,8 @@ known_false_positives: |
   troubleshooting, or device reconfiguration. These events should be verified
   against approved change management activities.
 references:
-- https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/  
-- https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks 
-- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-z5xP8EUB
-- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
-- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-YROOTUW
-- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
-- https://www.cisa.gov/news-events/directives/ed-25-03-identify-and-mitigate-potential-compromise-cisco-devices
-- https://www.ncsc.gov.uk/news/persistent-malicious-targeting-cisco-devices
+- https://www.cisco.com/site/us/en/products/security/firewalls/adaptive-security-appliance-asa-software/index.html
+- https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
 drilldown_searches:
 - name: View the detection results for $host$
   search: '%original_detection_search% | search  host = $host$'
@@ -68,9 +62,6 @@ tags:
     - Splunk Enterprise
     - Splunk Enterprise Security
   security_domain: network
-  cve:
-    - CVE-2025-20333
-    - CVE-2025-20362
 tests:
   - name: True Positive Test
     attack_data:
