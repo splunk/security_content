@@ -7,11 +7,16 @@ status: production
 type: TTP
 description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls.
 search: ' `m365_exported_ediscovery_prompt_logs`  
-  | search Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*" OR Subject_Title="*pretend you are*" 
-  | eval jailbreak_score=case(match(Subject_Title, "(?i)rules\s*="), 4, match(Subject_Title, "(?i)(ignore|bypass|override)"), 3, match(Subject_Title, "(?i)(pretend you are|act as).*AI"), 3, match(Subject_Title, "(?i)amoral.*AI"), 4, 1=1, 1) 
-  | where jailbreak_score >= 2 
-  | table *time, Sender, Subject*Title, jailbreak_score, Workload, "Conversation name" 
-  | sort -jailbreak_score, -_time 
+| search Subject_Title="*pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*"
+| eval jailbreak_score=case(
+   match(Subject_Title, "(?i)pretend you are.*amoral"), 4,
+   match(Subject_Title, "(?i)act as.*entities"), 3,
+   match(Subject_Title, "(?i)(ignore|bypass|override)"), 3,
+   match(Subject_Title, "(?i)rules\s*="), 4,
+   1=1, 1)
+| where jailbreak_score >= 2
+| table _time, Sender, Subject_Title, jailbreak_score, Workload, Size
+| sort -jailbreak_score, -_time
   | `m365_copilot_jailbreak_attempts_filter`'
 how_to_implement: Need to export Prompt logs using Purview eDiscovery into csv. 
 known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
@@ -51,6 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/m365_copilot/copilot_prompts.log
+  - data: https://raw.githubusercontent.com/splunk/attack_data/refs/heads/master/datasets/m365_copilot/copilot_prompt_logs.csv
     sourcetype: csv
     source: csv
