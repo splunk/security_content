@@ -1,0 +1,33 @@
+name: ArcaneDoor
+id: 7f2b9eac-0df5-4d0c-9e35-2b8fd552c9f1
+version: 2
+date: '2025-09-23'
+author: Bhavin Patel, Micheal Haag, Splunk
+status: production
+description: Attackers were observed to have exploited multiple zero-day vulnerabilities targeting certain Cisco Adaptive Security Appliance (ASA) 5500-X Series devices that were running Cisco Secure Firewall ASA Software with VPN web services enabled to implant malware, execute commands, and potentially exfiltrate data from the compromised devices.
+narrative: |
+  ArcaneDoor, a state-sponsored cyberespionage campaign targeting perimeter network devices from multiple vendors.
+
+  In May 2025, Cisco was engaged by multiple government agencies that provide incident response services to government organizations to support the investigation of attacks that were targeting certain Cisco Adaptive Security Appliance (ASA) 5500-X Series devices that were running Cisco Secure Firewall ASA Software with VPN web services enabled to implant malware, execute commands, and potentially exfiltrate data from the compromised devices. Cisco assesses with high confidence that this new activity is related to the same threat actor as the ArcaneDoor attack campaign that Cisco reported in early 2024. 
+
+  This analytic story is designed to help security teams detect and respond to ArcaneDoor-related activity, including the identification of suspicious behaviors on network edge devices, post-exploitation techniques, and the presence of advanced backdoors.
+references:
+- https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/  
+- https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks 
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-z5xP8EUB
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-YROOTUW
+- https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+- https://www.cisa.gov/news-events/directives/ed-25-03-identify-and-mitigate-potential-compromise-cisco-devices
+- https://www.ncsc.gov.uk/news/persistent-malicious-targeting-cisco-devices
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2025-20333
+  - CVE-2025-20362

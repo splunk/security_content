@@ -1,0 +1,40 @@
+name: GhostRedirector IIS Module and Rungan Backdoor
+id: 69005a1d-05fa-4511-be91-aa260641ee10
+version: 1
+status: production
+date: '2025-09-18'
+author: Michael Haag, Splunk
+description: |
+  This story tracks GhostRedirector, a China‑aligned threat actor that compromises
+  Windows servers and abuses IIS to deliver SEO fraud alongside a passive C++
+  backdoor. The actor leverages web application flaws, most notably SQL injection,
+  to execute PowerShell via sqlserver.exe and retrieve tooling from a shared
+  staging infrastructure. Persistence and server‑side manipulation are achieved by
+  installing a native IIS module, while command execution and basic backdoor
+  capabilities are provided by the Rungan implant. Tooling, including privilege
+  escalation components, is frequently staged in ProgramData paths and may be
+  obfuscated or signed to evade controls.
+narrative: |
+  Following initial access through exploitation of public‑facing applications,
+  GhostRedirector issues PowerShell and CertUtil downloads from 868id[.]com to
+  place binaries under C:\\ProgramData\\Microsoft\\DRM\\log. A malicious native IIS
+  module (Gamshen) is registered so that w3wp.exe can selectively manipulate
+  responses for search engine crawlers, enabling SEO fraud. In parallel, the group
+  deploys the Rungan backdoor to execute commands over HTTP. Privilege escalation
+  relies on public "Potato" techniques (for example EfsPotato and BadPotato) to
+  create or modify local administrator accounts as fallback access. Observed tradecraft
+  includes obfuscation with .NET Reactor, AES‑based string decryption, and occasional
+  use of code‑signed binaries. The combined behaviors present multiple detection
+  opportunities across IIS module installation and loading, webserver‑spawned
+  shells, SQL Server xp_cmdshell abuse, privileged account creation, and unusual
+  file staging or download activity in ProgramData.
+references:
+- https://www.welivesecurity.com/en/eset-research/ghostredirector-poisons-windows-servers-backdoors-side-potatoes/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
