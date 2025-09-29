@@ -1,7 +1,7 @@
 name: Windows HTTP Network Communication From MSIExec
 id: b0fd38c7-f71a-43a2-870e-f3ca06bcdd99
-version: 6
-date: '2025-06-30'
+version: 7
+date: '2025-09-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -15,25 +15,27 @@ description:
   potentially leading to data exfiltration, command and control (C2) communication,
   or further malware deployment.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 3
-- Cisco Network Visibility Module Flow Data
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_msiexec` 
+  - Sysmon EventID 1 AND Sysmon EventID 3
+  - Cisco Network Visibility Module Flow Data
+search:
+  '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_msiexec`
   by _time Processes.action Processes.dest Processes.original_file_name
   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
   Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where 
+  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | join  process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where
   All_Traffic.dest_port IN ("80","443") by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
   All_Traffic.dest  All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
   All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
   All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.direction All_Traffic.process_id
-  | `drop_dm_object_name(All_Traffic)` ] 
-  | table _time user dest parent_process_name process_name process_path process process_id dest_port dest_ip 
+  | `drop_dm_object_name(All_Traffic)` ]
+  | table _time user dest parent_process_name process_name process_path process process_id dest_port dest_ip
   | `windows_http_network_communication_from_msiexec_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
+how_to_implement:
+  The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
   you must ingest logs that contain the process GUID, process name, and parent process.
@@ -79,6 +81,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - GhostRedirector IIS Module and Rungan Backdoor
     - Windows System Binary Proxy Execution MSIExec
     - Water Gamayun
     - Cisco Network Visibility Module Analytics
@@ -98,6 +101,6 @@ tests:
         sourcetype: XmlWinEventLog
   - name: True Positive Test - Cisco NVM
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
-      source: not_applicable
-      sourcetype: cisco:nvm:flowdata
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+        source: not_applicable
+        sourcetype: cisco:nvm:flowdata
