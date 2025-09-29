@@ -3,10 +3,17 @@ id: e5c7b380-19da-42e9-9e53-0af4cd27aee3
 version: 1
 date: '2025-09-25'
 author: Rod Soto
-status: production
+status: experimental
 type: TTP
 description: Detects agentic AI jailbreak attempts that try to establish persistent control over M365 Copilot through rule injection, universal triggers, response automation, system overrides, and persona establishment techniques.
-search: " `m365_exported_ediscovery_prompt_logs`  | eval rule_injection=if(match(Subject_Title, \"(?i)(rules|instructions)\\s*=\"), \"YES\", \"NO\") | eval universal_trigger=if(match(Subject_Title, \"(?i)(every|all).*prompt\"), \"YES\", \"NO\") | eval response_automation=if(match(Subject_Title, \"(?i)(always|automatic).*respond\"), \"YES\", \"NO\") | eval system_override=if(match(Subject_Title, \"(?i)(override|bypass|ignore).*(system|default)\"), \"YES\", \"NO\") | eval persona_establishment=if(match(Subject_Title, \"(?i)(with.*\\[.*\\]|persona)\"), \"YES\", \"NO\") | where rule_injection=\"YES\" OR universal_trigger=\"YES\" OR response_automation=\"YES\" OR system_override=\"YES\" OR persona_establishment=\"YES\" | table *time, \"Source ID\", Sender, Subject*Title, rule_injection, universal_trigger, response_automation, system_override, persona_establishment, Workload | sort -_time | `m365_copilot_agentic_jailbreak_attack_filter`"
+search: " `m365_exported_ediscovery_prompt_logs` | eval rule_injection=if(match(Subject_Title, "(?i)(rules|instructions)\s*="), "YES", "NO")
+| eval universal_trigger=if(match(Subject_Title, "(?i)(every|all).*prompt"), "YES", "NO")
+| eval response_automation=if(match(Subject_Title, "(?i)(always|automatic).*respond"), "YES", "NO")
+| eval system_override=if(match(Subject_Title, "(?i)(override|bypass|ignore).*(system|default)"), "YES", "NO")
+| eval persona_establishment=if(match(Subject_Title, "(?i)(with.*\[.*\]|persona)"), "YES", "NO")
+| where rule_injection="YES" OR universal_trigger="YES" OR response_automation="YES" OR system_override="YES" OR persona_establishment="YES"
+| table _time, "Source ID", Sender, Subject_Title, rule_injection, universal_trigger, response_automation, system_override, persona_establishment, Workload
+| sort -_time  | `m365_copilot_agentic_jailbreak_attack_filter`"
 how_to_implement: Need to export Prompt logs using Purview eDiscovery into csv. 
 known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
 references:

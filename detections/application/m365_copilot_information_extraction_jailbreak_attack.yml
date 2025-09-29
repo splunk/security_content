@@ -3,7 +3,7 @@ id: c0ee37bb-ed43-4632-8e38-060fba80b0b2
 version: 1
 date: '2025-09-25'
 author: Rod Soto
-status: production
+status: experimental
 type: TTP
 description: Detects M365 Copilot information extraction jailbreak attacks that attempt to obtain sensitive, classified, or comprehensive data through various social engineering techniques including fictional entity impersonation, bulk data requests, and privacy bypass attempts.
 search: >

@@ -3,7 +3,7 @@ id: b05a4f25-e07d-436f-ab03-f954afa922c0
 version: 1
 date: 2025-09-24
 author: Rod Soto
-status: production
+status: experimental
 type: TTP
 description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls.
 search: ' `m365_exported_ediscovery_prompt_logs`  
