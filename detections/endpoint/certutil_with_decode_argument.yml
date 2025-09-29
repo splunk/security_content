@@ -1,7 +1,7 @@
 name: CertUtil With Decode Argument
 id: bfe94226-8c10-11eb-a4b3-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-09-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -79,6 +79,7 @@ tags:
   - Forest Blizzard
   - APT29 Diplomatic Deceptions with WINELOADER
   - Storm-2460 CLFS Zero Day Exploitation
+  - GhostRedirector IIS Module and Rungan Backdoor
   group:
   - APT29
   - Cozy Bear

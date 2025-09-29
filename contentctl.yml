@@ -249,8 +249,8 @@ apps:
 - uid: 1467
   title: Cisco Networks Add-on
   appid: TA-cisco_ios
-  version: 2.7.8
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_278.tgz
+  version: 2.7.9
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_279.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
