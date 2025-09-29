@@ -1,7 +1,7 @@
 name: Windows Obfuscated Files or Information via RAR SFX
 id: 4ab6862b-ce88-4223-96c0-f6da2cffb898
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-09-16'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 11
@@ -53,6 +53,7 @@ rba:
 tags:
   analytic_story:
   - Crypto Stealer
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1027.013

@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage File
 id: 3bf5541a-6a45-4fdc-b01d-59b899fff961
-version: 10
-date: '2025-07-29'
+version: 11
+date: '2025-09-16'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -90,6 +90,7 @@ tags:
   - Seashell Blizzard
   - Scattered Spider
   - Interlock Ransomware
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1219

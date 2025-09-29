@@ -1,7 +1,7 @@
 name: Linux Auditd Service Started
 id: b5eed06d-5c97-4092-a3a1-fa4b7e77c71a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: The following analytic detects the suspicious service started. This
   prevent potential security incidents.
 data_source:
 - Linux Auditd Proctitle
-search: '`linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("*start*", "*enable*")
+search: '`linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*")
   | rename host as dest  
   | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest 
   | `security_content_ctime(firstTime)`
