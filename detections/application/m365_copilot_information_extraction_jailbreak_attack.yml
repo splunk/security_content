@@ -7,7 +7,6 @@ status: experimental
 type: TTP
 description: Detects M365 Copilot information extraction jailbreak attacks that attempt to obtain sensitive, classified, or comprehensive data through various social engineering techniques including fictional entity impersonation, bulk data requests, and privacy bypass attempts.
 search: >
- search: >
   `m365_exported_ediscovery_prompt_logs`
   | search Subject_Title="*transcendent*" OR Subject_Title="*incorporeal*" OR Subject_Title="*being who*" OR Subject_Title="*tell me everything*" OR Subject_Title="*give me all*" OR Subject_Title="*comprehensive*" OR Subject_Title="*step by step*" OR Subject_Title="*hidden*" OR Subject_Title="*secret*" OR Subject_Title="*confidential*" OR Subject_Title="*classified*" OR Subject_Title="*internal*" OR Subject_Title="*sensitive*" OR Subject_Title="*proprietary*" OR Subject_Title="*dump*" OR Subject_Title="*extract*" OR Subject_Title="*reveal*" OR Subject_Title="*disclose*" OR Subject_Title="*leak*"
   | eval user = Sender
