@@ -122,6 +122,7 @@ tags:
   - Interlock Ransomware
   - Interlock Rat
   - NailaoLocker Ransomware
+  - PromptLock
   - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
