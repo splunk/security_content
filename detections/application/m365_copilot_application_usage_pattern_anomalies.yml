@@ -30,7 +30,7 @@ search: >
   | where cities_count > 1 OR events_per_day > 100 OR app_count > 2
   | sort -events_per_day, -countries_count
   | `m365_copilot_application_usage_pattern_anomalies_filter`
-how_to_implement: Need to ingest M365 Copilot access logs via Splunk Add-on for Microsoft Office 365.
+how_to_implement: This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
 known_false_positives: Power users, executives with heavy AI workloads, employees traveling for business, users accessing multiple Copilot applications legitimately, or teams using shared corporate accounts across different office locations may trigger false positives.
 references:
   - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
