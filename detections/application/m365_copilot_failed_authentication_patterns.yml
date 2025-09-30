@@ -25,6 +25,8 @@ search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName=
 | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
 | where cities_count > 1 OR failed_attempts > 0 OR mfa_failures > 0
 | sort -mfa_failures, -failed_attempts, -countries_count | `m365_copilot_failed_authentication_patterns_filter`'
+data_source: 
+- M365 Copilot Graph API
 how_to_implement:  This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
 known_false_positives: Legitimate users experiencing network connectivity issues, traveling employees with intermittent VPN connections, users in regions with unstable internet infrastructure, or password reset activities during business travel may trigger false positives.
 references:

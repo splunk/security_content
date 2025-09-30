@@ -24,6 +24,8 @@ search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName=
   | where cities_count > 1
   | sort -countries_count, -cities_count
   | `m365_copilot_session_origin_anomalies_filter`'
+data_source: 
+- M365 Copilot Graph API
 how_to_implement:  This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
 known_false_positives: Legitimate business travelers, remote workers using VPNs, users with corporate offices in multiple locations, or employees accessing Copilot during international travel may trigger false positives.
 references:
