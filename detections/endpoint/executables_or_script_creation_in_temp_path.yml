@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 16
-date: '2025-09-10'
+version: 17
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -107,6 +107,7 @@ tags:
   - IcedID
   - Interlock Rat
   - PromptLock
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1036
