@@ -42,7 +42,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - M365 Copilot
+  - Suspicious Microsoft 365 Copilot Activities
   asset_type: Web Application
   mitre_attack_id:
   - T1562
