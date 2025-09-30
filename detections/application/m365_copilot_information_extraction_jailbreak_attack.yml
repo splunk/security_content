@@ -7,13 +7,15 @@ status: experimental
 type: TTP
 description: Detects M365 Copilot information extraction jailbreak attacks that attempt to obtain sensitive, classified, or comprehensive data through various social engineering techniques including fictional entity impersonation, bulk data requests, and privacy bypass attempts.
 search: >
-  `m365_exported_ediscovery_prompt_logs`  
+ search: >
+  `m365_exported_ediscovery_prompt_logs`
   | search Subject_Title="*transcendent*" OR Subject_Title="*incorporeal*" OR Subject_Title="*being who*" OR Subject_Title="*tell me everything*" OR Subject_Title="*give me all*" OR Subject_Title="*comprehensive*" OR Subject_Title="*step by step*" OR Subject_Title="*hidden*" OR Subject_Title="*secret*" OR Subject_Title="*confidential*" OR Subject_Title="*classified*" OR Subject_Title="*internal*" OR Subject_Title="*sensitive*" OR Subject_Title="*proprietary*" OR Subject_Title="*dump*" OR Subject_Title="*extract*" OR Subject_Title="*reveal*" OR Subject_Title="*disclose*" OR Subject_Title="*leak*"
+  | eval user = Sender
   | eval extraction_type=case(match(Subject_Title, "(?i)(transcendent|incorporeal).*being"), "Knowledge_Entity", match(Subject_Title, "(?i)tell.*me.*(everything|all)"), "Everything_Request", match(Subject_Title, "(?i)(give|show|provide).*me.*(all|every)"), "Complete_Data_Request", match(Subject_Title, "(?i)(hidden|secret|confidential|classified)"), "Restricted_Info", match(Subject_Title, "(?i)(comprehensive|complete|full|entire)"), "Complete_Info", match(Subject_Title, "(?i)(dump|extract|scrape).*(data|info|content)"), "Data_Extraction", match(Subject_Title, "(?i)(reveal|disclose|expose|leak)"), "Information_Disclosure", match(Subject_Title, "(?i)(internal|proprietary|sensitive).*information"), "Sensitive_Data_Request", match(Subject_Title, "(?i)step.*by.*step.*(process|procedure|method)"), "Process_Extraction", match(Subject_Title, "(?i)(bypass|ignore).*privacy"), "Privacy_Bypass", match(Subject_Title, "(?i)(access|view|see).*(private|restricted)"), "Unauthorized_Access", 1=1, "Generic_Request")
   | eval severity=case(match(Subject_Title, "(?i)(transcendent|incorporeal)"), "HIGH", match(Subject_Title, "(?i)tell.*everything"), "HIGH", match(Subject_Title, "(?i)(dump|extract|scrape)"), "HIGH", match(Subject_Title, "(?i)(classified|proprietary|confidential)"), "CRITICAL", match(Subject_Title, "(?i)(hidden|secret|internal|sensitive)"), "MEDIUM", match(Subject_Title, "(?i)(reveal|disclose|leak)"), "MEDIUM", match(Subject_Title, "(?i)(bypass|ignore).*privacy"), "HIGH", 1=1, "LOW")
   | where severity!="LOW"
   | eval data_risk_flags=case(match(Subject_Title, "(?i)(classified|confidential|proprietary)") AND match(Subject_Title, "(?i)(dump|extract|scrape)"), "Confidential+Extraction", match(Subject_Title, "(?i)(everything|all|complete)") AND match(Subject_Title, "(?i)(bypass|ignore)"), "Bulk_Request+Bypass", match(Subject_Title, "(?i)(classified|confidential|proprietary)"), "Confidential", match(Subject_Title, "(?i)(dump|extract|scrape)"), "Extraction", match(Subject_Title, "(?i)(everything|all|complete|comprehensive)"), "Bulk_Request", match(Subject_Title, "(?i)(bypass|ignore)"), "Bypass_Attempt", 1=1, "Standard_Request")
-  | table *time, Sender, Subject*Title, extraction_type, severity, data_risk_flags, Size
+  | table _time, user, Subject_Title, extraction_type, severity, data_risk_flags, Size
   | sort -severity, -_time
   | `m365_copilot_information_extraction_jailbreak_attack_filter`
 how_to_implement: Need to export Prompt logs using Purview eDiscovery into csv. 
@@ -21,12 +23,12 @@ known_false_positives: Legitimate researchers studying data classification syste
 references:
 - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
 drilldown_searches:
-- name: View the detection results for - "$Sender$"
-  search: '%original_detection_search% | search  "$Sender = "$Sender$"'
+- name: View the detection results for - "$user$"
+  search: '%original_detection_search% | search  "$user = "$user$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$Sender$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Sender$", starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -34,9 +36,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $Sender$ attempted M365 Copilot information extraction jailbreak with severity level $severity$ using extraction type $extraction_type$ techniques and $data_risk_flags$ patterns to obtain sensitive or classified information, potentially violating data protection policies and corporate security controls.
+  message: Use $user$ attempted M365 Copilot information extraction jailbreak with severity level $severity$ using extraction type $extraction_type$ techniques and $data_risk_flags$ patterns to obtain sensitive or classified information, potentially violating data protection policies and corporate security controls.
   risk_objects:
-  - field: Sender
+  - field: user
     type: user
     score: 10
   threat_objects: []
