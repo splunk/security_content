@@ -51,9 +51,7 @@ tags:
   - Cisco Isovalent Suspicious Activity
   asset_type: Endpoint
   mitre_attack_id:
-  - T1046
-  - T1033
-  - T1003
+  - T1204.003
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

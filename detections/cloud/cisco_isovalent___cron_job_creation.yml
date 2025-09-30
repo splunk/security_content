@@ -53,7 +53,7 @@ tags:
   - Cisco Isovalent Suspicious Activity
   asset_type: Kubernetes
   mitre_attack_id:
-  - T1053.007
+  - T1053.003
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security

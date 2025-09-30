@@ -58,14 +58,14 @@ rba:
     type: system
     score: 45
   threat_objects:
-  - field:process_name
+  - field: process_name
     type: process_name
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity
   asset_type: Kubernetes
   mitre_attack_id:
-  - T1526
+  - T1204.003
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
