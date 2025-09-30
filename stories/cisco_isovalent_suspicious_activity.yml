@@ -1,7 +1,7 @@
 name: Cisco Isovalent Suspicious Activity
 id: 245ac99a-1355-44fe-9ef7-a7e826e20c6f
 version: 1
-date: '2025-08-12'
+date: '2025-09-30'
 author: Bhavin Patel, Splunk
 status: production
 description: This analytics story focuses on identifying suspicious activities and potential security threats within environments using Cisco Isovalent. It provides detection rules and guidance to help security teams recognize signs of adversary tactics such as unauthorized access attempts, unusual network activity, and other behaviors indicative of potential compromise.
@@ -10,8 +10,9 @@ narrative: |
   
   By continuously observing process_exec and L7 DNS/HTTP activity tied to specific pods and deployments, these detections surface late process launches, anomalous shells, and suspicious outbound connections that deviate from normal workload behavior—accelerating triage and response, reducing dwell time, and shrinking blast radius across Kubernetes environments.
 references:
-- https://isovalent.com
-- https://tetragon.io
+- https://isovalent.com/blog/post/isovalent-splunk-better-together/
+- https://isovalent.com/blog/post/mitre-attack-tetragon/
+- https://www.reddit.com/r/kubernetes/comments/l6e5yr/one_of_our_kubernetes_containers_was_compromised/
 tags:
   category:
   - Adversary Tactics

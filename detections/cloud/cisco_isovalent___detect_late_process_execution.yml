@@ -47,7 +47,9 @@ rba:
   - field: pod_name
     type: system
     score: 45
-  threat_objects: []
+  threat_objects:
+  - field: process_name
+    type: process_name
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity
