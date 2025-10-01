@@ -54,6 +54,7 @@ tags:
   asset_type: Kubernetes
   mitre_attack_id:
   - T1053.003
+  - T1053.007
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
