@@ -1,4 +1,4 @@
-name: Cisco Isovalent - Escape to Host Attempt via nsenter or mount
+name: Cisco Isovalent - Detect Potential Escape to Host
 id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
 version: 1
 date: '2025-10-01'
@@ -30,7 +30,7 @@ search: |
   | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `cisco_isovalent___escape_to_host_attempt_filter`
+  | `cisco_isovalent___detect_potential_escape_to_host_filter`
 how_to_implement: |
   This detection relies on process execution telemetry from Cisco Isovalent Runtime Security. 
   Ensure Isovalent Runtime Security is deployed and configured in your Kubernetes environment 
@@ -43,26 +43,19 @@ known_false_positives: |
   investigated in context to ensure it is not malicious.
 references:
 - https://attack.mitre.org/techniques/T1611/
-https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/
+- https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/
 drilldown_searches:
-- name: View detection results for pod - "$pod_name$"
+- name: View the detection results for pod - "$pod_name$"
   search: '%original_detection_search% | search pod_name = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$pod_name$"
-  search: |
-    | from datamodel Risk.All_Risk 
-    | search normalized_risk_object IN ("$pod_name$")
-      starthoursago=168  
-    | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" 
-      values(risk_message) as "Risk Message" 
-      values(analyticstories) as "Analytic Stories" 
-      values(annotations._all) as "Annotations" 
-      values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object 
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
@@ -77,7 +70,6 @@ rba:
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity
-  - Kubernetes Container Escape
   asset_type: Endpoint
   mitre_attack_id:
   - T1611
