@@ -1,0 +1,65 @@
+name: Windows Visual Basic Commandline Compiler DNSQuery
+id: 8976744a-ae7a-46a4-8128-690df85c2af4
+version: 1
+date: '2025-09-30'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects instances where vbc.exe, the Visual Basic Command Line Compiler, initiates DNS queries. Normally, vbc.exe operates locally to compile Visual Basic code and does not require internet access or to perform DNS lookups. Therefore, any observed DNS activity originating from vbc.exe is highly suspicious and indicative of potential malicious activity. This behavior often suggests that a malicious payload is masquerading as the legitimate vbc.exe process to establish command-and-control (C2) communication, resolve domains for data exfiltration, or download additional stages of malware. Security teams should investigate the process's parent, command-line arguments, and the resolved domains for further indicators of compromise.
+data_source:
+- Sysmon EventID 22
+search: '`sysmon` EventCode=22 process_name="vbc.exe"
+  | rename dvc as dest 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by answer answer_count dest process_exec process_guid process_name  query query_count reply_code_id 
+  signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_visual_basic_commandline_compiler_dnsquery_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: unknown
+references:
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-266a
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: vbc.exe process [$process_name$] made a DNS query for $query$ from host $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 50
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - Lokibot
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1071.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/vbc_dnsquery/vbc_dns_query.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
