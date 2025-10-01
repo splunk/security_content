@@ -1,6 +1,6 @@
 name: Windows Curl Download to Suspicious Path
 id: c32f091e-30db-11ec-8738-acde48001122
-version: 17
+version: 16
 date: '2025-10-01'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
