@@ -82,6 +82,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1611/cisco_isovalent_k8_escape/cisco_isovalent.log
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1611/cisco_isovalent_k8_escape/cisco_isovalent.log
       source: not_applicable
       sourcetype: cisco:isovalent:processExec

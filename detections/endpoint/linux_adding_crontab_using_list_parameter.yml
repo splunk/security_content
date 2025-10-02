@@ -64,6 +64,6 @@ tests:
     sourcetype: sysmon:linux
 - name: True Positive Test - Cisco Isovalent
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/cisco_isovalent/cisco_isovalent.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
     source: not_applicable
     sourcetype: cisco:isovalent:processExec
