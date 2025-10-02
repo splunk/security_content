@@ -1,9 +1,9 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 7
-date: '2025-08-18'
-author: Dean Luxton
-status: production
+version: 8
+date: '2025-09-18'
+author: Dean Luxton, Splunk
+status: production 
 type: TTP
 data_source:
 - AWS CloudWatchLogs VPCflow
@@ -16,8 +16,7 @@ description: This analytic detects instances where an internal host attempts to 
   by identifying and mitigating potential threats promptly.
 search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as action
   values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as
-  dest_zone values(All_Traffic.src_zone) as src_zone values(All_Traffic.src_port)
-  as src_port count from datamodel=Network_Traffic where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16")
+  dest_zone values(All_Traffic.src_zone) as src_zone count from datamodel=Network_Traffic where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16")
   by All_Traffic.src_ip All_Traffic.dest_port All_Traffic.dest_ip All_Traffic.transport All_Traffic.rule
   span=1s _time | `drop_dm_object_name("All_Traffic")` | eval gtime=_time | bin span=1h
   gtime | stats min(_time) as _time values(action) as action dc(eval(if(dest_port<1024
