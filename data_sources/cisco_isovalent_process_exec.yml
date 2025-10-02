@@ -11,19 +11,10 @@ mitre_components:
 source: not_applicable
 sourcetype: cisco:isovalent:processExec
 supported_TA:
-- name: Cisco Networks Add-on
-  url: https://splunkbase.splunk.com/app/1467
-  version: 2.7.8
+- name: Cisco Security Cloud
+  url: https://splunkbase.splunk.com/app/7404
+  version: 3.4.1
 fields:
-- _bkt
-- _cd
-- _eventtype_color
-- _indextime
-- _raw
-- _serial
-- _si
-- _sourcetype
-- _subsecond
 - _time
 - cluster_name
 - dest_ip
