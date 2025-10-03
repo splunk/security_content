@@ -46,7 +46,7 @@ apps:
   appid: CiscoSecurityCloud
   version: 3.4.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_341.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/CiscoSecurityCloud-develop_2025-10-03_18-23.tar.gz
 - uid: 6652
   title: Add-on for Linux Sysmon
   appid: Splunk_TA_linux_sysmon
