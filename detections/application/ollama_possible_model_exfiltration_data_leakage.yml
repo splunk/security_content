@@ -17,7 +17,7 @@ search: '`ollama_server` "GIN" ("/api/show" OR "/api/tags" OR "/api/v1/models")
 | where inspection_count > 1 
 | eval severity="medium" 
 | eval attack_type="Model Reconnaissance / Enumeration" 
-| table _time, host, src_ip, inspection_count, endpoints, severity, attack_type 
+| table _time, host, src_ip, inspection_count, endpoints, severity, attack_type
 | `ollama_possible_model_exfiltration_data_leakage_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate administrative activities such as model inventory management, monitoring dashboards polling model status, automated health checks verifying model availability, CI/CD pipelines validating deployments, development tools inspecting model configurations, or users browsing available models through management interfaces may trigger this detection during normal operations. Adjust the threshold based on your environment's baseline activity.
@@ -39,13 +39,12 @@ drilldown_searches:
 rba:
   message: Potential model data exfiltration detected from $src_ip$ with $inspection_count$ metadata inspection attempts across endpoints $endpoints$ on host $host$, indicating systematic extraction of sensitive model configurations, architecture details, and proprietary customizations that may constitute intellectual property theft.
   risk_objects:
-  - field: dest
+  - field: src_ip
     type: system
     score: 10
-  threat_objects:
-  - field: parent_process_name
-    type: parent_process_name
+  threat_objects: []
 tags:
+
   analytic_story:
   - Suspicious Ollama Activities
   asset_type: Web Application
