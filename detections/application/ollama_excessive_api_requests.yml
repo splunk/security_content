@@ -1,0 +1,59 @@
+name: Ollama Excessive API Requests
+id: 1cfab663-9adc-4169-a88c-6bae29ba3c70
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: production
+type: TTP
+description: Detects potential Distributed Denial of Service (DDoS) attacks or rate limit abuse against Ollama API endpoints by identifying excessive request volumes from individual client IP addresses. This detection monitors GIN-formatted Ollama server logs to identify clients generating abnormally high request rates within short time windows, which may indicate automated attacks, botnet activity, or resource exhaustion attempts targeting local AI model infrastructure.
+data_source:
+- Ollama Server Data
+search: >
+  `ollama_server` "GIN" 
+  | rex field=_raw "\|\s+(?<client_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\|" 
+  | rex field=_raw "\|\s+(?<http_method>GET|POST|PUT|DELETE|HEAD|PATCH)\s+\"(?<endpoint>[^\"]+)\"" 
+  | eval src_ip=client_ip
+  | bin _time span=5m 
+  | stats count as request_count by _time, src_ip, host 
+  | where request_count > 1 
+  | eval severity="high" 
+  | eval attack_type="Rate Limit Abuse / DDoS" 
+  | table _time, host, src_ip, request_count, severity, attack_type 
+  | `ollama_excessive_api_requests_filter`
+how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping. 
+known_false_positives: Legitimate automated services (CI/CD pipelines, monitoring tools, batch jobs), multiple users behind NAT/proxy infrastructure, or authorized load testing activities may trigger this detection during normal operations. Operator must adjust threshold accordingly. 
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: View the detection results for - "$src_ip$"
+  search: '%original_detection_search% | search  "$src_ip = "$src_ip$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src_ip$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Possible DDoS attack from $src_ip$ against Ollama server detected with request count $request_count$ in 1 minute, potentially causing service degradation or complete unavailability.
+  risk_objects:
+  - field: client_ip
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1498
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/serverall.log
+    sourcetype: ollama:server
+    source: server.log
