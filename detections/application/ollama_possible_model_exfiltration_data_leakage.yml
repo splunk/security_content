@@ -44,7 +44,6 @@ rba:
     score: 10
   threat_objects: []
 tags:
-
   analytic_story:
   - Suspicious Ollama Activities
   asset_type: Web Application
