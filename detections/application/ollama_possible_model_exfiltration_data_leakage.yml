@@ -1,0 +1,64 @@
+name: Ollama Possible Model Exfiltration Data Leakage
+id: c9fd1a54-0eab-4470-8970-d5fcc3c740fb
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: production
+type: TTP
+description: Detects data leakage and exfiltration attempts targeting Ollama model metadata and configuration endpoints. Adversaries repeatedly query /api/show, /api/tags, and /api/v1/models to systematically extract sensitive model information including architecture details, fine-tuning parameters, system paths, Modelfile configurations, and proprietary customizations. Multiple inspection attempts within a 15-minute window indicate automated exfiltration of valuable intellectual property such as custom model configurations, system prompts, and internal model specifications. This activity represents unauthorized data disclosure that could enable competitive intelligence gathering, model replication, or preparation for advanced attacks against the AI infrastructure.
+data_source:
+- Ollama Server Data
+search: '`ollama_server` "GIN" ("/api/show" OR "/api/tags" OR "/api/v1/models") 
+| rex field=_raw "\|\s+(?<client_ip>[\d\.:a-fA-F]+)\s+\|" 
+| rex field=_raw "\"(?<endpoint>/api/[^\"]+)\"" 
+| eval src_ip=client_ip
+| bin _time span=15m 
+| stats count as inspection_count, values(endpoint) as endpoints by _time, src_ip, host 
+| where inspection_count > 1 
+| eval severity="medium" 
+| eval attack_type="Model Reconnaissance / Enumeration" 
+| table _time, host, src_ip, inspection_count, endpoints, severity, attack_type 
+| `ollama_possible_model_exfiltration_data_leakage_filter`'
+how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+known_false_positives: Legitimate administrative activities such as model inventory management, monitoring dashboards polling model status, automated health checks verifying model availability, CI/CD pipelines validating deployments, development tools inspecting model configurations, or users browsing available models through management interfaces may trigger this detection during normal operations. Adjust the threshold based on your environment's baseline activity.
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: View the detection results for - "$src_ip$"
+  search: '%original_detection_search% | search  "$src_ip = "$src_ip$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src_ip$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Potential model data exfiltration detected from $src_ip$ with $inspection_count$ metadata inspection attempts across endpoints $endpoints$ on host $host$, indicating systematic extraction of sensitive model configurations, architecture details, and proprietary customizations that may constitute intellectual property theft.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 10
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1048
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/serverall.log
+    sourcetype: ollama:server
+    source: server.log
