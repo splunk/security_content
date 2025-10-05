@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.14.0
+  version: 5.16.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -185,9 +185,9 @@ apps:
 - uid: 6207
   title: Splunk Add-on for Microsoft Security
   appid: Splunk_TA_MS_Security
-  version: 2.5.4
+  version: 2.6.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-security_254.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-security_260.tgz
 - uid: 2734
   title: URL Toolbox
   appid: URL_TOOLBOX
