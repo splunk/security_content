@@ -36,7 +36,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Risk Message goes here
+  message: Critical service crash detected on $host$ at $last_crash$ with $crash_count$ crash events showing error messages $crash_messages$ and exit codes $error_codes$ affecting components $affected_components$, potentially indicating exploitation attempts, malicious input causing crashes, or denial of service attacks disrupting Ollama availability.
   risk_objects:
   - field: host
     type: system
@@ -56,6 +56,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/appall.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/app.log
     sourcetype: ollama:server
     source: app.log

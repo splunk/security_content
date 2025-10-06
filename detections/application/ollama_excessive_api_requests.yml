@@ -54,6 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: data/serverall.log
+  - data:  https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/server.log
     sourcetype: ollama:server
     source: server.log
