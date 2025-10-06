@@ -1,0 +1,61 @@
+name: Ollama Abnormal Service Crash Availability Attack
+id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: production
+type: TTP
+description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
+data_source:
+- Ollama Server Data
+search: '`ollama_server` level=ERROR  ("exited" OR "exit status" OR "crashed" OR "fatal" OR "panic") 
+| rex field=_raw "msg=\"(?<error_msg>[^\"]+)\"" 
+| rex field=_raw "err=\"(?<error_code>[^\"]+)\"" 
+| rex field=_raw "source=(?<source_file>\S+)" 
+| stats count as crash_count, latest(_time) as last_crash, values(error_msg) as crash_messages, values(error_code) as error_codes, values(source_file) as affected_components by host 
+| eval last_crash=strftime(last_crash, "%Y-%m-%d %H:%M:%S")
+| eval severity="critical" 
+| eval attack_type="Service Crash / Availability Attack" 
+| table last_crash, host, crash_count, crash_messages, error_codes, affected_components, severity, attack_type
+| `ollama_abnormal_service_crash_availability_attack_filter`'
+how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+known_false_positives: Normal service restarts during system updates or maintenance windows, graceful shutdowns with non-zero exit codes, intentional service stops by administrators, software upgrades requiring process termination, out-of-memory conditions on resource-constrained systems, or known bugs in specific Ollama versions that cause benign crashes may trigger this detection during routine operations.
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: View the detection results for - "$host$" 
+  search: '%original_detection_search% | search  "$host = "$host$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$host$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Risk Message goes here
+  risk_objects:
+  - field: host
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1489
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: data/appall.log
+    sourcetype: ollama:server
+    source: app.log
