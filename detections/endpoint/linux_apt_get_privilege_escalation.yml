@@ -69,6 +69,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Living Off The Land
+  - Cisco Isovalent Process Exec
   asset_type: Endpoint
   mitre_attack_id:
   - T1548.003

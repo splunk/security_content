@@ -66,6 +66,7 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   - Scheduled Tasks
+  - Cisco Isovalent Process Exec
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.002
