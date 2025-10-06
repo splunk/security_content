@@ -8,7 +8,7 @@ type: TTP
 description: Detects Ollama server errors and failures during model loading operations that may indicate malicious model injection, path traversal attempts, or exploitation of model loading mechanisms to achieve remote code execution. Adversaries may attempt to load specially crafted malicious models or exploit vulnerabilities in the model loading process to execute arbitrary code on the server. This detection monitors error messages and failure patterns that could signal attempts to abuse model loading functionality for malicious purposes.
 data_source:
 - Ollama Server Data
-search: '"`ollama_server` (level=ERROR AND ("llama runner" OR "model" OR "server.go" OR "exited")) 
+search: '`ollama_server` (level=ERROR AND ("llama runner" OR "model" OR "server.go" OR "exited")) 
 | rex field=_raw "msg=\"(?<error_msg>[^\"]+)\"" 
 | rex field=_raw "err=\"(?<error_details>[^\"]+)\"" 
 | stats count as error_count, values(error_msg) as error_messages, values(error_details) as error_details, latest(_time) as last_error by host, source 
@@ -17,7 +17,7 @@ search: '"`ollama_server` (level=ERROR AND ("llama runner" OR "model" OR "server
 | eval severity="critical" 
 | eval attack_type="Suspicious Model Loading / Potential RCE" 
 | table last_error, host, error_count, error_messages, error_details, severity, attack_type
-| `ollama_possible_rce_via_model_loading_filter`"'
+| `ollama_possible_rce_via_model_loading_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Corrupted model files from interrupted downloads, insufficient disk space or memory during legitimate model loading, incompatible model formats or versions, network timeouts when pulling models from registries, file permission issues in multi-user environments, or genuine configuration errors during initial Ollama setup may generate similar error patterns during normal operations.
 references:

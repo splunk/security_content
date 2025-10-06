@@ -8,7 +8,7 @@ type: TTP
 description: Detects abnormal memory allocation patterns and excessive runner operations in Ollama that may indicate resource exhaustion attacks, memory abuse through malicious model loading, or attempts to degrade system performance by overwhelming GPU/CPU resources. Adversaries may deliberately load multiple large models, trigger repeated model initialization cycles, or exploit memory allocation mechanisms to exhaust available system resources, causing denial of service conditions or degrading performance for legitimate users.
 data_source:
 - Ollama Server Data
-search: '"`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner started" OR "loaded runners") 
+search: '`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner started" OR "loaded runners") 
 | rex field=_raw "count=(?<runner_count>\d+)" 
 | rex field=_raw "size\s+=\s+(?<memory_mb>[\d\.]+)\s+MiB" 
 | rex field=_raw "started in (?<load_time>[\d\.]+) seconds" 
@@ -18,7 +18,7 @@ search: '"`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner
 | eval severity="high" 
 | eval attack_type="Resource Exhaustion / Memory Abuse" 
 | table _time, host, operations, total_runners, avg_memory, max_memory, avg_load_time, severity, attack_type
-| `ollama_possible_memory_exhaustion_resource_abuse_filter`"'
+| `ollama_possible_memory_exhaustion_resource_abuse_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate high-volume production workloads processing multiple concurrent requests, users loading large language models (7B+ parameters) that naturally require substantial memory allocation, simultaneous multi-model deployments during system scaling, batch processing operations, or initial system startup sequences may generate similar memory allocation patterns during normal operations.
 references:
