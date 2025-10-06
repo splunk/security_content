@@ -1,4 +1,4 @@
-name: Cisco Isovalent - Detect Potential Escape to Host
+name: Cisco Isovalent - Potential Escape to Host
 id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
 version: 1
 date: '2025-10-01'
@@ -30,7 +30,7 @@ search: |
   | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `cisco_isovalent___detect_potential_escape_to_host_filter`
+  | `cisco_isovalent___potential_escape_to_host_filter`
 how_to_implement: |
   This detection relies on process execution telemetry from Cisco Isovalent Runtime Security. 
   Ensure Isovalent Runtime Security is deployed and configured in your Kubernetes environment 

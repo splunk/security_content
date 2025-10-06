@@ -1,4 +1,4 @@
-name: Cisco Isovalent - Detect Kprobe Spike
+name: Cisco Isovalent - Kprobe Spike
 id: 3df0e9a8-7d5e-4b2f-bcd7-bf93e671d1f2
 version: 1
 date: '2025-10-01'
@@ -20,7 +20,7 @@ search: |
           values(process_kprobe.process.binary) as binaries
           values(process_kprobe.args{}.string_arg) as args
     by pod_name _time
-  | where kprobe_count > 10 | `cisco_isovalent___detect_kprobe_spike_filter`
+  | where kprobe_count > 10 | `cisco_isovalent___kprobe_spike_filter`
 how_to_implement: |
   Requires Cisco Isovalent Runtime Security with kprobe tracing enabled and logs 
   forwarded into Splunk. Ensure that your Splunk Technology Add-on (TA) for Cisco 
