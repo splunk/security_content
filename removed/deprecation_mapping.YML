@@ -1,16 +1,16 @@
 detections:
   - content: Detect Rundll32 Application Control Bypass - setupapi
-    removed_in_version: 5.16.0
+    removed_in_version: 5.17.0
     reason: Detection has been deprecated since it has been replaced with a better named detection that reflect a much better consistent logic
     replacement_content:
     - Windows Application Whitelisting Bypass Attempt via Rundll32
   - content: Detect Rundll32 Application Control Bypass - syssetup
-    removed_in_version: 5.16.0
+    removed_in_version: 5.17.0
     reason: Detection has been deprecated since it has been replaced with a better named detection that reflect a much better consistent logic
     replacement_content:
     - Windows Application Whitelisting Bypass Attempt via Rundll32
   - content: Detect Rundll32 Application Control Bypass - advpack
-    removed_in_version: 5.16.0
+    removed_in_version: 5.17.0
     reason: Detection has been deprecated since it has been replaced with a better named detection that reflect a much better consistent logic
     replacement_content:
     - Windows Application Whitelisting Bypass Attempt via Rundll32
