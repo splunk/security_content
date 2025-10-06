@@ -1,0 +1,70 @@
+name: Cisco ASA - Logging Disabled via CLI
+id: 7b4c9f3e-5a88-4b7b-9c4b-94d8e5d67201
+version: 2
+date: '2025-09-25'
+author: Bhavin Patel, Micheal Haag, Splunk
+status: production
+type: TTP
+description: |
+  This analytic detects the disabling of logging functionality on a Cisco ASA device
+  through CLI commands. Adversaries or malicious insiders may attempt to disable logging
+  to evade detection and hide malicious activity. The detection looks for specific ASA
+  syslog message IDs (111009, 111010, 111008) associated with command execution,
+  combined with suspicious commands such as `no logging`, `logging disable`,
+  `clear logging`, or `no logging host`. Disabling logging on a firewall or security device
+  is a strong indicator of defense evasion.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  | rex "%ASA-[^-]+-\d+-(?<message_id>\d+):" 
+  | search message_id IN (111009,111010,111008) 
+  | rex field=_raw "executed (?:the command )?(?<asa_command>.+)$" 
+  | search asa_command IN ("*no logging*","*logging disable*","*clear logging*","*no logging host*","*no logging trap*") 
+  | stats earliest(_time) as firstTime latest(_time) as lastTime values(user) as user values(action) as action values(asa_command) as commands values(src_ip) as src_ip values(process_name) as process_name by host 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`  
+  | `cisco_asa___logging_disabled_via_cli_filter`
+how_to_implement: |
+    This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA. To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk. This analytic is designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs. You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880. 
+known_false_positives: |
+  Administrators may intentionally disable or modify logging during maintenance,
+  troubleshooting, or device reconfiguration. These events should be verified
+  against approved change management activities.
+references:
+- https://www.cisco.com/site/us/en/products/security/firewalls/adaptive-security-appliance-asa-software/index.html
+- https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
+drilldown_searches:
+- name: View the detection results for $host$
+  search: '%original_detection_search% | search  host = $host$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $host$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $user$ from executed commands to disable logging on the Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 80
+  threat_objects:
+    - field: src_ip
+      type: ip_address
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1562
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/arcane_door/cisco_asa.log
+        source: syslog
+        sourcetype: cisco:asa
