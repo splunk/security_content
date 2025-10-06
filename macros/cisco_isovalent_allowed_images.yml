@@ -1,3 +1,3 @@
-definition: pod_image_name IN ("docker.io/library/ubuntu:22.04")
+definition: pod_image_name IN ("docker.io/library/ubuntu:22.04","docker.io/grafana/grafana:12.0.1", "quay.io/isovalent-dev/tetragon-ci*" ,"quay.io/isovalent/hubble-export-fluentd*")
 description: List of image names which are allowed to be used in the Cisco Isovalent environment. PLease customize this macro to your environment to allowlist the images you want to allow.
 name: cisco_isovalent_allowed_images
