@@ -4,10 +4,6 @@ version: 1
 date: '2025-08-12'
 author: Bhavin Patel, Splunk
 description: Logs process execution events within Cisco Isovalent environments, providing visibility into process exec ancestry and Kubernetes workload identity.
-mitre_components:
-- Process Execution
-- Container Monitoring
-- Kubernetes Monitoring
 source: not_applicable
 sourcetype: cisco:isovalent:processExec
 supported_TA:

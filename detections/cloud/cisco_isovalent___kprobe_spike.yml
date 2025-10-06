@@ -4,7 +4,8 @@ version: 1
 date: '2025-10-01'
 author: Bhavin Patel, Splunk
 type: Hunting
-data_source: []
+data_source:
+- Cisco Isovalent Process Kprobe
 status: production
 description: |
   This analytic detects excessive kernel probe (kprobe) events in a Kubernetes
