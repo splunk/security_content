@@ -67,6 +67,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/m365_copilot/m365_copilot_access.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/m365_copilot_access.log
     sourcetype: "o365:graph:api"
     source: "AuditLogs.SignIns"
