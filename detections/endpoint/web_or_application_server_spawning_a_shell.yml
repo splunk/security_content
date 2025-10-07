@@ -43,7 +43,7 @@ search: |
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `web_or_application_server_spawning_shell_filter`
+  | `web_or_application_server_spawning_a_shell_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
