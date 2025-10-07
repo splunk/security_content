@@ -3,7 +3,7 @@ id: 4fc2d127-ba47-45df-b56c-4ec626ee735b
 version: 1
 date: '2025-10-07'
 author: Rod Soto, Splunk
-description: 
+description: M365 exported eDiscovery prompt logs from Microsoft Purview contain user interactions with M365 Copilot, including the actual prompt text (Subject_Title), sender information, timestamps, and metadata about the AI conversations. These logs are exported through Purview's eDiscovery functionality and provide visibility into how users are querying and attempting to interact with Copilot, making them valuable for detecting jailbreak attempts, data exfiltration requests, policy violations, and other security-relevant AI usage patterns. The logs capture the full conversational context necessary for identifying malicious prompt injection, social engineering attempts against the AI, and unauthorized information disclosure requests.
 source: csv
 sourcetype: csv
 fields:

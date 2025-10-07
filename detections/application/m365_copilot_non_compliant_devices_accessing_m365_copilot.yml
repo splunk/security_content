@@ -19,7 +19,7 @@ search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName=
     values(deviceDetail.isManaged) as management_status,
     min(_time) as first_seen,
     max(_time) as last_seen
-    by useer, deviceDetail.operatingSystem, deviceDetail.browser
+    by user, deviceDetail.operatingSystem, deviceDetail.browser
 | eval days_active = round((last_seen - first_seen)/86400, 1)
 | eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
 | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
