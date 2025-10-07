@@ -5,7 +5,7 @@ date: '2025-09-24'
 author: Rod Soto
 status: production
 type: Anomaly
-description: Detects M365 Copilot users exhibiting suspicious application usage patterns including multi-location access, abnormally high activity volumes, or access to multiple Copilot applications that may indicate account compromise or automated abuse.
+description: Detects M365 Copilot users exhibiting suspicious application usage patterns including multi-location access, abnormally high activity volumes, or access to multiple Copilot applications that may indicate account compromise or automated abuse. The detection aggregates M365 Copilot Graph API events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses, number of different Copilot apps used, and average events per day over the observation period. Users are flagged when they access Copilot from multiple cities (cities_count > 1), generate excessive daily activity (events_per_day > 100), or use more than two different Copilot applications (app_count > 2), which are anomalous patterns suggesting credential compromise or bot-driven abuse.
 search: >
   `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
   | eval user = userPrincipalName

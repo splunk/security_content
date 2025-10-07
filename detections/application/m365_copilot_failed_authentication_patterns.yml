@@ -5,8 +5,9 @@ date: '2025-09-24'
 author: Rod Soto
 status: production
 type: Anomaly
-description: Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise.
+description: Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise. The detection aggregates M365 Copilot Graph API authentication events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses and browsers, failed login attempts (status containing "fail" or "error"), and MFA failures (error code 50074). Users are flagged when they access Copilot from multiple cities (cities_count > 1), experience any authentication failures (failed_attempts > 0), or encounter MFA errors (mfa_failures > 0), which are indicators of credential stuffing, brute force attacks, or compromised accounts attempting to bypass multi-factor authentication.
 search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+| eval user = userPrincipalName
 | stats count as events,
     dc(location.city) as cities_count,
     values(location.city) as city_list,
@@ -20,7 +21,7 @@ search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName=
     values(deviceDetail.browser) as browsers_used,
     min(_time) as first_seen,
     max(_time) as last_seen
-    by userPrincipalName
+    by user
 | eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
 | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
 | where cities_count > 1 OR failed_attempts > 0 OR mfa_failures > 0
@@ -32,13 +33,13 @@ known_false_positives: Legitimate users experiencing network connectivity issues
 references:
 - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
 drilldown_searches:
-- name: View the detection results for "$userPrincipalName$"
-  search: '%original_detection_search% | search  "$userPrincipalName = $userPrincipalName$"'
+- name: View the detection results for "$user$"
+  search: '%original_detection_search% | search  "$user = $user$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for "$userPrincipalName$"
+- name: View risk events for the last 7 days for "$user$"
   search: '| from datamodel Risk.All_Risk 
-  | search normalized_risk_object="$userPrincipalName$" 
+  | search normalized_risk_object="$user$" 
   | where _time >= relative_time(now(), "-168h@h") 
   | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object 
   | `security_content_ctime(firstTime)` 
@@ -46,9 +47,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $userPrincipalName$ exhibited suspicious M365 Copilot authentication patterns with $failed_attempts$ failed login attempts, $mfa_failures$ MFA failures, and access from $cities_count$ different locations, indicating potential credential compromise or brute force attack. 
+  message: User $user$ exhibited suspicious M365 Copilot authentication patterns with $failed_attempts$ failed login attempts, $mfa_failures$ MFA failures, and access from $cities_count$ different locations, indicating potential credential compromise or brute force attack. 
   risk_objects:
-  - field: userPrincipalName
+  - field: user
     type: user
     score: 10
   threat_objects: []
