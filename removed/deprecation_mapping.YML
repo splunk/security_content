@@ -802,6 +802,11 @@ detections:
   - content: Excel Spawning Windows Script Host
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+  - content: Windows Set Private Network Profile via Registry
+    removed_in_version: 5.17.0
+    reason: Renamed the detection for much clearer description with updated detection rules.
+    replacement_content:
+    - Windows Set Network Profile Category to Private via Registry
 baselines:
   - content: Previously Seen AWS Cross Account Activity
     removed_in_version: 5.4.0
@@ -1074,7 +1079,5 @@ stories:
   - content: Web Fraud Detection
     removed_in_version: 5.2.0
     reason: Analytic Story deprecated as it no longer effectively identifies the intended malicious activity
-  - content: Windows Set Private Network Profile via Registry
-    removed_in_version: 5.17.0
-    reason: Renamed the detection for much clearer description with updated detection rules.
+
     
