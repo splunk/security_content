@@ -1079,5 +1079,3 @@ stories:
   - content: Web Fraud Detection
     removed_in_version: 5.2.0
     reason: Analytic Story deprecated as it no longer effectively identifies the intended malicious activity
-
-    
