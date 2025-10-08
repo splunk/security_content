@@ -9,7 +9,10 @@ description: The following analytic detects attempts to modify the Windows Regis
 data_source:
   - Sysmon EventID 13
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
-  WHERE (Registry.registry_value_name= "Category" Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkList\\Profiles*") Registry.registry_value_data = 0x00000001
+  WHERE 
+  Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkList\\Profiles\\*"
+  Registry.registry_value_name = "Category" 
+  Registry.registry_value_data = 0x00000001
   by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product 
   | `drop_dm_object_name(Registry)` 
   | `security_content_ctime(firstTime)`
