@@ -1,7 +1,7 @@
 name: Windows Privilege Escalation Suspicious Process Elevation
 id: 6a80300a-9f8a-4f22-bd3e-09ca577cfdfc
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-09-16'
 author: Steven Dick
 status: production
 type: TTP
@@ -86,6 +86,7 @@ tags:
   analytic_story:
   - Windows Privilege Escalation
   - BlackSuit Ransomware
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1068
