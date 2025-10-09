@@ -7,9 +7,12 @@ type: Anomaly
 data_source:
 - Cisco Isovalent Process Exec
 status: production
-description: The following analytic detects execution of nsenter from within a container, including explicit attempts to join the host’s mount namespace via --mount=/host/proc/1/ns/mnt. Adversaries commonly use nsenter when a pod is misconfigured with excessive privileges (e.g., privileged, hostPID, or broad hostPath mounts) to interact with the underlying node filesystem and processes. This behavior may indicate a container escape attempt to gain persistence or control over the Kubernetes node. Extra scrutiny is warranted for workloads running with privileged security contexts or access to host namespaces and for pods that suddenly begin invoking nsenter outside of normal maintenance activity.
-search: |
-  `cisco_isovalent_process_exec` process_name="nsenter" OR process="--mount=/host/proc/1/ns/mnt"
+description: |
+  This analytic detects the execution of the nsenter utility from within a container, a technique often used for exploitation and container escape. Nsenter allows an attacker to enter the namespaces of another process—such as the host's init process (PID 1)—and execute a shell or other binaries with elevated privileges. For example, an attacker may use docker exec to gain a shell in a container, enumerate the PID of a target container or the host, and then use nsenter to access all namespaces (mount, UTS, IPC, net, pid) of the host or another container.  Example to escape to the host: `nsenter --target 1 --mount --uts --ipc --net --pid -- bash`. The WorkloadAncestorsBinary field is used to track the ancestry of the process, this is useful to understand the context of the nsenter usage.
+
+  The options -m -u -n -i -p correspond to the various Linux namespaces. Adversaries exploit nsenter when pods are misconfigured with excessive privileges (e.g., privileged, hostPID, or broad hostPath mounts), enabling them to interact with the underlying node filesystem and processes. This can be an indicator of a container escape attempt or privilege escalation. Security teams should pay close attention to any nsenter invocation from within containers, especially outside of normal maintenance activity or in workloads with elevated privileges. 
+search: | 
+  `cisco_isovalent_process_exec` process_name="nsenter" 
   | eval WorkloadAncestorsBinary=mvjoin(parent_process_name, " <- ")
   | stats count 
           min(_time) as firstTime 
