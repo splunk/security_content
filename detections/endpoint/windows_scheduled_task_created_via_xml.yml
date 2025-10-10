@@ -78,6 +78,7 @@ tags:
   - CISA AA23-347A
   - Scheduled Tasks
   - MoonPeak
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005
@@ -89,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
