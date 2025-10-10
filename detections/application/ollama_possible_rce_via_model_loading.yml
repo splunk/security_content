@@ -9,9 +9,7 @@ description: Detects Ollama server errors and failures during model loading oper
 data_source:
 - Ollama Server Data
 search: '`ollama_server` (level=ERROR AND ("llama runner" OR "model" OR "server.go" OR "exited")) 
-| rex field=_raw "msg=\"(?<error_msg>[^\"]+)\"" 
-| rex field=_raw "err=\"(?<error_details>[^\"]+)\"" 
-| stats count as error_count, values(error_msg) as error_messages, values(error_details) as error_details, latest(_time) as last_error by host, source 
+| stats count as error_count, values(msg) as error_messages, values(err) as error_details, latest(_time) as last_error by host, source 
 | where error_count > 0 
 | eval last_error=strftime(last_error, "%Y-%m-%d %H:%M:%S") 
 | eval severity="critical" 
@@ -56,6 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/app.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
     sourcetype: ollama:server
     source: app.log

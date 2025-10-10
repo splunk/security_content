@@ -14,20 +14,20 @@ known_false_positives: Normal service restarts during system updates or maintena
 references:
 - https://github.com/rosplk/ta-ollama
 drilldown_searches:
-- name: View the detection results for - "$host$" 
-  search: '%original_detection_search% | search  "$host = "$host$"'
+- name: 'View the detection results for - "$host$"'
+  search: '%original_detection_search% | search host="$host$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$host$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+- name: 'View risk events for the last 7 days for - "$host$"'
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168 
+    | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" 
+    values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" 
+    values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" 
     by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Critical service crash detected on $host$ at $last_crash$ with $crash_count$ crash events showing error messages $crash_messages$ and exit codes $error_codes$ affecting components $affected_components$, potentially indicating exploitation attempts, malicious input causing crashes, or denial of service attacks disrupting Ollama availability.
+  message: 'Abnormal Ollama service termination detected on host $host$ at $_time$. The service encountered a critical error $msg$. This unexpected shutdown could indicate a denial-of-service attack, resource exhaustion, malicious model injection, or system instability. Local LLM service disruptions may impact dependent applications and workflows. Total occurrences: $count$. Immediate investigation is required to determine the root cause, assess potential security implications, and restore service availability.'
   risk_objects:
   - field: host
     type: system
@@ -47,6 +47,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/app.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
     sourcetype: ollama:server
     source: app.log

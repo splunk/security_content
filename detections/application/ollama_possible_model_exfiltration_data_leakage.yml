@@ -9,12 +9,9 @@ description: Detects data leakage and exfiltration attempts targeting Ollama mod
 data_source:
 - Ollama Server Data
 search: '`ollama_server` "GIN" ("/api/show" OR "/api/tags" OR "/api/v1/models") 
-| rex field=_raw "\|\s+(?<client_ip>[\d\.:a-fA-F]+)\s+\|" 
-| rex field=_raw "\"(?<endpoint>/api/[^\"]+)\"" 
-| eval src_ip=client_ip
 | bin _time span=15m 
 | stats count as inspection_count, values(endpoint) as endpoints by _time, src_ip, host 
-| where inspection_count > 1 
+| where inspection_count > 0
 | eval severity="medium" 
 | eval attack_type="Model Reconnaissance / Enumeration" 
 | table _time, host, src_ip, inspection_count, endpoints, severity, attack_type
@@ -57,6 +54,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/server.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
     sourcetype: ollama:server
     source: server.log

@@ -10,15 +10,12 @@ data_source:
 - Ollama Server Data
 search: >
   `ollama_server` "GIN" 
-  | rex field=_raw "\|\s+(?<client_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\|" 
-  | rex field=_raw "\|\s+(?<http_method>GET|POST|PUT|DELETE|HEAD|PATCH)\s+\"(?<endpoint>[^\"]+)\"" 
-  | eval src_ip=client_ip
   | bin _time span=5m 
   | stats count as request_count by _time, src_ip, host 
   | where request_count > 1 
   | eval severity="high" 
   | eval attack_type="Rate Limit Abuse / DDoS" 
-  | table _time, host, src_ip, request_count, severity, attack_type 
+  | table _time, host, src_ip, request_count, severity, attack_type
   | `ollama_excessive_api_requests_filter`
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping. 
 known_false_positives: Legitimate automated services (CI/CD pipelines, monitoring tools, batch jobs), multiple users behind NAT/proxy infrastructure, or authorized load testing activities may trigger this detection during normal operations. Operator must adjust threshold accordingly. 
@@ -36,7 +33,7 @@ drilldown_searches:
 rba:
   message: Possible DDoS attack from $src_ip$ against Ollama server detected with request count $request_count$ in 1 minute, potentially causing service degradation or complete unavailability.
   risk_objects:
-  - field: client_ip
+  - field: src_ip
     type: system
     score: 10
   threat_objects: []
@@ -54,6 +51,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data:  https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/ollama/server.log
+  - data:  https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
     sourcetype: ollama:server
     source: server.log
