@@ -38,9 +38,9 @@ apps:
 - uid: 6553
   title: Splunk Add-on for Okta Identity Cloud
   appid: Splunk_TA_okta_identity_cloud
-  version: 4.0.0
+  version: 4.1.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_400.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_410.tgz
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud

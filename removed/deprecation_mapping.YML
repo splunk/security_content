@@ -1,4 +1,9 @@
 detections:
+  - content: Windows Set Private Network Profile via Registry
+    removed_in_version: 5.17.0
+    reason: Renamed the detection for much clearer description with an updated detection logic.
+    replacement_content:
+    - Windows Set Network Profile Category to Private via Registry
   - content: Cisco Secure Application Alerts
     removed_in_version: 5.14.0
     reason: Detection has been deprecated since it has been replaced with a better named detection to reflect the correct product

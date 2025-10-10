@@ -1,18 +1,19 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
-version: 12
-date: '2025-07-16'
+version: 13
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a non-Chrome process accessing files in
-  the Chrome user default folder. It leverages Windows Security Event logs, specifically
-  event code 4663, to identify unauthorized access attempts. This activity is significant
-  because the Chrome default folder contains sensitive user data such as login credentials,
-  browsing history, and cookies. If confirmed malicious, this behavior could indicate
-  an attempt to exfiltrate sensitive information, often associated with RATs, trojans,
-  and advanced persistent threats like FIN7. Such access could lead to data theft
-  and further compromise of the affected system.
+description: The following analytic detects a non-Chrome process accessing files
+  in the Chrome user default folder. It leverages Windows Security Event logs, 
+  specifically event code 4663, to identify unauthorized access attempts. This 
+  activity is significant because the Chrome default folder contains sensitive 
+  user data such as login credentials, browsing history, and cookies. If 
+  confirmed malicious, this behavior could indicate an attempt to exfiltrate 
+  sensitive information, often associated with RATs, trojans, and advanced 
+  persistent threats like FIN7. Such access could lead to data theft and further
+  compromise of the affected system.
 data_source:
 - Windows Event Log Security 4663
 search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.exe",
@@ -20,11 +21,12 @@ search: '`wineventlog_security` EventCode=4663 NOT (ProcessName IN ("*\\chrome.e
   Data\\Default*" | stats count min(_time) as firstTime max(_time) as lastTime by
   ObjectName ObjectType ProcessName AccessMask EventCode dest | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `non_chrome_process_accessing_chrome_default_dir_filter`'
-how_to_implement: To successfully implement this search, you must ingest Windows Security
-  Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
-  Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: other browser not listed related to chrome may catch by this
-  rule.
+how_to_implement: To successfully implement this search, you must ingest Windows
+  Security Event logs and track event code 4663. For 4663, enable "Audit Object 
+  Access" in Group Policy. Then check the two boxes listed for both "Success" 
+  and "Failure."
+known_false_positives: other browser not listed related to chrome may catch by 
+  this rule.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$dest$"
@@ -65,6 +67,7 @@ tags:
   - RedLine Stealer
   - Snake Keylogger
   - China-Nexus Threat Activity
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1555.003
@@ -76,6 +79,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1555/non_chrome_process_accessing_chrome_default_dir/windows-xml.log
     source: XmlWinEventLog:Security
     sourcetype: XmlWinEventLog
