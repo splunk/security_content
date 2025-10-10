@@ -1,0 +1,69 @@
+name: Windows Set Network Profile Category to Private via Registry
+id: b11bb510-97e1-4b7a-b673-887ab228c280
+version: 1
+date: '2025-10-07'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects attempts to modify the Windows Registry to change a network profile's category to "Private", which may indicate an adversary is preparing the environment for lateral movement or reducing firewall restrictions. Specifically, this activity involves changes to the Category value within the HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\NetworkList\Profiles\{GUID} registry path. A value of 1 corresponds to a private network profile, which typically enables less restrictive firewall policies. While this action can occur during legitimate network configuration, it may also be a sign of malicious behavior when combined with other indicators such as suspicious account activity, unexpected administrative privilege usage, or execution of unsigned binaries. Monitoring for this registry modification—especially outside standard IT processes or correlated with persistence mechanisms—can help identify stealthy post-exploitation activity.
+data_source:
+  - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  WHERE 
+  Registry.registry_path = "*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\NetworkList\\Profiles\\*"
+  Registry.registry_value_name = "Category" 
+  Registry.registry_value_data = 0x00000001
+  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product 
+  | `drop_dm_object_name(Registry)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_set_network_profile_category_to_private_via_registry_filter`'
+how_to_implement:
+  To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
+  that this registry was included in your config files ex. sysmon config to be monitored.
+known_false_positives:
+  Administrators may enable or disable this feature that may
+  cause some false positive, however is not common. Filter as needed.
+references:
+- https://www.microsoft.com/en-us/security/blog/2025/07/31/frozen-in-transit-secret-blizzards-aitm-campaign-against-diplomats/
+drilldown_searches:
+  - name: View the detection results for - "$user$" and "$dest$"
+    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: A registry modification that set network profile to private on [$dest$]
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+  - Secret Blizzard
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1112
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/reg_profiles_private2/reg_profiles_private2.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
