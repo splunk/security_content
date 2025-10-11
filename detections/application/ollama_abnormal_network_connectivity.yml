@@ -36,10 +36,13 @@ drilldown_searches:
 rba:
   message: Abnormal network activity detected on $host$ with $incidents$ incidents including non-localhost API access from $src$ and network errors $warning_messages$, potentially indicating unauthorized access attempts, network-based reconnaissance, or infrastructure connectivity exploitation.
   risk_objects:
+  - field: host
+    type: system 
+    score: 10
+  threat_objects:
   - field: src
     type: system
     score: 10
-  threat_objects: []
 tags:
   analytic_story:
   - Suspicious Ollama Activities
