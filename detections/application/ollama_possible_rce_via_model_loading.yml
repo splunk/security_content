@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects Ollama server errors and failures during model loading operations that may indicate malicious model injection, path traversal attempts, or exploitation of model loading mechanisms to achieve remote code execution. Adversaries may attempt to load specially crafted malicious models or exploit vulnerabilities in the model loading process to execute arbitrary code on the server. This detection monitors error messages and failure patterns that could signal attempts to abuse model loading functionality for malicious purposes.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server` level=ERROR ("llama runner" OR "model" OR "server.go" OR "exited")
 | rex field=_raw "source=(?<code_source>[^\s]+)"
 | rex field=_raw "msg=\"(?<msg>[^\"]+)\""

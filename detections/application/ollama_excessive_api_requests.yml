@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects potential Distributed Denial of Service (DDoS) attacks or rate limit abuse against Ollama API endpoints by identifying excessive request volumes from individual client IP addresses. This detection monitors GIN-formatted Ollama server logs to identify clients generating abnormally high request rates within short time windows, which may indicate automated attacks, botnet activity, or resource exhaustion attempts targeting local AI model infrastructure.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server` | rex field=_raw "\|\s+(?<client_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\|"
 | eval src=coalesce(src, client_ip)
 | eval dest=coalesce(dest, url, uripath, endpoint)

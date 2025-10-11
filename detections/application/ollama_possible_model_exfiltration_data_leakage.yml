@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects data leakage and exfiltration attempts targeting Ollama model metadata and configuration endpoints. Adversaries repeatedly query /api/show, /api/tags, and /api/v1/models to systematically extract sensitive model information including architecture details, fine-tuning parameters, system paths, Modelfile configurations, and proprietary customizations. Multiple inspection attempts within a 15-minute window indicate automated exfiltration of valuable intellectual property such as custom model configurations, system prompts, and internal model specifications. This activity represents unauthorized data disclosure that could enable competitive intelligence gathering, model replication, or preparation for advanced attacks against the AI infrastructure.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server` | rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+)s\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
 | eval src=src_ip
 | eval dest=uri_path

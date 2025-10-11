@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects abnormal memory allocation patterns and excessive runner operations in Ollama that may indicate resource exhaustion attacks, memory abuse through malicious model loading, or attempts to degrade system performance by overwhelming GPU/CPU resources. Adversaries may deliberately load multiple large models, trigger repeated model initialization cycles, or exploit memory allocation mechanisms to exhaust available system resources, causing denial of service conditions or degrading performance for legitimate users.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner started" OR "loaded runners")
 | rex field=_raw "count=(?<runner_count>\d+)"
 | rex field=_raw "size\s*=\s*(?<memory_mb>[\d\.]+)\s+MiB"

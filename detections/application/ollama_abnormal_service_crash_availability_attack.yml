@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server`  level=WARN (msg="*driver*" OR msg="*truncat*")
 | rex field=_raw "msg=\"(?<msg>[^\"]+)\""
 | rex field=_raw "source=(?<code_source>[^\s]+)"

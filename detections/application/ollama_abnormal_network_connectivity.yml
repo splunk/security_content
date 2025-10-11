@@ -7,7 +7,7 @@ status: production
 type: TTP
 description: Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
 data_source:
-- Ollama Server Data
+- Ollama Server
 search: '`ollama_server` level=WARN
 | eval src=coalesce(src, src_ip, "N/A")
 | stats count as incidents, values(src) as src, values(msg) as warning_messages, latest(_time) as last_incident by host
