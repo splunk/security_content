@@ -8,22 +8,30 @@ type: TTP
 description: Detects potential prompt injection or jailbreak attempts against Ollama API endpoints by identifying requests with abnormally long response times. Attackers often craft complex, layered prompts designed to bypass AI safety controls, which typically result in extended processing times as the model attempts to parse and respond to these malicious inputs. This detection monitors /api/generate and /api/chat endpoints for requests exceeding 30 seconds, which may indicate sophisticated jailbreak techniques, multi-stage prompt injections, or attempts to extract sensitive information from the model.
 data_source:
 - Ollama Server Data
-search: '`ollama_server` "GIN" ("/api/generate" OR "/api/chat")
-| rex field=_raw "\|\s+\d{3}\s+\|\s+(?<response_time>\S+)\s+\|"
-| rex field=_raw "\|\s+(?<src_ip>[\d\.:a-fA-F]+)\s+\|\s+(?:GET|POST|PUT|DELETE|HEAD|PATCH)"
+search: '`ollama_server` "GIN" ("/api/generate" OR "/v1/chat/completions")
+| rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+[a-z]+)\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
 | rex field=response_time "^(?:(?<minutes>\d+)m)?(?<seconds>[\d\.]+)s$"
-| eval response_time_seconds=case(
-    isnotnull(minutes), tonumber(minutes)*60 + tonumber(seconds),
-    isnotnull(seconds), tonumber(seconds),
-    1=1, 0
+| eval response_time_seconds=if(isnotnull(minutes), tonumber(minutes)*60+tonumber(seconds), tonumber(seconds))
+| eval src=src_ip
+| eval dest=uri_path
+| where response_time_seconds > 30
+| bin _time span=10m
+| stats count as long_request_count, 
+        avg(response_time_seconds) as avg_response_time, 
+        max(response_time_seconds) as max_response_time,
+        values(dest) as dest,
+        values(status_code) as status_codes
+        by _time, src, host
+| where long_request_count > 50
+| eval avg_response_time=round(avg_response_time, 2)
+| eval max_response_time=round(max_response_time, 2)
+| eval severity=case(
+    long_request_count > 50 OR max_response_time > 55, "critical",
+    long_request_count > 20 OR max_response_time > 40, "high",
+    1=1, "medium"
 )
-| where response_time_seconds > 30 
-| bin _time span=10m 
-| stats count as long_request_count, avg(response_time_seconds) as avg_response_time, max(response_time_seconds) as max_response_time by _time, src_ip, host 
-| where long_request_count > 0
-| eval severity="high" 
-| eval attack_type="Potential Prompt Injection / Jailbreak" 
-| table _time, host, src_ip, long_request_count, avg_response_time, max_response_time, severity, attack_type
+| eval attack_type="Potential Prompt Injection / Jailbreak"
+| table _time, host, src, dest, long_request_count, avg_response_time, max_response_time, status_codes, severity, attack_type
 | `ollama_suspicious_prompt_injection_jailbreak_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
@@ -31,18 +39,18 @@ references:
 - https://github.com/rosplk/ta-ollama
 - https://github.com/LLMTop10/TTP-framework
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search src_ip="$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search src="$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Potential prompt injection or jailbreak attempt detected from $src_ip$ with $long_request_count$ requests averaging $avg_response_time$ seconds, indicating possible attempts to bypass AI safety controls or extract sensitive information from the Ollama model.
+  message: Potential prompt injection or jailbreak attempt detected from $src$ with $long_request_count$ requests averaging $avg_response_time$ seconds, indicating possible attempts to bypass AI safety controls or extract sensitive information from the Ollama model.
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 70
   threat_objects: []

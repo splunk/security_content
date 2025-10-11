@@ -8,25 +8,25 @@ type: TTP
 description: Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
 data_source:
 - Ollama Server Data
-search: '`ollama_server` (("GIN" NOT "127.0.0.1") OR (level=WARN AND ("lookup" OR "dial tcp" OR "no such host"))) 
-| eval src_ip=if(event_type="gin" AND isnotnull(src_ip), src_ip, "N/A")
-| stats count as incidents, values(src_ip) as src_ip, values(msg) as warning_messages, latest(_time) as last_incident by host 
-| eval last_incident=strftime(last_incident, "%Y-%m-%d %H:%M:%S") 
-| eval severity="medium" 
-| eval attack_type="Abnormal Network Activity" 
-| table last_incident, host, incidents, src_ip, warning_messages, severity, attack_type
+search: '`ollama_server` level=WARN
+| eval src=coalesce(src, src_ip, "N/A")
+| stats count as incidents, values(src) as src, values(msg) as warning_messages, latest(_time) as last_incident by host
+| eval last_incident=strftime(last_incident, "%Y-%m-%d %H:%M:%S")
+| eval severity="medium"
+| eval attack_type="Abnormal WARN: Driver or Prompt"
+| stats count by last_incident, host, incidents, src, warning_messages, severity, attack_type
 | `ollama_abnormal_network_connectivity_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate remote access from authorized users or applications connecting from non-localhost addresses, temporary network infrastructure issues causing DNS resolution failures, firewall or network configuration changes resulting in connection timeouts, cloud-hosted Ollama instances receiving valid external API requests, or intermittent connectivity problems during network maintenance may trigger this detection during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  "$src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  "$src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$",) starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$",) starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -34,9 +34,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Abnormal network activity detected on $host$ with $incidents$ incidents including non-localhost API access from $src_ip$ and network errors $warning_messages$, potentially indicating unauthorized access attempts, network-based reconnaissance, or infrastructure connectivity exploitation.
+  message: Abnormal network activity detected on $host$ with $incidents$ incidents including non-localhost API access from $src$ and network errors $warning_messages$, potentially indicating unauthorized access attempts, network-based reconnaissance, or infrastructure connectivity exploitation.
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 10
   threat_objects: []

@@ -8,7 +8,37 @@ type: TTP
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
 - Ollama Server Data
-search: '`ollama_server` level=ERROR ("exited" OR "exit status" OR "crashed" OR "fatal" OR "panic") | stats count by err msg host _time | `ollama_abnormal_service_crash_availability_attack_filter`'
+search: '`ollama_server`  level=WARN (msg="*driver*" OR msg="*truncat*")
+| rex field=_raw "msg=\"(?<msg>[^\"]+)\""
+| rex field=_raw "source=(?<code_source>[^\s]+)"
+| eval warning_type=case(
+    match(msg, "truncat"), "prompt_truncation",
+    match(msg, "driver"), "cuda_driver",
+    1=1, "other_warning"
+)
+| bin _time span=5m
+| stats count as warning_count, 
+        earliest(_time) as first_seen, 
+        latest(_time) as last_seen,
+        values(msg) as messages,
+        values(code_source) as sources,
+        dc(warning_type) as unique_types
+        by warning_type, host
+| eval first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+| eval last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+| eval severity=case(
+    warning_type="prompt_truncation" AND warning_count > 10, "critical",
+    warning_type="prompt_truncation" AND warning_count > 3, "high",
+    warning_type="prompt_truncation", "medium",
+    1=1, "low"
+)
+| eval attack_type=case(
+    warning_type="prompt_truncation", "Context Stuffing / Token Limit Abuse",
+    1=1, "Infrastructure Warning"
+)
+| where warning_type="prompt_truncation"
+| table first_seen, last_seen, host, warning_type, warning_count, messages, severity, attack_type
+| `ollama_abnormal_service_crash_availability_attack_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Normal service restarts during system updates or maintenance windows, graceful shutdowns with non-zero exit codes, intentional service stops by administrators, software upgrades requiring process termination, out-of-memory conditions on resource-constrained systems, or known bugs in specific Ollama versions that cause benign crashes may trigger this detection during routine operations.
 references:

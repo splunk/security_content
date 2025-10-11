@@ -9,27 +9,24 @@ description: Detects API reconnaissance and endpoint scanning activity against O
 data_source:
 - Ollama Server Data
 search: '`ollama_server` "GIN" 
-| rex field=_raw "\|\s+(?<client_ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+\|" 
-| rex field=_raw "\|\s+(?<http_method>GET|POST|PUT|DELETE|HEAD|PATCH)\s+\"(?<endpoint>[^\"]+)\"" 
-| rex field=_raw "\|\s+(?<status_code>\d{3})\s+\|" | eval client_ip = src_ip
-| bin _time span=5m 
-| stats count as total_requests, dc(endpoint) as unique_endpoints, values(endpoint) as endpoints, values(http_method) as methods, values(status_code) as status_codes by _time, src_ip, host 
-| where unique_endpoints > 1 OR (unique_endpoints > 2 AND match(methods, "HEAD")) 
-| eval severity="medium" 
-| eval attack_type="API Reconnaissance / Endpoint Scanning" 
-| table _time, host, src_ip, total_requests, unique_endpoints, endpoints, methods, status_codes, severity, attack_type
+| bin _time span=5m
+| stats count as total_requests, values(dest) as dest, values(http_method) as methods, values(status) as status_codes by _time, src, host
+| where total_requests > 120
+| eval severity="medium"
+| eval attack_type="API Activity Surge"
+| stats count by _time, host, src, total_requests, dest, methods, status_codes, severity, attack_type
 | `ollama_possible_api_endpoint_scan_reconnaissance_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate web application clients or mobile apps that access multiple API endpoints as part of normal functionality, monitoring and health check systems probing various endpoints for availability, load balancers performing health checks across different paths, API testing frameworks during development and QA processes, or users navigating through web interfaces that trigger multiple API calls may generate similar patterns during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  "$src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  "$src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -37,9 +34,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: API reconnaissance activity detected from $src_ip$ on $host$ with $total_requests$ requests across $unique_endpoints$ different endpoints using methods $methods$ and receiving status codes $status_codes$, indicating systematic endpoint enumeration to map API attack surface and identify potential vulnerabilities.
+  message: API reconnaissance activity detected from $src$ on $host$ with $total_requests$ requests across different endpoints using methods $methods$ and receiving status codes $status_codes$, indicating systematic endpoint enumeration to map API attack surface and identify potential vulnerabilities.
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 10
   threat_objects: []

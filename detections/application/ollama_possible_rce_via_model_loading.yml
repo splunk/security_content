@@ -8,13 +8,37 @@ type: TTP
 description: Detects Ollama server errors and failures during model loading operations that may indicate malicious model injection, path traversal attempts, or exploitation of model loading mechanisms to achieve remote code execution. Adversaries may attempt to load specially crafted malicious models or exploit vulnerabilities in the model loading process to execute arbitrary code on the server. This detection monitors error messages and failure patterns that could signal attempts to abuse model loading functionality for malicious purposes.
 data_source:
 - Ollama Server Data
-search: '`ollama_server` (level=ERROR AND ("llama runner" OR "model" OR "server.go" OR "exited")) 
-| stats count as error_count, values(msg) as error_messages, values(err) as error_details, latest(_time) as last_error by host, source 
-| where error_count > 0 
-| eval last_error=strftime(last_error, "%Y-%m-%d %H:%M:%S") 
-| eval severity="critical" 
-| eval attack_type="Suspicious Model Loading / Potential RCE" 
-| table last_error, host, error_count, error_messages, error_details, severity, attack_type
+search: '`ollama_server` level=ERROR ("llama runner" OR "model" OR "server.go" OR "exited")
+| rex field=_raw "source=(?<code_source>[^\s]+)"
+| rex field=_raw "msg=\"(?<msg>[^\"]+)\""
+| rex field=_raw "err=\"(?<err>[^\"]+)\""
+| rex field=_raw "level=(?<log_level>\w+)"
+| eval error_type=case(
+    match(_raw, "exited"), "service_crash",
+    match(_raw, "model"), "model_error",
+    match(_raw, "llama runner"), "runner_error",
+    1=1, "unknown_error"
+)
+| bin _time span=1h
+| stats count as error_count, 
+        earliest(_time) as first_error, 
+        latest(_time) as last_error,
+        values(msg) as error_messages, 
+        values(err) as error_details, 
+        values(code_source) as code_sources,
+        values(error_type) as error_types,
+        dc(error_type) as unique_error_types
+        by host
+| where error_count > 0
+| eval first_error=strftime(first_error, "%Y-%m-%d %H:%M:%S")
+| eval last_error=strftime(last_error, "%Y-%m-%d %H:%M:%S")
+| eval severity=case(
+    match(error_details, "exit status") OR error_count > 5, "critical",
+    error_count > 2, "high",
+    1=1, "medium"
+)
+| eval attack_type="Suspicious Model Loading / Potential RCE"
+| stats count by first_error, last_error, host, code_sources, error_count, unique_error_types, error_types, error_messages, error_details, severity, attack_type
 | `ollama_possible_rce_via_model_loading_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Corrupted model files from interrupted downloads, insufficient disk space or memory during legitimate model loading, incompatible model formats or versions, network timeouts when pulling models from registries, file permission issues in multi-user environments, or genuine configuration errors during initial Ollama setup may generate similar error patterns during normal operations.

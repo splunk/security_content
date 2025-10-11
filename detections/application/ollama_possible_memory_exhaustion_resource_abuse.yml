@@ -8,16 +8,36 @@ type: TTP
 description: Detects abnormal memory allocation patterns and excessive runner operations in Ollama that may indicate resource exhaustion attacks, memory abuse through malicious model loading, or attempts to degrade system performance by overwhelming GPU/CPU resources. Adversaries may deliberately load multiple large models, trigger repeated model initialization cycles, or exploit memory allocation mechanisms to exhaust available system resources, causing denial of service conditions or degrading performance for legitimate users.
 data_source:
 - Ollama Server Data
-search: '`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner started" OR "loaded runners") 
-| rex field=_raw "count=(?<runner_count>\d+)" 
-| rex field=_raw "size\s+=\s+(?<memory_mb>[\d\.]+)\s+MiB" 
-| rex field=_raw "started in (?<load_time>[\d\.]+) seconds" 
-| bin _time span=5m 
-| stats count as operations, sum(runner_count) as total_runners, avg(memory_mb) as avg_memory, max(memory_mb) as max_memory, avg(load_time) as avg_load_time by _time, host 
-| where operations > 5 OR total_runners > 0 OR max_memory > 400 
-| eval severity="high" 
-| eval attack_type="Resource Exhaustion / Memory Abuse" 
-| table _time, host, operations, total_runners, avg_memory, max_memory, avg_load_time, severity, attack_type
+search: '`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner started" OR "loaded runners")
+| rex field=_raw "count=(?<runner_count>\d+)"
+| rex field=_raw "size\s*=\s*(?<memory_mb>[\d\.]+)\s+MiB"
+| rex field=_raw "started in\s*(?<load_time>[\d\.]+)\s*seconds"
+| rex field=_raw "source=(?<code_source>[^\s]+)"
+| bin _time span=5m
+| stats count as operations, 
+        sum(runner_count) as total_runners, 
+        dc(code_source) as unique_sources,
+        values(code_source) as code_sources,
+        avg(memory_mb) as avg_memory, 
+        max(memory_mb) as max_memory, 
+        sum(memory_mb) as total_memory,
+        avg(load_time) as avg_load_time,
+        max(load_time) as max_load_time
+        by _time, host
+| where operations > 5 OR total_runners > 0 OR max_memory > 400 OR total_memory > 500
+| eval avg_memory=round(avg_memory, 2)
+| eval max_memory=round(max_memory, 2)
+| eval total_memory=round(total_memory, 2)
+| eval avg_load_time=round(avg_load_time, 2)
+| eval severity=case(
+    max_memory > 500 OR total_memory > 1000, "critical",
+    max_memory > 400 OR operations > 20, "high",
+    operations > 10, "medium",
+    1=1, "low"
+)
+| eval attack_type="Resource Exhaustion / Memory Abuse"
+| sort -_time
+| table _time, host, operations, total_runners, unique_sources, avg_memory, max_memory, total_memory, avg_load_time, max_load_time, severity, attack_type
 | `ollama_possible_memory_exhaustion_resource_abuse_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Legitimate high-volume production workloads processing multiple concurrent requests, users loading large language models (7B+ parameters) that naturally require substantial memory allocation, simultaneous multi-model deployments during system scaling, batch processing operations, or initial system startup sequences may generate similar memory allocation patterns during normal operations.
