@@ -34,7 +34,7 @@ search: '`ollama_server` (level=ERROR OR level=FATAL OR "service stopped" OR "te
 | where termination_count > 1
 | table first_seen, last_seen, host, termination_count, unique_errors, error_messages, severity, attack_type
 | `ollama_abnormal_service_crash_availability_attack_filter`'
-how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
 known_false_positives: Normal service restarts during system updates or maintenance windows, graceful shutdowns with non-zero exit codes, intentional service stops by administrators, software upgrades requiring process termination, out-of-memory conditions on resource-constrained systems, or known bugs in specific Ollama versions that cause benign crashes may trigger this detection during routine operations.
 references:
 - https://github.com/rosplk/ta-ollama

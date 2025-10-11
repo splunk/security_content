@@ -40,7 +40,7 @@ search: '`ollama_server` level=ERROR ("llama runner" OR "model" OR "server.go" O
 | eval attack_type="Suspicious Model Loading / Potential RCE"
 | stats count by first_error, last_error, host, code_sources, error_count, unique_error_types, error_types, error_messages, error_details, severity, attack_type
 | `ollama_possible_rce_via_model_loading_filter`'
-how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
 known_false_positives: Corrupted model files from interrupted downloads, insufficient disk space or memory during legitimate model loading, incompatible model formats or versions, network timeouts when pulling models from registries, file permission issues in multi-user environments, or genuine configuration errors during initial Ollama setup may generate similar error patterns during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama

@@ -16,7 +16,7 @@ search: '`ollama_server` "GIN"
 | eval attack_type="API Activity Surge"
 | stats count by _time, host, src, total_requests, dest, methods, status_codes, severity, attack_type
 | `ollama_possible_api_endpoint_scan_reconnaissance_filter`'
-how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
 known_false_positives: Legitimate web application clients or mobile apps that access multiple API endpoints as part of normal functionality, monitoring and health check systems probing various endpoints for availability, load balancers performing health checks across different paths, API testing frameworks during development and QA processes, or users navigating through web interfaces that trigger multiple API calls may generate similar patterns during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama

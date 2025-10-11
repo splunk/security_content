@@ -39,7 +39,7 @@ search: '`ollama_server` ("llama_kv_cache" OR "compute buffer" OR "llama runner 
 | sort -_time
 | table _time, host, operations, total_runners, unique_sources, avg_memory, max_memory, total_memory, avg_load_time, max_load_time, severity, attack_type
 | `ollama_possible_memory_exhaustion_resource_abuse_filter`'
-how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
 known_false_positives: Legitimate high-volume production workloads processing multiple concurrent requests, users loading large language models (7B+ parameters) that naturally require substantial memory allocation, simultaneous multi-model deployments during system scaling, batch processing operations, or initial system startup sequences may generate similar memory allocation patterns during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama

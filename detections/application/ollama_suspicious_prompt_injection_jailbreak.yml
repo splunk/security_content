@@ -33,7 +33,7 @@ search: '`ollama_server` "GIN" ("/api/generate" OR "/v1/chat/completions")
 | eval attack_type="Potential Prompt Injection / Jailbreak"
 | table _time, host, src, dest, long_request_count, avg_response_time, max_response_time, status_codes, severity, attack_type
 | `ollama_suspicious_prompt_injection_jailbreak_filter`'
-how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
 known_false_positives: Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama
