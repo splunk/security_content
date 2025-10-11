@@ -8,6 +8,8 @@ description: Leverage advanced Splunk searches to detect and investigate suspici
 narrative: Modern adversaries targeting Ollama deployments employ increasingly sophisticated techniques that mirror traditional malware campaigns. Our detection framework identifies multi-stage attacks where threat actors use obfuscated prompts, layered social engineering, and persistent manipulation techniques to compromise local model security controls. These attacks often involve initial reconnaissance through seemingly benign API requests, followed by escalated attempts to extract model weights, manipulate Modelfile configurations, or establish persistent behavioral modifications through custom model injection.
 references:
 - https://github.com/rosplk/ta-ollama
+- https://owasp.org/www-project-top-10-for-large-language-model-applications/
+- https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
 tags:
   category:
   - Adversary Tactics
