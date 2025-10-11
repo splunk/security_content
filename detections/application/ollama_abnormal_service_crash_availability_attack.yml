@@ -8,36 +8,31 @@ type: TTP
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
 - Ollama Server
-search: '`ollama_server`  level=WARN (msg="*driver*" OR msg="*truncat*")
+search: '`ollama_server` (level=ERROR OR level=FATAL OR "service stopped" OR "terminated" OR "exit" OR "shutdown" OR "crash" OR "killed")
 | rex field=_raw "msg=\"(?<msg>[^\"]+)\""
-| rex field=_raw "source=(?<code_source>[^\s]+)"
-| eval warning_type=case(
-    match(msg, "truncat"), "prompt_truncation",
-    match(msg, "driver"), "cuda_driver",
-    1=1, "other_warning"
-)
+| rex field=_raw "exit_code=(?<exit_code>\d+)"
 | bin _time span=5m
-| stats count as warning_count, 
-        earliest(_time) as first_seen, 
+| stats count as termination_count,
+        earliest(_time) as first_seen,
         latest(_time) as last_seen,
-        values(msg) as messages,
-        values(code_source) as sources,
-        dc(warning_type) as unique_types
-        by warning_type, host
+        values(msg) as error_messages,
+        values(exit_code) as exit_codes,
+        dc(msg) as unique_errors
+        by host
 | eval first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S")
 | eval last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S")
 | eval severity=case(
-    warning_type="prompt_truncation" AND warning_count > 10, "critical",
-    warning_type="prompt_truncation" AND warning_count > 3, "high",
-    warning_type="prompt_truncation", "medium",
-    1=1, "low"
+    termination_count > 5, "critical",
+    termination_count > 2, "high",
+    1=1, "medium"
 )
 | eval attack_type=case(
-    warning_type="prompt_truncation", "Context Stuffing / Token Limit Abuse",
-    1=1, "Infrastructure Warning"
+    termination_count > 5, "Resource Exhaustion",
+    termination_count > 2, "Repeated Service Failures",
+    1=1, "Service Instability"
 )
-| where warning_type="prompt_truncation"
-| table first_seen, last_seen, host, warning_type, warning_count, messages, severity, attack_type
+| where termination_count > 1
+| table first_seen, last_seen, host, termination_count, unique_errors, error_messages, severity, attack_type
 | `ollama_abnormal_service_crash_availability_attack_filter`'
 how_to_implement: Ingest Ollama logs via Splunk TA. This can be done by monitoring local ollama directories or via SPLUNK HEC shipping.
 known_false_positives: Normal service restarts during system updates or maintenance windows, graceful shutdowns with non-zero exit codes, intentional service stops by administrators, software upgrades requiring process termination, out-of-memory conditions on resource-constrained systems, or known bugs in specific Ollama versions that cause benign crashes may trigger this detection during routine operations.
@@ -57,7 +52,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: 'Abnormal Ollama service termination detected on host $host$ at $_time$. The service encountered a critical error $msg$. This unexpected shutdown could indicate a denial-of-service attack, resource exhaustion, malicious model injection, or system instability. Local LLM service disruptions may impact dependent applications and workflows. Total occurrences: $count$. Immediate investigation is required to determine the root cause, assess potential security implications, and restore service availability.'
+  message: 'Abnormal Ollama service termination detected on host $host$ between $first_seen$ and $last_seen$. Service stopped $termination_count$ times with $unique_errors$ unique error types. Severity: $severity$. Potential cause: $attack_type$. Error messages: $error_messages$ require investigation.'
   risk_objects:
   - field: host
     type: system
