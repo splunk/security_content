@@ -34,7 +34,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Network errors: $warning_messages$. Potential unauthorized access or reconnaissance detected.
+  message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Network errors: $warning_messages$. Potential unauthorized access or reconnaissance detected.'
   risk_objects:
   - field: host
     type: system 
