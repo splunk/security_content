@@ -36,7 +36,7 @@ how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring
 known_false_positives: Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
 references:
 - https://github.com/rosplk/ta-ollama
-- https://github.com/LLMTop10/TTP-framework
+- https://github.com/OWASP/www-project-ai-testing-guide
 drilldown_searches:
 - name: View the detection results for - "$src$"
   search: '%original_detection_search% | search src="$src$"'
