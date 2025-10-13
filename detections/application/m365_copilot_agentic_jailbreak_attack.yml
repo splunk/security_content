@@ -4,7 +4,7 @@ version: 1
 date: '2025-09-25'
 author: Rod Soto
 status: experimental
-type: TTP
+type: Anomaly
 data_source:
 - M365 Exported eDiscovery Prompts
 description: Detects agentic AI jailbreak attempts that try to establish persistent control over M365 Copilot through rule injection, universal triggers, response automation, system overrides, and persona establishment techniques. The detection analyzes the PromptText field for keywords like "from now on," "always respond," "ignore previous," "new rule," "override," and role-playing commands (e.g., "act as," "you are now") that attempt to inject persistent instructions. The search computes risk by counting distinct jailbreak indicators per user session, flagging coordinated manipulation attempts.
@@ -38,7 +38,7 @@ rba:
   risk_objects:
     - field: user
       type: user
-      score: 10
+      score: 50
   threat_objects: []
 tags:
   analytic_story:
