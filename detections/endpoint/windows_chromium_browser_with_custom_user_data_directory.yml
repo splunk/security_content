@@ -1,7 +1,7 @@
 name: Windows Chromium Browser with Custom User Data Directory
 id: 4f546cf4-15aa-4368-80f7-940e92bc551e
-version: 1
-date: '2025-05-26'
+version: 2
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,8 +32,8 @@ how_to_implement: |
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: Administrators may enable or disable this feature that may
-  cause some false positive.
+known_false_positives: Administrators may enable or disable this feature that 
+  may cause some false positive.
 references:
 - https://chromium.googlesource.com/chromium/src/+/main/docs/user_data_dir.md
 drilldown_searches:
@@ -51,7 +51,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A chromium process with the --user-data-dir flag was launched on $dest$ by user $user$.
+  message: A chromium process with the --user-data-dir flag was launched on 
+    $dest$ by user $user$.
   risk_objects:
   - field: dest
     type: system
@@ -62,6 +63,7 @@ rba:
 tags:
   analytic_story:
   - Malicious Inno Setup Loader
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1497
@@ -73,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497/chrom_no_sandbox/chrome-no_sandbox.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1497/chrom_no_sandbox/chrome-no_sandbox.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

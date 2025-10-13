@@ -1,7 +1,7 @@
 name: Windows Executable in Loaded Modules
 id: 3e27af56-fcf0-4113-988d-24969b062be7
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,11 +15,14 @@ description: The following analytic identifies instances where executable files 
   NjRAT, which uses this technique to load malicious modules. If confirmed malicious,
   this behavior could allow attackers to execute arbitrary code, maintain persistence,
   and further compromise the host system.
-search: '`sysmon` EventCode=7 ImageLoaded= *.exe | fillnull | stats count min(_time)
-  as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path
-  original_file_name process_exec process_guid process_hash process_id process_name
-  process_path service_dll_signature_exists service_dll_signature_verified signature
-  signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+search: '`sysmon` EventCode=7 ImageLoaded != *.dll AND Signed != true  
+  | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name
+  process_path service_dll_signature_exists service_dll_signature_verified signature Signed
+  signature_id user_id vendor_product 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_executable_in_loaded_modules_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
@@ -51,6 +54,7 @@ rba:
 tags:
   analytic_story:
   - NjRAT
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1129
