@@ -25,7 +25,7 @@ search: |
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_expand_cabinet_file_extraction_filter`
+  | `windows_cabinet_file_extraction_via_expand_filter`
 how_to_implement: |
   This analytic relies on process creation telemetry mapped to the Endpoint.Processes
   datamodel (e.g., Sysmon EID 1 or EDR). Ensure full command-line logging is enabled
