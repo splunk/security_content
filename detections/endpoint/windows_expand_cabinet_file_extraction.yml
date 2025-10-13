@@ -19,7 +19,7 @@ search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
   from datamodel=Endpoint.Processes
   where Processes.process_name="expand.exe"
-    (Processes.process="* -F:* *" OR Processes.process="* /F:* *")
+    (Processes.process="*-F:*" OR Processes.process="*/F:*")
     (Processes.process="*.cab*" OR Processes.process="*\\ProgramData\\*")
   by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.original_file_name Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_path Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_path Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)`
