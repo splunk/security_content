@@ -1,7 +1,7 @@
 name: USN Journal Deletion
 id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-07'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -17,16 +17,29 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process)
-  as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_name=fsutil.exe
+search: |
+  | tstats `security_content_summariesonly` 
+    count values(Processes.process) as process 
+          values(Processes.parent_process) as parent_process 
+          min(_time) as firstTime
+          max(_time) as lastTime 
+  
+  from datamodel=Endpoint.Processes where 
+  
+  Processes.process_name=fsutil.exe
+  Processes.process = "*usn*" 
+  Processes.process = "*deletejournal*"
+  
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | search process="*deletejournal*" AND process="*usn*" | `usn_journal_deletion_filter`'
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `usn_journal_deletion_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -37,7 +50,8 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
 known_false_positives: None identified
-references: []
+references: 
+- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn
 drilldown_searches:
 - name: View the detection results for - "$dest$"
   search: '%original_detection_search% | search  dest = "$dest$"'
@@ -53,7 +67,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Possible USN journal deletion on $dest$
+  message: Possible USN journal deletion on $dest$ via $process$
   risk_objects:
   - field: dest
     type: system
