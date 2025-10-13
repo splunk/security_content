@@ -3,8 +3,8 @@ id: ad3f352a-0347-48ee-86b9-670b5025a548
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects API reconnaissance and endpoint scanning activity against Ollama servers by identifying sources probing multiple API endpoints within short timeframes, particularly when using HEAD requests or accessing diverse endpoint paths, which indicates systematic enumeration to map the API surface, discover hidden endpoints, or identify vulnerabilities before launching targeted attacks.
 data_source:
 - Ollama Server

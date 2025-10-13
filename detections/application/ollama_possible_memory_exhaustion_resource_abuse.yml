@@ -3,8 +3,8 @@ id: ca96297f-e82e-4749-8cc9-d1ab555abb57
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects abnormal memory allocation patterns and excessive runner operations in Ollama that may indicate resource exhaustion attacks, memory abuse through malicious model loading, or attempts to degrade system performance by overwhelming GPU/CPU resources. Adversaries may deliberately load multiple large models, trigger repeated model initialization cycles, or exploit memory allocation mechanisms to exhaust available system resources, causing denial of service conditions or degrading performance for legitimate users.
 data_source:
 - Ollama Server

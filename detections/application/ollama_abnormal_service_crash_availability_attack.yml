@@ -3,8 +3,8 @@ id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
 - Ollama Server

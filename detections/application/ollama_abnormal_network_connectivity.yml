@@ -3,17 +3,17 @@ id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: Anomaly
 description: Detects abnormal network activity and connectivity issues in Ollama including non-localhost API access attempts and warning-level network errors such as DNS lookup failures, TCP connection issues, or host resolution problems that may indicate network-based attacks, unauthorized access attempts, or infrastructure reconnaissance activity.
 data_source:
 - Ollama Server
-search: '`ollama_server` level=WARN
+search: '`ollama_server` level=WARN (msg="*failed*" OR msg="*dial tcp*" OR msg="*lookup*" OR msg="*no such host*" OR msg="*connection*" OR msg="*network*" OR msg="*timeout*" OR msg="*unreachable*" OR msg="*refused*")
 | eval src=coalesce(src, src_ip, "N/A")
 | stats count as incidents, values(src) as src, values(msg) as warning_messages, latest(_time) as last_incident by host
 | eval last_incident=strftime(last_incident, "%Y-%m-%d %H:%M:%S")
 | eval severity="medium"
-| eval attack_type="Abnormal WARN: Driver or Prompt"
+| eval attack_type="Abnormal Network Connectivity"
 | stats count by last_incident, host, incidents, src, warning_messages, severity, attack_type
 | `ollama_abnormal_network_connectivity_filter`'
 how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
@@ -34,7 +34,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Network errors: $warning_messages$. Potential unauthorized access or reconnaissance detected.'
+  message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Investigation needed for network errors: $warning_messages$.'
   risk_objects:
   - field: host
     type: system 

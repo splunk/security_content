@@ -3,8 +3,8 @@ id: c9fd1a54-0eab-4470-8970-d5fcc3c740fb
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects data leakage and exfiltration attempts targeting Ollama model metadata and configuration endpoints. Adversaries repeatedly query /api/show, /api/tags, and /api/v1/models to systematically extract sensitive model information including architecture details, fine-tuning parameters, system paths, Modelfile configurations, and proprietary customizations. Multiple inspection attempts within a 15-minute window indicate automated exfiltration of valuable intellectual property such as custom model configurations, system prompts, and internal model specifications. This activity represents unauthorized data disclosure that could enable competitive intelligence gathering, model replication, or preparation for advanced attacks against the AI infrastructure.
 data_source:
 - Ollama Server

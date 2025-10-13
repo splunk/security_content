@@ -3,12 +3,12 @@ id: aac5df6f-9151-4da6-bdb2-5691aa6e376f
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects potential prompt injection or jailbreak attempts against Ollama API endpoints by identifying requests with abnormally long response times. Attackers often craft complex, layered prompts designed to bypass AI safety controls, which typically result in extended processing times as the model attempts to parse and respond to these malicious inputs. This detection monitors /api/generate and /api/chat endpoints for requests exceeding 30 seconds, which may indicate sophisticated jailbreak techniques, multi-stage prompt injections, or attempts to extract sensitive information from the model.
 data_source:
 - Ollama Server
-search: '`ollama_server` "GIN" ("/api/generate" OR "/v1/chat/completions")
+search: '`ollama_server` "GIN" ("*/api/generate*" OR "*/v1/chat/completions*")
 | rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+[a-z]+)\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
 | rex field=response_time "^(?:(?<minutes>\d+)m)?(?<seconds>[\d\.]+)s$"
 | eval response_time_seconds=if(isnotnull(minutes), tonumber(minutes)*60+tonumber(seconds), tonumber(seconds))

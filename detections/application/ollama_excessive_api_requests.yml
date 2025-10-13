@@ -3,8 +3,8 @@ id: 1cfab663-9adc-4169-a88c-6bae29ba3c70
 version: 1
 date: '2025-10-05'
 author: Rod Soto
-status: production
-type: TTP
+status: experimental
+type: anomaly
 description: Detects potential Distributed Denial of Service (DDoS) attacks or rate limit abuse against Ollama API endpoints by identifying excessive request volumes from individual client IP addresses. This detection monitors GIN-formatted Ollama server logs to identify clients generating abnormally high request rates within short time windows, which may indicate automated attacks, botnet activity, or resource exhaustion attempts targeting local AI model infrastructure.
 data_source:
 - Ollama Server
