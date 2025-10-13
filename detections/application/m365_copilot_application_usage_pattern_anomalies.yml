@@ -1,0 +1,71 @@
+name: M365 Copilot Application Usage Pattern Anomalies
+id: e3308b0c-d1a1-40d5-9486-4500f0d34731
+version: 1
+date: '2025-09-24'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects M365 Copilot users exhibiting suspicious application usage patterns including multi-location access, abnormally high activity volumes, or access to multiple Copilot applications that may indicate account compromise or automated abuse. The detection aggregates M365 Copilot Graph API events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses, number of different Copilot apps used, and average events per day over the observation period. Users are flagged when they access Copilot from multiple cities (cities_count > 1), generate excessive daily activity (events_per_day > 100), or use more than two different Copilot applications (app_count > 2), which are anomalous patterns suggesting credential compromise or bot-driven abuse.
+search: >
+  `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+  | eval user = userPrincipalName
+  | stats count as events,
+      dc(location.city) as cities_count,
+      values(location.city) as city_list,
+      dc(location.countryOrRegion) as countries_count,
+      values(location.countryOrRegion) as country_list,
+      dc(ipAddress) as ip_count,
+      values(ipAddress) as ip_addresses,
+      dc(appDisplayName) as app_count,
+      values(appDisplayName) as apps_used,
+      dc(resourceDisplayName) as resource_count,
+      values(resourceDisplayName) as resources_accessed,
+      min(_time) as first_seen,
+      max(_time) as last_seen
+      by user
+  | eval days_active = round((last_seen - first_seen)/86400, 1)
+  | eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+  | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+  | eval events_per_day = if(days_active > 0, round(events/days_active, 2), events)
+  | where cities_count > 1 OR events_per_day > 100 OR app_count > 2
+  | sort -events_per_day, -countries_count
+  | `m365_copilot_application_usage_pattern_anomalies_filter`
+data_source: 
+- M365 Copilot Graph API
+how_to_implement: This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
+known_false_positives: Power users, executives with heavy AI workloads, employees traveling for business, users accessing multiple Copilot applications legitimately, or teams using shared corporate accounts across different office locations may trigger false positives.
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+  - name: View the detection results for "$user$"
+    search: '%original_detection_search% | search  user="$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ exhibited anomalous M365 Copilot usage patterns including multi-location access, excessive activity levels, or multiple application usage indicating potential account compromise or automated abuse.
+  risk_objects:
+    - field: user
+      type: user
+      score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1078
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/m365_copilot_access.log
+        sourcetype: o365:graph:api
+        source: AuditLogs.SignIns

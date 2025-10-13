@@ -1,0 +1,54 @@
+name: M365 Copilot Impersonation Jailbreak Attack
+id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
+version: 1
+date: '2025-09-25'
+author: Rod Soto
+status: experimental
+type: TTP
+data_source:
+- M365 Exported eDiscovery Prompts
+description: Detects M365 Copilot impersonation and roleplay jailbreak attempts where users try to manipulate the AI into adopting alternate personas, behaving as unrestricted entities, or impersonating malicious AI systems to bypass safety controls. The detection searches exported eDiscovery prompt logs for roleplay keywords like "pretend you are," "act as," "you are now," "amoral," and "roleplay as" in the Subject_Title field. Prompts are categorized into specific impersonation types (AI_Impersonation, Malicious_AI_Persona, Unrestricted_AI_Persona, etc.) to identify attempts to override the AI's safety guardrails through persona injection attacks.
+search: '`m365_exported_ediscovery_prompt_logs`
+| search Subject_Title="*Pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*you are now*" OR Subject_Title="*amoral*" OR Subject_Title="*being*" OR Subject_Title="*roleplay as*" OR Subject_Title="*imagine you are*" OR Subject_Title="*behave like*"
+| eval user = Sender
+| eval impersonation_type=case(match(Subject_Title, "(?i)pretend you are.*AI"), "AI_Impersonation", match(Subject_Title, "(?i)(act as|roleplay as).*AI"), "AI_Roleplay", match(Subject_Title, "(?i)amoral.*AI"), "Amoral_AI", match(Subject_Title, "(?i)transcendent being"), "Fictional_Entity", match(Subject_Title, "(?i)(act as|pretend you are).*(entities|multiple)"), "Multi_Entity", match(Subject_Title, "(?i)(imagine you are|behave like).*AI"), "AI_Behavioral_Change", match(Subject_Title, "(?i)you are now.*AI"), "AI_Identity_Override", match(Subject_Title, "(?i)(evil|malicious|harmful).*AI"), "Malicious_AI_Persona", match(Subject_Title, "(?i)(unrestricted|unlimited|uncensored).*AI"), "Unrestricted_AI_Persona", 1=1, "Generic_Roleplay")
+| table _time, user, Subject_Title, impersonation_type, Workload
+| sort -_time
+| `m365_copilot_impersonation_jailbreak_attack_filter`'
+how_to_implement: To export M365 Copilot prompt logs, navigate to the Microsoft Purview compliance portal (compliance.microsoft.com) and access eDiscovery. Create a new eDiscovery case, add target user accounts or date ranges as data sources, then create a search query targeting M365 Copilot interactions across relevant workloads. Once the search completes, export the results to generate a package containing prompt logs with fields like Subject_Title (prompt text), Sender, timestamps, and workload metadata. Download the exported files using the eDiscovery Export Tool and ingest them into Splunk for security analysis and detection of jailbreak attempts, data exfiltration requests, and policy violations.
+known_false_positives: Legitimate creative writers developing fictional characters, game developers creating roleplay scenarios, educators teaching about AI ethics and limitations, researchers studying AI behavior, or users engaging in harmless creative storytelling may trigger false positives.
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search user="$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ attempted M365 Copilot impersonation jailbreak with impersonation type $impersonation_type$, trying to manipulate the AI into adopting alternate personas or unrestricted behaviors that could bypass safety controls and violate acceptable use policies.
+  risk_objects:
+    - field: user
+      type: user
+      score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+  asset_type: Web Proxy
+  mitre_attack_id:
+    - T1562
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
+        sourcetype: csv
+        source: csv
