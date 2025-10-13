@@ -82,6 +82,7 @@ tags:
   - Gozi Malware
   - Scattered Spider
   - APT37 Rustonotto and FadeStealer
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1197

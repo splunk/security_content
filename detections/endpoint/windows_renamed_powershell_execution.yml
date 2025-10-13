@@ -1,25 +1,46 @@
 name: Windows Renamed Powershell Execution
 id: c08014de-cc5a-42de-9775-76ecd5b37bbd
-version: 1
-date: '2025-05-07'
-author: Teoderick Contreras, Splunk
+version: 2
+date: '2025-10-07'
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: The following analytic identifies instances where the PowerShell executable has been renamed and executed under an alternate filename. This behavior is commonly associated with attempts to evade security controls or bypass logging mechanisms that monitor standard PowerShell usage. While rare in legitimate environments, renamed PowerShell binaries are frequently observed in malicious campaigns leveraging Living-off-the-Land Binaries (LOLBins) and fileless malware techniques. This detection flags executions of PowerShell where the process name does not match the default powershell.exe or pwsh.exe, especially when invoked from unusual paths or accompanied by suspicious command-line arguments.
 data_source:
 - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name!=powershell.exe AND Processes.process_name!=pwsh.exe
-  AND Processes.original_file_name=powershell.EXE by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product 
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+          max(_time) as lastTime 
+
+  from datamodel=Endpoint.Processes where 
+  
+  (
+    Processes.original_file_name = PowerShell.EXE
+    Processes.process_name != powershell.exe
+  )
+  OR
+  (
+    Processes.original_file_name = pwsh.dll
+    Processes.process_name != pwsh.exe
+  )
+  OR
+  (
+    Processes.original_file_name = powershell_ise.EXE
+    Processes.process_name != powershell_ise.exe
+  )
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process 
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id 
+     Processes.parent_process_name Processes.parent_process_path Processes.process 
+     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id 
+     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user 
+     Processes.user_id Processes.vendor_product 
+     
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_renamed_powershell_execution_filter`'
+  | `windows_renamed_powershell_execution_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

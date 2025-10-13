@@ -1,0 +1,18 @@
+name: Lokibot
+id: d8db6b83-85b9-40f1-a6bc-28f6c6e3d487
+version: 1
+date: '2025-09-30'
+author: Teoderick Contreras, Splunk
+status: production
+description: Lokibot is a prevalent information-stealing Trojan that primarily targets Windows and Android devices to pilfer sensitive data, including usernames, passwords, cryptocurrency wallets, and banking information. Detection often hinges on identifying its characteristic behaviors and network communications. It is commonly distributed via phishing emails containing malicious attachments (e.g., Office documents, RAR files) or through compromised websites. Once infected, Lokibot employs keylogging to capture credentials and exfiltrates stolen data to its command-and-control (C2) servers, often using HTTP with a distinct User-Agent string like "Mozilla/4.08 (Charon; Inferno)". Suspicious network traffic, unexpected system activity, or the presence of its specific C2 communication patterns are strong indicators of compromise. Antivirus and endpoint detection solutions are crucial for identifying and mitigating Lokibot infections.
+narrative: Lokibot's detection narrative often begins with the initial compromise, typically through a user opening a malicious attachment from a phishing email or visiting a compromised website. Once executed, the malware establishes persistence and begins its data-gathering operations, often employing keylogging to capture credentials and other sensitive information. Its presence might first be flagged by endpoint detection and response (EDR) solutions observing unusual process behavior, such as vbc.exe or other legitimate processes making unexpected network connections. Network monitoring tools can then identify suspicious outbound traffic, particularly HTTP requests to known Lokibot command-and-control (C2) servers, often characterized by specific User-Agent strings or patterns. Furthermore, the exfiltration of stolen data to these C2 infrastructures provides a critical detection point, allowing security teams to identify and respond to the compromise before significant data loss occurs. Antivirus signatures and behavioral analysis also play a role in identifying the Lokibot executable itself or its attempts to modify system configurations.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-266a
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

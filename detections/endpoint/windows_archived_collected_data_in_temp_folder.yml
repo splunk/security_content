@@ -1,12 +1,12 @@
 name: Windows Archived Collected Data In TEMP Folder
 id: cb56a1ea-e0b1-46d5-913f-e024cba40cbe
 version: 6
-date: '2025-09-18'
+date: '2025-10-06'
 author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
 data_source:
 - Sysmon EventID 11
-type: TTP
-status: production
 description: The following analytic detects the creation of archived files in a temporary
   folder, which may contain collected data. This behavior is often associated with
   malicious activity, where attackers compress sensitive information before exfiltration.
@@ -15,20 +15,30 @@ description: The following analytic detects the creation of archived files in a 
   this pattern, security teams can quickly respond to potential data collection and
   exfiltration attempts, minimizing the risk of data breaches and improving overall
   threat detection.
-search: '|tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.zip",
-  "*.rar", "*.tar", "*.7z") Filesystem.file_path = "*\\temp\\*" by Filesystem.action
-  Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash
-  Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl
-  Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user
-  Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_archived_collected_data_in_temp_folder_filter`'
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+    max(_time) as lastTime 
+  FROM datamodel=Endpoint.Filesystem where 
+    Filesystem.file_name IN ("*.zip", "*.rar", "*.tar", "*.7z") 
+    Filesystem.file_path IN ("*\\AppData\\Local\\Temp\\*", "*\\Windows\\Temp\\*")
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time 
+     Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time 
+     Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size 
+     Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product 
+  | `drop_dm_object_name(Filesystem)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_archived_collected_data_in_temp_folder_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: unknown
+known_false_positives: |
+  Some installers, debugging or support tools may create archive files in the temp folder.
+  Legitimate software may also use temporary folders for archiving purposes.
+  Review and apply filters as needed.
 references:
 - https://x.com/suyog41/status/1825869470323056748
 - https://g0njxa.medium.com/from-vietnam-to-united-states-malware-fraud-and-dropshipping-98b7a7b2c36d
@@ -47,11 +57,11 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A archive file [$file_name$] was creatd in %temp% folder on [$dest$].
+  message: An archive file [$file_name$] was created in a temporary folder on [$dest$].
   risk_objects:
   - field: dest
     type: system
-    score: 64
+    score: 40
   threat_objects: []
 tags:
   analytic_story:

@@ -1,7 +1,7 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-09-16'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -55,6 +55,7 @@ tags:
   analytic_story:
   - Active Directory Password Spraying
   - CISA AA24-241A
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1136.001

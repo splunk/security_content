@@ -91,6 +91,7 @@ rba:
 tags:
   analytic_story:
     - APT37 Rustonotto and FadeStealer
+    - GhostRedirector IIS Module and Rungan Backdoor
     - Winter Vivern
     - Phemedrone Stealer
     - Malicious PowerShell

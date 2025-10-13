@@ -1,7 +1,7 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
 version: 19
-date: '2025-09-18'
+date: 2025-10-01
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,11 +15,19 @@ description: The following analytic detects the creation of scheduled tasks
   posing a severe threat to system integrity and security.
 data_source:
 - Windows Event Log Security 4698
-search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*\\users\\public\\*",
-  "*\\programdata\\*", "*\\temp\\*", "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName,
-  TaskContent |  rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `winevent_scheduled_task_created_within_public_path_filter`'
+search: |
+  `wineventlog_security`
+  EventCode=4698 
+  TaskContent IN (
+    "*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", 
+    "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*"
+    )
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+    by Computer, TaskName, TaskContent, user 
+  |  rename Computer as dest 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `winevent_scheduled_task_created_within_public_path_filter`
 how_to_implement: To successfully implement this search, you need to be 
   ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows
   TA is also required.

@@ -65,6 +65,7 @@ tags:
   - XWorm
   - 0bj3ctivity Stealer
   - APT37 Rustonotto and FadeStealer
+  - GhostRedirector IIS Module and Rungan Backdoor
   mitre_attack_id:
   - T1027
   - T1059.001

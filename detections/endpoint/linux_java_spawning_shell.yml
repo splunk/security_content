@@ -1,11 +1,11 @@
 name: Linux Java Spawning Shell
 id: 7b09db8a-5c20-11ec-9945-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-07'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances where Java, Apache, or Tomcat
+description: The following analytic detects instances where Java, or Tomcat
   processes spawn a Linux shell, which may indicate exploitation attempts, such as
   those related to CVE-2021-44228 (Log4Shell). This detection leverages Endpoint Detection
   and Response (EDR) telemetry, focusing on process names and parent-child process
@@ -15,16 +15,26 @@ description: The following analytic detects instances where Java, Apache, or Tom
   access, posing a severe threat to the environment.
 data_source:
 - Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=java
-  OR Processes.parent_process_name=apache OR Processes.parent_process_name=tomcat
-  `linux_shells` by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `linux_java_spawning_shell_filter`'
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+          max(_time) as lastTime 
+  
+  from datamodel=Endpoint.Processes where 
+  
+  Processes.parent_process_name IN ("java", "tomcat")
+  `linux_shells` 
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec 
+     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level 
+     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `linux_java_spawning_shell_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

@@ -73,7 +73,6 @@ output_fields:
 - action
 - src
 - src_ip
-- src_port
 - dest
 - dest_ip
 - dest_port
