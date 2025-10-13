@@ -4,7 +4,7 @@ version: 1
 date: '2025-10-05'
 author: Rod Soto
 status: experimental
-type: anomaly
+type: Anomaly
 description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
 data_source:
 - Ollama Server
