@@ -66,6 +66,7 @@ rba:
 tags:
   analytic_story:
   - Braodo Stealer
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1560

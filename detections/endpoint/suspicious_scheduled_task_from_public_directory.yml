@@ -88,6 +88,7 @@ tags:
   - MoonPeak
   - China-Nexus Threat Activity
   - Scattered Spider
+  - APT37 Rustonotto and FadeStealer
   - Lokibot
   asset_type: Endpoint
   mitre_attack_id:

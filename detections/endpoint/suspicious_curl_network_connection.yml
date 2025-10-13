@@ -53,6 +53,7 @@ tags:
   - Silver Sparrow
   - Ingress Tool Transfer
   - Linux Living Off The Land
+  - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:

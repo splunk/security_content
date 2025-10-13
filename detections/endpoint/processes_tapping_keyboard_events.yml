@@ -1,7 +1,7 @@
 name: Processes Tapping Keyboard Events
 id: 2a371608-331d-4034-ae2c-21dda8f1d0ec
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-09-18'
 author: Jose Hernandez, Splunk
 status: experimental
 type: TTP
@@ -38,6 +38,7 @@ rba:
 tags:
   analytic_story:
   - ColdRoot MacOS RAT
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   product:
   - Splunk Enterprise

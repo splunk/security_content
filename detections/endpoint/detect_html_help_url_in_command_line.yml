@@ -1,7 +1,7 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 12
-date: '2025-06-30'
+version: 13
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -82,6 +82,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - Suspicious Compiled HTML Activity
     - Living Off The Land
     - Compromised Windows Host

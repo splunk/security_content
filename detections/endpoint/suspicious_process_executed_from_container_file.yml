@@ -74,6 +74,7 @@ rba:
       type: file_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - GhostRedirector IIS Module and Rungan Backdoor
     - Unusual Processes
     - Amadey

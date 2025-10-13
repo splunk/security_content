@@ -93,6 +93,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - GhostRedirector IIS Module and Rungan Backdoor
     - Black Basta Ransomware
     - China-Nexus Threat Activity

@@ -85,6 +85,7 @@ tags:
   - AsyncRAT
   - Windows Persistence Techniques
   - 0bj3ctivity Stealer
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005
