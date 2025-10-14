@@ -1,6 +1,6 @@
 name: Ivanti EPM SQL Injection Remote Code Execution
 id: e20564ca-c86c-4e30-acdb-a8486673426f
-version: 6
+version: 5
 date: '2025-10-14'
 author: Michael Haag
 type: TTP

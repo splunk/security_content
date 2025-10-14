@@ -1,6 +1,6 @@
 name: Windows Exfiltration Over C2 Via Invoke RestMethod
 id: 06ade821-f6fa-40d0-80af-15bc1d45b3ba
-version: 10
+version: 9
 date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production

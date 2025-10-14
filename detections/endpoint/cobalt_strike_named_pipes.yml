@@ -1,6 +1,6 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 12
+version: 11
 date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
