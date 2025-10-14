@@ -1,6 +1,6 @@
 name: Windows System Reboot CommandLine
 id: 97fc2b60-c8eb-4711-93f7-d26fade3686f
-version: '8'
+version: 9
 date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production

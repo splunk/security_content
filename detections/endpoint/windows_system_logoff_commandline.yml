@@ -1,6 +1,6 @@
 name: Windows System LogOff Commandline
 id: 74a8133f-93e7-4b71-9bd3-13a66124fd57
-version: '7'
+version: 8
 date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production

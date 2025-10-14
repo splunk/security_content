@@ -1,6 +1,6 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 11
+version: 10
 date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
