@@ -33,7 +33,7 @@ references:
   - https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
 tags:
   analytic_story:
-  - Hellcat Ransomware
+    - Hellcat Ransomware
     - Outlook RCE CVE-2024-21378
   asset_type: Endpoint
   mitre_attack_id:

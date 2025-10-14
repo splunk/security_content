@@ -57,7 +57,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Hellcat Ransomware
+    - Hellcat Ransomware
     - CISA AA23-347A
     - Water Gamayun
   asset_type: Endpoint
