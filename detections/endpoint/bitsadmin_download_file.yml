@@ -1,7 +1,7 @@
 name: BITSAdmin Download File
 id: 80630ff4-8e4c-11eb-aab5-acde48001122
-version: 13
-date: '2025-09-18'
+version: 14
+date: '2025-10-14'
 author: Michael Haag, Sittikorn S
 status: production
 type: TTP
@@ -83,6 +83,7 @@ tags:
   - Scattered Spider
   - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1197

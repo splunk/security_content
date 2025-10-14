@@ -1,7 +1,7 @@
 name: Ivanti EPM SQL Injection Remote Code Execution
 id: e20564ca-c86c-4e30-acdb-a8486673426f
-version: 5
-date: '2025-09-16'
+version: 6
+date: '2025-10-14'
 author: Michael Haag
 type: TTP
 status: production
@@ -67,6 +67,7 @@ tags:
   analytic_story:
   - Ivanti EPM Vulnerabilities
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   asset_type: Web Server
   mitre_attack_id:
   - T1190

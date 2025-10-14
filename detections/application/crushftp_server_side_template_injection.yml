@@ -1,7 +1,7 @@
 name: CrushFTP Server Side Template Injection
 id: ccf6b7a3-bd39-4bc9-a949-143a8d640dbc
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-10-14'
 author: Michael Haag, Splunk
 data_source:
 - CrushFTP
@@ -61,6 +61,7 @@ rba:
 tags:
   analytic_story:
   - CrushFTP Vulnerabilities
+  - Hellcat Ransomware
   asset_type: Web Application
   mitre_attack_id:
   - T1190

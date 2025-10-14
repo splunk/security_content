@@ -1,7 +1,7 @@
 name: Windows New InProcServer32 Added
 id: 0fa86e31-0f73-4ec7-9ca3-dc88e117f1db
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 data_source:
   - Sysmon EventID 13
@@ -33,6 +33,7 @@ references:
   - https://www.netspi.com/blog/technical/red-team-operations/microsoft-outlook-remote-code-execution-cve-2024-21378/
 tags:
   analytic_story:
+  - Hellcat Ransomware
     - Outlook RCE CVE-2024-21378
   asset_type: Endpoint
   mitre_attack_id:

@@ -1,7 +1,7 @@
 name: High Frequency Copy Of Files In Network Share
 id: 40925f12-4709-11ec-bb43-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -58,6 +58,7 @@ tags:
   analytic_story:
   - Information Sabotage
   - Insider Threat
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1537

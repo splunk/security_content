@@ -1,7 +1,7 @@
 name: Multiple Archive Files Http Post Traffic
 id: 4477f3ea-a28f-11eb-b762-acde48001122
-version: 8
-date: '2025-09-18'
+version: 9
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ tags:
   - Data Exfiltration
   - Command And Control
   - APT37 Rustonotto and FadeStealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1048.003

@@ -1,7 +1,7 @@
 name: Windows Renamed Powershell Execution
 id: c08014de-cc5a-42de-9775-76ecd5b37bbd
-version: 2
-date: '2025-10-07'
+version: 3
+date: '2025-10-14'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -77,6 +77,7 @@ rba:
 tags:
   analytic_story:
   - XWorm
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1036.003

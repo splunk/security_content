@@ -1,7 +1,7 @@
 name: Wsmprovhost LOLBAS Execution Process Spawn
 id: 2eed004c-4c0d-11ec-93e8-3e22fbd008af
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -77,6 +77,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - CISA AA24-241A
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.006

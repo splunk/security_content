@@ -1,7 +1,7 @@
 name: Windows SSH Proxy Command
 id: ac520039-21f1-4567-b528-5b7133dba76f
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-10-14'
 author: Michael Haag, AJ King, Splunk, Jesse Hunter, Splunk Community Contributor
 status: production
 type: Anomaly
@@ -46,6 +46,7 @@ tags:
   analytic_story:
   - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
   - Living Off The Land
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1572

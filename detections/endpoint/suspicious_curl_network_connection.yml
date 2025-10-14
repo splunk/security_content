@@ -1,7 +1,7 @@
 name: Suspicious Curl Network Connection
 id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
-version: 7
-date: '2025-09-16'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -55,6 +55,7 @@ tags:
   - Linux Living Off The Land
   - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1105
