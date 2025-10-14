@@ -1,7 +1,7 @@
 name: Gsuite Drive Share In External Email
 id: f6ee02d6-fea0-11eb-b2c2-acde48001122
-version: 8
-date: '2025-06-10'
+version: 9
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: experimental
 type: Anomaly
@@ -72,6 +72,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - Scattered Lapsus$ Hunters
     - Dev Sec Ops
     - Insider Threat
   asset_type: GSuite

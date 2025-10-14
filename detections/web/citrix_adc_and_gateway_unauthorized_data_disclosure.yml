@@ -1,7 +1,7 @@
 name: Citrix ADC and Gateway Unauthorized Data Disclosure
 id: b593cac5-dd20-4358-972a-d945fefdaf17
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ rba:
 tags:
   analytic_story:
   - Citrix NetScaler ADC and NetScaler Gateway CVE-2023-4966
+  - Scattered Lapsus$ Hunters
   asset_type: Web Server
   atomic_guid: []
   mitre_attack_id:

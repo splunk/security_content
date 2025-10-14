@@ -1,7 +1,7 @@
 name: Detect Mimikatz With PowerShell Script Block Logging
 id: 8148c29c-c952-11eb-9255-acde48001122
-version: 10
-date: '2025-07-29'
+version: 11
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,14 +64,15 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-    - Malicious PowerShell
-    - Hermetic Wiper
-    - Sandworm Tools
-    - CISA AA22-264A
-    - CISA AA22-320A
-    - CISA AA23-347A
-    - Data Destruction
-    - Scattered Spider
+  - Scattered Lapsus$ Hunters
+  - Malicious PowerShell
+  - Hermetic Wiper
+  - Sandworm Tools
+  - CISA AA22-264A
+  - CISA AA22-320A
+  - CISA AA23-347A
+  - Data Destruction
+  - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
     - T1003

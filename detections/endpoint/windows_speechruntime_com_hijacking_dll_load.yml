@@ -1,7 +1,7 @@
 name: Windows SpeechRuntime COM Hijacking DLL Load
 id: bd35738c-e93a-4e4f-be24-f6a3680b950a
-version: 1
-date: '2025-08-22'
+version: 2
+date: '2025-10-14'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -53,6 +53,7 @@ tags:
   analytic_story:
   - Active Directory Lateral Movement
   - Compromised Windows Host
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.003

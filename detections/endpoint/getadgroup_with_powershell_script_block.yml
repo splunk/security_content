@@ -1,7 +1,7 @@
 name: GetAdGroup with PowerShell Script Block
 id: e4c73d68-794b-468d-b4d0-dac1772bbae7
-version: 9
-date: '2025-06-24'
+version: 10
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -32,7 +32,8 @@ references:
   - https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2019-ps
 tags:
   analytic_story:
-    - Active Directory Discovery
+  - Scattered Lapsus$ Hunters
+  - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
     - T1069.002

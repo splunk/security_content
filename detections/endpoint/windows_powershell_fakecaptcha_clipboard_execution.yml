@@ -1,7 +1,7 @@
 name: Windows PowerShell FakeCAPTCHA Clipboard Execution
 id: d81d4d3d-76b5-4f21-ab51-b17d5164c106
-version: 3
-date: '2025-07-28'
+version: 4
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -87,6 +87,7 @@ rba:
       type: process
 tags:
   analytic_story:
+  - Scattered Lapsus$ Hunters
     - Fake CAPTCHA Campaigns
     - Cisco Network Visibility Module Analytics
     - Interlock Ransomware
