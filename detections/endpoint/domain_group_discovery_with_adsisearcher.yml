@@ -55,7 +55,7 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - Active Directory Discovery
+  - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
     - T1069.002

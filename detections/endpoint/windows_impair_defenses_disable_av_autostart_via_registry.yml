@@ -65,7 +65,7 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - ValleyRAT
+  - ValleyRAT
   asset_type: Endpoint
   mitre_attack_id:
     - T1112

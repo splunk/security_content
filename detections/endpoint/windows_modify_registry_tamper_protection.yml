@@ -61,7 +61,7 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - RedLine Stealer
+  - RedLine Stealer
   asset_type: Endpoint
   atomic_guid:
     - 12e03af7-79f9-4f95-af48-d3f12f28a260

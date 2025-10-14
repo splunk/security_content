@@ -58,8 +58,8 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - Windows Certificate Services
-    - Water Gamayun
+  - Windows Certificate Services
+  - Water Gamayun
   asset_type: Endpoint
   mitre_attack_id:
     - T1552.004

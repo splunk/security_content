@@ -73,8 +73,8 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - Dev Sec Ops
-    - Insider Threat
+  - Dev Sec Ops
+  - Insider Threat
   asset_type: GSuite
   mitre_attack_id:
     - T1567.002

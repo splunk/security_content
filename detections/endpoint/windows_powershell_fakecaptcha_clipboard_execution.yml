@@ -88,9 +88,9 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - Fake CAPTCHA Campaigns
-    - Cisco Network Visibility Module Analytics
-    - Interlock Ransomware
+  - Fake CAPTCHA Campaigns
+  - Cisco Network Visibility Module Analytics
+  - Interlock Ransomware
   asset_type: Endpoint
   mitre_attack_id:
     - T1059.001

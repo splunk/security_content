@@ -55,7 +55,7 @@ rba:
 tags:
   analytic_story:
   - Scattered Lapsus$ Hunters
-    - Suspicious WMI Use
+  - Suspicious WMI Use
   asset_type: Endpoint
   mitre_attack_id:
     - T1047
