@@ -1,0 +1,93 @@
+name: Windows Active Directory Enumeration Via AdFind
+id: ca807910-0a93-4403-bc2d-d9a74b17fa81
+version: 1
+date: '2025-10-15'
+author: Mahdi Hamedani Nezhad
+status: production
+type: Anomaly
+description: |
+  This detection identifies potential Active Directory enumeration behavior by observing the use of `AdFind.exe`
+  with the "Attr" flag along with specific parameters such as, "-f", "-b", etc.
+  These terms often indicate an attempt to enumerate domain infrastructure or trust relationships.
+  If confirmed malicious, this behavior could allow attackers to map out domain controllers, facilitating
+  further attacks such as privilege escalation or lateral movement within the network.
+data_source:
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
+search: |-
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+  from datamodel=Endpoint.Processes where
+    (Processes.process_name=AdFind.exe OR Processes.original_file_name=AdFind.exe) Processes.process="* QUERY *"
+    Processes.process IN ("* -f *", "* -b *", "* attr *")
+  by Processes.action Processes.dest Processes.original_file_name
+    Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+    Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+    Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
+    Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
+    Processes.user Processes.user_id Processes.vendor_product 
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_active_directory_enumeration_via_adfind_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: |
+  AdFind is a legitimate tool and may be used by administrators for valid purposes. Filtering may be necessary based on known admin hosts or service accounts.
+references:
+- https://attack.mitre.org/software/S0552/
+- https://attack.mitre.org/techniques/T1069/002/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: An instance of $process_name$ was identified performing domain enumeration on endpoint $dest$ by user $user$.
+  risk_objects:
+  - field: user
+    type: user
+    score: 40
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - Active Directory Discovery
+  - Domain Trust Discovery
+  asset_type: Endpoint
+  atomic_guid: []
+  mitre_attack_id:
+  - T1069.002
+  - T1482
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/active_directory/command_line/netdom_enum.log
+    source: WinEventLog:Security
+    sourcetype: XmlWinEventLog
