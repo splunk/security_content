@@ -1,0 +1,80 @@
+name: Entity Exceeded Threshold with Multiple Findings
+id: 6a13f3e8-3ffc-4d1b-9a9d-9f4f2a9db25c
+version: 1
+date: '2025-10-15'
+author: Bhavin Patel, Splunk
+status: production
+type: Finding-based detection
+description: The following analytic identifies entities (risk objects) that have more
+  than 10 findings or intermediate findings within the last 24 hours and promotes
+  them into a higher-level finding group for triage.
+data_source:
+- Risk
+search: |
+  | tstats `summariesonly` `common_fbd_fields`
+    values(All_Risk.threat_object) AS threat_object
+  from datamodel=Risk.All_Risk
+  ```replace the where clause with with | genratetimerange ```
+  where earliest="-24h@h" latest="now"
+  by All_Risk.normalized_risk_object All_Risk.risk_object_type index
+  | `get_mitre_annotations`
+  | rename All_Risk.normalized_risk_object AS normalized_risk_object All_Risk.risk_object_type AS risk_object_type
+  | `generate_findings_summary`
+  | stats list(*) AS * limit=100
+          sum(int_risk_score_sum) AS risk_score
+    by `fbd_grouping(normalized_risk_object, risk_object_type)`
+  | `dedup_and_compute_common_fbd_fields`,
+    annotations.mitre_attack = mvdedup('annotations.mitre_attack'),
+    annotations.mitre_attack.mitre_tactic = mvdedup('annotations.mitre_attack.mitre_tactic'),
+    mitre_tactic_id_count = mvcount('annotations.mitre_attack.mitre_tactic'),
+    mitre_technique_id_count = mvcount('annotations.mitre_attack'),
+    threat_object = mvdedup(threat_object)
+  | fillnull value=0 mitre_tactic_id_count mitre_technique_id_count
+  | fields - int_risk_score_sum int_findings_count contributing_event_ids
+  | `drop_dm_object_name("All_Risk")`
+  | where total_event_count > 10
+  | table `common_fbd_fields_results`, mitre_tactic_id_count, mitre_technique_id_count
+  | `entity_exceeded_threshold_with_multiple_findings_filter`
+how_to_implement: Ensure the your Splunk Enterprise Security environment is configured to create findings and intermedeicate findings and finding-based detections are enabled. This detection relies on summarization macros (e.g., common_fbd_fields, generate_findings_summary) and requires risk data from findings and intermediate findings. Adjust the threshold as needed for your environment; default is more than 10 in the last 24 hours.
+  enabled. 
+known_false_positives: Some of these finding groups have have benign findings and intermediate findings. Tune the threshold as needed for your environment and considering filtering by  entity in your environment.
+references: []
+drilldown_searches:
+- name: View the detection results for - "$risk_object$"
+  search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 24 hours for - "$risk_object$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$")
+    starthoursago=24  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+fbd:
+  input_type: entity
+  tokens:
+    entity_count_comparator: ">"
+    entity_count: 10
+  search_on: 
+  - finding
+  - int-finding
+tags:
+  analytic_story:
+  - Finding Groups in Splunk Enterprise Security
+  asset_type: Endpoint
+  mitre_attack_id: []
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: audit
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/linux_risk/linuxrisk.log
+    source: linuxrisk
+    sourcetype: stash
+

@@ -14,20 +14,35 @@ description: The following analytic identifies potential Linux persistence and p
   higher privileges, persist in the environment, and potentially access sensitive
   information, posing a severe security risk.
 data_source: []
-search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
-  as lastTime sum(All_Risk.calculated_risk_score) as risk_score, count(All_Risk.calculated_risk_score)
-  as risk_event_count, values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as
-  annotations.mitre_attack.mitre_tactic_id, dc(All_Risk.annotations.mitre_attack.mitre_tactic_id)
-  as mitre_tactic_id_count, values(All_Risk.annotations.mitre_attack.mitre_technique_id)
-  as annotations.mitre_attack.mitre_technique_id, dc(All_Risk.annotations.mitre_attack.mitre_technique_id)
-  as mitre_technique_id_count, values(All_Risk.tag) as tag, values(source) as source,
-  dc(source) as source_count from datamodel=Risk.All_Risk where (All_Risk.analyticstories
-  IN ("Linux Privilege Escalation", "Linux Persistence Techniques") OR source = "*Linux*")
-  All_Risk.annotations.mitre_attack.mitre_tactic IN ("persistence", "privilege-escalation")
-  All_Risk.risk_object_type="system" by All_Risk.risk_object All_Risk.risk_object_type
-  All_Risk.annotations.mitre_attack.mitre_tactic | `drop_dm_object_name(All_Risk)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where
-  source_count >= 4 | `linux_persistence_and_privilege_escalation_risk_behavior_filter`'
+search: |
+  | tstats `summariesonly` `common_fbd_fields`
+      values(All_Risk.threat_object) AS threat_object
+      from datamodel=Risk.All_Risk
+      ```replace the where clause with with | genratetimerange ```
+      where earliest="-30d@d" latest="now"
+      (All_Risk.analyticstories IN ("Linux Privilege Escalation","Linux Persistence Techniques") OR source="*Linux*")
+      All_Risk.annotations.mitre_attack.mitre_tactic IN ("persistence","privilege-escalation")
+      All_Risk.risk_object_type="system"
+      by All_Risk.normalized_risk_object All_Risk.risk_object_type index 
+  | `get_mitre_annotations` 
+  | rename All_Risk.normalized_risk_object AS normalized_risk_object All_Risk.risk_object_type AS risk_object_type 
+  | `generate_findings_summary` 
+  | stats list(*) AS * limit=100
+      sum(int_risk_score_sum) AS risk_score
+      by `fbd_grouping(normalized_risk_object, risk_object_type)` 
+  | `dedup_and_compute_common_fbd_fields`,
+      annotations.mitre_attack = mvdedup('annotations.mitre_attack'),
+      annotations.mitre_attack.mitre_tactic = mvdedup('annotations.mitre_attack.mitre_tactic'),
+      mitre_tactic_id_count = mvcount('annotations.mitre_attack.mitre_tactic'),
+      annotations.mitre_attack.mitre_technique_id = mvdedup('annotations.mitre_attack.mitre_technique_id'),
+      mitre_technique_id_count = mvcount('annotations.mitre_attack.mitre_technique_id'),
+      threat_object = mvdedup(threat_object)
+      | fillnull value=0 mitre_tactic_id_count mitre_technique_id_count threat_object
+  | fields - int_risk_score_sum int_findings_count contributing_event_ids
+  | `drop_dm_object_name("All_Risk")`
+  | where source_count >= 4
+  | table `common_fbd_fields_results`, mitre_tactic_id_count, mitre_technique_id_count, source_count
+  | `linux_persistence_and_privilege_escalation_risk_behavior_filter`
 how_to_implement: Ensure Linux anomaly and TTP analytics are enabled. TTP may be set
   to finding  for point detections, anomaly should not be findings but risk generators.
   The correlation relies on more than x amount of distict detection names generated
@@ -38,12 +53,12 @@ known_false_positives: False positives will be present based on many factors. Tu
 references:
 - https://attack.mitre.org/tactics/TA0004/
 drilldown_searches:
-- name: View the detection results for - "$risk_object$"
-  search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+- name: View the detection results for - "$fbd_group_by$"
+  search: '%original_detection_search% | search  fbd_group_by = "$fbd_group_by$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$risk_object$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$")
+- name: View risk events for the last 7 days for - "$fbd_group_by$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$fbd_group_by$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
     as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -51,6 +66,8 @@ drilldown_searches:
     | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
+fbd:
+  input_type: custom-fbd
 tags:
   analytic_story:
   - Linux Privilege Escalation
