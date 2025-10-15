@@ -49,7 +49,7 @@ search: |
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_defender_disable_asr_or_threat_configuration_tamper_filter`
+  | `windows_defender_asr_or_threat_configuration_tamper_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
