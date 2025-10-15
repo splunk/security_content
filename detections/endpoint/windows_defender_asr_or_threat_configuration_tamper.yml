@@ -6,14 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-  The following analytic detects the use of commands to disable Attack Surface Reduction (ASR)
-  rules or change threat default actions in Windows Defender. It leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on command-line executions involving "Add-MpPreference" or "Set-MpPreference"
-  with exclusion parameters. This activity is significant because adversaries often
-  use it to bypass Windows Defender, allowing malicious code to execute undetected.
-  If confirmed malicious, this behavior could enable attackers to evade antivirus
-  detection, maintain persistence, and execute further malicious activities without
-  interference from Windows Defender.
+  The following analytic detects the use of commands to disable Attack Surface Reduction (ASR) rules or change threat default actions in Windows Defender.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions involving "Add-MpPreference" or "Set-MpPreference".
+  This activity is significant because adversaries often use it to bypass Windows Defender, allowing malicious code to execute undetected.
+  If confirmed malicious, this behavior could enable attackers to evade antivirus detection, maintain persistence, and execute further malicious activities without interference from Windows Defender.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688

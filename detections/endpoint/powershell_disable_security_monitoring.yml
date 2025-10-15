@@ -50,6 +50,7 @@ search: |
     )
     Processes.process IN (
       "* $true*",
+      "* True*",
       "* 1*"
     )
   )
@@ -61,7 +62,11 @@ search: |
   OR
   (
     Processes.process = "*CloudBlockLevel*"
-    Processes.process IN ("* $false*", "* 0*")
+    Processes.process IN (
+      "* $false*", 
+      "* False*", 
+      "* 0*"
+    )
   )
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
      Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id

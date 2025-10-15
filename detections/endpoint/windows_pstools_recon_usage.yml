@@ -6,10 +6,9 @@ author: Nasreddine Bencherchali
 status: experimental
 type: Anomaly
 description: |
-  The following analytic identifies execution of Sysinternals PsTools binaries
-  that are commonly used for reconnaissance and information gathering on
+  The following analytic identifies execution of Sysinternals PsTools binaries that are commonly used for reconnaissance and information gathering on
   Windows endpoints.
-  PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, PsList, PsLoggedOn, PsLogList, PsService, etc.) are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement.
+  PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, etc.) are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement.
   This detection focuses on process execution and PE metadata telemetry (OriginalFileName).
   If confirmed malicious, this activity can indicate targeted reconnaissance and foothold escalation, enabling subsequent lateral movement or credential abuse.
 data_source:
