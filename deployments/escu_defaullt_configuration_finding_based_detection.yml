@@ -5,7 +5,7 @@ author: Bhavin Patel
 description: This configuration file applies to all detections of type Finding-based detection.
   These detections will generate Finding Groups! 
 fbd:
-  max_append_time:7d
+  max_append_time: 7d
   reopen_finding_groups: 1
   search_on: 
   - int-finding
