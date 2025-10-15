@@ -50,7 +50,6 @@ search: |
     )
     Processes.process IN (
       "* $true*",
-      "* True*",
       "* 1*"
     )
   )
@@ -64,7 +63,6 @@ search: |
     Processes.process = "*CloudBlockLevel*"
     Processes.process IN (
       "* $false*", 
-      "* False*", 
       "* 0*"
     )
   )
@@ -77,7 +75,7 @@ search: |
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `powershell_disable_security_monitoring_filter`'
+  | `powershell_disable_security_monitoring_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
