@@ -4,7 +4,7 @@ version: 1
 date: '2025-10-13'
 author: Nasreddine Bencherchali, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
   The following analytic detects the execution of network scanning utilities such as Advanced IP Scanner or Advanced Port Scanner.
   These legitimate administrative tools are often leveraged by threat actors and ransomware operators during the discovery phase to enumerate active hosts and open ports within a target environment.
@@ -58,13 +58,13 @@ references:
   - https://thedfirreport.com/2021/01/18/all-that-for-a-coinminer
   - https://github.com/3CORESec/MAL-CL/tree/master/Descriptors/Other/Advanced%20IP%20Scanner
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
       as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
       Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
       as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"

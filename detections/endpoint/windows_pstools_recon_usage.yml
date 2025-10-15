@@ -4,18 +4,14 @@ version: 1
 date: '2025-10-14'
 author: Nasreddine Bencherchali
 status: experimental
-type: TTP
+type: Anomaly
 description: |
   The following analytic identifies execution of Sysinternals PsTools binaries
   that are commonly used for reconnaissance and information gathering on
-  Windows endpoints. PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, PsList,
-  PsLoggedOn, PsLogList, PsService, etc.) are frequently used by administrators
-  for legitimate maintenance but are also leveraged by threat actors to collect
-  system, account, network and service information during discovery and lateral
-  movement. This detection focuses on process execution and full command-line
-  telemetry. If confirmed malicious, this activity can indicate targeted
-  reconnaissance and foothold escalation, enabling subsequent lateral movement
-  or credential abuse.
+  Windows endpoints.
+  PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, PsList, PsLoggedOn, PsLogList, PsService, etc.) are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement.
+  This detection focuses on process execution and PE metadata telemetry (OriginalFileName).
+  If confirmed malicious, this activity can indicate targeted reconnaissance and foothold escalation, enabling subsequent lateral movement or credential abuse.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
@@ -75,31 +71,29 @@ how_to_implement: |
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
 known_false_positives: |
-  Legitimate administrators and support staff commonly use PsTools for
-  troubleshooting and management. False positives are likely in environments
-  where PsTools are an approved operational toolset, or where automated
-  management systems invoke them. Tune by whitelisting approved management
-  hosts, service accounts, and scheduled maintenance windows. Consider adding
-  context such as destination host reputation and cross-reference with asset
-  ownership before escalating.
+  Legitimate administrators commonly use PsTools for troubleshooting and management.
+  False positives are likely in environments where PsTools are an approved operational toolset, or where automated management systems invoke them.
+  Tune by whitelisting approved management hosts, service accounts, and scheduled maintenance windows.
 references:
   - https://learn.microsoft.com/sysinternals/downloads/pstools
   - https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections/raw/master/2015/2015.09.17.Operation_Iron_Tiger/wp-operation-iron-tiger.pdf
   - https://go.crowdstrike.com/rs/281-OBQ-266/images/Report2018OverwatchReport.pdf
 drilldown_searches:
-  - name: View detection results for user "$user$" on host "$dest$"
-    search: '%original_detection_search% | search user="$user$" dest="$dest$"'
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
-  - name: Show command lines for matching events
-    search: '%original_detection_search% | table _time dest user process_name process_exec parent_process command_line'
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: |
-    Execution of PsTools binary $process_name$ (command: $process_exec$) was observed
-    on host $dest$ by user $user$. The utility is commonly used for information
-    gathering and remote management and may indicate reconnaissance activity.
+  message: PsTools binary $process_name$ was executed on host $dest$.
   risk_objects:
     - field: user
       type: user
@@ -110,31 +104,22 @@ rba:
   threat_objects:
     - field: process_name
       type: process_name
-    - field: process_exec
-      type: process_exec
 tags:
   analytic_story:
-    - PsTools Recon
-    - Sysinternals Tools
-    - Remote Discovery
+    - Compromised Windows Host
   asset_type: Endpoint
   mitre_attack_id:
-    - T1082    # System Information Discovery
-    - T1046    # Network Service Discovery
-    - T1018    # Remote System Discovery
+    - T1082
+    - T1046
+    - T1018
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
     - Splunk Cloud
   security_domain: endpoint
 tests:
-  - name: True Positive - PsExec usage
+  - name: True Positive
     attack_data:
-      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1021.002/atomic_red_team/windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
-  - name: True Positive - PsInfo / PsLoggedOn
-    attack_data:
-      - data: https://raw.githubusercontent.com/your-repo/example-data/master/pstools_psinfo_loggedon.sysmon.log
+      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
         source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
         sourcetype: XmlWinEventLog
