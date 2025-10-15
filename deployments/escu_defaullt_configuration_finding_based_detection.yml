@@ -1,0 +1,40 @@
+name: ESCU Default Configuration Finding-based detection
+id: 36ba498c-46e8-4b62-8bde-67e984a40fb4
+date: '2025-10-15'
+author: Bhavin Patel
+description: This configuration file applies to all detections of type Finding-based detection.
+  These detections will generate Finding Groups! 
+fbd:
+  max_append_time = 7d
+  reopen_finding_groups: 1
+  search_on: 
+  - int-finding
+  - finding
+  finding_group_lookback:
+    time: 1d
+    seconds: 86400
+  finding_group_overlap:
+    percentage: 1
+    time: 0.07d
+    seconds: 6048
+scheduling:
+  cron_schedule: 0 * * * *
+  earliest_time: -70m@m
+  latest_time: -10m@m
+  schedule_window: auto
+alert_action:
+  notable:
+    rule_description: '%description%'
+    rule_title: '%name%'
+    # nes_fields: 
+    # - user
+    # - dest
+  suppress:
+   fields: 
+   - normalized_risk_object
+   - risk_object_type
+   - count_findings
+   - count_intermediate_findings
+   - earliest
+   period: 1d
+type: Finding-based detection
