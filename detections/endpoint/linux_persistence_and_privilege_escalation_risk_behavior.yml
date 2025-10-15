@@ -4,7 +4,7 @@ version: 8
 date: '2025-05-02'
 author: Michael Haag, Splunk
 status: production
-type: Correlation
+type: Finding-based detection
 description: The following analytic identifies potential Linux persistence and privilege
   escalation activities. It leverages risk scores and event counts from various Linux-related
   data sources, focusing on tactics associated with persistence and privilege escalation.
