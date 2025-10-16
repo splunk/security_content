@@ -1,5 +1,5 @@
 name: Entity Exceeded Threshold with Multiple Findings
-id: 6a13f3e8-3ffc-4d1b-9a9d-9f4f2a9db25c
+id: d06b108c-2331-4276-9457-7b8b72f44ad7
 version: 1
 date: '2025-10-15'
 author: Bhavin Patel, Splunk
@@ -9,7 +9,7 @@ description: The following analytic identifies entities (risk objects) that have
   than 10 findings or intermediate findings within the last 24 hours and promotes
   them into a higher-level finding group for triage.
 data_source:
-- Risk
+- Risk Analysis Datamodel
 search: |
   | tstats `summariesonly` `common_fbd_fields`
     values(All_Risk.threat_object) AS threat_object
@@ -38,7 +38,8 @@ search: |
 how_to_implement: Ensure the your Splunk Enterprise Security environment is configured to create findings and intermedeicate findings and finding-based detections are enabled. This detection relies on summarization macros (e.g., common_fbd_fields, generate_findings_summary) and requires risk data from findings and intermediate findings. Adjust the threshold as needed for your environment; default is more than 10 in the last 24 hours.
   enabled. 
 known_false_positives: Some of these finding groups have have benign findings and intermediate findings. Tune the threshold as needed for your environment and considering filtering by  entity in your environment.
-references: []
+references:
+- https://help.splunk.com/en/splunk-enterprise-security-8/administer/8.0/detections/create-finding-based-detections-in-splunk-enterprise-security
 drilldown_searches:
 - name: View the detection results for - "$risk_object$"
   search: '%original_detection_search% | search  risk_object = "$risk_object$"'
@@ -58,9 +59,40 @@ fbd:
   tokens:
     entity_count_comparator: ">"
     entity_count: 10
-  search_on: 
-  - finding
-  - int-finding
+#   preview_earliest_time: "-24h@h" # can be hardcoded in the detection
+#   preview_latest_time: "now" # can be hardcoded in the detection
+
+# Different input type from the FBD Editor Generates different tokens keys and values
+
+# input_type: mitre-attack
+#   tokens:
+#     mitre_count_comparator: ">" 
+#     mitre_count: 5
+#     mitre_type: "tactic"
+#     preview_earliest_time: "-24h@h" # can be hardcoded in the detection
+#     preview_latest_time: "now" # can be hardcoded in the detection
+
+# input_type: similar-findings
+#   tokens:
+#     similar_findings_count_comparator: ">"
+#     similar_findings_count: 10
+#     similar_findings_detections: 
+#       - detection1
+#       - detection2
+#     preview_earliest_time: "-24h@h" # can be hardcoded in the detection
+#     preview_latest_time: "now" # can be hardcoded in the detection
+
+# input_type: similar-findings
+#   tokens:
+#     similar_findings_count_comparator: ">"
+#     similar_findings_count: 10
+#     similar_findings_detections:
+#       - detection1
+#       - detection2
+#       - detection3
+#     similar_findings_detections_parsed: 
+#     preview_earliest_time: "-24h@h" # can be hardcoded in the detection
+#     preview_latest_time: "now" # can be hardcoded in the detection
 tags:
   analytic_story:
   - Finding Groups in Splunk Enterprise Security

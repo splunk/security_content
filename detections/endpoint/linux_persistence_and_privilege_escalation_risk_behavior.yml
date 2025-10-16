@@ -13,7 +13,8 @@ description: The following analytic identifies potential Linux persistence and p
   If confirmed malicious, this activity could enable an attacker to execute code with
   higher privileges, persist in the environment, and potentially access sensitive
   information, posing a severe security risk.
-data_source: []
+data_source:
+- Risk Analysis Datamodel
 search: |
   | tstats `summariesonly` `common_fbd_fields`
       values(All_Risk.threat_object) AS threat_object
@@ -52,6 +53,7 @@ known_false_positives: False positives will be present based on many factors. Tu
   the correlation as needed to reduce too many triggers.
 references:
 - https://attack.mitre.org/tactics/TA0004/
+- https://help.splunk.com/en/splunk-enterprise-security-8/administer/8.0/detections/create-finding-based-detections-in-splunk-enterprise-security
 drilldown_searches:
 - name: View the detection results for - "$fbd_group_by$"
   search: '%original_detection_search% | search  fbd_group_by = "$fbd_group_by$"'

@@ -1,0 +1,71 @@
+name: Risk Analysis Datamodel
+id: f10ca2c9-d9a0-4d58-a0bc-ee12224aa2e7
+version: 1
+date: '2025-10-15'
+author: Bhavin Patel, Splunk
+description: Summarizes risk events produced by Risk-Based Alerting (RBA) and normalized
+  into the Risk datamodel (All_Risk). Includes calculated risk scores, risk objects,
+  annotations (e.g., ATT&CK), and related metadata used for correlation and finding-based
+  detections.
+source: not_applicable
+sourcetype: stash
+supported_TA:
+- name: Splunk Enterprise Security
+  url: https://splunkbase.splunk.com/app/263
+  version: 8.2.3
+fields:
+  - analyticstories
+  - annotations
+  - annotations._all
+  - annotations._frameworks
+  - annotations.cis20
+  - annotations.kill_chain_phases
+  - annotations.mitre_attack
+  - annotations.mitre_attack.mitre_description
+  - annotations.mitre_attack.mitre_detection
+  - annotations.mitre_attack.mitre_tactic
+  - annotations.mitre_attack.mitre_tactic_id
+  - annotations.mitre_attack.mitre_technique
+  - annotations.mitre_attack.mitre_technique_id
+  - annotations.mitre_attack.mitre_threat_group_name
+  - annotations.nist
+  - cim_entity_zone
+  - control
+  - creator
+  - dest
+  - dest_bunit
+  - dest_category
+  - dest_priority
+  - governance
+  - risk_object_bunit
+  - risk_object_category
+  - risk_object_priority
+  - savedsearch_description
+  - source_event_id
+  - src
+  - src_bunit
+  - src_category
+  - src_priority
+  - tag
+  - threat_object
+  - user
+  - user_bunit
+  - user_category
+  - user_priority
+  - Calculated
+  - description
+  - risk_object
+  - risk_object_type
+  - risk_score
+  - threat_object_type
+  - risk_factor_add
+  - risk_factor_add_matched
+  - risk_factor_mult
+  - risk_factor_mult_matched
+  - calculated_risk_score
+  - risk_message
+  - normalized_risk_object
+example_log: >-
+  1759869356, search_name="ESCU - Windows Outlook Macro Security Modified - Rule", action="modified", analyticstories="NotDoor Malware", analyticstories="Windows Registry Abuse", annotations="{\"analytic_story\": [\"NotDoor Malware\", \"Windows Registry Abuse\"], \"cis20\": [\"CIS 10\"], \"data_source\": [\"Sysmon EventID 13\"], \"kill_chain_phases\": [\"Command and Control\", \"Installation\"], \"mitre_attack\": [\"T1137\", \"T1008\"], \"nist\": [\"DE.CM\"], \"type\": \"TTP\", \"type_list\": [\"TTP\"]}", annotations._all="NotDoor Malware", annotations._all="Windows Registry Abuse", annotations._all="CIS 10", annotations._all="Sysmon EventID 13", annotations._all="Command and Control", annotations._all="Installation", annotations._all="T1137", annotations._all="T1008", annotations._all="DE.CM", annotations._all="TTP", annotations._frameworks="analytic_story", annotations._frameworks="cis20", annotations._frameworks="data_source", annotations._frameworks="kill_chain_phases", annotations._frameworks="mitre_attack", annotations._frameworks="nist", annotations._frameworks="type", annotations._frameworks="type_list", annotations.analytic_story="NotDoor Malware", annotations.analytic_story="Windows Registry Abuse", annotations.cis20="CIS 10", annotations.data_source="Sysmon EventID 13", annotations.kill_chain_phases="Command and Control", annotations.kill_chain_phases="Installation", annotations.mitre_attack="T1137", annotations.mitre_attack="T1008", annotations.nist="DE.CM", annotations.type="TTP", annotations.type_list="TTP", contributing_events_search="| savedsearch \"ESCU - Windows Outlook Macro Security Modified - Rule\" | search dest=\"WIN10-21H1.snapattack.labs\"", count="1", dest="WIN10-21H1.snapattack.labs", entity="WIN10-21H1.snapattack.labs", entity_type="system", info_max_time="1759868640.000000000", info_min_time="1704067200.000000000", info_search_time="1759869351.126955000", process_guid="F51F9151-CCF0-66AB-510B-000000000C00", process_id="9184", registry_hive="HKEY_CURRENT_USER", registry_key_name="HKU\\S-1-5-21-1538153195-943065003-848949206-1000\\SOFTWARE\\Microsoft\\Office\\16.0\\Outlook\\Security", registry_path="HKU\\S-1-5-21-1538153195-943065003-848949206-1000\\SOFTWARE\\Microsoft\\Office\\16.0\\Outlook\\Security\\Level", registry_value_data="0x00000001", registry_value_name="Level", registry_value_type="REG_DWORD", risk_message="Outlook Macro Security Level registry modified on WIN10-21H1.snapattack.labs", risk_object="WIN10-21H1.snapattack.labs", risk_object_type="system", risk_score="44.0", savedsearch_description="The following analytic detects the modification of the Windows Registry key \"Level\" under Outlook Security. This allows macros to execute without warning, which could allow malicious scripts to run without notice. This detection leverages data from the Endpoint.Registry datamodel, specifically looking for the registry value name \"Level\" with a value of \"0x00000001\". This activity is significant as it is commonly associated with some malware infections, indicating potential malicious intent to harvest email information.", source_event_id="429f304d-d3f0-40ac-a918-e5fa89b9c026@@risk@@429f304dd3f040aca918e5fa89b9c026", source_guid="429f304d-d3f0-40ac-a918-e5fa89b9c026", status="success", user="localuser", vendor_product="Microsoft Sysmon" 
+
+
