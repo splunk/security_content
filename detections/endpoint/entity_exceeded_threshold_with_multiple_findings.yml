@@ -81,18 +81,6 @@ fbd:
 #       - detection2
 #     preview_earliest_time: "-24h@h" # can be hardcoded in the detection
 #     preview_latest_time: "now" # can be hardcoded in the detection
-
-# input_type: similar-findings
-#   tokens:
-#     similar_findings_count_comparator: ">"
-#     similar_findings_count: 10
-#     similar_findings_detections:
-#       - detection1
-#       - detection2
-#       - detection3
-#     similar_findings_detections_parsed: 
-#     preview_earliest_time: "-24h@h" # can be hardcoded in the detection
-#     preview_latest_time: "now" # can be hardcoded in the detection
 tags:
   analytic_story:
   - Finding Groups in Splunk Enterprise Security
