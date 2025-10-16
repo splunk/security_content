@@ -1,7 +1,7 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
 version: 13
-date: '2025-09-18'
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -66,6 +66,7 @@ tags:
   - 0bj3ctivity Stealer
   - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   mitre_attack_id:
   - T1027
   - T1059.001

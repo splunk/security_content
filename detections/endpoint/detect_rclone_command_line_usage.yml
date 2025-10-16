@@ -1,7 +1,7 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 13
-date: '2025-09-09'
+version: 14
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -89,6 +89,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - Hellcat Ransomware
     - DarkSide Ransomware
     - Ransomware
     - Black Basta Ransomware

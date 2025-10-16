@@ -1,7 +1,7 @@
 name: GPUpdate with no Command Line Arguments with Network
 id: 2c853856-a140-11eb-a5b5-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -82,6 +82,7 @@ tags:
   - Cobalt Strike
   - Compromised Windows Host
   - BlackByte Ransomware
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1055
