@@ -1,0 +1,21 @@
+name: Hellcat Ransomware
+id: 7165a44b-4978-48f1-bac1-6ddbe6fe31ca
+version: 1
+status: production
+date: '2025-10-14'
+author: Michael Haag, Splunk
+description: Hellcat is a Ransomware-as-a-Service (RaaS) group that emerged in Q4 2024, known for sophisticated attacks targeting critical infrastructure, telecommunications, government entities, and IT organizations. The group employs advanced techniques including PowerShell infection chains, SSH-based persistence, and custom ransomware payloads to compromise and encrypt victim systems.
+narrative: Hellcat Ransomware represents a significant threat to organizations across multiple sectors. The group's operations begin with initial access through phishing campaigns and exploitation of public-facing application vulnerabilities, including known CVEs in Palo Alto PAN-OS software (CVE-2024-0012, CVE-2024-9474). Upon gaining access, Hellcat operators deploy sophisticated PowerShell infection chains to establish persistence, evade detection, and install command-and-control infrastructure. A distinctive characteristic of Hellcat's tactics is their use of SSH-based persistence mechanisms. Operators create new SSH users with administrative privileges and install unique SSH keys to maintain long-term access to compromised systems. They also deploy backdoor malware as a backup persistence mechanism if SSH access fails. For command and control, Hellcat leverages SliverC2 and Cobalt Strike frameworks, combined with custom infrastructure including domains like waifu[.]cat for data exfiltration. The group employs SFTP as their primary exfiltration mechanism, moving stolen data to attacker-controlled servers before deploying their custom ransomware payloads. Throughout their operations, Hellcat extensively uses Living-off-the-Land binaries (LOLBAS) and obfuscated PowerShell scripts to evade security controls. They also deploy information-stealing malware like LummaStealer to harvest credentials and sensitive data. Notable victims include Schneider Electric, Telefonica, Pinger, Israel's Knesset, Dell, and CapGemini. The group is led by founding member "Pryx" with other members including "Grep" who have been attributed to several high-profile attacks. Hellcat has demonstrated connections to other ransomware groups including Underground Team and Morpheus, suggesting a broader ecosystem of threat actors sharing tools and techniques. Organizations should implement robust security measures including PowerShell Script Block Logging, Sysmon monitoring, SSH activity monitoring, and EDR solutions to detect and respond to Hellcat ransomware activities.
+references:
+- https://www.bridewell.com/insights/blogs/detail/who-are-hellcat-ransomware-group
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2024-0012
+  - CVE-2024-9474

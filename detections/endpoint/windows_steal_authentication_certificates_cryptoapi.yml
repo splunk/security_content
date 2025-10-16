@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates CryptoAPI
 id: 905d5692-6d7c-432f-bc7e-a6b4f464d40e
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -50,6 +50,7 @@ rba:
 tags:
   analytic_story:
   - Windows Certificate Services
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1649

@@ -63,6 +63,7 @@ tags:
   - BlackMatter Ransomware
   - Termite Ransomware
   - Scattered Lapsus$ Hunters
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1490

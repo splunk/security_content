@@ -64,15 +64,15 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - Scattered Lapsus$ Hunters
-  - Malicious PowerShell
-  - Hermetic Wiper
-  - Sandworm Tools
-  - CISA AA22-264A
-  - CISA AA22-320A
-  - CISA AA23-347A
-  - Data Destruction
-  - Scattered Spider
+    - Hellcat Ransomware
+    - Malicious PowerShell
+    - Hermetic Wiper
+    - Sandworm Tools
+    - CISA AA22-264A
+    - CISA AA22-320A
+    - CISA AA23-347A
+    - Data Destruction
+    - Scattered Spider
   asset_type: Endpoint
   mitre_attack_id:
     - T1003

@@ -54,6 +54,7 @@ tags:
   analytic_story:
   - Ivanti Virtual Traffic Manager CVE-2024-7593
   - Scattered Lapsus$ Hunters
+  - Hellcat Ransomware
   asset_type: Web Application
   mitre_attack_id:
   - T1190

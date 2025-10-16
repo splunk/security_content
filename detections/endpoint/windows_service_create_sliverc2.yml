@@ -1,7 +1,7 @@
 name: Windows Service Create SliverC2
 id: 89dad3ee-57ec-43dc-9044-131c4edd663f
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -51,6 +51,7 @@ tags:
   analytic_story:
   - BishopFox Sliver Adversary Emulation Framework
   - Compromised Windows Host
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1569.002

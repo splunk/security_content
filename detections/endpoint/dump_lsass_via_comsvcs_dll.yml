@@ -86,6 +86,7 @@ tags:
   - Compromised Windows Host
   - Credential Dumping
   - Scattered Lapsus$ Hunters
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1003.001

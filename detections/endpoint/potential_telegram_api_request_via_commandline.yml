@@ -1,7 +1,7 @@
 name: Potential Telegram API Request Via CommandLine
 id: d6b0d627-d0bf-46b1-936f-c48284767d21
-version: 5
-date: '2025-08-22'
+version: 6
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk, Zaki Zarkasih Al Mustafa
 status: production
 type: Anomaly
@@ -73,6 +73,7 @@ tags:
   - XMRig
   - Water Gamayun
   - 0bj3ctivity Stealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1102.002

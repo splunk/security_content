@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process With Obfuscation Techniques
 id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
 version: 13
-date: '2025-09-16'
+date: '2025-10-14'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -66,6 +66,7 @@ tags:
   - Hermetic Wiper
   - Data Destruction
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.001
