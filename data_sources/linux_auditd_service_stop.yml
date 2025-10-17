@@ -14,7 +14,7 @@ mitre_components:
 separator: type
 separator_value: SERVICE_STOP
 source: auditd
-sourcetype: auditd
+sourcetype: linux:audit
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
 supported_TA:
 - name: Splunk Add-on for Unix and Linux

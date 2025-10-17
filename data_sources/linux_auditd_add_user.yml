@@ -12,7 +12,7 @@ mitre_components:
 - OS API Execution
 - Application Log Content
 source: auditd
-sourcetype: auditd
+sourcetype: linux:audit
 separator: type
 separator_value: ADD_USER
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules

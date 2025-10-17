@@ -11,7 +11,7 @@ mitre_components:
 - Application Log Content
 - Host Status
 source: auditd
-sourcetype: auditd
+sourcetype: linux:audit
 separator: type
 separator_value: syscall
 configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules

@@ -6,7 +6,7 @@ author: Teoderick Contreras, Splunk
 description: Logs the execution of processes on a Linux system, including details
   about the auditd daemon status.
 source: auditd
-sourcetype: auditd
+sourcetype: linux:audit
 mitre_components:
 - Command Execution
 - Process Creation
