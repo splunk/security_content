@@ -1,6 +1,6 @@
 name: Windows Renamed Powershell Execution
 id: c08014de-cc5a-42de-9775-76ecd5b37bbd
-version: 2
+version: 3
 date: '2025-10-14'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
