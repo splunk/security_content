@@ -1,7 +1,7 @@
 name: Ivanti VTM New Account Creation
 id: b04be6e5-2002-4349-8742-52285635b8f5
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-10-14'
 author: Michael Haag, Splunk
 data_source:
 - Ivanti VTM Audit
@@ -53,6 +53,7 @@ rba:
 tags:
   analytic_story:
   - Ivanti Virtual Traffic Manager CVE-2024-7593
+  - Hellcat Ransomware
   asset_type: Web Application
   mitre_attack_id:
   - T1190

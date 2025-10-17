@@ -1,7 +1,7 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-10-07'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -17,8 +17,10 @@ data_source:
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=java.exe
-  OR Processes.parent_process_name=w3wp.exe `windows_shells` by Processes.action Processes.dest
+  as lastTime from datamodel=Endpoint.Processes where 
+  Processes.parent_process_name IN ("java.exe", "tomcat.exe")
+  `windows_shells` 
+  by Processes.action Processes.dest
   Processes.original_file_name Processes.parent_process Processes.parent_process_exec
   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
   Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid

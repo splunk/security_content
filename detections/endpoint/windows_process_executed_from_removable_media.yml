@@ -1,7 +1,7 @@
 name: Windows Process Executed From Removable Media
 id: b483804a-4cc0-49a4-9f00-ac29ba844d08
-version: 5
-date: '2025-06-10'
+version: 6
+date: '2025-09-18'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -88,6 +88,7 @@ rba:
 tags:
   analytic_story:
   - Data Protection
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1200

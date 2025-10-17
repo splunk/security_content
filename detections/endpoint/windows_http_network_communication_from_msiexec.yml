@@ -81,6 +81,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - GhostRedirector IIS Module and Rungan Backdoor
     - Windows System Binary Proxy Execution MSIExec
     - Water Gamayun

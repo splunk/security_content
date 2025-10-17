@@ -1,7 +1,7 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: 10
-date: '2025-07-28'
+version: 11
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,6 +65,7 @@ tags:
   - Quasar RAT
   - RedLine Stealer
   - Interlock Ransomware
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.001

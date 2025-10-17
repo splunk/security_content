@@ -1,7 +1,7 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
 version: 12
-date: '2025-09-16'
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -74,7 +74,9 @@ tags:
   - Living Off The Land
   - Malicious Inno Setup Loader
   - Water Gamayun
+  - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1105

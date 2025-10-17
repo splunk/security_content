@@ -1,0 +1,83 @@
+name: Ollama Possible RCE via Model Loading
+id: 3f28c930-5208-425d-a7b9-53d349756d91
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: experimental
+type: Anomaly
+description: Detects Ollama server errors and failures during model loading operations that may indicate malicious model injection, path traversal attempts, or exploitation of model loading mechanisms to achieve remote code execution. Adversaries may attempt to load specially crafted malicious models or exploit vulnerabilities in the model loading process to execute arbitrary code on the server. This detection monitors error messages and failure patterns that could signal attempts to abuse model loading functionality for malicious purposes.
+data_source:
+- Ollama Server
+search: '`ollama_server` level=ERROR ("*llama runner*" OR "*model*" OR "*server.go*" OR "*exited*")
+| rex field=_raw "source=(?<code_source>[^\s]+)"
+| rex field=_raw "msg=\"(?<msg>[^\"]+)\""
+| rex field=_raw "err=\"(?<err>[^\"]+)\""
+| rex field=_raw "level=(?<log_level>\w+)"
+| eval error_type=case(
+    match(_raw, "exited"), "service_crash",
+    match(_raw, "model"), "model_error",
+    match(_raw, "llama runner"), "runner_error",
+    1=1, "unknown_error"
+)
+| bin _time span=1h
+| stats count as error_count, 
+        earliest(_time) as first_error, 
+        latest(_time) as last_error,
+        values(msg) as error_messages, 
+        values(err) as error_details, 
+        values(code_source) as code_sources,
+        values(error_type) as error_types,
+        dc(error_type) as unique_error_types
+        by host
+| where error_count > 0
+| eval first_error=strftime(first_error, "%Y-%m-%d %H:%M:%S")
+| eval last_error=strftime(last_error, "%Y-%m-%d %H:%M:%S")
+| eval severity=case(
+    match(error_details, "exit status") OR error_count > 5, "critical",
+    error_count > 2, "high",
+    1=1, "medium"
+)
+| eval attack_type="Suspicious Model Loading / Potential RCE"
+| stats count by first_error, last_error, host, code_sources, error_count, unique_error_types, error_types, error_messages, error_details, severity, attack_type
+| `ollama_possible_rce_via_model_loading_filter`'
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Corrupted model files from interrupted downloads, insufficient disk space or memory during legitimate model loading, incompatible model formats or versions, network timeouts when pulling models from registries, file permission issues in multi-user environments, or genuine configuration errors during initial Ollama setup may generate similar error patterns during normal operations.
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: View the detection results for - "$host$"
+  search: '%original_detection_search% | search  "$host = "$host$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$host$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$", starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Suspicious model loading errors detected on $host$ with $error_count$ failures showing error messages $error_messages$, potentially indicating malicious model injection, path traversal exploitation, or attempts to achieve remote code execution through crafted model files.
+  risk_objects:
+  - field: host
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1190
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
+    sourcetype: ollama:server
+    source: app.log

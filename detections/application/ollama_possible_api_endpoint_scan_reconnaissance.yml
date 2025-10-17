@@ -1,0 +1,59 @@
+name: Ollama Possible API Endpoint Scan Reconnaissance
+id: ad3f352a-0347-48ee-86b9-670b5025a548
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: experimental
+type: Anomaly
+description: Detects API reconnaissance and endpoint scanning activity against Ollama servers by identifying sources probing multiple API endpoints within short timeframes, particularly when using HEAD requests or accessing diverse endpoint paths, which indicates systematic enumeration to map the API surface, discover hidden endpoints, or identify vulnerabilities before launching targeted attacks.
+data_source:
+- Ollama Server
+search: '`ollama_server` "[GIN]" 
+| bin _time span=5m
+| stats count as total_requests, values(dest) as dest, values(http_method) as methods, values(status) as status_codes by _time, src, host
+| where total_requests > 120
+| eval severity="medium"
+| eval attack_type="API Activity Surge"
+| stats count by _time, host, src, total_requests, dest, methods, status_codes, severity, attack_type
+| `ollama_possible_api_endpoint_scan_reconnaissance_filter`'
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Legitimate web application clients or mobile apps that access multiple API endpoints as part of normal functionality, monitoring and health check systems probing various endpoints for availability, load balancers performing health checks across different paths, API testing frameworks during development and QA processes, or users navigating through web interfaces that trigger multiple API calls may generate similar patterns during normal operations.
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  "$src = "$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: API reconnaissance activity detected from $src$ on $host$ with $total_requests$ requests across different endpoints using methods $methods$ and receiving status codes $status_codes$, indicating systematic endpoint enumeration to map API attack surface and identify potential vulnerabilities.
+  risk_objects:
+  - field: src
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1595
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
+    sourcetype: ollama:server
+    source: server.log

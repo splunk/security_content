@@ -1,9 +1,9 @@
 name: Windows Change Default File Association For No File Ext
 id: dbdf52ad-d6a1-4b68-975f-0a10939d8e38
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-06'
 author: Teoderick Contreras, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects attempts to change the default file association
   for files without an extension to open with Notepad.exe. It leverages data from

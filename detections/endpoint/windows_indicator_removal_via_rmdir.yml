@@ -1,7 +1,7 @@
 name: Windows Indicator Removal Via Rmdir
 id: c4566d2c-b094-48a1-9c59-d66e22065560
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -63,6 +63,7 @@ rba:
 tags:
   analytic_story:
   - DarkGate Malware
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1070

@@ -1,7 +1,7 @@
 name: Windows Process Injection into Commonly Abused Processes
 id: 1e1dedc6-f6f3-41a0-9dd7-a1245904fe75
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-09-18'
 author: 0xC0FFEEEE, Github Community
 type: Anomaly
 status: production
@@ -71,6 +71,7 @@ tags:
   - BishopFox Sliver Adversary Emulation Framework
   - Earth Alux
   - SAP NetWeaver Exploitation
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1055.002

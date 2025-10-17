@@ -1,7 +1,7 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 14
-date: '2025-06-30'
+version: 15
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -82,6 +82,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - Compromised Windows Host
     - Lumma Stealer
     - Living Off The Land

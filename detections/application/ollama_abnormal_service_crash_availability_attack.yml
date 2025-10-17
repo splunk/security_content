@@ -1,0 +1,77 @@
+name: Ollama Abnormal Service Crash Availability Attack
+id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: experimental
+type: Anomaly
+description: Detects critical service crashes, fatal errors, and abnormal process terminations in Ollama that may indicate exploitation attempts, resource exhaustion attacks, malicious input triggering unhandled exceptions, or deliberate denial of service attacks designed to disrupt AI model availability and degrade system stability.
+data_source:
+- Ollama Server
+search: '`ollama_server` (level=ERROR OR level=FATAL OR "service stopped" OR "terminated" OR "exit" OR "shutdown" OR "crash" OR "killed")
+| rex field=_raw "msg=\"(?<msg>[^\"]+)\""
+| rex field=_raw "exit_code=(?<exit_code>\d+)"
+| bin _time span=5m
+| stats count as termination_count,
+        earliest(_time) as first_seen,
+        latest(_time) as last_seen,
+        values(msg) as error_messages,
+        values(exit_code) as exit_codes,
+        dc(msg) as unique_errors
+        by host
+| eval first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+| eval last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+| eval severity=case(
+    termination_count > 5, "critical",
+    termination_count > 2, "high",
+    1=1, "medium"
+)
+| eval attack_type=case(
+    termination_count > 5, "Resource Exhaustion",
+    termination_count > 2, "Repeated Service Failures",
+    1=1, "Service Instability"
+)
+| where termination_count > 1
+| table first_seen, last_seen, host, termination_count, unique_errors, error_messages, severity, attack_type
+| `ollama_abnormal_service_crash_availability_attack_filter`'
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Normal service restarts during system updates or maintenance windows, graceful shutdowns with non-zero exit codes, intentional service stops by administrators, software upgrades requiring process termination, out-of-memory conditions on resource-constrained systems, or known bugs in specific Ollama versions that cause benign crashes may trigger this detection during routine operations.
+references:
+- https://github.com/rosplk/ta-ollama
+drilldown_searches:
+- name: 'View the detection results for - "$host$"'
+  search: '%original_detection_search% | search host="$host$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: 'View risk events for the last 7 days for - "$host$"'
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$") starthoursago=168 
+    | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" 
+    values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" 
+    values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" 
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: 'Abnormal Ollama service termination detected on host $host$ between $first_seen$ and $last_seen$. Service stopped $termination_count$ times with $unique_errors$ unique error types. Severity: $severity$. Potential cause: $attack_type$. Error messages: $error_messages$ require investigation.'
+  risk_objects:
+  - field: host
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1489
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/app.log
+    sourcetype: ollama:server
+    source: app.log

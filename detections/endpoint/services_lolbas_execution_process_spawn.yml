@@ -1,7 +1,7 @@
 name: Services LOLBAS Execution Process Spawn
 id: ba9e1954-4c04-11ec-8b74-3e22fbd008af
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -79,6 +79,7 @@ tags:
   - Living Off The Land
   - Qakbot
   - CISA AA23-347A
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1543.003

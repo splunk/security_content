@@ -1,7 +1,7 @@
 name: Schedule Task with HTTP Command Arguments
 id: 523c2684-a101-11eb-916b-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -54,6 +54,7 @@ tags:
   - Compromised Windows Host
   - Scheduled Tasks
   - Winter Vivern
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1053

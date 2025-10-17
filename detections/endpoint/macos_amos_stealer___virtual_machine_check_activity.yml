@@ -1,7 +1,7 @@
 name: MacOS AMOS Stealer - Virtual Machine Check Activity
 id: 4e41ad21-9761-426d-8aa1-083712ff9f30
-version: 1
-date: '2025-04-25'
+version: 2
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk, Alex Karkins
 status: production
 type: Anomaly
@@ -63,6 +63,7 @@ rba:
 tags:
   analytic_story:
   - AMOS Stealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.002

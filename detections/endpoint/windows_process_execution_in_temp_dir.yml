@@ -1,7 +1,7 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
 version: 6
-date: '2025-09-10'
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -81,6 +81,7 @@ tags:
   - Trickbot
   - PathWiper
   - PromptLock
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1543
