@@ -1,7 +1,7 @@
 name: Windows File Transfer Protocol In Non-Common Process Path
 id: 0f43758f-1fe9-470a-a9e4-780acc4d5407
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ tags:
   analytic_story:
   - AgentTesla
   - Snake Keylogger
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1071.003

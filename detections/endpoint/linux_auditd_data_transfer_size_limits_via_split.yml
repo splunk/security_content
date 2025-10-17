@@ -1,7 +1,7 @@
 name: Linux Auditd Data Transfer Size Limits Via Split
 id: 4669561d-3bbd-44e3-857c-0e3c6ef2120c
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ tags:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
   - Compromised Linux Host
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1030

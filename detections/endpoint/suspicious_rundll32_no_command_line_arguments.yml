@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 no Command Line Arguments
 id: e451bd16-e4c5-4109-8eb1-c4c6ecf048b4
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -74,6 +74,7 @@ tags:
   - BlackByte Ransomware
   - PrintNightmare CVE-2021-34527
   - Graceful Wipe Out Attack
+  - Hellcat Ransomware
   asset_type: Endpoint
   cve:
   - CVE-2021-34527

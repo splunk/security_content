@@ -87,6 +87,7 @@ tags:
   analytic_story:
     - ZDI-CAN-25373 Windows Shortcut Exploit Abused as Zero-Day
     - Living Off The Land
+    - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
     - T1572

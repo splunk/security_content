@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -76,6 +76,7 @@ tags:
   - Compromised Windows Host
   - BlackByte Ransomware
   - Cactus Ransomware
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1055
