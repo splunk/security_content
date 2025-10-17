@@ -1,9 +1,9 @@
 name: Curl Download and Bash Execution
 id: 900bc324-59f3-11ec-9fb4-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-10-16'
 author: Michael Haag, Splunk, DipsyTipsy
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects the use of curl on Linux or MacOS systems
   to download a file from a remote source and pipe it directly to bash for execution.
