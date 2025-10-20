@@ -41,25 +41,23 @@ search: |
 
   (
     ``` Linux / MacOS ```
-    (
-      Processes.process IN (
-        "*bash*",
-        "*csh*",
-        "*dash*",
-        "*fish*",
-        "*ksh*",
-        "*rbash*",
-        "*tcsh*",
-        "*zsh*"
-      )
-      OR
-      ``` Because the "sh" string can overlap and is a short atom we treat it in a special case ```
-      Processes.process IN (
-        "*|sh"
-        "* sh*"
-      )
+    Processes.process IN (
+      "*bash*",
+      "*csh*",
+      "*dash*",
+      "*fish*",
+      "*ksh*",
+      "*rbash*",
+      "*tcsh*",
+      "*zsh*"
     )
-
+    OR
+    ``` Because the "sh" string can overlap and is a short atom we treat it in a special case ```
+    Processes.process IN (
+      "*|sh"
+      "* sh*"
+    )
+    OR
     ``` Windows ```
     Processes.process IN ("*IEX*", "*Invoke-Expression*")
   )
