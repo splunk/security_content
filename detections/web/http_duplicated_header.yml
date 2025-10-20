@@ -10,13 +10,16 @@ description: Detects when a request has more than one of the same header. This i
   and back-end servers parse HTTP requests by using ambiguous or malformed headers to hide malicious 
   requests within legitimate ones. Attackers leverage duplicate headers, particularly Content-Length
   and Transfer-Encoding, to cause different servers in the chain to disagree on where one request
-  ends and another begins.
+  ends and another begins. RFC7230 states that a sender MUST NOT generate multiple header fields with the same field
+  name in a message unless either the entire field value for that header field is defined as a comma-separated 
+  list or the header field is a well-known exception.
 data_source:
 - Suricata
 search: '`suricata` http.request_headers{}.name="*"
   | rename dest_ip as dest
   | spath path=http.request_headers{}.name output=header_names
   | mvexpand header_names
+  | where lower(header_names) != "set-cookie"
   | stats count by _raw, header_names, src_ip, dest
   | where count > 1
   | stats values(header_names) as duplicate_headers by _raw, count, src_ip, dest

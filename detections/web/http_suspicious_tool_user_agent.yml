@@ -32,6 +32,8 @@ references:
   - https://portswigger.net/research/http1-must-die
   - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
   - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_ua_hacktool.yml
+  - https://help.aikido.dev/zen-firewall/miscellaneous/bot-protection-details
 drilldown_searches:
 - name: View the detection results for - "$dest$"
   search: '%original_detection_search% | search  dest = "$dest$"'

@@ -1,4 +1,4 @@
-name: HTTP Request to Reserved Name
+name: HTTP Request to Reserved Name on IIS Server
 id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
 version: 1
 date: '2025-10-17'
@@ -18,7 +18,7 @@ search: '| tstats count min(_time) as firstTime max(_time) as lastTime from data
   | `drop_dm_object_name("Web")`
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `http_request_to_reserved_name_filter`'
+  | `http_request_to_reserved_name_on_iis_server_filter`'
 how_to_implement: To implement this analytic, ensure proper logging is occurring with
   IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk.
   The analytic was written against Suricata. The proper TA will need to be enabled
@@ -26,7 +26,7 @@ how_to_implement: To implement this analytic, ensure proper logging is occurring
   is required to utilize this detection. In addition, if it is not mapped to the datamodel,
   modify the query for your application logs to look for requests the same URI and
   investigate further.
-known_false_positives: False positives are not expected, as the detection is based
+known_false_positives: False positives are not expected on IIS servers, as the detection is based
   on the presence of web requests to reserved names, which is not a common
   page to be accessed by legitimate users. Modify the query as needed to
   reduce false positives or hunt for additional indicators of compromise.

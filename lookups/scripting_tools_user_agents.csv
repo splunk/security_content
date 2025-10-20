@@ -39,4 +39,42 @@ Test or POC,*demo*
 Test or POC,*hack*
 Test or POC,*exploit*
 Test or POC,*injection*
-Empty User Agent, "-"
+Empty User Agent,"-"
+Arachni Scanner,* arachni/*
+Backup File Artifacts Checker,* bfac *
+Brutus,* brutus *
+Cgi Scanner 3,* cgichk *
+DataCha0s Scanner,*datacha0s*
+DominoHunter,*domino hunter*
+DotDotPwn Fuzzer,*dotdotpwn*
+Gootkit Scanner,*gootkit auto-rooter scanner*
+Grendel-Scan,*grendel-scan*
+ZmEu,* zmeu *
+Masscan,*masscan*
+Morfeus,*morfeus fucking scanner*
+N-Stalker Web Application Security Scanner,*n-stealth*
+Nsauditor,*nsauditor*
+Springenwerk Security Scanner,*springenwerk*
+Vega Vulnerability Scanner,* vega/*
+Webshag,*webshag*
+webvulnscan,*webvulnscan*
+Havij SQL Injection,* Havij*
+Absinthe,*absinthe*
+Bsqlbf-v2,*bsqlbf*
+MySqloit,*mysqloit*
+Pangolin SQL Injection,*pangolin*
+SQL Power Injector,*sql power injector*
+Sqlninja,*sqlninja*
+SQLi Dumper,"mozilla/5.0 (windows; u; windows nt 5.1; pt-pt; rv:1.9.1.2) gecko/20090729 firefox/3.5.2 (.net clr 3.5.30729)"
+Argus,*argus*
+FeroxBuster,*feroxbuster*
+FFUF,*fuzz faster u fool*
+l9explore,*l9explore*
+lkxscan,*lkxscan/*
+Netsparker,*netsparker*
+OpenVAS,*openvas*
+OWASP Amass,*owasp amass*
+Paros,*paros*
+ShadowSpray,*shadowspray*
+sqlmap,*sqlmap*
+
