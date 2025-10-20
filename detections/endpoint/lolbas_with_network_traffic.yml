@@ -1,6 +1,6 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 14
+version: 13
 date: '2025-10-20'
 author: Steven Dick
 status: production
@@ -81,7 +81,7 @@ search: |
       "*\\Wuauclt.exe",
       "*\\Xwizard.exe"
       )
-      
+
   NOT All_Traffic IN (
           "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
           "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",

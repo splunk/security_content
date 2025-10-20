@@ -1,6 +1,6 @@
 name: Windows File Transfer Protocol In Non-Common Process Path
 id: 0f43758f-1fe9-470a-a9e4-780acc4d5407
-version: 9
+version: 8
 date: '2025-10-20'
 author: Teoderick Contreras, Splunk
 status: production
