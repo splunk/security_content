@@ -1,6 +1,6 @@
 name: Windows Screen Capture in TEMP folder
 id: 00524d1f-a032-46f5-9108-e7d9f01bfb3c
-version: 6
+version: 7
 date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 data_source:
