@@ -1,7 +1,7 @@
 name: Linux Hardware Addition SwapOff
 id: c1eea697-99ed-44c2-9b70-d8935464c499
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -64,6 +64,7 @@ tags:
   analytic_story:
   - AwfulShred
   - Data Destruction
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1200

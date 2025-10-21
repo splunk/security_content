@@ -1,7 +1,7 @@
 name: O365 Concurrent Sessions From Different Ips
 id: 58e034de-1f87-4812-9dc3-a4f68c7db930
-version: 8
-date: '2025-06-02'
+version: 9
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -55,6 +55,7 @@ rba:
 tags:
   analytic_story:
   - Office 365 Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: O365 Tenant
   mitre_attack_id:
   - T1185

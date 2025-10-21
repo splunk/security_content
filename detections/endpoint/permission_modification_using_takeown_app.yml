@@ -1,7 +1,7 @@
 name: Permission Modification using Takeown App
 id: fa7ca5c6-c9d8-11eb-bce9-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -68,6 +68,7 @@ tags:
   - Sandworm Tools
   - Ransomware
   - Crypto Stealer
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1222
