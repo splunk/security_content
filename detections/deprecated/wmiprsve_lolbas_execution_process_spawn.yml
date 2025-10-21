@@ -1,7 +1,7 @@
 name: Wmiprsve LOLBAS Execution Process Spawn
 id: 95a455f0-4c04-11ec-b8ac-3e22fbd008af
 version: 7
-date: '2025-05-02'
+date: '2025-10-21'
 author: Mauricio Velazco, Splunk
 status: deprecated
 type: TTP
