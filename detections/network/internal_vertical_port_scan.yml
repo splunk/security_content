@@ -1,6 +1,6 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 8
+version: 9
 date: '2025-10-14'
 author: Dean Luxton, Splunk
 status: production 

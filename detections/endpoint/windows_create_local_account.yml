@@ -1,6 +1,6 @@
 name: Windows Create Local Account
 id: 3fb2e8e3-7bc0-4567-9722-c5ab9f8595eb
-version: 8
+version: 9
 date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
