@@ -1,4 +1,9 @@
 detections:
+- content: Wmiprsve LOLBAS Execution Process Spawn
+    removed_in_version: 5.20.0
+    reason: Detection has been deprecated since it has been replaced with a better named detection that reflect a much better consistent logic
+    replacement_content:
+    - Wmiprvse LOLBAS Execution Process Spawn
   - content: Windows Change Default File Association For No File Ext
     removed_in_version: 5.18.0
     reason: Detection has been deprecated since it has been replaced with a better named detection that reflect a much better consistent logic

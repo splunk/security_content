@@ -1,9 +1,9 @@
 name: Wmiprsve LOLBAS Execution Process Spawn
 id: 95a455f0-4c04-11ec-b8ac-3e22fbd008af
-version: 6
+version: 7
 date: '2025-05-02'
 author: Mauricio Velazco, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects `wmiprvse.exe` spawning a LOLBAS execution
   process. It leverages data from Endpoint Detection and Response (EDR) agents, focusing
