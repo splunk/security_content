@@ -85,6 +85,7 @@ tags:
   - CISA AA22-264A
   - Compromised Windows Host
   - Credential Dumping
+  - Scattered Lapsus$ Hunters
   - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:

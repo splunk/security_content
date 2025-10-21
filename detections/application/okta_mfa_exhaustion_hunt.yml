@@ -1,7 +1,7 @@
 name: Okta MFA Exhaustion Hunt
 id: 97e2fe57-3740-402c-988a-76b64ce04b8d
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Michael Haag, Marissa Bower, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -40,6 +40,7 @@ tags:
   analytic_story:
   - Okta Account Takeover
   - Okta MFA Exhaustion
+  - Scattered Lapsus$ Hunters
   asset_type: Okta Tenant
   mitre_attack_id:
   - T1110

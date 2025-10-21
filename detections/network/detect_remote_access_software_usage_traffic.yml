@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 10
-date: '2025-07-29'
+version: 11
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -82,6 +82,7 @@ tags:
   - Remote Monitoring and Management Software
   - Scattered Spider
   - Interlock Ransomware
+  - Scattered Lapsus$ Hunters
   asset_type: Network
   mitre_attack_id:
   - T1219

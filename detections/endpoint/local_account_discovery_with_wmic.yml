@@ -1,7 +1,7 @@
 name: Local Account Discovery With Wmic
 id: 4902d7aa-0134-11ec-9d65-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -41,6 +41,7 @@ references:
 tags:
   analytic_story:
   - Active Directory Discovery
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1087.001

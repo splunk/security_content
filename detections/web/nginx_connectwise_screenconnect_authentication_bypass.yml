@@ -61,6 +61,7 @@ tags:
   analytic_story:
   - ConnectWise ScreenConnect Vulnerabilities
   - Seashell Blizzard
+  - Scattered Lapsus$ Hunters
   - Hellcat Ransomware
   asset_type: Web Proxy
   mitre_attack_id:
