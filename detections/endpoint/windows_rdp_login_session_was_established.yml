@@ -1,7 +1,7 @@
 name: Windows RDP Login Session Was Established
 id: 00ca7f9e-88ab-4841-a6c2-83979ab1ed29
-version: 1
-date: '2025-07-31'
+version: 2
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -46,6 +46,7 @@ rba:
 tags:
   analytic_story:
   - Windows RDP Artifacts and Defense Evasion
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.001

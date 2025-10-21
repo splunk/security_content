@@ -1,7 +1,7 @@
 name: ASL AWS Create Access Key
 id: 81a9f2fe-1697-473c-af1d-086b0d8b63c8
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-10-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Hunting
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
+  - Scattered Lapsus$ Hunters
   asset_type: AWS Account
   mitre_attack_id:
   - T1136.003

@@ -1,7 +1,7 @@
 name: Cisco Smart Install Port Discovery and Status
 id: ded9f9d7-edb8-48cf-8b72-1b459eee6785
-version: 1
-date: '2025-08-21'
+version: 2
+date: '2025-10-14'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -55,7 +55,8 @@ rba:
       type: ip_address
 tags:
   analytic_story:
-    - Cisco Smart Install Remote Code Execution CVE-2018-0171
+  - Scattered Lapsus$ Hunters
+  - Cisco Smart Install Remote Code Execution CVE-2018-0171
   asset_type: Network
   mitre_attack_id:
     - T1190

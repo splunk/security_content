@@ -1,7 +1,7 @@
 name: O365 Privileged Role Assigned
 id: db435700-4ddc-4c23-892e-49e7525d7d39
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -57,6 +57,7 @@ rba:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
+  - Scattered Lapsus$ Hunters
   asset_type: O365 Tenant
   mitre_attack_id:
   - T1098.003

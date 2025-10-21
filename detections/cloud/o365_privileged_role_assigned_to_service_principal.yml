@@ -1,7 +1,7 @@
 name: O365 Privileged Role Assigned To Service Principal
 id: 80f3fc1b-705f-4080-bf08-f61bf013b900
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -61,6 +61,7 @@ rba:
 tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
+  - Scattered Lapsus$ Hunters
   asset_type: O365 Tenant
   mitre_attack_id:
   - T1098.003

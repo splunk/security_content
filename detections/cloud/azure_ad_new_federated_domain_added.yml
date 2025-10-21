@@ -60,6 +60,7 @@ rba:
 tags:
   analytic_story:
   - Azure Active Directory Persistence
+  - Scattered Lapsus$ Hunters
   - Hellcat Ransomware
   asset_type: Azure Active Directory
   mitre_attack_id:

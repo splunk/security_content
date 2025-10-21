@@ -1,7 +1,7 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -48,6 +48,7 @@ rba:
 tags:
   analytic_story:
   - Router and Infrastructure Security
+  - Scattered Lapsus$ Hunters
   asset_type: Infrastructure
   mitre_attack_id:
   - T1200
