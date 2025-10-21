@@ -1,4 +1,4 @@
-name: Wmiprsve LOLBAS Execution Process Spawn
+name: Wmiprvse LOLBAS Execution Process Spawn
 id: 95a455f0-4c04-11ec-b8ac-3e22fbd008af
 version: 6
 date: '2025-05-02'
@@ -36,7 +36,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `wmiprsve_lolbas_execution_process_spawn_filter`'
+  | `wmiprvse_lolbas_execution_process_spawn_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -67,7 +67,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Wmiprsve.exe spawned a LOLBAS process on $dest$.
+  message: Wmiprvse.exe spawned a LOLBAS process on $dest$.
   risk_objects:
   - field: dest
     type: system
