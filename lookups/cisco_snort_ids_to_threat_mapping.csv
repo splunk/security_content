@@ -1,6 +1,6 @@
 threat,signature_id,category,message
 ArcaneDoor,46897,SERVER-WEBAPP,Cisco Adaptive Security Appliance directory traversal attempt
-ArcaneDoor,65340,SERVER-WEBAPP,TRUFFLEHUNTER SFVRT-1055 attack attempt
+ArcaneDoor,65340,SERVER-WEBAPP,Cisco Adaptive Security Appliance WebVPN buffer overflow attempt
 AgentTesla,40238,MALWARE-CNC,Win.Keylogger.AgentTesla variant outbound connection
 AgentTesla,52246,INDICATOR-COMPROMISE,AgentTesla variant outbound connection attempt
 AgentTesla,52612,MALWARE-CNC,Win.Trojan.AgentTesla variant outbound connection detected
