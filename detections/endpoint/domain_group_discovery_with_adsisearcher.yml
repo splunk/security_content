@@ -1,7 +1,7 @@
 name: Domain Group Discovery with Adsisearcher
 id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
-version: 9
-date: '2025-06-24'
+version: 10
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -54,7 +54,8 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-    - Active Directory Discovery
+  - Scattered Lapsus$ Hunters
+  - Active Directory Discovery
   asset_type: Endpoint
   mitre_attack_id:
     - T1069.002

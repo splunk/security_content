@@ -1,12 +1,12 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2025-10-21'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic detects the spawning of a PowerShell process as
-  a child or grandchild of commonly abused processes like services.exe, wmiprsve.exe,
+  a child or grandchild of commonly abused processes like services.exe, wmiprvse.exe,
   svchost.exe, wsmprovhost.exe, and mmc.exe. It leverages data from Endpoint Detection
   and Response (EDR) agents, focusing on process and parent process names, as well
   as command-line executions. This activity is significant as it often indicates lateral

@@ -1,7 +1,7 @@
 name: ASL AWS Create Policy Version to allow all resources
 id: 22cc7a62-3884-48c4-82da-592b8199b72f
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-10-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -54,6 +54,7 @@ rba:
 tags:
   analytic_story:
   - AWS IAM Privilege Escalation
+  - Scattered Lapsus$ Hunters
   asset_type: AWS Account
   mitre_attack_id:
   - T1078.004

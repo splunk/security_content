@@ -49,6 +49,7 @@ rba:
 tags:
   analytic_story:
   - Router and Infrastructure Security
+  - Scattered Lapsus$ Hunters
   asset_type: Infrastructure
   mitre_attack_id:
   - T1200

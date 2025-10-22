@@ -1,0 +1,77 @@
+name: HTTP Suspicious Tool User Agent
+id: 1ca76190-4997-4d19-b5bc-9e220b70c7d3
+version: 1
+date: '2025-10-09'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: This Splunk query analyzes web access logs to identify and categorize 
+  non-browser user agents, detecting various types of security tools, scripting languages,
+  automation frameworks, and suspicious patterns. This activity can signify malicious actors
+  attempting to interact with web endpoints in non-standard ways.
+data_source:
+- Nginx Access
+search: '`nginx_access_logs`
+  | eval http_user_agent = lower(http_user_agent)
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name(Web)`
+  | lookup scripting_tools_user_agents tool_user_agent AS http_user_agent OUTPUT tool
+  | where isnotnull(tool)
+  | rename dest_ip as dest
+  | stats count min(firstTime) as first_seen max(lastTime) as last_seen values(tool) as tool 
+  by http_user_agent dest src_ip status
+  | `http_suspicious_tool_user_agent_filter`'
+how_to_implement: This analytic necessitates the collection of web data, which can
+  be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web
+  Server. No additional configuration is required for this analytic.
+known_false_positives: False positives may be present if the activity is part of diagnostics
+  or testing. Filter as needed.
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+  - https://github.com/SigmaHQ/sigma/blob/master/rules/web/proxy_generic/proxy_ua_hacktool.yml
+  - https://help.aikido.dev/zen-firewall/miscellaneous/bot-protection-details
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Known scripting tool was used against a web request.
+    The source IP is $src_ip$ and the destination is $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 31
+  threat_objects:
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - HTTP Request Smuggling
+  asset_type: Network
+  mitre_attack_id:
+  - T1071.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/nginx_scripting_tools.log
+    source: nginx:plus:kv
+    sourcetype: nginx:plus:kv

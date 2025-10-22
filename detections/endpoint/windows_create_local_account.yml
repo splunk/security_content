@@ -65,6 +65,7 @@ tags:
   - Active Directory Password Spraying
   - CISA AA24-241A
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1136.001

@@ -1,7 +1,7 @@
 name: PowerShell Start or Stop Service
 id: 04207f8a-e08d-4ee6-be26-1e0c4488b04a
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
@@ -58,7 +58,8 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-    - Active Directory Lateral Movement
+  - Scattered Lapsus$ Hunters
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   mitre_attack_id:
     - T1059.001

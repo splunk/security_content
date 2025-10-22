@@ -1,0 +1,80 @@
+tool,tool_user_agent
+Python Script,*python*
+Ruby Script,*ruby*
+Perl Script,*perl*
+Perl Script,*lwp::*
+PHP Script,*php*
+PHP Script,*guzzle*
+PHP Script,*zend*
+Java,*java*
+Go Script,*golang*
+Go Script,*go-http-*
+NodeJS Script,*node*
+PowerShell,*powershell*
+Curl,*curl*
+Curl,*libcurl*
+Wget,*wget*
+HTTPie,*httpie*
+Nikto_Scanner,"*mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/74.0.3729.169 safari/537.36*"
+Nmap Scanner,*nmap*
+DirBuster,*dirbuster*
+DirBuster,*dirb/*
+GoBuster,*gobuster*
+WFuzz,*wfuzz*
+Hydra,*hydra*
+Httrack,*httrack*
+Medusa,*mozilla/1.22 (compatible; msie 10.0; windows 3.1)*
+Scrapy,*scrapy*
+Headless Browser,*headless*
+Generic Bot,*bot*
+Generic Bot,*crawler*
+Generic Bot,*spider*
+Generic Bot,*scraper*
+Generic Scanner,*scanner*
+Generic Scanner,*scan/*
+Test or POC,*test*
+Test or POC,*debug*
+Test or POC,*poc*
+Test or POC,*demo*
+Test or POC,*hack*
+Test or POC,*exploit*
+Test or POC,*injection*
+Empty User Agent,"-"
+Arachni Scanner,* arachni/*
+Backup File Artifacts Checker,* bfac *
+Brutus,* brutus *
+Cgi Scanner 3,* cgichk *
+DataCha0s Scanner,*datacha0s*
+DominoHunter,*domino hunter*
+DotDotPwn Fuzzer,*dotdotpwn*
+Gootkit Scanner,*gootkit auto-rooter scanner*
+Grendel-Scan,*grendel-scan*
+ZmEu,* zmeu *
+Masscan,*masscan*
+Morfeus,*morfeus fucking scanner*
+N-Stalker Web Application Security Scanner,*n-stealth*
+Nsauditor,*nsauditor*
+Springenwerk Security Scanner,*springenwerk*
+Vega Vulnerability Scanner,* vega/*
+Webshag,*webshag*
+webvulnscan,*webvulnscan*
+Havij SQL Injection,* Havij*
+Absinthe,*absinthe*
+Bsqlbf-v2,*bsqlbf*
+MySqloit,*mysqloit*
+Pangolin SQL Injection,*pangolin*
+SQL Power Injector,*sql power injector*
+Sqlninja,*sqlninja*
+SQLi Dumper,"mozilla/5.0 (windows; u; windows nt 5.1; pt-pt; rv:1.9.1.2) gecko/20090729 firefox/3.5.2 (.net clr 3.5.30729)"
+Argus,*argus*
+FeroxBuster,*feroxbuster*
+FFUF,*fuzz faster u fool*
+l9explore,*l9explore*
+lkxscan,*lkxscan/*
+Netsparker,*netsparker*
+OpenVAS,*openvas*
+OWASP Amass,*owasp amass*
+Paros,*paros*
+ShadowSpray,*shadowspray*
+sqlmap,*sqlmap*
+
