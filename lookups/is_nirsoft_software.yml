@@ -7,3 +7,5 @@ lookup_type: csv
 description: A subset of utilities provided by NirSoft that may be used by adversaries.
 min_matches: 1
 case_sensitive_match: false
+match_type: 
+- WILDCARD(filename)

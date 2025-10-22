@@ -25,6 +25,7 @@ search: |
 
   Filesystem.file_name IN (
     "brtools.zip",
+    "mailpv.zip",
     "networktools.zip",
     "passreccommandline.zip",
     "passrecenc.zip",
