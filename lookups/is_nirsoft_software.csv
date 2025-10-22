@@ -1,6 +1,7 @@
 filename,nirsoftFile
 AdvancedRun.exe,True
 awatch.exe,True
+BluetoothView.exe,True
 BrowsingHistoryView.exe,True
 BulletsPassView.exe,True
 ChromeCacheView.exe,True
@@ -106,3 +107,6 @@ WinLogOnView.exe,True
 WirelessKeyView.exe,True
 WirelessNetView.exe,True
 WNetWatcher.exe,True
+LostMyPassword.exe,True
+ExtPassword.exe,True
+rdpv.exe,True
