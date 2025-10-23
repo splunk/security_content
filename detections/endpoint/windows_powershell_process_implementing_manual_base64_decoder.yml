@@ -1,16 +1,16 @@
-name: Windows PsTools Recon Usage
-id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
-version: 2
+name: Windows PowerShell Process Implementing Manual Base64 Decoder
+id: 08d67349-0808-4f55-b431-1037269fa517
+version: 1
 date: '2025-10-23'
 author: Nasreddine Bencherchali
 status: experimental
 type: Anomaly
 description: |
-  The following analytic identifies execution of Sysinternals PsTools and Sysinternals Suit binaries that are commonly used for reconnaissance and information gathering on
-  Windows endpoints.
-  PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, etc.) or Sysinternals Suit tools, are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement.
-  This detection focuses on process execution and PE metadata telemetry (OriginalFileName).
-  If confirmed malicious, this activity can indicate targeted reconnaissance and foothold escalation, enabling subsequent lateral movement or credential abuse.
+  The following analytic identifies Windows PowerShell processes that implement a manual Base64 decoder.
+  Threat actors often use Base64 encoding to obfuscate malicious payloads or commands within PowerShell scripts.
+  By manually decoding Base64 strings, attackers can evade detection mechanisms that look for standard decoding functions like using the "-enc" flag or the "FromBase64String" function.
+  This detection focuses on PowerShell processes that exhibit characteristics of manual Base64 decoding, such as the presence of specific string manipulation methods and bitwise operations.
+  Security teams should investigate any instances of such activity, especially if found in conjunction with other suspicious behaviors or on systems that should not be using PowerShell for such tasks.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
@@ -22,36 +22,12 @@ search: |
 
     from datamodel=Endpoint.Processes where
 
-    Processes.process_name IN (
-        "PsGetsid.exe",
-        "PsGetsid64.exe",
-        "PsInfo.exe",
-        "PsInfo64.exe",
-        "pslist.exe",
-        "pslist64.exe",
-        "PsLoggedon.exe",
-        "PsLoggedon64.exe",
-        "psloglist.exe",
-        "psloglist64.exe",
-        "PsPing.exe",
-        "PsPing64.exe",
-        "PsService.exe",
-        "PsService64.exe",
-        "Tcpvcon.exe",
-        "Tcpvcon64.exe",
-        "Tcpvcon64a.exe"
-    )
-    OR
-    Processes.original_file_name IN (
-        "PsGetSid.exe",
-        "Psinfo.exe",
-        "pslist.exe",
-        "psloggedon.exe",
-        "psloglist.exe",
-        "psping.exe",
-        "psservice.exe",
-        "Tcpvcon.exe"
-    )
+    `process_powershell`
+    Processes.process = "*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/*"
+    Processes.process = "*.Substring(*"
+    Processes.process = "*.GetString(*"
+    Processes.process = "*.IndexOf(*"
+    Processes.process IN ("*-shl*", *-shr*, "*-bxor*", "*-bor*", "*-band*")
 
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
      Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -62,7 +38,7 @@ search: |
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_pstools_recon_usage_filter`
+  | `windows_powershell_process_implementing_manual_base64_decoder_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -74,13 +50,11 @@ how_to_implement: |
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
 known_false_positives: |
-  Legitimate administrators commonly use PsTools for troubleshooting and management.
-  False positives are likely in environments where PsTools are an approved operational toolset, or where automated management systems invoke them.
-  Tune by whitelisting approved management hosts, service accounts, and scheduled maintenance windows.
+  Legitimate use of PowerShell for decoding Base64 strings by administrators
+  or power users may trigger this detection. It is essential to review the context
+  of the PowerShell execution to determine if it is malicious, suspicious or even authorized activity.
 references:
-  - https://learn.microsoft.com/sysinternals/downloads/pstools
-  - https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections/raw/master/2015/2015.09.17.Operation_Iron_Tiger/wp-operation-iron-tiger.pdf
-  - https://go.crowdstrike.com/rs/281-OBQ-266/images/Report2018OverwatchReport.pdf
+  - https://www.virustotal.com/gui/file/4b3ab4d9f2332da6b6cd8d9d0f4910a5eb85ac8c969108acb3ad49631812f998/behavior
 drilldown_searches:
   - name: View the detection results for - "$dest$" and "$user$"
     search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -96,7 +70,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: PsTools binary $process_name$ was executed on host $dest$.
+  message: An instance of $process_name$ executing a manual Base64 decoding routine $process$ was identified on endpoint $dest$ by user $user$.
   risk_objects:
     - field: user
       type: user
@@ -107,14 +81,16 @@ rba:
   threat_objects:
     - field: process_name
       type: process_name
+    - field: process
+      type: process_name
 tags:
   analytic_story:
     - Compromised Windows Host
+    - Deobfuscate-Decode Files or Information
   asset_type: Endpoint
   mitre_attack_id:
-    - T1082
-    - T1046
-    - T1018
+    - T1027.010
+    - T1059.001
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
@@ -123,6 +99,6 @@ tags:
 tests:
   - name: True Positive
     attack_data:
-      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
+      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1027.010/manual_b64_decode_pwsh/manual_b64_decode_pwsh.log
         source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
         sourcetype: XmlWinEventLog
