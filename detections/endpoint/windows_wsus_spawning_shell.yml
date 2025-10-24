@@ -75,7 +75,9 @@ rba:
 tags:
   analytic_story:
   - Microsoft WSUS CVE-2025-59287
-  asset_type: Windows Server
+  asset_type: Endpoint
+  cve:
+  - CVE-2025-59287
   mitre_attack_id:
   - T1190
   - T1505.003
@@ -83,9 +85,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: Endpoint
-  cve:
-  - CVE-2025-59287
+  security_domain: endpoint
 tests:
 - name: True Positive Test
   attack_data:
