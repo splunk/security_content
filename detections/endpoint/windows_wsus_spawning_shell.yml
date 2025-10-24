@@ -83,7 +83,7 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: endpoint
+  security_domain: Endpoint
   cve:
   - CVE-2025-59287
 tests:
