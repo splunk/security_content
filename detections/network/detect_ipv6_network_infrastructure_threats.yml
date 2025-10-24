@@ -1,7 +1,7 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
 version: 7
-date: '2025-10-14'
+date: '2025-10-21'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -12,7 +12,8 @@ description: The following analytic detects IPv6 network infrastructure threats 
   attempts to compromise network integrity and security. If confirmed malicious, attackers
   could manipulate network traffic, leading to potential data interception, unauthorized
   access, or network disruption.
-data_source: []
+data_source:
+  - Cisco IOS Logs
 search: '`cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
   | eval src_interface=src_int_prefix_long+src_int_suffix | eval dest_interface=dest_int_prefix_long+dest_int_suffix
   | stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac

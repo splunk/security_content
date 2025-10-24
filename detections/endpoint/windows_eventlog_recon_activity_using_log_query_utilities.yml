@@ -1,7 +1,7 @@
 name: Windows EventLog Recon Activity Using Log Query Utilities
 id: dc167f8b-3f9d-4460-9c98-8b6e703fd628
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -13,28 +13,55 @@ data_source:
   - CrowdStrike ProcessRollup2
 search: |
   | tstats `security_content_summariesonly` values(Processes.process) as process
-    min(_time) as firstTime max(_time) as lastTime 
-    from datamodel=Endpoint.Processes 
+    min(_time) as firstTime max(_time) as lastTime
+    from datamodel=Endpoint.Processes
     where (
-      (Processes.process_name IN ("powershell.exe", "pwsh.exe", "powershell_ise.exe") AND Processes.process IN ("*Get-WinEvent*", "*Get-EventLog*", "*EventLogQuery*", "*.ReadEvent(*"))
+      (
+        (
+          Processes.process_name IN ("powershell.exe", "pwsh.exe", "powershell_ise.exe")
+          OR
+          Processes.original_file_name IN ("PowerShell.EXE", "pwsh.dll", "powershell_ise.EXE")
+        )
+        Processes.process IN ("*Get-WinEvent*", "*Get-EventLog*", "*EventLogQuery*", "*.ReadEvent(*")
+      )
       OR
-      (Processes.process_name=wevtutil.exe Processes.process IN ("* qe *", "* query-events *"))
+      (
+        (
+          Processes.process_name = wevtutil.exe 
+          OR 
+          Processes.original_file_name = wevtutil.exe
+        )
+        Processes.process IN ("* qe *", "* query-events *")
+      )
       OR
-      (Processes.process_name=wmic.exe Processes.process IN ("*ntevent*"))
+      (
+        (
+          Processes.process_name = wmic.exe 
+          OR 
+          Processes.original_file_name = wmic.exe
+        )
+        Processes.process IN ("*ntevent*")
+      )
       OR
-      (Processes.process="*Win32_NTLogEvent*" AND Processes.process="*EventCode*")
+      (
+        Processes.process="*Win32_NTLogEvent*"
+        Processes.process="*EventCode*"
+      )
       OR
-      (Processes.process IN ("*PsLogList*", "*Eventquery*"))
-    ) 
-    by 
+      (
+        Processes.process IN ("*PsLogList*", "*Eventquery*")
+      )
+    )
+    by
       Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
       Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
       Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
       Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
       Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+      
   | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `windows_eventlog_recon_activity_using_log_query_utilities_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection

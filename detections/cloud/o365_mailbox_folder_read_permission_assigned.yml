@@ -1,9 +1,10 @@
 name: O365 Mailbox Folder Read Permission Assigned
 id: 1435475e-2128-4417-a34f-59770733b0d5
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-21'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source:
+  - O365 ModifyFolderPermissions
 type: TTP
 status: production
 description: The following analytic identifies instances where read permissions are

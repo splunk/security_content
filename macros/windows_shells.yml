@@ -1,4 +1,4 @@
-definition: (Processes.process_name=cmd.exe OR Processes.process_name=powershell.exe OR Processes.process_name=pwsh.exe OR Processes.process_name=sh.exe OR Processes.process_name=bash.exe OR Processes.process_name=wscript.exe OR Processes.process_name=cscript.exe)
+definition: (Processes.process_name IN ("cmd.exe", "powershell.exe", "powershell_ise.exe", "pwsh.exe", "sh.exe", "bash.exe", "wscript.exe","cscript.exe", "wt.exe", "WindowsTerminal.exe", "mshta.exe"))
 description: customer specific splunk configurations(eg- index, source, sourcetype).
   Replace the macro definition with configurations for your Splunk Environment.
 name: windows_shells

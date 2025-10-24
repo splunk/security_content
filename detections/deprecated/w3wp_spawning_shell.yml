@@ -1,9 +1,9 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
-version: 10
-date: '2025-09-16'
+version: 11
+date: '2025-10-16'
 author: Michael Haag, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic identifies instances where a shell (PowerShell.exe
   or Cmd.exe) is spawned from W3WP.exe, the IIS worker process. This detection leverages
