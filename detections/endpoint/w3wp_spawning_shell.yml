@@ -1,7 +1,7 @@
 name: W3WP Spawning Shell
 id: 0f03423c-7c6a-11eb-bc47-acde48001122
-version: 11
-date: '2025-10-24'
+version: 10
+date: '2025-09-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -80,7 +80,6 @@ tags:
   - PHP-CGI RCE Attack on Japanese Organizations
   - Microsoft SharePoint Vulnerabilities
   - GhostRedirector IIS Module and Rungan Backdoor
-  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   cve:
   - CVE-2021-34473
