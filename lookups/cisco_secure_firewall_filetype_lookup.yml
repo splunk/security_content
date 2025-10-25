@@ -1,6 +1,6 @@
 name: cisco_secure_firewall_filetype_lookup
-date: 2025-04-03
-version: 1
+date: 2025-10-22
+version: 2
 id: 5850e5c3-543c-45b8-8b82-147ed49aba56
 author: Nasreddine Bencherchali, Splunk Threat Research Team
 lookup_type: csv

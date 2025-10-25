@@ -1,9 +1,10 @@
 name: Windows Process Writing File to World Writable Path
 id: c051b68c-60f7-4022-b3ad-773bec7a225b
-version: 7
-date: '2025-08-20'
+version: 8
+date: '2025-10-21'
 author: Michael Haag, Splunk
-data_source: []
+data_source:
+  - Sysmon EventID 11
 type: Hunting
 status: production
 description: The following analytic identifies a process writing a .txt file to 

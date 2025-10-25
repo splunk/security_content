@@ -1,9 +1,10 @@
 name: O365 Elevated Mailbox Permission Assigned
 id: 2246c142-a678-45f8-8546-aaed7e0efd30
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-21'
 author: Patrick Bareiss, Mauricio Velazco, Splunk
-data_source: []
+data_source:
+  - O365 Add-MailboxPermission
 type: TTP
 status: production
 description: The following analytic identifies the assignment of elevated mailbox

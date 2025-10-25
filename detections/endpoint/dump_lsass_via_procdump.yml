@@ -1,11 +1,12 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2025-10-22'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of procdump.exe to dump the LSASS
+description: |
+  The following analytic detects the use of procdump.exe to dump the LSASS
   process, specifically looking for the -mm and -ma command-line arguments. It leverages
   data from Endpoint Detection and Response (EDR) agents, focusing on process names,
   command-line executions, and parent processes. This activity is significant because
@@ -14,20 +15,32 @@ description: The following analytic detects the use of procdump.exe to dump the 
   and move laterally within the network, leading to potential data breaches and further
   compromise of the environment.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_procdump` (Processes.process=*-ma*
-  OR Processes.process=*-mm*) Processes.process=*lsass* by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `dump_lsass_via_procdump_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+          max(_time) as lastTime
+          
+  from datamodel=Endpoint.Processes where 
+  
+  `process_procdump`
+  Processes.process IN (*-ma*, *-mm*, "*-mp*", */ma*, */mm*, "*/mp*")
+  Processes.process IN (* ls*, "* keyiso*", "* samss*")
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process 
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `dump_lsass_via_procdump_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
   you must ingest logs that contain the process GUID, process name, and parent process.
@@ -38,27 +51,28 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   names and speed up the data modeling process.
 known_false_positives: None identified.
 references:
-- https://attack.mitre.org/techniques/T1003/001/
-- https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://attack.mitre.org/techniques/T1003/001/
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/procdump
+  - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.001/T1003.001.md#atomic-test-2---dump-lsassexe-memory-using-procdump
+  - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+  - https://x.com/wietze/status/1958302556033065292?s=12
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$" and "$dest$"
+    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    attempting to dump lsass.exe on endpoint $dest$ by user $user$.
+    attempting to dump lsass.exe via the command $process$ on endpoint $dest$ by user $user$.
   risk_objects:
   - field: user
     type: user
