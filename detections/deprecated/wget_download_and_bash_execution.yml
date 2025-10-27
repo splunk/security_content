@@ -1,9 +1,9 @@
 name: Wget Download and Bash Execution
 id: 35682718-5a85-11ec-b8f7-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-10-16'
 author: Michael Haag, Splunk, DipsyTipsy
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects the use of wget on Windows, Linux or MacOS
   to download a file from a remote source and pipe it to bash. This detection leverages

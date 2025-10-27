@@ -1,7 +1,7 @@
 name: Cisco NVM - Curl Execution With Insecure Flags
 id: cc695238-3117-4e60-aa83-4beac2a42c69
-version: 3
-date: '2025-09-10'
+version: 4
+date: '2025-10-24'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -85,6 +85,7 @@ tags:
   analytic_story:
   - Cisco Network Visibility Module Analytics
   - PromptLock
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
   - T1197

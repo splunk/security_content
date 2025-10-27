@@ -1,7 +1,7 @@
 name: Windows Impair Defense Deny Security Software With Applocker
 id: e0b6ca60-9e29-4450-b51a-bba0abae2313
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -63,6 +63,7 @@ rba:
 tags:
   analytic_story:
   - Azorult
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1562.001

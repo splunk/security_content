@@ -1,0 +1,101 @@
+name: Advanced IP or Port Scanner Execution
+id: 9a4e50c7-5b62-4d52-93b4-f2b61332e9a5
+version: 1
+date: '2025-10-13'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic detects the execution of network scanning utilities such as Advanced IP Scanner or Advanced Port Scanner.
+  These legitimate administrative tools are often leveraged by threat actors and ransomware operators during the discovery phase to enumerate active hosts and open ports within a target environment.
+  Detection is based on process creation telemetry referencing known executable names, original file names, or specific command-line parameters such as "/portable" and "/lng" that are characteristic of these tools.
+  If confirmed malicious, this activity may indicate internal reconnaissance aimed at identifying reachable systems or services prior to lateral movement or further post-compromise actions.
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+      Processes.process_name IN ("advanced_ip_scanner.exe", "advanced_ip_scanner_console.exe", "advanced_port_scanner.exe", "advanced_port_scanner_console.exe")
+      OR
+      Processes.original_file_name IN ("advanced_ip_scanner.exe", "advanced_ip_scanner_console.exe", "advanced_port_scanner.exe", "advanced_port_scanner_console.exe")
+      OR (
+      Processes.process = "* /portable *"
+      Processes.process = "* /lng *"
+      )
+
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+       Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `advanced_ip_or_port_scanner_execution_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: |
+  Legitimate administrators or IT staff may use Advanced IP or Port Scanner for authorized
+  network management or inventory purposes. Validate the context of execution and apply any filters as necessary.
+references:
+  - https://news.sophos.com/en-us/2019/12/09/snatch-ransomware-reboots-pcs-into-safe-mode-to-bypass-protection/
+  - https://cloud.google.com/blog/topics/threat-intelligence/tactics-techniques-procedures-associated-with-maze-ransomware-incidents/
+  - https://assets.documentcloud.org/documents/20444693/fbi-pin-egregor-ransomware-bc-01062021.pdf
+  - https://thedfirreport.com/2021/01/18/all-that-for-a-coinminer
+  - https://github.com/3CORESec/MAL-CL/tree/master/Descriptors/Other/Advanced%20IP%20Scanner
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Execution of Advanced IP or Port Scanner detected via $process$ on $dest$
+  risk_objects:
+    - field: user
+      type: user
+      score: 64
+    - field: dest
+      type: system
+      score: 64
+  threat_objects: []
+tags:
+  analytic_story:
+    - Windows Defense Evasion Tactics
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1046
+    - T1135
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/advanced_ip_port_scanner/advanced_ip_port_scanner.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: XmlWinEventLog

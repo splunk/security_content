@@ -1,7 +1,7 @@
 name: Monitor Email For Brand Abuse
 id: b2ea1f38-3a3e-4b8a-9cf1-82760d86a6b8
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -37,6 +37,7 @@ tags:
   analytic_story:
   - Brand Monitoring
   - Suspicious Emails
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   product:
   - Splunk Enterprise

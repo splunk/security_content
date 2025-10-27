@@ -1,7 +1,7 @@
 name: Detect New Login Attempts to Routers
 id: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -37,6 +37,7 @@ rba:
 tags:
   analytic_story:
   - Router and Infrastructure Security
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   product:
   - Splunk Enterprise

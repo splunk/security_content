@@ -1,7 +1,7 @@
 name: Cisco NVM - Rclone Execution With Network Activity
 id: 719f8c78-b20d-4bb9-8c33-6d1a762e7a9a
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -91,7 +91,8 @@ rba:
       type: process_name
 tags:
   analytic_story:
-    - Cisco Network Visibility Module Analytics
+  - Scattered Lapsus$ Hunters
+  - Cisco Network Visibility Module Analytics
   asset_type: Endpoint
   mitre_attack_id:
     - T1567.002

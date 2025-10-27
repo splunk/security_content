@@ -1,7 +1,7 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-21'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -13,7 +13,8 @@ description: The following analytic detects the initiation of traffic mirroring 
   confirmed malicious, this could allow attackers to capture sensitive information,
   monitor network communications, and potentially compromise the integrity and confidentiality
   of the network.
-data_source: []
+data_source:
+  - Cisco IOS Logs
 search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN"
   mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD"
   command="monitor session*") | stats min(_time) AS firstTime max(_time) AS lastTime

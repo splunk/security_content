@@ -1,7 +1,7 @@
 name: O365 Multiple Failed MFA Requests For User
 id: fd22124e-dbac-4744-a8ce-be10d8ec3e26
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -51,6 +51,7 @@ rba:
 tags:
   analytic_story:
   - Office 365 Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: O365 Tenant
   mitre_attack_id:
   - T1621

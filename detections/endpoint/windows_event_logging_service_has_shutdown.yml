@@ -1,7 +1,7 @@
 name: Windows Event Logging Service Has Shutdown
 id: d696f622-6b08-4336-b456-696cb5b43ba0
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -33,6 +33,7 @@ tags:
   - Windows Log Manipulation
   - Ransomware
   - Clop Ransomware
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.001

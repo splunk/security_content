@@ -1,7 +1,7 @@
 name: PowerShell Invoke CIMMethod CIMSession
 id: 651ee958-a433-471c-b264-39725b788b83
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
@@ -57,8 +57,9 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-    - Malicious PowerShell
-    - Active Directory Lateral Movement
+  - Scattered Lapsus$ Hunters
+  - Malicious PowerShell
+  - Active Directory Lateral Movement
   asset_type: Endpoint
   mitre_attack_id:
     - T1047
