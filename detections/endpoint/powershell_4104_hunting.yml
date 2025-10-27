@@ -1,7 +1,7 @@
 name: PowerShell 4104 Hunting
 id: d6f2b006-0041-11ec-8885-acde48001122
 version: 21
-date: '2025-10-14'
+date: '2025-10-24'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -86,6 +86,7 @@ tags:
   - APT37 Rustonotto and FadeStealer
   - GhostRedirector IIS Module and Rungan Backdoor
   - Hellcat Ransomware
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.001
