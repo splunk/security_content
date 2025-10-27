@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
 version: 12
-date: '2025-10-21'
+date: '2025-10-24'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -78,6 +78,7 @@ tags:
   - Data Destruction
   - Scheduled Tasks
   - CISA AA24-241A
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.003

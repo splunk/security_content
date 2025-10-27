@@ -1,0 +1,22 @@
+name: Microsoft WSUS CVE-2025-59287
+id: e08d87a3-742a-434f-9071-ed8aa94d65e1
+version: 1
+status: production
+date: '2025-10-24'
+author: Michael Haag, Nasreddine Bencherchali, Splunk
+description: This analytic story addresses the exploitation of CVE-2025-59287, a critical remote code execution vulnerability in Microsoft Windows Server Update Services (WSUS). Threat actors exploit a deserialization vulnerability in the WSUS AuthorizationCookie to achieve unauthenticated remote code execution on exposed WSUS servers. The attack leverages publicly accessible WSUS instances on default ports 8530/TCP (HTTP) and 8531/TCP (HTTPS) to send specially crafted POST requests that trigger deserialization attacks, resulting in shell spawning from the WSUS service and IIS worker processes.
+narrative: On October 23, 2025, Microsoft released an out-of-band security update for CVE-2025-59287, a critical deserialization vulnerability affecting Windows Server Update Services (WSUS). Security researchers at Huntress observed active exploitation starting around October 23, 2025 at 23:34 UTC, where threat actors targeted WSUS instances exposed to the internet on their default ports. The attack chain begins with the adversary sending multiple specially crafted HTTP POST requests to WSUS web service endpoints including /SimpleAuthWebService/SimpleAuth.asmx, /ClientWebService/Client.asmx, and /ReportingWebService/ReportingWebService.asmx. These requests exploit the deserialization vulnerability in the AuthorizationCookie parameter, allowing attackers to achieve unauthenticated remote code execution. Upon successful exploitation, the attack manifests in two distinct process execution chains - wsusservice.exe spawning cmd.exe which subsequently spawns PowerShell, and w3wp.exe (IIS worker process) following a similar pattern. The malicious PowerShell payload, delivered in base64-encoded format using the -ec parameter, executes reconnaissance commands including whoami, net user /domain for Active Directory enumeration, and ipconfig /all for network configuration discovery. The collected data is then exfiltrated to remote webhook services using either PowerShell's Invoke-WebRequest cmdlet with the PUT method or curl.exe with the --data-binary flag. Attackers have been observed using proxy networks to obfuscate their source infrastructure during exploitation attempts. Organizations should immediately apply Microsoft's security update, isolate WSUS servers from direct internet access, and restrict inbound traffic on ports 8530 and 8531 to only authorized management hosts and Microsoft Update servers.
+references:
+- https://www.huntress.com/blog/exploitation-of-windows-server-update-services-remote-code-execution-vulnerability
+- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2025-59287
+- https://hawktrace.com/blog/CVE-2025-59287-UNAUTH
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2025-59287

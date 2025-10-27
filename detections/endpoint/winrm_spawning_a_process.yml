@@ -1,7 +1,7 @@
 name: WinRM Spawning a Process
 id: a081836a-ba4d-11eb-8593-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-24'
 author: Drew Church, Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -56,6 +56,7 @@ tags:
   - CISA AA23-347A
   - Rhysida Ransomware
   - Unusual Processes
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   cve:
   - CVE-2021-31166
