@@ -847,6 +847,9 @@ detections:
   - content: Excel Spawning Windows Script Host
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
+  - content: Windows Default RDP File Creation
+    removed_in_version: 5.19.0
+    reason: Detections updated to use the new search logic and field names.
 baselines:
   - content: Previously Seen AWS Cross Account Activity
     removed_in_version: 5.4.0
