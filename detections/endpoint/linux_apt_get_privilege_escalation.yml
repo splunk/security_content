@@ -11,7 +11,7 @@ description: The following analytic detects the execution of the 'apt-get' comma
   that include command-line details. This activity is significant because it indicates
   a user may be attempting to escalate privileges to root, which could lead to unauthorized
   system control. If confirmed malicious, an attacker could gain root access, allowing
-  them to execute arbitrary commands, install or remove software, and potentially
+  them to execute arbitrary commands, install or remove software, and potentially 
   compromise the entire system.
 data_source:
 - Sysmon for Linux EventID 1
@@ -84,8 +84,3 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
-- name: True Positive Test - Cisco Isovalent
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
-    source: not_applicable
-    sourcetype: cisco:isovalent:processExec

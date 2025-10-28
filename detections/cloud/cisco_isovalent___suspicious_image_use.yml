@@ -15,7 +15,6 @@ description: |
   is warranted for namespaces and workloads that normally source images from restricted
   registries, and for pods that suddenly begin running images outside expected
   prefixes.
-
   Maintain an environment‑specific allowlist via the macro `cisco_isovalent_allowed_images`
   (for example, allow trusted registries/prefixes such as ImageName="gcr.io/org/*",
   "registry.local/*", or "myco/*") and keep it updated as new baseline images are
