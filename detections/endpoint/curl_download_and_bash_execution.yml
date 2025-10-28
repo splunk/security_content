@@ -1,7 +1,7 @@
 name: Curl Download and Bash Execution
 id: 900bc324-59f3-11ec-9fb4-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-10-27'
 author: Michael Haag, Splunk, DipsyTipsy
 status: production
 type: TTP
@@ -76,6 +76,7 @@ tags:
   - Log4Shell CVE-2021-44228
   - Linux Living Off The Land
   - Ingress Tool Transfer
+  - npm Supply Chain Compromise
   asset_type: Endpoint
   cve:
   - CVE-2021-44228

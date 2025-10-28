@@ -1,7 +1,7 @@
 name: GitHub Enterprise Repository Deleted
 id: f709e736-3e6c-492f-b865-bc7696cc24a7
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-10-27'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -45,6 +45,7 @@ rba:
 tags:
   analytic_story:
   - GitHub Malicious Activity
+  - npm Supply Chain Compromise
   asset_type: GitHub
   mitre_attack_id:
   - T1485

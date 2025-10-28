@@ -1,7 +1,7 @@
 name: GitHub Enterprise Repository Archived
 id: 8367cb99-bae1-4748-ae3b-0927bb381424
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-10-27'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -48,6 +48,7 @@ rba:
 tags:
   analytic_story:
   - GitHub Malicious Activity
+  - npm Supply Chain Compromise
   asset_type: GitHub
   mitre_attack_id:
   - T1485
