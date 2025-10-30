@@ -3,7 +3,7 @@ id: 71b9bf37-cde1-45fb-b899-1b0aa6fa1183
 version: 12
 date: '2025-10-06'
 author: Michael Haag, Splunk
-status: deprecated
+status: removed
 type: TTP
 description: The following analytic detects the execution of rundll32.exe loading
   syssetup.dll via the LaunchINFSection function. This method is identified through
