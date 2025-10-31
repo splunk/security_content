@@ -1,7 +1,7 @@
 name: Castle RAT
 id: 132ea5bd-b085-4a12-afb4-cac38a81e865
 version: 1
-date: '2025-11-31'
+date: '2025-10-31'
 author: Teoderick Contreras, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate unusual activities that may be related to Castle RAT, a remote access trojan observed in targeted intrusion campaigns. Castle RAT provides adversaries with capabilities such as remote command execution, file exfiltration, keystroke logging, and screen capture, often delivered via phishing or malicious installers. Detectable indicators include anomalous process parentage (legitimate browsers or system utilities spawned by unknown executables), uncommon command-line switches, persistent autorun entries, and suspicious network connections to uncommon domains or dynamic DNS. Effective investigations correlate process creation events, command-line arguments, network telemetry, and file hashes with endpoint memory and disk forensics to confirm compromise and scope impact, while prioritizing containment and credential resets.
