@@ -1,15 +1,12 @@
 name: Ollama Server
 id: a7761a7c-ecaa-4164-8517-959cabfacaf9
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2025-11-04'
 author: Rod Soto, Splunk
-description: 'Ollama server logs (HTTP access logs via GIN framework and system logs including GPU/CPU utilization, model loading, memory allocation, errors, and warnings) via Splunk TA-ollama add-on by configuring file monitoring inputs to your log directories (sourcetype: ollama:server), or enable HEC for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts).'
+description: 'Ollama server logs (HTTP access logs via GIN framework and system logs including GPU/CPU utilization, model loading, memory allocation, errors, and warnings) via Splunk TA-ollama add-on by configuring file monitoring inputs to your log directories (sourcetype: ollama:server), or enable HEC for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). This TA is not available on Splunkbase and must be installed manually via the GitHub repository - https://github.com/rosplk/ta-ollama'
 sourcetype: ollama:server
 source: server.log
-supported_TA:
-- name:  Splunk TA for Ollama
-  url: https://github.com/rosplk/ta-ollama
-  version: 0.1.3
+supported_TA: []
 fields:
 - CPU_0_AVX
 - CPU_0_AVX2
