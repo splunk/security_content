@@ -9,12 +9,12 @@ sourcetype: csv
 fields:
 - Added by
 - Author
-- Compound path	
+- Compound path
 - Contains deleted message
 - Contains edited message
 - Conversation name
 - Conversation type
-- Created	
+- Created
 - Created by
 - Data source
 - Date
@@ -34,13 +34,13 @@ fields:
 - Has attachment
 - Has text
 - Immutable ID
-- Internet message ID	
+- Internet message ID
 - Is attachment from transcript
 - Is doc from conversation
 - Is modern attachment
 - Is read
 - Item class
-- Item source	
+- Item source
 - Last modified by
 - Last modified time
 - Location ID
@@ -52,11 +52,11 @@ fields:
 - Received
 - Recipient count
 - Retention label
-- SPO unique ID	
+- SPO unique ID
 - Sender
 - Sensitive type
 - Size
-- Source ID	
+- Source ID
 - Status
 - Subject_Title
 - Target path
@@ -70,11 +70,11 @@ fields:
 - date_month
 - date_second
 - date_wday
-- date_year	
-- date_zone	
-- eventtype	
+- date_year
+- date_zone
+- eventtype
 - host
-- index	
+- index
 - linecount
 - punct
 - source

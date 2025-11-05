@@ -16,7 +16,7 @@ fields:
 - CPU_0_AVX_VNNI
 - CPU_0_BMI2
 - CPU_0_F16C
-- CPU_0_FMA	
+- CPU_0_FMA
 - CPU_0_LLAMAFILE
 - CPU_0_SSE3
 - CPU_0_SSSE3
@@ -32,7 +32,7 @@ fields:
 - bundle
 - cmd
 - compiler
-- compute	
+- compute
 - cores
 - count
 - date_hour
@@ -59,7 +59,7 @@ fields:
 - http_response_code
 - http_status
 - id
-- index	
+- index
 - installer
 - interval
 - layers_model
@@ -71,7 +71,7 @@ fields:
 - linecount
 - maxEfficiencyClass
 - memory_available
-- memory_gpu_overhead	
+- memory_gpu_overhead
 - memory_graph_full
 - memory_graph_partial
 - memory_required_allocations
@@ -103,9 +103,9 @@ fields:
 - timeendpos
 - timestartpos
 - tool_count
-- total	
-- variant	
-- vendor_product	
+- total
+- variant
+- vendor_product
 - version
 output_fields: []
 example_log: 'time=2025-10-02T14:46:19.789-04:00 level=INFO source=server.go:544 msg=offload library=cuda layers.requested=-1 layers.model=29 layers.offload=29 layers.split=[29] memory.available="[6.9 GiB]" memory.gpu_overhead="0 B" memory.required.full="3.1 GiB" memory.required.partial="3.1 GiB" memory.required.kv="448.0 MiB" memory.required.allocations="[3.1 GiB]" memory.weights.total="1.9 GiB" memory.weights.repeating="1.6 GiB" memory.weights.nonrepeating="308.2 MiB" memory.graph.full="256.5 MiB" memory.graph.partial="570.7 MiB"'
