@@ -3,8 +3,8 @@ id: 91738e9e-d112-41c9-b91b-e5868d8993d9
 version: 3
 date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs changes to the start type of a Windows service, including 
-  details about the service name, old start type, and new start type.
+description: Logs changes to the start type of a Windows service, including details
+  about the service name, old start type, and new start type.
 mitre_components:
 - Service Modification
 - Service Metadata
@@ -17,7 +17,7 @@ separator_value: '7040'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.0
 fields:
 - _time
 - Channel
@@ -81,15 +81,11 @@ fields:
 - vendor_product
 output_fields:
 - dest
-example_log: <Event 
-  xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
-  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' 
-  EventSourceName='Service Control Manager'/><EventID 
-  Qualifiers='16384'>7040</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Service Control Manager' Guid='{555908d1-a6d7-4695-8e1e-26931d2012f4}' EventSourceName='Service
+  Control Manager'/><EventID Qualifiers='16384'>7040</EventID><Version>0</Version><Level>4</Level><Task>0</Task><Opcode>0</Opcode><Keywords>0x8080000000000000</Keywords><TimeCreated
   SystemTime='2024-03-05T08:53:41.173068700Z'/><EventRecordID>168231</EventRecordID><Correlation/><Execution
-  ProcessID='592' 
-  ThreadID='3404'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security
+  ProcessID='592' ThreadID='3404'/><Channel>System</Channel><Computer>ar-win-dc.attackrange.local</Computer><Security
   UserID='S-1-5-21-3344543075-1022232225-2459664213-500'/></System><EventData><Data
-  Name='param1'>Print Spooler</Data><Data Name='param2'>demand start</Data><Data
-  Name='param3'>disabled</Data><Data 
+  Name='param1'>Print Spooler</Data><Data Name='param2'>demand start</Data><Data Name='param3'>disabled</Data><Data
   Name='param4'>Spooler</Data></EventData></Event>

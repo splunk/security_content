@@ -3,8 +3,8 @@ id: f01d4758-05c8-4ac4-a9a5-33500dd5eb6c
 version: 3
 date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs the creation of a new user account, including details about 
-  the account name, associated domain, and the account performing the action.
+description: Logs the creation of a new user account, including details about the
+  account name, associated domain, and the account performing the action.
 mitre_components:
 - User Account Creation
 - User Account Metadata
@@ -17,7 +17,7 @@ separator_value: '4720'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.0
 fields:
 - _time
 - Account_Domain
