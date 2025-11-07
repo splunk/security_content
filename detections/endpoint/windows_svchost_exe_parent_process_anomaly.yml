@@ -1,7 +1,7 @@
 name: Windows Svchost.exe Parent Process Anomaly
 id: 1d38e5e9-2ff8-4c47-872c-bf1657cefab5
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -74,6 +74,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  manual_test: This detection analytic is not passing unit tests due to a change with the latest windows 9.1.0 TA causing sysmon parsing to fail and the data does not get mapped to the datamodel correctly. Issue details: https://github.com/splunk/splunk-add-on-for-microsoft-windows/issues/563
 tests:
 - name: True Positive Test
   attack_data:
