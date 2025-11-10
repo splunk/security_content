@@ -1,18 +1,19 @@
 name: Windows UAC Bypass Suspicious Child Process
 id: 453a6b0f-b0ea-48fa-9cf4-20537ffdd22c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-31'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when an executable known for User Account
-  Control (UAC) bypass exploitation spawns a child process in a user-controlled location
-  or a command shell executable (e.g., cmd.exe, powershell.exe). This detection leverages
-  Sysmon EventID 1 data, focusing on high or system integrity level processes with
-  specific parent-child process relationships. This activity is significant as it
-  may indicate an attacker has successfully used a UAC bypass exploit to escalate
-  privileges. If confirmed malicious, this could allow the attacker to execute arbitrary
-  commands with elevated privileges, potentially compromising the entire system.
+description: The following analytic detects when an executable known for User 
+  Account Control (UAC) bypass exploitation spawns a child process in a 
+  user-controlled location or a command shell executable (e.g., cmd.exe, 
+  powershell.exe). This detection leverages Sysmon EventID 1 data, focusing on 
+  high or system integrity level processes with specific parent-child process 
+  relationships. This activity is significant as it may indicate an attacker has
+  successfully used a UAC bypass exploit to escalate privileges. If confirmed 
+  malicious, this could allow the attacker to execute arbitrary commands with 
+  elevated privileges, potentially compromising the entire system.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -29,10 +30,11 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | where parent_process_name != process_name |
   `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_uac_bypass_suspicious_child_process_filter`'
-how_to_implement: Target environment must ingest sysmon data, specifically Event ID
-  1 with process integrity level data.
-known_false_positives: Including Werfault.exe may cause some unintended false positives
-  related to normal application faulting, but is used in a number of UAC bypass techniques.
+how_to_implement: Target environment must ingest sysmon data, specifically Event
+  ID 1 with process integrity level data.
+known_false_positives: Including Werfault.exe may cause some unintended false 
+  positives related to normal application faulting, but is used in a number of 
+  UAC bypass techniques.
 references:
 - https://attack.mitre.org/techniques/T1548/002/
 - https://atomicredteam.io/defense-evasion/T1548.002/
@@ -53,8 +55,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A UAC bypass parent process- $parent_process_name$ on host- $dest$ launched
-    a suspicious child process - $process_name$.
+  message: A UAC bypass parent process- $parent_process_name$ on host- $dest$ 
+    launched a suspicious child process - $process_name$.
   risk_objects:
   - field: dest
     type: system
@@ -69,6 +71,7 @@ tags:
   analytic_story:
   - Windows Defense Evasion Tactics
   - Living Off The Land
+  - Castle RAT
   asset_type: Endpoint
   mitre_attack_id:
   - T1548.002
@@ -80,6 +83,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/uac_behavior/uac_behavior_sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/uac_behavior/uac_behavior_sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
