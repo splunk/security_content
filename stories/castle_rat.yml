@@ -1,0 +1,20 @@
+name: Castle RAT
+id: 132ea5bd-b085-4a12-afb4-cac38a81e865
+version: 1
+date: '2025-10-31'
+author: Teoderick Contreras, Splunk
+status: production
+description: Leverage searches that allow you to detect and investigate unusual activities that may be related to Castle RAT, a remote access trojan observed in targeted intrusion campaigns. Castle RAT provides adversaries with capabilities such as remote command execution, file exfiltration, keystroke logging, and screen capture, often delivered via phishing or malicious installers. Detectable indicators include anomalous process parentage (legitimate browsers or system utilities spawned by unknown executables), uncommon command-line switches, persistent autorun entries, and suspicious network connections to uncommon domains or dynamic DNS. Effective investigations correlate process creation events, command-line arguments, network telemetry, and file hashes with endpoint memory and disk forensics to confirm compromise and scope impact, while prioritizing containment and credential resets.
+narrative: Castle RAT, a stealthy remote access trojan that operators employ to maintain long-term access to compromised hosts. In an affected environment, defenders might trace a breadcrumb trail of subtle anomalies like innocuous-looking installers that drop backdoor components, benign processes acting as parents for unexpected browser launches, and erratic outbound connections to ephemeral domains. Investigation narratives often follow credential misuse, lateral movement, and periods of staged data collection before exfiltration, with incident responders piecing together timelines from process creation logs, memory artifacts, and network telemetry. Prompt containment, credential resets, and forensic imaging are typical mitigation steps, while lessons learned feed improved detection rules and endpoint hardening to reduce
+references:
+- https://www.recordedfuture.com/research/from-castleloader-to-castlerat-tag-150-advances-operations
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

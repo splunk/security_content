@@ -1,0 +1,74 @@
+name: Windows ComputerDefaults Spawning a Process
+id: 697eb4c0-1008-4c3c-b5ae-7bd9b39adbd6
+version: 1
+date: '2025-10-31'
+author: Teoderick Contreras, Splunk
+status: production
+type: TTP
+description: The following analytic detects the spawning of ComputerDefaults.exe, a Windows system process used to manage default application associations. While normally legitimate, this process can be exploited by attackers to bypass User Account Control (UAC) and execute unauthorized code with elevated privileges. Detection focuses on abnormal execution patterns, unusual parent-child process relationships, or deviations from standard paths. Such behavior may indicate attempts to modify system defaults or run malicious scripts undetected. Monitoring ComputerDefaults.exe is critical to identify potential security threats, prevent privilege escalation, and maintain system integrity by distinguishing normal operations from suspicious activity.
+data_source:
+- Sysmon EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=ComputerDefaults.exe
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_computerdefaults_spawning_a_process_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: unknown
+references:
+- https://www.recordedfuture.com/research/from-castleloader-to-castlerat-tag-150-advances-operations
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A ComputerDefaults.exe process $parent_process_name$ spawning child process $process_name$
+    on host $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: parent_process_name
+    type: parent_process_name
+tags:
+  analytic_story:
+  - Castle RAT
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1548.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.002/computerdefaults_spawn_proc/computerdefaults_process.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
