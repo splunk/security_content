@@ -1,7 +1,7 @@
 name: Windows Kerberos Local Successful Logon
 id: 8309c3a8-4d34-48ae-ad66-631658214653
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2025-11-06'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -16,7 +16,7 @@ description: The following analytic identifies a local successful authentication
 data_source:
 - Windows Event Log Security 4624
 search: '`wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos
-  action=success src=127.0.0.1 | stats count min(_time) as firstTime max(_time) as
+  action=success src=127.0.0.1  | fillnull | stats count min(_time) as firstTime max(_time) as
   lastTime by action app authentication_method dest dvc process process_id process_name
   process_path signature signature_id src src_port status subject user user_group
   vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
