@@ -1,0 +1,77 @@
+name: Suspicious Local LLM Framework
+id: 657b022a-9c50-4910-8572-f036cc4a0248
+version: 1
+date: '2025-11-12'
+author: Rod Soto
+status: production
+type: Hunting
+description: This detection identifies suspicious execution of unauthorized local LLM frameworks (Ollama, LM Studio, GPT4All, Jan, Llama.cpp, KoboldCPP, NutStudio, Llama-Run) and related AI/ML libraries (HuggingFace, LangChain, Transformers) by monitoring Windows process creation events (Event ID 4688). The search correlates process names, command-line arguments, and parent processes to classify framework activity and flag potential shadow AI deployments or unauthorized model inference operations on endpoints.
+data_source:
+- Windows Security 4688
+search: "`wineventlog_security` EventID=4688 | spath
+| rename "Event.System.Computer" as Computer, "Event.System.EventID" as EventID
+| eval NewProcessName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "NewProcessName"))
+| eval ParentProcessName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "ParentProcessName"))
+| eval CommandLine=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "CommandLine"))
+| eval SubjectUserName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "SubjectUserName"))
+| search (
+    NewProcessName="*ollama*" OR 
+    NewProcessName="*llama*" OR 
+    NewProcessName="*llama-run*" OR
+    NewProcessName="*gpt4all*" OR 
+    NewProcessName="*lmstudio*" OR 
+    NewProcessName="*nutstudio*" OR
+    NewProcessName="*koboldcpp*" OR 
+    NewProcessName="*jan*" OR 
+    NewProcessName="*jan.exe*" OR
+    CommandLine="*transformers*" OR 
+    CommandLine="*langchain*" OR 
+    CommandLine="*huggingface*" OR
+    CommandLine="*llama-run*" OR
+    CommandLine="*nutstudio*" OR
+    ParentProcessName="*ollama*" OR
+    ParentProcessName="*lmstudio*" OR
+    ParentProcessName="*nutstudio*" OR
+    ParentProcessName="*gpt4all*" OR
+    ParentProcessName="*jan*" OR
+    ParentProcessName="*llama-run*"
+)
+| eval Framework=case(
+    like(NewProcessName, "%ollama%") OR like(ParentProcessName, "%ollama%"), "Ollama",
+    like(NewProcessName, "%lmstudio%") OR like(NewProcessName, "%LM Studio%") OR like(ParentProcessName, "%lmstudio%"), "LM Studio",
+    like(NewProcessName, "%nutstudio%") OR like(ParentProcessName, "%nutstudio%") OR like(CommandLine, "%nutstudio%"), "NutStudio",
+    like(NewProcessName, "%gpt4all%") OR like(ParentProcessName, "%gpt4all%"), "GPT4All",
+    like(NewProcessName, "%jan%") OR like(ParentProcessName, "%jan%") OR like(NewProcessName, "%jan.exe%"), "Jan",
+    like(NewProcessName, "%koboldcpp%") OR like(CommandLine, "%koboldcpp%"), "KoboldCPP",
+    like(NewProcessName, "%llama-run%") OR like(ParentProcessName, "%llama-run%") OR like(CommandLine, "%llama-run%"), "Llama-Run",
+    like(CommandLine, "%transformers%") OR like(CommandLine, "%huggingface%"), "HuggingFace/Transformers",
+    like(CommandLine, "%langchain%"), "LangChain",
+    like(NewProcessName, "%llama%") OR like(NewProcessName, "%llama.cpp%") OR like(ParentProcessName, "%llama%"), "Llama.cpp",
+    1=1, "Related Activity"
+)
+| stats count by Computer, Framework, EventID, ParentProcessName
+| sort Computer, Framework, -count | `suspicious_local_llm_framework_filter`"
+how_to_implement: This search can be implemented by configuring Splunk to ingest Windows Security Event logs, specifically monitoring Event ID 4688 (process creation). Ensure that process creation events include detailed command-line arguments. Deploy the search as a scheduled saved search or real-time alert within Splunk Enterprise Security or Splunk Cloud to continuously detect suspicious local LLM framework activity. Tune the search by updating the process name and command-line keywords as new frameworks emerge. Integrate with asset and identity data to enrich context and reduce false positives.
+known_false_positives: Legitimate development and data science workflows where developers, ML engineers, and researchers install and run local LLM frameworks for experimentation, fine-tuning, or prototyping. Approved AI/ML sandboxes and lab environments, open-source and educational use cases, third-party software bundling HuggingFace/Transformers/LangChain libraries as dependencies, and system administrators deploying frameworks as part of containerized services. Parent process and command-line keyword overlap with unrelated tools (e.g., "llama-backup", tools using "--transformers" flags for non-LLM purposes). Recommended tuning — baseline approved frameworks and users, exclude sanctioned development/lab systems, require additional context (user role, peer group, model artifacts, network exfiltration signals) before escalating to incidents.
+references:
+- https://splunkbase.splunk.com/app/8024
+- https://www.ibm.com/think/topics/shadow-ai
+- https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+- https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama  
+tags:
+  analytic_story:
+  - Suspicious Local Llm Frameworks
+  asset_type: 'Endpoint'
+  mitre_attack_id:
+  - T1543
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: http://localhost/data/ad4688_local_llms.txt
+    sourcetype: XmlWinEventLog
+    source: XmlWinEventLog:Security
