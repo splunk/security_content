@@ -7,7 +7,7 @@ status: production
 type: Hunting
 description: Detects execution of unauthorized local LLM frameworks (Ollama, LM Studio, NutStudio, GPT4All, Jan, Llama-Run) on Windows endpoints by monitoring Event ID 4688 process creation events. Correlates process names and parent processes to identify shadow AI deployments, classifies integrity levels and elevation types, and surfaces process chains for investigation of potential unauthorized model inference or data exfiltration.
 data_source:
-- Windows Security 4688
+- Windows Event Log Security 4688
 search: |
   `wineventlog_security` sourcetype=XmlWinEventLog EventID=4688 | spath
   | rename "Event.System.Computer" as host
@@ -72,13 +72,6 @@ drilldown_searches:
     | `security_content_ctime(lastTime)`
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-rba:
-  message: Suspicious LLM framework process execution detected on $host$ running $Framework$ with $Elevation$ elevation and $IntegrityLevel$ integrity level. Process chain - $ProcessChain$. Unauthorized model loading or injection may indicate attempts to manipulate local model behavior, extract model weights, or achieve remote code execution through crafted artifacts.
-  risk_objects:
-  - field: host
-    type: system
-    score: 60
-  threat_objects: []
 tags:
   analytic_story:
   - Suspicious Local Llm Frameworks
