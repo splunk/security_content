@@ -1,0 +1,21 @@
+name: Suspicious Local Llm Frameworks
+id: 0b4396a1-aeff-412e-b39e-4e26457c780d
+version: 1
+date: '2025-11-12'
+author: Rod Soto, Splunk
+status: production
+description: Leverage advanced Splunk searches to detect and investigate suspicious activities targeting possibly unauthorized local LLM frameworks. This analytic story addresses discovery and detection of unauthorized local llm frameworks and related shadow AI artifacts. 
+narrative: Detect and triage unauthorized local LLM frameworks (shadow AI) to prevent covert model manipulation, data exfiltration, and persistent behavioral changes.
+references:
+- https://splunkbase.splunk.com/app/8024
+- https://www.ibm.com/think/topics/shadow-ai
+- https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+- https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
