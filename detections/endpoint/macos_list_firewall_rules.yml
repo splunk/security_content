@@ -5,47 +5,81 @@ date: '2025-09-08'
 author: Jamie Windley, Splunk
 status: production
 type: Anomaly
-description: This analytic detects attempts to enumerate or verify the configuration of the macOS application firewall. Specifically, it monitors executions of `defaults read /Library/Preferences/com.apple.alf` and `/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate`. These commands provide insight into firewall status, allowed applications, and explicit authorization rules. While they are legitimate administrative operations, adversaries may leverage them to identify potential attack surfaces, determine whether the firewall is active, or enumerate allowed network flows. Monitoring for these commands, particularly when executed by non-administrative users or at unusual times, can provide early indication of reconnaissance activity on macOS endpoints
+description: |
+  This analytic detects attempts to enumerate or verify the configuration of the macOS application firewall.
+  Specifically, it monitors executions of `defaults read /Library/Preferences/com.apple.alf` and `/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate`.
+  These commands provide insight into firewall status, allowed applications, and explicit authorization rules.
+  While they are legitimate administrative operations, adversaries may leverage them to identify potential attack surfaces, determine whether the firewall is active, or enumerate allowed network flows.
+  Monitoring for these commands, particularly when executed by non-administrative users or at unusual times, can provide early indication of reconnaissance activity on macOS endpoints
 data_source:
 - osquery
-search: "| tstats `security_content_summariesonly` values(Processes.process) as process\
-  \ values(Processes.parent_process) AS parent_process values(Processes.parent_process_exec)\
-  \ AS parent_process_exec values(Processes.parent_process_id) AS parent_process_id\
-  \ values(Processes.parent_process_name) AS parent_process_name values(Processes.parent_process_path)\
-  \ AS parent_process_path min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes\
-  \ where Processes.process IN (\"*defaults read /Library/Preferences/com.apple.alf*\"\
-  \ \"*/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate*\") by Processes.action\
-  \ Processes.dest Processes.process Processes.process_hash Processes.process_id Processes.process_name\
-  \ Processes.process_path Processes.user Processes.vendor_product \n| `drop_dm_object_name(Processes)`\
-  \ \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\n\
-  | `macos_list_firewall_rules_filter`\n | `macos_list_firewall_rules_filter`"
-how_to_implement: Collection of process execution events from macOS endpoints is required. This can be achieved using osquery’s `es_process_events` table, EndpointSecurity framework integrations, or an EDR platform capable of recording process command lines. Ensure that captured events include at least the process path, full command line, user context, and timestamp.
-known_false_positives: These commands are frequently executed by system administrators or IT personnel during routine configuration checks, troubleshooting, or automated maintenance scripts. Security tools or monitoring agents may also query firewall status for inventory or compliance purposes. To reduce false positives, consider excluding events from known administrative accounts, trusted management systems, or scheduled maintenance jobs.
-references: []
+search: |
+  | tstats `security_content_summariesonly` 
+    count
+    values(Processes.process) as process
+    values(Processes.parent_process) AS parent_process
+    values(Processes.parent_process_exec) AS parent_process_exec
+    values(Processes.parent_process_id) AS parent_process_id
+    values(Processes.parent_process_name) AS parent_process_name
+    values(Processes.parent_process_path) AS parent_process_path 
+    min(_time) as firstTime 
+    max(_time) as lastTime
+  
+  from datamodel=Endpoint.Processes where 
+  (
+  Processes.process_name = "defaults"
+  Processes.process = "* read *",
+  Processes.process = "*/Library/Preferences/com.apple.alf*"
+  )
+  OR
+  (
+    Processes.process_name = "socketfilterfw"
+    Processes.process = "*--getglobalstate*"
+  )
+
+  by Processes.action Processes.dest Processes.process Processes.process_hash
+     Processes.process_id Processes.process_name Processes.process_path
+     Processes.user Processes.vendor_product
+  
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `macos_list_firewall_rules_filter`
+how_to_implement: |
+  Collection of process execution events from macOS endpoints is required. This can be achieved using osquery's `es_process_events` table, EndpointSecurity framework integrations, or an EDR platform capable of recording process command lines. Ensure that captured events include at least the process path, full command line, user context, and timestamp.
+known_false_positives: |
+  These commands are frequently executed by system administrators or IT personnel during routine configuration checks, troubleshooting, or automated maintenance scripts. Security tools or monitoring agents may also query firewall status for inventory or compliance purposes. To reduce false positives, consider excluding events from known administrative accounts, trusted management systems, or scheduled maintenance jobs.
+references:
+  - https://www.manpagez.com/man/8/socketfilterfw/
+  - https://ss64.com/mac/defaults.html
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search user = "$user$" AND dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$user$" and "$dest$"
+    search: '%original_detection_search% | search user = "$user$" AND dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+      "$dest$") starthoursago=168  | stats count min(_time)
+      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
   message: MacOS firewall rules listed
   risk_objects:
-  - field: dest
-    type: system
-    score: 6
-  - field: user
-    type: user
-    score: 6
-  threat_objects: []
+    - field: dest
+      type: system
+      score: 6
+    - field: user
+      type: user
+      score: 6
+  threat_objects:
+    - field: parent_process_name
+      type: parent_process_name
+    - field: process_name
+      type: process_name
 tags:
   analytic_story:
   - Network Discovery
@@ -57,10 +91,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-  cve: []
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
     sourcetype: osquery:results
-    source: local_vm
+    source: osquery
