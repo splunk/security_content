@@ -1,0 +1,77 @@
+name: Suspicious Local LLM Framework Download and Execution via Sysmon
+id: cce60a07-d6ef-4295-8964-d5ca7f492c2a
+version: 1
+date: '2025-11-12'
+author: Rod Soto
+status: production
+type: Hunting
+description: Detects unauthorized local LLM framework execution and model artifact access (`.gguf` files) by monitoring Sysmon process execution, file creation, and DNS query events to identify shadow AI deployments and unauthorized model inference operations.
+data_source:
+- Sysmon EventID 1
+search: | 
+  `sysmon` | spath 
+  | eval EventID='Event.System.EventID' 
+  | eval Image=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^Image$")) 
+  | eval TargetFilename=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^TargetFilename$")) 
+  | eval QueryName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^QueryName$")) 
+  | eval host='Event.System.Computer'
+  | search ( 
+    Image="*ollama*" OR Image="*gpt4all*" OR Image="*lmstudio*" OR Image="*kobold*" OR Image="*jan*" OR Image="*llama-run*" OR Image="*llama.cpp*" OR Image="*oobabooga*" OR Image="*text-generation-webui*" OR 
+    TargetFilename="*.gguf" OR TargetFilename="*ollama*" OR TargetFilename="*jan*" OR 
+    QueryName="*huggingface.co*" OR QueryName="*ollama.com*" 
+  ) 
+  | search Image!="*MsMpEng*" AND Image!="*defender*" AND Image!="*windows\system32*" AND Image!="*syswow64*" AND Image!="*winlogon*" AND Image!="*svchost*"
+  | eval Framework=case(
+    match(Image, "(?i)ollama\.exe$"), "Ollama",
+    match(Image, "(?i)gpt4all\.exe$"), "GPT4All",
+    match(Image, "(?i)lmstudio\.exe$"), "LMStudio",
+    match(Image, "(?i)koboldcpp\.exe$"), "KoboldCPP",
+    match(Image, "(?i)jan\.exe$"), "Jan AI",
+    match(Image, "(?i)llama.*\.exe$"), "llama.cpp",
+    match(Image, "(?i)oobabooga\.exe$"), "Oobabooga",
+    match(TargetFilename, "\.gguf$"), "Model Weight File",
+    match(QueryName, "(?i)(huggingface|ollama)"), "Model Registry Query"
+  )
+  | where isnotnull(Framework)
+  | stats count by Framework, host, Image 
+  | dedup Image | sort -count
+  | `suspicious_local_llm_framework_download_and_execution_via_sysmon_filter`
+how_to_implement: Ensure Sysmon is deployed across Windows endpoints and configured to capture process creation (Event ID 1), file creation (Event ID 11), and DNS query (Event ID 22) events. Configure Sysmon's XML configuration file to log detailed command-line arguments, parent processes, and file paths. Ingest Sysmon event logs into Splunk via the Splunk Universal Forwarder or Windows Event Log Input, ensuring they are tagged with `sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`. Verify the `sysmon` macro exists in your Splunk environment and correctly references the Sysmon event logs. Create or update the `suspicious_local_llm_framework_download_and_execution_via_sysmon_filter` macro in your detections/filters folder to exclude approved systems, users, or frameworks as needed. Deploy this hunting search to your Splunk Enterprise Security or Splunk Enterprise instance and schedule it to run on a regular cadence (e.g., every 2 hours) to detect unauthorized LLM framework execution, model file downloads, and DNS queries to model registries. Correlate findings with endpoint asset inventory and identity data to prioritize investigation and containment of shadow AI deployments.
+known_false_positives: Legitimate development and data science workflows where authorized developers, ML engineers, and researchers intentionally execute local LLM frameworks (Ollama, LM Studio, GPT4All, Jan, Llama.cpp, KoboldCPP, Oobabooga) for model experimentation, fine-tuning, or prototyping. Approved AI/ML sandboxes and lab environments where framework testing is authorized. Open-source contributors and hobbyists running frameworks for educational purposes or community projects. Third-party applications and IDEs (e.g., Visual Studio Code extensions, Jupyter notebooks, Anaconda environments) that invoke HuggingFace, Transformers, or LangChain libraries as dependencies. System administrators or DevOps engineers deploying frameworks as part of containerized services, cloud workloads, or orchestrated ML pipelines. Legitimate network traffic to HuggingFace.co and Ollama.com registries from approved model download workflows. Machine learning tools and data science platforms (e.g., MLflow, DVC, Weights & Biases) that query model registries. Recommended tuning — baseline approved frameworks and users by role/department, exclude sanctioned dev/lab systems and asset groups, correlate with user identity, peer group anomalies, and unusual off-hours activity before escalating to incident response.
+references:
+- https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+- https://splunkbase.splunk.com/app/8024
+- https://www.ibm.com/think/topics/shadow-ai
+- https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+- https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama 
+drilldown_searches:
+- name: View the detection results for - "$host$"
+  search: '%original_detection_search% | search host="$host$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$host$"
+  search: |
+    | from datamodel Risk.All_Risk
+    | search normalized_risk_object="$host$" starthoursago=168
+    | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+tags:
+  analytic_story:
+  - Suspicious Local Llm Frameworks
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1543
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
+    sourcetype: sysmon
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
