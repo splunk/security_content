@@ -7,7 +7,7 @@ status: production
 type: Hunting
 description: Detects unauthorized local LLM framework execution and model artifact access (`.gguf` files) by monitoring Sysmon process execution, file creation, and DNS query events to identify shadow AI deployments and unauthorized model inference operations.
 data_source:
-- Sysmon EventID 1
+  - Sysmon EventID 1
 search: | 
   `sysmon` | spath 
   | eval EventID='Event.System.EventID' 
