@@ -37,7 +37,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: MacOS firewall rules listed
+  message: MacOS firewall rules listed by $user$ on $dest$
   risk_objects:
   - field: dest
     type: system
@@ -61,6 +61,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_list_firewall_rules.log
     sourcetype: osquery:results
     source: local_vm

@@ -15,6 +15,7 @@ description: The following analytic identifies potential enumeration of local ne
   movement within the environment.
 data_source:
 - Sysmon for Linux EventID 1
+- osquery
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime values(Processes.action) as action values(Processes.dest) as dest values(Processes.original_file_name)
   as original_file_name values(Processes.parent_process) as parent_process values(Processes.parent_process_exec)
@@ -85,3 +86,6 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/linux_net_discovery/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
+    sourcetype: osquery:results
+    source: local_vm
