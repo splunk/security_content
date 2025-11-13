@@ -1,7 +1,7 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-11-13'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -88,4 +88,4 @@ tests:
     sourcetype: sysmon:linux
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1016/atomic_red_team/macos_net_discovery/macos_network_discovery.log
     sourcetype: osquery:results
-    source: local_vm
+    source: osquery
