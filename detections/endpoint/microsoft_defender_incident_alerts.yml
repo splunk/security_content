@@ -1,8 +1,8 @@
 name: Microsoft Defender Incident Alerts
 id: 13435b55-afd8-46d4-9045-7d5457f430a5
-version: 4
-date: '2025-05-02'
-author: Bryan Pluta, Bhavin Patel, Splunk
+version: 5
+date: '2025-11-05'
+author: Bryan Pluta, Bhavin Patel, Splunk, lyonheart14, Github Community
 status: production
 type: TTP
 data_source:
@@ -20,9 +20,9 @@ search: '`ms365_defender_incident_alerts`  (dest=* OR user=*)
   url = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, "url")) 
   | eval tmp_filtered_mv=mvfilter(json_extract(tmp_filtered_mv, "entityType") = "File"), fileName = mvmap(tmp_filtered_mv, spath(tmp_filtered_mv, "fileName"))
   | eval risk_score=case(severity="informational", 5, severity="low", 15, severity="medium", 25, severity="high", 50, true(), 2)
-  | stats count  min(_time) as firstTime max(_time) as lastTime values(fileName) as file_name values(severity) as severity values(processCommandLine) as process values(ipAddress) as ip_address values(registryKey) as registry_key values(url) as url values(mitreTechniques{}) as annotations.mitre_attack.mitre_technique_id values(signature) as signature values(user) as user values(risk_score) as risk_score by id description dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `microsoft_defender_incident_alerts_filter`'
-how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifcally using the Splunk add-on for Microsfot Security. This add-on will collect alerts using the ms365:defender:incident:alerts sourcetype. You will need to define the `ms365_defender_incident_alerts` macro to point to the proper index that contains the ms365:defender:incident:alerts sourcetype.
-known_false_positives: False positives may vary based on Microsfot Defender configuration; monitor and filter out the alerts that are not relevant to your environment.
+  | stats count  min(_time) as firstTime max(_time) as lastTime values(fileName) as file_name values(severity) as severity values(processCommandLine) as process values(ipAddress) as ip_address values(registryKey) as registry_key values(url) as url values(mitreTechniques{}) as annotations.mitre_attack.mitre_technique_id values(signature) as signature values(dest) as dest values(user) as user values(risk_score) as risk_score by id description | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `microsoft_defender_incident_alerts_filter`'
+how_to_implement: In order to properly run this search, you need to ingest alerts data from Microsoft Defender, specifcally using the Splunk add-on for Microsoft Security. This add-on will collect alerts using the ms365:defender:incident:alerts sourcetype. You will need to define the `ms365_defender_incident_alerts` macro to point to the proper index that contains the ms365:defender:incident:alerts sourcetype.
+known_false_positives: False positives may vary based on Microsoft Defender configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
 - https://learn.microsoft.com/en-us/defender-xdr/api-list-incidents?view=o365-worldwide
 - https://learn.microsoft.com/en-us/graph/api/resources/security-alert?view=graph-rest-1.0
