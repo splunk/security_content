@@ -1,32 +1,39 @@
 name: Windows Scheduled Task Created Via XML
 id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
-version: 9
-date: '2025-05-26'
-author: Teoderick Contreras, Splunk
+version: 10
+date: '2025-10-07'
+author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
-type: TTP
+type: Anomaly
+description: |
+  The following analytic detects the creation of scheduled tasks in Windows using schtasks.exe with the "XML" parameter.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on command-line executions and process details.
+  This activity is significant as it is a common technique for establishing persistence or achieving privilege escalation, often used by malware like Trickbot and Winter-Vivern. While creating a scheduled task via XML may be legitimate, it can also be abused by attackers. If confirmed malicious, this could allow attackers to maintain access, execute additional payloads, and potentially lead to data theft or ransomware deployment.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-description: The following analytic detects the creation of scheduled tasks in Windows
-  using schtasks.exe with the -create flag and an XML parameter. This detection leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on command-line
-  executions and process details. This activity is significant as it is a common technique
-  for establishing persistence or achieving privilege escalation, often used by malware
-  like Trickbot and Winter-Vivern. If confirmed malicious, this could allow attackers
-  to maintain access, execute additional payloads, and potentially lead to data theft
-  or ransomware deployment.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=schtasks.exe
-  Processes.process=*create* Processes.process="* /xml *" by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_scheduled_task_created_via_xml_filter`'
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+  from datamodel=Endpoint.Processes where 
+  
+  `process_schtasks`
+  Processes.process IN ("* /create *", "* -create *")
+  Processes.process IN ("* /xml *", "* -xml *")
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process 
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id 
+     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec 
+     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level 
+     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_scheduled_task_created_via_xml_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -36,8 +43,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: It is possible scripts or administrators may trigger this analytic.
-  Filter as needed based on parent process, application.
+known_false_positives: Installers are known to create scheduled tasks via XML. Apply additional filters as needed. 
 references:
 - https://twitter.com/_CERT_UA/status/1620781684257091584
 - https://cert.gov.ua/article/3761104
@@ -56,15 +62,14 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A scheduled task process, $process_name$, with 'create' or 'delete' commands
-    present in the command line.
+  message: A scheduled task was created via $process$, based on an XML file by user $user$ on host $dest$
   risk_objects:
   - field: dest
     type: system
-    score: 49
+    score: 40
   - field: user
     type: user
-    score: 49
+    score: 40
   threat_objects: []
 tags:
   analytic_story:
@@ -73,6 +78,7 @@ tags:
   - CISA AA23-347A
   - Scheduled Tasks
   - MoonPeak
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005
@@ -84,6 +90,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/winter-vivern/scheduledtask/sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

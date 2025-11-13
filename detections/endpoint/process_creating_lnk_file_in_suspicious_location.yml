@@ -1,7 +1,7 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-version: 12
-date: '2025-05-02'
+version: 13
+date: '2025-09-18'
 author: Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -63,6 +63,7 @@ tags:
   - IcedID
   - Amadey
   - Gozi Malware
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1566.002

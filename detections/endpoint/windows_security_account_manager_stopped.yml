@@ -1,7 +1,7 @@
 name: Windows Security Account Manager Stopped
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: TTP
@@ -68,6 +68,7 @@ tags:
   analytic_story:
   - Compromised Windows Host
   - Ryuk Ransomware
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1489

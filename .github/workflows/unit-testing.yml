@@ -15,7 +15,7 @@ jobs:
             ref: ${{ github.base_ref }}
           
 
-        - uses: actions/setup-python@v5
+        - uses: actions/setup-python@v6
           with:
             python-version: '3.11' #Available versions here - https://github.com/actions/python-versions/releases  easy to change/make a matrix/use pypy
             architecture: 'x64' # optional x64 or x86. Defaults to x64 if not specified
@@ -47,7 +47,7 @@ jobs:
         # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
         - name: store_artifacts
           if: always()
-          uses: actions/upload-artifact@v4
+          uses: actions/upload-artifact@v5
           with:
             name: test_summary_results
             path: |

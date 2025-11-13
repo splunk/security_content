@@ -1,35 +1,67 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 9
-date: '2025-05-02'
-author: Jose Hernandez, Bhavin Patel, Splunk
+version: 10
+date: '2025-10-14'
+author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description:
-  The following analytic identifies the execution of `adfind.exe` with
-  specific command-line arguments related to Active Directory queries. It leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process names,
-  command-line arguments, and parent processes. This activity is significant because
-  `adfind.exe` is a powerful tool often used by threat actors like Wizard Spider and
-  FIN6 to gather sensitive AD information. If confirmed malicious, this activity could
-  allow attackers to map the AD environment, facilitating further attacks such as
-  privilege escalation or lateral movement.
+  The following analytic identifies the execution of `adfind.exe` standalone or with specific command-line arguments related to Active Directory queries.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line arguments, and parent Processes.
+  This activity is significant because `adfind.exe` is a powerful tool often used by threat actors like Wizard Spider and FIN6 to gather sensitive AD information.
+  If confirmed malicious, this activity could allow attackers to map the AD environment, facilitating further attacks such as privilege escalation or lateral movement.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
   - CrowdStrike ProcessRollup2
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where ((Processes.process="* -f *"
-  OR Processes.process="* -b *") AND (Processes.process=*objectcategory* OR Processes.process="*-gcb
-  *" OR Processes.process="* -sc *" )) OR ((Processes.process="*trustdmp*" OR Processes.process="*dclist*"))
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+  from datamodel=Endpoint.Processes where
+
+  (
+    Processes.process_name = "AdFind.exe" 
+    OR 
+    Processes.original_file_name = "AdFind.exe"
+  )
+  OR
+  (
+    Processes.process IN ("* -f *", "* /f*")
+    Processes.process = "*objectcategory=*"
+  )
+  OR
+  (
+    Processes.process IN ("* -sc *", "* /sc *")
+    Processes.process IN ("* -gcb *", "* /gcb *")
+  )
+  OR
+  (
+    Processes.process IN ("* -sc *", "* /sc *")
+    Processes.process IN (
+          "* trustdmp*", 
+          "* dclist*", 
+          "* dcdmp*", 
+          "* adobjcnt*", 
+          "* adamobjcnt*", 
+          "* sdump*", 
+          "* exchaddresses*",
+          "* getacl*",
+          "* domainlist*",
+          "* export_user*",
+          "* export_group*",
+          "* admincountdmp*"
+    )
+  )
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_adfind_exe_filter`'
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_adfind_exe_filter`
 how_to_implement:
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

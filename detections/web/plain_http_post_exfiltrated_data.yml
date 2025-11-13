@@ -1,7 +1,7 @@
 name: Plain HTTP POST Exfiltrated Data
 id: e2b36208-a364-11eb-8909-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -52,6 +52,7 @@ tags:
   analytic_story:
   - Data Exfiltration
   - Command And Control
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1048.003

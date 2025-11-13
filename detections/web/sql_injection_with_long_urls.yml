@@ -1,7 +1,7 @@
 name: SQL Injection with Long URLs
 id: e0aad4cf-0790-423b-8328-7564d0d938f9
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-09-16'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -46,6 +46,7 @@ rba:
 tags:
   analytic_story:
   - SQL Injection
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Database Server
   mitre_attack_id:
   - T1190

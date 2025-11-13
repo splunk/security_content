@@ -1,0 +1,73 @@
+name: Ollama Suspicious Prompt Injection Jailbreak
+id: aac5df6f-9151-4da6-bdb2-5691aa6e376f
+version: 1
+date: '2025-10-05'
+author: Rod Soto
+status: experimental
+type: Anomaly
+description: Detects potential prompt injection or jailbreak attempts against Ollama API endpoints by identifying requests with abnormally long response times. Attackers often craft complex, layered prompts designed to bypass AI safety controls, which typically result in extended processing times as the model attempts to parse and respond to these malicious inputs. This detection monitors /api/generate and /api/chat endpoints for requests exceeding 30 seconds, which may indicate sophisticated jailbreak techniques, multi-stage prompt injections, or attempts to extract sensitive information from the model.
+data_source:
+- Ollama Server
+search: '`ollama_server` "GIN" ("*/api/generate*" OR "*/v1/chat/completions*")
+| rex field=_raw "\|\s+(?<status_code>\d+)\s+\|\s+(?<response_time>[\d\.]+[a-z]+)\s+\|\s+(?<src_ip>[\:\da-f\.]+)\s+\|\s+(?<http_method>\w+)\s+\"(?<uri_path>[^\"]+)\""
+| rex field=response_time "^(?:(?<minutes>\d+)m)?(?<seconds>[\d\.]+)s$"
+| eval response_time_seconds=if(isnotnull(minutes), tonumber(minutes)*60+tonumber(seconds), tonumber(seconds))
+| eval src=src_ip
+| where response_time_seconds > 30
+| bin _time span=10m
+| stats count as long_request_count, 
+        avg(response_time_seconds) as avg_response_time, 
+        max(response_time_seconds) as max_response_time,
+        values(uri_path) as uri_path,
+        values(status_code) as status_codes
+        by _time, src, host
+| where long_request_count > 170
+| eval avg_response_time=round(avg_response_time, 2)
+| eval max_response_time=round(max_response_time, 2)
+| eval severity=case(
+    long_request_count > 50 OR max_response_time > 55, "critical",
+    long_request_count > 20 OR max_response_time > 40, "high",
+    1=1, "medium"
+)
+| eval attack_type="Potential Prompt Injection / Jailbreak"
+| table _time, host, src, uri_path, long_request_count, avg_response_time, max_response_time, status_codes, severity, attack_type
+| `ollama_suspicious_prompt_injection_jailbreak_filter`'
+how_to_implement: 'Ingest Ollama logs via Splunk TA-ollama add-on by configuring file monitoring inputs pointed to your Ollama server log directories (sourcetype: ollama:server), or enable HTTP Event Collector (HEC) for real-time API telemetry and prompt analytics (sourcetypes: ollama:api, ollama:prompts). CIM compatibility using the Web datamodel for standardized security detections.'
+known_false_positives: Legitimate complex queries requiring extensive model reasoning, large context windows processing substantial amounts of text, batch processing operations, or resource-constrained systems experiencing performance degradation may trigger this detection during normal operations.
+references:
+- https://github.com/rosplk/ta-ollama
+- https://github.com/OWASP/www-project-ai-testing-guide
+drilldown_searches:
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search src="$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Potential prompt injection or jailbreak attempt detected from $src$ with $long_request_count$ requests averaging $avg_response_time$ seconds, indicating possible attempts to bypass AI safety controls or extract sensitive information from the Ollama model.
+  risk_objects:
+  - field: src
+    type: system
+    score: 70
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Ollama Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1190
+  - T1059
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/ollama/server.log
+    sourcetype: ollama:server
+    source: server.log

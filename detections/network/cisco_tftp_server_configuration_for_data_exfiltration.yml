@@ -8,12 +8,12 @@ type: TTP
 description: This analytic detects the configuration of TFTP services on Cisco IOS devices that could be used to exfiltrate sensitive configuration files. Threat actors like Static Tundra have been observed configuring TFTP servers to make device configuration files accessible for exfiltration after gaining initial access. The detection specifically looks for commands that expose critical configuration files such as startup-config, running-config, and other sensitive system information through TFTP. This activity is particularly concerning as it may represent an attempt to steal credentials, network topology information, and other sensitive data stored in device configurations.
 data_source:
 - Cisco IOS Logs
-search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes 
-  where  (All_Changes.command="*tftp-server*") 
+search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as command min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes
+  where  (All_Changes.command="*tftp-server*")
   AND (
-    All_Changes.command="*nvram:startup-config*" OR 
-    All_Changes.command="*bootflash:running-config*" OR 
-    All_Changes.command="*system:running-config*" OR 
+    All_Changes.command="*nvram:startup-config*" OR
+    All_Changes.command="*bootflash:running-config*" OR
+    All_Changes.command="*system:running-config*" OR
     All_Changes.command="*bootflash:info*" OR
     All_Changes.command="*startup-config*" OR
     All_Changes.command="*running-config*"
@@ -31,7 +31,7 @@ references:
 - https://tools.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/fundamentals/command/cf_command_ref/T_through_X.html#wp3081407060
 drilldown_searches:
-- name: View the detection results for - "$dest$" 
+- name: View the detection results for - "$dest$"
   search: '%original_detection_search% | search dest = "$dest$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
@@ -72,6 +72,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/cisco/cisco_smart_install/cisco_ios.log
     sourcetype: cisco:ios
     source: cisco:ios

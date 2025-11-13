@@ -1,7 +1,7 @@
 name: Windows Screen Capture in TEMP folder
 id: 00524d1f-a032-46f5-9108-e7d9f01bfb3c
-version: 5
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 data_source:
 - Sysmon EventID 11
@@ -57,6 +57,8 @@ tags:
   analytic_story:
   - Crypto Stealer
   - Braodo Stealer
+  - APT37 Rustonotto and FadeStealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1113

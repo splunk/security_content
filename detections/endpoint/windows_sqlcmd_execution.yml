@@ -1,7 +1,7 @@
 name: Windows SQLCMD Execution
 id: 4e7c2f85-8f02-4bd2-a48b-5ec98a2c5f72
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-09-16'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -180,6 +180,7 @@ references:
 tags:
   analytic_story:
   - SQL Server Abuse
+  - GhostRedirector IIS Module and Rungan Backdoor
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.003

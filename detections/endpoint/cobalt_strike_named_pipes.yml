@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 10
-date: '2025-08-04'
+version: 12
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -90,6 +90,8 @@ tags:
   - Graceful Wipe Out Attack
   - LockBit Ransomware
   - Gozi Malware
+  - APT37 Rustonotto and FadeStealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1055

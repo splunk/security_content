@@ -3,8 +3,8 @@ id: b0d61c5d-aefe-486a-9152-de45cc10fbb4
 version: 3
 date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a member is added to a security-enabled local 
-  group on a Windows system.
+description: Logs an event when a member is added to a security-enabled local group
+  on a Windows system.
 mitre_components:
 - Group Modification
 source: XmlWinEventLog:Security
@@ -14,7 +14,7 @@ separator_value: '4732'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.0
 fields:
 - _time
 - Account_Domain

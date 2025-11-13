@@ -1,7 +1,7 @@
 name: High Volume of Bytes Out to Url
 id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Bhavin Patel, Splunk
 data_source:
 - Nginx Access
@@ -58,6 +58,7 @@ rba:
 tags:
   analytic_story:
   - Data Exfiltration
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1567

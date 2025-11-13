@@ -1,7 +1,7 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 20
-date: '2025-08-22'
+version: 21
+date: '2025-09-30'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -105,6 +105,8 @@ tags:
   - MoonPeak
   - Scattered Spider
   - 0bj3ctivity Stealer
+  - APT37 Rustonotto and FadeStealer
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

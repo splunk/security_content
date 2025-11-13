@@ -1,0 +1,59 @@
+name: M365 Copilot Agentic Jailbreak Attack
+id: e5c7b380-19da-42e9-9e53-0af4cd27aee3
+version: 1
+date: '2025-09-25'
+author: Rod Soto
+status: experimental
+type: Anomaly
+data_source:
+- M365 Exported eDiscovery Prompts
+description: Detects agentic AI jailbreak attempts that try to establish persistent control over M365 Copilot through rule injection, universal triggers, response automation, system overrides, and persona establishment techniques. The detection analyzes the PromptText field for keywords like "from now on," "always respond," "ignore previous," "new rule," "override," and role-playing commands (e.g., "act as," "you are now") that attempt to inject persistent instructions. The search computes risk by counting distinct jailbreak indicators per user session, flagging coordinated manipulation attempts.
+search: >
+  `m365_exported_ediscovery_prompt_logs`
+  | eval user = Sender
+  | eval rule_injection=if(match(Subject_Title, "(?i)(rules|instructions)\s*="), "YES", "NO")
+  | eval universal_trigger=if(match(Subject_Title, "(?i)(every|all).*prompt"), "YES", "NO")
+  | eval response_automation=if(match(Subject_Title, "(?i)(always|automatic).*respond"), "YES", "NO")
+  | eval system_override=if(match(Subject_Title, "(?i)(override|bypass|ignore).*(system|default)"), "YES", "NO")
+  | eval persona_establishment=if(match(Subject_Title, "(?i)(with.*\[.*\]|persona)"), "YES", "NO")
+  | where rule_injection="YES" OR universal_trigger="YES" OR response_automation="YES" OR system_override="YES" OR persona_establishment="YES"
+  | table _time, "Source ID", user, Subject_Title, rule_injection, universal_trigger, response_automation, system_override, persona_establishment, Workload
+  | sort -_time
+  | `m365_copilot_agentic_jailbreak_attack_filter`
+how_to_implement: To export M365 Copilot prompt logs, navigate to the Microsoft Purview compliance portal (compliance.microsoft.com) and access eDiscovery. Create a new eDiscovery case, add target user accounts or date ranges as data sources, then create a search query targeting M365 Copilot interactions across relevant workloads. Once the search completes, export the results to generate a package containing prompt logs with fields like Subject_Title (prompt text), Sender, timestamps, and workload metadata. Download the exported files using the eDiscovery Export Tool and ingest them into Splunk for security analysis and detection of jailbreak attempts, data exfiltration requests, and policy violations.
+known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+  - name: View the detection results for - "$user$"
+    search: '%original_detection_search% | search user="$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ attempted to establish persistent agentic control over M365 Copilot through advanced jailbreak techniques including rule injection, universal triggers, and system overrides, potentially compromising AI security across multiple sessions.
+  risk_objects:
+    - field: user
+      type: user
+      score: 50
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1562
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
+        sourcetype: csv
+        source: csv

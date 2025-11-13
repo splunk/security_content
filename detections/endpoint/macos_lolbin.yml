@@ -1,7 +1,7 @@
 name: MacOS LOLbin
 id: 58d270fb-5b39-418e-a855-4b8ac046805e
-version: 7
-date: '2025-05-05'
+version: 8
+date: '2025-10-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -56,6 +56,7 @@ rba:
 tags:
   analytic_story:
   - Living Off The Land
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.004

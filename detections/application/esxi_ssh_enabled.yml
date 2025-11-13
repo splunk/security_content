@@ -1,7 +1,7 @@
 name: ESXi SSH Enabled
 id: b8003567-c5b6-445b-8966-ecdacc81c24d
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2025-10-14'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -46,6 +46,7 @@ tags:
   analytic_story:
   - ESXi Post Compromise
   - Black Basta Ransomware
+  - Hellcat Ransomware
   asset_type: Infrastructure
   mitre_attack_id:
   - T1021.004

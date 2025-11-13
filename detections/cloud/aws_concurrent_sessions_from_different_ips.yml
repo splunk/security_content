@@ -1,7 +1,7 @@
 name: AWS Concurrent Sessions From Different Ips
 id: 51c04fdb-2746-465a-b86e-b413a09c9085
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -59,6 +59,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - AWS Identity and Access Management Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: AWS Account
   mitre_attack_id:
   - T1185

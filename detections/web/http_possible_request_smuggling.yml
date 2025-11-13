@@ -1,0 +1,78 @@
+name: HTTP Possible Request Smuggling
+id: 97d85f98-9d15-41a0-8682-7030454875e7
+version: 1
+date: '2025-10-06'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: HTTP request smuggling is a technique for interfering with the way a web site processes sequences
+ of HTTP requests that are received from one or more users. Request smuggling vulnerabilities are often
+ critical in nature, allowing an attacker to bypass security controls, gain unauthorized access to 
+ sensitive data, and directly compromise other application users. This detection identifies a common request
+ smuggling technique of using both Content-Length and Transfer-Encoding headers to cause a parsing confusion
+ between the frontend and backend.
+data_source:
+- Suricata
+search: '`suricata` (http.request_headers{}.name="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*") 
+  OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="*Transfer-Encoding*") 
+  OR (http.request_headers{}.value="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*")
+  OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="0")
+  | rename dest_ip as dest
+  | rex field=_raw "request_headers.:\[(?<headers>.*)\]"
+  | stats count min(_time) as firstTime max(_time) as lastTime by dest, dest_port, src_ip, http.url, 
+    http.http_method, http.http_user_agent, http.protocol, http.status, headers
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `http_possible_request_smuggling_filter`'
+how_to_implement: This detection requires the Web datamodel
+  to be populated from a supported Technology Add-On like Suricata, Splunk for Apache,
+  Splunk for Nginx, or Splunk for Palo Alto. Some of these will need to have all headers
+  dumped to contain the necessary fields.
+known_false_positives: False positives are not expected, however, monitor, filter,
+  and tune as needed based on organization log sources.
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Possible request smuggling against a web request was detected.
+    The source IP is $src_ip$ and the destination is $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 60
+  threat_objects:
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - HTTP Request Smuggling
+  asset_type: Network
+  mitre_attack_id:
+  - T1071.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/suricata_request_smuggling.log
+    sourcetype: suricata
+    source: suricata

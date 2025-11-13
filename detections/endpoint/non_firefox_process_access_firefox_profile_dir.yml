@@ -1,7 +1,7 @@
 name: Non Firefox Process Access Firefox Profile Dir
 id: e6fc13b0-1609-11ec-b533-acde48001122
-version: 12
-date: '2025-08-22'
+version: 13
+date: '2025-09-30'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -68,6 +68,7 @@ tags:
   - Snake Keylogger
   - China-Nexus Threat Activity
   - 0bj3ctivity Stealer
+  - Lokibot
   asset_type: Endpoint
   mitre_attack_id:
   - T1555.003

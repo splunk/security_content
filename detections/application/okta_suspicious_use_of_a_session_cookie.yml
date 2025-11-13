@@ -1,7 +1,7 @@
 name: Okta Suspicious Use of a Session Cookie
 id: 71ad47d1-d6bd-4e0a-b35c-020ad9a6959e
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Scott Dermott, Felicity Robson, Okta, Michael Haag, Bhavin Patel, Splunk
 type: Anomaly
 status: production
@@ -56,6 +56,7 @@ tags:
   analytic_story:
   - Suspicious Okta Activity
   - Okta Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: Okta Tenant
   mitre_attack_id:
   - T1539

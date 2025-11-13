@@ -1,7 +1,7 @@
 name: Windows System Binary Proxy Execution Compiled HTML File Decompile
 id: 2acf0e19-4149-451c-a3f3-39cd3c77e37d
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -73,6 +73,7 @@ tags:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
   - Compromised Windows Host
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1218.001

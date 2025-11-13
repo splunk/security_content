@@ -1,7 +1,7 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -59,6 +59,7 @@ tags:
   analytic_story:
   - Data Destruction
   - Double Zero Destructor
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1562.001

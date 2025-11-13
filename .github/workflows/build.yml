@@ -12,7 +12,7 @@ jobs:
       - name: Check out the repository code
         uses: actions/checkout@v5
        
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
           architecture: 'x64'
@@ -31,7 +31,7 @@ jobs:
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: content-latest
           path: |
