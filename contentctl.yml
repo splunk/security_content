@@ -65,9 +65,9 @@ apps:
 - uid: 742
   title: Splunk Add-on for Microsoft Windows
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS
-  version: 9.1.0
+  version: 9.1.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_910.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_911.tgz
 - uid: 5709
   title: Splunk Add-on for Sysmon
   appid: Splunk_TA_microsoft_sysmon
@@ -185,9 +185,9 @@ apps:
 - uid: 6207
   title: Splunk Add-on for Microsoft Security
   appid: Splunk_TA_MS_Security
-  version: 2.5.4
+  version: 3.0.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-security_254.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-security_300.tgz
 - uid: 2734
   title: URL Toolbox
   appid: URL_TOOLBOX
