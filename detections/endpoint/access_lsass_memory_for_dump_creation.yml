@@ -1,11 +1,11 @@
 name: Access LSASS Memory for Dump Creation
 id: fb4c31b0-13e8-4155-8aa5-24de4b8d6717
-version: 12
+version: 13
 date: '2025-10-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to dump the LSASS process 
+description: Test -The following analytic detects attempts to dump the LSASS process 
   memory, a common technique in credential dumping attacks. It leverages Sysmon 
   logs, specifically EventCode 10, to identify suspicious call traces to 
   dbgcore.dll and dbghelp.dll associated with lsass.exe. This activity is 
