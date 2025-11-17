@@ -74,10 +74,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-  manual_test: This detection analytic is not passing unit tests due to a change with the latest windows 9.1.0 TA causing sysmon parsing to fail and the data does not get mapped to the datamodel correctly. Issue details- https://github.com/splunk/splunk-add-on-for-microsoft-windows/issues/563
 tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1035.009/suspicious_spawn_svchost/susp_svchost_proc.log
-    sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    source: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
