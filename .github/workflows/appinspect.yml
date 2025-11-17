@@ -9,10 +9,14 @@ jobs:
   appinspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repository code
+      - name: Check out repository (PR)
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/checkout@v5
         with:
-            ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+      - name: Check out repository (push)
+        if: ${{ github.event_name == 'push' }}
+        uses: actions/checkout@v5
        
       - uses: actions/setup-python@v6
         with:
