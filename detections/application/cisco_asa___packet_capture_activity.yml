@@ -1,0 +1,77 @@
+name: Cisco ASA - Packet Capture Activity
+id: 7e9c3f8a-4b2d-4c5e-9a1f-6d8e5b3c2a9f
+version: 1
+date: '2025-11-13'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects the execution of packet capture commands on Cisco ASA devices via CLI or ASDM.
+  The capture command allows administrators to capture network traffic passing through the firewall for analysis and troubleshooting.
+  Adversaries or malicious insiders may abuse this functionality to perform network sniffing, potentially capturing sensitive data including credentials, session tokens, or confidential information in transit.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing the capture command, which creates or configures packet captures.
+  Investigate any unauthorized or unexpected packet captures, especially those targeting sensitive interfaces or capturing large amounts of traffic.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  command IN ("capture *")
+  | fillnull
+  | stats count
+          earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___packet_capture_activity_filter`
+how_to_implement: |
+    This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+    To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
+    If your logging level is set to 'notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
+    You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+known_false_positives: |
+  Network administrators may legitimately use packet captures for troubleshooting network issues, performance monitoring, or security investigations.
+  These activities should be verified against change management tickets, IT support requests, or established network monitoring procedures.
+  Consider filtering captures performed during maintenance windows or by known administrative accounts with proper authorization.
+references:
+- https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/A-H/asa-command-ref-A-H/ca-cld-commands.html
+- https://www.cisco.com/c/en/us/support/docs/security/asa-5500-x-series-next-generation-firewalls/118097-configure-asa-00.html
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed packet capture command $command$ on Cisco ASA host $dest$, potentially for network sniffing activity.
+  risk_objects:
+    - field: dest
+      type: system
+      score: 60
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1040
+    - T1557
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

@@ -1,7 +1,7 @@
 name: Cobalt Strike Named Pipes
 id: 5876d429-0240-4709-8b93-ea8330b411b5
-version: 12
-date: '2025-10-14'
+version: 13
+date: '2025-11-18'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,7 +35,7 @@ search: |
     "\\UIA_PIPE*",
     "\\win_svc*",
     "\\winsock*",
-    "\\wkssvc_*",
+    "\\wkssvc_*"
   )
   | stats count min(_time) as firstTime max(_time) as lastTime
   by dest dvc pipe_name process_exec process_guid process_id process_name process_path

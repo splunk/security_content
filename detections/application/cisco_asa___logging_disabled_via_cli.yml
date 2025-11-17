@@ -1,7 +1,7 @@
 name: Cisco ASA - Logging Disabled via CLI
 id: 7b4c9f3e-5a88-4b7b-9c4b-94d8e5d67201
-version: 2
-date: '2025-09-25'
+version: 3
+date: '2025-10-17'
 author: Bhavin Patel, Micheal Haag, Splunk
 status: production
 type: TTP
@@ -17,11 +17,23 @@ data_source:
   - Cisco ASA Logs
 search: |
   `cisco_asa`
-  | rex "%ASA-[^-]+-\d+-(?<message_id>\d+):" 
-  | search message_id IN (111009,111010,111008) 
-  | rex field=_raw "executed (?:the command )?(?<asa_command>.+)$" 
-  | search asa_command IN ("*no logging*","*logging disable*","*clear logging*","*no logging host*","*no logging trap*") 
-  | stats earliest(_time) as firstTime latest(_time) as lastTime values(user) as user values(action) as action values(asa_command) as commands values(src_ip) as src_ip values(process_name) as process_name by host 
+  message_id IN (111009, 111010, 111008) 
+  command IN (
+      "*no logging*",
+      "*logging disable*",
+      "*clear logging*",
+      "*no logging host*",
+      "*no logging trap*"
+  ) 
+  | stats earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by dest 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`  
   | `cisco_asa___logging_disabled_via_cli_filter`
@@ -35,18 +47,18 @@ references:
 - https://www.cisco.com/site/us/en/products/security/firewalls/adaptive-security-appliance-asa-software/index.html
 - https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
 drilldown_searches:
-- name: View the detection results for $host$
-  search: '%original_detection_search% | search  host = $host$'
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $host$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ from executed commands to disable logging on the Cisco ASA host $host$.
+  message: User $user$ executed command $command$ to disable logging on the Cisco ASA host $dest$.
   risk_objects:
-    - field: host
+    - field: dest
       type: system
       score: 80
   threat_objects:
@@ -65,6 +77,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/arcane_door/cisco_asa.log
-        source: syslog
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
         sourcetype: cisco:asa

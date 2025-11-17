@@ -1,0 +1,78 @@
+name: Cisco ASA - Local User Account Creation
+id: 9c8e4f2a-7d3b-4e5c-8a9f-1b6d4e8c3f5a
+version: 1
+date: '2025-11-13'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects the creation of new local user accounts on Cisco ASA devices via CLI or ASDM.
+  Local user accounts provide direct administrative access to network infrastructure and are critical security assets. Cisco ASA supports privilege levels from 0 to 15, with higher levels granting more administrative capabilities.
+  Adversaries or malicious insiders may create unauthorized accounts to establish persistence, maintain backdoor access, or set up accounts for future use after initial compromise. These accounts can be used to bypass normal authentication mechanisms and maintain long-term access even if other credentials are rotated.
+  The detection monitors for ASA message ID 502101, which is generated when a new user account is added to the local database, capturing the username and assigned privilege level.
+  Investigate any unexpected user account creations, especially those with elevated privileges (level 15 or high privilege levels), accounts created outside business hours, or accounts with suspicious naming patterns, and verify these changes against approved change management processes and HR onboarding records.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (502101)
+  | fillnull
+  | stats count earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(action) as action
+          values(message_id) as message_id
+          values(result) as result
+          values(privilege_level) as privilege_level
+    by dest user
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___local_user_account_creation_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 502101.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message ID 502101.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+known_false_positives: |
+  Legitimate user account creation may occur during normal administrative activities
+  such as employee onboarding following new hires, contractor or vendor provisioning
+  for temporary access, establishing service accounts for automation or monitoring,
+  or creating emergency access accounts during incident response. These events should
+  be verified against HR onboarding records, change management tickets, service account
+  inventories, or established account lifecycle management procedures. Consider filtering
+  creations performed during business hours, by known administrative accounts with proper
+  authorization, or accounts created as part of documented provisioning workflows.
+references:
+- https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773963
+drilldown_searches:
+- name: View the detection results for $dest$
+  search: '%original_detection_search% | search  dest = $dest$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $dest$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: New local user account $user$ with privilege level $privilege_level$ was created on Cisco ASA host $dest$.
+  risk_objects:
+    - field: dest
+      type: system
+      score: 60
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1136.001
+    - T1078.003
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa
