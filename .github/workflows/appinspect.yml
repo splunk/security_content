@@ -2,18 +2,16 @@ name: appinspect
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-  push:
-    branches:
-      - develop
 jobs:
   appinspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repository code
+      - name: Check out repository (PR)
+        if: ${{ github.event_name == 'pull_request' }}
         uses: actions/checkout@v5
         with:
-            ref: refs/pull/${{ github.event.pull_request.number }}/merge
-       
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
