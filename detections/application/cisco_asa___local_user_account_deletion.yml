@@ -6,11 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects the deletion of local user accounts from the Cisco ASA local database via CLI or ASDM.
-  Local user accounts on network devices provide administrative access and are critical security assets. Deletion of these accounts is a sensitive operation that should be carefully controlled and audited.
-  Adversaries or malicious insiders may delete user accounts to cover their tracks, remove legitimate administrators' access to prevent detection or response, disrupt operations as part of a sabotage attempt, or eliminate evidence of their initial access methods.
-  The detection monitors for ASA message ID 502102, which is generated when a user account is deleted from the local database, capturing the deleted username and its privilege level.
-  Investigate any unexpected user deletions, especially of privileged accounts (level 15 or high privilege levels), accounts deleted outside business hours or during suspicious timeframes, and verify these changes against approved change management processes, HR offboarding records, and account lifecycle policies.
+  This analytic detects deletion of local user accounts from Cisco ASA devices via CLI or ASDM.
+  Adversaries may delete local accounts to cover their tracks, remove evidence of their activities, disrupt incident response efforts, or deny legitimate administrator access during an attack. Account deletion can also indicate an attempt to hide the creation of temporary accounts used during compromise.
+  The detection monitors for ASA message ID 502102, which is generated whenever a local user account is deleted from the device, capturing details including the deleted username, privilege level, and the administrator who performed the deletion.
+  Investigate unexpected account deletions, especially those involving privileged accounts (level 15), deletions performed outside business hours, deletions by non-administrative users, or deletions that coincide with other suspicious activities.
 data_source:
   - Cisco ASA Logs
 search: |
@@ -23,7 +22,7 @@ search: |
           values(message_id) as message_id
           values(result) as result
           values(privilege_level) as privilege_level
-    by dest user
+    by host user
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___local_user_account_deletion_filter`
@@ -33,31 +32,29 @@ how_to_implement: |
   If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message ID 502102.
   You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
 known_false_positives: |
-  Legitimate user account deletions may occur during normal administrative activities
-  such as employee offboarding following terminations or resignations, contractor access
-  removal after project completion, account cleanup as part of security hardening
-  initiatives, or decommissioning of unused service accounts. These events should be
-  verified against HR offboarding records, change management tickets, access review
-  reports, or established account lifecycle management procedures. Consider filtering
-  deletions performed during business hours, by known administrative accounts with
-  proper authorization, or deletions that align with documented offboarding workflows.
+  Legitimate deletions occur during employee offboarding, contractor removal, account
+  cleanup, or service account decommissioning. Verify against HR records and change
+  management tickets. Filter known admin accounts during business hours.
 references:
-- https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773969
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773969
 drilldown_searches:
-- name: View the detection results for $dest$
-  search: '%original_detection_search% | search  dest = $dest$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $dest$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: Local user account $user$ with privilege level $privilege_level$ was deleted from Cisco ASA host $dest$.
+  message: Local user account $user$ with privilege level $privilege_level$ was deleted from Cisco ASA host $host$.
   risk_objects:
-    - field: dest
+    - field: host
       type: system
-      score: 50
+      score: 40
+    - field: user
+      type: user
+      score: 40
   threat_objects: []
 tags:
   analytic_story:

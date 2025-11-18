@@ -6,11 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects changes to local user privilege levels on Cisco ASA devices via CLI or ASDM.
-  Privilege levels on Cisco devices range from 0 to 15, controlling the commands and features accessible to users. Level 0 provides minimal access, level 1 is the standard user EXEC mode, and level 15 provides full administrative access with unrestricted command execution.
-  Adversaries or malicious insiders may escalate user privileges to gain elevated access to sensitive commands, modify security configurations, disable logging, or establish persistent administrative control for long-term access.
-  The detection monitors for ASA message ID 502103, which is generated when a user's privilege level is modified, capturing both the previous and new privilege levels.
-  Investigate any unexpected privilege changes, especially escalations to level 15 (full admin) or substantial increases (e.g., level 2 to 14), and verify these changes against approved change management processes and HR records.
+  This analytic detects privilege level changes for local user accounts on Cisco ASA devices via CLI or ASDM.
+  Adversaries may escalate account privileges to gain elevated access to network infrastructure, enable additional command execution capabilities, or establish higher-level persistent access. Privilege levels on Cisco ASA range from 0 (lowest) to 15 (full administrative access), with level 15 providing complete device control.
+  The detection monitors for ASA message ID 502103, which is generated whenever a user account's privilege level is modified, capturing both the old and new privilege levels along with the username and administrator who made the change.
+  Investigate unexpected privilege changes, especially escalations to level 15, substantial privilege increases (e.g., from level 1 to 15), changes performed outside business hours, changes by non-administrative users, or changes without corresponding change management tickets.
 data_source:
   - Cisco ASA Logs
 search: |
@@ -23,7 +22,7 @@ search: |
           values(message_id) as message_id
           values(old_privilege_level) as old_privilege_level
           values(new_privilege_level) as new_privilege_level
-    by dest user
+    by host user
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___local_user_privilege_level_change_filter`
@@ -33,25 +32,29 @@ how_to_implement: |
   If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 502103.
   You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
 known_false_positives: |
-  Legitimate privilege level changes may occur during normal administrative activities such as role changes following promotions or transfers, temporary privilege escalation for specific maintenance tasks, security policy adjustments, or implementation of least privilege principles. These events should be verified.
-  Consider filtering privilege changes performed during approved maintenance windows, by known administrative accounts with proper authorization, or minor privilege adjustments that don't escalate to full administrative access.
+  Legitimate changes occur during role changes, temporary escalation for maintenance,
+  or security policy adjustments. Verify against change management. Filter known admin
+  accounts during maintenance windows.
 references:
-- https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773975
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773975
 drilldown_searches:
-- name: View the detection results for $dest$
-  search: '%original_detection_search% | search  dest = $dest$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $dest$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: User account $user$ privilege level changed from $old_privilege_level$ to $new_privilege_level$ on Cisco ASA host $dest$.
+  message: User account $user$ privilege level changed from $old_privilege_level$ to $new_privilege_level$ on Cisco ASA host $host$.
   risk_objects:
-    - field: dest
+    - field: host
       type: system
-      score: 70
+      score: 40
+    - field: user
+      type: user
+      score: 40
   threat_objects: []
 tags:
   analytic_story:

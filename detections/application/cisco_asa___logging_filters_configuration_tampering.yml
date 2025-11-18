@@ -6,11 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects potential tampering with logging filters on Cisco ASA devices via CLI or ASDM.
-  Logging filters control the severity level of messages sent to various logging destinations including ASDM, console, syslog hosts, email, and monitoring interfaces.
-  Adversaries or malicious insiders may attempt to modify logging filters to evade detection and hide malicious activity by reducing the logging level being sent to logging hosts, preventing important security events from being captured.
-  The detection looks for specific ASA commands that modify logging filters such as `logging asdm`, `logging console`, `logging history`, `logging mail`, `logging monitor`, or `logging trap` without specifying higher logging levels like `notifications` (5), `informational` (6), or `debugging` (7).
-  Investigate any unauthorized changes to logging filters as they may indicate an attempt to evade detection or cover tracks.
+  This analytic detects tampering with logging filter configurations on Cisco ASA devices via CLI or ASDM.
+  Adversaries may reduce logging levels or disable specific log categories to evade detection, hide their activities, or prevent security monitoring systems from capturing evidence of their actions. By lowering logging verbosity, attackers can operate with reduced visibility to security teams.
+  The detection monitors for logging configuration commands (message ID 111008 or 111010) that modify logging destinations (asdm, console, history, mail, monitor, trap) without setting them to higher severity levels (5-notifications, 6-informational, 7-debugging), which may indicate an attempt to reduce logging verbosity.
+  Investigate unauthorized logging configuration changes that reduce verbosity, especially changes performed by non-administrative accounts, during unusual hours, or without corresponding change management approval.
 data_source:
   - Cisco ASA Logs
 search: |
@@ -28,7 +27,7 @@ search: |
           values(command) as command
           values(src_ip) as src_ip
           values(process_name) as process_name
-    by dest
+    by host
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___logging_filters_configuration_tampering_filter`
@@ -38,30 +37,32 @@ how_to_implement: |
   If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
   You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
 known_false_positives: |
-  Administrators may intentionally modify logging levels during maintenance windows,
-  troubleshooting sessions, or device reconfiguration to reduce log volume or noise.
-  These legitimate activities should be verified against approved change management
-  tickets, maintenance schedules, or established logging policies. Consider filtering
-  known administrative accounts or establishing a baseline of normal logging configuration
-  changes during approved maintenance periods.
+  Admins may modify logging levels during maintenance or troubleshooting to reduce
+  log volume. Verify against change management tickets. Filter known admin accounts
+  during maintenance windows.
 references:
 - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/I-R/asa-command-ref-I-R/m_log-lz.html
 drilldown_searches:
-- name: View the detection results for $dest$
-  search: '%original_detection_search% | search  dest = $dest$'
+- name: View the detection results for $host$
+  search: '%original_detection_search% | search  host = $host$'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $dest$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for $host$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ executed command $command$ to tamper with logging filter configuration on the Cisco ASA host $dest$.
+  message: User $user$ executed command $command$ to tamper with logging filter configuration on the Cisco ASA host $host$.
   risk_objects:
-    - field: dest
+    - field: host
       type: system
-      score: 80
-  threat_objects: []
+      score: 60
+    - field: user
+      type: user
+      score: 60
+  threat_objects:
+    - field: command
+      type: process
 tags:
   analytic_story:
     - Suspicious Cisco Adaptive Security Appliance Activity

@@ -1,0 +1,93 @@
+name: Cisco ASA - Device File Copy Activity
+id: 4d7e8f3a-9c2b-4e6f-8a1d-5b9c7e2f4a8c
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects file copy activity on Cisco ASA devices via CLI or ASDM.
+  Adversaries may copy device files including configurations, logs, or system files for reconnaissance, credential extraction, or data exfiltration. While legitimate file operations occur during backups and maintenance, unauthorized copies may indicate malicious activity.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing copy commands targeting running-config, startup-config, or other system files from disk0:, flash:, or system: locations.
+  Investigate unexpected file copies, especially from non-administrative accounts, during unusual hours, or when combined with other suspicious activities.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111008, 111010)
+  command = "copy *"
+  command IN (
+      "*running-config*",
+      "*startup-config*",
+      "copy system:*",
+      "copy disk0:*",
+      "copy flash:*"
+  )
+  | fillnull
+  | stats earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by host
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___device_file_copy_activity_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message IDs 111008 and 111010.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+known_false_positives: |
+  Legitimate configuration exports may occur during normal administrative activities
+  such as scheduled automated backups, pre-change configuration snapshots as part of
+  change management procedures, disaster recovery preparations, configuration audits,
+  or troubleshooting activities. These events should be verified against backup schedules,
+  change management tickets, disaster recovery plans, or established configuration
+  management procedures. Consider filtering exports performed during approved maintenance
+  windows, by known administrative or backup accounts with proper authorization, to
+  known backup server destinations, or exports that align with documented backup policies.
+references:
+- https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/A-H/asa-command-ref-A-H/c1-commands.html
+- https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/S/asa-command-ref-S/sa-shov-commands.html
+- https://www.cisco.com/c/en/us/support/docs/security/asa-5500-x-series-next-generation-firewalls/200657-Configure-Backup-and-Restore-on-ASA.html
+drilldown_searches:
+- name: View the detection results for $host$
+  search: '%original_detection_search% | search  host = $host$'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for $host$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed command to export device configuration from Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 50
+  threat_objects:
+    - field: src_ip
+      type: ip_address
+    - field: command
+      type: process
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1005
+    - T1530
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

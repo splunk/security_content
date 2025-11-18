@@ -6,11 +6,10 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects attempts to suppress specific logging messages on Cisco ASA devices using the "no logging message" command.
-  Cisco ASA devices can be configured to exclude specific message IDs from being logged, which adversaries may abuse to hide malicious activities.
-  By suppressing critical security event logs (such as connection events, authentication failures, or configuration changes), attackers can operate undetected and evade security monitoring.
-  The detection monitors for command execution events (message ID 111008 or 111010) containing "no logging message" commands.
-  Investigate any unauthorized logging message suppression, especially for security-critical message IDs, as this may indicate an attempt to evade detection or cover tracks.
+  This analytic detects suppression of specific logging messages on Cisco ASA devices using the "no logging message" command.
+  Adversaries may suppress specific log message IDs to selectively disable logging of security-critical events such as authentication failures, configuration changes, or suspicious network activity. This targeted approach allows attackers to evade detection while maintaining normal logging operations that might otherwise alert administrators to complete logging disablement.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing the "no logging message" command, which is used to suppress specific message IDs from being logged regardless of the configured severity level.
+  Investigate unauthorized message suppression, especially suppression of security-critical message IDs (authentication, authorization, configuration changes), suppression performed by non-administrative accounts, during unusual hours, or without documented justification.
 data_source:
   - Cisco ASA Logs
 search: |
@@ -26,7 +25,7 @@ search: |
           values(command) as command
           values(src_ip) as src_ip
           values(process_name) as process_name
-    by dest
+    by host
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___logging_message_suppression_filter`
@@ -36,32 +35,33 @@ how_to_implement: |
   If your logging level is set to 'notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
   You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
 known_false_positives: |
-  Administrators may legitimately suppress verbose or non-critical logging messages
-  to reduce log volume, manage storage, or comply with logging policies. Common
-  examples include suppressing informational messages during high-traffic periods
-  or filtering known false positives. These events should be verified against
-  change management tickets, logging policies, or established log management procedures.
-  Consider establishing a baseline of approved suppressed message IDs and alerting
-  on deviations from this baseline.
+  Admins may suppress verbose messages to reduce log volume or manage storage.
+  Verify against change management and logging policies. Establish baseline of
+  approved suppressed message IDs.
 references:
 - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/I-R/asa-command-ref-I-R/m_log-lz.html
 - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/b_syslog.html
 drilldown_searches:
-- name: View the detection results for $dest$
-  search: '%original_detection_search% | search  dest = $dest$'
+- name: View the detection results for $host$
+  search: '%original_detection_search% | search  host = $host$'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $dest$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($dest$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+- name: View risk events for the last 7 days for $host$
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ executed command to suppress logging message ID $command$ on Cisco ASA host $dest$.
+  message: User $user$ executed command $command$ to suppress logging message ID on Cisco ASA host $host$.
   risk_objects:
-    - field: dest
+    - field: host
       type: system
-      score: 80
-  threat_objects: []
+      score: 50
+    - field: user
+      type: user
+      score: 50
+  threat_objects:
+    - field: command
+      type: process
 tags:
   analytic_story:
     - Suspicious Cisco Adaptive Security Appliance Activity
