@@ -15,7 +15,8 @@ data_source:
 - Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   max(_time) as lastTime values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
-  where DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*" by DNS.query
+  where DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*" by DNS.answer
+  DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product
   | `drop_dm_object_name(DNS)`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | table firstTime lastTime query count src dest
