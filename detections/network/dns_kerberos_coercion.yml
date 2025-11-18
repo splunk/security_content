@@ -10,7 +10,9 @@ description: Detects DNS-based Kerberos coercion attacks where adversaries
   redirect authentication such as in CVE-2025-33073. This detection leverages 
   suricata looking for specific CREDENTIAL_TARGET_INFORMATION structures in DNS
   queries. 
-data_source: []
+data_source:
+- Suricata
+- Sysmon EventID 22
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   max(_time) as lastTime values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
   where DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*" by DNS.query
