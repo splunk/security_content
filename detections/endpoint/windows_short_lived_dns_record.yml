@@ -1,0 +1,89 @@
+name: Windows Short Lived DNS Record
+id: d585e253-1859-4170-977d-09376c731f74
+version: 1
+date: '2025-11-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: The following analytic identifies the creation and quick deletion of
+  a DNS object within 300 seconds in an Active Directory environment,
+  indicative of a potential attack abusing DNS. This detection leverages Windows Security
+  Event Codes 5136 and 5137, analyzing the duration between these events. This activity
+  is significant as temporary DNS entries allows attackers to cause unexpecting network trafficking,
+  leading to potential compromise.
+data_source:
+- Windows Event Log Security 5136
+- Windows Event Log Security 5137
+search: '`wineventlog_security` ((EventCode=5137  ObjectClass="dnsNode") OR (EventCode=5136 
+  ObjectClass="dnsNode" AttributeLDAPDisplayName="dNSTombstoned" AttributeValue="TRUE"))
+  | stats min(_time) as firstTime
+          max(_time) as lastTime
+          values(EventCode) as event_codes
+          values(ObjectDN) as dns_record
+          values(SubjectUserName) as user
+          values(Computer) as dest
+          by ObjectGUID
+  | where mvcount(event_codes)=2
+  | eval time_diff=lastTime - firstTime
+  | where time_diff <= 300
+  | table firstTime, lastTime, dns_record, user, dest, time_diff, ObjectGUID
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_short_lived_dns_record_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting Event
+  codes `5136` and `5137`. The Advanced Security Audit policy setting `Audit Directory
+  Services Changes` within `DS Access` needs to be enabled. For these event codes
+  to be generated, specific SACLs are required.
+known_false_positives: Creating and deleting a DNS server object within 30 seconds or
+  less is unusual but not impossible in a production environment. Filter as needed.
+references:
+- https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+- https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  Computer = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A short-lived DNS object was created and deleted on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 64
+  - field: user
+    type: user
+    score: 64
+  threat_objects: []
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  - Suspicious DNS Traffic
+  - Local Privilege Escalation With KrbRelayUp
+  - Kerberos Coercion with DNS
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1071.004
+  - T1557.001
+  - T1187
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve:
+  - CVE-2025-33073
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

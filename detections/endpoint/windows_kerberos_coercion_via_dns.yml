@@ -1,0 +1,87 @@
+name: Windows Kerberos Coercion via DNS
+id: 9029b575-6f6b-4ab1-b660-67b24b7e9c3d
+version: 1
+date: '2025-11-12'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: Detects DNS-based Kerberos coercion attacks where adversaries
+  inject marshaled credential structures into DNS records to spoof SPNs and 
+  redirect authentication such as in CVE-2025-33073. This detection leverages 
+  Windows Security Event Codes 5136, 5137, 4662, looking for DNS events with
+  specific CREDENTIAL_TARGET_INFORMATION entries. 
+data_source:
+- Windows Event Log Security 4662
+- Windows Event Log Security 5136
+- Windows Event Log Security 5137
+search: '`wineventlog_security`  (((EventCode="5136" OR EventCode="5137") ObjectClass="dnsNode" 
+  ObjectDN="*1UWhRCA*" ObjectDN="*AAAAA*" ObjectDN="*YBAAAA*") OR (EventCode="4662" 
+  AdditionalInfo="*1UWhRCA*" AdditionalInfo="*AAAAA*" AdditionalInfo="*YBAAAA*"))
+  | eval Object=coalesce(lower(ObjectGUID), trim(AdditionalInfo2, "%{}"))
+  | eval user=coalesce(SubjectUserName, Caller_User_Name)
+  | stats min(_time) as firstTime, max(_time) as lastTime
+          values(EventCode) as event_codes
+          values(ObjectDN) as dns_record
+          values(user) as user
+          values(Computer) as dest
+          by Object
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_kerberos_coercion_via_dns_filter`'
+how_to_implement: To successfully implement this search, you ned to be ingesting Event
+  codes `4662`, `5136`, `5137`. The Advanced Security Audit policy setting `Audit Directory
+  Services Changes` within `DS Access` needs to be enabled. For these event codes
+  to be generated, specific SACLs are required.
+known_false_positives: Creating a DNS entry matching this pattern is very unusual in a 
+  production environment. Filter as needed.
+references:
+- https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+- https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  Computer = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A possible Kerberos coercion DNS object was created $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 74
+  - field: user
+    type: user
+    score: 74
+  threat_objects: []
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  - Suspicious DNS Traffic
+  - Local Privilege Escalation With KrbRelayUp
+  - Kerberos Coercion with DNS
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1071.004
+  - T1557.001
+  - T1187
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+  cve:
+  - CVE-2025-33073
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/windows-xml.log
+    source: XmlWinEventLog:Security
+    sourcetype: XmlWinEventLog

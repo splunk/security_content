@@ -1,0 +1,79 @@
+name: DNS Kerberos Coercion
+id: 8551252d-b5b6-4b6e-8a82-51460aeb29a3
+version: 1
+date: '2025-11-14'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: Detects DNS-based Kerberos coercion attacks where adversaries
+  inject marshaled credential structures into DNS records to spoof SPNs and 
+  redirect authentication such as in CVE-2025-33073. This detection leverages 
+  suricata looking for specific CREDENTIAL_TARGET_INFORMATION structures in DNS
+  queries. 
+data_source:
+- Suricata
+- Sysmon EventID 22
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
+  max(_time) as lastTime values(DNS.src) as src values(DNS.dest) as dest from datamodel=Network_Resolution
+  where DNS.query="*1UWhRC*" DNS.query="*AAAAA*" DNS.query="*YBAAAA*" by DNS.answer
+  DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product
+  | `drop_dm_object_name(DNS)`
+  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
+  | table firstTime lastTime query count src dest
+  | `dns_kerberos_coercion_filter`'
+how_to_implement: To successfully implement this search, you will need to ensure that
+  DNS data is populating the Network_Resolution data model.
+known_false_positives: It's unlikely that a DNS entry contains the specific structure used by
+  this attack. Filter as needed for your organization.
+references:
+- https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+- https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
+drilldown_searches:
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  host = "$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A dns query $query$ with marshalled CREDENTIAL_TARGET_INFORMATION seen from $src$
+  risk_objects:
+  - field: src
+    type: system
+    score: 56
+  threat_objects: []
+tags:
+  analytic_story:
+  - Compromised Windows Host
+  - Suspicious DNS Traffic
+  - Local Privilege Escalation With KrbRelayUp
+  - Kerberos Coercion with DNS
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1557.001
+  - T1187
+  - T1071.004
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+  cve:
+  - CVE-2025-33073
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/suricata.log
+    source: Suricata
+    sourcetype: suricata
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
