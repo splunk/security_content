@@ -38,7 +38,7 @@ search: |
       "show xlate*"
   )
   | fillnull
-  
+
   ```
   Normalize command variations to base command types to count distinct reconnaissance categories.
   For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
@@ -120,8 +120,6 @@ rba:
   threat_objects:
     - field: src_ip
       type: ip_address
-    - field: command
-      type: process
 tags:
   analytic_story:
     - Suspicious Cisco Adaptive Security Appliance Activity
