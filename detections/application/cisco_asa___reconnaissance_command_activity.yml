@@ -37,7 +37,8 @@ search: |
       "show vpn-sessiondb*",
       "show xlate*"
   )
-
+  | fillnull
+  
   ```
   Normalize command variations to base command types to count distinct reconnaissance categories.
   For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
