@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 17
-date: '2025-09-16'
+version: 18
+date: '2025-10-24'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
@@ -63,6 +63,7 @@ tags:
   - Microsoft SharePoint Vulnerabilities
   - Scattered Spider
   - GhostRedirector IIS Module and Rungan Backdoor
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
   - T1027

@@ -1,4 +1,19 @@
 detections:
+  - content: Windows Default RDP File Creation
+    removed_in_version: 5.20.0
+    reason: Detections updated to use the new search logic and field names.
+    replacement_content:
+    - Windows Default RDP File Creation By Non MSTSC Process
+  - content: Windows Java Spawning Shells
+    removed_in_version: 5.20.0
+    reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
+    replacement_content:
+    - Web or Application Server Spawning a Shell
+  - content: Linux Java Spawning Shell
+    removed_in_version: 5.20.0
+    reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
+    replacement_content:
+    - Web or Application Server Spawning a Shell
   - content: Wget Download and Bash Execution
     removed_in_version: 5.20.0
     reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.

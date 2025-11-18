@@ -1,7 +1,7 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
-version: 19
-date: 2025-10-01
+version: 20
+date: '2025-10-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -86,6 +86,7 @@ tags:
   - Windows Persistence Techniques
   - 0bj3ctivity Stealer
   - APT37 Rustonotto and FadeStealer
+  - Castle RAT
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

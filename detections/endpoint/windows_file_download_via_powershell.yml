@@ -1,7 +1,7 @@
 name: Windows File Download Via PowerShell
 id: 58c4e56c-b5b8-46a3-b5fb-6537dca3c6de
-version: 3
-date: '2025-09-18'
+version: 4
+date: '2025-10-24'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -90,6 +90,7 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - Microsoft WSUS CVE-2025-59287
     - APT37 Rustonotto and FadeStealer
     - GhostRedirector IIS Module and Rungan Backdoor
     - Winter Vivern
