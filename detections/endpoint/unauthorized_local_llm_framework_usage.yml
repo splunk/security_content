@@ -1,11 +1,11 @@
-name: Local LLM Model DNS Queries
-id: e0cda953-b926-4778-b7df-df61dab7bb78
+name: Unauthorized Local LLM Framework Usage
+id: d7ceffc5-a45e-412b-b9fa-2ba27c284503
 version: 1
 date: '2025-11-12'
 author: Rod Soto
 status: production
 type: Hunting
-description: Detects DNS queries related to local LLM models on endpoints by monitoring Sysmon DNS query events (Event ID 22) for known LLM model domains and services.
+description: Detects DNS queries related to local LLM models on endpoints by monitoring Sysmon DNS query events (Event ID 22) for known LLM model domains and services. Local LLM frameworks like Ollama, LM Studio, and GPT4All make DNS calls to repositories such as huggingface.co and ollama.ai for model downloads, updates, and telemetry. These queries can reveal unauthorized AI tool usage or data exfiltration risks on corporate networks.
 data_source:
 - Sysmon EventID 22
 search: |
@@ -35,10 +35,11 @@ search: |
           QueryName="*alibabacloud*" OR
           QueryName="*dashscope.aliyuncs*"
   | search Image!="*MsMpEng.exe*" AND Image!="*Windows Defender*" AND Image!="*system32*" AND Image!="*ProgramData*" AND Image!="*syswow64*"
-  | stats count by _time, host, Image, QueryName
-  | sort -count 
-  | `local_llm_model_dns_queries_filter`
-how_to_implement: Ensure Sysmon is deployed across Windows endpoints and configured to capture DNS query events (Event ID 22). Configure Sysmon's XML configuration file to log detailed command-line arguments, parent process information, and full process image paths. Ingest Sysmon event logs into Splunk via the Splunk Universal Forwarder or Windows Event Log Input, ensuring they are tagged with `sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`. Verify the `sysmon` macro exists in your Splunk environment and correctly references the Sysmon event logs. Create or update the `local_llm_model_dns_queries_filter` macro in your detections/filters folder to exclude approved systems, authorized developers, sanctioned ML/AI workstations, or known development/lab environments as needed. Deploy this hunting search to your Splunk Enterprise Security or Splunk Enterprise instance and schedule it to run on a regular cadence to detect unauthorized LLM model DNS queries and shadow AI activities. Correlate findings with endpoint asset inventory and user identity data to prioritize investigation.
+  | stats count min(_time) as firstTime max(_time) as lastTime by host, Image, QueryName
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `unauthorized_local_llm_framework_usage_filter`
+how_to_implement: Ensure Sysmon is deployed across Windows endpoints and configured to capture DNS query events (Event ID 22). Configure Sysmon's XML configuration file to log detailed command-line arguments, parent process information, and full process image paths. Ingest Sysmon event logs into Splunk via the Splunk Universal Forwarder or Windows Event Log Input, ensuring they are tagged with `sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`. Verify the `sysmon` macro exists in your Splunk environment and correctly references the Sysmon event logs. Create or update the `unauthorized_local_llm_framework_usage_filter` macro in your detections/filters folder to exclude approved systems, authorized developers, sanctioned ML/AI workstations, or known development/lab environments as needed. Deploy this hunting search to your Splunk Enterprise Security or Splunk Enterprise instance and schedule it to run on a regular cadence to detect unauthorized LLM model DNS queries and shadow AI activities. Correlate findings with endpoint asset inventory and user identity data to prioritize investigation.
 known_false_positives: Legitimate DNS queries to LLM model hosting platforms by authorized developers, ML engineers, and researchers during model training, fine-tuning, or experimentation. Approved AI/ML sandboxes and lab environments where LLM model downloads are expected. Automated ML pipelines and workflows that interact with LLM model hosting services as part of their normal operation. Third-party applications and services that access LLM model platforms for legitimate purposes.
 references:
 - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
