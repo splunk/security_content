@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Suspicious Image Use
 id: 9f2b7b1d-6c2f-4f2d-9a8b-8a1d7c5f2e11
 version: 1
-date: '2024-06-10'
+date: '2025-11-18'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly

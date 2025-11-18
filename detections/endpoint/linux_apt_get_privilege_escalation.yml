@@ -1,7 +1,7 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
 version: 10
-date: '2024-06-10'
+date: '2025-11-18'
 author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
 status: production
 type: Anomaly

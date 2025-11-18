@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Curl Execution With Insecure Flags
 id: c16c4899-d3f7-461b-92c2-cc0ef5758855
 version: 1
-date: '2024-06-12'
+date: '2025-11-18'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:

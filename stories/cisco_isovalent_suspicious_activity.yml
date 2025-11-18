@@ -1,7 +1,7 @@
 name: Cisco Isovalent Suspicious Activity
 id: 245ac99a-1355-44fe-9ef7-a7e826e20c6f
 version: 1
-date: '2025-09-30'
+date: '2025-11-18'
 author: Bhavin Patel, Splunk
 status: production
 description: This analytics story focuses on identifying suspicious activities and potential security threats within environments using Cisco Isovalent in Kubernetes. It provides detection analytics and guidance to help security teams recognize signs of adversary tactics such as unauthorized access attempts, unusual network activity, and other behaviors indicative of potential compromise in their Kubernetes environments.
