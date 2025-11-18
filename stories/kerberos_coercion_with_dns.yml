@@ -12,7 +12,10 @@ narrative: CVE-2025-33073 is a critical vulnerability related to Kerberos
   tradecraft was being developed. The attacker utilized a DNS record manipulation technique 
   that involved appending a specific "magic string" to the hostname, which ultimately 
   enabled successful coercive authentication, leading to remote code execution as SYSTEM.
-references: []
+references: 
+- https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+- https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
 tags:
   category:
   - Adversary Tactics

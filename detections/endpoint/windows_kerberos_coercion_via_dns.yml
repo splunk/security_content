@@ -18,11 +18,11 @@ search: '`wineventlog_security`  (((EventCode="5136" OR EventCode="5137") Object
   ObjectDN="*1UWhRCA*" ObjectDN="*AAAAA*" ObjectDN="*YBAAAA*") OR (EventCode="4662" 
   AdditionalInfo="*1UWhRCA*" AdditionalInfo="*AAAAA*" AdditionalInfo="*YBAAAA*"))
   | eval Object=coalesce(lower(ObjectGUID), trim(AdditionalInfo2, "%{}"))
-  | eval User=coalesce(SubjectUserName, Caller_User_Name)
+  | eval user=coalesce(SubjectUserName, Caller_User_Name)
   | stats min(_time) as firstTime, max(_time) as lastTime
           values(EventCode) as event_codes
           values(ObjectDN) as dns_record
-          values(User) as User
+          values(user) as user
           values(Computer) as dest
           by Object
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
@@ -57,7 +57,7 @@ rba:
   - field: dest
     type: system
     score: 74
-  - field: User
+  - field: user
     type: user
     score: 74
   threat_objects: []
