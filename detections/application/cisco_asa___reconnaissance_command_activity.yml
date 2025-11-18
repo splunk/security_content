@@ -38,9 +38,11 @@ search: |
       "show xlate*"
   )
 
-  ```Normalize command variations to base command types to count distinct reconnaissance categories.
-  ```For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
-  ```This prevents adversaries from evading detection by adding arguments or using multiple variations of the same command.
+  ```
+  Normalize command variations to base command types to count distinct reconnaissance categories.
+  For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
+  This prevents adversaries from evading detection by adding arguments or using multiple variations of the same command.
+  ```
   
   | eval command_type=case(
       match(command, "^show access-list"), "show access-list",
