@@ -1,9 +1,9 @@
 name: Windows PsTools Recon Usage
 id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
-version: 2
-date: '2025-10-23'
+version: 3
+date: '2025-11-19'
 author: Nasreddine Bencherchali
-status: experimental
+status: production
 type: Anomaly
 description: |
   The following analytic identifies execution of Sysinternals PsTools and Sysinternals Suit binaries that are commonly used for reconnaissance and information gathering on
