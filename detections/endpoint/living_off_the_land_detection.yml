@@ -1,7 +1,7 @@
 name: Living Off The Land Detection
 id: 1be30d80-3a39-4df9-9102-64a467b24abc
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: Correlation
@@ -55,6 +55,7 @@ drilldown_searches:
 tags:
   analytic_story:
   - Living Off The Land
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1105

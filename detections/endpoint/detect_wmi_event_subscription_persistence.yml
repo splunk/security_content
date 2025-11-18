@@ -1,7 +1,7 @@
 name: Detect WMI Event Subscription Persistence
 id: 01d9a0c2-cece-11eb-ab46-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -55,6 +55,7 @@ rba:
 tags:
   analytic_story:
   - Suspicious WMI Use
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1546.003

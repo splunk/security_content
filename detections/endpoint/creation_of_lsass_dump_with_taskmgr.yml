@@ -1,7 +1,7 @@
 name: Creation of lsass Dump with Taskmgr
 id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ tags:
   - CISA AA22-257A
   - Cactus Ransomware
   - Seashell Blizzard
+  - Scattered Lapsus$ Hunters
   asset_type: Windows
   mitre_attack_id:
   - T1003.001

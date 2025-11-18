@@ -1,7 +1,7 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 10
-date: '2025-09-30'
+version: 11
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -70,6 +70,7 @@ tags:
   - CISA AA23-347A
   - Credential Dumping
   - Lokibot
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1003.001

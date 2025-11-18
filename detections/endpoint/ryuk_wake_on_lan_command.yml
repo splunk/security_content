@@ -1,7 +1,7 @@
 name: Ryuk Wake on LAN Command
 id: 538d0152-7aaa-11eb-beaa-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -69,6 +69,7 @@ tags:
   analytic_story:
   - Compromised Windows Host
   - Ryuk Ransomware
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.003

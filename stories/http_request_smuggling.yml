@@ -1,0 +1,26 @@
+name: HTTP Request Smuggling
+id: a6b611d5-95ca-424b-a01a-4b714ebed7f0
+version: 1
+status: production
+date: '2025-10-09'
+author: Raven Tait, Splunk
+description: Leverage searches that allow you to detect and investigate unusual activities
+  that might relate to http request smuggling, including looking for CL.TE,TE.TE,CL.0 and more.
+narrative: HTTP request smuggling is a technique for interfering with the way a web site processes sequences
+ of HTTP requests that are received from one or more users. This typically abuses how requests are exchanged
+ between a client and server, often a proxy or load balancer. Request smuggling vulnerabilities are often
+ critical in nature, allowing an attacker to bypass security controls, gain unauthorized access to 
+ sensitive data, and directly compromise other application users.
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

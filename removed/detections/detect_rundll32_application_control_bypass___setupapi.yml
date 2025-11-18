@@ -3,7 +3,7 @@ id: 61e7b44a-6088-4f26-b788-9a96ba13b37a
 version: 12
 date: '2025-10-06'
 author: Michael Haag, Splunk
-status: deprecated
+status: removed
 type: TTP
 description: The following analytic detects the execution of rundll32.exe loading
   setupapi.dll and iesetupapi.dll via the LaunchINFSection function. This behavior

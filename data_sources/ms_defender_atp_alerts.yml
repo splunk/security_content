@@ -16,7 +16,7 @@ sourcetype: ms:defender:atp:alerts
 supported_TA:
 - name: Splunk Add-on for Microsoft Security
   url: https://splunkbase.splunk.com/app/6207
-  version: 2.6.0
+  version: 3.0.0
 fields:
 - column
 - accountName

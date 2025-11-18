@@ -1,7 +1,7 @@
 name: Cisco NVM - Suspicious Network Connection to IP Lookup Service API
 id: 568cb83e-d79e-4a23-85ec-6e1f6c30cb2f
-version: 3
-date: '2025-09-09'
+version: 4
+date: '2025-10-31'
 author: Nasreddine Bencherchali, Splunk, Janantha Marasinghe
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ description: |
   The detection relies on Cisco Network Visibility Module (NVM) telemetry and excludes known browser
   processes to reduce noise.
 data_source:
-  - Cisco Network Visibility Module Flow Data
+- Cisco Network Visibility Module Flow Data
 search: |
   `cisco_network_visibility_module_flowdata`
   dest_hostname IN (
@@ -64,45 +64,48 @@ known_false_positives: |
   Internal scripts or agents performing network checks may query IP geolocation services.
   Tune by excluding known tools or adding internal allowlists for destination domains or process names and commandlines.
 references:
-  - https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_external_ip_lookup.yml
-  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-302a
+- https://github.com/SigmaHQ/sigma/blob/master/rules/windows/network_connection/net_connection_win_domain_external_ip_lookup.yml
+- https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-302a
 drilldown_searches:
-  - name: View the detection results for - "$src$"
-    search: '%original_detection_search% | search  src = "$src$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$src$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
-      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
-  message: The host $src$ made a network request to IP lookup service $dest_hostname$ using suspicious process $process_path$
+  message: The host $src$ made a network request to IP lookup service 
+    $dest_hostname$ using suspicious process $process_path$
   risk_objects:
-    - field: src
-      type: system
-      score: 40
+  - field: src
+    type: system
+    score: 40
   threat_objects:
-    - field: process_name
-      type: process_name
+  - field: process_name
+    type: process_name
 tags:
   analytic_story:
-    - Cisco Network Visibility Module Analytics
+  - Cisco Network Visibility Module Analytics
+  - Castle RAT
   asset_type: Endpoint
   mitre_attack_id:
-    - T1590.005
-    - T1016
+  - T1590.005
+  - T1016
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
+  - Splunk Enterprise
+  - Splunk Enterprise Security
   security_domain: endpoint
 tests:
-  - name: True Positive Test - Cisco NVM
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
-        source: not_applicable
-        sourcetype: cisco:nvm:flowdata
+- name: True Positive Test - Cisco NVM
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+    source: not_applicable
+    sourcetype: cisco:nvm:flowdata

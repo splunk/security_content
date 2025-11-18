@@ -1,7 +1,7 @@
 name: Jenkins Arbitrary File Read CVE-2024-23897
 id: c641260d-2b48-4eb1-b1e8-2cc5b8b99ab1
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -60,6 +60,7 @@ tags:
   - CVE-2024-23897
   analytic_story:
   - Jenkins Server Vulnerabilities
+  - Hellcat Ransomware
   asset_type: Web Server
   atomic_guid: []
   mitre_attack_id:

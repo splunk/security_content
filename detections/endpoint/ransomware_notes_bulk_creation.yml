@@ -1,7 +1,7 @@
 name: Ransomware Notes bulk creation
 id: eff7919a-8330-11eb-83f8-acde48001122
-version: 10
-date: '2025-07-28'
+version: 11
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -69,6 +69,7 @@ tags:
   - Termite Ransomware
   - Interlock Ransomware
   - NailaoLocker Ransomware
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1486

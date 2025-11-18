@@ -1,7 +1,7 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 11
-date: '2025-09-10'
+version: 12
+date: '2025-10-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -82,6 +82,7 @@ tags:
   - Ingress Tool Transfer
   - Cisco Network Visibility Module Analytics
   - PromptLock
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
     - T1105

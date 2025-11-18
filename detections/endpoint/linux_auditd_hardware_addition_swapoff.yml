@@ -1,7 +1,7 @@
 name: Linux Auditd Hardware Addition Swapoff
 id: 5728bb16-1a0b-4b66-bce2-0074ac839770
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ tags:
   - Data Destruction
   - AwfulShred
   - Compromised Linux Host
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1200

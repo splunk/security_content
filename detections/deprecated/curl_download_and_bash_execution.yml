@@ -1,31 +1,32 @@
-name: Detect Rundll32 Application Control Bypass - advpack
-id: 4aefadfe-9abd-4bf8-b3fd-867e9ef95bf8
-version: 12
-date: '2025-10-06'
-author: Michael Haag, Splunk
+name: Curl Download and Bash Execution
+id: 900bc324-59f3-11ec-9fb4-acde48001122
+version: 10
+date: '2025-10-16'
+author: Michael Haag, Splunk, DipsyTipsy
 status: deprecated
 type: TTP
-description: The following analytic detects the execution of rundll32.exe loading
-  advpack.dll or ieadvpack.dll via the LaunchINFSection function. This method is identified
-  using Endpoint Detection and Response (EDR) telemetry, focusing on command-line
-  executions and process details. This activity is significant as it indicates a potential
-  application control bypass, allowing script code execution from a file. If confirmed
-  malicious, an attacker could execute arbitrary code, potentially leading to privilege
-  escalation, persistence, or further network compromise. Investigate script content,
-  network connections, and any spawned child processes for further context.
+description: The following analytic detects the use of curl on Linux or MacOS systems
+  to download a file from a remote source and pipe it directly to bash for execution.
+  This detection leverages data from Endpoint Detection and Response (EDR) agents,
+  focusing on process names, command-line arguments, and parent processes. This activity
+  is significant as it is commonly associated with malicious actions such as coinminers
+  and exploitation of vulnerabilities like CVE-2021-44228 in Log4j. If confirmed malicious,
+  this behavior could lead to unauthorized code execution, system compromise, and
+  further exploitation within the environment.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_rundll32` Processes.process=*advpack*
+  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
+  (Processes.process="*-s *") AND (Processes.process="*|*" AND Processes.process="*bash*")
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_rundll32_application_control_bypass___advpack_filter`'
+  | `curl_download_and_bash_execution_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -35,14 +36,13 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Although unlikely, some legitimate applications may use advpack.dll
-  or ieadvpack.dll, triggering a false positive.
+known_false_positives: False positives should be limited, however filtering may be
+  required.
 references:
-- https://attack.mitre.org/techniques/T1218/011/
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.011/T1218.011.md
-- https://lolbas-project.github.io/lolbas/Binaries/Rundll32/
-- https://lolbas-project.github.io/lolbas/Libraries/Advpack/
-- https://bohops.com/2018/02/26/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence/
+- https://www.huntress.com/blog/rapid-response-critical-rce-vulnerability-is-affecting-java
+- https://www.lunasec.io/docs/blog/log4j-zero-day/
+- https://gist.github.com/nathanqthai/01808c569903f41a52e7e7b575caa890
+- https://github.com/MHaggis/notes/blob/master/utilities/warp_pipe_tester.py
 drilldown_searches:
 - name: View the detection results for - "$user$" and "$dest$"
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -58,9 +58,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: An instance of $parent_process_name$ spawning $process_name$ loading advpack.dll
-    and ieadvpack.dll by calling the LaunchINFSection function on the command line
-    was identified on endpoint $dest$ by user $user$.
+  message: An instance of $process_name$ was identified on endpoint $dest$ attempting
+    to download a remote file and run it with bash.
   risk_objects:
   - field: user
     type: user
@@ -69,26 +68,30 @@ rba:
     type: system
     score: 80
   threat_objects:
-  - field: parent_process_name
-    type: parent_process_name
   - field: process_name
     type: process_name
 tags:
   analytic_story:
-  - Suspicious Rundll32 Activity
-  - Living Off The Land
   - Compromised Windows Host
+  - Log4Shell CVE-2021-44228
+  - Linux Living Off The Land
+  - Ingress Tool Transfer
   asset_type: Endpoint
+  cve:
+  - CVE-2021-44228
   mitre_attack_id:
-  - T1218.011
+  - T1105
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  manual_test: Due to current limitations in command line extraction capabilities
+    with Sysmon for Linux, full CommandLine data cannot be collected for complete
+    validation. Setting to manual test to prevent integration test failures.
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.011/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/linux-sysmon_curlwget.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon:linux

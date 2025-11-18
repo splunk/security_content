@@ -1,7 +1,7 @@
 name: Windows Service Stop Attempt
 id: dd0f07ea-f08f-4d88-96e5-cb58156e82b6
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-10-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -57,6 +57,7 @@ tags:
   analytic_story:
   - Prestige Ransomware
   - Graceful Wipe Out Attack
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1489

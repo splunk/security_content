@@ -1,7 +1,7 @@
 name: Mimikatz PassTheTicket CommandLine Parameters
 id: 13bbd574-83ac-11ec-99d4-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -74,6 +74,7 @@ tags:
   - CISA AA23-347A
   - CISA AA22-320A
   - Active Directory Kerberos Attacks
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1550.003

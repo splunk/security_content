@@ -1,7 +1,7 @@
 name: Windows Common Abused Cmd Shell Risk Behavior
 id: e99fcc4f-c6b0-4443-aa2a-e3c85126ec9a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: Correlation
@@ -69,6 +69,7 @@ tags:
   - Windows Defense Evasion Tactics
   - CISA AA23-347A
   - Disabling Security Tools
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
   - T1222

@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan
 id: 1ff9eb9a-7d72-4993-a55e-59a839e607f1
-version: 8
-date: '2025-08-18'
+version: 9
+date: '2025-10-14'
 author: Dean Luxton
 status: production
 type: TTP
@@ -61,6 +61,7 @@ tags:
   - Network Discovery
   - Cisco Secure Firewall Threat Defense Analytics
   - China-Nexus Threat Activity
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1046

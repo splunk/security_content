@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Connection to File Sharing Domain
 id: f7e5e792-d907-46c1-a58e-4ff974dc462a
-version: 3
-date: '2025-07-10'
+version: 4
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -62,6 +62,7 @@ rba:
 tags:
   analytic_story:
   - Cisco Secure Firewall Threat Defense Analytics
+  - Scattered Lapsus$ Hunters
   asset_type: Network
   mitre_attack_id:
     - T1071.001

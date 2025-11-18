@@ -1,9 +1,9 @@
 name: Windows Java Spawning Shells
 id: 28c81306-5c47-11ec-bfea-acde48001122
-version: 11
-date: '2025-10-07'
+version: 12
+date: '2025-10-25'
 author: Michael Haag, Splunk
-status: experimental
+status: deprecated
 type: TTP
 description: The following analytic identifies instances where java.exe or w3wp.exe
   spawns a Windows shell, such as cmd.exe or powershell.exe. This detection leverages

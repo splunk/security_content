@@ -1,7 +1,7 @@
 name: Detect Mimikatz With PowerShell Script Block Logging
 id: 8148c29c-c952-11eb-9255-acde48001122
-version: 10
-date: '2025-07-29'
+version: 11
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -64,6 +64,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+    - Hellcat Ransomware
     - Malicious PowerShell
     - Hermetic Wiper
     - Sandworm Tools
