@@ -8,7 +8,7 @@ type: Anomaly
 description: |
   This analytic detects potential reconnaissance activities on Cisco ASA devices by identifying execution of multiple information-gathering "show" commands within a short timeframe.
   Adversaries who gain initial access to network infrastructure devices typically perform systematic reconnaissance to understand the device configuration, network topology, security policies, connected systems, and potential attack paths. This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.
-  The detection monitors for command execution events (message ID 111009) containing reconnaissance-oriented "show" commands (such as show running-config, show version, show interface, show crypto, show conn, etc.) and triggers when 5 or more distinct reconnaissance commands are executed within a 5-minute window by the same user.
+  The detection monitors for command execution events (message ID 111009) containing reconnaissance-oriented "show" commands (such as show running-config, show version, show interface, show crypto, show conn, etc.) and triggers when 7 or more distinct reconnaissance commands are executed within a 5-minute window by the same user.
   Investigate reconnaissance bursts from non-administrative accounts, unusual source IP addresses, activity during off-hours, methodical command sequences suggesting automated enumeration, or reconnaissance activity correlated with other suspicious behaviors.
 data_source:
   - Cisco ASA Logs
@@ -37,16 +37,48 @@ search: |
       "show vpn-sessiondb*",
       "show xlate*"
   )
-  | bin _time span = 5m
-  | stats earliest(_time) as firstTime
+
+  ```Normalize command variations to base command types to count distinct reconnaissance categories.
+  ```For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
+  ```This prevents adversaries from evading detection by adding arguments or using multiple variations of the same command.
+  
+  | eval command_type=case(
+      match(command, "^show access-list"), "show access-list",
+      match(command, "^show conn"), "show conn",
+      match(command, "^show cpu"), "show cpu",
+      match(command, "^show crypto"), "show crypto",
+      match(command, "^show eigrp"), "show eigrp",
+      match(command, "^show failover"), "show failover",
+      match(command, "^show flow"), "show flow",
+      match(command, "^show interface"), "show interface",
+      match(command, "^show inventory"), "show inventory",
+      match(command, "^show ip"), "show ip",
+      match(command, "^show license"), "show license",
+      match(command, "^show memory"), "show memory",
+      match(command, "^show nat"), "show nat",
+      match(command, "^show ospf"), "show ospf",
+      match(command, "^show process"), "show process",
+      match(command, "^show running-config"), "show running-config",
+      match(command, "^show startup-config"), "show startup-config",
+      match(command, "^show version"), "show version",
+      match(command, "^show vpn-sessiondb"), "show vpn-sessiondb",
+      match(command, "^show xlate"), "show xlate",
+      true(), command)
+  
+  | bin _time span=5m
+  
+  | stats count 
+          earliest(_time) as firstTime
           latest(_time) as lastTime
-          dc(command) as unique_recon_commands
+          dc(command_type) as unique_recon_commands
+          values(command_type) as command_types
           values(command) as commands
           values(src_ip) as src_ip
           values(message_id) as message_id
           values(action) as action
-    by _time, host, user
-  | where unique_recon_commands >= 5
+    by _time host user
+
+  | where unique_recon_commands >= 7
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___reconnaissance_command_activity_filter`
@@ -74,7 +106,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ executed $unique_recon_commands$ distinct reconnaissance commands within a 5-minute window on Cisco ASA host $host$, indicating potential reconnaissance activity.
+  message: User $user$ executed $unique_recon_commands$ distinct reconnaissance commands of type $command_types$ within a 5-minute window on Cisco ASA host $host$, indicating potential reconnaissance activity.
   risk_objects:
     - field: host
       type: system
