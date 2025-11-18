@@ -15,14 +15,15 @@ data_source:
 search: |
   `cisco_asa`
   message_id IN (113006)
+  | rex "locked out on exceeding '(?<attempts_count>\d+)' successive failed authentication attempts"
+  | rex "User '(?<user>[^']+)' locked out"
+  | eval failure_description="locked out on exceeding " . attempts_count . " successive failed authentication attempts"
   | fillnull
   | stats earliest(_time) as firstTime
           latest(_time) as lastTime
-          values(action) as action
           values(message_id) as message_id
-          values(locked_out_user) as locked_out_user
-          values(max_failed_attempts) as max_failed_attempts
-    by host
+          values(failure_description) as failure_description
+    by host user
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_asa___user_account_lockout_threshold_exceeded_filter`
@@ -46,15 +47,15 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User account $locked_out_user$ was locked out on Cisco ASA host $host$ after exceeding $max_failed_attempts$ failed authentication attempts.
+  message: User account $user$ was $failure_description$ on Cisco ASA host $host$.
   risk_objects:
     - field: host
       type: system
       score: 40
-    - field: locked_out_user
+    - field: user
       type: user
       score: 30
-  threat_objects:
+  threat_objects: []
 tags:
   analytic_story:
     - Suspicious Cisco Adaptive Security Appliance Activity

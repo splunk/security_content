@@ -35,7 +35,7 @@ search: |
     by host
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `cisco_asa___authentication_policy_tampering_filter`
+  | `cisco_asa___aaa_policy_tampering_filter`
 how_to_implement: |
   This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
   To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
