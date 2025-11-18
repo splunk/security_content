@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Nsenter Usage in Kubernetes Pod
 id: cd07120d-4265-481a-ba0f-3b91fbc5a02f
 version: 1
-date: '2025-08-12'
+date: '2024-06-12'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -30,7 +30,7 @@ references:
 - https://kubehound.io/reference/attacks/CE_NSENTER/
 drilldown_searches:
 - name: View the detection results for - "$pod_name$"
-  search: '%original_detection_search% | search user = "$pod_name$"'
+  search: '%original_detection_search% | search pod_name = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$pod_name$"

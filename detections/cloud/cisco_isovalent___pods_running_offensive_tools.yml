@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Pods Running Offensive Tools
 id: e9d0b9e6-2f3c-4a8a-9d61-2b6f4a9c1c2e
 version: 1
-date: '2025-08-21'
+date: '2024-06-10'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:

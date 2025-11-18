@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Shell Execution
 id: 12345678-abcd-1234-ef00-1234567890ab
 version: 1
-date: '2025-09-17'
+date: '2024-06-10'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:

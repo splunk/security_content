@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Late Process Execution
 id: 7f4b9b8e-5d6a-4a21-9e3f-0f1e8f2d1c3a
 version: 1
-date: '2025-08-22'
+date: '2024-06-10'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -66,4 +66,4 @@ tests:
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent_process_exec_delayed_shell.log
     source: not_applicable
-    sourcetype: cisco:isovalent
+    sourcetype: cisco:isovalent:processExec

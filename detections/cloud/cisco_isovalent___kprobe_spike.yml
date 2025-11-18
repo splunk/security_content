@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Kprobe Spike
 id: 3df0e9a8-7d5e-4b2f-bcd7-bf93e671d1f2
 version: 1
-date: '2025-10-01'
+date: '2024-06-10'
 author: Bhavin Patel, Splunk
 type: Hunting
 data_source:

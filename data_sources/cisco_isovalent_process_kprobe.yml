@@ -1,7 +1,7 @@
 name: Cisco Isovalent Process Kprobe
 id: b2620ef2-fac6-467f-bdc8-253d65db1cb9
 version: 1
-date: '2025-10-06'
+date: '2024-06-01'
 author: Bhavin Patel, Splunk
 description: Captures kernel probe (kprobe) telemetry from Cisco Isovalent Runtime Security, including function name, arguments, and process context, enabling visibility into low-level kernel interactions that may indicate container escape attempts or system tampering.
 source: not_applicable

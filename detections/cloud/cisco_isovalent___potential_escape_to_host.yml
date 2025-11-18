@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Potential Escape to Host
 id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
 version: 1
-date: '2025-10-01'
+date: '2024-06-01'
 author: Bhavin Patel, Splunk
 type: TTP
 data_source:
@@ -11,7 +11,7 @@ description: |
   This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
 search: |
   `cisco_isovalent_process_exec`
-  sourcetype=cisco:isovalent:processExec
+
   (
       process_name IN ("nsenter","mount","ps","ls")
       OR process="*nsenter*" OR process="*mount*" OR process="*ps aux*" OR process="*ps -ef*"

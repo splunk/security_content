@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Suspicious Image Use
 id: 9f2b7b1d-6c2f-4f2d-9a8b-8a1d7c5f2e11
 version: 1
-date: '2025-09-17'
+date: '2024-06-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -38,7 +38,7 @@ references:
 - https://www.reddit.com/r/kubernetes/comments/l6e5yr/one_of_our_kubernetes_containers_was_compromised/
 drilldown_searches:
 - name: View the detection results for - "$pod_name$"
-  search: '%original_detection_search% | search user = "$pod_name$"'
+  search: '%original_detection_search% | search pod_name = "$pod_name$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 - name: View risk events for the last 7 days for - "$pod_name$"

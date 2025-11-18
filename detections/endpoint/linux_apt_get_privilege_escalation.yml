@@ -1,7 +1,7 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
 version: 10
-date: '2025-09-17'
+date: '2024-06-10'
 author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -11,7 +11,7 @@ description: The following analytic detects the execution of the 'apt-get' comma
   that include command-line details. This activity is significant because it indicates
   a user may be attempting to escalate privileges to root, which could lead to unauthorized
   system control. If confirmed malicious, an attacker could gain root access, allowing
-  them to execute arbitrary commands, install or remove software, and potentially 
+  them to execute arbitrary commands, install or remove software, and potentially
   compromise the entire system.
 data_source:
 - Sysmon for Linux EventID 1
