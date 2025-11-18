@@ -93,7 +93,6 @@ tags:
   asset_type: Network
   mitre_attack_id:
     - T1082
-    - T1590
     - T1590.001
     - T1590.005
   product:

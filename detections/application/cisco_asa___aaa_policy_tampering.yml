@@ -69,7 +69,6 @@ tags:
     - Suspicious Cisco Adaptive Security Appliance Activity
   asset_type: Network
   mitre_attack_id:
-    - T1556
     - T1556.004
   product:
     - Splunk Enterprise

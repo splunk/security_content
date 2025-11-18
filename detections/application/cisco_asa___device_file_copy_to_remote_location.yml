@@ -94,7 +94,6 @@ tags:
   mitre_attack_id:
     - T1005
     - T1041
-    - T1048
     - T1048.003
   product:
     - Splunk Enterprise
