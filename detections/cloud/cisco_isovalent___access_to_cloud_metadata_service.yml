@@ -1,5 +1,5 @@
 name: Cisco Isovalent - Access To Cloud Metadata Service
-id: 7f2e1a9a-1e8e-4d2e-8b7c-5f2c3d6a9b21
+id: 7f2e1a9a-1e8e-4d2e-8b7c-5f2c3d6a9b21 
 version: 1
 date: '2025-11-18'
 author: Bhavin Patel, Splunk
@@ -9,7 +9,7 @@ data_source:
 status: production
 description: The following analytic detects workloads accessing the cloud instance metadata service at 169.254.169.254. This IP is used by AWS, GCP and Azure metadata endpoints and is frequently abused in SSRF or lateral movement scenarios to obtain credentials and sensitive environment details. Monitor unexpected access to this service from application pods or namespaces where such behavior is atypical.
 search: |
-  `cisco_isovalent_process_connect` | rename process_connect.parent.binary as binary | search  binary != "/app/aws-vpc-cni"  binary !="/usr/bin/amazon-ssm-agent"  binary !="/usr/bin/ssm-agent-worker"
+  `cisco_isovalent_process_connect` | rename process_connect.parent.binary as binary | `excluded_cloud_binaries`
   | stats count 
           min(_time) as firstTime 
           max(_time) as lastTime 
@@ -19,7 +19,7 @@ search: |
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_isovalent___access_to_cloud_metadata_service_filter`
-how_to_implement: This detection relies on Cisco Isovalent Runtime Security process_connect telemetry. Deploy Isovalent Runtime Security and the Cisco Security Cloud TA to collect these logs via HEC and normalize them. Optionally, a similar variant can be built with process_exec by looking for command-lines that reference 169.254.169.254 (for example curl or wget invocations from within pods).
+how_to_implement: This detection relies on Cisco Isovalent Runtime Security process_connect telemetry. Deploy Isovalent Runtime Security and the Cisco Security Cloud TA to collect these logs via HEC and normalize them. Optionally, a similar variant can be built with process_exec by looking for command-lines that reference 169.254.169.254 (for example curl or wget invocations from within pods). Please update a macro named `excluded_cloud_binaries` that returns true for binaries that are known to access the cloud metadata service.
 known_false_positives: Legitimate platform components and node agents may query the metadata service. Validate by namespace, labels and workload identity; suppress expected sources and alert on atypical pods or namespaces.
 references:
 - https://attack.mitre.org/techniques/T1552/005/

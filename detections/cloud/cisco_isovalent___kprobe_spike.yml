@@ -8,14 +8,14 @@ data_source:
 - Cisco Isovalent Process Kprobe
 status: production
 description: |
-  This analytic detects excessive kernel probe (kprobe) events in a Kubernetes
-  cluster over a short period of time. More than 10 kprobe events within 5 minutes
-  may indicate suspicious activity, such as an attacker probing the kernel through
-  repeated system calls (e.g., nsenter, mount, sethostname). This behavior can be 
-  a strong signal of container escape attempts or low-level tampering with the host.
+  This analytic detects excessive kernel probe (kprobe) events in a Kubernetes cluster over a short period of time. 
+  Kprobes are a Linux kernel debugging and instrumentation mechanism that allows dynamic monitoring and tracing of kernel functions and system calls. 
+  In containerized or cloud-native environments, kprobes are occasionally used for legitimate low-level diagnostics; however, monitoring a spike in kprobe activity is important because malware or attackers may abuse this mechanism to gain insights into the kernel, attempt privilege escalation, or tamper with host processes. 
+  More than 10 kprobe events within 5 minutes may indicate suspicious activity, such as an attacker probing the kernel through repeated system calls (e.g., nsenter, mount, sethostname). 
+  Such abnormal volume and frequency of kprobe usage within application pods or on nodes can signal container escape attempts or low-level tampering with the host, thereby representing a potential security threat.
 search: |
   `cisco_isovalent` "process_kprobe.action"!=""
-  | bin _time span=1h | rename process_kprobe.parent.pod.name as pod_name 
+  | bin _time span=5m | rename process_kprobe.parent.pod.name as pod_name 
   | stats count as kprobe_count 
           values(process_kprobe.function_name) as functions
           values(process_kprobe.process.binary) as binaries
