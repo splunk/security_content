@@ -1,0 +1,36 @@
+name: Validate Response Templates
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    paths:
+      - 'response_templates/**'
+      - '.github/workflows/validate-response-templates.yml'
+  push:
+    branches:
+      - develop
+    paths:
+      - 'response_templates/**'
+      - '.github/workflows/validate-response-templates.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository code
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+
+      - name: Install dependencies
+        run: |
+          pip install pyyaml jsonschema
+
+      - name: Validate response templates
+        run: |
+          cd response_templates
+          python validate_response_templates.py -s mcopenapi_public.yaml -d . -m merged_response_templates/manifest.json --merged-dir merged_response_templates
