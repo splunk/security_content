@@ -89,7 +89,7 @@ def main():
     parser.add_argument('-m', '--manifest', help='Generate a manifest file', action='store_true')
     parser.add_argument('-d', '--directory', help='Directory containing response template files', required=True)
     parser.add_argument('-o', '--output', help='Output directory for merged templates', default='output')
-    parser.add_argument('-p', '--prefix', help='SCS prefix', default='https://securitycontent.scs.splunk.com/response_templates/')
+    parser.add_argument('-p', '--prefix', help='SCS prefix', default='https://securitycontent.playground.scs.splunk.com/response_templates/') # playground endpoint for testing purpose
 
     args = parser.parse_args()
 
