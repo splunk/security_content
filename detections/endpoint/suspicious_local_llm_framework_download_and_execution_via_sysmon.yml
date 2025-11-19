@@ -63,5 +63,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
-    sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
