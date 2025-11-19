@@ -9,53 +9,39 @@ description: Detects execution of unauthorized local LLM frameworks (Ollama, LM 
 data_source:
 - Windows Event Log Security 4688
 search: |
-  `wineventlog_security` sourcetype=XmlWinEventLog EventID=4688 | spath
-  | rename "Event.System.Computer" as host
-  | eval SubjectUserName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "SubjectUserName"))
-  | eval SubjectDomainName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "SubjectDomainName"))
-  | eval SubjectLogonId=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "SubjectLogonId"))
-  | eval NewProcessId=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "NewProcessId"))
-  | eval NewProcessName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "NewProcessName"))
-  | eval TokenElevationType=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "TokenElevationType"))
-  | eval ProcessId=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "ProcessId"))
-  | eval CommandLine=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "CommandLine"))
-  | eval ParentProcessName=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "ParentProcessName"))
-  | eval MandatoryLabel=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "MandatoryLabel"))
-  | search (
-    NewProcessName="*ollama*" OR NewProcessName="*lmstudio*" OR 
-    NewProcessName="*nutstudio*" OR NewProcessName="*gpt4all*" OR 
-    NewProcessName="*jan*" OR NewProcessName="*llama-run*" OR
-    ParentProcessName="*ollama*" OR ParentProcessName="*lmstudio*" OR 
-    ParentProcessName="*nutstudio*" OR ParentProcessName="*gpt4all*" OR 
-    ParentProcessName="*jan*" OR ParentProcessName="*llama-run*"
-  )
+  `wineventlog_security` EventCode=4688 
+  (NewProcessName="*ollama*" OR NewProcessName="*lmstudio*" OR 
+   NewProcessName="*nutstudio*" OR NewProcessName="*gpt4all*" OR 
+   NewProcessName="*jan*" OR NewProcessName="*llama-run*" OR
+   ParentProcessName="*ollama*" OR ParentProcessName="*lmstudio*" OR 
+   ParentProcessName="*nutstudio*" OR ParentProcessName="*gpt4all*" OR 
+   ParentProcessName="*jan*" OR ParentProcessName="*llama-run*")
+  | eval host=Computer
   | eval Framework=case(
-    like(NewProcessName, "%ollama%") OR like(ParentProcessName, "%ollama%"), "Ollama",
-    like(NewProcessName, "%lmstudio%") OR like(ParentProcessName, "%lmstudio%"), "LM Studio",
-    like(NewProcessName, "%nutstudio%") OR like(ParentProcessName, "%nutstudio%"), "NutStudio",
-    like(NewProcessName, "%gpt4all%") OR like(ParentProcessName, "%gpt4all%"), "GPT4All",
-    like(NewProcessName, "%jan%") OR like(ParentProcessName, "%jan%"), "Jan",
-    like(NewProcessName, "%llama-run%") OR like(ParentProcessName, "%llama-run%"), "Llama-Run",
-    1=1, "Other"
-  )
+      like(NewProcessName, "%ollama%") OR like(ParentProcessName, "%ollama%"), "Ollama",
+      like(NewProcessName, "%lmstudio%") OR like(ParentProcessName, "%lmstudio%"), "LM Studio",
+      like(NewProcessName, "%nutstudio%") OR like(ParentProcessName, "%nutstudio%"), "NutStudio",
+      like(NewProcessName, "%gpt4all%") OR like(ParentProcessName, "%gpt4all%"), "GPT4All",
+      like(NewProcessName, "%jan%") OR like(ParentProcessName, "%jan%"), "Jan",
+      like(NewProcessName, "%llama-run%") OR like(ParentProcessName, "%llama-run%"), "Llama-Run",
+      1=1, "Other")
   | eval IntegrityLevel=case(
-    MandatoryLabel="S-1-16-16384", "System",
-    MandatoryLabel="S-1-16-12288", "High",
-    MandatoryLabel="S-1-16-8192", "Medium",
-    MandatoryLabel="S-1-16-4096", "Low",
-    MandatoryLabel="S-1-16-0", "Untrusted",
-    1=1, "Unknown"
-  )
+      MandatoryLabel="S-1-16-16384", "System",
+      MandatoryLabel="S-1-16-12288", "High",
+      MandatoryLabel="S-1-16-8192", "Medium",
+      MandatoryLabel="S-1-16-4096", "Low",
+      MandatoryLabel="S-1-16-0", "Untrusted",
+      1=1, "Unknown")
   | eval Elevation=case(
-    TokenElevationType="%%1936", "Full Token (Admin)",
-    TokenElevationType="%%1937", "Elevated",
-    TokenElevationType="%%1938", "Limited",
-    1=1, "Unknown"
-  )
+      TokenElevationType="%%1936", "Full Token (Admin)",
+      TokenElevationType="%%1937", "Elevated",
+      TokenElevationType="%%1938", "Limited",
+      1=1, "Unknown")
   | eval ProcessChain=ParentProcessName + " -> " + NewProcessName
   | table _time host Framework SubjectUserName SubjectDomainName SubjectLogonId IntegrityLevel Elevation ProcessChain CommandLine NewProcessId ProcessId
   | sort -_time
-  | dedup ProcessChain | `suspicious_local_llm_framework_process_execution_filter`
+  | dedup ProcessChain
+  | `suspicious_local_llm_framework_process_execution_filter`
 how_to_implement: Ensure Windows Security Event Log collection (Event ID 4688 - Process Creation) is enabled and ingested into Splunk. Configure your Windows systems to audit process creation via Group Policy (Computer Configuration > Windows Settings > Security Settings > Advanced Audit Policy Configuration > Detailed Tracking > Audit Process Creation). Verify the `wineventlog_security` macro exists in your Splunk environment and points to the correct index. The detection uses `spath` to parse XML EventData fields from Windows Security logs; ensure your Splunk forwarder or Windows Event Log Input app correctly normalizes these fields. Create or update the `suspicious_local_llm_framework_process_execution_filter` macro in your detections/filters folder to exclude approved systems, users, or frameworks as needed. Deploy this hunting search to your Splunk Enterprise Security or Splunk Enterprise instance and schedule it to run on a regular cadence (e.g., every 4 hours) to detect unauthorized LLM framework execution. Alert on deviations from baseline process chains and integrity/elevation levels for your environment.
 known_false_positives: Legitimate development, data science, and AI/ML workflows where authorized developers, researchers, or engineers intentionally execute local LLM frameworks (Ollama, LM Studio, GPT4All, Jan) for model experimentation, fine-tuning, or prototyping. Approved sandbox and lab environments where framework testing is authorized. Open-source contributors and hobbyists running frameworks for educational purposes or community projects. Third-party applications that bundle or invoke LLM frameworks as dependencies (e.g., IDE plugins, analytics tools, chatbot integrations). System administrators deploying frameworks as part of containerized services or orchestrated ML workloads. Process name keyword overlap with unrelated utilities (e.g., "llama-backup", "janimation", "gpt4-config"). Recommended tuning — baseline approved frameworks and users by role/department, exclude sanctioned dev/lab systems, correlate with user identity and peer group anomalies before escalating to incident response.
 references:
