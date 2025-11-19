@@ -21,9 +21,9 @@ search: |
       "*running-config*",
       "*startup-config*",
       "*/pcap capture:*",
-      "copy disk0:*",
-      "copy flash:*",
-      "copy system:*"
+      "* disk0:*",
+      "* flash:*",
+      "* system:*"
   )
   command IN (
       "*ftp:*",

@@ -20,9 +20,9 @@ search: |
       "*running-config*",
       "*startup-config*",
       "*/pcap capture:*",
-      "copy disk0:*",
-      "copy flash:*",
-      "copy system:*"
+      "* disk0:*",
+      "* flash:*",
+      "* system:*"
   )
   | fillnull
   | stats earliest(_time) as firstTime
