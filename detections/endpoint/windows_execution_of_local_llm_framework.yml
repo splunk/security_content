@@ -5,83 +5,48 @@ date: '2025-11-12'
 author: Rod Soto
 status: production
 type: Hunting
-description: This detection identifies suspicious execution and activity related to unauthorized local LLM frameworks (Ollama, LM Studio, GPT4All, Jan, Llama.cpp, KoboldCPP, NutStudio, Llama-Run, Oobabooga) and related AI/ML libraries (HuggingFace, LangChain, Transformers) by monitoring Windows Security Event Log 4688 (process creation), Sysmon Event ID 1 (process creation), and Sysmon Event ID 11 (file creation). The search correlates process execution, LLM model file creation (*.gguf, *.ggml, safetensors, Modelfile), process names, command-line arguments, and parent processes to classify framework activity and flag potential shadow AI deployments or unauthorized model inference operations on endpoints.
+description: Detects execution of local Large Language Model (LLM) frameworks on Windows endpoints by monitoring Windows Security Event Log 4688 (Process Creation) for known LLM tools and AI/ML libraries. This hunting detection identifies shadow AI deployments and unauthorized local model inference operations by analyzing process execution patterns, command-line arguments, and parent process relationships for frameworks including Ollama, LM Studio, GPT4All, Jan, llama.cpp, KoboldCPP, NutStudio, and Python-based libraries such as HuggingFace Transformers and LangChain. The search leverages pre-extracted fields from the Splunk Add-on for Microsoft Windows to classify framework types and correlate process activity with potential security risks including data exfiltration through local AI processing, policy violations from unapproved AI usage, and decentralized AI deployments that bypass enterprise governance. Organizations can use this detection to gain visibility into local LLM infrastructure, identify users downloading or executing AI frameworks outside approved channels, and detect potential intellectual property risks from processing sensitive data through unmonitored local models.
 data_source:
 - Windows Event Log Security 4688
-- Sysmon EventID 1
-- Sysmon EventID 11
 search: |
-  ((`wineventlog_security` EventCode=4688) OR (`sysmon`))
-  | spath
-  | eval EventID=coalesce(EventCode, 'Event.System.EventID')
-  | search EventID=4688 OR EventID=1 OR EventID=11
-  | eval process_name=coalesce(NewProcessName, mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^Image$")))
-  | eval parent_process=coalesce(ParentProcessName, mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^ParentImage$")))
-  | eval command_line=coalesce(Process_Command_Line, mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^CommandLine$")))
-  | eval user=coalesce(SubjectUserName, mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^User$")))
-  | eval host=coalesce(Computer, 'Event.System.Computer')
-  | eval target_file=mvindex('Event.EventData.Data', mvfind('Event.EventData.Data{@Name}', "^TargetFilename$"))
-  | eval event_id=coalesce(EventCode, EventID)
-  | search (
-      process_name="*ollama*" OR 
-      process_name="*llama*" OR 
-      process_name="*llama-run*" OR
-      process_name="*gpt4all*" OR 
-      process_name="*lmstudio*" OR 
-      process_name="*nutstudio*" OR
-      process_name="*koboldcpp*" OR 
-      process_name="*kobold*" OR 
-      process_name="*jan*" OR 
-      process_name="*oobabooga*" OR
-      process_name="*text-generation-webui*" OR
-      command_line="*transformers*" OR 
-      command_line="*langchain*" OR 
-      command_line="*huggingface*" OR
-      parent_process="*ollama*" OR
-      parent_process="*lmstudio*" OR
-      parent_process="*gpt4all*" OR
-      parent_process="*jan*" OR
-      target_file="*.gguf*" OR
-      target_file="*.ggml*" OR
-      target_file="*safetensors*" OR
-      target_file="*Modelfile*" OR
-      target_file="*ollama*" OR
-      target_file="*jan*"
-  )
-  | search process_name!="*MsMpEng*" AND process_name!="*defender*" AND process_name!="*system32*" AND process_name!="*syswow64*" AND process_name!="*winlogon*" AND process_name!="*svchost*"
+  `wineventlog_security` EventCode=4688 
+  (NewProcessName="*ollama*" OR 
+   NewProcessName="*llama*" OR 
+   NewProcessName="*llama-run*" OR
+   NewProcessName="*gpt4all*" OR 
+   NewProcessName="*lmstudio*" OR 
+   NewProcessName="*nutstudio*" OR
+   NewProcessName="*koboldcpp*" OR 
+   NewProcessName="*jan*" OR 
+   NewProcessName="*jan.exe*" OR
+   CommandLine="*transformers*" OR 
+   CommandLine="*langchain*" OR 
+   CommandLine="*huggingface*" OR
+   CommandLine="*llama-run*" OR
+   CommandLine="*nutstudio*" OR
+   ParentProcessName="*ollama*" OR
+   ParentProcessName="*lmstudio*" OR
+   ParentProcessName="*nutstudio*" OR
+   ParentProcessName="*gpt4all*" OR
+   ParentProcessName="*jan*" OR
+   ParentProcessName="*llama-run*")
+  | eval host=Computer
   | eval Framework=case(
-      match(process_name, "(?i)ollama") OR match(parent_process, "(?i)ollama") OR match(target_file, "(?i)ollama"), "Ollama",
-      match(process_name, "(?i)lmstudio") OR match(process_name, "(?i)lm-studio") OR match(parent_process, "(?i)lmstudio") OR match(target_file, "(?i)lmstudio"), "LM Studio",
-      match(process_name, "(?i)nutstudio") OR match(parent_process, "(?i)nutstudio") OR match(command_line, "(?i)nutstudio"), "NutStudio",
-      match(process_name, "(?i)gpt4all") OR match(parent_process, "(?i)gpt4all") OR match(target_file, "(?i)gpt4all"), "GPT4All",
-      match(process_name, "(?i)jan") OR match(parent_process, "(?i)jan") OR match(target_file, "(?i)jan"), "Jan",
-      match(process_name, "(?i)kobold") OR match(command_line, "(?i)kobold"), "KoboldCPP",
-      match(process_name, "(?i)llama-run") OR match(parent_process, "(?i)llama-run") OR match(command_line, "(?i)llama-run"), "Llama-Run",
-      match(process_name, "(?i)oobabooga") OR match(process_name, "(?i)text-generation-webui") OR match(parent_process, "(?i)oobabooga"), "Oobabooga",
-      match(command_line, "(?i)transformers") OR match(command_line, "(?i)huggingface"), "HuggingFace/Transformers",
-      match(command_line, "(?i)langchain"), "LangChain",
-      match(process_name, "(?i)llama") OR match(process_name, "(?i)llama.cpp") OR match(parent_process, "(?i)llama"), "Llama.cpp",
-      match(target_file, "(?i).gguf") OR match(target_file, "(?i).ggml") OR match(target_file, "(?i)safetensors"), "Model File Activity",
-      1=1, "Other"
-  )
-  | eval activity_type=case(
-      event_id=4688 OR event_id=1, "Process Execution",
-      event_id=11, "File Creation",
-      1=1, "Unknown"
-  )
-  | eval source_type=case(
-      event_id=4688, "Windows Security",
-      event_id=1, "Sysmon Process",
-      event_id=11, "Sysmon File",
-      1=1, "Unknown"
-  )
-  | search Framework!="Other"
-  | stats count min(_time) as firstTime max(_time) as lastTime values(activity_type) as activity_types values(source_type) as sources values(process_name) as processes values(target_file) as files by host, Framework, user
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+      like(NewProcessName, "%ollama%") OR like(ParentProcessName, "%ollama%"), "Ollama",
+      like(NewProcessName, "%lmstudio%") OR like(NewProcessName, "%LM Studio%") OR like(ParentProcessName, "%lmstudio%"), "LM Studio",
+      like(NewProcessName, "%nutstudio%") OR like(ParentProcessName, "%nutstudio%") OR like(CommandLine, "%nutstudio%"), "NutStudio",
+      like(NewProcessName, "%gpt4all%") OR like(ParentProcessName, "%gpt4all%"), "GPT4All",
+      like(NewProcessName, "%jan%") OR like(ParentProcessName, "%jan%") OR like(NewProcessName, "%jan.exe%"), "Jan",
+      like(NewProcessName, "%koboldcpp%") OR like(CommandLine, "%koboldcpp%"), "KoboldCPP",
+      like(NewProcessName, "%llama-run%") OR like(ParentProcessName, "%llama-run%") OR like(CommandLine, "%llama-run%"), "Llama-Run",
+      like(CommandLine, "%transformers%") OR like(CommandLine, "%huggingface%"), "HuggingFace/Transformers",
+      like(CommandLine, "%langchain%"), "LangChain",
+      like(NewProcessName, "%llama%") OR like(NewProcessName, "%llama.cpp%") OR like(ParentProcessName, "%llama%"), "Llama.cpp",
+      1=1, "Related Activity")
+  | stats count by host, Framework, EventCode, ParentProcessName, NewProcessName, SubjectUserName
   | sort host, Framework, -count
   | `windows_execution_of_local_llm_framework_filter`
-how_to_implement: This search requires Windows Security Event Log 4688 and/or Sysmon Event IDs 1 and 11. For Windows Security logs, ensure command-line logging is enabled via Group Policy (Computer Configuration > Administrative Templates > System > Audit Process Creation > Include command line in process creation events). For Sysmon, configure your XML configuration file to capture Event ID 1 (Process Creation) and Event ID 11 (File Creation) with detailed fields including Image, CommandLine, ParentImage, and TargetFilename. The search uses spath for Sysmon XML parsing and normalizes fields across both data sources using coalesce() to handle Windows Security TA-extracted fields and raw Sysmon XML fields. Verify that the `wineventlog_security` and `sysmon` macros are configured correctly in your Splunk environment. Create or update the `windows_execution_of_local_llm_framework_filter` macro to exclude approved development environments, authorized ML/AI workstations, or sanctioned frameworks. Deploy this search as a scheduled saved search or real-time alert within Splunk Enterprise Security or Splunk Cloud to continuously detect suspicious local LLM framework activity. Tune the search by updating process names, file patterns, and command-line keywords as new frameworks emerge.
+how_to_implement: Enable Windows Security Event Log auditing for Process Creation (Event ID 4688) across Windows endpoints via Group Policy. Ensure the Audit Process Creation policy is enabled under Computer Configuration > Windows Settings > Security Settings > Advanced Audit Policy Configuration > Detailed Tracking. Additionally, enable command-line process auditing by configuring the Include command line in process creation events policy under Computer Configuration > Administrative Templates > System > Audit Process Creation. Ingest Windows Security Event Logs into Splunk via the Splunk Universal Forwarder or Windows Event Log Input, ensuring they are tagged with sourcetype=WinEventLog Security or XmlWinEventLog Security. Install and configure the Splunk Add-on for Microsoft Windows (TA-microsoft-windows) to ensure proper field extractions for NewProcessName, ParentProcessName, CommandLine, SubjectUserName, and Computer fields. Verify the wineventlog_security macro exists in your Splunk environment and correctly references the Windows Security event logs. Create or update the windows_execution_of_local_llm_framework_filter macro in your detections/filters folder to exclude approved development environments, authorized ML/AI workstations, sanctioned frameworks, or known safe systems. Deploy this hunting search as a scheduled saved search in Splunk Enterprise Security or Splunk Cloud to run on a regular cadence (recommended every 30-60 minutes). Tune the detection by adding new framework process names and command-line patterns as emerging LLM tools are identified.
 known_false_positives: Legitimate development and data science workflows where developers, ML engineers, and researchers install and run local LLM frameworks for experimentation, fine-tuning, or prototyping. Approved AI/ML sandboxes and lab environments, open-source and educational use cases, third-party software bundling HuggingFace/Transformers/LangChain libraries as dependencies, and system administrators deploying frameworks as part of containerized services. Parent process and command-line keyword overlap with unrelated tools (e.g., "llama-backup", tools using "--transformers" flags for non-LLM purposes). Recommended tuning — baseline approved frameworks and users, exclude sanctioned development/lab systems, require additional context (user role, peer group, model artifacts, network exfiltration signals) before escalating to incidents.
 references:
 - https://splunkbase.splunk.com/app/8024
