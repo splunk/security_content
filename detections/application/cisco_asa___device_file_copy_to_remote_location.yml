@@ -20,7 +20,7 @@ search: |
   command IN (
       "*running-config*",
       "*startup-config*",
-      "/pcap capture:*",
+      "*/pcap capture:*",
       "copy disk0:*",
       "copy flash:*",
       "copy system:*"

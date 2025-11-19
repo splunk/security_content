@@ -1,7 +1,7 @@
 name: Cisco ASA - New Local User Account Created
 id: 9c8e4f2a-7d3b-4e5c-8a9f-1b6d4e8c3f5a
 version: 1
-date: '2025-11-13'
+date: '2025-11-18'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

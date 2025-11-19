@@ -43,8 +43,7 @@ how_to_implement: |
   You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
   You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
 known_false_positives: |
-  Legitimate AAA configuration modifications may occur during normal administrative activities such as implementing new security policies, adjusting lockout thresholds or troubleshooting authentication issues. These events should be verified against investigated.
-  Consider filtering modifications performed where necessary.
+  Legitimate AAA configuration modifications may occur during normal administrative activities such as implementing new security policies, adjusting lockout thresholds or troubleshooting authentication issues. These events should be verified and investigated. Consider filtering modifications performed by known administrative accounts where necessary.
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/A-H/asa-command-ref-A-H/aa-ac-commands.html
 drilldown_searches:
