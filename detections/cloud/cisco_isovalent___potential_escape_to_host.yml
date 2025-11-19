@@ -3,7 +3,7 @@ id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
 version: 1
 date: '2025-11-18'
 author: Bhavin Patel, Splunk
-type: TTP
+type: Anomaly
 data_source:
 - Cisco Isovalent Process Exec
 status: production
