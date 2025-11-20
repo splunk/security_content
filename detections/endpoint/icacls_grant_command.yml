@@ -1,7 +1,7 @@
 name: ICACLS Grant Command
 id: b1b1e316-accc-11eb-a9b4-acde48001122
-version: 8
-date: '2025-06-17'
+version: 9
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -60,8 +60,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Process name $process_name$ with grant argument executed by $user$ to change
-    security permission of a specific file or directory on host $dest$
+  message: Process name $process_name$ with grant argument executed by $user$ to
+    change security permission of a specific file or directory on host $dest$
   risk_objects:
   - field: dest
     type: system
@@ -76,6 +76,7 @@ tags:
   - Crypto Stealer
   - XMRig
   - Defense Evasion or Unauthorized Access Via SDDL Tampering
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1222
@@ -87,6 +88,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

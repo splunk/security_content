@@ -1,7 +1,7 @@
 name: Add or Set Windows Defender Exclusion
 id: 773b66fe-4dd9-11ec-8289-acde48001122
-version: 11
-date: '2025-10-01'
+version: 12
+date: '2025-11-20'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -15,9 +15,9 @@ description: |
   detection, maintain persistence, and execute further malicious activities without
   interference from Windows Defender.
 data_source:
-  - Sysmon EventID 1
-  - Windows Event Log Security 4688
-  - CrowdStrike ProcessRollup2
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where 
@@ -53,57 +53,59 @@ how_to_implement: |
 known_false_positives: |
   Admin or user may choose to use this windows features. Filter as needed.
 references:
-  - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
-  - https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/
-  - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-  - https://learn.microsoft.com/en-us/powershell/module/defender/add-mppreference?view=windowsserver2025-ps
+- https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
+- https://app.any.run/tasks/cf1245de-06a7-4366-8209-8e3006f2bfe5/
+- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+- https://learn.microsoft.com/en-us/powershell/module/defender/add-mppreference?view=windowsserver2025-ps
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
   message: exclusion command $process$ executed on $dest$
   risk_objects:
-    - field: user
-      type: user
-      score: 64
-    - field: dest
-      type: system
-      score: 64
+  - field: user
+    type: user
+    score: 64
+  - field: dest
+    type: system
+    score: 64
   threat_objects: []
 tags:
   analytic_story:
-    - Compromised Windows Host
-    - AgentTesla
-    - Data Destruction
-    - Remcos
-    - CISA AA22-320A
-    - ValleyRAT
-    - XWorm
-    - WhisperGate
-    - Windows Defense Evasion Tactics
-    - Crypto Stealer
+  - Compromised Windows Host
+  - AgentTesla
+  - Data Destruction
+  - Remcos
+  - CISA AA22-320A
+  - ValleyRAT
+  - XWorm
+  - WhisperGate
+  - Windows Defense Evasion Tactics
+  - Crypto Stealer
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
-    - T1562.001
+  - T1562.001
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      sourcetype: XmlWinEventLog
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/defender_exclusion_sysmon/sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

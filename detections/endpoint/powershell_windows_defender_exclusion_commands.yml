@@ -1,17 +1,18 @@
 name: Powershell Windows Defender Exclusion Commands
 id: 907ac95c-4dd9-11ec-ba2c-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of PowerShell commands to add
-  or set Windows Defender exclusions. It leverages EventCode 4104 to identify suspicious
-  `Add-MpPreference` or `Set-MpPreference` commands with exclusion parameters. This
-  activity is significant because adversaries often use it to bypass Windows Defender,
-  allowing malicious code to execute without detection. If confirmed malicious, this
-  behavior could enable attackers to evade antivirus defenses, maintain persistence,
-  and execute further malicious activities undetected.
+description: The following analytic detects the use of PowerShell commands to 
+  add or set Windows Defender exclusions. It leverages EventCode 4104 to 
+  identify suspicious `Add-MpPreference` or `Set-MpPreference` commands with 
+  exclusion parameters. This activity is significant because adversaries often 
+  use it to bypass Windows Defender, allowing malicious code to execute without 
+  detection. If confirmed malicious, this behavior could enable attackers to 
+  evade antivirus defenses, maintain persistence, and execute further malicious 
+  activities undetected.
 data_source:
 - Powershell Script Block Logging 4104
 search: '`powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR ScriptBlockText
@@ -19,10 +20,11 @@ search: '`powershell` EventCode=4104 (ScriptBlockText = "*Add-MpPreference *" OR
   count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
   user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_windows_defender_exclusion_commands_filter`'
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. Also make sure
-  that this registry was included in your config files ex. sysmon config to be monitored.
+how_to_implement: To successfully implement this search you need to be ingesting
+  information on process that include the name of the process responsible for 
+  the changes from your endpoints into the `Endpoint` datamodel in the 
+  `Registry` node. Also make sure that this registry was included in your config
+  files ex. sysmon config to be monitored.
 known_false_positives: admin or user may choose to use this windows features.
 references:
 - https://tccontre.blogspot.com/2020/01/remcos-rat-evading-windows-defender-av.html
@@ -61,6 +63,7 @@ tags:
   - Data Destruction
   - WhisperGate
   - Warzone RAT
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1562.001
@@ -72,6 +75,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/powershell_windows_defender_exclusion_commands/windows-xml.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/powershell_windows_defender_exclusion_commands/windows-xml.log
     source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
     sourcetype: XmlWinEventLog

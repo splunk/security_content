@@ -1,75 +1,72 @@
 name: Windows Modify Registry Delete Firewall Rules
 id: 41c61539-98ca-4750-b3ec-7c29a2f06343
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 data_source:
-  - Sysmon EventID 12
+- Sysmon EventID 12
 type: TTP
 status: production
-description:
-  The following analytic detects a potential deletion of firewall rules,
-  indicating a possible security breach or unauthorized access attempt. It identifies
-  actions where firewall rules are removed using commands like netsh advfirewall firewall
-  delete rule, which can expose the network to external threats by disabling critical
-  security measures. Monitoring these activities helps maintain network integrity
-  and prevent malicious attacks.
-search:
-  '`sysmon` EventCode=12 TargetObject = "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
+description: The following analytic detects a potential deletion of firewall 
+  rules, indicating a possible security breach or unauthorized access attempt. 
+  It identifies actions where firewall rules are removed using commands like 
+  netsh advfirewall firewall delete rule, which can expose the network to 
+  external threats by disabling critical security measures. Monitoring these 
+  activities helps maintain network integrity and prevent malicious attacks.
+search: '`sysmon` EventCode=12 TargetObject = "*\\System\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\FirewallRules\\*"
   EventType=DeleteValue |  stats count min(_time) as firstTime max(_time) as lastTime
   by action dest process_guid process_id registry_hive registry_path registry_key_name
   status user vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_modify_registry_delete_firewall_rules_filter`'
-how_to_implement:
-  To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives:
-  network admin may add/remove/modify public inbound firewall
-  rule that may cause this rule to be triggered.
+how_to_implement: To successfully implement this search, you need to be 
+  ingesting logs with the registry value name, registry path, and registry value
+  data from your endpoints. If you are using Sysmon, you must have at least 
+  version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: network admin may add/remove/modify public inbound 
+  firewall rule that may cause this rule to be triggered.
 references:
-  - https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
+- https://www.bleepingcomputer.com/news/security/new-shrinklocker-ransomware-uses-bitlocker-to-encrypt-your-files/
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
   message: firewall deletion found in registry on $dest$
   risk_objects:
-    - field: user
-      type: user
-      score: 64
-    - field: dest
-      type: system
-      score: 64
+  - field: user
+    type: user
+    score: 64
+  - field: dest
+    type: system
+    score: 64
   threat_objects: []
 tags:
   analytic_story:
-    - ShrinkLocker
-    - CISA AA24-241A
+  - ShrinkLocker
+  - CISA AA24-241A
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
-    - T1112
+  - T1112
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/firewall_modify_delete/firewall_mod_delete.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
+- name: True Positive Test
+  attack_data:
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/firewall_modify_delete/firewall_mod_delete.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

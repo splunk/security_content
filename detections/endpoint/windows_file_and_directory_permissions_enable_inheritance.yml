@@ -1,18 +1,18 @@
 name: Windows File and Directory Permissions Enable Inheritance
 id: 0247f90a-aca4-47b2-a94d-e30f445d7b41
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 type: Hunting
 status: production
-description: The following analytic detects the enabling of permission inheritance
-  using ICACLS. This analytic identifies instances where ICACLS commands are used
-  to enable permission inheritance on files or directories. The /inheritance:e flag,
-  which restores inherited permissions from a parent directory, is monitored to detect
-  changes that might reapply broader access control settings. Enabling inheritance
-  can indicate legitimate administrative actions but may also signal attempts to override
-  restrictive custom permissions, potentially exposing sensitive files to unauthorized
-  access.
+description: The following analytic detects the enabling of permission 
+  inheritance using ICACLS. This analytic identifies instances where ICACLS 
+  commands are used to enable permission inheritance on files or directories. 
+  The /inheritance:e flag, which restores inherited permissions from a parent 
+  directory, is monitored to detect changes that might reapply broader access 
+  control settings. Enabling inheritance can indicate legitimate administrative 
+  actions but may also signal attempts to override restrictive custom 
+  permissions, potentially exposing sensitive files to unauthorized access.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -26,17 +26,18 @@ search: '| tstats `security_content_summariesonly` min(_time) as firstTime max(_
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `windows_file_and_directory_permissions_enable_inheritance_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators or administrative scripts may use this application.
-  Filter as needed.
+how_to_implement: The detection is based on data that originates from Endpoint 
+  Detection and Response (EDR) agents. These agents are designed to provide 
+  security-related telemetry from the endpoints where the agent is installed. To
+  implement this search, you must ingest logs that contain the process GUID, 
+  process name, and parent process. Additionally, you must ingest complete 
+  command-line executions. These logs must be processed using the appropriate 
+  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
+  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
+  Splunk Common Information Model (CIM) to normalize the field names and speed 
+  up the data modeling process.
+known_false_positives: Administrators or administrative scripts may use this 
+  application. Filter as needed.
 references:
 - https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
 drilldown_searches:
@@ -56,6 +57,7 @@ drilldown_searches:
 tags:
   analytic_story:
   - Crypto Stealer
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1222.001
@@ -67,6 +69,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/icacls_inheritance/icacls_process_1.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1222.001/icacls_inheritance/icacls_process_1.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
