@@ -40,12 +40,12 @@ rba:
   risk_objects:
   - field: dest
     type: system
-    score: 50```
+    score: 50
   threat_objects:
   - field: Image
     type: process
   - field: TargetFilename
-     type: file_name
+    type: file_name
 tags:
   analytic_story:
   - NetSupport RMM Tool Abuse
