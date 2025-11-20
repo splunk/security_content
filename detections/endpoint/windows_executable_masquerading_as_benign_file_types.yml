@@ -8,7 +8,7 @@ type: Anomaly
 description: The following analytic detects the presence of executable files masquerading as benign file types on Windows systems. Adversaries employ this technique to evade defenses and trick users into executing malicious code by renaming executables with extensions commonly associated with documents, images, or other non-executable formats (e.g., .pdf, .jpg, .doc, .png).
 data_source:
 - Sysmon EventID 29
-search: '`sysmon` EventCode=29 NOT(TargetFilename IN ("*.exe", "*.dll", "*.sys", "*.ocx", "*.scr", "*.cpl", "*.efi", "*.drv", "*.bpl", "*.ax", "*.ime", "*.acm", "*.rll", "*.tsp"))
+search: '`sysmon` EventCode=29 NOT `executable_extensions`
   | stats count min(_time) as firstTime max(_time) as lastTime
   by Image TargetFilename file_name file_path process_guid Hashes process_id dest User EventCode 
   | `security_content_ctime(firstTime)` 
