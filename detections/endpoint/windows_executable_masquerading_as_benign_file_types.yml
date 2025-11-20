@@ -36,7 +36,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A valid Windows PE executable was dropped on $dest$, disguised as a non-executable file type.
+  message: A valid Windows PE executable $TargetFilename$ was dropped on $dest$, disguised as a non-executable file type.
   risk_objects:
   - field: dest
     type: system
