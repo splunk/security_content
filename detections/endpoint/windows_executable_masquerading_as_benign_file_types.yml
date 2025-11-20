@@ -40,7 +40,7 @@ rba:
   risk_objects:
   - field: dest
     type: system
-    score: 70
+    score: 50```
   threat_objects:
   - field: Image
     type: process
