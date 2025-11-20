@@ -4,7 +4,7 @@ version: 1
 date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: The following analytic detects the presence of executable files masquerading as benign file types on Windows systems. Adversaries employ this technique to evade defenses and trick users into executing malicious code by renaming executables with extensions commonly associated with documents, images, or other non-executable formats (e.g., .pdf, .jpg, .doc, .png).
 data_source:
 - Sysmon EventID 29
