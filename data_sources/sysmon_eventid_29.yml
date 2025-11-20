@@ -2,7 +2,7 @@ name: Sysmon EventID 29
 id: 06c61e04-2d07-4e85-bcd5-8110938b1b18
 version: 1
 date: '2025-11-14'
-author: Bhavin Patel, Splunk
+author: Teoderick Contreras, Splunk
 description: Data source object for Sysmon EventID 29
 source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
 sourcetype: XmlWinEventLog
