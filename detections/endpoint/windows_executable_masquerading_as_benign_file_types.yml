@@ -10,7 +10,7 @@ data_source:
 - Sysmon EventID 29
 search: '`sysmon` EventCode=29 NOT(TargetFilename IN ("*.exe", "*.dll", "*.sys", "*.ocx", "*.scr", "*.cpl", "*.efi", "*.drv", "*.bpl", "*.ax", "*.ime", "*.acm", "*.rll", "*.tsp"))
   | stats count min(_time) as firstTime max(_time) as lastTime
-  by Image TargetFilename file_name ProcessGuid Hashes ProcessID dest User EventCode 
+  by Image TargetFilename file_name process_guid Hashes process_id dest User EventCode 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `windows_executable_masquerading_as_benign_file_types_filter`'

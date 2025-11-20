@@ -48,6 +48,7 @@ fields:
 - user
 - user_id
 - SecurityID
+- process_guid
 output_fields:
 - Image
 - TargetFilename 
