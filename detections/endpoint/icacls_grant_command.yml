@@ -60,8 +60,8 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Process name $process_name$ with grant argument executed by $user$ to
-    change security permission of a specific file or directory on host $dest$
+  message: Process name $process_name$ with grant argument executed by $user$ to change
+    security permission of a specific file or directory on host $dest$
   risk_objects:
   - field: dest
     type: system
@@ -88,7 +88,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

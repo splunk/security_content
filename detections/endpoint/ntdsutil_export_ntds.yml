@@ -5,14 +5,13 @@ date: '2025-11-20'
 author: Michael Haag, Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of Ntdsutil to export the 
-  Active Directory database (NTDS.dit). It leverages data from Endpoint 
-  Detection and Response (EDR) agents, focusing on process names and 
-  command-line arguments. This activity is significant because exporting 
-  NTDS.dit can be a precursor to offline password cracking, posing a severe 
-  security risk. If confirmed malicious, an attacker could gain access to 
-  sensitive credentials, potentially leading to unauthorized access and 
-  privilege escalation within the network.
+description: The following analytic detects the use of Ntdsutil to export the Active
+  Directory database (NTDS.dit). It leverages data from Endpoint Detection and Response
+  (EDR) agents, focusing on process names and command-line arguments. This activity
+  is significant because exporting NTDS.dit can be a precursor to offline password
+  cracking, posing a severe security risk. If confirmed malicious, an attacker could
+  gain access to sensitive credentials, potentially leading to unauthorized access
+  and privilege escalation within the network.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -27,18 +26,17 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
   | `ntdsutil_export_ntds_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint 
-  Detection and Response (EDR) agents. These agents are designed to provide 
-  security-related telemetry from the endpoints where the agent is installed. To
-  implement this search, you must ingest logs that contain the process GUID, 
-  process name, and parent process. Additionally, you must ingest complete 
-  command-line executions. These logs must be processed using the appropriate 
-  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
-  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
-  Splunk Common Information Model (CIM) to normalize the field names and speed 
-  up the data modeling process.
-known_false_positives: Highly possible Server Administrators will troubleshoot 
-  with ntdsutil.exe, generating false positives.
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Highly possible Server Administrators will troubleshoot with
+  ntdsutil.exe, generating false positives.
 references:
 - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1003.003/T1003.003.md#atomic-test-3---dump-active-directory-database-with-ntdsutil
 - https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc753343(v=ws.11)
@@ -86,7 +84,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.003/atomic_red_team/windows-sysmon.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
