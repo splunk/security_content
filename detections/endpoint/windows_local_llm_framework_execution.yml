@@ -1,4 +1,4 @@
-name: Local LLM Framework Execution
+name: Windows Local LLM Framework Execution
 id: a3f8e2c9-7d4b-4e1f-9c6a-2b5d8f3e1a7c
 version: 1
 date: '2025-11-20'
@@ -70,7 +70,7 @@ search: |
           "oobabooga.exe",
           "text-generation-webui.exe"
       )
-  
+
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
      Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
      Processes.parent_process_name Processes.parent_process_path Processes.process
@@ -94,7 +94,7 @@ search: |
   )
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `suspicious_local_llm_framework_execution_filter`'
+  | `windows_local_llm_framework_execution_filter`'
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related

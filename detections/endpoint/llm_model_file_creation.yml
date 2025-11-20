@@ -13,23 +13,23 @@ description: |
 data_source:
   - Sysmon EventID 11
 search: |
-  | tstats `security_content_summariesonly` count 
-      min(_time) as firstTime 
-      max(_time) as lastTime 
-  from datamodel=Endpoint.Filesystem 
+  | tstats `security_content_summariesonly` count
+      min(_time) as firstTime
+      max(_time) as lastTime
+  from datamodel=Endpoint.Filesystem
   where Filesystem.file_name IN (
-      "*.gguf*", 
-      "*ggml*", 
+      "*.gguf*",
+      "*ggml*",
       "*Modelfile*",
-      "*safetensors*" 
-  ) 
+      "*safetensors*"
+  )
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
      Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
      Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-     Filesystem.user Filesystem.vendor_product 
-  | `drop_dm_object_name(Filesystem)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+     Filesystem.user Filesystem.vendor_product
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `llm_model_file_creation_filter`
 how_to_implement: |
   To successfully implement this search, you need to be ingesting logs with file creation events from your endpoints.
@@ -43,7 +43,7 @@ references:
   - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
   - https://www.ibm.com/think/topics/shadow-ai
   - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
-  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama 
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
 tags:
   analytic_story:
     - Suspicious Local LLM Frameworks
