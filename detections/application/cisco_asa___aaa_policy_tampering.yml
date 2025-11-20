@@ -15,6 +15,7 @@ data_source:
   - Cisco ASA Logs
 search: |
   `cisco_asa`
+  message_id IN (111008, 111010)
   command IN (
       "aaa authentication*",
       "aaa authorization*",
