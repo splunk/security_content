@@ -51,10 +51,11 @@ fields:
 output_fields:
 - Image
 - TargetFilename 
-- file_name 
-- ProcessGuid 
+- file_name
+- file_path
+- process_guid
 - Hashes 
-- ProcessID 
+- process_id
 - dest 
 - User 
 - EventCode 
