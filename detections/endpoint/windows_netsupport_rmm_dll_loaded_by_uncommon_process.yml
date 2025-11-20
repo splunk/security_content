@@ -32,7 +32,7 @@ search: |
        service_dll_signature_verified signature signature_id user_id vendor_product
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_netsupport_rmm_dll_loaded_by_uncommon_process`'
+  | `windows_netsupport_rmm_dll_loaded_by_uncommon_process_filter`
 how_to_implement: |
   To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
