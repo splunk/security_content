@@ -1,0 +1,86 @@
+name: Windows NetSupport RMM DLL Loaded By Uncommon Process
+id: 125f96f9-6f34-418b-b868-c4a8d7fb865f
+version: 1
+date: '2025-11-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic detects the loading of specific dynamic-link libraries (DLLs) associated with the NetSupport Remote Manager (RMM) tool by any process on a Windows system.
+  Modules such as CryptPak.dll, HTCTL32.DLL, IPCTL32.DLL, keyshowhook.dll, pcicapi.DLL, PCICL32.DLL, and TCCTL32.DLL, are integral to NetSupport's functionality.
+  This detection is particularly valuable when these modules are loaded by processes running from unusual directories (e.g., Downloads, ProgramData, or user-specific folders) rather than the legitimate Program Files installation path, or by executables that have been renamed but retain the internal "client32" identifier.
+  This helps to identify instances where the legitimate NetSupport tool is being misused by adversaries as a Remote Access Trojan (RAT).
+data_source:
+- Sysmon EventID 7
+search: |
+  `sysmon`
+  EventCode=7
+  ImageLoaded IN (
+    "*\\CryptPak.dll",
+    "*\\HTCTL32.DLL",
+    "*\\pcicapi.dll",
+    "*\\pcichek.dll",
+    "*\\PCICL32.DLL",
+    "*\\TCCTL32.DLL"
+  )
+  NOT Image IN ("C:\\Program Files\\*", "C:\\Program Files (x86)\\*")
+  Signature = "NetSupport Ltd*"
+  | fillnull
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec
+       process_guid process_hash process_id process_name process_path service_dll_signature_exists
+       service_dll_signature_verified signature signature_id user_id vendor_product
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_netsupport_rmm_dll_loaded_by_uncommon_process_filter`
+how_to_implement: |
+  To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded executions from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: |
+  NetSupport RMM installations outside of the standard Program Files directory will trigger this detection.
+  Apply appropriate filters to exclude known legitimate installations.
+references:
+- https://www.linkedin.com/posts/mauricefielenbach_cybersecurity-incidentresponse-dfir-activity-7394805779448418304-g0gZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAuFTjIB5weY_kcyu4qp3kHbI4v49tO0zEk
+- https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+- https://www.esentire.com/blog/evalusion-campaign-delivers-amatera-stealer-and-netsupport-rat
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: The following module $ImageLoaded$ was loaded by a non-standard application
+    on endpoint $dest$
+  risk_objects:
+    - field: dest
+      type: system
+      score: 30
+  threat_objects:
+    - field: Image
+      type: process_name
+tags:
+  analytic_story:
+    - NetSupport RMM Tool Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1036
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/netsupport_modules/net_support_module.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

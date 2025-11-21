@@ -1,7 +1,7 @@
 name: Windows Modify Registry Delete Firewall Rules
 id: 41c61539-98ca-4750-b3ec-7c29a2f06343
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 data_source:
   - Sysmon EventID 12
@@ -59,6 +59,7 @@ tags:
   analytic_story:
     - ShrinkLocker
     - CISA AA24-241A
+    - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
     - T1112

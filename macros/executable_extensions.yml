@@ -1,0 +1,3 @@
+definition: (TargetFilename IN ("*.exe", "*.dll", "*.sys", "*.ocx", "*.scr", "*.cpl", "*.efi", "*.drv", "*.bpl", "*.ax", "*.ime", "*.acm", "*.rll", "*.tsp"))
+description: matches known executable file extension
+name: executable_extensions
