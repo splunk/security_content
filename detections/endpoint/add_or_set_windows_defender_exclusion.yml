@@ -1,7 +1,7 @@
 name: Add or Set Windows Defender Exclusion
 id: 773b66fe-4dd9-11ec-8289-acde48001122
-version: 11
-date: '2025-10-01'
+version: 12
+date: '2025-11-20'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -93,6 +93,7 @@ tags:
     - WhisperGate
     - Windows Defense Evasion Tactics
     - Crypto Stealer
+    - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
     - T1562.001

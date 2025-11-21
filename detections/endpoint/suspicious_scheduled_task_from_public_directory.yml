@@ -1,7 +1,7 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
-version: 16
-date: '2025-09-30'
+version: 17
+date: '2025-11-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -90,6 +90,7 @@ tags:
   - Scattered Spider
   - APT37 Rustonotto and FadeStealer
   - Lokibot
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

@@ -1,7 +1,7 @@
 name: Detect MSHTA Url in Command Line
 id: 9b3af1e6-5b68-11eb-ae93-0242ac130002
-version: 15
-date: '2025-09-18'
+version: 16
+date: '2025-11-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -89,6 +89,7 @@ tags:
     - Suspicious MSHTA Activity
     - XWorm
     - Cisco Network Visibility Module Analytics
+    - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
     - T1218.005

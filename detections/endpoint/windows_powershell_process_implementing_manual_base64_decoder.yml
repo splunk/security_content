@@ -1,9 +1,9 @@
 name: Windows PowerShell Process Implementing Manual Base64 Decoder
 id: 08d67349-0808-4f55-b431-1037269fa517
-version: 1
-date: '2025-10-23'
+version: 2
+date: '2025-11-19'
 author: Nasreddine Bencherchali
-status: experimental
+status: production
 type: Anomaly
 description: |
   The following analytic identifies Windows PowerShell processes that implement a manual Base64 decoder.
