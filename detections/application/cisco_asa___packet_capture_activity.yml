@@ -1,0 +1,83 @@
+name: Cisco ASA - Packet Capture Activity
+id: 7e9c3f8a-4b2d-4c5e-9a1f-6d8e5b3c2a9f
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects execution of packet capture commands on Cisco ASA devices via CLI or ASDM.
+  Adversaries may abuse the built-in packet capture functionality to perform network sniffing, intercept credentials transmitted over the network, capture sensitive data in transit, or gather intelligence about network traffic patterns and internal communications. Packet captures can reveal usernames, passwords, session tokens, and confidential business data.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing "capture" commands, which are used to initiate packet capture sessions on specific interfaces or for specific traffic patterns on the ASA device.
+  Investigate unauthorized packet capture activities, especially captures targeting sensitive interfaces (internal network segments, DMZ), captures configured to capture large volumes of traffic, captures with suspicious filter criteria, captures initiated by non-administrative accounts, or captures during unusual hours.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111008, 111010)
+  command IN ("capture *")
+  | fillnull
+  | stats count
+          earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by host
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___packet_capture_activity_filter`
+how_to_implement: |
+    This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+    To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
+    If your logging level is set to 'notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
+    You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+    You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Admins use packet captures for troubleshooting, performance monitoring, or security investigations. Verify against change management. Filter known admin accounts during maintenance windows.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/A-H/asa-command-ref-A-H/ca-cld-commands.html
+  - https://www.cisco.com/c/en/us/support/docs/security/asa-5500-x-series-next-generation-firewalls/118097-configure-asa-00.html
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed packet capture command $command$ on Cisco ASA host $host$, potentially for network sniffing activity.
+  risk_objects:
+    - field: host
+      type: system
+      score: 50
+    - field: user
+      type: user
+      score: 50
+  threat_objects:
+    - field: command
+      type: process
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+  asset_type: Network
+  mitre_attack_id:
+    - T1040
+    - T1557
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa
