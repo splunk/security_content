@@ -1,7 +1,7 @@
 name: Cisco ASA Logs
 id: 3f2a9b6d-1c8e-4f7b-a2d3-8b7f1c2a9d4e
-version: 1
-date: '2025-09-23'
+version: 2
+date: '2025-10-27'
 author: Bhavin Patel, Splunk
 description: "Data source object for Cisco ASA system logs. Cisco ASA logs provide\
   \ firewall operational and security telemetry (connection events, ACL denies, VPN\
@@ -15,7 +15,7 @@ description: "Data source object for Cisco ASA system logs. Cisco ASA logs provi
   \ enabled, as it relies on the presence of specific message IDs. You can find specific\
   \ instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880.\
   \ \n"
-source: cisco:asa
+source: not_applicable
 sourcetype: cisco:asa
 separator: null
 supported_TA:

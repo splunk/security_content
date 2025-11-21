@@ -1,0 +1,20 @@
+name: NetSupport RMM Tool Abuse
+id: 423cb98f-bd3d-4d82-925d-573897fc0d2f
+version: 1
+date: '2025-11-14'
+author: Teoderick Contreras, Splunk
+status: production
+description: Detection analytics for the NetSupport Remote Manager Tool primarily focus on identifying its misuse, as it's a legitimate tool often leveraged by adversaries. Endpoint detection involves flagging the client32.exe executable running from unusual directories like Downloads or ProgramData instead of its standard Program Files location. Suspicious activity also encompasses renamed binaries with the internal name "client32" communicating with netsupportsoftware.com, or unauthenticated remote control sessions. Furthermore, monitoring for PowerShell execution associated with NetSupport Manager can reveal malicious deployment. These analytics help distinguish legitimate remote support from potential unauthorized access.
+narrative: NetSupport Manager, a legitimate remote access tool, often finds itself weaponized by adversaries, transforming into a Remote Access Trojan (RAT) for covert access. The narrative of its detection begins by understanding this duality while IT teams use it for benign support, threat actors exploit its capabilities, often via phishing or fake updates, to gain unauthorized control. The tell-tale signs emerge when this legitimate tool operates outside its normal parameters. For instance, observing client32.exe running from unusual directories like Downloads or ProgramData, rather than its secure Program Files location, immediately raises a red flag. Similarly, the presence of clear-text HTTP traffic containing CMD=ENCD commands, instead of the expected secure HTTPS, signals malicious intent. Furthermore, renamed binaries still internally identifying as "client32" communicating with netsupportsoftware.com, or unauthenticated remote control sessions, paint a clear picture of abuse. These anomalies, coupled with suspicious PowerShell execution, allow detection analytics to differentiate legitimate remote assistance from a stealthy intrusion, enabling defenders to uncover the adversary's presence
+references:
+  - https://www.linkedin.com/posts/mauricefielenbach_cybersecurity-incidentresponse-dfir-activity-7394805779448418304-g0gZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAuFTjIB5weY_kcyu4qp3kHbI4v49tO0zEk
+  - https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+  - https://www.esentire.com/blog/evalusion-campaign-delivers-amatera-stealer-and-netsupport-rat
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
