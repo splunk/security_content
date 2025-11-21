@@ -14,7 +14,7 @@ data_source:
 search: |
   `sysmon`
   EventCode=22
-  query IN (
+  QueryName IN (
       "*huggingface*",
       "*ollama*",
       "*jan.ai*",
@@ -24,9 +24,7 @@ search: |
       "*lmstudio*",
       "*modelscope*",
       "*civitai*",
-      "*github.com*llama*",
-      "*github.com*oobabooga*",
-      "*github.com*koboldai*",
+      "*oobabooga*",
       "*replicate*",
       "*anthropic*",
       "*openai*",
@@ -45,7 +43,7 @@ search: |
   | stats count
       min(_time) as firstTime
       max(_time) as lastTime
-      by src dest Image query query_count answer answer_count reply_code_id vendor_product
+      by src dest Image process_name QueryName query_count answer answer_count reply_code_id vendor_product
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `local_llm_framework_dns_query_filter`
