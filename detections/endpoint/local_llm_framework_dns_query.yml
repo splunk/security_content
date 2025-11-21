@@ -43,7 +43,7 @@ search: |
   | stats count
       min(_time) as firstTime
       max(_time) as lastTime
-      by src dest Image process_name QueryName query_count answer answer_count reply_code_id vendor_product
+      by src Image process_name QueryName query_count answer answer_count reply_code_id vendor_product
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `local_llm_framework_dns_query_filter`
@@ -56,14 +56,14 @@ references:
   - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
   - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
 drilldown_searches:
-  - name: View the detection results for - "$host$"
-    search: '%original_detection_search% | search host="$host$"'
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search src="$src$"'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$host$"
+  - name: View risk events for the last 7 days for - "$src$"
     search: |
       | from datamodel Risk.All_Risk
-      | search normalized_risk_object="$host$" starthoursago=168
+      | search normalized_risk_object="$src$" starthoursago=168
       | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
@@ -83,6 +83,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_dns.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog
