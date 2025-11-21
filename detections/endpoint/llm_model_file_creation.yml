@@ -70,8 +70,8 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
-      sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

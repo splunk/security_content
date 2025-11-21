@@ -13,7 +13,7 @@ data_source:
   - Sysmon EventID 22
 search: |
   `sysmon`
-  EventID=22
+  EventCode=22
   query IN (
       "*huggingface*",
       "*ollama*",
@@ -83,8 +83,8 @@ tags:
     - Splunk Cloud
   security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
-      sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.txt
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
