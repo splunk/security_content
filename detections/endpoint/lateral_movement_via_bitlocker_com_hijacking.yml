@@ -1,0 +1,126 @@
+---
+name: Lateral Movement via BitLocker COM Hijacking
+id: 990d5907-c022-4358-9ada-f6e5e69514e8
+version: 1
+date: '2025-09-28'
+author: AAtashGAr
+status: experimental
+description: |-
+  This detection identifies potential lateral movement activities
+  using BitLocker COM hijacking techniques. It monitors for changes
+  to the Remote Registry service, new registry values in CLSID paths,
+  handle operations on CLSIDs, and executions of specific processes like
+  baaupdate.exe and BdeUISrv.exe. These events are correlated by host to
+  detect sequences indicative of this attack vector.
+type: Correlation
+references:
+  - https://medium.com/@seripallychetan/bitlocker-com-hijack-a-new-frontier-in-lateral-movement-tactics-ac5039b18dc6
+  - https://ipurple.team/2025/08/04/lateral-movement-bitlocker/
+search: |
+  (`wineventlog_security`) OR (`wineventlog_system`) \
+      EventCode IN (7040, 4657, 4663, 4688)
+      [ search `wineventlog_system` EventCode=7040 service="Remote Registry"
+      | fields ComputerName
+      | dedup ComputerName
+          ]
+  | where
+      (EventCode=7040 AND service="Remote Registry") OR
+      (EventCode=4657 AND Operation_Type="New registry value created"
+      AND Object_Name LIKE "%CLSID%") OR
+      (EventCode=4663 AND Object_Name LIKE "%CLSID%") OR
+      (EventCode=4688 AND (
+      (process_name="baaupdate.exe" AND parent_process_name="explorer.exe") OR
+      (process_name="BdeUISrv.exe" AND parent_process_name="svchost.exe")
+      ))
+  | eval srvchngstsTime=if(EventCode=7040, _time, null)
+  | eval regvlsetTime=if(EventCode=4657, _time, null)
+  | eval reghandleTime=if(EventCode=4663, _time, null)
+  | eval procexecTime=if(EventCode=4688, _time, null)
+  | eval ServiceMessage=if(EventCode=7040, Message, null)
+  | eval ProcessName_4663=if(EventCode=4663, process, null)
+  | eval CLSID_Path=if(EventCode IN (4657, 4663), Object_Name, null)
+  | stats
+      values(srvchngstsTime) AS srvchngstsTime
+      values(regvlsetTime) AS regvlsetTime
+      values(reghandleTime) AS reghandleTime
+      values(procexecTime) AS procexecTime
+      values(ServiceMessage) AS ServiceMessage
+      values(CLSID_Path) AS CLSID_Path
+      values(New_Value_Type) AS New_Value_Type
+      values(New_Value) AS New_Value
+      values(Access_Mask) AS AccessMask
+      values(ProcessName_4663) AS ProcessName_4663
+      values(parent_process_id) AS parent_process_id
+      values(parent_process_name) AS parent_process_name
+      values(process_id) AS process_id
+      values(process_name) AS process_name
+      values(TimeDiff1) AS TimeDiff_Service_to_Registry
+      values(TimeDiff2) AS TimeDiff_Registry_to_Handle
+      values(TimeDiff3) AS TimeDiff_Handle_to_Process
+      count(eval(EventCode=7040)) AS SrvEvts
+      count(eval(EventCode=4657)) AS RegEvts
+      count(eval(EventCode=4663)) AS HdlEvts
+      count(eval(EventCode=4688)) AS ProcEvts
+      by ComputerName
+  | where SrvEvts>0 AND RegEvts>0 AND HdlEvts>0 AND ProcEvts>0
+  | where isnotnull(CLSID_Path)
+  | eval srvchngstsTime=strftime(srvchngstsTime, "%Y-%m-%d %H:%M:%S")
+  | eval regvlsetTime=strftime(regvlsetTime, "%Y-%m-%d %H:%M:%S")
+  | eval reghandleTime=strftime(reghandleTime, "%Y-%m-%d %H:%M:%S")
+  | eval procexecTime=strftime(procexecTime, "%Y-%m-%d %H:%M:%S")
+  | table
+      ComputerName
+      srvchngstsTime
+      ServiceMessage
+      regvlsetTime
+      CLSID_Path
+      New_Value_Type
+      New_Value
+      reghandleTime
+      ProcessName_4663
+      AccessMask
+      procexecTime
+      parent_process_id
+      parent_process_name
+      process_id
+      process_name
+  | rename
+      ComputerName AS "Host"
+      CLSID_Path AS "CLSID Path"
+      srvchngstsTime AS "Service Change Time"
+      ServiceMessage AS "Service Message"
+      regvlsetTime AS "Registry Change Time"
+      New_Value_Type AS "Registry Value Type"
+      New_Value AS "Registry Value"
+      reghandleTime AS "Handle Creation Time"
+      AccessMask AS "Access Mask"
+      ProcessName_4663 AS "Process Accessing Registry"
+      procexecTime AS "Process Execution Time"
+      parent_process_name AS "Parent Process"
+      process_name AS "Process Name"
+      parent_process_id AS "Parent Process ID"
+      process_id AS "Process ID"
+  | sort - "Service Change Time"
+  | `lateral_movement_via_bitlocker_com_hijacking_filter`
+how_to_implement: |-
+  Ensure Windows Event Logs are being ingested into Splunk,
+  particularly from the Security channel (wineventlog).
+  This detection requires fields like EventCode, ComputerName,
+  service, Operation_Type, Object_Name, process_name, parent_process_name,
+  Message, process, New_Value_Type, New_Value, Access_Mask, parent_process_id,
+  and process_id. Use Sysmon or Endpoint data models for enhanced coverage.
+known_false_positives: |-
+  Legitimate administrative activities may trigger this detection,
+  such as software installations or system configurations involving
+  Remote Registry and BitLocker components. Tune based on environment.
+tags:
+  analytic_story:
+    - Active Directory Lateral Movement
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1546.015
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint

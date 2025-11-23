@@ -1,0 +1,3 @@
+name: lateral_movement_via_bitlocker_com_hijacking_filter
+definition: search *
+description: Filter macro for Lateral Movement via BitLocker COM Hijacking detection

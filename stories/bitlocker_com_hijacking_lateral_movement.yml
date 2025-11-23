@@ -1,0 +1,32 @@
+---
+# Analytic Story: BitLocker COM Hijacking Lateral Movement
+name: BitLocker COM Hijacking Lateral Movement
+id: 9d1f4a2b-6e3c-4f7d-8a9b-1c5e7f8d3e4f
+version: 1
+date: '2025-11-23'
+author: Ali Atashgar (AAtashGar)
+status: production
+description: |
+  Detection content for the 2025 BitLocker COM hijacking lateral
+  movement technique using HKCU registry manipulation
+  of Network Unlock COM object.
+narrative: |
+  In August 2025, a novel lateral movement technique was published that abuses
+  the BitLocker Network Unlock COM object
+  (CLSID {A7A63E5C-3877-4840-8727-C1EA9D7A4D50}).
+  Attackers enable RemoteRegistry,write a malicious DLL path to InprocServer32
+  under HKCU\Software\Classes\CLSID for logged-on users, and trigger execution
+  via baaupdate.exe (from explorer.exe) or BdeUISrv.exe (from svchost.exe).
+  This analytic story provides detection for this advanced persistence and
+  lateral movement technique.
+references:
+  - https://ipurple.team/2025/08/04/lateral-movement-bitlocker/
+  - https://github.com/rtecCyberSec/BitlockMove
+tags:
+  category:
+    - Adversary Tactics
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  usecase: Advanced Threat Detection
