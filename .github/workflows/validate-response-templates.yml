@@ -9,7 +9,6 @@ on:
   push:
     branches:
       - develop
-      - feature/PEX-699-response-plan
     paths:
       - 'response_templates/**'
       - '.github/workflows/validate-response-templates.yml'
