@@ -1,0 +1,74 @@
+name: Local LLM Framework DNS Query
+id: d7ceffc5-a45e-412b-b9fa-2ba27c284503
+version: 1
+date: '2025-11-12'
+author: Rod Soto
+status: production
+type: Hunting
+description: |
+  Detects DNS queries related to local LLM models on endpoints by monitoring Sysmon DNS query events (Event ID 22) for known LLM model domains and services.
+  Local LLM frameworks like Ollama, LM Studio, and GPT4All make DNS calls to repositories such as huggingface.co and ollama.ai for model downloads, updates, and telemetry.
+  These queries can reveal unauthorized AI tool usage or data exfiltration risks on corporate networks.
+data_source:
+  - Sysmon EventID 22
+search: |
+  `sysmon`
+  EventCode=22
+  QueryName IN (
+      "*huggingface*",
+      "*ollama*",
+      "*jan.ai*",
+      "*gpt4all*",
+      "*nomic*",
+      "*koboldai*",
+      "*lmstudio*",
+      "*modelscope*",
+      "*civitai*",
+      "*oobabooga*",
+      "*replicate*",
+      "*anthropic*",
+      "*openai*",
+      "*openrouter*",
+      "*api.openrouter*",
+      "*aliyun*",
+      "*alibabacloud*",
+      "*dashscope.aliyuncs*"
+  )
+  NOT Image IN (
+      "*\\MsMpEng.exe",
+      "C:\\ProgramData\\*",
+      "C:\\Windows\\System32\\*",
+      "C:\\Windows\\SysWOW64\\*"
+  )
+  | stats count
+      min(_time) as firstTime
+      max(_time) as lastTime
+      by src Image process_name QueryName query_count answer answer_count reply_code_id vendor_product
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `local_llm_framework_dns_query_filter`
+how_to_implement: |
+  Ensure Sysmon is deployed across Windows endpoints and configured to capture DNS query events (Event ID 22). Configure Sysmon's XML configuration file to log detailed command-line arguments, parent process information, and full process image paths. Ingest Sysmon event logs into Splunk via the Splunk Universal Forwarder or Windows Event Log Input, ensuring they are tagged with `sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational`. Verify the `sysmon` macro exists in your Splunk environment and correctly references the Sysmon event logs. Create or update the `unauthorized_local_llm_framework_usage_filter` macro in your detections/filters folder to exclude approved systems, authorized developers, sanctioned ML/AI workstations, or known development/lab environments as needed. Deploy this hunting search to your Splunk Enterprise Security or Splunk Enterprise instance and schedule it to run on a regular cadence to detect unauthorized LLM model DNS queries and shadow AI activities. Correlate findings with endpoint asset inventory and user identity data to prioritize investigation.
+known_false_positives: |
+  Legitimate DNS queries to LLM model hosting platforms by authorized developers, ML engineers, and researchers during model training, fine-tuning, or experimentation. Approved AI/ML sandboxes and lab environments where LLM model downloads are expected. Automated ML pipelines and workflows that interact with LLM model hosting services as part of their normal operation. Third-party applications and services that access LLM model platforms for legitimate purposes.
+references:
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+tags:
+  analytic_story:
+    - Suspicious Local LLM Frameworks
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1590
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_dns.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
