@@ -9,7 +9,7 @@ jobs:
     steps:
         #For fork PRs, always check out security_content and the PR target in security content!
         - name: Check out the repository code
-          uses: actions/checkout@v5
+          uses: actions/checkout@v6
           with:
             repository: 'splunk/security_content' #this should be the TARGET repo of the PR. we hardcode it for now
             ref: ${{ github.base_ref }}
