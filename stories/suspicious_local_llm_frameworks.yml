@@ -1,0 +1,29 @@
+name: Suspicious Local LLM Frameworks
+id: 0b4396a1-aeff-412e-b39e-4e26457c780d
+version: 1
+date: '2025-11-12'
+author: Rod Soto, Splunk
+status: production
+description: |
+  Leverage advanced Splunk searches to detect and investigate suspicious activities targeting possibly unauthorized local LLM frameworks. This analytic story addresses discovery and detection of unauthorized local LLM frameworks and related shadow AI artifacts. 
+narrative: |
+  This analytic story addresses the growing security challenge of Shadow AI - the deployment and use of unauthorized Large Language Model (LLM) frameworks and AI tools within enterprise environments without proper governance, oversight, or security controls.
+  
+  Shadow AI deployments pose significant risks including data exfiltration through local model inference (where sensitive corporate data is processed by unmonitored AI systems), intellectual property leakage, policy violations, and creation of security blind spots that bypass enterprise data loss prevention and monitoring solutions.
+  
+  Local LLM frameworks such as Ollama, LM Studio, GPT4All, Jan, llama.cpp, and KoboldCPP enable users to download and run powerful language models entirely on their endpoints, processing sensitive information without cloud-based safeguards or enterprise visibility. These detections monitor process execution patterns, file creation activities (model files with .gguf, .ggml, safetensors extensions), DNS queries to model repositories, and network connections to identify unauthorized AI infrastructure.
+  
+  By correlating Windows Security Event Logs (Event ID 4688), Sysmon telemetry (Events 1, 11, 22), and behavioral indicators, security teams can detect shadow AI deployments early, investigate the scope of unauthorized model usage, assess data exposure risks, and enforce AI governance policies to prevent covert model manipulation, persistent endpoint compromise, and uncontrolled AI experimentation that bypasses established security frameworks.
+references:
+  - https://splunkbase.splunk.com/app/8024
+  - https://www.ibm.com/think/topics/shadow-ai
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+tags:
+  category:
+    - Adversary Tactics
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  usecase: Advanced Threat Detection
