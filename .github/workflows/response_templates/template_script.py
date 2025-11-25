@@ -68,7 +68,10 @@ def _get_template_mapping(directory):
     
     # Sort each template's version list by version number (ascending order)
     for template_name in template_to_file_mapping:
-        template_to_file_mapping[template_name].sort(key=lambda x: float(x[0]))
+        try:
+            template_to_file_mapping[template_name].sort(key=lambda x: int(x[0]))
+        except ValueError:
+            raise ValueError(f"Template '{template_name}' has invalid version(s) that cannot be converted to integer")
     
     return template_to_file_mapping
 
