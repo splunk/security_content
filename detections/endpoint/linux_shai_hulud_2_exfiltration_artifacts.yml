@@ -1,0 +1,54 @@
+name: Linux Shai-Hulud 2 Exfiltration Artifact Files
+id: 9e7d3c0f-4a5b-6c8d-1e2f-3a4b5c6d7e8f
+version: 1
+date: '2025-11-25'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: Detects creation of exfiltration artifact files associated with Shai-Hulud 2.0 npm supply
+  chain malware. The malware creates cloud.json, contents.json, environment.json, truffleSecrets.json,
+  and actionsSecrets.json files containing harvested credentials from AWS, Azure, GCP, GitHub secrets,
+  and environment variables. These files are staged before being pushed to attacker-controlled repositories.
+data_source:
+- Sysmon for Linux EventID 23
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("cloud.json", "contents.json",
+  "environment.json", "truffleSecrets.json", "actionsSecrets.json") by Filesystem.dest Filesystem.file_path
+  Filesystem.file_name Filesystem.action Filesystem.user
+  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `linux_shai_hulud_2_exfiltration_artifacts_filter`'
+how_to_implement: Requires Endpoint.Filesystem datamodel populated from Sysmon for Linux or auditd.
+  Consider tuning for directories associated with npm/node activity (node_modules, /tmp).
+known_false_positives: Low but possible. Generic filenames like cloud.json or environment.json may
+  appear in legitimate contexts. Correlate with npm install activity or suspicious parent processes.
+references:
+- https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+- https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+rba:
+  message: Shai-Hulud 2.0 exfiltration artifact $file_name$ created on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 35
+  threat_objects:
+  - field: file_name
+    type: filename
+    score: 25
+tags:
+  analytic_story:
+  - npm Supply Chain Compromise
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1074.001
+  - T1552.001
+  - T1195.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/shai_hulud_workflow_sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon:linux
