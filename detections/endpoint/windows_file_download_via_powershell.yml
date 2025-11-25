@@ -1,7 +1,7 @@
 name: Windows File Download Via PowerShell
 id: 58c4e56c-b5b8-46a3-b5fb-6537dca3c6de
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2025-11-25'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -102,6 +102,7 @@ tags:
     - HAFNIUM Group
     - XWorm
     - Cisco Network Visibility Module Analytics
+    - npm Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
     - T1059.001
