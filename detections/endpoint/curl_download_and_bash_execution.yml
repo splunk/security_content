@@ -1,7 +1,7 @@
 name: Curl Download and Bash Execution
 id: 900bc324-59f3-11ec-9fb4-acde48001122
-version: 10
-date: '2025-10-27'
+version: 11
+date: '2025-11-25'
 author: Michael Haag, Splunk, DipsyTipsy
 status: production
 type: TTP
