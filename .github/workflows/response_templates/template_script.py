@@ -12,7 +12,7 @@ def generate_manifest(directory, prefix, output_dir):
     }
     try:
         template_mapping = _get_template_mapping(directory)
-        for template_name, template_list in template_mapping.items():
+        for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
             out_template_name = f"{template_name}.json"
 
             templates_version= []
@@ -63,12 +63,17 @@ def _get_template_mapping(directory):
 
         template_to_file_mapping[template_name].append((version, file))
     
+    # Sort each template's version list by version number (ascending order)
+    for template_name in template_to_file_mapping:
+        template_to_file_mapping[template_name].sort(key=lambda x: float(x[0]))
+    
     return template_to_file_mapping
 
 def merge_files(directory, output_dir):
     try:
         template_mapping = _get_template_mapping(directory)
-        for template_name, template_list in template_mapping.items():
+        print(template_mapping)
+        for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
             out_template_name = f"{template_name}.json"
 
             templates = []
