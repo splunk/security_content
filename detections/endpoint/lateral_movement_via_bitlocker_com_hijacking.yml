@@ -3,8 +3,8 @@ name: Lateral Movement via BitLocker COM Hijacking
 id: 990d5907-c022-4358-9ada-f6e5e69514e8
 version: 1
 date: '2025-09-28'
-author: AAtashGAr
-status: experimental
+author: AAtashGar
+status: Production
 description: |-
   This detection identifies potential lateral movement activities
   using BitLocker COM hijacking techniques. It monitors for changes
@@ -115,7 +115,7 @@ known_false_positives: |-
   Remote Registry and BitLocker components. Tune based on environment.
 tags:
   analytic_story:
-    - Active Directory Lateral Movement
+    - BitLocker COM Hijacking Lateral Movement
   asset_type: Endpoint
   mitre_attack_id:
     - T1546.015
