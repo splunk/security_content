@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 """
 Validate response_templates JSON files against the ResponseTemplate schema
-defined in mcopenapi_public.yaml
+defined in mcopenapi_public.yml
 """
 import argparse
 import json
 import sys
 from pathlib import Path
-from typing import Dict, List, Any, Tuple
+from typing import Dict, Any, Tuple
 
 import yaml
-from jsonschema import validate, ValidationError, Draft7Validator
+from jsonschema import Draft7Validator
 
 
 def load_openapi_schema(yaml_path: Path, schema_name: str = 'ResponseTemplate', debug: bool = False) -> Dict[str, Any]:
@@ -98,7 +98,7 @@ def main():
     parser.add_argument(
         '-s', '--schema',
         type=str,
-        default='mcopenapi_public.yaml',
+        default='mcopenapi_public.yml',
         help='Path to the OpenAPI YAML schema file'
     )
     parser.add_argument(
