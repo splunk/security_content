@@ -30,6 +30,10 @@ jobs:
         run: |
           pip install pyyaml jsonschema
 
+      - name: Generate merged response templates
+        run: |
+          python .github/workflows/response_templates/template_script.py -d ./response_templates -o ./response_templates/merged_response_templates -m
+
       - name: Validate response templates
         run: |
           python .github/workflows/response_templates/validate_response_templates.py -s .github/workflows/response_templates/mcopenapi_public.yaml -d response_templates -m response_templates/merged_response_templates/manifest.json --merged-dir response_templates/merged_response_templates
