@@ -1,0 +1,52 @@
+name: Windows Suspicious GitHub Workflow File Modification
+id: 9b3d0d2f-2f2d-4ae7-9a0b-9f8f2a6f1d92
+version: 2
+date: '2025-11-25'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: The following analytic detects creation or modification of GitHub Actions workflow YAML files
+  under a repository's .github\\workflows directory on Windows endpoints. This behavior can be abused
+  in npm supply chain attacks (e.g., Shai-Hulud) to inject a malicious workflow that exfiltrates secrets
+  and automates propagation.
+data_source:
+- Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Endpoint.Filesystem where (Filesystem.file_path IN ("*\\\\.github\\\\workflows\\\\*.yml","*\\\\.github\\\\workflows\\\\*.yaml"))
+  by Filesystem.dest Filesystem.file_path Filesystem.file_name Filesystem.action Filesystem.user
+  | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
+  | `windows_suspicious_github_workflow_file_modification_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain filesystem events, specifically file creation
+  and modification events. These logs must be processed using the appropriate Splunk
+  Technology Add-ons that are specific to the EDR product. The logs must also be
+  mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common
+  Information Model (CIM) to normalize the field names and speed up the data modeling
+  process.
+known_false_positives: Legitimate engineering activity will create or modify workflow YAMLs. Suppress
+  by repository path allowlisting, CI hosts, or change windows.
+references:
+- https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+- https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+- https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+- https://github.com/SigmaHQ/sigma/pull/5658/files
+tags:
+  analytic_story:
+  - npm Supply Chain Compromise
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1574.006
+  - T1554
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/windows_workflow_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

@@ -11,13 +11,16 @@ description: Detects creation or deletion of malicious GitHub Actions workflow f
   runners named SHA1HULUD), and the secrets exfiltration workflow formatter_*.yml pattern. These
   files are used to exfiltrate credentials and propagate across repositories.
 data_source:
-- Sysmon for Linux EventID 23
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
   from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/.github/workflows/shai-hulud-workflow.yml",
   "*/.github/workflows/shai-hulud-workflow.yaml", "*/.github/workflows/shai-hulud.yml",
   "*/.github/workflows/shai-hulud.yaml", "*/.github/workflows/discussion.yaml",
   "*/.github/workflows/discussion.yml", "*/.github/workflows/formatter_*.yml",
-  "*/.github/workflows/formatter_*.yaml") by Filesystem.dest Filesystem.file_path Filesystem.action
+  "*/.github/workflows/formatter_*.yaml") by Filesystem.action Filesystem.dest
+  Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+  Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size
+  Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_shai_hulud_workflow_file_modification_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
@@ -36,6 +39,20 @@ references:
 - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
 - https://github.com/SigmaHQ/sigma/pull/5658/files
 - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
   message: Shai-Hulud malicious workflow file detected on endpoint $dest$ at $file_path$.
     Immediate investigation required.
@@ -45,7 +62,7 @@ rba:
     score: 30
   threat_objects:
   - field: file_path
-    type: filename
+    type: file_path
     score: 20
 tags:
   analytic_story:

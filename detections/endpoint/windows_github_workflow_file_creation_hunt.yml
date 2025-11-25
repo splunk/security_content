@@ -37,17 +37,6 @@ references:
 - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
 - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
 - https://github.com/SigmaHQ/sigma/pull/5658/files
-rba:
-  message: A GitHub Actions workflow file $file_name$ was created on endpoint $dest$
-    by user $user$. Review activity for further details.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 10
-  threat_objects:
-  - field: file_path
-    type: filename
-    score: 5
 tags:
   analytic_story:
   - npm Supply Chain Compromise

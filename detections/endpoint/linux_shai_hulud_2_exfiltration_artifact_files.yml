@@ -10,13 +10,15 @@ description: Detects creation of exfiltration artifact files associated with Sha
   and actionsSecrets.json files containing harvested credentials from AWS, Azure, GCP, GitHub secrets,
   and environment variables. These files are staged before being pushed to attacker-controlled repositories.
 data_source:
-- Sysmon for Linux EventID 23
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
   from datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("cloud.json", "contents.json",
-  "environment.json", "truffleSecrets.json", "actionsSecrets.json") by Filesystem.dest Filesystem.file_path
-  Filesystem.file_name Filesystem.action Filesystem.user
+  "environment.json", "truffleSecrets.json", "actionsSecrets.json") by Filesystem.action Filesystem.dest
+  Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+  Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size
+  Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `linux_shai_hulud_2_exfiltration_artifacts_filter`'
+  | `linux_shai_hulud_2_exfiltration_artifact_files_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -30,6 +32,20 @@ known_false_positives: Low but possible. Generic filenames like cloud.json or en
 references:
 - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
 - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
   message: Shai-Hulud 2.0 exfiltration artifact $file_name$ created on $dest$
   risk_objects:
@@ -38,7 +54,7 @@ rba:
     score: 35
   threat_objects:
   - field: file_name
-    type: filename
+    type: file_name
     score: 25
 tags:
   analytic_story:

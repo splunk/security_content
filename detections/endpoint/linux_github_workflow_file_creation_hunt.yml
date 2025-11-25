@@ -16,7 +16,7 @@ description: Hunt for creation of GitHub Actions workflow YAML files under a rep
   and establish baselines for legitimate workflow creation patterns across development teams and
   repositories to detect anomalies.
 data_source:
-- Sysmon for Linux EventID 23
+- Sysmon for Linux EventID 11
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
   from datamodel=Endpoint.Filesystem where (Filesystem.file_path IN ("*/.github/workflows/*.yml","*/.github/workflows/*.yaml")
   AND Filesystem.action="created") by Filesystem.dest Filesystem.file_path Filesystem.file_name Filesystem.action Filesystem.user
@@ -36,18 +36,6 @@ references:
 - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
 - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
 - https://github.com/SigmaHQ/sigma/pull/5658/files
-rba:
-  message: A GitHub Actions workflow file $file_name$ was created at $file_path$
-    on $dest$ by user $user$. Review this activity to determine if it represents
-    legitimate development work or potential supply chain compromise.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 10
-  threat_objects:
-  - field: file_path
-    type: filename
-    score: 5
 tags:
   analytic_story:
   - npm Supply Chain Compromise
