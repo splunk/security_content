@@ -29,7 +29,10 @@ jobs:
           contentctl build --enrichments --enforce_deprecation_mapping_requirement
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
+          echo "Generate merged response templates and manifest"
           python .github/workflows/response_templates/template_script.py -d ./response_templates -o ./response_templates/merged_response_templates -m
+          echo "Run validation for response templates"
+          python .github/workflows/response_templates/validate_response_templates.py -s .github/workflows/response_templates/mcopenapi_public.yml -d response_templates -m response_templates/merged_response_templates/manifest.json --merged-dir response_templates/merged_response_templates
           mkdir -p dist/api/response_templates
           cp response_templates/merged_response_templates/* dist/api/response_templates/
 
@@ -39,3 +42,4 @@ jobs:
           name: content-latest
           path: |
             artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+            dist/api
