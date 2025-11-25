@@ -1,7 +1,7 @@
 name: GitHub Organizations Repository Deleted
 id: 9ff4ca95-fdae-4eea-9ffa-6d8e1c202a71
-version: 3
-date: '2025-06-24'
+version: 4
+date: '2025-10-27'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -49,6 +49,7 @@ rba:
 tags:
   analytic_story:
     - GitHub Malicious Activity
+    - NPM Supply Chain Compromise
   asset_type: GitHub
   mitre_attack_id:
     - T1485
