@@ -34,7 +34,7 @@ def generate_manifest(directory, prefix, output_dir):
             })
         
         with open(Path(output_dir) / "manifest.json", 'w') as out_file:
-            out_file.write(json.dumps(res))
+            out_file.write(json.dumps(res, indent=2))
 
     except Exception as e:
         print(f"Error during merging files: {e}")
@@ -82,7 +82,7 @@ def merge_files(directory, output_dir):
                     templates.append(json.loads(content))
             
             with open(Path(output_dir) / out_template_name, 'w') as out_file:
-                out_file.write(json.dumps(templates))
+                out_file.write(json.dumps(templates, indent=2))
     except Exception as e:
         print(f"Error during merging files: {e}")
         raise    
