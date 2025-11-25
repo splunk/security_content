@@ -13,7 +13,7 @@ import yaml
 from jsonschema import validate, ValidationError, Draft7Validator
 
 
-def load_openapi_schema(yaml_path: Path, schema_name: str = 'ResponseTemplate') -> Dict[str, Any]:
+def load_openapi_schema(yaml_path: Path, schema_name: str = 'ResponseTemplate', debug: bool = False) -> Dict[str, Any]:
     """Load the OpenAPI YAML file and extract the specified schema."""
     with open(yaml_path, 'r') as f:
         openapi_spec = yaml.safe_load(f)
@@ -43,6 +43,16 @@ def load_openapi_schema(yaml_path: Path, schema_name: str = 'ResponseTemplate') 
 
     # Add JSON Schema draft version
     resolved_schema['$schema'] = 'http://json-schema.org/draft-07/schema#'
+
+    # Debug: dump resolved schema to file (only once per schema)
+    if debug:
+        debug_file = Path(f"debug_{schema_name}_schema.json")
+        if not debug_file.exists():
+            with open(debug_file, 'w') as f:
+                json.dump(resolved_schema, f, indent=2)
+            print(f"🐛 Debug: Resolved schema dumped to {debug_file}")
+        else:
+            print(f"🐛 Debug: Resolved schema already exists at {debug_file}")
 
     return resolved_schema
 
@@ -101,6 +111,11 @@ def main():
         type=str,
         help='Directory containing merged response template JSON files to validate against ResponseTemplateMerged schema'
     )
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Dump resolved schemas to JSON files for debugging'
+    )
 
     args = parser.parse_args()
 
@@ -127,7 +142,7 @@ def main():
 
         print(f"📋 Loading ResponseTemplateManifest schema from {schema_path}")
         try:
-            manifest_schema = load_openapi_schema(schema_path, 'ResponseTemplateManifest')
+            manifest_schema = load_openapi_schema(schema_path, 'ResponseTemplateManifest', debug=args.debug)
             print(f"✅ Manifest schema loaded successfully")
         except Exception as e:
             print(f"❌ Error loading manifest schema: {e}")
@@ -153,7 +168,7 @@ def main():
 
         print(f"\n📋 Loading ResponseTemplateMerged schema from {schema_path}")
         try:
-            merged_schema = load_openapi_schema(schema_path, 'ResponseTemplateMerged')
+            merged_schema = load_openapi_schema(schema_path, 'ResponseTemplateMerged', debug=args.debug)
             print(f"✅ ResponseTemplateMerged schema loaded successfully")
         except Exception as e:
             print(f"❌ Error loading merged schema: {e}")
@@ -182,7 +197,7 @@ def main():
     # Load ResponseTemplate schema
     print(f"\n📋 Loading ResponseTemplate schema from {schema_path}")
     try:
-        schema = load_openapi_schema(schema_path, 'ResponseTemplate')
+        schema = load_openapi_schema(schema_path, 'ResponseTemplate', debug=args.debug)
         print(f"✅ ResponseTemplate schema loaded successfully")
     except Exception as e:
         print(f"❌ Error loading schema: {e}")
