@@ -32,5 +32,4 @@ jobs:
 
       - name: Validate response templates
         run: |
-          cd response_templates
-          python validate_response_templates.py -s mcopenapi_public.yaml -d . -m merged_response_templates/manifest.json --merged-dir merged_response_templates
+          python .github/workflows/response_templates/validate_response_templates.py -s .github/workflows/response_templates/mcopenapi_public.yaml -d response_templates -m response_templates/merged_response_templates/manifest.json --merged-dir response_templates/merged_response_templates

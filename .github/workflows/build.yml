@@ -29,9 +29,7 @@ jobs:
           contentctl build --enrichments --enforce_deprecation_mapping_requirement
           mkdir artifacts
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
-          cd response_templates
-          python template_script.py -d . -o ./merged_response_templates -m
-          cd ..
+          python .github/workflows/response_templates/template_script.py -d ./response_templates -o ./response_templates/merged_response_templates -m
           mkdir -p dist/api/response_templates
           cp response_templates/merged_response_templates/* dist/api/response_templates/
 
