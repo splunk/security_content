@@ -1,6 +1,6 @@
 name: Windows File Download Via PowerShell
 id: 58c4e56c-b5b8-46a3-b5fb-6537dca3c6de
-version: 6
+version: 5
 date: '2025-11-25'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
