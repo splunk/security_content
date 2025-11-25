@@ -56,8 +56,7 @@ def _get_template_mapping(directory):
         file_name_no_ext= file.name.replace(".json", "")
         name_split = file_name_no_ext.rsplit("_v", 1)
         if len(name_split) != 2:
-            print(f"Skipping file {file.name}: does not match expected pattern '<template_name>_v<version>'")
-            continue
+            raise ValueError(f"File {file.name} does not match expected pattern '<template_name>_v<version>'")
         template_name = name_split[0]
         version = name_split[1]
 
@@ -72,7 +71,7 @@ def _get_template_mapping(directory):
 def merge_files(directory, output_dir):
     try:
         template_mapping = _get_template_mapping(directory)
-        print(template_mapping)
+
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
             out_template_name = f"{template_name}.json"
 
