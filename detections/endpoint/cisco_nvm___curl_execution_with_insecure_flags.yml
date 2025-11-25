@@ -1,7 +1,7 @@
 name: Cisco NVM - Curl Execution With Insecure Flags
 id: cc695238-3117-4e60-aa83-4beac2a42c69
-version: 2
-date: '2025-09-09'
+version: 4
+date: '2025-10-24'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -13,7 +13,7 @@ description: |
   This behavior may indicate an attempt to bypass certificate validation to connect to potentially untrusted or malicious endpoints,
   a common tactic in red team operations, malware staging, or data exfiltration over HTTPS.
 data_source:
-  - Cisco Network Visibility Module Flow Data
+- Cisco Network Visibility Module Flow Data
 search: |
   `cisco_network_visibility_module_flowdata`
   process_name = "curl.exe"
@@ -56,39 +56,42 @@ known_false_positives: |
   Usage of these flags to reach public IPs or uncommon destinations should be reviewed.
   Tuning may be required for domains with known certificate issues.
 references:
-  - https://thedfirreport.com/2025/05/19/another-confluence-bites-the-dust-falling-to-elpaco-team-ransomware/
+- https://thedfirreport.com/2025/05/19/another-confluence-bites-the-dust-falling-to-elpaco-team-ransomware/
 drilldown_searches:
-  - name: View the detection results for - "$src$"
-    search: '%original_detection_search% | search  src = "$src$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$src$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
-      as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-      as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
-  message: The host $src$ executed curl with insecure flags and communicated with $dest$ / $dest_hostname$ over port $dest_port$
+  message: The host $src$ executed curl with insecure flags and communicated 
+    with $dest$ / $dest_hostname$ over port $dest_port$
   risk_objects:
-    - field: src
-      type: system
-      score: 30
+  - field: src
+    type: system
+    score: 30
   threat_objects:
-    - field: process_name
-      type: process_name
+  - field: process_name
+    type: process_name
 tags:
   analytic_story:
-    - Cisco Network Visibility Module Analytics
+  - Cisco Network Visibility Module Analytics
+  - PromptLock
+  - Microsoft WSUS CVE-2025-59287
   asset_type: Endpoint
   mitre_attack_id:
-    - T1197
+  - T1197
   product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
+  - Splunk Enterprise
+  - Splunk Enterprise Security
   security_domain: endpoint
 tests:
   - name: True Positive Test - Cisco NVM

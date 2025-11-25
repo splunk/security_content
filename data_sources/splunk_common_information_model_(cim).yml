@@ -9,4 +9,4 @@ sourcetype: not_applicable
 supported_TA:
 - name: Splunk Common Information Model (CIM)
   url: https://splunkbase.splunk.com/app/1621
-  version: 6.2.0
+  version: 6.3.0

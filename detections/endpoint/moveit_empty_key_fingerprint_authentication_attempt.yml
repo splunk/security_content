@@ -1,7 +1,7 @@
 name: MOVEit Empty Key Fingerprint Authentication Attempt
 id: 1a537acc-199f-4713-b5d7-3d98c05ab932
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-10-14'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting
@@ -28,6 +28,7 @@ references:
 tags:
   analytic_story:
   - MOVEit Transfer Authentication Bypass
+  - Hellcat Ransomware
   asset_type: Web Server
   mitre_attack_id:
   - T1190

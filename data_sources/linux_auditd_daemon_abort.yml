@@ -19,17 +19,18 @@ configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
 supported_TA:
 - name: Splunk Add-on for Unix and Linux
   url: https://splunkbase.splunk.com/app/833
-  version: 10.1.0
+  version: 10.2.0
 fields:
 - type
-- op 
-- res 
+- op
+- res
 - pid
 - uid
-example_log: 'type=DAEMON_ABORT msg=audit(06/05/2025 11:03:38.453:6845) : op=set-pid auid=unset pid=61314 uid=root ses=unset subj=unconfined  res=failed' 
+example_log: 'type=DAEMON_ABORT msg=audit(06/05/2025 11:03:38.453:6845) : op=set-pid
+  auid=unset pid=61314 uid=root ses=unset subj=unconfined  res=failed'
 output_fields:
-- op 
-- res 
+- op
+- res
 - pid
 - uid
 - dest

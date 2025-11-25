@@ -1,0 +1,79 @@
+name: HTTP Request to Reserved Name on IIS Server
+id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
+version: 1
+date: '2025-10-17'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: Detects attempts to exploit a request smuggling technique against IIS that leverages
+ a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early
+ server response before the request body is received. When combined with a Content-Length desynchronization,
+ this behavior can lead to a parsing confusion between frontend and backend.
+data_source:
+- Suricata
+search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web
+  where Web.url IN ("/con", "/prn", "/aux", "/nul", "/com1","/com2","/com3","/com4",
+  "/com5","/com6","/com7") by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, 
+  Web.http_method 
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `http_request_to_reserved_name_on_iis_server_filter`'
+how_to_implement: To implement this analytic, ensure proper logging is occurring with
+  IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk.
+  The analytic was written against Suricata. The proper TA will need to be enabled
+  and should be mapped to CIM and the Web datamodel. Ingestion of the data source
+  is required to utilize this detection. In addition, if it is not mapped to the datamodel,
+  modify the query for your application logs to look for requests the same URI and
+  investigate further.
+known_false_positives: False positives are not expected on IIS servers, as the detection is based
+  on the presence of web requests to reserved names, which is not a common
+  page to be accessed by legitimate users. Modify the query as needed to
+  reduce false positives or hunt for additional indicators of compromise.
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Known scripting tool was used against a web request.
+    The source IP is $src$ and the destination is $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 31
+  threat_objects:
+  - field: src
+    type: ip_address
+tags:
+  analytic_story:
+  - HTTP Request Smuggling
+  asset_type: Network
+  mitre_attack_id:
+  - T1071.001
+  - T1190
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/suricata_reserved_names.log
+    sourcetype: suricata
+    source: suricata

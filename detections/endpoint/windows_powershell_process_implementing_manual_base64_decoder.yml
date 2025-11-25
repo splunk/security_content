@@ -1,0 +1,104 @@
+name: Windows PowerShell Process Implementing Manual Base64 Decoder
+id: 08d67349-0808-4f55-b431-1037269fa517
+version: 2
+date: '2025-11-19'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+  The following analytic identifies Windows PowerShell processes that implement a manual Base64 decoder.
+  Threat actors often use Base64 encoding to obfuscate malicious payloads or commands within PowerShell scripts.
+  By manually decoding Base64 strings, attackers can evade detection mechanisms that look for standard decoding functions like using the "-enc" flag or the "FromBase64String" function.
+  This detection focuses on PowerShell processes that exhibit characteristics of manual Base64 decoding, such as the presence of specific string manipulation methods and bitwise operations.
+  Security teams should investigate any instances of such activity, especially if found in conjunction with other suspicious behaviors or on systems that should not be using PowerShell for such tasks.
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    `process_powershell`
+    Processes.process = "*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/*"
+    Processes.process = "*.Substring(*"
+    Processes.process = "*.GetString(*"
+    Processes.process = "*.IndexOf(*"
+    Processes.process IN ("*-shl*", *-shr*, "*-bxor*", "*-bor*", "*-band*")
+
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+     Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
+     Processes.vendor_product
+
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_powershell_process_implementing_manual_base64_decoder_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: |
+  Legitimate use of PowerShell for decoding Base64 strings by administrators
+  or power users may trigger this detection. It is essential to review the context
+  of the PowerShell execution to determine if it is malicious, suspicious or even authorized activity.
+references:
+  - https://www.virustotal.com/gui/file/4b3ab4d9f2332da6b6cd8d9d0f4910a5eb85ac8c969108acb3ad49631812f998/behavior
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: An instance of $process_name$ executing a manual Base64 decoding routine $process$ was identified on endpoint $dest$ by user $user$.
+  risk_objects:
+    - field: user
+      type: user
+      score: 25
+    - field: dest
+      type: system
+      score: 30
+  threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process
+      type: process_name
+tags:
+  analytic_story:
+    - Compromised Windows Host
+    - Deobfuscate-Decode Files or Information
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1027.010
+    - T1059.001
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive
+    attack_data:
+      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1027.010/manual_b64_decode_pwsh/manual_b64_decode_pwsh.log
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        sourcetype: XmlWinEventLog

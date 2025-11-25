@@ -1,0 +1,138 @@
+name: Cisco ASA Logs
+id: 3f2a9b6d-1c8e-4f7b-a2d3-8b7f1c2a9d4e
+version: 2
+date: '2025-10-27'
+author: Bhavin Patel, Splunk
+description: "Data source object for Cisco ASA system logs. Cisco ASA logs provide\
+  \ firewall operational and security telemetry (connection events, ACL denies, VPN\
+  \ events, NAT translations, and device health). Deploy the Splunk Add-on for Cisco\
+  \ ASA (TA-cisco_asa) on indexers/heavy forwarders and the Cisco ASA App on search\
+  \ heads for best parsing, CIM mapping, and dashboards. This data is ingested via\
+  \ SYSLOG. You must be ingesting Cisco ASA syslog data into your Splunk environment.\
+  \ To ensure all detections work, configure your ASA and FTD devices to generate\
+  \ and forward both debug and informational level syslog messages before they are\
+  \ sent to Splunk. A few analytics are designed to be used with comprehensive logging\
+  \ enabled, as it relies on the presence of specific message IDs. You can find specific\
+  \ instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880.\
+  \ \n"
+source: not_applicable
+sourcetype: cisco:asa
+separator: null
+supported_TA:
+- name: Cisco Security Cloud
+  url: https://splunkbase.splunk.com/app/7404
+  version: 3.4.2
+fields:
+- Cisco_ASA_action
+- Cisco_ASA_message_id
+- Cisco_ASA_user
+- Cisco_ASA_vendor_action
+- IP
+- Username
+- _bkt
+- _cd
+- _eventtype_color
+- _indextime
+- _raw
+- _serial
+- _si
+- _sourcetype
+- _time
+- acl
+- action
+- app
+- assigned_ip
+- bytes
+- category
+- command
+- communication_protocol
+- connections_in_use
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- dest_host
+- dest_interface
+- dest_ip
+- dest_nt_domain
+- dest_port
+- dest_public_port
+- dest_translated_host
+- dest_translated_ip
+- dest_translated_port
+- dest_user
+- dest_zone
+- direction
+- duration
+- duration_day
+- duration_hour
+- duration_minute
+- duration_second
+- dvc
+- eventtype
+- group
+- host
+- ids_type
+- index
+- laction
+- linecount
+- most_used_connections
+- object
+- object_attrs
+- object_category
+- object_id
+- product
+- protocol
+- protocol_version
+- punct
+- reason
+- result
+- rule
+- rule_name
+- session_id
+- severity
+- signature
+- signature_id
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_host
+- src_interface
+- src_ip
+- src_nt_domain
+- src_port
+- src_public_port
+- src_translated_host
+- src_translated_ip
+- src_translated_port
+- src_user
+- src_zone
+- ssl_is_valid
+- status
+- tag
+- tag::action
+- tag::app
+- tag::eventtype
+- tag::object_category
+- teardown_initiator
+- timeendpos
+- timestartpos
+- transport
+- type
+- user
+- vendor
+- vendor_action
+- vendor_product
+- vendor_severity
+- zone
+example_log: 'Sep 23 19:27:50 18.144.133.67 :2025-09-23T19:27:49Z: %ASA-session-7-609002:
+  Teardown local-host management:54.245.234.201 duration 0:02:01 Sep 23 18:07:00 18.144.133.67
+  :2025-09-23T18:07:00Z: %ASA-session-7-710005: TCP request discarded from 198.27.166.158/55508
+  to management:172.31.12.229/443'

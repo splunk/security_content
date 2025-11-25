@@ -1,7 +1,7 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 11
-date: '2025-07-29'
+version: 12
+date: '2025-10-14'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -44,6 +44,7 @@ tags:
   - Termite Ransomware
   - Interlock Ransomware
   - NailaoLocker Ransomware
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1485

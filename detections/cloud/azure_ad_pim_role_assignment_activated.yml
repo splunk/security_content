@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assignment Activated
 id: 952e80d0-e343-439b-83f4-808c3e6fbf2e
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -59,6 +59,7 @@ tags:
   analytic_story:
   - Azure Active Directory Privilege Escalation
   - Azure Active Directory Persistence
+  - Scattered Lapsus$ Hunters
   asset_type: Azure Active Directory
   mitre_attack_id:
   - T1098.003

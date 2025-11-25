@@ -1,0 +1,19 @@
+name: Suspicious Microsoft 365 Copilot Activities
+id: 34cb1972-285e-4a3e-b235-d64246fcc8df
+version: 1
+date: '2025-09-24'
+author: Rod Soto, Splunk
+status: production
+description: Leverage advanced Splunk searches to detect and investigate suspicious activities targeting Microsoft 365 Copilot, including prompt injection attacks, agentic jailbreaks, information extraction attempts, compliance violations, and anomalous user behaviors.
+narrative: Modern adversaries targeting AI systems employ increasingly sophisticated techniques that mirror traditional malware campaigns. Our detection framework identifies multi-stage attacks where threat actors use obfuscated prompts, layered social engineering, and persistent manipulation techniques to compromise AI security controls. These attacks often involve initial reconnaissance through seemingly benign requests, followed by escalated attempts to extract sensitive information or establish persistent behavioral modifications
+references:
+- https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+- https://labs.zenity.io/p/a-copilot-studio-story-2-when-aijacking-leads-to-full-data-exfiltration-bc4a
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

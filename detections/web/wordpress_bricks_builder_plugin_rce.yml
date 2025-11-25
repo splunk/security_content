@@ -1,7 +1,7 @@
 name: WordPress Bricks Builder plugin RCE
 id: 56a8771a-3fda-4959-b81d-2f266e2f679f
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Michael Haag, Splunk
 data_source:
 - Nginx Access
@@ -59,6 +59,7 @@ rba:
 tags:
   analytic_story:
   - WordPress Vulnerabilities
+  - Hellcat Ransomware
   asset_type: Web Server
   mitre_attack_id:
   - T1190

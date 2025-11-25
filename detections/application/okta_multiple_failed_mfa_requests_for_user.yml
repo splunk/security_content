@@ -1,7 +1,7 @@
 name: Okta Multiple Failed MFA Requests For User
 id: 826dbaae-a1e6-4c8c-b384-d16898956e73
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 data_source:
 - Okta
@@ -52,6 +52,7 @@ rba:
 tags:
   analytic_story:
   - Okta Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: Okta Tenant
   mitre_attack_id:
   - T1621

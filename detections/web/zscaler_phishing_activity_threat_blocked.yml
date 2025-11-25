@@ -1,7 +1,7 @@
 name: Zscaler Phishing Activity Threat Blocked
 id: 68d3e2c1-e97f-4310-b080-dea180b48aa9
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -56,6 +56,7 @@ rba:
 tags:
   analytic_story:
   - Zscaler Browser Proxy Threats
+  - Hellcat Ransomware
   asset_type: Web Server
   mitre_attack_id:
   - T1566

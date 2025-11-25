@@ -1,7 +1,7 @@
 name: ESXi SSH Brute Force
 id: 68fe4efa-bbbb-44ee-9f09-d07d2f0f346b
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2025-10-14'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+    - Hellcat Ransomware
     - ESXi Post Compromise
     - Black Basta Ransomware
   asset_type: Infrastructure

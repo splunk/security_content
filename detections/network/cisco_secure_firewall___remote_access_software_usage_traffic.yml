@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 2
-date: '2025-07-29'
+version: 3
+date: '2025-10-14'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -79,6 +79,7 @@ tags:
   - Cisco Secure Firewall Threat Defense Analytics
   - Scattered Spider
   - Interlock Ransomware
+  - Scattered Lapsus$ Hunters
   asset_type: Network
   mitre_attack_id:
   - T1219

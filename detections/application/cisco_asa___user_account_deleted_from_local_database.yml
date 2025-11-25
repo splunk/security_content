@@ -1,0 +1,75 @@
+name: Cisco ASA - User Account Deleted From Local Database
+id: 2d4b9e7f-5c3a-4d8e-9b1f-8a6c5e2d4f7a
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects deletion of user accounts from Cisco ASA devices via CLI or ASDM.
+  Adversaries may delete local accounts to cover their tracks, remove evidence of their activities, disrupt incident response efforts, or deny legitimate administrator access during an attack. Account deletion can also indicate an attempt to hide the creation of temporary accounts used during compromise.
+  The detection monitors for ASA message ID 502102, which is generated whenever a local user account is deleted from the device, capturing details including the deleted username, privilege level, and the administrator who performed the deletion.
+  Investigate unexpected account deletions, especially those involving privileged accounts (level 15), deletions performed outside business hours, deletions by non-administrative users, or deletions that coincide with other suspicious activities.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (502102)
+  | fillnull
+  | stats count earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(action) as action
+          values(message_id) as message_id
+          values(result) as result
+          values(privilege_level) as privilege_level
+    by host user
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___user_account_deleted_from_local_database_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 502102.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message ID 502102.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Legitimate deletions occur during employee offboarding, contractor removal, account cleanup, or service account decommissioning. Verify against HR records and change management tickets.
+  Filter known admin accounts during business hours.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773969
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Local user account $user$ with privilege level $privilege_level$ was deleted from Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 40
+    - field: user
+      type: user
+      score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1531
+    - T1070.008
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

@@ -1,0 +1,88 @@
+name: M365 Exported eDiscovery Prompts
+id: 4fc2d127-ba47-45df-b56c-4ec626ee735b
+version: 1
+date: '2025-10-07'
+author: Rod Soto, Splunk
+description: M365 exported eDiscovery prompt logs from Microsoft Purview contain user interactions with M365 Copilot, including the actual prompt text (Subject_Title), sender information, timestamps, and metadata about the AI conversations. These logs are exported through Purview's eDiscovery functionality and provide visibility into how users are querying and attempting to interact with Copilot, making them valuable for detecting jailbreak attempts, data exfiltration requests, policy violations, and other security-relevant AI usage patterns. The logs capture the full conversational context necessary for identifying malicious prompt injection, social engineering attempts against the AI, and unauthorized information disclosure requests.
+source: csv
+sourcetype: csv
+fields:
+- Added by
+- Author
+- Compound path
+- Contains deleted message
+- Contains edited message
+- Conversation name
+- Conversation type
+- Created
+- Created by
+- Data source
+- Date
+- Doc authors
+- Doc date modified
+- Doc modified by
+- Document ID index
+- Email date sent
+- Email importance
+- Email participant domains
+- Email recipient domains
+- Email recipients
+- Email sender domain
+- Error warning
+- File extension
+- File name
+- Has attachment
+- Has text
+- Immutable ID
+- Internet message ID
+- Is attachment from transcript
+- Is doc from conversation
+- Is modern attachment
+- Is read
+- Item class
+- Item source
+- Last modified by
+- Last modified time
+- Location ID
+- Location sub type
+- Message kind
+- Modern attachment parent ID
+- Original path
+- Participants
+- Received
+- Recipient count
+- Retention label
+- SPO unique ID
+- Sender
+- Sensitive type
+- Size
+- Source ID
+- Status
+- Subject_Title
+- Target path
+- Title
+- To
+- Type
+- Workload
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- eventtype
+- host
+- index
+- linecount
+- punct
+- source
+- sourcetype
+- splunk_server
+- tag
+- timeendpos
+- timestamp
+- timestartpos
+output_fields: []
+example_log: 'Succeeded,,IndexQuery,,,,,,,,,,rodsoto@rodsoto.onmicrosoft.com/TeamsMessagesData/Card.html,False,False,,,,,,,,,All people and groups,2025-08-25 20:58:43Z,,,,,,,,,,,,,,,,1591522,,,,2025-08-25T20:58:43Z,,Normal,,,rodsoto.onmicrosoft.com,,,Copilot in Word,,rodsoto.onmicrosoft.com,,,,,,,,,,,,,html,Card.html,,,,True,False,,,Exchange/sourceE83F8E164F7280A5033281941716356F/TEAMS/19I5dhdbjE2GdGNAYuFGzQrEHvS-vIfpjDDRO05LjzN01threadv2/2025082512/19I5dhdbjE2GdGNAYuFGzQrEHvS-vIfpjDDRO05LjzN01threadv2-2025082512.html-mimeatt64601eefbf644a2a940f679f8ae1d4be-1,,,,1756155523926,False,,False,,,,,,True,,True,,,,IPM.SkypeTeams.Message.Copilot.Word,rodsoto@rodsoto.onmicrosoft.com,,2025-08-25T20:58:45Z,,,d03dab29-e210-4507-8932-ce3c7e74e5ae,PrimaryMailBox,,,,,,,Exchange/sourceE83F8E164F7280A5033281941716356F/TEAMS/19I5dhdbjE2GdGNAYuFGzQrEHvS-vIfpjDDRO05LjzN01threadv2/2025082512/19I5dhdbjE2GdGNAYuFGzQrEHvS-vIfpjDDRO05LjzN01threadv2-2025082512.html,,,,,,,,,/TeamsMessagesData,,,Rod  Soto <rodsoto@rodsoto.onmicrosoft.com>;Copilot in Word,,,,,,2025-08-25T20:58:43Z,1,,,,,,rodsoto@rodsoto.onmicrosoft.com,,,,,,,49292,rodsoto@rodsoto.onmicrosoft.com,,,00000000-0000-0000-0000-000000000000,,,Items.1.001.zip\Exchange\rodsoto@rodsoto.onmicrosoft.com\TeamsMessagesData\Card_46.html,,,,,,,,,Copilot in Word,,Message,,,,,Exchange'

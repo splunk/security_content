@@ -1,7 +1,7 @@
 name: Windows AutoIt3 Execution
 id: 0ecb40d9-492b-4a57-9f87-515dd742794c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-06'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -9,23 +9,36 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-description: The following analytic detects the execution of AutoIt3, a scripting
-  language often used for automating Windows GUI tasks and general scripting. It identifies
-  instances where AutoIt3 or its variants are executed by searching for process names
-  or original file names matching 'autoit3.exe'. This activity is significant because
-  attackers frequently use AutoIt3 to automate malicious actions, such as executing
-  malware. If confirmed malicious, this activity could lead to unauthorized code execution,
+description: |
+  The following analytic detects the execution of AutoIt3, a scripting
+  language often used for automating Windows GUI tasks and general scripting. 
+  It identifies instances where AutoIt3 or its variants are executed by searching for process names
+  or original file names matching 'autoit3.exe'. 
+  This activity is significant because attackers frequently use AutoIt3 to automate malicious actions, such as executing malware. 
+  If confirmed malicious, this activity could lead to unauthorized code execution, 
   system compromise, or further propagation of malware within the environment.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name IN ("autoit3.exe",
-  "autoit*.exe") OR Processes.original_file_name IN ("autoit3.exe", "autoit*.exe")
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_autoit3_execution_filter`'
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+    max(_time) as lastTime 
+  from datamodel=Endpoint.Processes where 
+  (
+    Processes.process_name = "autoit*.exe" 
+    OR 
+    Processes.original_file_name = "autoit*.exe"
+  )
+  by Processes.action Processes.dest Processes.original_file_name 
+     Processes.parent_process Processes.parent_process_exec 
+     Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path 
+     Processes.process Processes.process_exec Processes.process_guid 
+     Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user 
+     Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_autoit3_execution_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

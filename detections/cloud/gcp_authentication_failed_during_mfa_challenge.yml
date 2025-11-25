@@ -1,7 +1,7 @@
 name: GCP Authentication Failed During MFA Challenge
 id: 345f7e1d-a3fe-4158-abd8-e630f9878323
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -53,6 +53,7 @@ rba:
 tags:
   analytic_story:
   - GCP Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: Google Cloud Platform tenant
   mitre_attack_id:
   - T1078.004

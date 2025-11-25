@@ -1,0 +1,19 @@
+name: PromptLock
+id: e86c8a7b-28f3-4aca-b6fa-50f4e8af2d2e
+version: 1
+date: '2025-09-09'
+author: Teoderick Contreras, Splunk
+status: production
+description: PromptLock is a proof-of-concept ransomware identified by ESET in August 2025, marking the first known instance of malware utilizing generative artificial intelligence (GenAI) for attack execution. Unlike traditional ransomware, PromptLock employs a locally hosted AI language model, specifically OpenAI's gpt-oss:20b, accessed via the Ollama API, to dynamically generate malicious Lua scripts in real time. These scripts are compatible across multiple platforms, including Windows, Linux, and macOS. During an infection, PromptLock autonomously determines which files to target for exfiltration or encryption based on predefined prompts, allowing it to adapt its behavior to the environment. The malware utilizes the SPECK 128-bit encryption algorithm and is written in Golang. While ESET considers PromptLock a proof of concept, its capabilities highlight the potential for AI to significantly enhance the sophistication and adaptability of ransomware attacks.
+narrative: In August 2025, ESET researchers uncovered PromptLock, a proof-of-concept ransomware that represents a new frontier in cyber threats. Unlike conventional ransomware, PromptLock leverages generative artificial intelligence to autonomously create malicious scripts tailored to its environment. Using a locally hosted AI language model accessed through the Ollama API, it generates Lua scripts on the fly, enabling it to adapt dynamically to different operating systems, including Windows, macOS, and Linux. The malware can identify and target files for encryption or exfiltration based on contextual prompts, demonstrating a level of adaptability previously unseen in ransomware. Written in Golang and employing SPECK 128-bit encryption, PromptLock exemplifies how AI can enhance both the sophistication and evasiveness of malicious software. While currently a proof of concept, its discovery underscores the emerging risk of AI-driven cyberattacks and highlights the need for vigilant, forward-looking cybersecurity measures.
+references:
+  - https://x.com/ESETresearch/status/1963209716684718315
+  - https://arxiv.org/pdf/2508.20444
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

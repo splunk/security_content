@@ -1,9 +1,10 @@
 name: O365 Mailbox Folder Read Permission Granted
 id: cd15c0a8-470e-4b12-9517-046e4927db30
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-21'
 author: Mauricio Velazco, Splunk
-data_source: []
+data_source:
+  - O365 ModifyFolderPermissions
 type: TTP
 status: production
 description: The following analytic identifies instances where read permissions are

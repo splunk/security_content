@@ -1,0 +1,30 @@
+name: Kerberos Coercion with DNS
+id: bc6762a6-b66f-4be2-8a90-c58521069858
+version: 1
+status: production
+date: '2025-11-13'
+author: Raven Tait, Splunk
+description: Detects Kerberos coercion attacks via DNS manipulation. Identifies DNS record modifications 
+  where the Distinguished Name contains a base64-encoded CREDENTIAL_TARGET_INFORMATION structure.
+narrative: CVE-2025-33073 is a critical vulnerability related to Kerberos 
+  Reflection attacks impacting Active Directory environments. The journey began with a 
+  configuration involving a Domain Controller set up in a lab environment where offensive 
+  tradecraft was being developed. The attacker utilized a DNS record manipulation technique 
+  that involved appending a specific "magic string" to the hostname, which ultimately 
+  enabled successful coercive authentication, leading to remote code execution as SYSTEM.
+references: 
+- https://web.archive.org/web/20250617122747/https://www.synacktiv.com/publications/ntlm-reflection-is-dead-long-live-ntlm-reflection-an-in-depth-analysis-of-cve-2025
+- https://www.synacktiv.com/publications/relaying-kerberos-over-smb-using-krbrelayx
+- https://www.guidepointsecurity.com/blog/the-birth-and-death-of-loopyticket/
+tags:
+  category:
+  - Adversary Tactics
+  - Account Compromise
+  - Lateral Movement
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2025-33073

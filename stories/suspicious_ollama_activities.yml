@@ -1,0 +1,20 @@
+name: Suspicious Ollama Activities
+id: 98ec707b-aaf9-43ce-b74d-7c2b49925a7b
+version: 1
+date: '2025-10-05'
+author: Rod Soto, Splunk
+status: production
+description: Leverage advanced Splunk searches to detect and investigate suspicious activities targeting Ollama local LLM framework, including prompt injection attacks, information extraction attempts, compliance violations, and anomalous user behaviors.
+narrative: Modern adversaries targeting Ollama deployments employ increasingly sophisticated techniques that mirror traditional malware campaigns. Our detection framework identifies multi-stage attacks where threat actors use obfuscated prompts, layered social engineering, and persistent manipulation techniques to compromise local model security controls. These attacks often involve initial reconnaissance through seemingly benign API requests, followed by escalated attempts to extract model weights, manipulate Modelfile configurations, or establish persistent behavioral modifications through custom model injection.
+references:
+- https://github.com/rosplk/ta-ollama
+- https://owasp.org/www-project-top-10-for-large-language-model-applications/
+- https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

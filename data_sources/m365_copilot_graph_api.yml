@@ -1,0 +1,81 @@
+name: M365 Copilot Graph API
+id: 30dd2202-869c-47fb-ad37-4f4d4c93c6b7
+version: 1
+date: '2025-09-30'
+author: Rod Soto, Splunk
+description: Access Logs from M365 Copilot access via Graph API
+source: AuditLogs.SignIns
+sourcetype: o365:graph:api
+supported_TA:
+- name: Splunk Add-on for Microsoft Office 365
+  url: https://splunkbase.splunk.com/app/4055
+  version: 5.0.0
+fields:
+- appDisplayName
+- appId
+- clientAppUsed
+- conditionalAccessStatus
+- correlationId
+- createdDateTime
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- deviceDetail.browser
+- deviceDetail.deviceId
+- deviceDetail.displayName
+- deviceDetail.isCompliant
+- deviceDetail.isManaged
+- deviceDetail.operatingSystem
+- deviceDetail.trustType
+- eventtype
+- host
+- id
+- index
+- ipAddress
+- isInteractive
+- linecount
+- location.city
+- location.countryOrRegion
+- location.geoCoordinates.altitude
+- location.geoCoordinates.latitude
+- location.geoCoordinates.longitude
+- location.state
+- punct
+- resourceDisplayName
+- resourceId
+- riskDetail
+- riskLevelAggregated
+- riskLevelDuringSignIn
+- riskState
+- source
+- sourcetype
+- splunk_server
+- status.additionalDetails
+- status.errorCode
+- status.failureReason
+- timeendpos
+- timestartpos
+- userDisplayName
+- userId
+- userPrincipalName
+output_fields: []
+example_log: '{"id": "7fbc0a97-7f78-4cc8-9377-dc94d2ad1e00", "createdDateTime": "2025-09-30T12:34:20Z",
+  "userDisplayName": "Rod  Soto", "userPrincipalName": "rodsoto@rodsoto.onmicrosoft.com",
+  "userId": "bfb8c366-0406-41a5-b3e3-328f4a3b4484", "appId": "9199bf20-a13f-4107-85dc-02114787ef48",
+  "appDisplayName": "One Outlook Web", "ipAddress": "127.0.0.1", "clientAppUsed":
+  "Browser", "correlationId": "8fe7aa9b-42c8-b52e-c6f2-8e4dfc07996b", "conditionalAccessStatus":
+  "notApplied", "isInteractive": true, "riskDetail": "none", "riskLevelAggregated":
+  "none", "riskLevelDuringSignIn": "none", "riskState": "none", "riskEventTypes":
+  [], "riskEventTypes_v2": [], "resourceDisplayName": "Office 365 Exchange Online",
+  "resourceId": "00000002-0000-0ff1-ce00-000000000000", "status": {"errorCode": 0,
+  "failureReason": "Other.", "additionalDetails": "MFA requirement satisfied by claim
+  in the token"}, "deviceDetail": {"deviceId": "", "displayName": "", "operatingSystem":
+  "MacOs", "browser": "Chrome 140.0.0", "isCompliant": false, "isManaged": false,
+  "trustType": ""}, "location": {"city": "Miami", "state": "Florida", "countryOrRegion":
+  "US", "geoCoordinates": {"altitude": null, "latitude": 25.76286, "longitude": -80.31196}},
+  "appliedConditionalAccessPolicies": []}'

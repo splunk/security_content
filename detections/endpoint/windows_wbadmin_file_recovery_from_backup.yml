@@ -1,0 +1,93 @@
+name: Windows WBAdmin File Recovery From Backup
+id: 0175f0b7-728d-4038-bbf1-1c30d6ee3d31
+version: 1
+date: '2025-10-15'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic identifies the execution of wbadmin.exe with arguments indicative of restoring files from an existing backup. 
+  WBAdmin is a legitimate Windows Backup utility used for creating, managing, and restoring backups. However, adversaries may abuse it to restore specific files (e.g., sensitive credentials, configuration files, or malware stagers) from prior backups to regain access or re-establish persistence after cleanup or encryption events.
+  Monitoring this behavior is important because restoring individual files from a system backup outside of approved recovery workflows may indicate an attacker attempting to retrieve deleted or encrypted data, recover previously dropped payloads, or access prior system states as part of post-compromise activity.
+  If confirmed malicious, this action could enable attackers to regain operational footholds, extract sensitive data, or restore tampered components, undermining remediation and containment efforts.
+data_source:
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly` 
+    count min(_time) as firstTime 
+          max(_time) as lastTime 
+          
+  from datamodel=Endpoint.Processes where 
+  
+  `process_wbadmin`
+  Processes.process = "*start*"
+  Processes.process = "*recovery*"
+  Processes.process = "*itemtype:file*" 
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+     Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id 
+     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id 
+     Processes.vendor_product
+  
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_wbadmin_file_recovery_from_backup_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: |
+  Administrators may use WBAdmin to restore files during approved recovery or testing activities. Validate the users and context of the operation and apply additional filters as needed.
+references:
+- https://lolbas-project.github.io/lolbas/Binaries/Wbadmin/
+- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/wbadmin-start-recovery
+- https://redmondmag.com/articles/2025/07/18/restoring-a-file-from-a-windows-image-backup.aspx
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: An attempt to restore a file from a backup via WBAdmin $process$ was observed on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 30
+  threat_objects: []
+tags:
+  analytic_story:
+  - Credential Dumping
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1490
+  - T1565.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1565.001/wbadmin_recovery/wbadmin_recovery.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

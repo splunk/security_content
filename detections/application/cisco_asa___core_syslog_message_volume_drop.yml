@@ -1,0 +1,64 @@
+name: Cisco ASA - Core Syslog Message Volume Drop
+id: 4b4f8fdd-1f9e-45d8-9b0f-1f64c0b297a4
+version: 3
+date: '2025-10-13'
+author: Bhavin Patel, Micheal Haag, Splunk
+status: production
+type: Hunting
+description: |
+  Adversaries may intentionally suppress or reduce the volume of core Cisco ASA syslog messages to evade detection or cover their tracks. This hunting search is recommended to proactively identify suspicious downward shifts or absences in key syslog message IDs, which may indicate tampering or malicious activity. Visualizing this data in Splunk dashboards enables security teams to quickly spot anomalies and investigate potential compromise.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (302013, 302014, 609002, 710005)
+  | eval msg_desc=case(
+    message_id="302013","Built inbound TCP connection",
+    message_id="302014","Teardown TCP connection",
+    message_id="609002","Teardown local-host management",
+    message_id="710005","TCP request discarded"
+  )
+  | bin _time span=15m
+  | stats count values(msg_desc) as message_description
+                values(dest) as dest
+    by _time message_id
+  | xyseries _time message_id count
+  | `cisco_asa___core_syslog_message_volume_drop_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA. To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward both debug and informational level syslog messages before they are sent to Splunk.
+  This analytic is designed to be used with comprehensive logging enabled, as it relies on the presence of specific message IDs. You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html#toc-hId--1451069880.
+  The search produces a time-series suitable for dashboards to visualize drops across message IDs 302013, 302014, 609002, and 710005.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Planned maintenance, network outages, routing changes, or benign configuration updates may reduce log volume temporarily.
+  Validate against change management records and corroborate with device health metrics.
+references:
+  - https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/
+  - https://sec.cloudapps.cisco.com/security/center/resources/asa_ftd_continued_attacks
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-z5xP8EUB
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-asaftd-webvpn-YROOTUW
+  - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-http-code-exec-WmfP3h3O
+  - https://www.cisa.gov/news-events/directives/ed-25-03-identify-and-mitigate-potential-compromise-cisco-devices
+  - https://www.ncsc.gov.uk/news/persistent-malicious-targeting-cisco-devices
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+  asset_type: Network
+  mitre_attack_id:
+    - T1562
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+  cve:
+    - CVE-2025-20333
+    - CVE-2025-20362
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/arcane_door/cisco_asa.log
+        source: not_applicable
+        sourcetype: cisco:asa

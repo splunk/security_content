@@ -1,0 +1,121 @@
+name: Ollama Server
+id: a7761a7c-ecaa-4164-8517-959cabfacaf9
+version: 2
+date: '2025-11-04'
+author: Rod Soto, Splunk
+description: 'Ollama server logs (HTTP access logs via GIN framework and system logs
+  including GPU/CPU utilization, model loading, memory allocation, errors, and warnings)
+  via Splunk TA-ollama add-on by configuring file monitoring inputs to your log directories
+  (sourcetype: ollama:server), or enable HEC for real-time API telemetry and prompt
+  analytics (sourcetypes: ollama:api, ollama:prompts). This TA is not available on
+  Splunkbase and must be installed manually via the GitHub repository - https://github.com/rosplk/ta-ollama'
+sourcetype: ollama:server
+source: server.log
+supported_TA:
+- name: TA-ollama
+  url: https://splunkbase.splunk.com/app/8024
+  version: 0.1.4
+fields:
+- CPU_0_AVX
+- CPU_0_AVX2
+- CPU_0_AVX_VNNI
+- CPU_0_BMI2
+- CPU_0_F16C
+- CPU_0_FMA
+- CPU_0_LLAMAFILE
+- CPU_0_SSE3
+- CPU_0_SSSE3
+- CPU_1_LLAMAFILE
+- CUDA_0_ARCHS
+- CUDA_0_PEER_MAX_BATCH_SIZE
+- CUDA_0_USE_GRAPHS
+- LOG
+- OS
+- app
+- args
+- available
+- bundle
+- cmd
+- compiler
+- compute
+- cores
+- count
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- date_wday
+- date_year
+- date_zone
+- dest
+- driver
+- efficiency
+- env
+- eventtype
+- free
+- free_swap
+- gpus
+- host
+- http_d
+- http_method
+- http_path
+- http_pattern
+- http_response_code
+- http_status
+- id
+- index
+- installer
+- interval
+- layers_model
+- layers_offload
+- layers_requested
+- layers_split
+- level
+- library
+- linecount
+- maxEfficiencyClass
+- memory_available
+- memory_gpu_overhead
+- memory_graph_full
+- memory_graph_partial
+- memory_required_allocations
+- memory_required_full
+- memory_required_kv
+- memory_required_partial
+- memory_weights_nonrepeating
+- memory_weights_repeating
+- memory_weights_total
+- model
+- msg
+- name
+- overhead
+- package
+- parallel
+- port
+- punct
+- request
+- request_id
+- required
+- response_time_ms
+- source
+- sourcetype
+- splunk_server
+- status
+- threads
+- threshold
+- time
+- timeendpos
+- timestartpos
+- tool_count
+- total
+- variant
+- vendor_product
+- version
+output_fields: []
+example_log: time=2025-10-02T14:46:19.789-04:00 level=INFO source=server.go:544 msg=offload
+  library=cuda layers.requested=-1 layers.model=29 layers.offload=29 layers.split=[29]
+  memory.available="[6.9 GiB]" memory.gpu_overhead="0 B" memory.required.full="3.1
+  GiB" memory.required.partial="3.1 GiB" memory.required.kv="448.0 MiB" memory.required.allocations="[3.1
+  GiB]" memory.weights.total="1.9 GiB" memory.weights.repeating="1.6 GiB" memory.weights.nonrepeating="308.2
+  MiB" memory.graph.full="256.5 MiB" memory.graph.partial="570.7 MiB"
