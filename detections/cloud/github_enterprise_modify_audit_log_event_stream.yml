@@ -1,7 +1,7 @@
 name: GitHub Enterprise Modify Audit Log Event Stream
 id: 99abf2e1-863c-4ec6-82f8-714391590a4c
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-10-27'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -47,6 +47,7 @@ rba:
 tags:
   analytic_story:
   - GitHub Malicious Activity
+  - NPM Supply Chain Compromise
   asset_type: GitHub
   mitre_attack_id:
   - T1562.008
