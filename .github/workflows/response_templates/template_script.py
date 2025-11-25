@@ -46,15 +46,19 @@ def _get_template_mapping(directory):
     if not path.exists() or not path.is_dir():
         raise ValueError(f"The directory {directory} does not exist or is not a directory.")
     
-    files = [f for f in path.iterdir() if f.is_file()]
+    # Check for non-JSON files
+    non_json_files = [f.name for f in path.iterdir() if f.is_file() and f.suffix != '.json']
+    if non_json_files:
+        raise ValueError(f"Non-JSON files found in directory {directory}: {', '.join(non_json_files)}")
+    
+    files = [f for f in path.glob("*.json") if f.is_file()]
     if not files:
         raise ValueError(f"No files found in the directory {directory} to merge.")
     
     template_to_file_mapping = collections.defaultdict(list)
 
     for file in files:
-        file_name_no_ext= file.name.replace(".json", "")
-        name_split = file_name_no_ext.rsplit("_v", 1)
+        name_split = file.stem.rsplit("_v", 1)
         if len(name_split) != 2:
             raise ValueError(f"File {file.name} does not match expected pattern '<template_name>_v<version>'")
         template_name = name_split[0]
