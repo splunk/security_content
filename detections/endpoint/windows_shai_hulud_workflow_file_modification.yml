@@ -64,7 +64,7 @@ rba:
     score: 15
 tags:
   analytic_story:
-  - npm Supply Chain Compromise
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.006

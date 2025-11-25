@@ -74,7 +74,7 @@ tags:
   - Linux Living Off The Land
   - Data Exfiltration
   - Ingress Tool Transfer
-  - npm Supply Chain Compromise
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1105

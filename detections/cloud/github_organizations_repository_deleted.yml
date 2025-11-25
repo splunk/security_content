@@ -49,7 +49,7 @@ rba:
 tags:
   analytic_story:
     - GitHub Malicious Activity
-    - npm Supply Chain Compromise
+    - NPM Supply Chain Compromise
   asset_type: GitHub
   mitre_attack_id:
     - T1485

@@ -127,7 +127,7 @@ tags:
     - Ingress Tool Transfer
     - Linux Living Off The Land
     - Log4Shell CVE-2021-44228
-    - npm Supply Chain Compromise
+    - NPM Supply Chain Compromise
   asset_type: Endpoint
   cve:
     - CVE-2021-44228

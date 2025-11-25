@@ -79,10 +79,12 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - Cisco Network Visibility Module Analytics
     - Compromised Windows Host
     - Ingress Tool Transfer
-    - Cisco Network Visibility Module Analytics
-    - npm Supply Chain Compromise
+    - Microsoft WSUS CVE-2025-59287
+    - NPM Supply Chain Compromise
+    - PromptLock
   asset_type: Endpoint
   mitre_attack_id:
     - T1105

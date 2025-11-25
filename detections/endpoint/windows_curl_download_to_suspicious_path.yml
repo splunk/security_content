@@ -93,15 +93,17 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - Black Basta Ransomware
     - China-Nexus Threat Activity
-    - Forest Blizzard
-    - Compromised Windows Host
-    - Salt Typhoon
-    - Ingress Tool Transfer
-    - npm Supply Chain Compromise
-    - IcedID
     - Cisco Network Visibility Module Analytics
+    - Compromised Windows Host
+    - Forest Blizzard
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - IcedID
+    - Ingress Tool Transfer
+    - NPM Supply Chain Compromise
+    - Salt Typhoon
   asset_type: Endpoint
   mitre_attack_id:
     - T1105

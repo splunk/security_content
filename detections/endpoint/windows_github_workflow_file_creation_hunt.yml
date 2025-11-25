@@ -39,7 +39,7 @@ references:
 - https://github.com/SigmaHQ/sigma/pull/5658/files
 tags:
   analytic_story:
-  - npm Supply Chain Compromise
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.006

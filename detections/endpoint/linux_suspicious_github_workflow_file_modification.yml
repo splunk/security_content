@@ -43,7 +43,7 @@ references:
 - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
 tags:
   analytic_story:
-  - npm Supply Chain Compromise
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.006

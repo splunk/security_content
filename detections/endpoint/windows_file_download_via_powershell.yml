@@ -90,19 +90,23 @@ rba:
       type: process_name
 tags:
   analytic_story:
-    - Winter Vivern
-    - Phemedrone Stealer
-    - Malicious PowerShell
+    - APT37 Rustonotto and FadeStealer
+    - Cisco Network Visibility Module Analytics
     - Data Destruction
-    - SysAid On-Prem Software CVE-2023-47246 Vulnerability
-    - PHP-CGI RCE Attack on Japanese Organizations
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - HAFNIUM Group
     - Hermetic Wiper
     - IcedID
     - Ingress Tool Transfer
-    - HAFNIUM Group
+    - Malicious PowerShell
+    - Microsoft WSUS CVE-2025-59287
+    - NetSupport RMM Tool Abuse
+    - NPM Supply Chain Compromise
+    - Phemedrone Stealer
+    - PHP-CGI RCE Attack on Japanese Organizations
+    - SysAid On-Prem Software CVE-2023-47246 Vulnerability
+    - Winter Vivern
     - XWorm
-    - Cisco Network Visibility Module Analytics
-    - npm Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
     - T1059.001
