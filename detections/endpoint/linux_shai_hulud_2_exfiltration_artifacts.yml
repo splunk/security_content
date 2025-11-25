@@ -17,8 +17,14 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   Filesystem.file_name Filesystem.action Filesystem.user
   | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `linux_shai_hulud_2_exfiltration_artifacts_filter`'
-how_to_implement: Requires Endpoint.Filesystem datamodel populated from Sysmon for Linux or auditd.
-  Consider tuning for directories associated with npm/node activity (node_modules, /tmp).
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain filesystem events, specifically file creation
+  events. These logs must be processed using the appropriate Splunk Technology Add-ons
+  that are specific to the EDR product. The logs must also be mapped to the `Filesystem`
+  node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
+  to normalize the field names and speed up the data modeling process.
 known_false_positives: Low but possible. Generic filenames like cloud.json or environment.json may
   appear in legitimate contexts. Correlate with npm install activity or suspicious parent processes.
 references:
@@ -47,6 +53,7 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/shai_hulud_workflow_sysmon.log
