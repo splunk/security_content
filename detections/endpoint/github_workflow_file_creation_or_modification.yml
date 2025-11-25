@@ -22,8 +22,8 @@ search: |
   Filesystem.file_path IN (
     "*/.github/workflows/*.yaml",
     "*/.github/workflows/*.yml",
-    "*\\\\.github\\\\workflows\\\\*.yaml",
-    "*\\\\.github\\\\workflows\\\\*.yml"
+    "*\\.github\\workflows\\*.yaml",
+    "*\\.github\\workflows\\*.yml"
   )
 
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time

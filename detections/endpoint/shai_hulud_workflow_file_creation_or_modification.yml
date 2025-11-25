@@ -28,14 +28,14 @@ search: |
     "*/.github/workflows/shai-hulud-workflow.yml",
     "*/.github/workflows/shai-hulud.yaml",
     "*/.github/workflows/shai-hulud.yml",
-    "*\\\\.github\\\\workflows\\\\discussion.yaml",
-    "*\\\\.github\\\\workflows\\\\discussion.yml",
-    "*\\\\.github\\\\workflows\\\\formatter_*.yaml",
-    "*\\\\.github\\\\workflows\\\\formatter_*.yml",
-    "*\\\\.github\\\\workflows\\\\shai-hulud-workflow.yaml",
-    "*\\\\.github\\\\workflows\\\\shai-hulud-workflow.yml",
-    "*\\\\.github\\\\workflows\\\\shai-hulud.yaml",
-    "*\\\\.github\\\\workflows\\\\shai-hulud.yml"
+    "*\\.github\\workflows\\discussion.yaml",
+    "*\\.github\\workflows\\discussion.yml",
+    "*\\.github\\workflows\\formatter_*.yaml",
+    "*\\.github\\workflows\\formatter_*.yml",
+    "*\\.github\\workflows\\shai-hulud-workflow.yaml",
+    "*\\.github\\workflows\\shai-hulud-workflow.yml",
+    "*\\.github\\workflows\\shai-hulud.yaml",
+    "*\\.github\\workflows\\shai-hulud.yml"
   )
   
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
