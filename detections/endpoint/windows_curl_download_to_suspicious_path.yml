@@ -23,7 +23,7 @@ search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where
   `process_curl`
-  Processes.process IN ("*-O *","*--output*")
+  Processes.process IN ("*-O *","*--output*", "*--output-dir*")
   Processes.process IN (
         "*:\\PerfLogs\\*",
         "*:\\Windows\\Temp\\*",
