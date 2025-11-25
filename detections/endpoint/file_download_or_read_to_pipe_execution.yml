@@ -1,7 +1,7 @@
 name: File Download or Read to Pipe Execution
 id: 26f86252-1549-45e1-a212-eb26840e86bc
-version: 1
-date: '2025-10-16'
+version: 2
+date: '2025-11-25'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, DipsyTipsy
 status: production
 type: TTP
@@ -127,6 +127,7 @@ tags:
     - Ingress Tool Transfer
     - Linux Living Off The Land
     - Log4Shell CVE-2021-44228
+    - npm Supply Chain Compromise
   asset_type: Endpoint
   cve:
     - CVE-2021-44228
