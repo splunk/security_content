@@ -21,6 +21,7 @@ jobs:
         run: |
           echo "- Contentctl version - $(cat requirements.txt)"
           pip install -r requirements.txt
+          pip install pyyaml jsonschema
           git clone --depth=1 --single-branch --branch=master https://github.com/redcanaryco/atomic-red-team.git external_repos/atomic-red-team
           git clone --depth=1 --single-branch --branch=master https://github.com/mitre/cti external_repos/cti
       
