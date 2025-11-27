@@ -1,7 +1,7 @@
 name: Linux Magic SysRq Key Abuse
 id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
-version: 1
-date: '2025-08-28'
+version: 2
+date: '2025-11-27'
 author: Milad Cheraghi
 status: production
 type: TTP
@@ -12,9 +12,22 @@ description: |
   Monitoring SysRq abuse helps detect stealthy post-exploitation activity.
 data_source:
   - Linux Auditd Path
-search: '`linux_auditd` type=Path name="/proc/sysrq-trigger" OR name="/proc/sys/kernel/sysrq" OR name="/etc/sysctl.conf"
+search: '`linux_auditd` (type=PATH OR type=CWD)
+  | stats
+    values(type) as types,
+    values(name) as names,      
+    values(cwd) as cwd_list,     
+    values(_time) as event_times
+    by msg, host
+  | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A") 
+  | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+  | eval matched_paths = mvfilter(match(candidate_paths, ".*/proc/sysrq-trigger|.*/proc/sys/kernel/sysrq|.*/etc/sysctl.conf"))
+  | eval match_count = mvcount(matched_paths)
+  | eval reconstructed_path = mvindex(matched_paths, 0)
+  | eval e_time = mvindex(event_times, 0)
+  | where match_count > 0
   | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest name
+  | stats count min(e_time) as firstTime max(e_time) as lastTime by matched_paths reconstructed_path, current_working_directory, match_count, dest, msg
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `linux_magic_sysrq_key_abuse_filter`'
@@ -23,7 +36,7 @@ how_to_implement: |
     - /proc/sysrq-trigger
     - /proc/sys/kernel/sysrq
     - /etc/sysctl.conf
-  with write and attribute changes (`-p wa`) and key `sysrq`.
+  with write and attribute changes (`-p wa`) and key `sysrq`. Make sure the type=CWD record type is activate in your auditd configuration and
   Use the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.
   This enables effective monitoring of Linux endpoints for SysRq abuse.
 known_false_positives: Legitimate administrative activity modifying SysRq for debugging or recovery.
@@ -73,6 +86,6 @@ tests:
   - name: True Positive Test
     attack_data:
       - data:
-          https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/linux_sysrq_abuse/linux_sysrq_abuse.log
+          https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/auditd_path_sysrq/path_sysrq.log
         source: auditd
         sourcetype: auditd

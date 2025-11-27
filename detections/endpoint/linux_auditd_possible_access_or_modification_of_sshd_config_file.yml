@@ -1,7 +1,7 @@
 name: Linux Auditd Possible Access Or Modification Of Sshd Config File
 id: acb3ea33-70f7-47aa-b335-643b3aebcb2f
-version: 7
-date: '2025-06-10'
+version: 8
+date: '2025-11-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -15,10 +15,22 @@ description: The following analytic detects suspicious access or modification of
   access, posing a severe security risk.
 data_source:
 - Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/ssh/ssh_config*" 
+search: '`linux_auditd` (type=PATH OR type=CWD)
+  | stats
+    values(type) as types,
+    values(name) as names,      
+    values(cwd) as cwd_list,     
+    values(_time) as event_times
+    by msg, host
+  | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A") 
+  | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+  | eval matched_paths = mvfilter(match(candidate_paths, "/etc/ssh/ssh_config.*"))
+  | eval match_count = mvcount(matched_paths)
+  | eval reconstructed_path = mvindex(matched_paths, 0)
+  | eval e_time = mvindex(event_times, 0)
+  | where match_count > 0
   | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime 
-  by name nametype ogid type dest 
+  | stats count min(e_time) as firstTime max(e_time) as lastTime by matched_paths reconstructed_path, current_working_directory, match_count, dest, msg
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   |  `linux_auditd_possible_access_or_modification_of_sshd_config_file_filter`'
@@ -29,8 +41,8 @@ how_to_implement: To implement this detection, the process begins by ingesting a
   which is essential for correctly parsing and categorizing the data. The next step
   involves normalizing the field names  to match the field names set by the Splunk
   Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
+  and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration. 
+  This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
 known_false_positives: Administrator or network operator can use this commandline
   for automation purposes. Please update the filter macros to remove false positives.
 references:
@@ -76,6 +88,6 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/linux_auditd_nopasswd/linux_path_ssh_config.log
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.004/auditd_path_ssh_config/path_ssh_config.log
     source: auditd
     sourcetype: auditd
