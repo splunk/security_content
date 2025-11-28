@@ -24,7 +24,7 @@ search: '`linux_auditd` (type=PATH OR type=CWD)
     by msg, host
   | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A") 
   | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
-  | eval matched_paths = mvfilter(match(candidate_paths, "/etc/profile|/etc/shells|/etc/profile\\.d|/etc/bash\\.bashrc.*|/etc/bashrc|.*/zsh/zprofile|.*/zsh/zshrc|.*/zsh/zlogin|.*/zsh/zlogout|/etc/csh\\.cshrc.*|/etc/csh\\.login.*|/root/\\.bashrc.*|/root/\\.bash_profile.*|/root/\\.profile.*|/root/\\.zshrc.*|/root/\\.zprofile.*|.*/\\.bashrc.*|.*/\\.zshrc.*|.*/\\.bash_profile.*|.*/\\.zprofile.*|.*/\\.profile.*|.*/\\.bash_login.*|.*/\\.bash_logout.*|.*/\\.zlogin.*|.*/\\.zlogout.*"))
+  | eval matched_paths = mvfilter(match(candidate_paths, "/etc/profile|/etc/shells|/etc/profile\\.d/.*|/etc/bash\\.bashrc.*|/etc/bashrc|.*/zsh/zprofile|.*/zsh/zshrc|.*/zsh/zlogin|.*/zsh/zlogout|/etc/csh\\.cshrc.*|/etc/csh\\.login.*|/root/\\.bashrc.*|/root/\\.bash_profile.*|/root/\\.profile.*|/root/\\.zshrc.*|/root/\\.zprofile.*|/home/.*/\\.bashrc.*|/home/.*/\\.zshrc.*|/home/.*/\\.bash_profile.*|/home/.*/\\.zprofile.*|/home/.*/\\.profile.*|/home/.*/\\.bash_login.*|/home/.*/\\.bash_logout.*|/home/.*/\\.zlogin.*|/home/.*/\\.zlogout.*"))
   | eval match_count = mvcount(matched_paths)
   | eval reconstructed_path = mvindex(matched_paths, 0)
   | eval e_time = mvindex(event_times, 0)
