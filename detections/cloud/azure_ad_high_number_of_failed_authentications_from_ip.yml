@@ -14,13 +14,16 @@ description: The following analytic detects an IP address with 20 or more failed
   within the Azure environment.
 data_source:
 - Azure Active Directory
-search: '`azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
-  | rename properties.* as * 
-  | bucket span=10m _time 
+search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
   | rename properties.userAgent as user_agent 
-  | fillnull 
+  | rename properties.* as * 
+  | bin span=10m _time 
+  | fillnull value=null
   | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(user) as user values(user_agent) as user_agent by src _time vendor_account vendor_product 
-  | where count > 20  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
+  | where count > 20
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `azure_ad_high_number_of_failed_authentications_from_ip_filter`'
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment
@@ -47,8 +50,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: $src$ failed to authenticate more than 20 times in the span of 10 minutes
-    minutes.
+  message: $src$ failed to authenticate more than 20 times in the span of 10 minutes.
   risk_objects:
   - field: user
     type: user

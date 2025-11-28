@@ -15,11 +15,11 @@ description: The following analytic identifies an Azure AD account experiencing 
   based on their specific environment to reduce false positives.
 data_source:
 - Azure Active Directory
-search: '`azure_monitor_aad` category= SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
-  | rename properties.* as * 
-  | bucket span=10m _time 
+search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
   | rename properties.userAgent as user_agent 
-  | fillnull 
+  | rename properties.* as * 
+  | bin span=10m _time 
+  | fillnull value=null
   | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(src) as src values(user_agent) as user_agent by user _time vendor_account vendor_product 
   | where count > 20 
   | `security_content_ctime(firstTime)` 
@@ -31,7 +31,7 @@ how_to_implement: You must install the latest version of Splunk Add-on for Micro
   through an EventHub. This analytic was written to be used with the azure:monitor:aad
   sourcetype leveraging the SignInLogs log category.
 known_false_positives: A user with more than 20 failed authentication attempts in
-  the span of 5 minutes may also be triggered by a broken application.
+  the span of 10 minutes may also be triggered by a broken application.
 references:
 - https://attack.mitre.org/techniques/T1110/
 - https://attack.mitre.org/techniques/T1110/001/
@@ -50,8 +50,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ failed to authenticate more than 20 times in the span of 5
-    minutes.
+  message: User $user$ failed to authenticate more than 20 times in the span of 10 minutes.
   risk_objects:
   - field: user
     type: user
