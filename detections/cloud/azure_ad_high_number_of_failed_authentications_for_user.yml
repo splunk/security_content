@@ -15,7 +15,11 @@ description: The following analytic identifies an Azure AD account experiencing 
   based on their specific environment to reduce false positives.
 data_source:
 - Azure Active Directory
-search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
+search: |
+  `azure_monitor_aad`
+  category=SignInLogs
+  properties.status.errorCode=50126
+  properties.authenticationDetails{}.succeeded=false 
   | rename properties.userAgent as user_agent 
   | rename properties.* as * 
   | bin span=10m _time 
@@ -24,7 +28,7 @@ search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=501
   | where count > 20 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
-  | `azure_ad_high_number_of_failed_authentications_for_user_filter`'
+  | `azure_ad_high_number_of_failed_authentications_for_user_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
   Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
   You must be ingesting Azure Active Directory events into your Splunk environment
