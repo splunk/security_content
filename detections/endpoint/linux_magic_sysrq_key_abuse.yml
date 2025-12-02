@@ -9,6 +9,7 @@ description: |
   Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to manipulate or destabilize a system.
   Writing to /proc/sysrq-trigger can crash the system, kill processes, or bypass standard logging.
   Monitoring SysRq abuse helps detect stealthy post-exploitation activity.
+  Correlate with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
 data_source:
   - Linux Auditd Path
   - Linux Auditd Cwd

@@ -6,14 +6,11 @@ author: Teoderick Contreras, Splunk
 status: production
 type: TTP
 description: |
-  The following analytic detects suspicious modifications to Unix shell
-  configuration files, which may indicate an attempt to alter system behavior or gain
-  unauthorized access. Unix shell configuration files, such as `.bashrc` or `.profile`,
-  control user environment settings and command execution. Unauthorized changes to
-  these files can be used to execute malicious commands, escalate privileges, or hide
-  malicious activities. By monitoring for unusual or unauthorized modifications to
-  shell configuration files, this analytic helps identify potential security threats,
-  allowing security teams to respond quickly and mitigate risks.
+  The following analytic detects suspicious access or modifications to Unix shell configuration files, which may indicate an attempt to alter system behavior or gain unauthorized access.
+  Unix shell configuration files, such as `.bashrc` or `.profile`, control user environment settings and command execution.
+  Unauthorized changes to these files can be used to execute malicious commands, escalate privileges, or hide malicious activities.
+  By monitoring for unusual or unauthorized modifications to shell configuration files, this analytic helps identify potential security threats, allowing security teams to respond quickly and mitigate risks.
+  Correlate this with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
 data_source:
   - Linux Auditd Path
   - Linux Auditd Cwd

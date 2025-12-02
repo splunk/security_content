@@ -6,9 +6,10 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 description: |
-  The following analytic detects potential tampering with cronjob files on a Linux system by identifying 'echo' commands that append code to existing cronjob files.
-  It leverages logs from Linux Auditd, focusing on process names, parent processes, and command-line executions.
-  This activity is significant because adversaries often use it for persistence or privilege escalation.
+  The following analytic detects potential tampering with cronjob files on a Linux system.
+  It leverages logs from Linux Auditd, focusing on events of type PATH or CWD.
+  This activity could be significant because adversaries often use it for persistence or privilege escalation.
+  Correlate this with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
   If confirmed malicious, this could allow attackers to execute unauthorized code automatically, leading to system compromises and unauthorized data access, thereby impacting business operations and data integrity.
 data_source:
   - Linux Auditd Path

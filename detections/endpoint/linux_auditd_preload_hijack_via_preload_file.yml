@@ -9,6 +9,7 @@ description: |
   The following analytic detects suspicious preload hijacking via the `preload` file, which may indicate an attacker's attempt to intercept or manipulate library loading processes.
   The `preload` file can be used to force the loading of specific libraries before others, potentially allowing malicious code to execute or alter application behavior.
   By monitoring for unusual or unauthorized modifications to the `preload` file, this analytic helps identify attempts to hijack preload mechanisms, enabling security teams to investigate and address potential threats to system integrity and security.
+  Correlate this with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
 data_source:
   - Linux Auditd Path
   - Linux Auditd Cwd
