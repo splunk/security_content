@@ -48,12 +48,10 @@ drilldown_searches:
 rba:
   message: $src_ip$ has scanned for ports $dest_ports$ across $totalDestIPCount$ destination IPs
   risk_objects:
-  - field: dest_ports
-    type: system
-    score: 72
-  threat_objects:
   - field: src_ip
-    type: ip_address
+    type: system
+    score: 50
+  threat_objects: []
 tags:
   analytic_story:
   - Network Discovery
