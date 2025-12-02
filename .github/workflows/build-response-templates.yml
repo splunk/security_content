@@ -1,4 +1,4 @@
-name: build
+name: build response templates
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -6,7 +6,7 @@ on:
     branches:
       - develop
 jobs:
-  build:
+  build-response-templates:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository code
@@ -21,7 +21,7 @@ jobs:
         run: |
           pip install pyyaml jsonschema
 
-      - name: Running build for response templates
+      - name: Running build and validation for response templates
         run: |
           echo "Generate merged response templates and manifest"
           python .github/workflows/response_templates/template_script.py -d ./response_templates -o ./response_templates/merged_response_templates -m
