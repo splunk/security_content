@@ -1,7 +1,7 @@
 name: Linux Ingress Tool Transfer Hunting
 id: 52fd468b-cb6d-48f5-b16a-92f1c9bb10cf
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-27'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -45,6 +45,7 @@ tags:
   - Ingress Tool Transfer
   - Linux Living Off The Land
   - XorDDos
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1105

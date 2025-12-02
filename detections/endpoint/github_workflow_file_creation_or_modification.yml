@@ -1,0 +1,76 @@
+name: GitHub Workflow File Creation or Modification
+id: 2a9f3a2e-2c07-4c5f-9e42-8f8f0b6b6a12
+version: 1
+date: '2025-11-25'
+author: Michael Haag, Splunk
+status: production
+type: Hunting
+description: |
+  The following analytic hunts for any creations or modifications to GitHub Actions workflow YAML files across the organization's Linux or Windows endpoints.
+  This hunting query tracks all workflow file activity under .github/workflows directories to help defenders establish baselines of legitimate CI/CD workflow creation patterns, identify unusual or unauthorized changes, and detect anomalies that may indicate supply chain compromise.
+  GitHub Actions workflows execute with privileged access to secrets and deployment credentials, making them high-value targets for attackers.
+  By monitoring workflow file modifications over time, defenders can identify suspicious patterns such as unexpected workflow creation on developer workstations, modifications outside normal change windows, or activity in repositories that don't typically contain workflows.
+  This data is essential for detecting supply chain attacks like Shai-Hulud that inject malicious workflows across multiple repositories.
+data_source:
+- Sysmon for Linux EventID 11
+- Sysmon EventID 11
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+
+  from datamodel=Endpoint.Filesystem where
+
+  Filesystem.file_path IN (
+    "*/.github/workflows/*.yaml",
+    "*/.github/workflows/*.yml",
+    "*\\.github\\workflows\\*.yaml",
+    "*\\.github\\workflows\\*.yml"
+  )
+
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+     Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user
+     Filesystem.vendor_product
+
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `github_workflow_file_creation_or_modification_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain filesystem events, specifically file creation
+  events. These logs must be processed using the appropriate Splunk Technology Add-ons
+  that are specific to the EDR product. The logs must also be mapped to the `Filesystem`
+  node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
+  to normalize the field names and speed up the data modeling process.
+known_false_positives: |
+  Legitimate engineering activity regularly creates workflow YAMLs. Suppress by repository path allowlisting, CI hosts, change windows, or approval timeframes.
+references:
+  - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+  - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+  - https://github.com/SigmaHQ/sigma/pull/5658/files
+  - https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+tags:
+  analytic_story:
+    - NPM Supply Chain Compromise
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1574.006
+    - T1554
+    - T1195
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test - Linux
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/workflow_yml_sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon:linux
+- name: True Positive Test - Windows
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/windows_workflow_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

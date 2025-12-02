@@ -1,7 +1,7 @@
 name: Registry Keys Used For Persistence
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01a4b
-version: 26
-date: '2025-09-18'
+version: 27
+date: '2025-11-20'
 author: Jose Hernandez, David Dorsey, Teoderick Contreras, Rod Soto, Splunk
 status: production
 type: TTP
@@ -117,6 +117,7 @@ tags:
   - Interlock Ransomware
   - 0bj3ctivity Stealer
   - APT37 Rustonotto and FadeStealer
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.001

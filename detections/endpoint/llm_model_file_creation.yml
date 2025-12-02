@@ -1,0 +1,63 @@
+name: LLM Model File Creation
+id: 23e5b797-378d-45d6-ab3e-d034ca12a99b
+version: 1
+date: '2025-11-12'
+author: Rod Soto
+status: production
+type: Hunting
+description: |
+  Detects the creation of Large Language Model (LLM) files on Windows endpoints by monitoring file creation events for specific model file formats and extensions commonly used by local AI frameworks.
+  This detection identifies potential shadow AI deployments, unauthorized model downloads, and rogue LLM infrastructure by detecting file creation patterns associated with quantized models (.gguf, .ggml), safetensors model format files, and Ollama Modelfiles.
+  These file types are characteristic of local inference frameworks such as Ollama, llama.cpp, GPT4All, LM Studio, and similar tools that enable running LLMs locally without cloud dependencies.
+  Organizations can use this detection to identify potential data exfiltration risks, policy violations related to unapproved AI usage, and security blind spots created by decentralized AI deployments that bypass enterprise governance and monitoring.
+data_source:
+  - Sysmon EventID 11
+search: |
+  | tstats `security_content_summariesonly` count
+      min(_time) as firstTime
+      max(_time) as lastTime
+  from datamodel=Endpoint.Filesystem
+  where Filesystem.file_name IN (
+      "*.gguf*",
+      "*ggml*",
+      "*Modelfile*",
+      "*safetensors*"
+  )
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+     Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+     Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+     Filesystem.user Filesystem.vendor_product
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `llm_model_file_creation_filter`
+how_to_implement: |
+  To successfully implement this search, you need to be ingesting logs with file creation events from your endpoints.
+  Ensure that the Endpoint data model is properly populated with filesystem events from EDR agents or Sysmon Event ID 11.
+  The logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product.
+  The logs must also be mapped to the `Filesystem` node of the `Endpoint` data model.
+  Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |
+  Legitimate creation of LLM model files by authorized developers, ML engineers, and researchers during model training, fine-tuning, or experimentation. Approved AI/ML sandboxes and lab environments where model file creation is expected. Automated ML pipelines and workflows that generate or update model files as part of their normal operation. Third-party applications and services that manage or cache LLM model files for legitimate purposes.
+references:
+  - https://docs.microsoft.com/en-us/sysinternals/downloads/sysmon
+  - https://www.ibm.com/think/topics/shadow-ai
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/splunk-technology-add-on-for-ollama.html
+  - https://blogs.cisco.com/security/detecting-exposed-llm-servers-shodan-case-study-on-ollama
+tags:
+  analytic_story:
+    - Suspicious Local LLM Frameworks
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1543
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/local_llms/sysmon_local_llms.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

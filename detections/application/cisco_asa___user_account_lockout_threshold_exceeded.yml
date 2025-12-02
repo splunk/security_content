@@ -1,0 +1,75 @@
+name: Cisco ASA - User Account Lockout Threshold Exceeded
+id: 3e8f9c2a-6d4b-4a7e-9c5f-1b8d7e3a9f2c
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects user account lockouts on Cisco ASA devices resulting from excessive failed authentication attempts.
+  Account lockouts may indicate brute force attacks, password spraying campaigns, credential stuffing attempts using compromised credentials from external breaches, or misconfigured automation attempting authentication with incorrect credentials. These activities represent attempts to gain unauthorized access to network infrastructure.
+  The detection monitors for ASA message ID 113006, which is generated when a user account is locked out after exceeding the configured maximum number of failed authentication attempts, capturing the locked account name and the failure threshold that was exceeded.
+  Investigate account lockouts for privileged or administrative accounts, multiple simultaneous lockouts affecting different accounts (suggesting password spraying), lockouts originating from unusual source IP addresses, lockouts during off-hours, or patterns suggesting automated attack tools.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (113006)
+  | rex "locked out on exceeding '(?<attempts_count>\d+)' successive failed authentication attempts"
+  | rex "User '(?<user>[^']+)' locked out"
+  | eval failure_description="locked out on exceeding " . attempts_count . " successive failed authentication attempts"
+  | fillnull
+  | stats earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(message_id) as message_id
+          values(failure_description) as failure_description
+    by host user
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___user_account_lockout_threshold_exceeded_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 113006.
+  If your logging level is set to 'Informational' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message ID 113006.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Legitimate lockouts occur from forgotten passwords, typos, script misconfigurations, or connectivity issues. Verify against help desk tickets. Filter known accounts during business hours or establish baseline patterns.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-101001-to-199021.html#con_4769446
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User account $user$ was $failure_description$ on Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 40
+    - field: user
+      type: user
+      score: 30
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1110.001
+    - T1110.003
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

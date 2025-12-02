@@ -1,0 +1,139 @@
+name: Cisco ASA - Reconnaissance Command Activity
+id: 6e9d4f7a-3c8b-4a9e-8d2f-7b5c9e1a6f3d
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects potential reconnaissance activities on Cisco ASA devices by identifying execution of multiple information-gathering "show" commands within a short timeframe.
+  Adversaries who gain initial access to network infrastructure devices typically perform systematic reconnaissance to understand the device configuration, network topology, security policies, connected systems, and potential attack paths. This reconnaissance phase involves executing multiple "show" commands to enumerate device details, running configurations, active connections, routing information, and VPN sessions.
+  The detection monitors for command execution events (message ID 111009) containing reconnaissance-oriented "show" commands (such as show running-config, show version, show interface, show crypto, show conn, etc.) and triggers when 7 or more distinct reconnaissance commands are executed within a 5-minute window by the same user.
+  Investigate reconnaissance bursts from non-administrative accounts, unusual source IP addresses, activity during off-hours, methodical command sequences suggesting automated enumeration, or reconnaissance activity correlated with other suspicious behaviors.
+  We recommend adapting the detection filters to exclude known legitimate administrative activities.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111009)
+  command IN (
+      "show access-list*",
+      "show capture*",
+      "show conn*",
+      "show cpu*",
+      "show crypto*",
+      "show eigrp*",
+      "show failover*",
+      "show flow*",
+      "show interface*",
+      "show inventory*",
+      "show ip*",
+      "show license*",
+      "show memory*",
+      "show nat*",
+      "show ospf*",
+      "show process*",
+      "show running-config*",
+      "show startup-config*",
+      "show version*",
+      "show vpn-sessiondb*",
+      "show xlate*"
+  )
+  | fillnull
+
+  ```
+  Normalize command variations to base command types to count distinct reconnaissance categories.
+  For example, "show running-config", "show running-config | include username", and "show running-config interface" all count as one command type.
+  This prevents adversaries from evading detection by adding arguments or using multiple variations of the same command.
+  ```
+  
+  | eval command_type=case(
+      match(command, "^show access-list"), "show access-list",
+      match(command, "^show conn"), "show conn",
+      match(command, "^show cpu"), "show cpu",
+      match(command, "^show crypto"), "show crypto",
+      match(command, "^show eigrp"), "show eigrp",
+      match(command, "^show failover"), "show failover",
+      match(command, "^show flow"), "show flow",
+      match(command, "^show interface"), "show interface",
+      match(command, "^show inventory"), "show inventory",
+      match(command, "^show ip"), "show ip",
+      match(command, "^show license"), "show license",
+      match(command, "^show memory"), "show memory",
+      match(command, "^show nat"), "show nat",
+      match(command, "^show ospf"), "show ospf",
+      match(command, "^show process"), "show process",
+      match(command, "^show running-config"), "show running-config",
+      match(command, "^show startup-config"), "show startup-config",
+      match(command, "^show version"), "show version",
+      match(command, "^show vpn-sessiondb"), "show vpn-sessiondb",
+      match(command, "^show xlate"), "show xlate",
+      true(), command)
+  
+  | bin _time span=5m
+  
+  | stats count 
+          earliest(_time) as firstTime
+          latest(_time) as lastTime
+          dc(command_type) as unique_recon_commands
+          values(command_type) as command_types
+          values(command) as commands
+          values(src_ip) as src_ip
+          values(message_id) as message_id
+          values(action) as action
+    by _time host user
+
+  | where unique_recon_commands >= 7
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___reconnaissance_command_activity_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111009.
+  If your logging level is set to 'Debugging', these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adds message ID 111009.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Legitimate sequences occur during troubleshooting, health checks, upgrades, audits, or automation scripts. Verify against change management.
+  Filter known admin accounts, trusted management stations, or adjust threshold based on baseline.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/S/asa-command-ref-S/sa-shov-commands.html
+drilldown_searches:
+  - name: View the detection results for $host$ and $user$
+    search: '%original_detection_search% | search host = $host$ user = $user$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed $unique_recon_commands$ distinct reconnaissance commands of type $command_types$ within a 5-minute window on Cisco ASA host $host$, indicating potential reconnaissance activity.
+  risk_objects:
+    - field: host
+      type: system
+      score: 50
+    - field: user
+      type: user
+      score: 40
+  threat_objects:
+    - field: src_ip
+      type: ip_address
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1082
+    - T1590.001
+    - T1590.005
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

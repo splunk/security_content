@@ -1,0 +1,112 @@
+name: Cisco ASA - Device File Copy to Remote Location
+id: 8a9e5f2b-6d4c-4e7f-9b3a-1c8d7f5e2a9b
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects file copy operations to remote locations on Cisco ASA devices via CLI or ASDM.
+  Adversaries may exfiltrate device files including configurations, logs, packet captures, or system data to remote servers using protocols like TFTP, FTP, HTTP, HTTPS, SMB, or SCP. While legitimate backups to centralized servers are common, copies to unexpected destinations may indicate data exfiltration to attacker-controlled infrastructure.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing copy commands with remote protocol indicators (tftp:, ftp:, http:, https:, smb:, scp:).
+  Investigate copies to unexpected destinations, from non-administrative accounts, or outside approved maintenance windows.
+  We recommend adapting the detection filters to exclude known legitimate backup activities.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111008, 111010)
+  command = "copy *"
+  command IN (
+      "*running-config*",
+      "*startup-config*",
+      "*/pcap capture:*",
+      "* disk0:*",
+      "* flash:*",
+      "* system:*"
+  )
+  command IN (
+      "*ftp:*",
+      "*http:*",
+      "*https:*",
+      "*smb:*",
+      "*scp:*"
+  )
+
+  | eval remote_protocol = mvappend(
+    if(match(command, "tftp:"), "TFTP", null()),
+    if(match(command, "ftp:"), "FTP", null()),
+    if(match(command, "http:"), "HTTP", null()),
+    if(match(command, "https:"), "HTTPS", null()),
+    if(match(command, "smb:"), "SMB", null()),
+    if(match(command, "scp:"), "SCP", null())
+    )
+  | fillnull
+  | stats earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(remote_protocol) as remote_protocol
+          values(src_ip) as src_ip
+          values(dest) as dest
+          values(process_name) as process_name
+    by host
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___device_file_copy_to_remote_location_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message IDs 111008 and 111010.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and add message IDs 111008 and 111010.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Legitimate configuration exports to remote locations may occur during normal administrative activities.
+  Investigate these events to verify their legitimacy and apply necessary filters.
+references:
+  - https://community.cisco.com/t5/security-knowledge-base/asa-how-to-download-images-using-tftp-ftp-http-https-and-scp/ta-p/3109769
+  - https://blog.talosintelligence.com/arcanedoor-new-espionage-focused-campaign-found-targeting-perimeter-network-devices/
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed command $command$ to copy file or config from Cisco ASA host $host$ to remote location $dest$ via $remote_protocol$ protocols.
+  risk_objects:
+    - field: host
+      type: system
+      score: 50
+    - field: user
+      type: user
+      score: 50
+  threat_objects:
+    - field: dest
+      type: ip_address
+    - field: command
+      type: process
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+  asset_type: Network
+  mitre_attack_id:
+    - T1005
+    - T1041
+    - T1048.003
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa
