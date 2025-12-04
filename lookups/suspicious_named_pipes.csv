@@ -1,235 +1,235 @@
 suspicious_pipe_name,tool,description,type
-*\foobar,_,Suspicious string  often used in POC exploitation,Possible POC
-*\pipename,_,Suspicious string  often used in POC exploitation,Possible POC
-*\piper,_,From High Integrity to SYSTEM with Named Pipes,Privilege Escalation
-*\testpipe,_,Suspicious string  often used in POC exploitation,Possible POC
+*-stderr,PSEXEC,Remote execution like PsExec,Lateral Movement
+*-stdin,PSEXEC,Remote execution like PsExec,Lateral Movement
+*-stdout,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\__rust_anonymous_pipe1*,RustDesk,Used by RustDesk for remote control,RMM
+*\_test_pipe-*,EternalHushFramework,Used by EternalHushFramework,C2
+*\*-*ServerRead,Screenconnect,Used by Connectwise Screenconnect client RMM tool,RMM
+*\*-*ServerWrite,Screenconnect,Used by Connectwise Screenconnect client RMM tool,RMM
+*\$77childproc,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
 *\$77childproc64,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77config,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77control_redirec,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77control,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
 *\$77stager,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
 *\$77svc32,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
 *\$77svc64,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
-*\$77config,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
-*\$77childproc,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
-*\$77control_redirec,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
-*\$77control,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
-*\DAV RPC SERVICE,aeroadmin,Used by AeroAdmin,RMM
-*\AmperageAIXSysRemove,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
-*\AmperageHwReqDetour,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
-*\adprinterpipe,anydesk,Used by Anydesk,RMM
-*\samr,BadPotato,Used by BadPotato for privilege escalation,Privilege Escalation
-*\Bomgar-enum_cp-*,Bomgar,Bomgar Beyoudtrust Remote access software,RMM
-*\brutepipe,BruteRatel,BruteRatel Pipe,C2
-*\aswSP_Avar*,BYOVD_kill_av_edr,Used by BYOD tools to kill AV/EDR,Defense Evasion
-*\Pipe name,C3,Default named pipe example for C3 named pipe configuration,C2
-*IpHlpSvc.log*,Chimichurri,Used by kernel exploit Chimichurri.cpp,Privilege Escalation
-*WWWAITER*,exploit_64,Used by CLFS Elevation of Privilege tool (CVE-2022-24521),Privilege Escalation
-*\WkSvcPipeMgr_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\MSSE-*-server,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\hashdump,CobaltStrike,Known CobaltStrike pipe name,C2
+*\0000023FD0*,MeshAgent,Meshagent (meshcentral) default named pipe pattern,RMM
 *\334485,CobaltStrike,Known CobaltStrike pipe name,C2
 *\461092,CobaltStrike,Known CobaltStrike pipe name,C2
+*\5e120a,meterpreter,Meterpreter getsystem,C2
 *\66bee3,CobaltStrike,GetSystem in Meterpreter & Cobalt Strikes Beacon,C2
+*\6e7645c4-32c5-4fe3-aabf-e94c2f4370e7,LiquidSnake,LiquidSnake is a tool that allows operators to perform fileless lateral movement using WMI Event Subscriptions and GadgetToJScript,Lateral Movement
 *\8e8988b257e9dd2ea44ff03d44d26467b7c9ec16,CobaltStrike,Known CobaltStrike pipe name,Privilege Escalation
+*\AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
+*\acsipc_server,metasploit,Agnitum Outpost Internet Security Local Privilege Escalation,Privilege Escalation
+*\adprinterpipe,anydesk,Used by Anydesk,RMM
+*\AmperageAIXSysRemove,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
+*\AmperageHwReqDetour,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
+*\asio-A0812896-741A-484D-AF23-BE51BF620E22-*,Kismet,Kismet is an open source sniffer - WIDS - wardriver and packet capture tool for Wi-Fi,Exploitation
+*\aswSP_Avar*,BYOVD_kill_av_edr,Used by BYOD tools to kill AV/EDR,Defense Evasion
+*\atctl,RPC-Backdoor,RPC-Backdoor default pipe name,Persistence
+*\barnofoo\pipe\spoolss,shad0w,Used by Printspoofer exploit,Privilege Escalation
+*\blindspot-*,Pyramid,Pyramid default pipe,Defense Evasion
+*\Bomgar-enum_cp-*,Bomgar,Bomgar Beyoudtrust Remote access software,RMM
+*\brutepipe,BruteRatel,BruteRatel Pipe,C2
+*\BuhphoneAgentAPIViewer,RemoteUtilities,RemoteUtilities software pipe name,RMM
+*\bypassuac,CobaltStrike,Known CobaltStrike pipe name,C2
+*\cachedumppipe,fgdump,Fgdump pipe name,Credential Access
+*\client32_VistaPipe2,NetSupport,NetSupport Manager pipe name,RMM
+*\client32_VistaUIPipe2,NetSupport,NetSupport Manager pipe name,RMM
+*\clipboardHelperProgressBar_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\coerced*,CoercedPotato,Used by CoercedPotato From Patate (LOCAL/NETWORK SERVICE) to SYSTEM,Privilege Escalation
+*\csexec*,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\Ctx_WinStation_API_service,impacket,impacket dcerpc pipe name,Exploitation
+*\DAV RPC SERVICE,aeroadmin,Used by AeroAdmin,RMM
+*\DeadPotato*,DeadPotato,Used by DeadPotato for privilege escalation,Privilege Escalation
 *\demoagent_11,CobaltStrike,Known CobaltStrike pipe name,C2
 *\demoagent_22,CobaltStrike,Known CobaltStrike pipe name,C2
-*fms,CobaltStrike,Known CobaltStrike pipe name,C2
-*\keylogger,CobaltStrike,Known CobaltStrike pipe name,C2
-*\netview,CobaltStrike,Known CobaltStrike pipe name,C2
-*\portscan,CobaltStrike,Known CobaltStrike pipe name,C2
-*\screenshot,CobaltStrike,Known CobaltStrike pipe name,C2
-*\lsarpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\sshagent,CobaltStrike,Known CobaltStrike pipe name,C2
-*\samr_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\PIPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\bypassuac,CobaltStrike,Known CobaltStrike pipe name,C2
-*\srvsvc_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\status_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\netlogon_*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\f4c3*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\f53f*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\fullduplex_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\fvxens,CobaltStrike,Known CobaltStrike pipe name,C2
-*\mojo.*.*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\msagent_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\MsFteWds*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\msrpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\mypipe-f*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\mypipe-h*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\ntsvcs*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\PGMessagePipe*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\postex_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\rpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\scerpc*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\SearchTextHarvester*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\servicepipe.zo9keez4weechei8johR.0521cc13,CobaltStrike,Known CobaltStrike pipe name,C2
-*\UIA_PIPE*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\spoolss*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\wkssvc_*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
-*\win\msrpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\win_svc*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\windows.update.manager*,CobaltStrike,Known CobaltStrike pipe name,C2
-*\coerced*,CoercedPotato,Used by CoercedPotato From Patate (LOCAL/NETWORK SERVICE) to SYSTEM,Privilege Escalation
-*\gruntsvc*,covenant,Known Covenant pipe name,Lateral Movement
-*\svcctl,CrackMapExec,Service Control Manager Remote Protocol used by many lateral movement tools,Lateral Movement
-*\innocent,CVE-2023-21768,Used by LPE exploit for CVE-2023-36802,Privilege Escalation
-*\ioring_in,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
-*\ioring_out,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
-*CyberGhost*,CyberGhost VPN,CyberGhost VPN Service,VPN
-*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\MSPARegEditHelper_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\MSPxTSHlpSrv_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\TCDirectChat_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\MSPAClipboardHelper_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\clipboardHelperProgressBar_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\TCRmtShellViewerModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\demon_pipe,Havoc,Havoc C2 pipe name,C2
+*\dotnet-diagnostic-*,DotNet,Part of the .NET diagnostics infrastructur- Used by several C2 frameworks (May have FP),Discovery
 *\dre_video_uploader,Dameware,Used by Dameware Remote Everywhere Agent,RMM
 *\dreconsole_main_instance,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\tcpreload_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
-*\DeadPotato*,DeadPotato,Used by DeadPotato for privilege escalation,Privilege Escalation
-*\syelog,defender-control,Associated with Microsoft's Detours - a library used for intercepting Win32 functions - used by the offensive tool defender-control,Defense Evasion
-*\win-sux-no-async-anon-pipe-*-*,dns2tcp,dns2tcp,Defense Evasion
-*\HighPriv,EasySystem,EasySystem.ps1 default pipe name,Privilege Escalation
 *\EasySystem,EasySystem,Quick and dirty System (Power)Shell using NamedPipe impersonation - also used by Cn33liz/P0wnedShell,Defense Evasion
-*\TVN_log_pipe_public_name,EHORUS RMM,TightVNC default named pipe,RMM
-*\TightVNC_Service_Control,EHORUS RMM,TightVNC default named pipe,RMM
-*\warpzone8,elevationstation,Used by Elevationstation elevate to SYSTEM - Metasploit and PSEXEC getsystem alternative,Privilege Escalation
-*\pcheap_reuse,EQGPR,Used by EquationGroup Tool,Exploitation
-*\_test_pipe-*,EternalHushFramework,Used by EternalHushFramework,C2
-*\typeperf_output_*,EternalHushFramework,Used by EternalHushFramework,C2
-*\kangaroo*,EventCleaner,Used by EventCleaner,Defense Evasion
+*\ElevationPipe,ShimMe,Default named pipe from ShimMe presented at Defcon32 - Manipulating Shim and Office for Code Injection,Privilege Escalation
+*\EngineerPipe,HardHatC2,A C# Command & Control framework,C2
 *\EvtMuteHook_Rule_Pipe,EvtMute,Possible Event Log tampering,Defense Evasion
-*\cachedumppipe,fgdump,Fgdump pipe name,Credential Access
+*\ExploitPipe,InstallerFileTakeOver,Used by InstallerFileTakeOver exploit POC CVE-2021-41379 patch bypass,Privilege Escalation
+*\f4c3*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\f53f*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\foobar,_,Suspicious string  often used in POC exploitation,Possible POC
+*\forRealLegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
+*\FssagentRpc,NetExec,NetExec pipe name,Lateral Movement
 *\fuego-control,fuegoshell,fuegoshell pipe name,Lateral Movement
 *\fuego-data,fuegoshell,fuegoshell pipe name,Lateral Movement
 *\fuegoshell,fuegoshell,fuegoshell pipe name,Lateral Movement
+*\fullduplex_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\fvxens,CobaltStrike,Known CobaltStrike pipe name,C2
 *\Godpotato*,GodPotato,Used by GodPotato for privilege escalation,Privilege Escalation
+*\gruntsvc*,covenant,Known Covenant pipe name,Lateral Movement
 *\gsecdump_*,gsecdump,Credential dumper used to obtain password hashes and LSA secrets from Windows operating systems,Credential Access
-*\EngineerPipe,HardHatC2,A C# Command & Control framework,C2
-*\demon_pipe,Havoc,Havoc C2 pipe name,C2
-*\Ctx_WinStation_API_service,impacket,impacket dcerpc pipe name,Exploitation
-*\LSM_API_service,impacket,impacket dcerpc pipe name,Exploitation
-*\protected_storage,impacket,impacket dcerpc pipe name,Credential Access
-*\TermSrv_API_service,impacket,impacket dcerpc pipe name,Exploitation
-*\AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
-*\RemoteMaint,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
-*\forRealLegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
-*\toteslegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
-*\ExploitPipe,InstallerFileTakeOver,Used by InstallerFileTakeOver exploit POC CVE-2021-41379 patch bypass,Privilege Escalation
-*\Something,Invoke-SMBRemoting,Used by Invoke-SMBRemoting,Lateral Movement
-*\asio-A0812896-741A-484D-AF23-BE51BF620E22-*,Kismet,Kismet is an open source sniffer - WIDS - wardriver and packet capture tool for Wi-Fi,Exploitation
+*\hashdump,CobaltStrike,Known CobaltStrike pipe name,C2
+*\HighPriv,EasySystem,EasySystem.ps1 default pipe name,Privilege Escalation
+*\HighPriv,NamedPipeSystem,"From ""Some usefull Scripts and Executables for Pentest & Forensics""",Privilege Escalation
 *\imposecost,Koh Token Stealer,Koh Token Stealer pipe name,Credential Access
 *\imposingcost,Koh Token Stealer,Koh Token Stealer pipe name,Credential Access
-*\6e7645c4-32c5-4fe3-aabf-e94c2f4370e7,LiquidSnake,LiquidSnake is a tool that allows operators to perform fileless lateral movement using WMI Event Subscriptions and GadgetToJScript,Lateral Movement
+*\innocent,CVE-2023-21768,Used by LPE exploit for CVE-2023-36802,Privilege Escalation
+*\ioring_in,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
+*\ioring_out,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
+*\IPEFSYSPCPIPE,metasploit,iPass Mobile Client Service Privilege Escalation,Privilege Escalation
+*\IRISLogPipe,SplashTop,Used by Splashtop RMM,Rmm
+*\jaccdpqnvbrrxlaf,PoshC2,"Poshc2	pipe name ",C2
+*\kangaroo*,EventCleaner,Used by EventCleaner,Defense Evasion
+*\keylogger,CobaltStrike,Known CobaltStrike pipe name,C2
+*\Local\RManChatServer,RemoteUtilities,RemoteUtilities software pipe name,RMM
+*\LogMeInRescue_ipc*,LogMeIn,LogMeIn  default pipe name,RMM
 *\LogMeInRescue_rarc_r_*,LogMeIn,LogMeIn  default pipe name,RMM
 *\LogMeInRescue_rarc_w_*,LogMeIn,LogMeIn  default pipe name,RMM
-*\LogMeInRescue_ipc*,LogMeIn,LogMeIn  default pipe name,RMM
 *\lsarelayx,lsarelayx,lsarelayx usage,Credential Access
+*\lsarpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\LSM_API_service,impacket,impacket dcerpc pipe name,Exploitation
 *\MalDevEDR,MalDevEDR,EDR/AV Simulation for Malware Development,Exploitation
+*\mantvydas-first-pipe,POC,Privilege escalation poc,Privilege Escalation
 *\megacmdpipe_*,MEGAcmd,Command Line Interactive and Scriptable Application to access MEGA,Data Exfiltration
 *\MEGAprivacyMEGAsync,MEGAsync,MEGAsync synchro backup,RMM
-*\MerlinPipe,Merlin,Merlin is a post-exploit Command & Control,C2
 *\merlin,Merlin,Merlin is a post-exploit Command & Control,C2
+*\MerlinPipe,Merlin,Merlin is a post-exploit Command & Control,C2
 *\mesh-*,MeshAgent,Meshagent (meshcentral) default named pipe pattern,RMM
-*\0000023FD0*,MeshAgent,Meshagent (meshcentral) default named pipe pattern,RMM
-*\acsipc_server,metasploit,Agnitum Outpost Internet Security Local Privilege Escalation,Privilege Escalation
-*\IPEFSYSPCPIPE,metasploit,iPass Mobile Client Service Privilege Escalation,Privilege Escalation
+*\mimi,SharpBlock,A method of bypassing EDR's active projection DLL's by preventing entry point exection,Defense Evasion
+*\mlnhcpkomdeavomsjalt,TightVNC,TightVNC default named pipe,RMM
+*\moj_ML_ntsvcs,mortar,Used by the offensive tool mortar,Defense Evasion
+*\mojo.*.*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\mojo.7304.10032.2584273091328543665,Nemesis,Nemesis  file named pipe,Exploitation
+*\msagent_*,CobaltStrike,Known CobaltStrike pipe name,C2
 *\msf-pipe,metasploit,Metasploit bind named pipe,Exploitation
+*\MsFteWds*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\MSPAClipboardHelper_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\MSPARegEditHelper_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\MSPxTSHlpSrv_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\msrpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\MSSE-*-server,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\MyNamePipe,mortar,Used by the offensive tool mortar,Defense Evasion
+*\mypipe-f*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\mypipe-h*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\NamedPipeMaster,NamedPipeMaster,A tool used to analyze and monitor named pipes,Exploitation
+*\ncat-*,ncat,ncat usage,C2
+*\netdfs,NetExec,NetExec pipe name,Lateral Movement
+*\netlogon_*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\netview,CobaltStrike,Known CobaltStrike pipe name,C2
+*\ntsvcs*,CobaltStrike,Known CobaltStrike pipe name,C2
 *\orcljsexorcl,metasploit,Oracle Job Scheduler Named Pipe Command Execution,Exploitation
 *\OVSystem*,metasploit,HP OpenView Network Node Manager execvp_nc Buffer Overflow,Exploitation
-*\SUPipeServer,metasploit,Lenovo System Update Privilege Escalation,Privilege Escalation
-*\WindscribeService*,metasploit,The Windscribe VPN client application for Windows makes use of a Windows service WindscribeService.exe which exposes a named pipe \\.\pipe\WindscribeService allowing execution of programs with elevated privileges,Privilege Escalation
-*\5e120a,meterpreter,Meterpreter getsystem,C2
-*mimikatz*,mimikatz,kekeo stealing credentials,Credential Access
-*\MyNamePipe,mortar,Used by the offensive tool mortar,Defense Evasion
-*\moj_ML_ntsvcs,mortar,Used by the offensive tool mortar,Defense Evasion
-*\NamedPipeMaster,NamedPipeMaster,A tool used to analyze and monitor named pipes,Exploitation
-*\HighPriv,NamedPipeSystem,"From ""Some usefull Scripts and Executables for Pentest & Forensics""",Privilege Escalation
-*\ncat-*,ncat,ncat usage,C2
-*\mojo.7304.10032.2584273091328543665,Nemesis,Nemesis  file named pipe,Exploitation
-*\FssagentRpc,NetExec,NetExec pipe name,Lateral Movement
-*\netdfs,NetExec,NetExec pipe name,Lateral Movement
-*\client32_VistaUIPipe2,NetSupport,NetSupport Manager pipe name,RMM
-*\client32_VistaPipe2,NetSupport,NetSupport Manager pipe name,RMM
-*\xai,NP_impersonate,Priv esc for SeImpersonatePrivilege,Privilege Escalation
 *\paexec*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\PAExecErr*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\PAExecIn*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\PAExecOut*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PARSEC_IPC,Parsec,Used by Parsec RMM,RMM
+*\PARSEC-NP,Parsec,Used by Parsec RMM,RMM
+*\pcheap_reuse,EQGPR,Used by EquationGroup Tool,Exploitation
 *\petit\pipe\srvsvc,PetitPotato,Used by PetitPotato for privilege escalation,Privilege Escalation
+*\PGMessagePipe*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\Pipe name,C3,Default named pipe example for C3 named pipe configuration,C2
+*\PIPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,CobaltStrike,Known CobaltStrike pipe name,C2
 *\PipeCmd_communicaton,Pipecmd,Pipecmd  hacking tool default named pipe,Exploitation
-*\mantvydas-first-pipe,POC,Privilege escalation poc,Privilege Escalation
-*\jaccdpqnvbrrxlaf,PoshC2,"Poshc2	pipe name ",C2
+*\pipename,_,Suspicious string  often used in POC exploitation,Possible POC
+*\piper,_,From High Integrity to SYSTEM with Named Pipes,Privilege Escalation
+*\pipey,RpcSsImpersonator,faxhell / printjacker / RpcSsImpersonator - Elevation to SYSTEM,Privilege Escalation
+*\portscan,CobaltStrike,Known CobaltStrike pipe name,C2
 *\Posh*,PoshC2,"Poshc2	pipe name ",C2
-*\TestSVC,PoshC2,GetSystem in Empire & PoshC2,C2
-*pwned*,Potato,Potato to get SYSTEM via SeImpersonate privileges,Privilege Escalation
-*\sqsvc,Powersploit,Powersploit pipe name,Exploitation
+*\postex_*,CobaltStrike,Known CobaltStrike pipe name,C2
 *\PrivFuPipe*,PrivFu,Privilege escalation PoCs,Privilege Escalation
-*-stderr,PSEXEC,Remote execution like PsExec,Lateral Movement
-*-stdin,PSEXEC,Remote execution like PsExec,Lateral Movement
-*-stdout,PSEXEC,Remote execution like PsExec,Lateral Movement
-*\csexec*,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\protected_storage,impacket,impacket dcerpc pipe name,Credential Access
+*\ProtectedPrefix\Administrators\Tailscale\tailscaled,Tailscale,Used by Tailscale RMM,Defense Evasion
 *\PSEXEC*,PSEXEC,Remote execution like PsExec,Lateral Movement
 *\PSEXESVC*,PSEXEC,Remote execution like PsExec,Lateral Movement
-*\blindspot-*,Pyramid,Pyramid default pipe,Defense Evasion
-*\youcantpatchthis,ReflectiveDll,Using named pipe output with beacon ReflectiveDLLs,C2
-*\remcom*,Remcom,Remote execution like PsExec,Lateral Movement
 *\RemCom_Commuincation,Remcom,Remote execution like PsExec,Lateral Movement
-*\RPC_DEEP_INTEGRATION_PIPE*,RemotePC,RemotePCLauncher.exe and RPCPerfViewer.exe behavior from RemotePC RMM,RMM
-*\RPCViewerCom,RemotePC,RemotePCUIU.exe behavior from RemotePC RMM,RMM
-*\RMSFUSClient*,RemoteUtilities,RemoteUtilities software pipe name,RMM
-*\RManFUSServerNotify32,RemoteUtilities,RemoteUtilities software pipe name,RMM
+*\remcom*,Remcom,Remote execution like PsExec,Lateral Movement
+*\RemoteMaint,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
+*\RevShell,RevShell,Named_Pipe_Reverse_Shell tool,C2
 *\RManFUSCallbackNotify32,RemoteUtilities,RemoteUtilities software pipe name,RMM
-*\RMSPrint*,RemoteUtilities,RemoteUtilities software pipe name,RMM
+*\RManFUSServerNotify32,RemoteUtilities,RemoteUtilities software pipe name,RMM
 *\RMS-Mini-Id-Local-Settings,RemoteUtilities,RemoteUtilities software pipe name,RMM
 *\RMS-Mini-Id-Settings-Notify,RemoteUtilities,RemoteUtilities software pipe name,RMM
-*\BuhphoneAgentAPIViewer,RemoteUtilities,RemoteUtilities software pipe name,RMM
-*\Local\RManChatServer,RemoteUtilities,RemoteUtilities software pipe name,RMM
 *\RMS-Terminal-*,RemoteUtilities,RemoteUtilities software pipe name,RMM
-*\RevShell,RevShell,Named_Pipe_Reverse_Shell tool,C2
+*\RMSFUSClient*,RemoteUtilities,RemoteUtilities software pipe name,RMM
+*\RMSPrint*,RemoteUtilities,RemoteUtilities software pipe name,RMM
 *\RoguePotato,RoguePotato,Used by RoguePotato for privilege escaltion,Privilege Escalation
-*\atctl,RPC-Backdoor,RPC-Backdoor default pipe name,Persistence
-*\pipey,RpcSsImpersonator,faxhell / printjacker / RpcSsImpersonator - Elevation to SYSTEM,Privilege Escalation
-*\RustDesk\query,RustDesk,Used by RustDesk for remote control,RMM
+*\rpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\RPC_DEEP_INTEGRATION_PIPE*,RemotePC,RemotePCLauncher.exe and RPCPerfViewer.exe behavior from RemotePC RMM,RMM
+*\RPCViewerCom,RemotePC,RemotePCUIU.exe behavior from RemotePC RMM,RMM
 *\RustDesk\query_cm,RustDesk,Used by RustDesk for remote control,RMM
 *\RustDesk\query_portable_service*,RustDesk,Used by RustDesk for remote control,RMM
 *\RustDesk\query_service,RustDesk,Used by RustDesk for remote control,RMM
-*\__rust_anonymous_pipe1*,RustDesk,Used by RustDesk for remote control,RMM
+*\RustDesk\query,RustDesk,Used by RustDesk for remote control,RMM
 *\RustPotato*,RustPotato,A Rust implementation of GodPotato,Privilege Escalation
-*\Teste,RustRedOps,RustRedOps Named Pipe Client / Server,Exploitation
-*\*-*ServerRead,Screenconnect,Used by Connectwise Screenconnect client RMM tool,RMM
-*\*-*ServerWrite,Screenconnect,Used by Connectwise Screenconnect client RMM tool,RMM
-*\barnofoo\pipe\spoolss,shad0w,Used by Printspoofer exploit,Privilege Escalation
-*\mimi,SharpBlock,A method of bypassing EDR's active projection DLL's by preventing entry point exection,Defense Evasion
+*\samr_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\samr,BadPotato,Used by BadPotato for privilege escalation,Privilege Escalation
+*\scerpc*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\screenshot,CobaltStrike,Known CobaltStrike pipe name,C2
+*\SearchTextHarvester*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\servicepipe.zo9keez4weechei8johR.0521cc13,CobaltStrike,Known CobaltStrike pipe name,C2
 *\ShitSecure,SharpNamedPipePTH,SharpNamedPipePTH - Pass the Hash to a named pipe for token Impersonation,Lateral Movement
-*\TestSVC,SharPyShell,Get-System.ps1 default named pipe,Privilege Escalation
-*\ElevationPipe,ShimMe,Default named pipe from ShimMe presented at Defcon32 - Manipulating Shim and Office for Code Injection,Privilege Escalation
 *\SigmaPotato,Sigmapotato,Used by Sigmapotato for privilege escaltion,Privilege Escalation
-*\winpty-conin-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM,RMM
-*\winpty-conout-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe' RMM,RMM
-*\winpty-control-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM,RMM
-*\IRISLogPipe,SplashTop,Used by Splashtop RMM,Rmm
-*\PARSEC-NP,Parsec,Used by Parsec RMM,RMM
-*\PARSEC_IPC,Parsec,Used by Parsec RMM,RMM
+*\Something,Invoke-SMBRemoting,Used by Invoke-SMBRemoting,Lateral Movement
+*\spoolss*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\sqsvc,Powersploit,Powersploit pipe name,Exploitation
+*\srvsvc_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\sshagent,CobaltStrike,Known CobaltStrike pipe name,C2
+*\status_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\SUPipeServer,metasploit,Lenovo System Update Privilege Escalation,Privilege Escalation
 *\Supremo_Client_2,supremo,Used by supremo RMM,RMM
 *\Supremo_Helper_2,supremo,Used by supremo RMM,RMM
 *\Supremo_Service,supremo,Used by supremo RMM,RMM
+*\svcctl,CrackMapExec,Service Control Manager Remote Protocol used by many lateral movement tools,Lateral Movement
+*\syelog,defender-control,Associated with Microsoft's Detours - a library used for intercepting Win32 functions - used by the offensive tool defender-control,Defense Evasion
 *\syelog,syelog,EDR bypassing,Defense Evasion
 *\tailscale-test,Tailscale,Used by Tailscale RMM,Defense Evasion
 *\tailscale*,Tailscale,Used by Tailscale RMM,Defense Evasion
-*\ProtectedPrefix\Administrators\Tailscale\tailscaled,Tailscale,Used by Tailscale RMM,Defense Evasion
+*\TCDirectChat_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\tcpreload_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
+*\TCRmtShellViewerModule_*,Dameware,Used by Dameware Remote Everywhere Agent,RMM
 *\tenketsu,tenketsu,Metasploit clone ,Exploitation
 *\tenketsuProxy,tenketsu,Metasploit clone ,Exploitation
+*\TermSrv_API_service,impacket,impacket dcerpc pipe name,Exploitation
+*\Teste,RustRedOps,RustRedOps Named Pipe Client / Server,Exploitation
+*\testpipe,_,Suspicious string  often used in POC exploitation,Possible POC
+*\TestSVC,PoshC2,GetSystem in Empire & PoshC2,C2
+*\TestSVC,SharPyShell,Get-System.ps1 default named pipe,Privilege Escalation
+*\TightVNC_Service_Control,EHORUS RMM,TightVNC default named pipe,RMM
+*\TightVNC_Service_Control,TightVNC,TightVNC default named pipe,RMM
 *\TIOR_Err,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
 *\TIOR_In,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
 *\TIOR_Out,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
-*\TVN_log_pipe_public_name,TightVNC,TightVNC default named pipe,RMM
-*\TightVNC_Service_Control,TightVNC,TightVNC default named pipe,RMM
-*\mlnhcpkomdeavomsjalt,TightVNC,TightVNC default named pipe,RMM
 *\tokenvator,Tokenvator,A tool to elevate privilege with Windows Tokens,Privilege Escalation
-*\vncdump-*,vncdump,Vnc password sniffer,Credential Access
-*\WCEServicePipe,Windows Credential Editor,Windows Credential Editor (WCE) default named pipe,Credential Access
-*\WinPwnagePipe,WinPwnage,Winpwnage elevatemethod3.py pipe name,Privilege Escalation
-*\ZAudioClientPipe_*ServerWritePipe*,Zoho Assist,Zoho Assist RMM,RMM
+*\toteslegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
 *\tuoni,Tuoni,Tuoni C2 SMB pipe,C2
-*\dotnet-diagnostic-*,DotNet,Part of the .NET diagnostics infrastructur- Used by several C2 frameworks (May have FP),Discovery
+*\TVN_log_pipe_public_name,EHORUS RMM,TightVNC default named pipe,RMM
+*\TVN_log_pipe_public_name,TightVNC,TightVNC default named pipe,RMM
+*\typeperf_output_*,EternalHushFramework,Used by EternalHushFramework,C2
+*\UIA_PIPE*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\vncdump-*,vncdump,Vnc password sniffer,Credential Access
+*\warpzone8,elevationstation,Used by Elevationstation elevate to SYSTEM - Metasploit and PSEXEC getsystem alternative,Privilege Escalation
+*\WCEServicePipe,Windows Credential Editor,Windows Credential Editor (WCE) default named pipe,Credential Access
+*\win_svc*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\win-sux-no-async-anon-pipe-*-*,dns2tcp,dns2tcp,Defense Evasion
+*\win\msrpc_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\windows.update.manager*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\WindscribeService*,metasploit,The Windscribe VPN client application for Windows makes use of a Windows service WindscribeService.exe which exposes a named pipe \\.\pipe\WindscribeService allowing execution of programs with elevated privileges,Privilege Escalation
+*\winpty-conin-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM,RMM
+*\winpty-conout-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe' RMM,RMM
+*\winpty-control-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM,RMM
+*\WinPwnagePipe,WinPwnage,Winpwnage elevatemethod3.py pipe name,Privilege Escalation
+*\wkssvc_*,CobaltStrike,Known CobaltStrike pipe name (May have FP),C2
+*\WkSvcPipeMgr_*,CobaltStrike,Known CobaltStrike pipe name,C2
+*\xai,NP_impersonate,Priv esc for SeImpersonatePrivilege,Privilege Escalation
+*\youcantpatchthis,ReflectiveDll,Using named pipe output with beacon ReflectiveDLLs,C2
 *\ZAudioClientPipe_*ServerReadPipe*,Zoho Assist,Zoho Assist Remote access software,RMM
+*\ZAudioClientPipe_*ServerWritePipe*,Zoho Assist,Zoho Assist RMM,RMM
+*CyberGhost*,CyberGhost VPN,CyberGhost VPN Service,VPN
+*fms,CobaltStrike,Known CobaltStrike pipe name,C2
+*IpHlpSvc.log*,Chimichurri,Used by kernel exploit Chimichurri.cpp,Privilege Escalation
+*mimikatz*,mimikatz,kekeo stealing credentials,Credential Access
+*pwned*,Potato,Potato to get SYSTEM via SeImpersonate privileges,Privilege Escalation
+*WWWAITER*,exploit_64,Used by CLFS Elevation of Privilege tool (CVE-2022-24521),Privilege Escalation
