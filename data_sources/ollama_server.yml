@@ -14,7 +14,7 @@ source: server.log
 supported_TA:
 - name: TA-ollama
   url: https://splunkbase.splunk.com/app/8024
-  version: 0.1.4
+  version: 0.1.5
 fields:
 - CPU_0_AVX
 - CPU_0_AVX2
