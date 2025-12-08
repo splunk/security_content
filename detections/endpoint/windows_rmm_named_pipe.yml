@@ -77,7 +77,18 @@ rba:
     type: process_name
 tags:
   analytic_story:
+    - Cactus Ransomware
+    - CISA AA24-241A
+    - Command And Control
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Gozi Malware
+    - Insider Threat
+    - Interlock Ransomware
+    - Ransomware
     - Remote Monitoring and Management Software
+    - Scattered Lapsus$ Hunters
+    - Scattered Spider
+    - Seashell Blizzard
   asset_type: Endpoint
   mitre_attack_id:
     - T1559
