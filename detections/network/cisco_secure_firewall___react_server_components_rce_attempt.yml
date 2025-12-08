@@ -82,6 +82,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/react2shell/react2shell.log
       source: not_applicable
       sourcetype: cisco:sfw:estreamer
