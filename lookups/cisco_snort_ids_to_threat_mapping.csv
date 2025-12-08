@@ -31,6 +31,7 @@ DCRAT,64370,MALWARE-OTHER,Win.Trojan.DcRat variant download attempt
 DCRAT,64371,MALWARE-OTHER,Win.Trojan.DcRat variant download attempt
 DCRAT,64372,MALWARE-CNC,Win.Trojan.DcRat variant communication attempt
 DCRAT,64373,MALWARE-CNC,Win.Trojan.DcRat variant communication attempt
+LokiBot,65502,MALWARE-CNC,Win.Trojan.LokiBot variant outbound connection attempt
 Lumma Stealer,62709,MALWARE-CNC,Win.Malware.Lumma variant outbound connection
 Lumma Stealer,62710,MALWARE-OTHER,Win.Malware.Lumma variant download attempt
 Lumma Stealer,62711,MALWARE-OTHER,Win.Malware.Lumma variant download attempt
