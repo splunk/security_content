@@ -90,7 +90,7 @@ search: |
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `windows_suspicious_react_or_next.js_child_process_filter`
+  | `windows_suspicious_react_or_next_js_child_process_filter`
 how_to_implement: |
   The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
   These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
@@ -146,7 +146,6 @@ tags:
   asset_type: Endpoint
   mitre_attack_id:
     - T1190
-    - T1059
     - T1059.003
     - T1059.001
   product:
