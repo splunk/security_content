@@ -58,6 +58,10 @@ suspicious_pipe_name,tool,description,type
 *\netdfs,NetExec,NetExec pipe name,Lateral Movement
 *\orcljsexorcl,metasploit,Oracle Job Scheduler Named Pipe Command Execution,Exploitation
 *\OVSystem*,metasploit,HP OpenView Network Node Manager execvp_nc Buffer Overflow,Exploitation
+*\paexec*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecErr*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecIn*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecOut*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\pcheap_reuse,EQGPR,Used by EquationGroup Tool,Exploitation
 *\petit\pipe\srvsvc,PetitPotato,Used by PetitPotato for privilege escalation,Privilege Escalation
 *\PipeCmd_communicaton,Pipecmd,Pipecmd  hacking tool default named pipe,Exploitation
@@ -76,6 +80,7 @@ suspicious_pipe_name,tool,description,type
 *\SigmaPotato,Sigmapotato,Used by Sigmapotato for privilege escaltion,Privilege Escalation
 *\Something,Invoke-SMBRemoting,Used by Invoke-SMBRemoting,Lateral Movement
 *\sqsvc,Powersploit,Powersploit pipe name,Exploitation
+*\SUPipeServer,metasploit,Lenovo System Update Privilege Escalation,Privilege Escalation
 *\svcctl,CrackMapExec,Service Control Manager Remote Protocol used by many lateral movement tools,Lateral Movement
 *\syelog,defender-control,Associated with Microsoft's Detours - a library used for intercepting Win32 functions - used by the offensive tool defender-control,Defense Evasion
 *\syelog,syelog,EDR bypassing,Defense Evasion
