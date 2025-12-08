@@ -4,7 +4,7 @@ version: 1
 id: b6a20ede-6da9-4ea3-896b-905428587ac4
 author: Raven Tait, Splunk
 lookup_type: csv
-description: A list of named pipes used with known malicious tooling.
+description: A list of named pipes used with known suspicious tooling.
 match_type:
 - WILDCARD(suspicious_pipe_name)
 min_matches: 1
