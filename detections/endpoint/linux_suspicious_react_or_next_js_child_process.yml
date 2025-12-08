@@ -3,7 +3,7 @@ id: cda04e9c-1950-43ab-87d6-e333a3d7f107
 version: 1
 date: '2025-12-05'
 author: Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: TTP
 description: |
   This analytic detects Linux processes such as sh, bash, and common Linux LOLBINs being spawned by React or Next.js application servers.
