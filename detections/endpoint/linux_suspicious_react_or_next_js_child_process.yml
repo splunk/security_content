@@ -32,6 +32,7 @@ search: |
         Processes.process_name IN (
           "awk",
           "gawk",
+          "ifconfig",
           "lua",
           "nc",
           "ncat",
@@ -70,20 +71,21 @@ search: |
             "*/dev/tcp/*",
             "*/dev/udp/*",
             "*0>&1*",
-            "*curl",
+            "*curl*",
             "*exec *>&*",
             "*fsockopen*",
+            "*ifconfig*",
             "*mkfifo*",
-            "*nc ",
-            "*ncat",
-            "*netcat",
+            "*nc *",
+            "*ncat*",
+            "*netcat*",
             "*proc_open*",
             "*s_client*",
             "*socat*",
             "*socket*",
             "*subprocess*",
             "*TCPSocket*",
-            "*wget"
+            "*wget*"
           )
         )
       )
