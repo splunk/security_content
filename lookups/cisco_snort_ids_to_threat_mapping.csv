@@ -18,6 +18,7 @@ Amadey,60570,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
 Amadey,60571,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
 Amadey,60572,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
 AsyncRAT,58773,MALWARE-CNC,Rat.Trojan.AsyncRAT variant cnc connection
+CastleRAT,65548,MALWARE-CNC,Win.Trojan.CastleRAT variant outbound IP geolocation lookup attempt
 Chafer,45972,MALWARE-CNC,Win.Trojan.Chafer malicious communication attempt
 Chafer,45973,MALWARE-CNC,Win.Trojan.Chafer malicious communication attempt
 DCRAT,58356,MALWARE-CNC,Win.Trojan.DCRAT variant outbound connection

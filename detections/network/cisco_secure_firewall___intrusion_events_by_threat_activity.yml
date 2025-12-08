@@ -1,25 +1,27 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 4  
-date: '2025-09-25'
+version: 5
+date: '2025-12-08'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events. 
-  It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures 
-  associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a 
-  lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques. 
-  When multiple signatures associated with the same threat actor are triggered within the time window, and the count of 
-  unique signatures matches or exceeds the expected number of signatures for that threat technique, an alert is generated. 
-  This helps identify potential coordinated threat activity in your network environment by correlating related intrusion 
+  This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events.
+  It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures
+  associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a
+  lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques.
+  When multiple signatures associated with the same threat actor are triggered within the time window, and the count of
+  unique signatures matches or exceeds the expected number of signatures for that threat technique, an alert is generated.
+  This helps identify potential coordinated threat activity in your network environment by correlating related intrusion
   events that occur in close temporal proximity.
 
   Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
+
   * ArcaneDoor
   * Static Tundra
   * AgentTesla
   * Amadey
+  * CastleRAT
   * AsyncRAT
   * Chafer
   * DCRAT
@@ -28,6 +30,7 @@ description: |
   * Quasar
   * Remcos
   * Snake
+  * Static Tundra
   * Xworm
 
   To add or update threat actors, update the cisco_snort_ids_to_threat_mapping.csv lookup file with new or modified threat names and associated Snort signature IDs.
@@ -80,7 +83,7 @@ rba:
     - field: signature
       type: signature
 tags:
-  analytic_story: 
+  analytic_story:
     - Cisco Secure Firewall Threat Defense Analytics
     - ArcaneDoor
   asset_type: Network
