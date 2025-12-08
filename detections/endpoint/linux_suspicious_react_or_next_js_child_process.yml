@@ -54,6 +54,14 @@ search: |
           Processes.process_name IN (
             "bash",
             "dash",
+            "sh"
+          )
+          NOT Processes.process = "*-c*"
+        )
+        OR (
+          Processes.process_name IN (
+            "bash",
+            "dash",
             "ksh",
             "sh",
             "zsh"
