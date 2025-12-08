@@ -31,7 +31,6 @@ description: |
   * Remcos
   * Snake
   * Static Tundra
-  * Static Tundra
   * Xworm
 
   To add or update threat actors, update the cisco_snort_ids_to_threat_mapping.csv lookup file with new or modified threat names and associated Snort signature IDs.
