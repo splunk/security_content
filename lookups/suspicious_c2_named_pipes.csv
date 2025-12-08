@@ -4,7 +4,7 @@
 *\461092,CobaltStrike,Known CobaltStrike pipe name
 *\5e120a,meterpreter,Meterpreter getsystem
 *\66bee3,CobaltStrike,GetSystem in Meterpreter & Cobalt Strikes Beacon
-*\8e8988b257e9dd2ea44ff03d44d26467b7c9ec16,CobaltStrike,Known CobaltStrike pipe name,Privilege Escalation
+*\8e8988b257e9dd2ea44ff03d44d26467b7c9ec16,CobaltStrike,Known CobaltStrike pipe name
 *\brutepipe,BruteRatel,BruteRatel Pipe
 *\bypassuac,CobaltStrike,Known CobaltStrike pipe name
 *\demoagent_11,CobaltStrike,Known CobaltStrike pipe name

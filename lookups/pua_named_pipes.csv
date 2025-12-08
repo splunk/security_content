@@ -2,7 +2,7 @@ pua_pipe_name,tool,description,type
 *-stderr,PSEXEC,Remote execution like PsExec,Lateral Movement
 *-stdin,PSEXEC,Remote execution like PsExec,Lateral Movement
 *-stdout,PSEXEC,Remote execution like PsExec,Lateral Movement
-*\dotnet-diagnostic-*,DotNet,Part of the .NET diagnostics infrastructure- Used by several C2 frameworks (May have FP)
+*\dotnet-diagnostic-*,DotNet,Part of the .NET diagnostics infrastructure- Used by several C2 frameworks (May have FP),Lateral Movement
 *\paexec*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\PAExecErr*,PAEXEC,Remote execution like PsExec,Lateral Movement
 *\PAExecIn*,PAEXEC,Remote execution like PsExec,Lateral Movement
