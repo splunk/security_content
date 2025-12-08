@@ -78,7 +78,22 @@ rba:
       type: process_name
 tags:
   analytic_story:
-    - Remote Monitoring and Management Software
+    - Active Directory Lateral Movement
+    - BlackByte Ransomware
+    - Cactus Ransomware
+    - CISA AA22-320A
+    - DarkGate Malware
+    - DarkSide Ransomware
+    - DHS Report TA18-074A
+    - HAFNIUM Group
+    - IcedID
+    - Medusa Ransomware
+    - Rhysida Ransomware
+    - SamSam Ransomware
+    - Sandworm Tools
+    - Seashell Blizzard
+    - VanHelsing Ransomware
+    - Volt Typhoon
   asset_type: Endpoint
   mitre_attack_id:
     - T1559
