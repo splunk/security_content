@@ -6,6 +6,6 @@ author: Raven Tait, Splunk
 lookup_type: csv
 description: A list of named pipes used with known PUA tooling.
 match_type:
-- WILDCARD(suspicious_pipe_name)
+- WILDCARD(pua_pipe_name)
 min_matches: 1
 case_sensitive_match: false
