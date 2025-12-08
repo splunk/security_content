@@ -17,12 +17,11 @@ description: |
 
   Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
 
-  * ArcaneDoor
-  * Static Tundra
   * AgentTesla
   * Amadey
-  * CastleRAT
+  * ArcaneDoor
   * AsyncRAT
+  * CastleRAT
   * Chafer
   * DCRAT
   * Lumma Stealer
@@ -30,6 +29,7 @@ description: |
   * Quasar
   * Remcos
   * Snake
+  * Static Tundra
   * Static Tundra
   * Xworm
 
