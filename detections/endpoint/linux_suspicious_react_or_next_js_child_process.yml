@@ -155,6 +155,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/react2shell/linux_react2shell.log
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/react2shell/react2shell_linux.log
         source: Syslog:Linux-Sysmon/Operational
         sourcetype: sysmon:linux
