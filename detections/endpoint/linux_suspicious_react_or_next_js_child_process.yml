@@ -20,7 +20,7 @@ search: |
       Processes.parent_process_name = "node"
       Processes.parent_process IN (
         "*--experimental-https*",
-        "*'--experimental-next-config-strip-types*",
+        "*--experimental-next-config-strip-types*",
         "*/node_modules/next*",
         "*next dev*",
         "*next start*",
