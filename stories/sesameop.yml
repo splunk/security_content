@@ -1,0 +1,20 @@
+name: SesameOp
+id: 26b6c7c5-351b-489f-8053-da6cbaa74479
+version: 1
+date: '2025-12-10'
+author: Teoderick Contreras, Splunk
+status: production
+description: SesameOp is a newly discovered backdoor that abuses the OpenAI Assistants API as its command-and-control (C2) channel. Instead of using a traditional malicious server infrastructure, the malware loads a heavily obfuscated .NET DLL (Netapi64.dll / OpenAIAgent.Netapi64) which reaches out to the Assistants API to fetch encrypted, compressed commands and then executes them on the infected host. Results from these commands are likewise compressed, encrypted and sent back via the same legitimate API channel — effectively hiding malicious traffic in seemingly normal API calls. To evade detection, it injects into the host using .NET AppDomainManager injection, maintains persistence over time, and obfuscates communications via symmetric and asymmetric encryption plus compression.
+narrative: SesameOp is a stealthy backdoor discovered in July 2025 that abuses the OpenAI Assistants API as a covert command-and-control channel. It comprises two components, a heavily obfuscated loader (Netapi64.dll) and a .NET-based backdoor (OpenAIAgent.Netapi64). The loader uses .NET AppDomainManager injection to persist within otherwise legitimate host processes such as developer tools. Once active, the backdoor fetches encrypted, compressed commands hidden in AI-assistant metadata from the OpenAI API, executes them locally, and returns results using the same legitimate HTTPS traffic. Because the traffic resembles normal AI API usage, it easily evades standard network detection methods.
+references:
+- https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
