@@ -67,7 +67,7 @@ rba:
   risk_objects:
   - field: dest
     type: system
-    score: 30
+    score: 20
   threat_objects: 
   - field: file_name
     type: file_name
