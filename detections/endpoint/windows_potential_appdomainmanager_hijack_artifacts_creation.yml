@@ -11,7 +11,7 @@ data_source:
 search: |
   | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime from datamodel=Endpoint.Filesystem
   where Filesystem.file_name IN ("*.exe", "*.exe.config", "*.dll") AND Filesystem.file_path IN
-    ("*\\windows\\fonts\\*", "*\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*","*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "*\\Windows\\repair\\*", "*\\PerfLogs\\*", "*\\programdata\\*")
+    ("*\\windows\\fonts\\*", "*\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*","*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "*\\Windows\\repair\\*", "*\\PerfLogs\\*")
   AND Filesystem.action = "created"
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name("Filesystem")`
@@ -19,25 +19,32 @@ search: |
   values(user) AS users
   min(firstTime) AS firstTime max(lastTime) AS lastTime
   BY dest process_guid
+  | eval exe_present = if(mvcount(mvfilter(match(files_found, "\.exe$"))) > 0, 1, 0)
+  | eval config_present = if(mvcount(mvfilter(match(files_found, "\.exe\.config$"))) > 0, 1, 0)
+  | eval dll_present = if(mvcount(mvfilter(match(files_found, "\.dll$"))) > 0, 1, 0)
+  
   | eval exe_files = mvfilter(match(files_found, "\.exe$") AND NOT match(files_found, "\.exe\.config$"))
   | eval config_files = mvfilter(match(files_found, "\.exe\.config$"))
   | eval exe_base_names = mvmap(exe_files, replace(exe_files, "\.exe$", ""))
   | eval config_base_names = mvmap(config_files, replace(config_files, "\.exe\.config$", ""))
   | eval matching_base_names = mvmap(exe_base_names, if(mvfind(config_base_names, VALUE) != -1, VALUE, null()))
+  
   | eval file_count = mvcount(files_found)
   | eval match_count = mvcount(matching_base_names)
-  | where file_count = 3 AND  match_count > 0
+  
+  | where file_count >= 3 AND  match_count > 0 AND exe_present = 1 AND config_present = 1 AND dll_present = 1
   | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
+  | `security_content_ctime(lastTime)`
   | `windows_potential_appdomainmanager_hijack_artifacts_creation_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the file name, file path, and process_guid executions from your endpoints.
-  If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
-known_false_positives: Administrator or network operator can create file in ~/.ssh
-  folders for automation purposes. Please update the filter macros to remove false
-  positives.
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: Administrator or network operator can create appdomain config file relative to the .NET application as part of installation. Filtering is needed.
 references:
 - https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
+- https://attack.mitre.org/techniques/T1574/014/ 
 drilldown_searches:
 - name: View the detection results for - "$dest$"
   search: '%original_detection_search% | search  dest = "$dest$"'
@@ -58,7 +65,9 @@ rba:
   - field: dest
     type: system
     score: 30
-  threat_objects: []
+  threat_objects: 
+  - field: file_name
+    type: file_name
 tags:
   analytic_story:
   - SesameOp
