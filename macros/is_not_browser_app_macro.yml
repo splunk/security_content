@@ -1,0 +1,3 @@
+definition: lookup update=true browser_app_list browser_process_name AS process_name OUTPUT isAllowed | search isAllowed!=true
+description: This macro is designed to identify non-browser applications process name. Remove or filter as needed based.
+name: is_not_browser_app_macro
