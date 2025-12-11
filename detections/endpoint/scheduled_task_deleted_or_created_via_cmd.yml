@@ -1,6 +1,6 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 22
+version: 23
 date: '2025-12-10'
 author: Bhavin Patel, Splunk
 status: production
