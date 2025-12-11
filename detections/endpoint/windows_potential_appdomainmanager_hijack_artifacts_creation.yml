@@ -48,6 +48,9 @@ known_false_positives: Administrator or network operator can create appdomain co
 references:
 - https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
 - https://attack.mitre.org/techniques/T1574/014/ 
+- https://gist.github.com/djhohnstein/afb93a114b848e16facf0b98cd7cb57b
+- https://www.scworld.com/brief/appdomain-manager-injection-exploited-for-cobalt-strike-beacon-delivery
+- https://jp.security.ntt/insights_resources/tech_blog/appdomainmanager-injection-en/
 drilldown_searches:
 - name: View the detection results for - "$dest$"
   search: '%original_detection_search% | search  dest = "$dest$"'
