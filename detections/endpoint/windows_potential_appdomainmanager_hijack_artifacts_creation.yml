@@ -15,24 +15,24 @@ search: |
   AND Filesystem.action = "created"
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name("Filesystem")`
-  | stats values(file_name) AS files_names
-          values(file_path) AS files_paths
+  | stats values(file_name) AS file_names
+          values(file_path) AS file_paths
           values(user) AS users
           min(firstTime) AS firstTime max(lastTime) AS lastTime
           BY dest process_guid
-  | eval exe_present = if(mvcount(mvfilter(match(files_names, "\.exe$"))) > 0, 1, 0)
-  | eval config_present = if(mvcount(mvfilter(match(files_names, "\.exe\.config$"))) > 0, 1, 0)
-  | eval dll_present = if(mvcount(mvfilter(match(files_names, "\.dll$"))) > 0, 1, 0)
+  | eval exe_present = if(mvcount(mvfilter(match(file_names, "\.exe$"))) > 0, 1, 0)
+  | eval config_present = if(mvcount(mvfilter(match(file_names, "\.exe\.config$"))) > 0, 1, 0)
+  | eval dll_present = if(mvcount(mvfilter(match(file_names, "\.dll$"))) > 0, 1, 0)
 
-  | eval exe_files = mvfilter(match(files_names, "\.exe$") AND NOT match(files_names, "\.exe\.config$"))
-  | eval config_files = mvfilter(match(files_names, "\.exe\.config$"))
+  | eval exe_files = mvfilter(match(file_names, "\.exe$") AND NOT match(file_names, "\.exe\.config$"))
+  | eval config_files = mvfilter(match(file_names, "\.exe\.config$"))
   | eval exe_base_names = mvmap(exe_files, replace(exe_files, "\.exe$", ""))
   | eval config_base_names = mvmap(config_files, replace(config_files, "\.exe\.config$", ""))
     
   | mvexpand exe_base_names
   | mvexpand config_base_names
 
-  | eval file_count = mvcount(files_names)
+  | eval file_count = mvcount(file_names)
   
   | where file_count >= 3 AND exe_present = 1 AND config_present = 1 AND dll_present = 1 AND exe_base_names = config_base_names
   | `security_content_ctime(firstTime)`
