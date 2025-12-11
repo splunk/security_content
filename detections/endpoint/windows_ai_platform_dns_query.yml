@@ -11,7 +11,7 @@ data_source:
   - Sysmon EventID 22
 search: |
   `sysmon` EventCode=22 QueryName IN ("router.huggingface.co", "api.openai.com")
-    | `is_not_browser_app_macro`
+    | lookup update=true browser_app_list browser_process_name AS process_name OUTPUT isAllowed | search isAllowed!=true
     | rename dvc as dest
     | stats count min(_time) as firstTime max(_time) as lastTime 
     by answer answer_count dest process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id Image

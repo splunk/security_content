@@ -15,25 +15,24 @@ search: |
   AND Filesystem.action = "created"
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name("Filesystem")`
-  | stats values(file_name) AS files_found
+  | stats values(file_name) AS files_names
+          values(file_path) AS files_paths
           values(user) AS users
           min(firstTime) AS firstTime max(lastTime) AS lastTime
           BY dest process_guid
-  | eval exe_present = if(mvcount(mvfilter(match(files_found, "\.exe$"))) > 0, 1, 0)
-  | eval config_present = if(mvcount(mvfilter(match(files_found, "\.exe\.config$"))) > 0, 1, 0)
-  | eval dll_present = if(mvcount(mvfilter(match(files_found, "\.dll$"))) > 0, 1, 0)
+  | eval exe_present = if(mvcount(mvfilter(match(files_names, "\.exe$"))) > 0, 1, 0)
+  | eval config_present = if(mvcount(mvfilter(match(files_names, "\.exe\.config$"))) > 0, 1, 0)
+  | eval dll_present = if(mvcount(mvfilter(match(files_names, "\.dll$"))) > 0, 1, 0)
 
-  | eval exe_files = mvfilter(match(files_found, "\.exe$") AND NOT match(files_found, "\.exe\.config$"))
-  | eval config_files = mvfilter(match(files_found, "\.exe\.config$"))
+  | eval exe_files = mvfilter(match(files_names, "\.exe$") AND NOT match(files_names, "\.exe\.config$"))
+  | eval config_files = mvfilter(match(files_names, "\.exe\.config$"))
   | eval exe_base_names = mvmap(exe_files, replace(exe_files, "\.exe$", ""))
   | eval config_base_names = mvmap(config_files, replace(config_files, "\.exe\.config$", ""))
-  
-  | eval zipped_names = mvzip(exe_base_names, config_base_names, "==")
-  
+    
   | mvexpand exe_base_names
   | mvexpand config_base_names
 
-  | eval file_count = mvcount(files_found)
+  | eval file_count = mvcount(files_names)
   
   | where file_count >= 3 AND exe_present = 1 AND config_present = 1 AND dll_present = 1 AND exe_base_names = config_base_names
   | `security_content_ctime(firstTime)`
@@ -44,7 +43,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: Administrator or network operator can create appdomain config file relative to the .NET application as part of installation. Filtering is needed.
+known_false_positives: This detection may still produce false positives, so additional filtering is recommended. To validate potential alerts, verify that the executable’s original file name matches its current file name, and also review the associated .config file to confirm which DLLs are expected to load during execution. This helps distinguish legitimate activity from suspicious behavior.
 references:
 - https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
 - https://attack.mitre.org/techniques/T1574/014/ 
@@ -66,14 +65,16 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A file $files_found$ is created in $file_path$ on $dest$
+  message: A file $files_name$ is created in $file_path$ on $dest$
   risk_objects:
   - field: dest
     type: system
     score: 20
   threat_objects: 
-  - field: file_name
+  - field: file_names
     type: file_name
+  - field: file_paths
+    type: file_path
 tags:
   analytic_story:
   - SesameOp
