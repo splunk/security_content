@@ -1,0 +1,110 @@
+suspicious_pipe_name,tool,description,type
+*\$77childproc,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77childproc64,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77config,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77control_redirec,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77control,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77stager,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77svc32,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\$77svc64,77-rootkit,Fileless ring 3 rootkit that hides artifacts,Persistence
+*\6e7645c4-32c5-4fe3-aabf-e94c2f4370e7,LiquidSnake,LiquidSnake is a tool that allows operators to perform fileless lateral movement using WMI Event Subscriptions and GadgetToJScript,Lateral Movement
+*\AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
+*\acsipc_server,metasploit,Agnitum Outpost Internet Security Local Privilege Escalation,Privilege Escalation
+*\AmperageAIXSysRemove,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
+*\AmperageHwReqDetour,AmperageKit,Enabling Recall in Windows 11 version 24H2 on unsupported devices,Collection
+*\asio-A0812896-741A-484D-AF23-BE51BF620E22-*,Kismet,Kismet is an open source sniffer - WIDS - wardriver and packet capture tool for Wi-Fi,Exploitation
+*\aswSP_Avar*,BYOVD_kill_av_edr,Used by BYOD tools to kill AV/EDR,Defense Evasion
+*\atctl,RPC-Backdoor,RPC-Backdoor default pipe name,Persistence
+*\barnofoo\pipe\spoolss,shad0w,Used by Printspoofer exploit,Privilege Escalation
+*\blindspot-*,Pyramid,Pyramid default pipe,Defense Evasion
+*\cachedumppipe,fgdump,Fgdump pipe name,Credential Access
+*\coerced*,CoercedPotato,Used by CoercedPotato From Patate (LOCAL/NETWORK SERVICE) to SYSTEM,Privilege Escalation
+*\csexec*,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\Ctx_WinStation_API_service,impacket,impacket dcerpc pipe name,Exploitation
+*\DeadPotato*,DeadPotato,Used by DeadPotato for privilege escalation,Privilege Escalation
+*\EasySystem,EasySystem,Quick and dirty System (Power)Shell using NamedPipe impersonation - also used by Cn33liz/P0wnedShell,Defense Evasion
+*\ElevationPipe,ShimMe,Default named pipe from ShimMe presented at Defcon32 - Manipulating Shim and Office for Code Injection,Privilege Escalation
+*\EvtMuteHook_Rule_Pipe,EvtMute,Possible Event Log tampering,Defense Evasion
+*\ExploitPipe,InstallerFileTakeOver,Used by InstallerFileTakeOver exploit POC CVE-2021-41379 patch bypass,Privilege Escalation
+*\foobar,_,Suspicious string  often used in POC exploitation,Possible POC
+*\forRealLegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
+*\FssagentRpc,NetExec,NetExec pipe name,Lateral Movement
+*\fuego-control,fuegoshell,fuegoshell pipe name,Lateral Movement
+*\fuego-data,fuegoshell,fuegoshell pipe name,Lateral Movement
+*\fuegoshell,fuegoshell,fuegoshell pipe name,Lateral Movement
+*\Godpotato*,GodPotato,Used by GodPotato for privilege escalation,Privilege Escalation
+*\gruntsvc*,covenant,Known Covenant pipe name,Lateral Movement
+*\gsecdump_*,gsecdump,Credential dumper used to obtain password hashes and LSA secrets from Windows operating systems,Credential Access
+*\HighPriv,EasySystem,EasySystem.ps1 default pipe name,Privilege Escalation
+*\HighPriv,NamedPipeSystem,"From ""Some usefull Scripts and Executables for Pentest & Forensics""",Privilege Escalation
+*\imposecost,Koh Token Stealer,Koh Token Stealer pipe name,Credential Access
+*\imposingcost,Koh Token Stealer,Koh Token Stealer pipe name,Credential Access
+*\innocent,CVE-2023-21768,Used by LPE exploit for CVE-2023-36802,Privilege Escalation
+*\ioring_in,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
+*\ioring_out,CVE-2023-21768,Used by CVE-2023-21768 exploits,Privilege Escalation
+*\IPEFSYSPCPIPE,metasploit,iPass Mobile Client Service Privilege Escalation,Privilege Escalation
+*\kangaroo*,EventCleaner,Used by EventCleaner,Defense Evasion
+*\lsarelayx,lsarelayx,lsarelayx usage,Credential Access
+*\LSM_API_service,impacket,impacket dcerpc pipe name,Exploitation
+*\MalDevEDR,MalDevEDR,EDR/AV Simulation for Malware Development,Exploitation
+*\mantvydas-first-pipe,POC,Privilege escalation poc,Privilege Escalation
+*\megacmdpipe_*,MEGAcmd,Command Line Interactive and Scriptable Application to access MEGA,Data Exfiltration
+*\mimi,SharpBlock,A method of bypassing EDR's active projection DLL's by preventing entry point exection,Defense Evasion
+*\moj_ML_ntsvcs,mortar,Used by the offensive tool mortar,Defense Evasion
+*\mojo.7304.10032.2584273091328543665,Nemesis,Nemesis  file named pipe,Exploitation
+*\msf-pipe,metasploit,Metasploit bind named pipe,Exploitation
+*\MyNamePipe,mortar,Used by the offensive tool mortar,Defense Evasion
+*\NamedPipeMaster,NamedPipeMaster,A tool used to analyze and monitor named pipes,Exploitation
+*\netdfs,NetExec,NetExec pipe name,Lateral Movement
+*\orcljsexorcl,metasploit,Oracle Job Scheduler Named Pipe Command Execution,Exploitation
+*\OVSystem*,metasploit,HP OpenView Network Node Manager execvp_nc Buffer Overflow,Exploitation
+*\paexec*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecErr*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecIn*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\PAExecOut*,PAEXEC,Remote execution like PsExec,Lateral Movement
+*\pcheap_reuse,EQGPR,Used by EquationGroup Tool,Exploitation
+*\petit\pipe\srvsvc,PetitPotato,Used by PetitPotato for privilege escalation,Privilege Escalation
+*\PipeCmd_communicaton,Pipecmd,Pipecmd  hacking tool default named pipe,Exploitation
+*\pipename,_,Suspicious string  often used in POC exploitation,Possible POC
+*\piper,_,From High Integrity to SYSTEM with Named Pipes,Privilege Escalation
+*\pipey,RpcSsImpersonator,faxhell / printjacker / RpcSsImpersonator - Elevation to SYSTEM,Privilege Escalation
+*\PrivFuPipe*,PrivFu,Privilege escalation PoCs,Privilege Escalation
+*\protected_storage,impacket,impacket dcerpc pipe name,Credential Access
+*\RemCom_Commuincation,Remcom,Remote execution like PsExec,Lateral Movement
+*\remcom*,Remcom,Remote execution like PsExec,Lateral Movement
+*\RemoteMaint,impacketremoteshell,impacketremoteshell default pipe name,Lateral Movement
+*\RoguePotato,RoguePotato,Used by RoguePotato for privilege escaltion,Privilege Escalation
+*\RustPotato*,RustPotato,A Rust implementation of GodPotato,Privilege Escalation
+*\samr,BadPotato,Used by BadPotato for privilege escalation,Privilege Escalation
+*\ShitSecure,SharpNamedPipePTH,SharpNamedPipePTH - Pass the Hash to a named pipe for token Impersonation,Lateral Movement
+*\SigmaPotato,Sigmapotato,Used by Sigmapotato for privilege escaltion,Privilege Escalation
+*\Something,Invoke-SMBRemoting,Used by Invoke-SMBRemoting,Lateral Movement
+*\sqsvc,Powersploit,Powersploit pipe name,Exploitation
+*\SUPipeServer,metasploit,Lenovo System Update Privilege Escalation,Privilege Escalation
+*\svcctl,CrackMapExec,Service Control Manager Remote Protocol used by many lateral movement tools,Lateral Movement
+*\syelog,defender-control,Associated with Microsoft's Detours - a library used for intercepting Win32 functions - used by the offensive tool defender-control,Defense Evasion
+*\syelog,syelog,EDR bypassing,Defense Evasion
+*\tailscale-test,Tailscale,Used by Tailscale RMM,Defense Evasion
+*\tailscale*,Tailscale,Used by Tailscale RMM,Defense Evasion
+*\tenketsu,tenketsu,Metasploit clone ,Exploitation
+*\tenketsuProxy,tenketsu,Metasploit clone ,Exploitation
+*\TermSrv_API_service,impacket,impacket dcerpc pipe name,Exploitation
+*\Teste,RustRedOps,RustRedOps Named Pipe Client / Server,Exploitation
+*\testpipe,_,Suspicious string  often used in POC exploitation,Possible POC
+*\TestSVC,SharPyShell,Get-System.ps1 default named pipe,Privilege Escalation
+*\TIOR_Err,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
+*\TIOR_In,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
+*\TIOR_Out,thg-framework,Pipe redirector from metasploit bypassuac TIOR,Exploitation
+*\tokenvator,Tokenvator,A tool to elevate privilege with Windows Tokens,Privilege Escalation
+*\toteslegit,InlineExecute-Assembly,InlineExecute-Assembly pipe name,Exploitation
+*\vncdump-*,vncdump,Vnc password sniffer,Credential Access
+*\warpzone8,elevationstation,Used by Elevationstation elevate to SYSTEM - Metasploit and PSEXEC getsystem alternative,Privilege Escalation
+*\WCEServicePipe,Windows Credential Editor,Windows Credential Editor (WCE) default named pipe,Credential Access
+*\win-sux-no-async-anon-pipe-*-*,dns2tcp,dns2tcp,Defense Evasion
+*\WindscribeService*,metasploit,The Windscribe VPN client application for Windows makes use of a Windows service WindscribeService.exe which exposes a named pipe \.\pipe\WindscribeService allowing execution of programs with elevated privileges,Privilege Escalation
+*\WinPwnagePipe,WinPwnage,Winpwnage elevatemethod3.py pipe name,Privilege Escalation
+*\xai,NP_impersonate,Priv esc for SeImpersonatePrivilege,Privilege Escalation
+*IpHlpSvc.log*,Chimichurri,Used by kernel exploit Chimichurri.cpp,Privilege Escalation
+*mimikatz*,mimikatz,kekeo stealing credentials,Credential Access
+*pwned*,Potato,Potato to get SYSTEM via SeImpersonate privileges,Privilege Escalation
+*WWWAITER*,exploit_64,Used by CLFS Elevation of Privilege tool (CVE-2022-24521),Privilege Escalation
