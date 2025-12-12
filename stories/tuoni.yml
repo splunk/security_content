@@ -1,0 +1,26 @@
+name: Tuoni
+id: 4687ea3e-7837-4a4a-81a4-11825252c643
+version: 1
+date: '2025-12-04'
+author: Raven Tait, Splunk
+status: production
+description: Tuoni is a sophisticated, cross-platform red teaming framework designed to enhance
+  cybersecurity education and training through large-scale cyber defense exercises.
+narrative: This Analytic Story supports you to detect Tactics, Techniques and Procedures
+  (TTPs) from Tuoni. A new wave of cyberattacks has emerged using the Tuoni C2 framework,
+  a sophisticated tool that allows threat actors to deploy malicious payloads directly into system memory.
+  This technique helps attackers avoid detection by traditional security solutions that rely on scanning files stored on disk.
+  The Tuoni framework has gained attention in the cybersecurity community for its modular design
+  and ability to perform multiple attack variations without leaving significant traces on compromised systems.
+references:
+- https://github.com/shell-dot/tuoni
+- https://www.infosecurity-magazine.com/news/ai-tuoni-framework-targets-us-real/
+- https://cybersecuritynews.com/hackers-using-leverage-tuoni-c2-framework-tool/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

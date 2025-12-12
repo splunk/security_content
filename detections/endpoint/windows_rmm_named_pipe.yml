@@ -1,0 +1,108 @@
+name: Windows RMM Named Pipe
+id: c07c7138-edf5-4a16-8b24-3842599235bf
+version: 1
+date: '2025-12-05'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic detects the creation or connection to known suspicious named pipes, which is a technique often used by offensive tools.
+  It leverages Sysmon EventCodes 17 and 18 to identify  known default pipe names used by RMM tools.
+  If confirmed malicious,  this could allow an attacker to abuse these to potentially gain persistence, command and control, or further system compromise.
+data_source:
+  - Sysmon EventID 17
+  - Sysmon EventID 18
+search: |
+  `sysmon`
+  (EventCode=17 OR EventCode=18)
+  NOT process_path IN (
+    "*:\\Program Files \(x86\)\\Adobe*",
+    "*:\\Program Files \(x86\)\\Google*",
+    "*:\\Program Files \(x86\)\\Microsoft*",
+    "*:\\Program Files\\Adobe*",
+    "*:\\Program Files\\Google*",
+    "*:\\Program Files\\Microsoft*",
+    "*:\\Windows\\system32\\SearchIndexer.exe",
+    "*:\\Windows\\System32\\svchost.exe",
+    "*:\\Windows\\SystemApps\\Microsoft*",
+    "*\\Amazon\\SSM\\Instance*",
+    "*\\AppData\\Local\\Google*",
+    "*\\AppData\\Local\\Kingsoft\\*",
+    "*\\AppData\\Local\\Microsoft*",
+    "System"
+  )
+
+  | stats  min(_time) as firstTime max(_time) as lastTime
+  count by dest dvc process_exec process_guid process_id process_path signature signature_id 
+  vendor_product pipe_name user_id Image process_name
+  
+  | lookup suspicious_rmm_named_pipes suspicious_pipe_name AS pipe_name OUTPUT tool, description
+  | where isnotnull(tool)
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_rmm_named_pipe_filter`
+how_to_implement: |
+  To successfully implement this search, you need to be ingesting
+  logs with the process name and pipename from your endpoints. If you are using Sysmon,
+  you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: |
+  Some false positives may occur from RMM software used in your environment. Apply filters
+  based on known legitimate RMM software in your environment to reduce false positives.
+references:
+  - https://attack.mitre.org/techniques/T1218/009/
+  - https://docs.microsoft.com/en-us/windows/win32/ipc/named-pipes
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: An instance of $process_name$ located in $process_path$ was identified on endpoint $dest$ accessing
+    known RMM named pipe $pipe_name$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 52
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+    - Cactus Ransomware
+    - CISA AA24-241A
+    - Command And Control
+    - GhostRedirector IIS Module and Rungan Backdoor
+    - Gozi Malware
+    - Insider Threat
+    - Interlock Ransomware
+    - Ransomware
+    - Remote Monitoring and Management Software
+    - Scattered Lapsus$ Hunters
+    - Scattered Spider
+    - Seashell Blizzard
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1559
+    - T1021.002
+    - T1055
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/named_pipes/windows-sysmon.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: XmlWinEventLog
+

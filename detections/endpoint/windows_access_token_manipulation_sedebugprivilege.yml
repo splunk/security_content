@@ -1,7 +1,7 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 17
-date: '2025-10-14'
+version: 18
+date: '2025-12-04'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -73,6 +73,7 @@ tags:
   - GhostRedirector IIS Module and Rungan Backdoor
   - Lokibot
   - Scattered Lapsus$ Hunters
+  - Tuoni
   asset_type: Endpoint
   mitre_attack_id:
   - T1134.002

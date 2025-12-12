@@ -1,80 +1,107 @@
 name: Linux Auditd Preload Hijack Via Preload File
 id: c1b7abca-55cb-4a39-bdfb-e28c1c12745f
-version: 7
-date: '2025-06-10'
+version: 8
+date: '2025-11-27'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious preload hijacking via the  `preload`
-  file, which may indicate an attacker's attempt to intercept or manipulate library
-  loading processes. The `preload` file can be used to force the loading of specific
-  libraries before others, potentially allowing malicious code to execute or alter
-  application behavior. By monitoring for unusual or unauthorized modifications to
-  the `preload` file, this analytic helps identify attempts to hijack preload mechanisms,
-  enabling security teams to investigate and address potential threats to system integrity
-  and security.
+description: |
+  The following analytic detects suspicious preload hijacking via the `preload` file, which may indicate an attacker's attempt to intercept or manipulate library loading processes.
+  The `preload` file can be used to force the loading of specific libraries before others, potentially allowing malicious code to execute or alter application behavior.
+  By monitoring for unusual or unauthorized modifications to the `preload` file, this analytic helps identify attempts to hijack preload mechanisms, enabling security teams to investigate and address potential threats to system integrity and security.
+  Correlate this with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
 data_source:
-- Linux Auditd Path
-search: '`linux_auditd` type=PATH name="/etc/ld.so.preload*"
-  | rename host as dest 
-  | stats count min(_time) as firstTime max(_time) as lastTime 
-  by name nametype ogid type dest 
+  - Linux Auditd Path
+  - Linux Auditd Cwd
+search: |
+  `linux_auditd`
+  (type=PATH OR type=CWD)
+  | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
+
+  | stats
+    values(type) as types
+    values(name) as names
+    values(nametype) as nametype
+    values(cwd) as cwd_list
+    values(_time) as event_times
+    by audit_id, host
+
+  | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
+  | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+  | eval matched_paths = mvfilter(match(candidate_paths, "/etc/ld.so.preload.*"))
+  | eval match_count = mvcount(matched_paths)
+  | eval reconstructed_path = mvindex(matched_paths, 0)
+  | eval e_time = mvindex(event_times, 0)
+  | where match_count > 0
+  | rename host as dest
+
+  | stats count min(e_time) as firstTime max(e_time) as lastTime
+    values(nametype) as nametype
+    by current_working_directory
+       reconstructed_path
+       match_count
+       dest
+       audit_id
+
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `linux_auditd_preload_hijack_via_preload_file_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
+  | `linux_auditd_preload_hijack_via_preload_file_filter`
+how_to_implement: |
+  To implement this detection, the process begins by ingesting auditd
   data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
   executions and process details on Unix/Linux systems. These logs should be ingested
   and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
   which is essential for correctly parsing and categorizing the data. The next step
   involves normalizing the field names  to match the field names set by the Splunk
   Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this application
-  for automation purposes. Please update the filter macros to remove false positives.
+  and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration.
+  This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
+known_false_positives: |
+  Administrator or network operator can use this application for automation purposes.
+  Please update the filter macros to remove false positives.
 references:
-- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+  - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
 rba:
-  message: A [$type$] event has occurred on host - [$dest$] to modify the preload
+  message:
+    A [$nametype$] event has occurred on host - [$dest$] to modify the preload
     file.
   risk_objects:
-  - field: dest
-    type: system
-    score: 81
+    - field: dest
+      type: system
+      score: 81
   threat_objects: []
 tags:
   analytic_story:
-  - Linux Living Off The Land
-  - Linux Privilege Escalation
-  - Linux Persistence Techniques
-  - Compromised Linux Host
+    - Linux Living Off The Land
+    - Linux Privilege Escalation
+    - Linux Persistence Techniques
+    - Compromised Linux Host
   asset_type: Endpoint
   mitre_attack_id:
-  - T1574.006
+    - T1574.006
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/linux_auditd_preload_file/linux_path_preload.log
-    source: auditd
-    sourcetype: auditd
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.006/auditd_path_preload_file/path_preload.log
+        source: auditd
+        sourcetype: auditd

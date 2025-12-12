@@ -1,0 +1,62 @@
+﻿suspicious_pipe_name,tool,description
+*\_test_pipe-*,EternalHushFramework,Used by EternalHushFramework
+*\334485,CobaltStrike,Known CobaltStrike pipe name
+*\461092,CobaltStrike,Known CobaltStrike pipe name
+*\5e120a,meterpreter,Meterpreter getsystem
+*\66bee3,CobaltStrike,GetSystem in Meterpreter & Cobalt Strikes Beacon
+*\8e8988b257e9dd2ea44ff03d44d26467b7c9ec16,CobaltStrike,Known CobaltStrike pipe name
+*\brutepipe,BruteRatel,BruteRatel Pipe
+*\bypassuac,CobaltStrike,Known CobaltStrike pipe name
+*\demoagent_11,CobaltStrike,Known CobaltStrike pipe name
+*\demoagent_22,CobaltStrike,Known CobaltStrike pipe name
+*\demon_pipe,Havoc,Havoc C2 pipe name
+*\EngineerPipe,HardHatC2,A C# Command & Control framework
+*\f4c3*,CobaltStrike,Known CobaltStrike pipe name
+*\f53f*,CobaltStrike,Known CobaltStrike pipe name
+*\fullduplex_*,CobaltStrike,Known CobaltStrike pipe name
+*\fvxens,CobaltStrike,Known CobaltStrike pipe name
+*\hashdump,CobaltStrike,Known CobaltStrike pipe name
+*\jaccdpqnvbrrxlaf,PoshC2,"Poshc2	pipe name "
+*\keylogger,CobaltStrike,Known CobaltStrike pipe name
+*\lsarpc_*,CobaltStrike,Known CobaltStrike pipe name
+*\merlin,Merlin,Merlin is a post-exploit Command & Control
+*\MerlinPipe,Merlin,Merlin is a post-exploit Command & Control
+*\mojo.*.*,CobaltStrike,Known CobaltStrike pipe name
+*\msagent_*,CobaltStrike,Known CobaltStrike pipe name
+*\MsFteWds*,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\msrpc_*,CobaltStrike,Known CobaltStrike pipe name
+*\MSSE-*-server,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\mypipe-f*,CobaltStrike,Known CobaltStrike pipe name
+*\mypipe-h*,CobaltStrike,Known CobaltStrike pipe name
+*\ncat-*,ncat,ncat usage
+*\netlogon_*,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\netview,CobaltStrike,Known CobaltStrike pipe name
+*\ntsvcs*,CobaltStrike,Known CobaltStrike pipe name
+*\PGMessagePipe*,CobaltStrike,Known CobaltStrike pipe name
+*\Pipe name,C3,Default named pipe example for C3 named pipe configuration
+*\PIPEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA*,CobaltStrike,Known CobaltStrike pipe name
+*\portscan,CobaltStrike,Known CobaltStrike pipe name
+*\Posh*,PoshC2,"Poshc2	pipe name "
+*\postex_*,CobaltStrike,Known CobaltStrike pipe name
+*\RevShell,RevShell,Named_Pipe_Reverse_Shell tool
+*\rpc_*,CobaltStrike,Known CobaltStrike pipe name
+*\samr_*,CobaltStrike,Known CobaltStrike pipe name
+*\scerpc*,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\screenshot,CobaltStrike,Known CobaltStrike pipe name
+*\SearchTextHarvester*,CobaltStrike,Known CobaltStrike pipe name
+*\servicepipe.zo9keez4weechei8johR.0521cc13,CobaltStrike,Known CobaltStrike pipe name
+*\spoolss*,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\srvsvc_*,CobaltStrike,Known CobaltStrike pipe name
+*\sshagent,CobaltStrike,Known CobaltStrike pipe name
+*\status_*,CobaltStrike,Known CobaltStrike pipe name
+*\TestSVC,PoshC2,GetSystem in Empire & PoshC2
+*\tuoni,Tuoni,Tuoni C2 SMB pipe
+*\typeperf_output_*,EternalHushFramework,Used by EternalHushFramework
+*\UIA_PIPE*,CobaltStrike,Known CobaltStrike pipe name
+*\win_svc*,CobaltStrike,Known CobaltStrike pipe name
+*\win\msrpc_*,CobaltStrike,Known CobaltStrike pipe name
+*\windows.update.manager*,CobaltStrike,Known CobaltStrike pipe name
+*\wkssvc_*,CobaltStrike,Known CobaltStrike pipe name (May have FP)
+*\WkSvcPipeMgr_*,CobaltStrike,Known CobaltStrike pipe name
+*\youcantpatchthis,ReflectiveDll,Using named pipe output with beacon ReflectiveDLLs
+*fms,CobaltStrike,Known CobaltStrike pipe name
