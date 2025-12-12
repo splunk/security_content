@@ -1,0 +1,25 @@
+name: Linux Auditd Cwd
+id: a9ef851b-d864-478b-b1b3-76535d7ff7fc
+version: 1
+date: '2025-12-02'
+author: Nasreddine Bencherchali, Splunk
+description: This type is used to record the working directory from which the process that invoked the system call specified in the first record was executed. The purpose of this record is to record the current process's location in case a relative path winds up being captured in the associated PATH record. This way the absolute path can be reconstructed.
+source: auditd
+sourcetype: auditd
+separator: type
+separator_value: CWD
+configuration: https://github.com/Neo23x0/auditd/blob/master/audit.rules
+supported_TA:
+- name: Splunk Add-on for Unix and Linux
+  url: https://splunkbase.splunk.com/app/833
+  version: 10.2.0
+fields:
+- cwd
+- date_hour
+- date_mday
+- date_minute
+- date_month
+- date_second
+- msg
+- type
+example_log: 'type=CWD msg=audit(11/20/2025 16:57:48.909:110027) : cwd=/etc/ssh'

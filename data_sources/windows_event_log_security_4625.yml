@@ -14,7 +14,7 @@ separator_value: '4625'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.1.1
+  version: 9.1.2
 fields:
 - _time
 - ActivityID

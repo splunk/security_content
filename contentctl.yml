@@ -38,9 +38,9 @@ apps:
 - uid: 6553
   title: Splunk Add-on for Okta Identity Cloud
   appid: Splunk_TA_okta_identity_cloud
-  version: 4.1.0
+  version: 5.0.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_410.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-okta-identity-cloud_500.tgz
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud
@@ -65,9 +65,9 @@ apps:
 - uid: 742
   title: Splunk Add-on for Microsoft Windows
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_WINDOWS
-  version: 9.1.1
+  version: 9.1.2
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_911.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-windows_912.tgz
 - uid: 5709
   title: Splunk Add-on for Sysmon
   appid: Splunk_TA_microsoft_sysmon
@@ -167,9 +167,9 @@ apps:
 - uid: 4055
   title: Splunk Add-on for Microsoft Office 365
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
-  version: 5.0.0
+  version: 5.1.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_500.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-office-365_510.tgz
 - uid: 2890
   title: Splunk Machine Learning Toolkit
   appid: SPLUNK_MACHINE_LEARNING_TOOLKIT
@@ -251,6 +251,11 @@ apps:
   appid: TA-cisco_ios
   version: 2.7.9
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_279.tgz
+- uid: 8024
+  title: TA-ollama
+  appid: ta-ollama
+  version: 0.1.5
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-ollama_015.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
