@@ -67,7 +67,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: MacOS firewall rules listed by $user$ on $dest$ using $process$
+  message: MacOS firewall rules listed via $process$ by $user$ on $dest$ using $process$
   risk_objects:
     - field: dest
       type: system
@@ -80,6 +80,8 @@ rba:
       type: parent_process_name
     - field: process_name
       type: process_name
+    - field: process
+      type: process
 tags:
   analytic_story:
   - Network Discovery
