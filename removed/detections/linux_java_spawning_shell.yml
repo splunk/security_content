@@ -3,7 +3,7 @@ id: 7b09db8a-5c20-11ec-9945-acde48001122
 version: 10
 date: '2025-10-25'
 author: Michael Haag, Splunk
-status: deprecated
+status: removed
 type: TTP
 description: The following analytic detects instances where Java, or Tomcat
   processes spawn a Linux shell, which may indicate exploitation attempts, such as
