@@ -1,3 +1,8 @@
+# This OpenAPI specification is used by CI workflows to validate response template files.
+# The spec defines the schema for response plans, phases, and tasks that are validated
+# against actual response template JSON files during the CI build process to ensure
+# template structure matches the API contract before deployment.
+
 openapi: 3.0.1
 info:
   title: Splunk Enterprise Security API Reference

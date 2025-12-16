@@ -1,3 +1,21 @@
+"""
+Response template merger and manifest generator for CI/CD pipelines.
+
+This script processes versioned response template JSON files (named <template>_v<version>.json),
+merges multiple versions of the same template into single files, and generates a manifest.json
+that catalogs all templates with their version metadata and SCS download links.
+Used during the build process to prepare templates for deployment.
+
+Example usage:
+    # Merge templates only (from repo root)
+    python .github/workflows/response_templates/template_script.py -d response_templates/ -o output/
+
+    # Merge templates and generate manifest
+    python .github/workflows/response_templates/template_script.py -d response_templates/ -o output/ -m
+
+    # Custom SCS prefix for manifest links
+    python .github/workflows/response_templates/template_script.py -d response_templates/ -o output/ -m -p https://custom.url/templates/
+"""
 import argparse
 import collections
 import json

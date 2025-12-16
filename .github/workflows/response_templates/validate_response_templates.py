@@ -1,7 +1,26 @@
 #!/usr/bin/env python3
 """
-Validate response_templates JSON files against the ResponseTemplate schema
-defined in mcopenapi_public.yml
+Response template validator for CI/CD pipelines.
+
+This script validates response template JSON files against OpenAPI schemas defined in
+mcopenapi_public.yml. It ensures template structure, field types, and required properties
+match the API contract before deployment. Supports validation of individual templates,
+merged template arrays, and manifest files. Exits with non-zero status on validation
+failures to block CI builds with invalid templates.
+
+Example usage:
+    # Validate individual template files (from repo root)
+    python .github/workflows/response_templates/validate_response_templates.py \
+        -d response_templates/ -s .github/workflows/response_templates/mcopenapi_public.yml
+
+    # Validate manifest and merged templates
+    python .github/workflows/response_templates/validate_response_templates.py \
+        -d response_templates/ -s .github/workflows/response_templates/mcopenapi_public.yml \
+        -m output/manifest.json --merged-dir output/
+
+    # Enable debug mode to dump resolved schemas
+    python .github/workflows/response_templates/validate_response_templates.py \
+        -d response_templates/ -s .github/workflows/response_templates/mcopenapi_public.yml --debug
 """
 import argparse
 import json
