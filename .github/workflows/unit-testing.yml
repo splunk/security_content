@@ -47,7 +47,7 @@ jobs:
         # Store test_results/summary.yml and dist/DA-ESS-ContentUpdate-latest.tar.gz to job artifact-test_summary_results.zip
         - name: store_artifacts
           if: always()
-          uses: actions/upload-artifact@v5
+          uses: actions/upload-artifact@v6
           with:
             name: test_summary_results
             path: |
