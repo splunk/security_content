@@ -1,0 +1,114 @@
+name: Shai-Hulud Workflow File Creation or Modification
+id: 6b4a0a7f-10d1-4d72-9c4c-5c6a3d9f9d6a
+version: 1
+date: '2025-11-25'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: |
+  Detects creation or deletion of malicious GitHub Actions workflow files associated with
+  Shai-Hulud worm variants on Linux or Windows endpoints. This includes the original shai-hulud-workflow.yml,
+  the 2.0 backdoor discussion.yaml (enables command injection via GitHub Discussions on self-hosted
+  runners named SHA1HULUD), and the secrets exfiltration workflow formatter_*.yml pattern. These
+  files are used to exfiltrate credentials and propagate across repositories.
+data_source:
+- Sysmon for Linux EventID 11
+- Sysmon EventID 11
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+  
+  from datamodel=Endpoint.Filesystem where
+  
+  Filesystem.file_path IN (
+    "*/.github/workflows/discussion.yaml",
+    "*/.github/workflows/discussion.yml",
+    "*/.github/workflows/formatter_*.yaml",
+    "*/.github/workflows/formatter_*.yml",
+    "*/.github/workflows/shai-hulud-workflow.yaml",
+    "*/.github/workflows/shai-hulud-workflow.yml",
+    "*/.github/workflows/shai-hulud.yaml",
+    "*/.github/workflows/shai-hulud.yml",
+    "*\\.github\\workflows\\discussion.yaml",
+    "*\\.github\\workflows\\discussion.yml",
+    "*\\.github\\workflows\\formatter_*.yaml",
+    "*\\.github\\workflows\\formatter_*.yml",
+    "*\\.github\\workflows\\shai-hulud-workflow.yaml",
+    "*\\.github\\workflows\\shai-hulud-workflow.yml",
+    "*\\.github\\workflows\\shai-hulud.yaml",
+    "*\\.github\\workflows\\shai-hulud.yml"
+  )
+  
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+     Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user
+     Filesystem.vendor_product
+
+  | `drop_dm_object_name(Filesystem)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `shai_hulud_workflow_file_creation_or_modification_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain filesystem events, specifically file creation
+  and deletion events. These logs must be processed using the appropriate Splunk
+  Technology Add-ons that are specific to the EDR product. The logs must also be
+  mapped to the `Filesystem` node of the `Endpoint` data model. Use the Splunk Common
+  Information Model (CIM) to normalize the field names and speed up the data modeling
+  process.
+known_false_positives: |
+  Very low. Legitimate usage of a file with this exact name is unlikely; validate with repository owners.
+references:
+- https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+- https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+- https://github.com/SigmaHQ/sigma/pull/5658/files
+- https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Shai-Hulud malicious workflow file detected on endpoint $dest$ at $file_path$.
+    Immediate investigation required.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 30
+  threat_objects:
+  - field: file_path
+    type: file_path
+    score: 20
+tags:
+  analytic_story:
+  - NPM Supply Chain Compromise
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1574.006
+  - T1554
+  - T1195
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test - Linux
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/shai_hulud_workflow_sysmon.log
+    source: Syslog:Linux-Sysmon/Operational
+    sourcetype: sysmon:linux
+- name: True Positive Test - Windows
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1195.001/npm/windows_workflow_sysmon.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

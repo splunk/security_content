@@ -1,7 +1,7 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 13
-date: '2025-08-22'
+version: 14
+date: '2025-10-14'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: Anomaly
@@ -72,6 +72,7 @@ tags:
   - Malicious PowerShell
   - Data Destruction
   - 0bj3ctivity Stealer
+  - Hellcat Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.001

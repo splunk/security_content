@@ -1,7 +1,7 @@
 name: Unusual Number of Computer Service Tickets Requested
 id: ac3b81c0-52f4-11ec-ac44-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: experimental
 type: Hunting
@@ -35,6 +35,7 @@ tags:
   - Active Directory Lateral Movement
   - Active Directory Kerberos Attacks
   - Active Directory Privilege Escalation
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1078

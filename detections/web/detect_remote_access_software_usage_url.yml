@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage URL
 id: 9296f515-073c-43a5-88ec-eda5a4626654
-version: 10
-date: '2025-07-28'
+version: 11
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -82,6 +82,7 @@ tags:
   - CISA AA24-241A
   - Remote Monitoring and Management Software
   - Interlock Ransomware
+  - Scattered Lapsus$ Hunters
   asset_type: Network
   mitre_attack_id:
   - T1219

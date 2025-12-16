@@ -1,7 +1,7 @@
 name: Windows Archive Collected Data via Powershell
 id: 74c5a3b0-27a7-463c-9d00-1a5bb12cb7b5
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2025-09-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -52,6 +52,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+    - APT37 Rustonotto and FadeStealer
     - CISA AA23-347A
   asset_type: Endpoint
   mitre_attack_id:

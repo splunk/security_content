@@ -1,0 +1,98 @@
+name: Windows NirSoft Tool Bundle File Created
+id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
+version: 2
+date: '2025-11-19'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic detects the creation of files associated with the NirSoft
+  tool bundles on Windows endpoints.
+  NirSoft is a well-known provider of free, portable utilities that can be used for various system and network tasks. However, threat actors often leverage these tools for malicious purposes, such as credential harvesting, network reconnaissance, and data exfiltration.
+  The detection focuses on the creation of specific NirSoft tool bundle files, which may indicate that an attacker is preparing to use these utilities on a compromised system.
+  Security teams should investigate any instances of these files being created, especially if they are found in unexpected locations or on systems that should not be using such tools.
+data_source:
+- Sysmon EventID 11
+search: |
+  | tstats `security_content_summariesonly`
+    count values(Filesystem.file_path) as file_path
+          min(_time) as firstTime
+          max(_time) as lastTime
+
+  from datamodel=Endpoint.Filesystem where
+
+  ``` Increase coverage by adding additional Nirsoft tool bundle or tool filenames ```
+
+  Filesystem.file_name IN (
+    "brtools.zip",
+    "mailpv.zip",
+    "networktools.zip",
+    "passreccommandline.zip",
+    "passrecenc.zip",
+    "progtools.zip",
+    "rdpv.zip",
+    "systools.zip",
+    "webbrowserpassview.zip"
+  )
+
+  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
+     Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
+     Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+     Filesystem.user Filesystem.vendor_product
+
+  | `drop_dm_object_name("Filesystem")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_nirsoft_tool_bundle_file_created_filter`
+how_to_implement: |
+  To successfully implement this search, you must be ingesting data that records the file-system activity from your hosts to populate the Endpoint.Filesystem data model node.
+  This is typically populated via endpoint detection-and-response product, such as Carbon Black, or by other endpoint data sources, such as Sysmon.
+  The data used for this search is typically generated via logs that report file-system reads and writes.
+known_false_positives: |
+  Administrators or users may download NirSoft tools for legitimate purposes, such as system maintenance or troubleshooting.
+  These instances should be reviewed to determine if the activity is authorized.
+references:
+  - https://thedfirreport.com/2020/04/04/gogoogle-ransomware/
+  - https://asec.ahnlab.com/en/48940/
+  - https://www.trendmicro.com/en_gb/research/23/c/emotet-returns-now-adopts-binary-padding-for-evasion.html
+  - https://www.welivesecurity.com/2022/06/16/how-emotet-is-changing-tactics-microsoft-tightening-office-macro-security/
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: NirSoft tool bundle file $file_name$ created on host $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 20
+  threat_objects: []
+tags:
+  analytic_story:
+    - Unusual Processes
+    - Data Destruction
+    - WhisperGate
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1588.002
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/nirsoft_tooling/nirsoft_file_bundle_created.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: XmlWinEventLog

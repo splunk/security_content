@@ -10,7 +10,7 @@ separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.2
 fields:
 - CategoryString
 - Channel
@@ -84,5 +84,7 @@ fields:
 - user_group_id
 - user_id
 - vendor_product
-example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='MSSQLSERVER'/><EventID Qualifiers='16384'>8128</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated SystemTime='2025-02-10T20:03:14.2006851Z'/><EventRecordID>16635</EventRecordID><Correlation/><Execution ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data>odsole70.dll</Data><Data>2022.160.1000</Data><Data>sp_OACreate</Data><Binary>C01F00000A00000009000000610072002D00770069006E002D0032000000050000006D007300640062000000</Binary></EventData></Event>
-
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='MSSQLSERVER'/><EventID Qualifiers='16384'>8128</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x80000000000000</Keywords><TimeCreated
+  SystemTime='2025-02-10T20:03:14.2006851Z'/><EventRecordID>16635</EventRecordID><Correlation/><Execution
+  ProcessID='0' ThreadID='0'/><Channel>Application</Channel><Computer>ar-win-2.attackrange.local</Computer><Security/></System><EventData><Data>odsole70.dll</Data><Data>2022.160.1000</Data><Data>sp_OACreate</Data><Binary>C01F00000A00000009000000610072002D00770069006E002D0032000000050000006D007300640062000000</Binary></EventData></Event>

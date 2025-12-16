@@ -1,7 +1,7 @@
 name: Okta Mismatch Between Source and Response for Verify Push Request
 id: 8085b79b-9b85-4e67-ad63-351c9e9a5e9a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: John Murphy and Jordan Ruocco, Okta, Michael Haag, Bhavin Patel, Splunk
 type: TTP
 status: production
@@ -70,6 +70,7 @@ tags:
   analytic_story:
   - Okta Account Takeover
   - Okta MFA Exhaustion
+  - Scattered Lapsus$ Hunters
   asset_type: Okta Tenant
   mitre_attack_id:
   - T1621

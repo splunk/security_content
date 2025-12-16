@@ -1,7 +1,7 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 10
-date: '2025-06-20'
+version: 13
+date: '2025-11-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -79,9 +79,12 @@ rba:
       type: process_name
 tags:
   analytic_story:
+    - Cisco Network Visibility Module Analytics
     - Compromised Windows Host
     - Ingress Tool Transfer
-    - Cisco Network Visibility Module Analytics
+    - Microsoft WSUS CVE-2025-59287
+    - NPM Supply Chain Compromise
+    - PromptLock
   asset_type: Endpoint
   mitre_attack_id:
     - T1105

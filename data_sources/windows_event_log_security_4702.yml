@@ -10,10 +10,10 @@ separator: EventID
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.2
 fields:
 - EventID
-example_log: '<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System>
+example_log: <Event xmlns="http://schemas.microsoft.com/win/2004/08/events/event"><System>
   <Provider Name="Microsoft-Windows-Security-Auditing" Guid="{54849625-5478-4994-A5BA-3E3B0328C30D}"
   />  <EventID>4702</EventID>  <Version>0</Version>  <Level>0</Level>  <Task>12804</Task>  <Opcode>0</Opcode>  <Keywords>0x8020000000000000</Keywords>  <TimeCreated
   SystemTime="2015-09-23T03:00:59.343820000Z" />  <EventRecordID>344863</EventRecordID>  <Correlation
@@ -34,4 +34,4 @@ example_log: '<Event xmlns="http://schemas.microsoft.com/win/2004/08/events/even
   <Enabled>true</Enabled> <Hidden>false</Hidden> <RunOnlyIfIdle>false</RunOnlyIfIdle>
   <WakeToRun>false</WakeToRun> <ExecutionTimeLimit>P3D</ExecutionTimeLimit> <Priority>7</Priority>
   </Settings> <Actions Context="Author"> <Exec> <Command>C:\\Documents\\listener.exe</Command>
-  </Exec> </Actions> </Task></Data>  </EventData> </Event>'
+  </Exec> </Actions> </Task></Data>  </EventData> </Event>

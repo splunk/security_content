@@ -1,6 +1,4 @@
 threat,signature_id,category,message
-ArcaneDoor,46897,SERVER-WEBAPP,Cisco Adaptive Security Appliance directory traversal attempt
-ArcaneDoor,65340,SERVER-WEBAPP,TRUFFLEHUNTER SFVRT-1055 attack attempt
 AgentTesla,40238,MALWARE-CNC,Win.Keylogger.AgentTesla variant outbound connection
 AgentTesla,52246,INDICATOR-COMPROMISE,AgentTesla variant outbound connection attempt
 AgentTesla,52612,MALWARE-CNC,Win.Trojan.AgentTesla variant outbound connection detected
@@ -17,7 +15,10 @@ Amadey,57204,MALWARE-CNC,Win.Trojan.Amadey outbound connection attempt
 Amadey,60570,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
 Amadey,60571,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
 Amadey,60572,MALWARE-TOOLS,Win.Trojan.Amadey malware tools download attempt
+ArcaneDoor,46897,SERVER-WEBAPP,Cisco Adaptive Security Appliance directory traversal attempt
+ArcaneDoor,65340,SERVER-WEBAPP,Cisco Adaptive Security Appliance WebVPN buffer overflow attempt
 AsyncRAT,58773,MALWARE-CNC,Rat.Trojan.AsyncRAT variant cnc connection
+CastleRAT,65548,MALWARE-CNC,Win.Trojan.CastleRAT variant outbound IP geolocation lookup attempt
 Chafer,45972,MALWARE-CNC,Win.Trojan.Chafer malicious communication attempt
 Chafer,45973,MALWARE-CNC,Win.Trojan.Chafer malicious communication attempt
 DCRAT,58356,MALWARE-CNC,Win.Trojan.DCRAT variant outbound connection
@@ -30,6 +31,7 @@ DCRAT,64370,MALWARE-OTHER,Win.Trojan.DcRat variant download attempt
 DCRAT,64371,MALWARE-OTHER,Win.Trojan.DcRat variant download attempt
 DCRAT,64372,MALWARE-CNC,Win.Trojan.DcRat variant communication attempt
 DCRAT,64373,MALWARE-CNC,Win.Trojan.DcRat variant communication attempt
+LokiBot,65502,MALWARE-CNC,Win.Trojan.LokiBot variant outbound connection attempt
 Lumma Stealer,62709,MALWARE-CNC,Win.Malware.Lumma variant outbound connection
 Lumma Stealer,62710,MALWARE-OTHER,Win.Malware.Lumma variant download attempt
 Lumma Stealer,62711,MALWARE-OTHER,Win.Malware.Lumma variant download attempt
@@ -94,12 +96,12 @@ snake,53107,MALWARE-OTHER,Win.Trojan.Snake malicious executable download attempt
 snake,64072,MALWARE-CNC,Win.KeyLogger.Snake outbound connection
 snake,64073,MALWARE-OTHER,Win.KeyLogger.Snake download attempt
 Snake,7717,MALWARE-BACKDOOR,snake trojan runtime detection
-Static Tundra,46468,SERVER-OTHER,Cisco Smart Install invalid init discovery message denial of service attempt
-Static Tundra,46096,SERVER-OTHER,Cisco Smart Install init discovery message stack buffer overflow attempt
 Static Tundra,41722,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
 Static Tundra,41723,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
 Static Tundra,41724,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
 Static Tundra,41725,SERVER-OTHER,Cisco Talos rules for Smart Install protocol abuse detection
+Static Tundra,46096,SERVER-OTHER,Cisco Smart Install init discovery message stack buffer overflow attempt
+Static Tundra,46468,SERVER-OTHER,Cisco Smart Install invalid init discovery message denial of service attempt
 Xworm,62772,MALWARE-OTHER,Win.Trojan.Xworm download attempt
 Xworm,62773,MALWARE-OTHER,Win.Trojan.Xworm download attempt
 Xworm,62774,MALWARE-OTHER,Win.Trojan.Xworm download attempt

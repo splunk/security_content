@@ -1,9 +1,12 @@
 name: Windows Debugger Tool Execution
 id: e14d94a3-07fb-4b47-8406-f5e37180d422
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-21'
 author: Teoderick Contreras, Splunk
-data_source: []
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
 type: Hunting
 status: production
 description: This analysis detects the use of debugger tools within a production environment.

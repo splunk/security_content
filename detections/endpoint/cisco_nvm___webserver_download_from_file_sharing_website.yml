@@ -1,7 +1,7 @@
 name: Cisco NVM - Webserver Download From File Sharing Website
 id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2025-09-16'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -86,6 +86,7 @@ drilldown_searches:
     latest_offset: $info_max_time$
 tags:
   analytic_story:
+    - GhostRedirector IIS Module and Rungan Backdoor
     - Cisco Network Visibility Module Analytics
   asset_type: Endpoint
   mitre_attack_id:

@@ -3,8 +3,7 @@ id: 7ef1c9e5-691b-48c2-811b-eba91d2d2f1d
 version: 3
 date: '2025-07-10'
 author: Patrick Bareiss, Splunk
-description: Logs an event when a new user account is created on a Windows 
-  system.
+description: Logs an event when a new user account is created on a Windows system.
 mitre_components:
 - User Account Creation
 source: XmlWinEventLog:Security
@@ -14,7 +13,7 @@ separator_value: '4720'
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.2
 fields:
 - _time
 - Account_Domain

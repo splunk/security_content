@@ -1,7 +1,7 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -45,6 +45,7 @@ tags:
   analytic_story:
   - Suspicious Compiled HTML Activity
   - Living Off The Land
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1218.001

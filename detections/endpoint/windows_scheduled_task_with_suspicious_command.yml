@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Command
 id: 1f44c126-c26a-4dd3-83bb-0f9a0f03ecc3
-version: 4
-date: '2025-07-16'
+version: 5
+date: '2025-09-18'
 author: Steven Dick
 status: production
 type: TTP
@@ -79,6 +79,7 @@ tags:
   - Ryuk Ransomware
   - Windows Persistence Techniques
   - Seashell Blizzard
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

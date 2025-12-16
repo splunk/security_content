@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Registry
 id: 33804986-25dd-43cf-bb6b-dc14956c7cbc
-version: 9
-date: '2025-07-29'
+version: 10
+date: '2025-10-14'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -88,6 +88,7 @@ tags:
   - Seashell Blizzard
   - Cactus Ransomware
   - Scattered Spider
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1219

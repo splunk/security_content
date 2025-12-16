@@ -1,7 +1,7 @@
 name: ASL AWS Concurrent Sessions From Different Ips
 id: b3424bbe-3204-4469-887b-ec144483a336
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-10-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -49,6 +49,7 @@ tags:
   analytic_story:
   - Compromised User Account
   - AWS Identity and Access Management Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: AWS Account
   mitre_attack_id:
   - T1185

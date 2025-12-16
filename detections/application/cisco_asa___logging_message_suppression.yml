@@ -1,0 +1,83 @@
+name: Cisco ASA - Logging Message Suppression
+id: 4e6c9d2a-8f3b-4c7e-9a5f-2d8b6e1c4a9f
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects suppression of specific logging messages on Cisco ASA devices using the "no logging message" command.
+  Adversaries may suppress specific log message IDs to selectively disable logging of security-critical events such as authentication failures, configuration changes, or suspicious network activity. This targeted approach allows attackers to evade detection while maintaining normal logging operations that might otherwise alert administrators to complete logging disablement.
+  The detection monitors for command execution events (message ID 111008 or 111010) containing the "no logging message" command, which is used to suppress specific message IDs from being logged regardless of the configured severity level.
+  Investigate unauthorized message suppression, especially suppression of security-critical message IDs (authentication, authorization, configuration changes), suppression performed by non-administrative accounts, during unusual hours, or without documented justification.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111008, 111010)
+  command = "no logging message *"
+  | fillnull
+  | stats count
+          earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by host
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___logging_message_suppression_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
+  If your logging level is set to 'notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Admins may suppress verbose messages to reduce log volume or manage storage.
+  Verify against change management and logging policies. Establish baseline of
+  approved suppressed message IDs.
+references:
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed command $command$ to suppress specific logging message ID on Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 50
+    - field: user
+      type: user
+      score: 50
+  threat_objects:
+    - field: command
+      type: process
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+  asset_type: Network
+  mitre_attack_id:
+    - T1562.002
+    - T1070
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

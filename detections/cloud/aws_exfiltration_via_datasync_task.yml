@@ -1,7 +1,7 @@
 name: AWS Exfiltration via DataSync Task
 id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-10-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -55,6 +55,7 @@ tags:
   analytic_story:
   - Suspicious AWS S3 Activities
   - Data Exfiltration
+  - Hellcat Ransomware
   asset_type: AWS Account
   mitre_attack_id:
   - T1119

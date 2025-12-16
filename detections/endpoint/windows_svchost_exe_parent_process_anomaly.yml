@@ -1,7 +1,7 @@
 name: Windows Svchost.exe Parent Process Anomaly
 id: 1d38e5e9-2ff8-4c47-872c-bf1657cefab5
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-11-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -78,5 +78,5 @@ tests:
 - name: True Positive Test
   attack_data:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1035.009/suspicious_spawn_svchost/susp_svchost_proc.log
-    sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    source: XmlWinEventLog
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: Windows Firewall Rule Modification
 id: fe7efbf7-5f82-44b9-8c33-316189ab2393
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -41,6 +41,7 @@ tags:
   analytic_story:
   - ShrinkLocker
   - Medusa Ransomware
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1562.004

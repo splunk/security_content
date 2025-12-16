@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 15
-date: '2025-05-02'
+version: 17
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -68,6 +68,8 @@ tags:
   - Ransomware
   - RedLine Stealer
   - Cactus Ransomware
+  - Scattered Lapsus$ Hunters
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1562.001

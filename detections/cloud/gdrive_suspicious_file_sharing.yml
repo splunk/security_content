@@ -1,7 +1,7 @@
 name: Gdrive suspicious file sharing
 id: a7131dae-34e3-11ec-a2de-acde48001122
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2025-10-14'
 author: Rod Soto, Teoderick Contreras
 status: experimental
 type: Hunting
@@ -32,6 +32,7 @@ tags:
   analytic_story:
   - Spearphishing Attachments
   - Data Exfiltration
+  - Scattered Lapsus$ Hunters
   asset_type: GDrive
   mitre_attack_id:
   - T1566

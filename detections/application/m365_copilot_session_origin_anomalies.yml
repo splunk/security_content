@@ -1,0 +1,77 @@
+name: M365 Copilot Session Origin Anomalies
+id: 0caf1c1c-0fba-401e-8ec7-f07cfdeee75b
+version: 1
+date: '2025-09-24'
+author: Rod Soto
+status: production
+type: Anomaly
+description: Detects M365 Copilot users accessing from multiple geographic locations to identify potential account compromise, credential sharing, or impossible travel patterns. The detection aggregates M365 Copilot Graph API events per user, calculating distinct cities and countries accessed, unique IP addresses, and the observation timeframe to compute a locations-per-day metric that measures geographic mobility. Users accessing Copilot from more than one city (cities_count > 1) are flagged and sorted by country and city diversity, surfacing accounts exhibiting anomalous geographic patterns that suggest compromised credentials being used from distributed locations or simultaneous access from impossible travel distances.
+search: '`m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+  | eval user = userPrincipalName
+  | stats count as events,
+      dc(location.city) as cities_count,
+      values(location.city) as city_list,
+      dc(location.countryOrRegion) as countries_count,
+      values(location.countryOrRegion) as country_list,
+      dc(ipAddress) as ip_count,
+      values(ipAddress) as ip_addresses,
+      min(_time) as first_seen,
+      max(_time) as last_seen
+      by user
+  | eval days_active = round((last_seen - first_seen)/86400, 1)
+  | eval locations_per_day = if(days_active > 0, round(cities_count/days_active, 2), cities_count)
+  | eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S")
+  | eval last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+  | where cities_count > 1
+  | sort -countries_count, -cities_count
+  | `m365_copilot_session_origin_anomalies_filter`'
+data_source: 
+- M365 Copilot Graph API
+how_to_implement:  This detection requires ingesting M365 Copilot access logs via the Splunk Add-on for Microsoft Office 365. Configure the add-on to collect Azure AD Sign-in logs (AuditLogs.SignIns) through the Graph API data input. Ensure proper authentication and permissions are configured to access sign-in audit logs. The `m365_copilot_graph_api` macro should be defined to filter for sourcetype o365:graph:api data containing Copilot application activity.
+known_false_positives: Legitimate business travelers, remote workers using VPNs, users with corporate offices in multiple locations, or employees accessing Copilot during international travel may trigger false positives.
+references:
+  - https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+  - name: View the detection results for '$user$'
+    search: '%original_detection_search% | search user="$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for "$user$"
+    search: '| from datamodel Risk.All_Risk
+      | search normalized_risk_object="$user"
+      | where _time >= relative_time(now(), "-168h@h")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        values(search_name) as "Search Name"
+        values(risk_message) as "Risk Message"
+        values(analyticstories) as "Analytic Stories"
+        values(annotations._all) as "Annotations"
+        values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+        by normalized_risk_object
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ accessed M365 Copilot from multiple geographic locations, indicating potential account compromise or credential sharing.
+  risk_objects:
+    - field: user
+      type: user
+      score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Microsoft 365 Copilot Activities
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1078
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: access
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/m365_copilot_access.log
+        sourcetype: "o365:graph:api"
+        source: "AuditLogs.SignIns"

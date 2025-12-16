@@ -1,0 +1,73 @@
+name: HTTP Rapid POST with Mixed Status Codes
+id: c8c987d6-3a1a-4555-9a52-eea0741b6113
+version: 1
+date: '2025-10-14'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: This detection identifies rapid-fire POST request attacks where an attacker 
+  sends more than 20 POST requests within a 5-second window, potentially attempting to 
+  exploit race conditions or overwhelm request handling. The pattern is particularly 
+  suspicious when responses vary in size or status codes, indicating successful 
+  exploitation attempts or probing for vulnerable endpoints.
+data_source:
+- Nginx Access
+search: '`nginx_access_logs` http_method="POST"| bin _time span=5s
+  | rename dest_ip as dest
+  | stats count, values(status) as status_codes, values(bytes_out) as bytes_out, values(uri_path) as uris by _time, src_ip, dest, http_user_agent
+  | where count>20
+  | table _time, dest, src_ip, count, status_codes, bytes_out, http_user_agent
+  | `http_rapid_post_with_mixed_status_codes_filter`'
+how_to_implement: This analytic necessitates the collection of web data, which can
+  be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web
+  Server. No additional configuration is required for this analytic.
+known_false_positives: False positives may be present if the activity is part of diagnostics
+  or testing. Filter as needed.
+references:
+  - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
+  - https://portswigger.net/research/http1-must-die
+  - https://www.vaadata.com/blog/what-is-http-request-smuggling-exploitations-and-security-best-practices/
+  - https://www.securityweek.com/new-http-request-smuggling-attacks-impacted-cdns-major-orgs-millions-of-websites/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A potential attempt to perform request smuggling against a web server was detected.
+    The source IP is $src_ip$ and the destination is $dest$.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 40
+  threat_objects:
+  - field: src_ip
+    type: ip_address
+tags:
+  analytic_story:
+  - HTTP Request Smuggling
+  asset_type: Web Server
+  mitre_attack_id:
+  - T1071.001
+  - T1190
+  - T1595
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: network
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/nginx_request_smuggling.log
+    source: nginx:plus:kv
+    sourcetype: nginx:plus:kv

@@ -1,7 +1,7 @@
 name: Windows CAB File on Disk
 id: 622f08d0-69ef-42c2-8139-66088bc25acd
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -59,6 +59,7 @@ rba:
 tags:
   analytic_story:
   - DarkGate Malware
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   atomic_guid: []
   mitre_attack_id:

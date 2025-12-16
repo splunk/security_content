@@ -1,7 +1,7 @@
 name: GCP Multiple Failed MFA Requests For User
 id: cbb3cb84-c06f-4393-adcc-5cb6195621f1
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2025-10-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -58,6 +58,7 @@ rba:
 tags:
   analytic_story:
   - GCP Account Takeover
+  - Scattered Lapsus$ Hunters
   asset_type: Google Cloud Platform tenant
   mitre_attack_id:
   - T1078.004

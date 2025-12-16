@@ -1,0 +1,20 @@
+name: Scattered Lapsus$ Hunters
+id: be9e9520-48eb-4af2-8ff7-dd2dee2f5705
+version: 1
+status: production
+date: '2025-10-14'
+author: Michael Haag, Splunk
+description: Scattered Lapsus$ Hunters is a collaboration of three sophisticated threat actor groups (Scattered Spider, Lapsus$, and Shiny Hunters) known for devastating supply chain attacks, advanced social engineering, MFA bypass techniques, and credential theft. The group gained notoriety following their September 2025 attack on Jaguar Land Rover, causing three weeks of production shutdown and £50M+ weekly losses.
+narrative: Scattered Lapsus$ Hunters represents a dangerous collaboration between Scattered Spider (UNC3944), Lapsus$, and Shiny Hunters - three threat actor groups that combine sophisticated social engineering expertise with advanced technical capabilities. Their September 2025 cyberattack on Jaguar Land Rover demonstrated the catastrophic potential of targeting critical supply chain infrastructure, resulting in a three-week production shutdown, tens of millions in weekly losses, and thousands of jobs at risk across the automotive supply chain. The group's attack methodology begins with sophisticated initial access through voice phishing (vishing), SMS phishing (smishing), and SIM swapping to compromise credentials and bypass multi-factor authentication. They employ advanced MFA bypass techniques including MFA fatigue attacks through repeated push notifications, SIM swapping to intercept SMS codes, and adversary-in-the-middle attacks on authentication flows. Once inside a network, they leverage legitimate remote management tools (AnyDesk, TeamViewer, ScreenConnect) to maintain persistence and evade detection, following a living-off-the-land approach that minimizes custom malware. For credential access, the group employs tools like Mimikatz for credential dumping, targets LSASS memory, extracts browser-stored credentials, and steals OAuth tokens and session cookies. They excel at lateral movement using RDP, Pass-the-Hash and Pass-the-Ticket techniques, and internal spearphishing. The group demonstrates deep understanding of cloud environments, targeting Azure AD, AWS, GCP, and O365 with techniques to disable MFA, create privileged accounts, assign administrative roles to service principals, and modify authentication policies. Data exfiltration occurs through cloud storage services (MEGA, Google Drive), file sharing platforms, and custom exfiltration channels. The impact phase includes stopping critical services, deploying ransomware, system shutdowns to maximize disruption, and data destruction. Previous notable attacks attributed to the constituent groups include Lapsus$ breaches of Microsoft, Nvidia, Okta, Samsung, and Ubisoft (2022), and Scattered Spider attacks on MGM Resorts and Caesars Entertainment (2023). The group targets telecommunications, retail, technology, manufacturing, and critical infrastructure sectors. Organizations should implement phishing-resistant MFA (FIDO2/WebAuthn), monitor RMM tool deployment, enable comprehensive logging, deploy EDR solutions, train employees on advanced social engineering tactics, segment critical production systems, and maintain offline backups of critical data. The detections in this analytic story cover the full attack lifecycle including MFA manipulation, unauthorized remote access software, credential theft, session hijacking, privilege escalation, defense evasion, data exfiltration, and production system disruption.
+references:
+- https://www.wired.com/story/jlr-jaguar-land-rover-cyberattack-supply-chain-disaster/
+- https://wpsites.ucalgary.ca/jacobson-cpsc/2025/10/02/inside-the-jaguar-land-rover-cyberattack/
+- https://claroty.com/blog/5-security-takeaways-from-the-jaguar-land-rover-cyberattack
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

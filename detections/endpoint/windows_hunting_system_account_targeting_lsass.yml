@@ -1,17 +1,18 @@
 name: Windows Hunting System Account Targeting Lsass
 id: 1c6abb08-73d1-11ec-9ca0-acde48001122
-version: 8
-date: '2025-05-02'
+version: 10
+date: '2025-10-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies processes attempting to access Lsass.exe,
-  which may indicate credential dumping or applications needing credential access.
-  It leverages Sysmon EventCode 10 to detect such activities by analyzing fields like
-  TargetImage, GrantedAccess, and SourceImage. This behavior is significant as unauthorized
-  access to Lsass.exe can lead to credential theft, posing a severe security risk.
-  If confirmed malicious, attackers could gain access to sensitive credentials, potentially
-  leading to privilege escalation and further compromise of the environment.
+description: The following analytic identifies processes attempting to access 
+  Lsass.exe, which may indicate credential dumping or applications needing 
+  credential access. It leverages Sysmon EventCode 10 to detect such activities 
+  by analyzing fields like TargetImage, GrantedAccess, and SourceImage. This 
+  behavior is significant as unauthorized access to Lsass.exe can lead to 
+  credential theft, posing a severe security risk. If confirmed malicious, 
+  attackers could gain access to sensitive credentials, potentially leading to 
+  privilege escalation and further compromise of the environment.
 data_source:
 - Sysmon EventID 10
 search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) as
@@ -21,13 +22,14 @@ search: '`sysmon` EventCode=10 TargetImage=*lsass.exe | stats count min(_time) a
   parent_process_id parent_process_name parent_process_path process_exec process_guid
   process_id process_name process_path signature signature_id user_id vendor_product
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_hunting_system_account_targeting_lsass_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Enabling EventCode 10 TargetProcess lsass.exe is required.
-known_false_positives: False positives will occur based on GrantedAccess and SourceUser,
-  filter based on source image as needed. Utilize this hunting analytic to tune out
-  false positives in TTP or anomaly analytics.
+how_to_implement: To successfully implement this search, you need to be 
+  ingesting logs with the process name, parent process, and command-line 
+  executions from your endpoints. If you are using Sysmon, you must have at 
+  least version 6.0.4 of the Sysmon TA. Enabling EventCode 10 TargetProcess 
+  lsass.exe is required.
+known_false_positives: False positives will occur based on GrantedAccess and 
+  SourceUser, filter based on source image as needed. Utilize this hunting 
+  analytic to tune out false positives in TTP or anomaly analytics.
 references:
 - https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service
 - https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump
@@ -38,6 +40,8 @@ tags:
   analytic_story:
   - CISA AA23-347A
   - Credential Dumping
+  - Lokibot
+  - Scattered Lapsus$ Hunters
   asset_type: Endpoint
   mitre_attack_id:
   - T1003.001
@@ -49,6 +53,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
+  - data: 
+      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1003.001/atomic_red_team/windows-sysmon_creddump.log
     source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
     sourcetype: XmlWinEventLog

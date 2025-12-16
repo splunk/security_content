@@ -1,7 +1,7 @@
 name: Detect mshta renamed
 id: 8f45fcf0-5b68-11eb-ae93-0242ac130002
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-09-18'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -43,6 +43,7 @@ tags:
   analytic_story:
   - Suspicious MSHTA Activity
   - Living Off The Land
+  - APT37 Rustonotto and FadeStealer
   asset_type: Endpoint
   mitre_attack_id:
   - T1218.005

@@ -10,7 +10,7 @@ separator: EventCode
 supported_TA:
 - name: Splunk Add-on for Microsoft Windows
   url: https://splunkbase.splunk.com/app/742
-  version: 9.0.1
+  version: 9.1.2
 fields:
 - CategoryString
 - Channel
@@ -95,6 +95,10 @@ fields:
 - _sourcetype
 - _subsecond
 - _time
-example_log: |-
- <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider Name='Microsoft-Windows-Security-Netlogon' Guid='{E5BA83F6-07D0-46B1-8BC7-7E669A1D31DC}'/><EventID>8004</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated SystemTime='2024-01-18T05:04:59.727635000Z'/><EventRecordID>2728229667</EventRecordID><Correlation/><Execution ProcessID='812' ThreadID='3684'/><Channel>Microsoft-Windows-NTLM/Operational</Channel><Computer>attack_dc.attack_range.lan</Computer><Security UserID='S-1-5-18'/></System><EventData><Data Name='SChannelName'>VICTIM_PC</Data><Data Name='UserName'>backup</Data><Data Name='DomainName'>NULL</Data><Data Name='WorkstationName'>WIN-SHKRDLDI338</Data><Data Name='SChannelType'>2</Data></EventData></Event>
-
+example_log: <Event xmlns='http://schemas.microsoft.com/win/2004/08/events/event'><System><Provider
+  Name='Microsoft-Windows-Security-Netlogon' Guid='{E5BA83F6-07D0-46B1-8BC7-7E669A1D31DC}'/><EventID>8004</EventID><Version>0</Version><Level>4</Level><Task>2</Task><Opcode>0</Opcode><Keywords>0x8000000000000000</Keywords><TimeCreated
+  SystemTime='2024-01-18T05:04:59.727635000Z'/><EventRecordID>2728229667</EventRecordID><Correlation/><Execution
+  ProcessID='812' ThreadID='3684'/><Channel>Microsoft-Windows-NTLM/Operational</Channel><Computer>attack_dc.attack_range.lan</Computer><Security
+  UserID='S-1-5-18'/></System><EventData><Data Name='SChannelName'>VICTIM_PC</Data><Data
+  Name='UserName'>backup</Data><Data Name='DomainName'>NULL</Data><Data Name='WorkstationName'>WIN-SHKRDLDI338</Data><Data
+  Name='SChannelType'>2</Data></EventData></Event>

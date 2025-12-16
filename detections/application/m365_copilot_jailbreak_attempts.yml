@@ -1,0 +1,64 @@
+name: M365 Copilot Jailbreak Attempts
+id: b05a4f25-e07d-436f-ab03-f954afa922c0
+version: 1
+date: 2025-09-24
+author: Rod Soto
+status: experimental
+type: Anomaly
+data_source:
+- M365 Exported eDiscovery Prompts
+description: Detects M365 Copilot jailbreak attempts through prompt injection techniques including rule manipulation, system bypass commands, and AI impersonation requests that attempt to circumvent built-in safety controls. The detection searches exported eDiscovery prompt logs for jailbreak keywords like "pretend you are," "act as," "rules=," "ignore," "bypass," and "override" in the Subject_Title field, assigning severity scores based on the manipulation type (score of 4 for amoral impersonation or explicit rule injection, score of 3 for entity roleplay or bypass commands). Prompts with a jailbreak score of 2 or higher are flagged, prioritizing the most severe attempts to override AI safety mechanisms through direct instruction injection or unauthorized persona adoption.
+search: '`m365_exported_ediscovery_prompt_logs`  
+| search Subject_Title="*pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*rules=*" OR Subject_Title="*ignore*" OR Subject_Title="*bypass*" OR Subject_Title="*override*"
+| eval user = Sender
+| eval jailbreak_score=case(
+   match(Subject_Title, "(?i)pretend you are.*amoral"), 4,
+   match(Subject_Title, "(?i)act as.*entities"), 3,
+   match(Subject_Title, "(?i)(ignore|bypass|override)"), 3,
+   match(Subject_Title, "(?i)rules\s*="), 4,
+   1=1, 1)
+| where jailbreak_score >= 2
+| table _time, user, Subject_Title, jailbreak_score, Workload, Size
+| sort -jailbreak_score, -_time
+  | `m365_copilot_jailbreak_attempts_filter`'
+how_to_implement: To export M365 Copilot prompt logs, navigate to the Microsoft Purview compliance portal (compliance.microsoft.com) and access eDiscovery. Create a new eDiscovery case, add target user accounts or date ranges as data sources, then create a search query targeting M365 Copilot interactions across relevant workloads. Once the search completes, export the results to generate a package containing prompt logs with fields like Subject_Title (prompt text), Sender, timestamps, and workload metadata. Download the exported files using the eDiscovery Export Tool and ingest them into Splunk for security analysis and detection of jailbreak attempts, data exfiltration requests, and policy violations.
+known_false_positives: Legitimate users discussing AI ethics research, security professionals testing system robustness, developers creating training materials for AI safety, or academic discussions about AI limitations and behavioral constraints may trigger false positives.
+references:
+- https://www.splunk.com/en_us/blog/artificial-intelligence/m365-copilot-log-analysis-splunk.html
+drilldown_searches:
+- name: View the detection results for - "$user$" 
+  search: '%original_detection_search% | search  "$Suser = "$user$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for "$user$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: User $user$ attempted M365 Copilot Jailbreak with score $jailbreak_score$ using prompt injection techniques to bypass AI safety controls and manipulate system behavior, potentially violating acceptable use policies.
+  risk_objects:
+  - field: user
+    type: user
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - Suspicious Microsoft 365 Copilot Activities
+  asset_type: Web Application
+  mitre_attack_id:
+  - T1562.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
+    sourcetype: csv
+    source: csv

@@ -1,0 +1,18 @@
+name: APT37 Rustonotto and FadeStealer
+id: c1dd540c-b8a0-4818-af92-7d53571fecb0
+version: 2
+status: production
+date: '2025-09-18'
+author: Michael Haag, Splunk
+description: APT37 is a North Korean aligned threat actor that continues to evolve its Windows tradecraft by combining a Rust backdoor, a PowerShell stage, and a Python based loader to deploy the FadeStealer surveillance tool. Recent activity relies on spear phishing attachments that deliver Windows shortcut or compiled HTML Help files, which stage artifacts in ProgramData and establish persistence through scheduled tasks and Run key modifications. The campaign centralizes command and control on a single server and uses standard web protocols with Base64 and XOR encoding to move data and instructions.
+narrative: The intrusion chain begins with phishing delivered archives that drop a Windows shortcut or CHM file to launch simple stagers. These stagers connect to a single C2 to fetch additional components and write them to ProgramData, where a task named MicrosoftUpdate and a Run entry are created for persistence. Rustonotto, a Rust compiled backdoor, provides basic command execution while a PowerShell variant known as Chinotto may be used interchangeably for early control. During hands on keyboard activity the actor retrieves a CAB archive and expands it on disk, then launches a legitimate Python module that side loads a compiled Python component internally named TransactedHollowing.py. This module reads a Base64 encoded and XOR encrypted payload from disk, decrypts it, and performs Process Doppelgänging via Windows Transactional NTFS to map the payload into a suspended legitimate process and pivot execution through thread context manipulation. Once resident, FadeStealer activates keylogging, screen capture, and device monitoring features and exfiltrates collected data as password protected RAR archives over HTTP to the same controller. The observed behaviors offer multiple opportunities for detection, including CHM and LNK execution, staging and expansion in ProgramData, scheduled task and Run key persistence, Python loader decode patterns, TxF backed section mapping, and RAR based exfiltration over web protocols.
+references:
+- https://www.zscaler.com/blogs/security-research/apt37-targets-windows-rust-backdoor-and-python-loader
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

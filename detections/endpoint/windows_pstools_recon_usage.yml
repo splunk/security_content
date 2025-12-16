@@ -1,0 +1,128 @@
+name: Windows PsTools Recon Usage
+id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
+version: 3
+date: '2025-11-19'
+author: Nasreddine Bencherchali
+status: production
+type: Anomaly
+description: |
+  The following analytic identifies execution of Sysinternals PsTools and Sysinternals Suit binaries that are commonly used for reconnaissance and information gathering on
+  Windows endpoints.
+  PsTools (PsExec, PsFile, PsGetSid, PsInfo, PsPing, etc.) or Sysinternals Suit tools, are frequently used by administrators for legitimate maintenance but are also leveraged by threat actors to collect system, account, network and service information during discovery and lateral movement.
+  This detection focuses on process execution and PE metadata telemetry (OriginalFileName).
+  If confirmed malicious, this activity can indicate targeted reconnaissance and foothold escalation, enabling subsequent lateral movement or credential abuse.
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_name IN (
+        "PsGetsid.exe",
+        "PsGetsid64.exe",
+        "PsInfo.exe",
+        "PsInfo64.exe",
+        "pslist.exe",
+        "pslist64.exe",
+        "PsLoggedon.exe",
+        "PsLoggedon64.exe",
+        "psloglist.exe",
+        "psloglist64.exe",
+        "PsPing.exe",
+        "PsPing64.exe",
+        "PsService.exe",
+        "PsService64.exe",
+        "Tcpvcon.exe",
+        "Tcpvcon64.exe",
+        "Tcpvcon64a.exe"
+    )
+    OR
+    Processes.original_file_name IN (
+        "PsGetSid.exe",
+        "Psinfo.exe",
+        "pslist.exe",
+        "psloggedon.exe",
+        "psloglist.exe",
+        "psping.exe",
+        "psservice.exe",
+        "Tcpvcon.exe"
+    )
+
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+     Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id
+     Processes.vendor_product
+
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_pstools_recon_usage_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: |
+  Legitimate administrators commonly use PsTools for troubleshooting and management.
+  False positives are likely in environments where PsTools are an approved operational toolset, or where automated management systems invoke them.
+  Tune by whitelisting approved management hosts, service accounts, and scheduled maintenance windows.
+references:
+  - https://learn.microsoft.com/sysinternals/downloads/pstools
+  - https://github.com/CyberMonitor/APT_CyberCriminal_Campagin_Collections/raw/master/2015/2015.09.17.Operation_Iron_Tiger/wp-operation-iron-tiger.pdf
+  - https://go.crowdstrike.com/rs/281-OBQ-266/images/Report2018OverwatchReport.pdf
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
+      "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: PsTools binary $process_name$ was executed on host $dest$.
+  risk_objects:
+    - field: user
+      type: user
+      score: 25
+    - field: dest
+      type: system
+      score: 30
+  threat_objects:
+    - field: process_name
+      type: process_name
+tags:
+  analytic_story:
+    - Compromised Windows Host
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1082
+    - T1046
+    - T1018
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive
+    attack_data:
+      - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        sourcetype: XmlWinEventLog
