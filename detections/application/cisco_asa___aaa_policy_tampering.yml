@@ -74,7 +74,7 @@ tags:
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
-  security_domain: network
+    - Splunk Cloud
 tests:
   - name: True Positive Test
     attack_data:

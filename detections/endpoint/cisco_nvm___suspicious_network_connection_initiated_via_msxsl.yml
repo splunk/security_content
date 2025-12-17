@@ -88,6 +88,7 @@ tags:
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
   - name: True Positive Test - Cisco NVM
