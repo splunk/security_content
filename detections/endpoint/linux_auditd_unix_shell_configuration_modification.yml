@@ -18,7 +18,7 @@ search: |
   `linux_auditd`
   (type=PATH OR type=CWD)
   | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
-  
+
   | stats
     values(type) as types
     values(name) as names
@@ -26,7 +26,7 @@ search: |
     values(cwd) as cwd_list
     values(_time) as event_times
     by audit_id, host
-  
+
   | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
   | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
   | eval matched_paths = mvfilter(match(candidate_paths, "/etc/profile|/etc/shells|/etc/profile\\.d/.*|/etc/bash\\.bashrc.*|/etc/bashrc|.*/zsh/zprofile|.*/zsh/zshrc|.*/zsh/zlogin|.*/zsh/zlogout|/etc/csh\\.cshrc.*|/etc/csh\\.login.*|/root/\\.bashrc.*|/root/\\.bash_profile.*|/root/\\.profile.*|/root/\\.zshrc.*|/root/\\.zprofile.*|/home/.*/\\.bashrc.*|/home/.*/\\.zshrc.*|/home/.*/\\.bash_profile.*|/home/.*/\\.zprofile.*|/home/.*/\\.profile.*|/home/.*/\\.bash_login.*|/home/.*/\\.bash_logout.*|/home/.*/\\.zlogin.*|/home/.*/\\.zlogout.*"))
@@ -35,7 +35,7 @@ search: |
   | eval e_time = mvindex(event_times, 0)
   | where match_count > 0
   | rename host as dest
-  
+
   | stats count min(e_time) as firstTime max(e_time) as lastTime
     values(nametype) as nametype
     by current_working_directory
@@ -43,7 +43,7 @@ search: |
        match_count
        dest
        audit_id
-  
+
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `linux_auditd_unix_shell_configuration_modification_filter`
@@ -69,7 +69,8 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
   - name: View risk events for the last 7 days for - "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    search:
+      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
       starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
       values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
       as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -78,7 +79,8 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: A [$type$] event occurred on host - [$dest$] to modify the unix shell configuration
+  message:
+    A [$nametype$] event occurred on host - [$dest$] to modify the unix shell configuration
     file.
   risk_objects:
     - field: dest
@@ -102,7 +104,6 @@ tags:
 tests:
   - name: True Positive Test
     attack_data:
-    - data:
-        https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_auditd_unix_shell_mod_config//linux_path_profile_d.log
-      source: auditd
-      sourcetype: auditd
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_auditd_unix_shell_mod_config//linux_path_profile_d.log
+        source: auditd
+        sourcetype: auditd
