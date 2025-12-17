@@ -10,5 +10,5 @@ owner = admin
 ## Because this comes later in the default.meta file, it overrides the
 ## export = system for [] above.
 ## We MAY want to consider change the access, like making this stanza read-only or similar
-[savedsearches/Default]
+[savedsearches/default]
 export = none
