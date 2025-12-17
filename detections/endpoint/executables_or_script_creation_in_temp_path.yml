@@ -110,6 +110,7 @@ tags:
   - PromptLock
   - Lokibot
   - SesameOp
+  - PromptFlux
   asset_type: Endpoint
   mitre_attack_id:
   - T1036

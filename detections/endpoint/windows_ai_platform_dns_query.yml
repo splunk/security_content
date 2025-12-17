@@ -1,7 +1,7 @@
 name: Windows AI Platform DNS Query
 id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
 version: 2
-date: '2025-12-10'
+date: '2025-12-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -53,6 +53,7 @@ tags:
   analytic_story:
     - LAMEHUG
     - SesameOp
+    - PromptFlux
   asset_type: Endpoint
   mitre_attack_id:
     - T1071.004
