@@ -2859,7 +2859,6 @@ components:
           format: int64
           minimum: 1
           maximum: 9999999999999
-          default: 1
           example: 2
         update_time:
           type: number

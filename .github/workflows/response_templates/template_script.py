@@ -39,9 +39,9 @@ def generate_manifest(directory, prefix, output_dir):
                 with open(file, 'r') as in_file:
                     content = in_file.read()
                     curr_template = json.loads(content)
-                    version = curr_template.get("version", 1)
+                    version = curr_template.get("version")
                     update_time = curr_template.get("update_time")
-                    description = curr_template.get("description", "")
+                    description = curr_template.get("description")
                     curr_template_name = curr_template.get("name", template_name)
                     curr_metadata = {
                         "version": version,
