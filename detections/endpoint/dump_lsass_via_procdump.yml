@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 14
-date: '2025-10-22'
+version: 15
+date: '2025-12-15'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -25,7 +25,15 @@ search: |
           
   from datamodel=Endpoint.Processes where 
   
-  `process_procdump`
+  (
+    Processes.process_name IN (
+      "procdump.exe",
+      "procdump64.exe",
+      "procdump64a.exe"
+    )
+    OR
+    Processes.original_file_name=procdump
+  )
   Processes.process IN (*-ma*, *-mm*, "*-mp*", */ma*, */mm*, "*/mp*")
   Processes.process IN (* ls*, "* keyiso*", "* samss*")
   

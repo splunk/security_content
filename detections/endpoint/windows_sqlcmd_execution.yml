@@ -1,7 +1,7 @@
 name: Windows SQLCMD Execution
 id: 4e7c2f85-8f02-4bd2-a48b-5ec98a2c5f72
-version: 3
-date: '2025-09-16'
+version: 4
+date: '2025-12-15'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -12,7 +12,7 @@ data_source:
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
     from datamodel=Endpoint.Processes 
-    where `process_sqlcmd`
+    where (Processes.process_name=sqlcmd.exe OR Processes.original_file_name=sqlcmd.exe)
     by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
     Processes.process Processes.process_id Processes.parent_process_id
     | `drop_dm_object_name(Processes)`
