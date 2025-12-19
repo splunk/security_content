@@ -36,3 +36,4 @@ jobs:
           name: content-latest
           path: |
             artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+            dist/api
