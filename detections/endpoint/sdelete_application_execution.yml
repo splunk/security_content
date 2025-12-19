@@ -1,7 +1,7 @@
 name: Sdelete Application Execution
 id: 31702fc0-2682-11ec-85c3-acde48001122
-version: 8
-date: '2025-07-29'
+version: 9
+date: '2025-12-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -20,7 +20,8 @@ data_source:
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
   values(Processes.parent_process) as parent_process values(Processes.process_id)
   as process_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_sdelete` by Processes.action Processes.dest Processes.original_file_name
+  where (Processes.process_name="sdelete.exe" OR Processes.original_file_name="sdelete.exe")
+  by Processes.action Processes.dest Processes.original_file_name
   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
