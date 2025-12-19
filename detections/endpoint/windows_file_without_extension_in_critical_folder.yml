@@ -1,7 +1,7 @@
 name: Windows File Without Extension In Critical Folder
 id: 0dbcac64-963c-11ec-bf04-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-12-19'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -14,14 +14,19 @@ description: The following analytic detects the creation of files without extens
   in potential data loss and system inoperability.
 data_source:
 - Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path IN ("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*")
+search: |
+  | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
+  where Filesystem.file_path IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*","*:\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*")
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-  Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
-  rex field="file_name" "\.(?<extension>[^\.]*$)" | where isnull(extension) | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_file_without_extension_in_critical_folder_filter`'
+  Filesystem.user Filesystem.vendor_product 
+  | `drop_dm_object_name(Filesystem)` 
+  | rex field="file_name" "\.(?<extension>[^\.]*$)" 
+  | where isnull(extension) 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` 
+  | `windows_file_without_extension_in_critical_folder_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information
   on process that include the name of the Filesystem responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Filesystem` node.
