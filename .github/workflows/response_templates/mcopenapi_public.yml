@@ -2864,7 +2864,11 @@ components:
           type: number
           format: double
           example: 1690743671.0881049633
-      example: { "version": 2, "update_time": 1690743671.0881049633 }
+        description:
+          type: string
+          description: Description of the response template version.
+          example: "This is version 2 of the response template."
+      example: { "version": 2, "update_time": 1690743671.0881049633, "description": "This is version 2 of the response template." }
     ResponseTemplateManifest:
       type: object
       description: Response template manifest.

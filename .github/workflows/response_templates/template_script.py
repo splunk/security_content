@@ -32,21 +32,25 @@ def generate_manifest(directory, prefix, output_dir):
         template_mapping = _get_template_mapping(directory)
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
             out_template_name = f"{template_name}.json"
+            curr_template_name = template_name
 
             templates_version= []
             for _, file in template_list:
                 with open(file, 'r') as in_file:
                     content = in_file.read()
                     curr_template = json.loads(content)
-                    version = curr_template.get("version", "1.0")
+                    version = curr_template.get("version")
                     update_time = curr_template.get("update_time")
+                    description = curr_template.get("description")
+                    curr_template_name = curr_template.get("name", template_name)
                     curr_metadata = {
                         "version": version,
                         "update_time": update_time,
+                        "description": description,
                     }
                     templates_version.append(curr_metadata)
             response_templates.append({
-                "name": template_name,
+                "name": curr_template_name,
                 "versions": templates_version,
                 "link": f"{prefix}{out_template_name}"
             })
