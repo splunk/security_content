@@ -2,18 +2,16 @@ name: appinspect
 on:
   pull_request:
     types: [opened, reopened, synchronize]
-  push:
-    branches:
-      - develop
 jobs:
   appinspect:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out the repository code
-        uses: actions/checkout@v5
+      - name: Check out repository (PR)
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: actions/checkout@v6
         with:
-            ref: refs/pull/${{ github.event.pull_request.number }}/merge
-       
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
@@ -39,7 +37,7 @@ jobs:
           cp -r dist/*.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: content-latest
           path: |

@@ -1,0 +1,35 @@
+name: NPM Supply Chain Compromise
+id: 104cc589-d3a9-493a-8755-4376f706a00c
+version: 2
+status: production
+date: '2025-11-25'
+author: Michael Haag, Splunk
+description: |
+  Behavioral detections and hunting content for detecting npm supply chain compromises, including the Shai-Hulud worm and its 2.0 variant.
+  Focuses on preinstall/postinstall script abuse, credential exfiltration via curl/wget, malicious GitHub Actions workflow injection (shai-hulud-workflow.yml, discussion.yaml), package file patching, cloud credential harvesting, self-hosted runner backdoors, and rapid npm publishing activity.
+narrative: |
+  Recent incidents highlight self-replicating worms ("Shai-Hulud" and "Shai-Hulud 2.0") abusing the npm ecosystem.
+  
+  After compromising developer credentials, malicious packages execute during preinstall/postinstall phases to exfiltrate secrets, plant malicious GitHub Actions workflows, register self-hosted runner backdoors, and republish tampered packages to spread across the ecosystem.
+
+  Shai-Hulud 2.0 (November 2025) introduced new payload files (setup_bun.js, bun_environment.js), exfiltration artifacts (cloud.json, contents.json, environment.json, truffleSecrets.json), and a backdoor workflow (discussion.yaml) that enables remote command execution via GitHub Discussions on compromised self-hosted runners named "SHA1HULUD".
+  
+  The campaign has affected 25,000+ repositories across ~500 GitHub users, with propagation rates of ~1,000 new repos every 30 minutes.
+
+  This story provides Linux and Windows analytics using Sysmon, auditd, and GitHub audit logs. Prioritize monitoring npm installs, curl/wget posts, node_modules file patching, workflow YAML writes under .github/workflows, self-hosted runner registrations, and cloud credential file access.
+references:
+  - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+  - https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem
+  - https://securelist.com/shai-hulud-worm-infects-500-npm-packages-in-a-supply-chain-attack/117547/
+  - https://github.com/SigmaHQ/sigma/pull/5658/files
+  - https://en.wikipedia.org/wiki/Software_supply_chain_attack
+  - https://blog.npmjs.org/post/180565383195/details-about-the-event-stream-incident
+  - https://snyk.io/blog/ua-parser-js-compromised-in-supply-chain-attack/
+tags:
+  category:
+    - Adversary Tactics
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  usecase: Advanced Threat Detection

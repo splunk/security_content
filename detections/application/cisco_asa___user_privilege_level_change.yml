@@ -1,0 +1,76 @@
+name: Cisco ASA - User Privilege Level Change
+id: 5f7d8c3e-9a2b-4d6f-8e1c-3b5a9d7f2c4e
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects privilege level changes for user accounts on Cisco ASA devices via CLI or ASDM.
+  Adversaries may escalate account privileges to gain elevated access to network infrastructure, enable additional command execution capabilities, or establish higher-level persistent access. Privilege levels on Cisco ASA range from 0 (lowest) to 15 (full administrative access), with level 15 providing complete device control.
+  The detection monitors for ASA message ID 502103, which is generated whenever a user account's privilege level is modified, capturing both the old and new privilege levels along with the username and administrator who made the change.
+  Investigate unexpected privilege changes, especially escalations to level 15, substantial privilege increases (e.g., from level 1 to 15), changes performed outside business hours, changes by non-administrative users, or changes without corresponding change management tickets.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (502103)
+  | fillnull
+  | stats earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(action) as action
+          values(message_id) as message_id
+          values(old_privilege_level) as old_privilege_level
+          values(new_privilege_level) as new_privilege_level
+    by host user
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___user_privilege_level_change_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 502103.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 502103.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Legitimate changes occur during role changes, temporary escalation for maintenance, or security policy adjustments. Verify against change management. Filter known admin accounts during maintenance windows.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/syslog/asa-syslog/syslog-messages-500000-to-520025.html#con_4773975
+  - https://www.ncsc.gov.uk/static-assets/documents/malware-analysis-reports/RayInitiator-LINE-VIPER/ncsc-mar-rayinitiator-line-viper.pdf
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User account $user$ privilege level changed from $old_privilege_level$ to $new_privilege_level$ on Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 40
+    - field: user
+      type: user
+      score: 40
+  threat_objects: []
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+    - ArcaneDoor
+  asset_type: Network
+  mitre_attack_id:
+    - T1078.003
+    - T1098
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

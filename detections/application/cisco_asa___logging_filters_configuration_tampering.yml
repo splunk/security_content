@@ -1,0 +1,96 @@
+name: Cisco ASA - Logging Filters Configuration Tampering
+id: b87b48a8-6d1a-4280-9cf1-16a950dbf901
+version: 1
+date: '2025-11-18'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects tampering with logging filter configurations on Cisco ASA devices via CLI or ASDM.
+  Adversaries may reduce logging levels or disable specific log categories to evade detection, hide their activities, or prevent security monitoring systems from capturing evidence of their actions. By lowering logging verbosity, attackers can operate with reduced visibility to security teams.
+  The detection monitors for logging configuration commands (message ID 111008 or 111010) that modify logging destinations (asdm, console, history, mail, monitor, trap) without setting them to higher severity levels (5-notifications, 6-informational, 7-debugging), which may indicate an attempt to reduce logging verbosity.
+  Investigate unauthorized logging configuration changes that reduce verbosity, especially changes performed by non-administrative accounts, during unusual hours, or without corresponding change management approval.
+data_source:
+  - Cisco ASA Logs
+search: |
+  `cisco_asa`
+  message_id IN (111008, 111010)
+  command = "logging *"
+  command IN (
+    "*asdm*",
+    "*console*",
+    "*history*",
+    "*mail*",
+    "*monitor*",
+    "*trap*"
+  )
+  NOT command IN (
+    "*notifications*",
+    "*informational*",
+    "*debugging*",
+    "* 5*",
+    "* 6*",
+    "* 7*"
+  )
+  | fillnull
+  | stats count
+          earliest(_time) as firstTime
+          latest(_time) as lastTime
+          values(user) as user
+          values(action) as action
+          values(message_id) as message_id
+          values(command) as command
+          values(src_ip) as src_ip
+          values(process_name) as process_name
+    by host
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_asa___logging_filters_configuration_tampering_filter`
+how_to_implement: |
+  This search requires Cisco ASA syslog data to be ingested into Splunk via the Cisco Security Cloud TA.
+  To ensure this detection works effectively, configure your ASA and FTD devices to generate and forward message ID 111008 and 111010.
+  If your logging level is set to 'Notifications' or higher, these messages should already be included, else we recommend setting an event list that keeps the severity level you are using and adding the message IDs 111008 and 111010.
+  You can find specific instructions on how to set this up here : https://www.cisco.com/c/en/us/support/docs/security/pix-500-series-security-appliances/63884-config-asa-00.html.
+  You can also change the severity level of the above message id's to the syslog level you have currently enabled using the logging message syslog_id level severity_level command in global configuration mode. For more information, see Change the Severity Level of a Syslog Message : https://www.cisco.com/c/en/us/td/docs/security/asa/asa922/configuration/general/asa-922-general-config/monitor-syslog.html#ID-2121-000006da
+known_false_positives: |
+  Admins may modify logging levels during maintenance or troubleshooting to reduce log volume. Verify against change management tickets.
+  Filter known admin accounts during maintenance windows.
+references:
+  - https://www.cisco.com/c/en/us/td/docs/security/asa/asa-cli-reference/I-R/asa-command-ref-I-R/m_log-lz.html
+drilldown_searches:
+  - name: View the detection results for $host$
+    search: '%original_detection_search% | search  host = $host$'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for $host$
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ($host$) starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: User $user$ executed command $command$ to tamper with logging filter configuration on the Cisco ASA host $host$.
+  risk_objects:
+    - field: host
+      type: system
+      score: 60
+    - field: user
+      type: user
+      score: 60
+  threat_objects:
+    - field: command
+      type: process
+tags:
+  analytic_story:
+    - Suspicious Cisco Adaptive Security Appliance Activity
+  asset_type: Network
+  mitre_attack_id:
+    - T1562
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_asa/generic/cisco_asa_generic_logs.log
+        source: not_applicable
+        sourcetype: cisco:asa

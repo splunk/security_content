@@ -1,9 +1,9 @@
 name: Windows NirSoft Tool Bundle File Created
 id: a2c8e8f8-18d6-4ad4-acf4-f58903bebe41
-version: 1
-date: '2025-10-22'
+version: 2
+date: '2025-11-19'
 author: Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |
   The following analytic detects the creation of files associated with the NirSoft

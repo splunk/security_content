@@ -1,7 +1,7 @@
 name: Windows Service Created with Suspicious Service Name
 id: 35eb6d19-a497-400c-93c5-645562804b11
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2025-12-04'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -59,6 +59,7 @@ tags:
   - PlugX
   - Qakbot
   - Snake Malware
+  - Tuoni
   asset_type: Endpoint
   mitre_attack_id: 
   - T1569.002

@@ -1,7 +1,7 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 11
-date: '2025-08-27'
+version: 12
+date: '2025-11-20'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -83,6 +83,7 @@ tags:
   - Cleo File Transfer Software
   - Interlock Ransomware
   - LAMEHUG
+  - NetSupport RMM Tool Abuse
   asset_type: Windows
   mitre_attack_id:
   - T1082

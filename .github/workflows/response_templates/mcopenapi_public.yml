@@ -1,0 +1,4498 @@
+# This OpenAPI specification is used by CI workflows to validate response template files.
+# The spec defines the schema for response plans, phases, and tasks that are validated
+# against actual response template JSON files during the CI build process to ensure
+# template structure matches the API contract before deployment.
+
+openapi: 3.0.1
+info:
+  title: Splunk Enterprise Security API Reference
+  description: >
+    The Splunk Enterprise Security API allows you to use and modify findings, investigations, risk scores, assets, and identities in Splunk Enterprise Security.
+  version: 8.2.0
+servers:
+  - url: https://{stack}:{port}/servicesNS/nobody/missioncontrol
+    description: The production API server.
+    variables:
+      stack:
+        default: blueridge.splunkcloud.com
+        description: This value is assigned by the service provider. For example, `blueridge.splunkcloud.com`.
+      port:
+        default: '8089'
+        description: This value is assigned by the service provider. For example `8089`.
+tags:
+  - name: Investigation
+    description: Splunk Enterprise Security Investigation Endpoints.
+  - name: Findings
+    description: Splunk Enterprise Security Finding Endpoints.
+  - name: Risks
+    description: Splunk Enterprise Security Risk Endpoints.
+  - name: Identity
+    description: Splunk Enterprise Security Identity Endpoints.
+  - name: Assets
+    description: Splunk Enterprise Security Asset Endpoints.
+  - name: Responseplan
+    description: Splunk Enterprise Security Response Plan Endpoints.
+  - name: Notes
+    description: Splunk Enterprise Security Notes Endpoints.
+paths:
+  /public/v2/assets/{id}:
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "get asset"
+        actionName: "get asset"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_assets
+      tags:
+        - Assets
+      parameters:
+        - in: path
+          name: id
+          description: The ID of the asset.
+          required: true
+          schema:
+            type: string
+            example: 67bd956379ba456e810415c3
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: Retrieve assets using the ID of the KV collection assets_by_str. Requires mc_assets_read or admin_all_objects capabilities.
+      summary: Retrieve assets
+      responses:
+        '200':
+          description: Retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssetsGetResponse'
+              example:
+                {
+                  "_last_updated": 1740477793.8923568726,
+                  "_sources": ["canon_wdio_assets"],
+                  "asset": [ "192.168.0.1", "00:1A:2B:3C:4D:5E" ],
+                  "dns": ["test.com"],
+                  "ip": ["0.0.0.0"],
+                  "mac": ["00:00:00:00:00:00"],
+                  "nt_host": ["test-host"],
+                  "pci_domain": ["pci_domain_example"],
+                  "id": "67bd956379ba456e810415c0",
+                  "asset_tag": [ "tag1", "tag2" ],
+                  "bunit": ["business_unit_example"],
+                  "category": [ "category1", "category2" ],
+                  "city": ["San Francisco"],
+                  "country": ["USA"],
+                  "is_expected": ["true"],
+                  "lat": ["37.7749"],
+                  "long": ["-122.4194"],
+                  "owner": ["owner_example"],
+                  "priority": ["high"],
+                  "requires_av": ["true"],
+                  "should_timesync": ["true"],
+                  "should_update": ["true"],
+                  "_delete": ["false"],
+                  "cim_entity_zone": ["zone_example"],
+                }
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations:
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "list investigations"
+        actionName: "list investigations"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_list_investigations
+      tags:
+        - Investigation
+      parameters:
+        - in: query
+          name: ids
+          description: A list of `id` (GUID) or `display_id` from an investigation separated by commas.
+          x-splunk-soar-connector-gen-parameter:
+            contains: ['investigation guid', 'display id']
+          required: false
+          schema:
+            type: string
+            example: "123,ES-001,332123"
+        - in: query
+          name: limit
+          required: false
+          description: >-
+            Number of investigations that are returned on the page. Return value of
+            None displays 20 investigations on the page. A maximum limit of 100 investigations can be displayed on the page.
+          schema:
+            type: number
+            example: 10
+        - in: query
+          name: offset
+          required: false
+          description: Parameter used together with the limit parameter to specify the starting point of the returned results. If offset is not set, the default value is 0.
+          schema:
+            type: number
+            example: 30
+        - in: query
+          name: sort
+          required: false
+          description: Parameter used to sort investigations. The default value is `create_time:desc` that sorts the investigations in decreasing order of the creation time. When sorting on multiple fields, each item can be separated by ",".
+          schema:
+            type: string
+            example: "create_time:asc,status:desc"
+        - in: query
+          name: disposition
+          required: false
+          description: The disposition ID or disposition label of an investigation.
+          schema:
+            type: string
+            example: "disposition:1,Undetermined"
+        - in: query
+          name: status
+          required: false
+          description: The status ID or status label of an investigation.
+          schema:
+            type: string
+            example: New
+        - in: query
+          name: owner
+          required: false
+          description: The owner of an investigation.
+          schema:
+            type: string
+            example: admin
+        - in: query
+          name: urgency
+          required: false
+          description: The urgency of an investigation. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          schema:
+            type: string
+            example: informational
+        - in: query
+          name: sensitivity
+          required: false
+          description: The sensitivity of an investigation. Valid choices are `White`, `Green`, `Amber`, `Red`, or `Unassigned`.
+          schema:
+            type: string
+            example: Red
+        - in: query
+          name: create_time_min
+          required: false
+          description: The minimum time during which investigations were created.
+          schema:
+            type: number
+            example: 1676497520
+        - in: query
+          name: create_time_max
+          required: false
+          description: The maximum time during which investigations were created.
+          schema:
+            type: number
+            example: 1676497520
+        - in: query
+          name: update_time_min
+          required: false
+          description: The minimum time during which investigations were updated.
+          schema:
+            type: number
+            example: 1676497520
+        - in: query
+          name: update_time_max
+          required: false
+          description: The maximum time during which investigations were updated.
+          schema:
+            type: number
+            example: 1676497520
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: Retrieve investigations using query parameters. Requires mc_investigation_read or admin_all_objects capabilities.
+      summary: Retrieve investigations
+      responses:
+        '200':
+          description: Ok.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvestigationGetResponse'
+                example:
+                  [
+                    {
+                      "mc_create_time": 1676497763.861311,
+                      "create_time": 1676497520,
+                      "update_time": 1676497800.160927,
+                      "investigation_guid": "00000000-0000-0000-0000-000000000000",
+                      "investigation_id": "ES-00001",
+                      "name": "New Investigation",
+                      "source": "Threat - Mission Control - Rule",
+                      "incident_origin": "ES Notable Event",
+                      "description": "Sample investigation for Mission Control",
+                      "investigation_type": "threat investigation",
+                      "finding_id": "A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9",
+                      "disposition": "disposition:1",
+                      "status": "1",
+                      "owner": "admin",
+                      "urgency": "informational",
+                      "sensitivity": "Red",
+                      "excluded_finding_ids": [ "finding1", "finding2" ],
+                      "finding": {
+                        "search_name": "Manual Notable Event - Rule",
+                        "info_max_time": "+Infinity",
+                        "info_min_time": "0.000"
+                      },
+                      "custom_fields": {
+                        "custom_field_1": "value1",
+                        "custom_field_2": "value2"
+                      },
+                      "attachments": [ "c7f677fc-8767-4b48-a29d-c28c3f979752" ],
+                      "current_response_plan_phase": {
+                        "phase_id": "e4317f74-2ca2-4812-9805-07c7e9aeaa40",
+                        "response_plan_id": "5c674507-50c2-4a94-b458-fdcb5eec333d"
+                      },
+                      "response_plans": [ ],
+                      "parent_incidents": [ ],
+                      "findings": {
+                        "incident_ids": [ "11111111-1111-1111-1111-111111111111", "11111111-1111-1111-1111-111111111112" ],
+                        "field_inheritors": [ "11111111-1111-1111-1111-111111111111" ]
+                      },
+                      "consolidated_findings": {
+                        "src": "10.39.210.66",
+                        "dest": "8.235.139.88",
+                        "app": "splunk"
+                      },
+                      "count_findings": 2,
+                      "risk_event_count": 5,
+                      "src": [ "10.0.0.1", "10.0.0.2" ],
+                      "dest": [ "192.168.1.1", "192.168.1.2" ],
+                      "dvc": [ "device1", "device2" ],
+                      "orig_host": [ "host1", "host2" ],
+                      "src_user": [ "user1", "user2" ],
+                      "user": [ "user1", "user2" ],
+                      "risk_score": 20.0,
+                      "risk_object": [ "entity1", "entity2" ],
+                      "risk_object_type": [ "system", "user" ],
+                      "status_name": "New",
+                      "disposition_name": "Undetermined"
+                    }
+                  ]
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: public_v2_create_investigation
+      description: Create investigations using provided fields. Requires mc_investigation_write and edit_notable_events OR admin_all_objects capabilities.
+      summary: Create investigations
+      tags:
+        - Investigation
+      requestBody:
+        required: true
+        description: Request payload to create an investigation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestigationCreatePayload'
+            example:
+              {
+                "name": "New Investigation",
+                "description": "Investigation description",
+                "investigation_type": "threat investigation",
+                "owner": "admin",
+                "urgency": "high",
+                "sensitivity": "Red"
+              }
+      responses:
+        '201':
+          description: Created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestigationCreateResponse'
+              example: { "investigation_guid": "00000000-0000-0000-0000-000000000000" }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations/{id}:
+    post:
+      tags:
+        - Investigation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The GUID or display id of an investigation.
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+      description: Update the investigation by id. Requires mc_investigation_write and edit_notable_events OR admin_all_objects capabilities.
+      operationId: public_v2_update_investigation
+      summary: Update certain fields of an investigation by id
+      requestBody:
+        required: true
+        description: Request payload to update an investigation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvestigationUpdatePayload'
+            example:
+              {
+                "name": "Updated Investigation",
+                "description": "Updated investigation description",
+                "owner": "admin",
+                "urgency": "high",
+                "sensitivity": "Red"
+              }
+      responses:
+        '200':
+          description: Updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvestigationUpdateResponse'
+              example:
+                {
+                  "investigation_guid": "00000000-0000-0000-0000-000000000000"
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations/{id}/notes:
+    get:
+      operationId: public_v2_get_notes_from_investigation
+      tags:
+        - Notes
+        - Investigation
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the finding or investigation that the event is associated with.
+          required: true
+          schema:
+            type: string
+            example: "00000000-0000-0000-0000-000000000000"
+        - in: query
+          name: search
+          description: Keywords to be searched for in the title or content of notes.
+          required: false
+          schema:
+            type: string
+            example: "investigation notes"
+        - in: query
+          name: type
+          description: The source type of a note. Only notes of this type will be returned. Available options are Task, Incident, or All.
+          required: false
+          schema:
+            type: string
+            enum: [ Task, Incident, All ]
+          example: "Task"
+        - in: query
+          name: limit
+          schema:
+            type: number
+            example: 10
+          required: false
+          description: The number of notes that are returned on the page. The maximum number of notes that can be returned is 100. If the limit is not set, the default is 5.
+        - in: query
+          name: offset
+          schema:
+            type: number
+            example: 0
+          required: false
+          description: Parameter used with the limit parameter to determine the range of the results. If the offset is not set, the default is 0.
+        - in: query
+          name: sort
+          schema:
+            type: string
+            example: "create_time:1"
+          required: false
+          description: Parameter used to sort the results. Available options are create_time:1, update_time:1, create_time:-1 and update_time:-1.
+        - in: query
+          name: search_format
+          required: false
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: The API endpoint for getting notes from a finding or investigation.
+      summary: Get notes in a finding or investigation.
+      responses:
+        '200':
+          description: Get notes from the finding or investigation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteListResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: public_v2_create_note_in_investigation
+      tags:
+        - Notes
+        - Investigation
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the finding or investigation that the event is associated with.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: query
+          name: notable_time
+          schema:
+            type: string
+            example: '-30m'
+          required: false
+          description: Optional field denoting the `_time` that the finding was created. Value can be in relative, ISO, or epoch time.
+      description: The API endpoint for creating a note in a finding or investigation.
+      summary: Create a note in a finding or investigation.
+      requestBody:
+        description: Note to be created.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotePayload'
+            example:
+              {
+                "title": "Note Title",
+                "content": "Note content",
+                "type": "Task"
+              }
+      responses:
+        '201':
+          description: Created note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations/{id}/notes/{note_id}:
+    post:
+      operationId: public_v2_update_note_in_investigation
+      tags:
+        - Notes
+        - Investigation
+      description: The API endpoint for updating a note in a finding or an investigation.
+      summary: Update a note in a finding or an investigation.
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the finding or investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: note_id
+          description: The ID of the note.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+      requestBody:
+        description: Note to be updated.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotePayload'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: public_v2_delete_note_in_investigation
+      tags:
+        - Notes
+        - Investigation
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the finding or investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: note_id
+          description: The ID of the note.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+      description: The API endpoint for deleting a note from a finding or investigation.
+      summary: Delete a note from a finding or investigation.
+      responses:
+        '200':
+          description: Deleted.
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations/{id}/responseplans/{response_plan_id}/phase/{phase_id}/tasks/{task_id}/notes:
+    get:
+      operationId: public_v2_get_notes_from_task
+      tags:
+        - Notes
+        - Responseplan
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: response_plan_id
+          description: The ID of the response plan.
+          required: true
+          schema:
+            type: string
+            example: 5c674507-50c2-4a94-b458-fdcb5eec333d
+        - in: path
+          name: phase_id
+          description: The ID of the phase from the response plan.
+          required: true
+          schema:
+            type: string
+            example: e4317f74-2ca2-4812-9805-07c7e9aeaa40
+        - in: path
+          name: task_id
+          description: The ID of the task from the response plan.
+          required: true
+          schema:
+            type: string
+            example: 12345678-1234-1234-1234-123456789012
+        - in: query
+          name: limit
+          schema:
+            type: number
+            example: 10
+          required: false
+          description: The number of notes that are returned on the page. The maximum number of notes that can be returned is 100. If the limit is not set, the default is 5.
+        - in: query
+          name: offset
+          schema:
+            type: number
+            example: 0
+          required: false
+          description: Parameter used with the limit parameter to determine the range of the results. If the offset is not set, the default is 0.
+        - in: query
+          name: sort
+          schema:
+            type: string
+            example: "create_time:1"
+          required: false
+          description: Parameter used to sort the results. Available options are create_time:1, update_time:1, create_time:-1 and update_time:-1.
+        - in: query
+          name: search_format
+          required: false
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: Get the notes from a response plan task.
+      summary: Get notes in a task.
+      responses:
+        '200':
+          description: Notes from a specific response plan task.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoteListResponse'
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: public_v2_add_note_to_task
+      tags:
+        - Notes
+        - Responseplan
+      description: The API endpoint for adding a note to a task.
+      summary: Add a note to a task.
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: response_plan_id
+          description: The ID of the response plan.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: phase_id
+          description: The ID of the phase from the response plan.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: task_id
+          description: The ID of the task from the response plan.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateNotePayload"
+      responses:
+        '201':
+          description: Successfully Returned Note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+  /public/v2/investigations/{id}/responseplans/{response_plan_id}/phase/{phase_id}/tasks/{task_id}/notes/{note_id}:
+    get:
+      operationId: public_v2_get_note_by_id_from_task
+      tags:
+        - Notes
+        - Responseplan
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: response_plan_id
+          description: ID of Response Plan.
+          required: true
+          schema:
+            type: string
+            example: 5c674507-50c2-4a94-b458-fdcb5eec333d
+        - in: path
+          name: phase_id
+          description: ID of Phase from Response Plan.
+          required: true
+          schema:
+            type: string
+            example: e4317f74-2ca2-4812-9805-07c7e9aeaa40
+        - in: path
+          name: task_id
+          description: ID of Task from Response Plan.
+          required: true
+          schema:
+            type: string
+            example: 12345678-1234-1234-1234-123456789012
+        - in: path
+          name: note_id
+          description: ID of Note from Response Plan Task.
+          required: true
+          schema:
+            type: string
+            example: 12345678-1234-1234-1234-123456789012
+        - in: query
+          name: search_format
+          required: false
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: Get a note from a task.
+      summary: Get a note in a task
+      responses:
+        '200':
+          description: Successfully Returned Note
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: public_v2_update_note_in_task
+      tags:
+        - Notes
+        - Responseplan
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the investigation.
+          required: true
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+        - in: path
+          name: response_plan_id
+          description: The ID of the response plan.
+          required: true
+          schema:
+            type: string
+            example: 5c674507-50c2-4a94-b458-fdcb5eec333d
+        - in: path
+          name: phase_id
+          description: The ID of the phase from the response plan.
+          required: true
+          schema:
+            type: string
+            example: e4317f74-2ca2-4812-9805-07c7e9aeaa40
+        - in: path
+          name: task_id
+          description: The ID of the task from the response plan.
+          required: true
+          schema:
+            type: string
+            example: 12345678-1234-1234-1234-123456789012
+        - in: path
+          name: note_id
+          description: The ID of the note from the response plan task.
+          required: true
+          schema:
+            type: string
+            example: 12345678-1234-1234-1234-123456789012
+      requestBody:
+        required: true
+        description: The request body for updating a note in a task.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotePayload'
+      responses:
+        '200':
+          description: Updated note object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Note'
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      operationId: public_v2_delete_note_from_task
+      tags:
+        - Notes
+        - Responseplan
+      description: The API endpoint for deleting a note from a task.
+      summary: Delete a note from a task.
+      parameters:
+        - in: path
+          name: id
+          description: The `id` (GUID) or the `display_id` of the investigation.
+          required: true
+          schema:
+            type: string
+            example: 3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0
+        - in: path
+          name: response_plan_id
+          description: The ID of the response plan.
+          required: true
+          schema:
+            type: string
+            example: 3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0
+        - in: path
+          name: phase_id
+          description: The ID of the phase.
+          required: true
+          schema:
+            type: string
+            example: 3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0
+        - in: path
+          name: task_id
+          description: The ID of the task.
+          required: true
+          schema:
+            type: string
+            example: 3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0
+        - in: path
+          name: note_id
+          description: The ID of the note.
+          required: true
+          schema:
+            type: string
+            example: 3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0
+      responses:
+        '200':
+          description: Note deleted successfully.
+        '400':
+          description: Bad format
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/investigations/{id}/findings:
+    post:
+      operationId: public_v2_add_findings_to_investigation
+      tags:
+        - Investigation
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the investigation.
+          schema:
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+      requestBody:
+        required: true
+        description: The request body for adding findings to an investigation.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddFindingsToInvestigationPayload'
+            example:
+              {
+                "finding_ids": [
+                  "27a81554-a0fa-42d7-8f01-36cd93612df1@@notable@@27a81554a0fa42d78f0136cd93612df1",
+                  "c1d6e42c-a914-48bc-baf8-b21e12524669@@notable@@c1d6e42ca91448bcbaf8b21e12524669"
+                ],
+                "finding_times": [
+                  "2025-02-25T14:27:28.000+00:00",
+                  "2025-02-25T14:27:29.000+00:00"
+                ]
+              }
+      responses:
+        '200':
+          description: Findings added to the investigation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddFindingsToInvestigationResponse'
+              example:
+                {
+                  "investigation_guid": "00000000-0000-0000-0000-000000000000"
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/findings:
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "list findings"
+        actionName: "list findings"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_get_findings
+      tags:
+        - Findings
+      parameters:
+        - in: query
+          name: finding_ids
+          description: The IDs of findings (event_id's) separated by a comma.
+          x-splunk-soar-connector-gen-parameter:
+            contains: ['finding id']
+          required: false
+          schema:
+            type: string
+            example: 27a81554-a0fa-42d7-8f01-36cd93612df1@@notable@@27a81554a0fa42d78f0136cd93612df1, c1d6e42c-a914-48bc-baf8-b21e12524669@@notable@@c1d6e42ca91448bcbaf8b21e12524669, 9367d26f-c219-406a-b7ab-6eaa19374939@@notable@@9367d26fc219406ab7ab6eaa19374939
+        - in: query
+          name: urgency
+          required: false
+          description: The urgency of a finding. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          schema:
+            type: string
+            example: informational
+        - in: query
+          name: status
+          required: false
+          description: The status of a finding. Go to the Splunk Enterprise Security app and select **Configure**. Select **Findings and Investigations** and then select **Status** to identify the status of findings.
+          schema:
+            type: string
+            example: In Progress
+        - in: query
+          name: owner
+          required: false
+          description: The owner of a finding.
+          schema:
+            type: string
+            example: admin
+        - in: query
+          name: disposition
+          required: false
+          description: The disposition of a finding. Go to the Splunk Enterprise Security app and select **Configure**. Select **Findings and Investigations** and then select **Disposition** to identify the disposition of the findings.
+          schema:
+            type: string
+            example: True Positive - Suspicious Activity
+        - in: query
+          name: limit
+          required: false
+          description: The number of findings that are returned on the page. The maximum number of findings that can be returned is 100.
+          schema:
+            type: number
+            example: 10
+        - in: query
+          name: offset
+          required: false
+          description: Parameter used with the limit parameter to determine the range of the results. If the offset is not set, the default is 0.
+          schema:
+            type: number
+            example: 30
+        - in: query
+          name: sort
+          description: Parameter based on which the findings are sorted.
+          required: false
+          schema:
+            type: string
+            example: "create_time:asc,status:desc"
+        - in: query
+          name: fields
+          description: The API will return only the fields explicitly provided by the user, excluding any unspecified fields from the response.
+          required: false
+          schema:
+            type: string
+            example: "rule_title,event_id,status,urgency"
+        - in: query
+          name: earliest
+          description: The earliest time defined for the findings. All findings returned have a _time greater or equal to this value. This value can be in relative time (-30m), epoch time, or ISO 8061 time.
+          required: false
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: latest
+          description: The latest time defined for the findings. All findings returned have a _time less than or equal to this value. This value can be in relative time (-30m), epoch time, or ISO 8061 time. If no value is provided, the default value is to the current time - now.
+          required: false
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: rule_title
+          required: false
+          description: The description of the rule that the search looks for and the security use case that it addresses.
+          schema:
+            type: string
+            example: Personally Identifiable Information Detected
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: The API for retrieving findings by the querying fields. Requires mc_investigation_read or admin_all_objects capabilities.
+      summary: Retrieve findings by the querying fields
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FindingsGetResponse'
+                    example: [
+                      {
+                        "host": "test.splunkcloud.com",
+                        "source": "Risk - 24 Hour Risk Threshold",
+                        "sourcetype": "finding_sourcetype",
+                        "detection_id": "00000000-0000-0000-0000-000000000000",
+                        "disposition": "disposition:6",
+                        "disposition_default": "true",
+                        "disposition_description": "This disposition shows that there is a possibility for a false positive.",
+                        "disposition_label": "True Positive - Suspicious Activity",
+                        "event_id": "b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8",
+                        "notable_type": "notable",
+                        "rule_title": "24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net",
+                        "rule_description": "Risk Threshold Exceeded for an object over a 24 hour period",
+                        "security_domain": "threat",
+                        "risk_object": "bad_user@splunk.com",
+                        "risk_object_type": "user",
+                        "risk_score": "100",
+                        "search_name": "Risk - 24 Hour Risk Threshold Exceeded - Rule",
+                        "severity": "medium",
+                        "status": "1",
+                        "status_default": "true",
+                        "status_description": "Finding is recent and not reviewed.",
+                        "status_label": "New",
+                        "urgency": "informational",
+                        "owner": "splunk_user",
+                        "_time": "2025-02-25T14:27:28.000+00:00"
+                      }
+                    ]
+                  limit:
+                    type: number
+                    example: 0
+                  offset:
+                    type: number
+                    example: 0
+                  total:
+                    type: number
+                    example: 0
+              example:
+                {
+                  "items": [
+                      {
+                        "host": "<stack_address>.splunkcloud.com",
+                        "source": "Risk - 24 Hour Risk Threshold",
+                        "sourcetype": "finding_sourcetype",
+                        "detection_id": "00000000-0000-0000-0000-000000000000",
+                        "disposition": "disposition:6",
+                        "disposition_default": "true",
+                        "disposition_description": "This disposition shows that there is a possibility for a false positive.",
+                        "disposition_label": "True Positive - Suspicious Activity",
+                        "event_id": "b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8",
+                        "notable_type": "notable",
+                        "rule_title": "24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net",
+                        "rule_description": "Risk Threshold Exceeded for an object over a 24 hour period",
+                        "security_domain": "threat",
+                        "risk_object": "bad_user@splunk.com",
+                        "risk_object_type": "user",
+                        "risk_score": "100",
+                        "search_name": "Risk - 24 Hour Risk Threshold Exceeded - Rule",
+                        "severity": "medium",
+                        "status": "1",
+                        "status_default": "true",
+                        "status_description": "Finding is recent and not reviewed.",
+                        "status_label": "New",
+                        "urgency": "informational",
+                        "owner": "splunk_user",
+                        "_time": "2025-02-25T14:27:28.000+00:00"
+                      }
+                    ],
+                  "limit": 10,
+                  "offset": 0,
+                  "total": 2
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      x-splunk-soar-connector-gen:
+        displayName: "create new finding"
+        actionName: "create new finding"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_create_manual_finding
+      description: Create a manual finding in Splunk Enterprise Security.
+      summary: Create a manual finding
+      tags:
+        - Findings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateManualFindingRequest'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateManualFindingResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/findings/{id}:
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "get finding by id"
+        actionName: "get finding by id"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_get_finding_by_id
+      tags:
+        - Findings
+      description: Retrieve a finding using its ID. Requires mc_investigation_read or admin_all_objects capabilities.
+      summary: Retrieve findings
+      parameters:
+        - in: path
+          name: id
+          description: The ID of the finding.
+          x-splunk-soar-connector-gen-parameter:
+            contains: ['finding id']
+          required: true
+          schema:
+            type: string
+            example: "febdbec4-d932-42d1-8917-7f9b5b5b7aea@@notable@@febdbec4d93242d189177f9b5b5b7aea"
+        - in: query
+          name: earliest
+          required: false
+          description: The earliest time specified for the findings. All the findings returned must have a _time greater or equal to this value. This value can be relative time (-30m), epoch time, or ISO 8061 time. If no value is provided, the default value is the previous 24 hours.
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: latest
+          required: false
+          description: The latest time specified for the findings. All the findings returned must have a _time less than or equal to this value. This value can be relative time (-30m), epoch time, or ISO 8061 time. If no value is provided, the default value is "now".
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: fields
+          required: false
+          description: Returns the fields that are provided by the user, excluding any unspecified fields from the response.
+          schema:
+            type: string
+            example: "name,_time,event_id,urgency,status,disposition"
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      responses:
+        '200':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FindingsGetResponse'
+              example:
+                {
+                      "host": "<stack_address>.splunkcloud.com",
+                      "source": "Risk - 24 Hour Risk Threshold",
+                      "sourcetype": "finding_sourcetype",
+                      "detection_id": "00000000-0000-0000-0000-000000000000",
+                      "disposition": "disposition:6",
+                      "disposition_default": "true",
+                      "disposition_description": "This disposition shows that there is a possibility for a false positive.",
+                      "disposition_label": "True Positive - Suspicious Activity",
+                      "event_id": "b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8",
+                      "notable_type": "notable",
+                      "rule_title": "24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net",
+                      "rule_description": "Risk Threshold Exceeded for an object over a 24 hour period",
+                      "security_domain": "threat",
+                      "risk_object": "bad_user@splunk.com",
+                      "risk_object_type": "user",
+                      "risk_score": "100",
+                      "search_name": "Risk - 24 Hour Risk Threshold Exceeded - Rule",
+                      "severity": "medium",
+                      "status": "1",
+                      "status_default": "true",
+                      "status_description": "Finding is recent and not reviewed.",
+                      "status_label": "New",
+                      "urgency": "informational",
+                      "owner": "splunk_user",
+                      "_time": "2025-02-25T14:27:28.000+00:00"
+                }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/identity/{id}:
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "get identity"
+        actionName: "get identity"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_get_identity
+      tags:
+        - Identity
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: The ID of the identity.
+          schema:
+            type: string
+            example: 67bf51bed9f4fd2e56006970
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      description: Retrieve an identity using the ID of the identity. Requires mc_identity_read or admin_all_objects capabilities.
+      summary: Retrieve an identity
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdentityGetResponse'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /public/v2/risks/risk_scores/{entity}:
+    post:
+      x-splunk-soar-connector-gen:
+        displayName: "create risk modifier of a risk entity"
+        actionName: "create risk modifier of a risk entity"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_risk_entity_risk_scores_update
+      description: Add a risk modifier to a risk entity in Splunk Enterprise Security. Requires mc_risk_score_write or admin_all_objects capabilities.
+      summary: Add risk modifiers
+      tags:
+        - Risks
+      parameters:
+        - in: path
+          name: entity
+          description: The risk entity to which the risk modifier is added.
+          required: true
+          schema:
+            type: string
+            example: '2.2.2.2'
+      requestBody:
+        required: true
+        description: The request body for updating the risk score of a risk entity.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskScoreUpdatePayload'
+            example: { "risk_modifier": 100, "entity_type": "user" }
+      responses:
+        '201':
+          description: Updated the risk score of a risk entity.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskScoreUpdateResponse'
+              example: { "risk_score": 100 }
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    get:
+      x-splunk-soar-connector-gen:
+        displayName: "get risk scores for a risk entity"
+        actionName: "get risk scores for a risk entity"
+        supportsAutomation: true
+        proxyConfiguration:
+          proxyPath: /v1/internal/soar_proxy
+          actualPathParameter: X-MCProxyPath
+      operationId: public_v2_risk_entity_risk_scores_retrieve
+      description: Get the risk scores for a risk entity in Splunk Enterprise Security. Requires mc_risk_score_write or admin_all_objects capabilities.
+      summary: Get risk scores for a risk entity
+      tags:
+        - Risks
+      parameters:
+        - in: path
+          name: entity
+          description: The entity to get risk scores for.
+          required: true
+          schema:
+            type: string
+            example: '2.2.2.2'
+        - in: query
+          name: entity_type
+          description: A comma separated list of entity types to query for a specific entity.
+          required: false
+          schema:
+            type: string
+            example: "user,system,hash_values,host_artifacts,tools,other"
+        - in: query
+          name: earliest
+          description: The earliest time specified for the search against the Risk data model to get the risk scores for the entity value.
+            This value can be relative time (-30m), epoch time, or ISO 8061 time. If the earliest or latest times
+            are not provided, risk scores will be read against the cached risk scores from the lookup cache tables that are
+            generated by the saved searches `Risk Correlation By User - Lookup Gen`, `Risk Correlation By System - Lookup Gen`
+            and `Risk Correlation By Other - Lookup Gen` if they are enabled.
+          required: false
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: latest
+          description: The latest time specified for the search against the Risk data model to get the risk scores for the entity value.
+            This value can be relative time (-30m), epoch time, or ISO 8061 time. If the earliest or latest times
+            are not provided, risk scores will be read against the cached risk scores from the lookup cache tables that are
+            generated by the saved searches `Risk Correlation By User - Lookup Gen`, `Risk Correlation By System - Lookup Gen`
+            and `Risk Correlation By Other - Lookup Gen` if they are enabled.
+          required: false
+          schema:
+            type: string
+            example: 2019-04-01T22:10:21.705+0000
+        - in: query
+          name: limit
+          required: false
+          description: Number of risk scores to be returned on the page. The default limit is 20. The limit can be a maximum of 100.
+          schema:
+            type: number
+            example: 10
+        - in: query
+          name: offset
+          required: false
+          description: Used with limit to determine result range to pull from results. If the offset is not set, the default is 0.
+          schema:
+            type: number
+            example: 30
+        - in: query
+          name: sort
+          required: false
+          description: The field that the list of risk scores will be sorted on. The default value is `risk_score:desc`
+            (Sort by risk score in decreasing order). Sorting can only be applied to the fields risk_score and entity_type.
+            One sort field can only be provided.
+          schema:
+            type: string
+            example: "risk_score:1"
+        - in: query
+          name: search_format
+          required: false
+          x-splunk-soar-connector-gen-parameter:
+            hidden: true
+          description: If true, the response will be formatted so that it can be used in a splunk search with the `rest` command.
+          schema:
+            type: boolean
+            example: true
+      responses:
+        '200':
+          description: Retrieved risk scores for a risk entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskScoreRetrieveResponse'
+              example: [
+                  {
+                      "entity": "1.1.1.1",
+                      "entity_type": "system",
+                      "risk_score": "100"
+                  },
+                  {
+                      "entity": "1.1.1.1",
+                      "entity_type": "host_artifacts",
+                      "risk_score": "200"
+                  }
+              ]
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          $ref: '#/components/schemas/401ErrorResponse'
+        '403':
+          $ref: '#/components/schemas/403ErrorResponse'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RateLimitExceededResponse'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    Searches:
+      description: A saved searches in Splunk.
+      type: object
+      properties:
+        id:
+          description: The ID of the search.
+          example: f03af0f8-2e9d-463f-a50b-790dbdd44d5d
+          type: string
+          format: uuid
+        name:
+          description: The name of the saved search.
+          type: string
+          example: Access - Access Over Time By App
+        spl:
+          description: The SPL query for the saved search.
+          type: string
+          example: "%7C%20%60tstats%60%20count%20from%20datamodel%3DAuthentication.Authentication%20by%20_time%2CAuthentication.app%20span%3D10m%20%7C%20timechart%20minspan%3D10m%20useother%3D%60useother%60%20count%20by%20Authentication.app"
+        description:
+          description: The description of the saved search.
+          type: string
+          example: Use Splunk searches to list the stats for app accessing
+        update_time:
+          description: The update time of the saved search.
+          type: number
+          example: 1676496024.7015831
+        create_time:
+          description: The create time of the saved search.
+          type: number
+          example: 1676495280.719843
+      example:
+        {
+          "id": "f03af0f8-2e9d-463f-a50b-790dbdd44d5d",
+          "name": "Access - Access Over Time By App",
+          "spl": "%7C%20%60tstats%60%20count%20from%20datamodel%3DAuthentication.Authentication%20by%20_time%2CAuthentication.app%20span%3D10m%20%7C%20timechart%20minspan%3D10m%20useother%3D%60useother%60%20count%20by%20Authentication.app",
+          "description": "Use Splunk searches to list the stats for app accessing",
+          "update_time": 1676496024.7015831,
+          "create_time": 1676495280.719843
+        }
+    Playbooks:
+      description: A Splunk SOAR playbook.
+      type: object
+      properties:
+        id:
+          description: The ID of the Splunk SOAR playbook.
+          example: f18a9b47-9e34-435b-8f72-c13b82609ee6
+          type: string
+          format: uuiid
+        last_job_id:
+          description: The last job ID of the Splunk SOAR playbook.
+          type: number
+          example: 0
+        playbook_id:
+          description: The playbook ID of the Splunk SOAR playbook.
+          type: string
+          example: community/suspicious_email_domain_enrichment
+        name:
+          description: The name of the Splunk SOAR playbook.
+          type: string
+          example: suspicious_email_domain_enrichment
+        description:
+          description: The description of the Splunk SOAR playbook.
+          type: string
+          example: This playbook geolocates an address.
+        update_time:
+          description: The update time of the SOAR playbook.
+          type: number
+          example: 1676495407.17426
+        create_time:
+          description: The creation time of the SOAR playbook.
+          type: number
+          example: 1676495280.719677
+      example:
+        {
+          "id": "f18a9b47-9e34-435b-8f72-c13b82609ee6",
+          "last_job_id": 0,
+          "playbook_id": "community/suspicious_email_domain_enrichment",
+          "name": "suspicious_email_domain_enrichment",
+          "description": "This playbook geolocates an address.",
+          "update_time": 1676495407.17426,
+          "create_time": 1676495280.719677
+        }
+    Action:
+      description: A Splunk SOAR (SOAR) action.
+      type: object
+      properties:
+        id:
+          description: The ID of the Splunk SOAR action.
+          type: string
+          example: 876ab1de-d825-43c0-8b6c-e30c959d9044
+          format: uuid
+        name:
+          description: The name of the Splunk SOAR action.
+          type: string
+          example: geolocate ip - MaxMind
+        description:
+          description: The description of the action.
+          type: string
+          example: This action validates the configuration of an asset.
+        type:
+          description: The type of the Splunk SOAR action. For example, for a Splunk SOAR app, such as Maxmind, the type could be “investigate”, “generic”, “test”, “correct”, or “contain”.
+          type: string
+          example: geolocate ip
+        last_job_id:
+          description: The last job ID of the Splunk SOAR action.
+          type: number
+          example: 0
+        action:
+          description: The action ID of the Splunk SOAR action.
+          type: string
+          example: "1394"
+        app_id:
+          description: The app ID of the Splunk SOAR action.
+          type: number
+          example: 169
+        asset:
+          description: The asset of the Splunk SOAR action.
+          type: number
+          example: 1
+        parameters:
+          description: 'The parameters for the Splunk SOAR action. For example, {"ip":"1.1.1.1"}.'
+          type: array
+          items:
+            type: object
+            example: { "ip": "1.1.1." }
+          example: [ { "ip": "1.1.1.1" } ]
+        update_time:
+          description: The time the Splunk SOAR action was updated.
+          type: number
+          example: 1676495407.1743503
+        create_time:
+          description: The time the Splunk SOAR action was created.
+          type: number
+          example: 1676495280.719768
+      example:
+        {
+          "id": "876ab1de-d825-43c0-8b6c-e30c959d9044",
+          "name": "geolocate ip - MaxMind",
+          "description": "This action validates the configuration of an asset.",
+          "type": "geolocate ip",
+          "last_job_id": 0,
+          "action": "1394",
+          "app_id": 169,
+          "asset": 1,
+          "parameters": [ { "ip": "1.1.1.1" } ],
+          "update_time": 1676495407.1743503,
+          "create_time": 1676495280.719768,
+        }
+    FileObject:
+      description: Information on files stored in Splunk Enterprise Security.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The unique ID for this file.
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab8
+          format: uuid
+        _key:
+          type: string
+          description: The KVStore key for this file, same as ID.
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab8
+        file_name:
+          type: string
+          description: The name of the file.
+          example: splunk-logo-dark.svg
+        incident_type:
+          type: string
+          description: The investigation type of the investigation. Investigation types are used to categorize related investigations by use case or source.
+          example: threat investigation
+        incident_id:
+          type: string
+          description: The investigation ID of the object that attached this file.
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+          format: uuid
+        response_plan_info:
+          nullable: true
+          type: object
+          properties:
+            response_plan:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response plan ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response plan.
+                  example: Response Plan - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Plan - 1"
+              }
+            response_phase:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response phase ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response phase.
+                  example: Response Phase - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Phase - 1"
+              }
+            response_task:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response task ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response task.
+                  example: Response Task - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Task - 1"
+              }
+          example: {
+            "response_plan": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Plan - 1"
+            },
+            "response_phase": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Phase - 1"
+            },
+            "response_task": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Task - 1"
+            }
+          }
+        reference_list:
+          description: A list of object IDs (response note, task, etc.) that uploaded this file.
+          type: array
+          items:
+            type: string
+            example: "1982c0a4-b710-4827-856d-0a9c4f77e70b"
+          example: ["1982c0a4-b710-4827-856d-0a9c4f77e70b"]
+        size:
+          type: number
+          description: The size of the file in bytes.
+          example: 5829
+        source_type:
+          type: string
+          enum: [ "Task", "Incident", "Note" ]
+          description: The type of object that added this file. Available options are Task, Incident, or Note.
+          example: Task
+        source:
+          type: string
+          nullable: true
+          description: The ID of the object (response note, task, etc.) that added this file.
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+        source_user:
+          type: string
+          description: The username of the user that added this file.
+          example: admin
+        created_on:
+          type: number
+          description: The time when this file was initially added.
+          example: 1676494088.786956
+        file_key:
+          type: string
+          description: The sha256 hash of the contents of this file.
+          example: 22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46
+        _user:
+          type: string
+          description: User field generated by Splunk and added to the KV Store.
+          example: "admin"
+      example:
+        {
+          "id": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+          "_key": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+          "file_name": "splunk-logo-dark.svg",
+          "incident_type": "threat investigation",
+          "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+          "response_plan_info": {
+            "response_plan": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Plan - 1"
+            },
+            "response_phase": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Phase - 1"
+            },
+            "response_task": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Task - 1"
+            }
+          },
+          "reference_list": [
+            "1982c0a4-b710-4827-856d-0a9c4f77e70b"
+          ],
+          "size": 5829,
+          "source_type": "Task",
+          "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+          "source_user": "admin",
+          "created_on": 1676494088.786956,
+          "file_key": "22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46",
+          "_user": "admin"
+        }
+    CreateNotePayload:
+      description: The Splunk Enterprise Security create note request payload.
+      type: object
+      required:
+        - content
+      properties:
+        title:
+          description: The title of the response plan note.
+          type: string
+          example: Create ticket - Note 1
+        content:
+          description: The data stored within the note.
+          type: string
+          example: Note Content for Create Ticket
+        files:
+          description: An array of file IDs to add to a note.
+          type: array
+          items:
+            type: string
+            example: 22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46
+          example:
+            - 22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46
+      example:
+        {
+          "title": "Create ticket - Note 1",
+          "content": "Note Content for Create Ticket",
+          "files": [
+            "22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46"
+          ]
+        }
+    UpdateNotePayload:
+      description: The Splunk Enterprise Security update note request payload.
+      type: object
+      properties:
+        title:
+          description: The title of the response plan note.
+          type: string
+          example: Create ticket - Note 1
+        content:
+          description: The data stored within the note.
+          type: string
+          example: Note Content for Create Ticket
+        files:
+          description: An array of file IDs to add to a note.
+          type: array
+          items:
+            type: string
+            example: 22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46
+          example:
+            - 22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46
+      example:
+        {
+          "title": "Create ticket - Note 1",
+          "content": "Note Content for Create Ticket",
+          "files": [
+            "22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46"
+          ]
+        }
+    Note:
+      description: Splunk Enterprise Security Note.
+      type: object
+      required:
+        - id
+        - content
+        - title
+        - author
+      properties:
+        id:
+          description: The ID of the created note.
+          type: string
+          example: 2f34ab66-929e-438d-b294-7ce5ea5415d4
+          format: uuid
+        title:
+          description: The title of the note.
+          type: string
+          nullable: true
+          example: Create ticket - Task Note - 1
+        record_type:
+          description: Type of the record. Could be Finding, Finding Group, or Investigation.
+          type: string
+          example: Investigation
+        record_title:
+          description: The name of the finding or investigation or finding group.
+          type: string
+          example: Record Title
+        is_imported:
+          description: Whether the notes is from the included findings/finding group or from the original investigation.
+          type: boolean
+          example: true
+        record_time:
+          description: Field denoting the `_time` that the finding/finding group was created. Value in epoch time.
+          type: number
+          example: 1748370203
+        author:
+          description: The user who created the note.
+          type: object
+          properties:
+            username:
+              description: The username of Splunk user who added the note.
+              type: string
+              example: splunk_user_name
+          example: { "username": admin }
+        last_edited_by:
+          nullable: true
+          description: The email address of the user who edited the note most recently.
+          type: string
+          example: bob@splunk.com
+        response_plan_info:
+          nullable: true
+          type: object
+          properties:
+            response_plan:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response plan ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response plan.
+                  example: Response Plan - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Plan - 1"
+              }
+            response_phase:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response phase ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response phase.
+                  example: Response Phase - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Phase - 1"
+              }
+            response_task:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: The response task ID if this was a file uploaded from a response task.
+                  example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+                  format: uuid
+                name:
+                  type: string
+                  description: The name of the response task.
+                  example: Response Task - 1
+              example: {
+                "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                "name": "Response Task - 1"
+              }
+          example: {
+            "response_plan": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Plan - 1"
+            },
+            "response_phase": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Phase - 1"
+            },
+            "response_task": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Task - 1"
+            }
+          }
+        source:
+          nullable: true
+          description: The ID of the object that added this note.
+          type: string
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+        source_type:
+          nullable: true
+          description: The type of object that added this note. Available options are Task or Incident.
+          type: string
+          enum: [ Task, Incident ]
+          example: Task
+        incident_id:
+          nullable: true
+          description: The ID of the finding or investigation that contains this note.
+          type: string
+          example: c80a092f-9dca-484b-8733-9c3162ee4ab9
+        content:
+          description: The content of the note.
+          type: string
+          example: Note for task Create Ticket
+        files:
+          description: The list of files added to the note.
+          type: array
+          example: [ 576cddf8-f9b5-48db-b41b-cc1ea2ad4da3 ]
+          items:
+            type: string
+            example: 576cddf8-f9b5-48db-b41b-cc1ea2ad4da3
+            description: The file IDs of the files added to the note.
+        create_time:
+          description: The time when the note was created.
+          type: number
+          example: 1676494561.553658
+        update_time:
+          description: The time when the note was updated.
+          type: number
+          example: 1676494561.553894
+      example:
+        {
+          "id": "2f34ab66-929e-438d-b294-7ce5ea5415d4",
+          "title": "Create ticket - Task Note - 1",
+          "author": {
+            "username": "admin"
+          },
+          "last_edited_by": "bob@splunk.com",
+          "response_plan_info": {
+            "response_plan": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Plan - 1"
+            },
+            "response_phase": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Phase - 1"
+            },
+            "response_task": {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "name": "Response Task - 1"
+            }
+          },
+          "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+          "source_type": "Task",
+          "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+          "content": "Note for task Create Ticket",
+          "files": [
+            "576cddf8-f9b5-48db-b41b-cc1ea2ad4da3"
+          ],
+          "create_time": 1676494561.553658,
+          "update_time": 1676494561.553894
+        }
+    NoteListResponse:
+      description: Response of a list of notes.
+      type: object
+      properties:
+        items:
+          description: The list of notes.
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'
+          example: [
+            {
+              "id": "3aced868-5600-4b74-9ec3-61cd6728f25f",
+              "create_time": 1748988825.070582,
+              "update_time": 1748988825.070582,
+              "title": "note title",
+              "content": "note content",
+              "author": {
+                "username": "admin",
+                "realname": "Splunk Administrator"
+              },
+              "files": [ ],
+              "source": "3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0",
+              "source_type": "Incident",
+              "incident_id": "3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0"
+            }
+          ]
+        offset:
+          description: The offset of the notes.
+          type: number
+          example: 0
+        limit:
+          description: The limit of the notes.
+          type: number
+          example: 10
+        total:
+          description: The total number of notes.
+          type: number
+          example: 2
+      example:
+        {
+          "items": [
+            {
+              "id": "3aced868-5600-4b74-9ec3-61cd6728f25f",
+              "create_time": 1748988825.070582,
+              "update_time": 1748988825.070582,
+              "title": "note title",
+              "content": "note content",
+              "author": {
+                "username": "admin",
+                "realname": "Splunk Administrator"
+              },
+              "files": [ ],
+              "source": "3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0",
+              "source_type": "Incident",
+              "incident_id": "3fe85bc5-a550-4c0d-a61d-ff8d09f4ecb0"
+            }
+          ],
+          "offset": 0,
+          "limit": 10,
+          "total": 20
+        }
+    TaskSuggestions:
+      description: Playbooks, actions or searches that were added to the task.
+      type: object
+      properties:
+        actions:
+          description: The list of Splunk SOAR (SOAR) actions added to this response task.
+          type: array
+          items:
+            $ref: '#/components/schemas/Action'
+          example: [
+            {
+              "id": "876ab1de-d825-43c0-8b6c-e30c959d9044",
+              "name": "geolocate ip - MaxMind",
+              "description": "This action validates the configuration of an asset.",
+              "type": "geolocate ip",
+              "last_job_id": 0,
+              "action": "1394",
+              "app_id": 169,
+              "asset": 1,
+              "parameters": [ { "ip": "1.1.1.1" } ],
+              "update_time": 1676495407.1743503,
+              "create_time": 1676495280.719768,
+            }
+          ]
+        playbooks:
+          description: The list of SOAR playbooks added to this response task.
+          type: array
+          items:
+            $ref: '#/components/schemas/Playbooks'
+          example: [
+            {
+              "id": "f18a9b47-9e34-435b-8f72-c13b82609ee6",
+              "last_job_id": 0,
+              "playbook_id": "community/suspicious_email_domain_enrichment",
+              "name": "suspicious_email_domain_enrichment",
+              "description": "This playbook geolocates an address.",
+              "update_time": 1676495407.17426,
+              "create_time": 1676495280.719677
+            }
+          ]
+        searches:
+          description: The list of saved searches added to this response task.
+          type: array
+          items:
+            $ref: '#/components/schemas/Searches'
+          example: [
+            {
+              "id": "f03af0f8-2e9d-463f-a50b-790dbdd44d5d",
+              "name": "Access - Access Over Time By App",
+              "spl": "%7C%20%60tstats%60%20count%20from%20datamodel%3DAuthentication.Authentication%20by%20_time%2CAuthentication.app%20span%3D10m%20%7C%20timechart%20minspan%3D10m%20useother%3D%60useother%60%20count%20by%20Authentication.app",
+              "description": "Use Splunk searches to list the stats for app accessing",
+              "update_time": 1676496024.7015831,
+              "create_time": 1676495280.719843
+            }
+          ]
+      example:
+        {
+          "actions": [
+            {
+              "id": "876ab1de-d825-43c0-8b6c-e30c959d9044",
+              "name": "geolocate ip - MaxMind",
+              "description": "This action validates the configuration of an asset.",
+              "type": "geolocate ip",
+              "last_job_id": 0,
+              "action": "1394",
+              "app_id": 169,
+              "asset": 1,
+              "parameters": [{ "ip": "1.1.1.1" }],
+              "update_time": 1676495407.1743503,
+              "create_time": 1676495280.719768
+            }
+          ],
+          "playbooks": [
+            {
+              "id": "f18a9b47-9e34-435b-8f72-c13b82609ee6",
+              "last_job_id": 0,
+              "playbook_id": "community/suspicious_email_domain_enrichment",
+              "name": "suspicious_email_domain_enrichment",
+              "description": "This playbook geolocates an address.",
+              "update_time": 1676495407.17426,
+              "create_time": 1676495280.719677
+            }
+          ],
+          "searches": [
+            {
+              "id": "f03af0f8-2e9d-463f-a50b-790dbdd44d5d",
+              "name": "Access - Access Over Time By App",
+              "spl": "%7C%20%60tstats%60%20count%20from%20datamodel%3DAuthentication.Authentication%20by%20_time%2CAuthentication.app%20span%3D10m%20%7C%20timechart%20minspan%3D10m%20useother%3D%60useother%60%20count%20by%20Authentication.app",
+              "description": "Use Splunk searches to list the stats for app accessing",
+              "update_time": 1676496024.7015831,
+              "create_time": 1676495280.719843
+            }
+          ]
+        }
+    ResponseTask:
+      description: A task object in **Response Plan**.
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the response task.
+          format: uuid
+          example: 4edb5c77-0ac3-4d49-842b-19b0eff4d8fd
+        name:
+          type: string
+          description: The name of the task.
+          example: Create ticket
+        tag:
+          type: string
+          description: The ID of the task that maps a response plan task to its original template.
+          example: d81ff75d-d9fe-4618-9752-e2840e5aa147
+        status:
+          type: string
+          description: The status of the task. Available options are Pending, Started, Ended, or Reopened.
+          enum: [ "Started", "Ended", "Reopened", "Pending" ]
+          example: Started
+        order:
+          type: number
+          description: The order of the task in respect to all tasks in the phase.
+          example: 1
+        description:
+          type: string
+          description: The description of the task.
+          example: Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.
+        owner:
+          type: string
+          description: The owner of the task.
+          example: admin
+        is_note_required:
+          type: boolean
+          description: Determines whether a note is required to be created in order to complete or end the task.
+          example: false
+        start_time:
+          type: number
+          description: The time at when the task was started.
+          example: 1676493726.238174
+        end_time:
+          type: number
+          description: The time at when the task was ended.
+          example: 1676493727.238301
+        suggestions:
+          $ref: '#/components/schemas/TaskSuggestions'
+        notes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Note'
+          example: [
+            {
+              "id": "2f34ab66-929e-438d-b294-7ce5ea5415d4",
+              "title": "Create ticket - Task Note - 1",
+              "author": {
+                "username": "admin"
+              },
+              "last_edited_by": "bob@splunk.com",
+              "response_plan_info": {
+                "response_plan": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Plan - 1"
+                },
+                "response_phase": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Phase - 1"
+                },
+                "response_task": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Task - 1"
+                }
+              },
+              "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "source_type": "Task",
+              "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "content": "Note for task Create Ticket",
+              "files": [
+                "576cddf8-f9b5-48db-b41b-cc1ea2ad4da3"
+              ],
+              "create_time": 1676494561.553658,
+              "update_time": 1676494561.553894
+            }
+          ]
+        files:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileObject'
+          example: [
+            {
+              "id": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+              "_key": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+              "file_name": "splunk-logo-dark.svg",
+              "incident_type": "threat investigation",
+              "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "response_plan_info": {
+                "response_plan": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Plan - 1"
+                },
+                "response_phase": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Phase - 1"
+                },
+                "response_task": {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "name": "Response Task - 1"
+                }
+              },
+              "reference_list": [
+                "1982c0a4-b710-4827-856d-0a9c4f77e70b"
+              ],
+              "size": 5829,
+              "source_type": "Task",
+              "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+              "source_user": "admin",
+              "created_on": 1676494088.786956,
+              "file_key": "22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46",
+              "_user": "admin"
+            }
+          ]
+        create_time:
+          type: number
+          description: The time when the task was created.
+          example: 1689110850.869705
+        update_time:
+          type: number
+          description: The time when the task was last updated.
+          example: 1689110850.869705
+        total_time_taken:
+          type: number
+          description: The time taken to complete a task in seconds.
+          example: 2.0
+      required:
+        - name
+        - order
+        - id
+      example:
+        {
+          "id": "4edb5c77-0ac3-4d49-842b-19b0eff4d8fd",
+          "name": "Create ticket",
+          "tag": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+          "status": "Started",
+          "order": 1,
+          "description": "Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.",
+          "owner": "admin",
+          "is_note_required": false,
+          "start_time": 1676493726.238174,
+          "end_time": 1676493727.238301,
+          "suggestions": {
+            "actions": [ ],
+            "playbooks": [ ],
+            "searches": [ ]
+          },
+          "notes": [ ],
+          "files": [ ],
+          "create_time": 1689110850.869705,
+          "update_time": 1689110850.869705,
+          "total_time_taken": 2.0
+        }
+    ResponsePhase:
+      description: A phase object in **Response Plan**.
+      type: object
+      properties:
+        id:
+          description: The ID of the response phase.
+          type: string
+          example: e4317f74-2ca2-4812-9805-07c7e9aeaa40
+        name:
+          description: The name of the response phase.
+          type: string
+          example: Ingestion
+        order:
+          description: The order of the response phase.
+          type: number
+          example: 1
+        create_time:
+          description: The time when this response phase was created, as an epoch timestamp.
+          type: number
+          example: 1676492834.50028
+        update_time:
+          description: The time when this response phase was updated, as an epoch timestamp.
+          type: number
+          example: 1676492834.500499
+        tasks:
+          description: The list of tasks in the response template.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResponseTask'
+          example: [
+            {
+              "id": "4edb5c77-0ac3-4d49-842b-19b0eff4d8fd",
+              "name": "Create ticket",
+              "tag": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+              "status": "Started",
+              "order": 1,
+              "description": "Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.",
+              "owner": "admin",
+              "is_note_required": false,
+              "start_time": 1676493726.238174,
+              "end_time": 1676493727.238301,
+              "suggestions": {
+                "actions": [
+                  {
+                    "id": "876ab1de-d825-43c0-8b6c-e30c959d9044",
+                    "name": "geolocate ip - MaxMind",
+                    "description": "This action validates the configuration of an asset.",
+                    "type": "geolocate ip",
+                    "last_job_id": 0,
+                    "action": "1394",
+                    "app_id": 169,
+                    "asset": 1,
+                    "parameters": [ { "ip": "1.1.1.1" } ],
+                    "update_time": 1676495407.1743503,
+                    "create_time": 1676495280.719768
+                  }
+                ],
+                "playbooks": [
+                  {
+                    "id": "f18a9b47-9e34-435b-8f72-c13b82609ee6",
+                    "last_job_id": 0,
+                    "playbook_id": "community/suspicious_email_domain_enrichment",
+                    "name": "suspicious_email_domain_enrichment",
+                    "description": "This playbook geolocates an address.",
+                    "update_time": 1676495407.17426,
+                    "create_time": 1676495280.719677
+                  }
+                ],
+                "searches": [
+                  {
+                    "id": "f03af0f8-2e9d-463f-a50b-790dbdd44d5d",
+                    "name": "Access - Access Over Time By App",
+                    "spl": "%7C%20%60tstats%60%20count%20from%20datamodel%3DAuthentication.Authentication%20by%20_time%2CAuthentication.app%20span%3D10m%20%7C%20timechart%20minspan%3D10m%20useother%3D%60useother%60%20count%20by%20Authentication.app",
+                    "description": "Use Splunk searches to list the stats for app accessing",
+                    "update_time": 1676496024.7015831,
+                    "create_time": 1676495280.719843
+                  }
+                ]
+              },
+              "notes": [
+                {
+                  "id": "2f34ab66-929e-438d-b294-7ce5ea5415d4",
+                  "title": "Create ticket - Task Note - 1",
+                  "author": {
+                    "username": "admin"
+                  },
+                  "last_edited_by": "bob@splunk.com",
+                  "response_plan_info": {
+                    "response_plan": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Plan - 1"
+                    },
+                    "response_phase": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Phase - 1"
+                    },
+                    "response_task": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Task - 1"
+                    }
+                  },
+                  "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "source_type": "Task",
+                  "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "content": "Note for task Create Ticket",
+                  "files": [
+                    "576cddf8-f9b5-48db-b41b-cc1ea2ad4da3"
+                  ],
+                  "create_time": 1676494561.553658,
+                  "update_time": 1676494561.553894
+                }
+              ],
+              "files": [
+                {
+                  "id": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+                  "_key": "c80a092f-9dca-484b-8733-9c3162ee4ab8",
+                  "file_name": "splunk-logo-dark.svg",
+                  "incident_type": "threat investigation",
+                  "incident_id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "response_plan_info": {
+                    "response_plan": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Plan - 1"
+                    },
+                    "response_phase": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Phase - 1"
+                    },
+                    "response_task": {
+                      "id": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                      "name": "Response Task - 1"
+                    }
+                  },
+                  "reference_list": [
+                    "1982c0a4-b710-4827-856d-0a9c4f77e70b"
+                  ],
+                  "size": 5829,
+                  "source_type": "Task",
+                  "source": "c80a092f-9dca-484b-8733-9c3162ee4ab9",
+                  "source_user": "admin",
+                  "created_on": 1676494088.786956,
+                  "file_key": "22a2e62e186f4dc4b33edde666534b4622a2e62e186f4dc4b33edde666534b46",
+                  "_user": "admin"
+                }
+              ],
+              "create_time": 1689110850.869705,
+              "update_time": 1689110850.869705,
+              "total_time_taken": 2.0
+            }
+          ]
+      example:
+        {
+          "id": "e4317f74-2ca2-4812-9805-07c7e9aeaa40",
+          "name": "Ingestion",
+          "order": 1,
+          "create_time": 1676492834.50028,
+          "update_time": 1676492834.500499,
+          "tasks": [
+            {
+              "id": "4edb5c77-0ac3-4d49-842b-19b0eff4d8fd",
+              "name": "Create ticket",
+              "tag": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+              "status": "Started",
+              "order": 1,
+              "description": "Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.",
+              "owner": "admin",
+              "is_note_required": false,
+              "start_time": 1676493726.238174,
+              "end_time": 1676493727.238301,
+              "suggestions": {
+                "actions": [],
+                "playbooks": [],
+                "searches": []
+              },
+              "notes": [],
+              "files": [],
+              "create_time": 1689110850.869705,
+              "update_time": 1689110850.869705,
+              "total_time_taken": 2.0
+            }
+          ]
+        }
+    ResponseTemplateVersion:
+      type: object
+      description: Version information for a response template.
+      properties:
+        version:
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9999999999999
+          example: 2
+        update_time:
+          type: number
+          format: double
+          example: 1690743671.0881049633
+      example: { "version": 2, "update_time": 1690743671.0881049633 }
+    ResponseTemplateManifest:
+      type: object
+      description: Response template manifest.
+      properties:
+        name:
+          type: string
+          example: "Test Response plan"
+        versions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ResponseTemplateVersion"
+          example:
+            [
+              { "version": 1, "update_time": 1690743671.0881049633 },
+              { "version": 2, "update_time": 1690743671.0881049633 },
+            ]
+        link:
+          type: string
+          format: uri
+          example: "https://example.com/response-templates/d81ff75d-d9fe-4618-9752-e2840e5aa147"
+      example:
+        {
+          "name": "Test Response plan",
+          "versions":
+            [
+              { "version": 1, "update_time": 1690743671.0881049633 },
+              { "version": 2, "update_time": 1690743671.0881049633 },
+            ],
+          "link": "https://example.com/response-templates/d81ff75d-d9fe-4618-9752-e2840e5aa147",
+        }
+    ResponseTemplateMerged:
+      type: array
+      description: Response templates merged into a single array.
+      items:
+        $ref: "#/components/schemas/ResponseTemplate"
+      example:
+        [
+          {
+            "id": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+            "name": "Test Response plan",
+          },
+        ]
+    ResponseTemplate:
+      type: object
+      description: Response template object.
+      properties:
+        id:
+          description: The ID for the response plan.
+          type: string
+          example: "d81ff75d-d9fe-4618-9752-e2840e5aa147"
+          x-splunk-soar-connector-gen-parameter:
+            contains: ["response template id"]
+        _key:
+          type: string
+          description: Internal use only.
+          example: "d81ff75d-d9fe-4618-9752-e2840e5aa147"
+        version:
+          description: The response plan version.
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9999999999999
+          example: 2
+        is_default:
+          description: Whether or not the response plan is a default plan.
+          type: boolean
+          example: False
+        name:
+          description: Name of the response plan.
+          type: string
+          example: "Test Response plan"
+        description:
+          description: The description of the response plan.
+          type: string
+          example: "This is a response plan created by a user"
+        template_status:
+          description: The status of the response plan, for example "Published".
+          type: string
+          example: "Published"
+        creator:
+          description: The user who created this response plan.
+          type: string
+          example: "John Doe"
+        updated_by:
+          description: The user who updated this response plan.
+          type: string
+          example: "John Doe"
+        create_time:
+          type: number
+          description: The time when the response plan was created, as an epoch time stamp.
+          example: 1690743671.0881049633
+        update_time:
+          type: number
+          description: The time when the response plan was last updated, as an epoch time stamp.
+          example: 1690743671.0881049633
+        phases:
+          description: A list of phases in the response plan.
+          type: array
+          items:
+            $ref: "#/components/schemas/ResponseTemplatePhase"
+          example:
+            [
+              {
+                "name": "Phase 1",
+                "order": 1,
+                "create_time": 1690743671.0881049633,
+                "update_time": 1690743671.0881049633,
+                "tasks": [],
+              },
+            ]
+      required:
+        - name
+      example:
+        {
+          "id": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+          "version": 2,
+          "is_default": false,
+          "name": "Test Response plan",
+          "description": "This is a response plan created by a user",
+          "template_status": "Published",
+          "creator": "John Doe",
+          "updated_by": "John Doe",
+          "create_time": 1690743671.0881049633,
+          "update_time": 1690743671.0881049633,
+          "phases":
+            [
+              {
+                "name": "Phase 1",
+                "order": 1,
+                "create_time": 1690743671.0881049633,
+                "update_time": 1690743671.0881049633,
+                "tasks": [],
+              },
+            ],
+        }
+    ResponseTemplatePhase:
+      description: Phase object in response plan.
+      type: object
+      properties:
+        name:
+          description: The name of the response phase.
+          type: string
+          example: "Phase 1"
+        order:
+          description: The order of the response phase.
+          type: number
+          example: 1
+        create_time:
+          description: The time when the response phase was created, as an epoch time stamp.
+          type: number
+          example: 1690743671.0881049633
+        update_time:
+          description: The time when the response phase was last updated, as an epoch time stamp.
+          type: number
+          example: 1690743671.0881049633
+        tasks:
+          description: A list of tasks in the response phase.
+          type: array
+          items:
+            $ref: "#/components/schemas/ResponseTemplateTask"
+          example: []
+      example:
+        {
+          "name": "Phase 1",
+          "order": 1,
+          "create_time": 1690743671.0881049633,
+          "update_time": 1690743671.0881049633,
+          "tasks": [],
+        }
+    ResponseTemplateTask:
+      description: Task Object in Response Plan.
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the task.
+          example: Create ticket
+        tag:
+          type: string
+          description: The ID of the task that maps a response plan task to its original template.
+          example: d81ff75d-d9fe-4618-9752-e2840e5aa147
+        order:
+          type: number
+          description: The order of the task in respect to all tasks in the phase.
+          example: 1
+        description:
+          type: string
+          description: The description of the task.
+          example: Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.
+        owner:
+          type: string
+          description: The owner of the task.
+          example: admin
+        is_note_required:
+          type: boolean
+          description: Determines whether a note is required to be created in order to complete or end the task.
+          example: false
+        start_time:
+          type: number
+          description: The time when the task was started.
+          example: 1676493726.238174
+        end_time:
+          type: number
+          description: The time when the task ended.
+          example: 1676493727.238301
+        suggestions:
+          $ref: "#/components/schemas/TaskSuggestions"
+        notes:
+          type: array
+          items:
+            $ref: "#/components/schemas/Note"
+          example: []
+        files:
+          type: array
+          items:
+            $ref: "#/components/schemas/FileObject"
+          example: []
+      required:
+        - name
+        - order
+      example:
+        {
+          "name": "Create ticket",
+          "tag": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+          "order": 1,
+          "description": "Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.",
+          "owner": "admin",
+          "is_note_required": false,
+          "start_time": 1676493726.238174,
+          "end_time": 1676493727.238301,
+          "suggestions": { "actions": [], "playbooks": [], "searches": [] },
+          "notes": [],
+          "files": [],
+        }
+    ResponsePlan:
+      description: A response plan that can be added to an investigation.
+      type: object
+      properties:
+        id:
+          description: The unique ID for the response plan.
+          type: string
+          example: 5c674507-50c2-4a94-b458-fdcb5eec333d
+          format: uuid
+        version:
+          description: The version of the response plan.
+          type: integer
+          format: int64
+          minimum: 1
+          maximum: 9999999999999
+          example: 1
+        is_default:
+          description: Whether or not the response plan is the default plan.
+          type: boolean
+          example: true
+        source_template_id:
+          description: The ID of the source template for this response plan.
+          type: string
+          example: 142ba3eb-1fd9-4cb3-a040-e139aac107ff
+          format: uuid
+        create_time:
+          description: The time the response plan was created.
+          type: number
+          example: 1676492834.50028
+        update_time:
+          description: The time the response plan was last updated.
+          type: number
+          example: 1676492834.500499
+        name:
+          description: The name of the response plan.
+          type: string
+          example: Suspicious Email
+        description:
+          description: The description of the response plan.
+          type: string
+          example: There are many ways in which attackers can use email to gain a foothold in an organization or advance an existing campaign. This response template guides an analyst through the process of investigating and remediating several of these methods.
+        template_status:
+          description: The status of the response plan. For example, “In Progress”.
+          type: string
+          example: published
+        creator:
+          description: The person who created this plan.
+          type: string
+          example: Splunk
+        updated_by:
+          description: The person who updated the plan.
+          type: string
+          example: Splunk
+        phases:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResponsePhase'
+          required:
+            - name
+          example: [ { "name": "Phase 1" } ]
+      example:
+        {
+          "id": "5c674507-50c2-4a94-b458-fdcb5eec333d",
+          "version": 1,
+          "is_default": true,
+          "source_template_id": "142ba3eb-1fd9-4cb3-a040-e139aac107ff",
+          "create_time": 1676492834.50028,
+          "update_time": 1676492834.500499,
+          "name": "Suspicious Email",
+          "description": "There are many ways in which attackers can use email to gain a foothold in an organization or advance an existing campaign. This response template guides an analyst through the process of investigating and remediating several of these methods.",
+          "template_status": "published",
+          "creator": "Splunk",
+          "updated_by": "Splunk",
+          "phases": [
+            {
+              "id": "e4317f74-2ca2-4812-9805-07c7e9aeaa40",
+              "name": "Ingestion",
+              "order": 1,
+              "create_time": 1676492834.50028,
+              "update_time": 1676492834.500499,
+              "tasks": [
+                {
+                  "id": "4edb5c77-0ac3-4d49-842b-19b0eff4d8fd",
+                  "name": "Create ticket",
+                  "tag": "d81ff75d-d9fe-4618-9752-e2840e5aa147",
+                  "status": "Started",
+                  "order": 1,
+                  "description": "Create any necessary tickets or tracking documents describing the initial conditions of the suspicious email investigation. As additional information is collected or actions are taken in the following tasks and phases, update the ticket with links and relevant information to allow collaboration and tracking.",
+                  "owner": "admin",
+                  "is_note_required": false,
+                  "start_time": 1676493726.238174,
+                  "end_time": 1676493727.238301,
+                  "suggestions": {
+                    "actions": [],
+                    "playbooks": [],
+                    "searches": []
+                  },
+                  "notes": [],
+                  "files": [],
+                  "create_time": 1689110850.869705,
+                  "update_time": 1689110850.869705,
+                  "total_time_taken": 2.0
+                }
+              ]
+            }
+          ]
+        }
+    InvestigationGetResponse:
+      description: The response of the get investigation api call.
+      type: object
+      required: ["create_time", "update_time", "investigation_guid", "investigation_id", "name", "incident_origin",
+                 "description", "investigation_type", "disposition", "status", "urgency", "sensitivity", "excluded_finding_ids",
+                 "finding", "custom_fields", "attachments", "response_plans", "findings",
+                 "consolidated_findings", "count_findings", "risk_event_count", "src", "dest", "dvc", "orig_host", "src_user", "user",
+                 "risk_object", "risk_object_type", "mc_create_time", "status_name", "disposition_name"]
+      properties:
+        mc_create_time:
+          description: The time when the finding or investigation was created or imported into Splunk Enterprise Security.
+          type: number
+          example: 1676497763.861311
+        create_time:
+          description: The time when the investigation was created.
+          type: number
+          example: 1676497520
+        update_time:
+          description: The time when the investigation was last updated.
+          type: number
+          example: 1676497800.160927
+        investigation_guid:
+          description: The ID (GUID) of the investigation that was retrieved.
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        investigation_id:
+          description: The short ID of the investigation for display.
+          type: string
+          example: ES-00001
+        name:
+          description: The name of the investigation.
+          type: string
+          example: Sample Threat Activity Detection
+        source:
+          description: The detection that generated the investigation.
+          type: string
+          nullable: true
+          example: Threat - Mission Control - Rule
+        incident_origin:
+          description: Identifies where the investigation came from. For example, whether the investigation came from Splunk Enterprise Security, a risk-based alerting finding, or a Splunk Enterprise Security finding.
+          type: string
+          example: ES Finding Event
+        description:
+          description: The description of the investigation.
+          type: string
+          example: Sample investigation for Mission Control
+        investigation_type:
+          description: The type of the investigation. Investigation types are used to categorize related investigations by use case or source.
+          type: string
+          example: threat investigation
+        finding_id:
+          description: The ID of the originating Splunk Enterprise Security finding.
+          type: string
+          nullable: true
+          example: "A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"
+        disposition:
+          description: The disposition ID of the investigation.
+          type: string
+          example: disposition:1
+        status:
+          description: The status ID of the investigation.
+          type: string
+          example: "1"
+        owner:
+          description: The person assigned to the investigation.
+          type: string
+          example: admin
+        urgency:
+          description: The urgency of the investigation. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          type: string
+          example: informational
+        sensitivity:
+          description: The sensitivity of the investigation. Valid choices are `White`, `Green`, `Amber`, `Red`, or `Unassigned`.
+          type: string
+          example: Red
+        excluded_finding_ids:
+          description: List of findings or intermediate findings in the finding groups that are removed from the investigation.
+          type: array
+          items:
+            type: string
+            example: "finding1"
+          example: ["finding1", "finding2"]
+        finding:
+          description: The raw data in a finding.
+          type: object
+          example: { "search_name": "Manual Notable Event - Rule", "info_max_time": "+Infinity", "info_min_time": "0.000" }
+        custom_fields:
+          description: Custom fields in the investigation.
+          type: object
+          example: { "custom_field_1": "value1", "custom_field_2": "value2" }
+        attachments:
+          description: Array of file IDs that are added directly to the investigation.
+          type: array
+          items:
+            type: string
+            example: "c7f677fc-1234-4b48-a29d-c28c3f979752"
+          example: ["c7f677fc-8767-4b48-a29d-c28c3f979752"]
+        notes:
+          description: Array of note IDs that are added directly to the finding or investigation.
+          type: array
+          items:
+            type: string
+            example: "c7f677fc-8767-4b41-a29d-c28c3f979752"
+          example: ["c7f677fc-8767-4b41-a29d-c28c3f979752"]
+        current_response_plan_phase:
+          description: The data surrounding the current phase of the response plan.
+          type: object
+          example: {"phase_id":"e4317f74-2ca2-4812-9805-07c7e9aeaa40", "response_plan_id": "5c674507-50c2-4a94-b458-fdcb5eec333d"}
+        response_plans:
+          description: The array of response plans added to the investigation.
+          type: array
+          items:
+            $ref: '#/components/schemas/ResponsePlan'
+          example: [{"id": "5c674507-50c2-4a94-b458-fdcb5eec333d", "name": "Response Plan - 1"}]
+        investigations:
+          description: The investigation IDs to which the investigation is added.
+          type: array
+          items:
+            type: string
+            example: "investigation1"
+          example: ["investigation1", "investigation2"]
+        findings:
+          description: The findings IDs that are added to the investigation.
+          type: object
+          properties:
+            incident_ids:
+              description: The added finding IDs.
+              type: array
+              items:
+                type: string
+                example: "11111111-1111-1111-1111-111111111111"
+              example: ["11111111-1111-1111-1111-111111111111", "11111111-1111-1111-1111-111111111112"]
+            field_inheritors:
+              description: The added finding IDs that will inherit this investigation's owner, status, urgency, sensitivity, and disposition values.
+              type: array
+              items:
+                type: string
+                example: "11111111-1111-1111-1111-111111111111"
+              example: ["11111111-1111-1111-1111-111111111111"]
+          example: {"incident_ids": ["11111111-1111-1111-1111-111111111111", "11111111-1111-1111-1111-111111111112"], "field_inheritors": ["11111111-1111-1111-1111-111111111111"]}
+        consolidated_findings:
+          description: The consolidated list of fields for the findings and all the findings that are added to this investigation. These appear on the **Overview** tab.
+          type: object
+          example: {"src": "10.39.210.66", "dest": "8.235.139.88", "app": "splunk"}
+        count_findings:
+          description: The number of findings or intermediate findings that are associated with this investigation or finding-based-detection (FBD) group.
+          type: number
+          example: 2
+        risk_event_count:
+          description: The number of risk events that are associated with this investigation.
+          type: number
+          example: 5
+        src:
+          description: The list of values for the `source` field.
+          type: array
+          items:
+            type: string
+            example: "1.1.1.1"
+          example: ["10.0.0.1", "10.0.0.2"]
+        dest:
+          description: The list of values for the `destination` field.
+          type: array
+          items:
+            type: string
+            example: "1.1.1.1"
+          example: ["192.168.1.1", "192.168.1.2"]
+        dvc:
+          description: The list of values for the `device` field.
+          type: array
+          items:
+            type: string
+            example: "device1"
+          example: ["device1", "device2"]
+        orig_host:
+          description: List of values for the `host` field.
+          type: array
+          items:
+            type: string
+            example: "host1"
+          example: ["host1", "host2"]
+        src_user:
+          description: The list of values for the `source user` field.
+          type: array
+          items:
+            type: string
+            example: "user1"
+          example: ["user1", "user2"]
+        user:
+          description: The list of values for the `user` field.
+          type: array
+          items:
+            type: string
+            example: "user1"
+          example: ["user1", "user2"]
+        risk_score:
+          nullable: true
+          description: The number that represents the maximum risk score for all the findings added to the investigation.
+          type: number
+          example: 20.0
+        risk_object:
+          description: The list of entities for a finding, a finding group, or an investigation.
+          type: array
+          items:
+            type: string
+            example: "entity1"
+          example: ["entity1", "entity2"]
+        risk_object_type:
+          description: The list of risk object types for a finding, a finding group, or an investigation.
+          type: array
+          items:
+            type: string
+            example: "system"
+          example: [ "system", "user" ]
+        status_name:
+          description: The status name of the investigation.
+          type: string
+          example: New
+        disposition_name:
+          description: The disposition name of the investigation.
+          type: string
+          example: Undetermined
+      example:
+        {
+          "mc_create_time": 1676497763.861311,
+          "create_time": 1676497520,
+          "update_time": 1676497800.160927,
+          "investigation_guid": "00000000-0000-0000-0000-000000000000",
+          "investigation_id": "ES-00001",
+          "name": "New Investigation",
+          "source": "Threat - Mission Control - Rule",
+          "incident_origin": "ES Notable Event",
+          "description": "Sample investigation for Mission Control",
+          "investigation_type": "threat investigation",
+          "finding_id": "A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9",
+          "disposition": "disposition:1",
+          "status": "1",
+          "owner": "admin",
+          "urgency": "informational",
+          "sensitivity": "Red",
+          "excluded_finding_ids": [ "finding1", "finding2" ],
+          "finding": {
+            "search_name": "Manual Notable Event - Rule",
+            "info_max_time": "+Infinity",
+            "info_min_time": "0.000"
+          },
+          "custom_fields": {
+            "custom_field_1": "value1",
+            "custom_field_2": "value2"
+          },
+          "attachments": [ "c7f677fc-8767-4b48-a29d-c28c3f979752" ],
+          "current_response_plan_phase": {
+            "phase_id": "e4317f74-2ca2-4812-9805-07c7e9aeaa40",
+            "response_plan_id": "5c674507-50c2-4a94-b458-fdcb5eec333d"
+          },
+          "response_plans": [
+            {
+              "id": "5c674507-50c2-4a94-b458-fdcb5eec333d",
+              "name": "Response Plan - 1"
+            }
+          ],
+          "findings": {
+            "incident_ids": [ "11111111-1111-1111-1111-111111111111", "11111111-1111-1111-1111-111111111112" ],
+            "field_inheritors": [ "11111111-1111-1111-1111-111111111111" ]
+          },
+          "consolidated_findings": {
+            "src": "10.39.210.66",
+            "dest": "8.235.139.88",
+            "app": "splunk"
+          },
+          "count_findings": 2,
+          "risk_event_count": 5,
+          "src": [ "10.0.0.1", "10.0.0.2" ],
+          "dest": [ "192.168.1.1", "192.168.1.2" ],
+          "dvc": [ "device1", "device2" ],
+          "orig_host": [ "host1", "host2" ],
+          "src_user": [ "user1", "user2" ],
+          "user": [ "user1", "user2" ],
+          "risk_score": 20.0,
+          "risk_object": [ "entity1", "entity2" ],
+          "risk_object_type": [ "system", "user" ],
+          "status_name": "New",
+          "disposition_name": "Undetermined",
+        }
+    InvestigationUpdatePayload:
+      description: Request payload to update an investigation.
+      type: object
+      properties:
+        name:
+          description: The new name of the investigation to be created.
+          type: string
+          example: "My investigation name"
+        description:
+          description: The new description of the investigation to be created.
+          type: string
+          example: "My investigation description"
+        status:
+          description: The new status id or status label of the investigation to be created.
+          type: string
+          example: New
+        owner:
+          description: The new owner of the investigation to be created.
+          type: string
+          example: admin
+        urgency:
+          description: The new urgency of the investigation to be created. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          type: string
+          example: informational
+        sensitivity:
+          description: The new sensitivity of the investigation to be created. Valid choices are `White`, `Green`, `Amber`, `Red`, or `Unassigned`.
+          type: string
+          example: Red
+        investigation_type:
+          description: The new investigation type of the investigation to be created.
+          type: string
+          example: default
+      example:
+        {
+          "name": "My investigation name",
+          "description": "My investigation description",
+          "status": "New",
+          "owner": "admin",
+          "urgency": "informational",
+          "sensitivity": "Red",
+          "investigation_type": "default"
+        }
+    InvestigationCreatePayload:
+      description: Request payload to create an investigation.
+      type: object
+      required: ["name"]
+      properties:
+        name:
+          description: The name of the investigation to be created.
+          type: string
+          example: "My investigation name"
+        description:
+          description: The description of the investigation to be created.
+          type: string
+          example: "My investigation description"
+        investigation_type:
+          description: The type of the investigation to be created.
+          type: string
+          example: default
+        status:
+          description: The status ID or status label of the investigation to be created.
+          type: string
+          example: New
+        disposition:
+          description: The disposition ID or disposition label of the investigation to be created.
+          type: string
+          example: Undetermined
+        owner:
+          description: The owner of the investigation to be created.
+          type: string
+          example: admin
+        urgency:
+          description: The urgency of the investigation to be created. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          type: string
+          example: informational
+        sensitivity:
+          description: The sensitivity of the investigation to be created. Valid choices are `White`, `Green`, `Amber`, `Red`, or `Unassigned`.
+          type: string
+          example: Red
+        finding_ids:
+          description: The list of IDs (event_ids) for findings added to the investigation.
+          type: array
+          items:
+            type: string
+            example: "A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"
+          example: ["A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"]
+        finding_times:
+          description: The list of times for findings added to the investigation. Value can be in relative, ISO, or epoch time.
+          type: array
+          items:
+            type: string
+            example: "1676497520"
+          example: ["1676497520", "1676497800"]
+      example:
+        {
+          "name": "My investigation name",
+          "description": "My investigation description",
+          "investigation_type": "default",
+          "status": "New",
+          "disposition": "Undetermined",
+          "owner": "admin",
+          "urgency": "informational",
+          "sensitivity": "Red"
+        }
+    InvestigationCreateResponse:
+      description: The response of the create investigation api call.
+      type: object
+      required: ['investigation_guid']
+      properties:
+        investigation_guid:
+          description: The ID (GUID) of the investigation that was created.
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+          format: uuid
+      example:
+        {
+          "investigation_guid": "00000000-0000-0000-0000-000000000000"
+        }
+    InvestigationUpdateResponse:
+      description: The response of the update investigation api call.
+      type: object
+      required: [ 'investigation_guid' ]
+      properties:
+        investigation_guid:
+          description: The ID (GUID) of the investigation that was created.
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+          format: uuid
+      example:
+        {
+          "investigation_guid": "00000000-0000-0000-0000-000000000000"
+        }
+    AddFindingsToInvestigationPayload:
+      description: Request payload to add findings to an investigation.
+      type: object
+      required: ["finding_ids", "finding_times"]
+      properties:
+        finding_ids:
+          description: The list of IDs (event_ids) for findings added to the investigation.
+          type: array
+          items:
+            type: string
+            example: "A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"
+          example: ["A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"]
+        finding_times:
+          description: The list of times for findings added to the investigation. Value can be in relative, ISO, or epoch time.
+          type: array
+          items:
+            type: string
+            example: "1676497520"
+          example: ["1676497520", "1676497800"]
+      example:
+        {
+          "finding_ids": ["A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"],
+          "finding_times": ["1676497520", "1676497800"]
+        }
+    AddFindingsToInvestigationResponse:
+        description: The response of the add findings to investigation api call.
+        type: object
+        required: ['investigation_guid']
+        properties:
+          investigation_guid:
+            description: The ID (GUID) of the investigation findings were added to.
+            type: string
+            example: 00000000-0000-0000-0000-000000000000
+            format: uuid
+        example:
+            {
+            "investigation_guid": "00000000-0000-0000-0000-000000000000"
+            }
+    AssetsGetResponse:
+      type: object
+      description: The response of the get assets api call.
+      properties:
+        _last_updated:
+          description: The last time the asset was updated.
+          type: number
+          example: 1740477793.8923568726
+        _sources:
+          description: The source of the asset.
+          type: array
+          items:
+            type: string
+            example: "canon_wdio_assets"
+          example: [ "canon_wdio_assets" ]
+        asset:
+          description: The IP address, DNS name, MAC address, and the Windows NT host field of the asset.
+          type: array
+          items:
+            type: string
+            example: "192.168.0.1"
+          example: [ "192.168.0.1", "00:1A:2B:3C:4D:5E" ]
+        dns:
+          description: The name of the domain name server of the asset.
+          type: array
+          items:
+            type: string
+            example: test.com
+          example: ["test.com"]
+        ip:
+          description: The IP address of the asset.
+          type: array
+          items:
+            type: string
+            example: "0.0.0.0"
+          example: ["0.0.0.0"]
+        mac:
+          description: The MAC address of the asset.
+          type: array
+          items:
+            type: string
+            example: "00:00:00:00:00:00"
+          example: ["00:00:00:00:00:00"]
+        nt_host:
+          description: The Windows NT host of the asset.
+          type: array
+          items:
+            type: string
+            example: test-host
+          example: ["test-host"]
+        pci_domain:
+          description: The domain for the asset that is related to PCI.
+          type: array
+          items:
+            type: string
+            example: pci_domain_example
+          example: ["pci_domain_example"]
+        id:
+          description: The ID of the asset.
+          type: string
+          example: 67bd956379ba456e810415c0
+        asset_tag:
+          description: The tags of the asset.
+          type: array
+          items:
+            type: string
+            example: "tag1"
+          example: [ "tag1", "tag2" ]
+        bunit:
+          description: The business unit of the asset. Parameter used to filter by dashboards in Splunk Enterprise Security.
+          type: array
+          items:
+            type: string
+            example: business_unit_example
+          example: [ "business_unit_example" ]
+        category:
+          description: A pipe-delimited list of logical classifications for assets.
+          type: array
+          items:
+            type: string
+            example: "category1"
+          example: [ "category1", "category2" ]
+        city:
+          description: The city in which the asset is located.
+          type: array
+          items:
+            type: string
+            example: "San Francisco"
+          example: ["San Francisco"]
+        country:
+          description: The country in which the asset is located.
+          type: array
+          items:
+            type: string
+            example: USA
+          example: ["USA"]
+        is_expected:
+          description: Parameter that indicates whether events from this asset are expected. If set to true, the Expected Host Not Reporting detection performs an adaptive response action when this asset stops reporting events.
+          type: array
+          items:
+            type: string
+            example: "true"
+          example: ["true"]
+        lat:
+          description: The latitude of the asset in decimal degrees, using +/- to indicate direction.
+          type: array
+          items:
+            type: string
+            example: "37.7749"
+          example: ["37.7749"]
+        long:
+          description: The longitude of the asset in decimal degrees, using +/- to indicate direction.
+          type: array
+          items:
+            type: string
+            example: "-122.4194"
+          example: ["-122.4194"]
+        owner:
+          description: The user or department associated with the device.
+          type: array
+          items:
+            type: string
+            example: owner_example
+          example: ["owner_example"]
+        priority:
+          description: The priority assigned to the device ti calculate the **Urgency** field for findings on the analyst queue. An "unknown" priority reduces the assigned **Urgency** by default.
+          type: array
+          items:
+            type: string
+            example: high
+          example: ["high"]
+        requires_av:
+          description: Parameter that indicates whether this asset must have anti-virus software installed.
+          type: array
+          items:
+            type: string
+            example: "true"
+          example: ["true"]
+        should_timesync:
+          description: Parameter that indicates whether this asset must be monitored for time-sync events. If set to true, the Should Timesync Host Not Syncing detection performs an adaptive response action if this asset does not report any time-sync events from the past 24 hours.
+          type: array
+          items:
+            type: string
+            example: "true"
+          example: ["true"]
+        should_update:
+          description: Parameter indicates whether this asset must be monitored for system update events.
+          type: array
+          items:
+            type: string
+            example: "true"
+          example: ["true"]
+        _delete:
+          description: Parameter indicates whether this asset was deleted.
+          type: array
+          items:
+            type: string
+            example: "false"
+          example: ["false"]
+        cim_entity_zone:
+          description: Required parameter when entity zones are turned on. Lowercase word to use as a default zone name. Used when you have multiple private IP spaces. This parameter auto-populates in the cim_entity_zone fields if you do not specify your own values when formatting an asset or identity list as a lookup.
+          type: array
+          items:
+            type: string
+            example: zone_example
+          example: ["zone_example"]
+      example:
+        {
+          "_last_updated": 1740477793.8923568726,
+          "_sources": ["canon_wdio_assets"],
+          "asset": ["192.168.0.1", "00:1A:2B:3C:4D:5E"],
+          "dns": ["test.com"],
+          "ip": ["0.0.0.0"],
+          "mac": ["00:00:00:00:00:00"],
+          "nt_host": ["test-host"],
+          "pci_domain": ["pci_domain_example"],
+          "id": "67bd956379ba456e810415c0",
+          "asset_tag": ["tag1", "tag2"],
+          "bunit": ["business_unit_example"],
+          "category": ["category1", "category2"],
+          "city": ["San Francisco"],
+          "country": ["USA"],
+          "is_expected": ["true"],
+          "lat": ["37.7749"],
+          "long": ["-122.4194"],
+          "owner": ["owner_example"],
+          "priority": ["high"],
+          "requires_av": ["true"],
+          "should_timesync": ["true"],
+          "should_update": ["true"],
+          "_delete": ["false"],
+          "cim_entity_zone": ["zone_example"],
+          "finding_ids": ["A265ED94-AE9E-428C-91D2-64BB956EB7CB@@notable@@62eaebb8c0dd2574fc0b3503a9586cd9"],
+          "finding_times": ["1676497520"]
+        }
+    FindingsGetResponse:
+      type: object
+      description: The response of the get findings api call.
+      required: ["_time"]
+      properties:
+        host:
+          description: The host name of the stack from which this finding was created.
+          type: string
+          example: <stack_address>.splunkcloud.com
+        source:
+          description: The detection that created this finding.
+          type: string
+          example: Risk - 24 Hour Risk Threshold
+        sourcetype:
+          description: The source type of the finding.
+          type: string
+          example: finding_sourcetype
+        detection_id:
+          description: The ID of the detection used to populate the finding.
+          type: string
+          example: 00000000-0000-0000-0000-000000000000
+        disposition:
+          description: The disposition of the finding.
+          type: string
+          example: disposition:6
+        disposition_default:
+          description: The flag to determine whether the disposition is the default disposition.
+          type: string
+          example: "true"
+        disposition_description:
+          description: The description for the disposition value.
+          type: string
+          example: This disposition shows that there is a possibility for a false positive.
+        disposition_label:
+          description: The descriptive value for the disposition that is displayed on the Splunk Enterprise Security UI.
+          type: string
+          example: True Positive - Suspicious Activity
+        event_id:
+          description: The unique ID for this finding.
+          type: string
+          example: b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8
+        notable_type:
+          description: The type of finding.
+          enum: [
+            "notable",
+            "risk_event"
+          ]
+          type: string
+          example: notable
+        rule_title:
+          description: The rule title for this event.
+          type: string
+          example: 24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net
+        rule_description:
+          description: The description for the rule that was used to find and create the finding.
+          type: string
+          example: Risk Threshold Exceeded for an object over a 24 hour period
+        security_domain:
+          description: The security domain for the finding.
+          type: string
+          example: threat
+        risk_object:
+          description: The risk object for which this finding was created.
+          type: string
+          example: bad_user@splunk.com
+        risk_object_type:
+          description: The type of risk object from which this finding was created.
+          type: string
+          enum: [
+            "system",
+            "user",
+            "other"
+          ]
+          example: user
+        risk_score:
+          description: The risk score assigned to this risk object.
+          type: string
+          example: "10.0"
+        search_name:
+          description: The search that was used to create this finding.
+          type: string
+          example: Risk - 24 Hour Risk Threshold Exceeded - Rule
+        severities:
+          description: A list of severity values for the finding.
+          type: array
+          items:
+            type: string
+            example: "medium"
+          example: ["medium"]
+        severity:
+          description: The level of severity for the finding.
+          type: string
+          example: medium
+        status:
+          description: The status of the finding.
+          type: string
+          example: "1"
+        status_default:
+          description: The flag to determine whether this status is the default status set in the system configurations.
+          type: string
+          example: "true"
+        status_description:
+          description: The description for the status value.
+          type: string
+          example: Finding is recent and not reviewed.
+        status_label:
+          description: The descriptive label for the status value that is displayed on the Splunk Enterprise Security UI.
+          type: string
+          example: New
+        urgency:
+          description: The urgency value for the finding. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          type: string
+          example: informational
+        owner:
+          description: The owner of the finding.
+          type: string
+          example: splunk_user
+        _time:
+          description: The time when this finding was created.
+          type: string
+          example: "2025-02-25T14:27:28.000+00:00"
+      additionalProperties: true
+      example:
+        {
+          "host": "test.splunkcloud.com",
+          "source": "Risk - 24 Hour Risk Threshold",
+          "sourcetype": "finding_sourcetype",
+          "detection_id": "00000000-0000-0000-0000-000000000000",
+          "disposition": "disposition:6",
+          "disposition_default": "true",
+          "disposition_description": "This disposition shows that there is a possibility for a false positive.",
+          "disposition_label": "True Positive - Suspicious Activity",
+          "event_id": "b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8",
+          "notable_type": "notable",
+          "rule_title": "24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net",
+          "rule_description": "Risk Threshold Exceeded for an object over a 24 hour period",
+          "security_domain": "threat",
+          "risk_object": "bad_user@splunk.com",
+          "risk_object_type": "user",
+          "risk_score": "100",
+          "search_name": "Risk - 24 Hour Risk Threshold Exceeded - Rule",
+          "severity": "medium",
+          "status": "1",
+          "status_default": "true",
+          "status_description": "Finding is recent and not reviewed.",
+          "status_label": "New",
+          "urgency": "informational",
+          "owner": "splunk_user",
+          "_time": "2025-02-25T14:27:28.000+00:00"
+        }
+    CreateManualFindingRequest:
+      type: object
+      description: The request of the create manual finding api call.
+      required:
+        - rule_title
+        - rule_description
+        - security_domain
+        - risk_object
+        - risk_object_type
+        - risk_score
+      properties:
+        rule_title:
+          type: string
+          description: The rule title for the manual finding.
+          example: 24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net
+        rule_description:
+          type: string
+          description: The rule description for the manual finding.
+          example: Risk Threshold Exceeded for an object over a 24 hour period
+        security_domain:
+          type: string
+          description: The security domain for the manual finding to be created.
+          example: threat
+        risk_object:
+          type: string
+          description: The risk object for the manual finding to be created.
+          example: bad_user@splunk.com
+        risk_object_type:
+          type: string
+          description: The risk object type for the manual finding to be created.
+          example: user
+        risk_score:
+          type: number
+          description: The risk score for the manual finding to be created.
+          example: 100
+        status:
+          type: string
+          description: The status id or status label of the manual finding to be created.
+          example: New
+        urgency:
+          type: string
+          description: The urgency id or urgency label of the manual finding to be created.
+          example: informational
+        owner:
+          type: string
+          description: The owner for the manual finding to be created.
+          example: splunk_user
+        disposition:
+          type: string
+          description: The disposition id or disposition label of the manual finding to be created.
+          example: disposition:6
+        drilldown_searches:
+          type: array
+          description: The drilldown searches for the manual finding to be created.
+          items:
+            $ref: '#/components/schemas/DrilldownSearch'
+          example:
+            [
+              {
+                "name": "drilldown_name",
+                "search": "index=_internal",
+                "earliest": "-1d@h",
+                "latest": "$info_max_time$"
+              }
+            ]
+        annotations:
+          type: object
+          description: The annotations for the manual finding to be created.
+          additionalProperties:
+            type: array
+            items:
+              type: string
+              example: "T1078"
+            example: ["T1078", "T1537"]
+          example:
+            mitre_attack: ["T1078", "T1537"]
+        risk_event_count:
+          type: number
+          description: The risk event count for the manual finding to be created.
+          example: 5
+        all_risk_objects:
+          type: array
+          description: The risk objects for the manual finding to be created.
+          items:
+            type: string
+            example: "bad_user@splunk.com"
+          example: ["bad_user@splunk.com", "bad_user2@splunk.com"]
+        source:
+          type: array
+          description: The sources for the manual finding to be created.
+          items:
+            type: string
+            example: "demo_identities"
+          example: ["source_1", "source_2"]
+        exclude_map_fields:
+          type: array
+          description: The fields to exclude from the automatic 'orig_' prefix mapping. When writing data to the notable index, the backend will append 'orig_' prefix to certain fields. For fields specified in the `exclude_map_fields`, the backend will not append this prefix. To see which fields will automatically get the prefix, check the `mapfields` parameter in the definition of the notable alert action.
+          items:
+            type: string
+            example: "investigation_profiles"
+          example: ["investigation_profiles", "recommended_actions"]
+      example:
+        {
+          "rule_title": "24 hour risk threshold exceeded for user=evilsender@update.defenceonline.net",
+          "rule_description": "Risk Threshold Exceeded for an object over a 24 hour period",
+          "security_domain": "threat",
+          "risk_object": "bad_user@splunk.com",
+          "risk_object_type": "user",
+          "risk_score": 100,
+          "status": "New",
+          "urgency": "informational",
+          "owner": "splunk_user",
+          "disposition": "disposition:6",
+          "drilldown_searches": [
+            {
+              "name": "drilldown_name",
+              "search": "index=_internal",
+              "earliest": "-1d@h",
+              "latest": "$info_max_time$"
+            }
+          ],
+          "exclude_map_fields": ["investigation_profiles", "recommended_actions"],
+          "risk_event_count": 5,
+          "annotations": {"mitre_attack": ["T1078", "T1537"]},
+          "all_risk_objects": ["bad_user@splunk.com", "bad_user2@splunk.com"],
+          "sources": ["source_1", "source_2"]
+        }
+    CreateManualFindingResponse:
+      type: object
+      description: The response of the create manual finding api call.
+      required: ["_time", "finding_id"]
+      properties:
+        _time:
+          description: The time when this finding was created.
+          type: string
+          example: "2025-02-25T14:27:28.000+00:00"
+        finding_id:
+          description: The source_event_id of the finding event written to the index.
+          type: string
+          example: b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8
+        risk_object:
+          description: The risk object for which this finding was created.
+          type: string
+          example: bad_user@splunk.com
+        risk_object_type:
+          description: The type of risk object from which this finding was created.
+          type: string
+          enum: [
+            "system",
+            "user",
+            "other"
+          ]
+          example: user
+        risk_score:
+          description: The risk score assigned to this risk object.
+          type: string
+          example: "10.0"
+        creator:
+          description: The creator of this finding.
+          type: string
+          example: splunk_user
+        status:
+          description: The status of the finding.
+          type: string
+          example: "1"
+        urgency:
+          description: The urgency value for the finding. Valid choices are `informational`, `low`, `medium`, `high`, `critical`, or `unknown`.
+          type: string
+          example: informational
+        disposition:
+          description: The disposition of the finding.
+          type: string
+          example: disposition:6
+        info_max_time:
+          description: The maximum time of the finding.
+          type: string
+          example: "2025-02-25T14:27:28.000+00:00"
+        drilldown_searches:
+          type: array
+          description: The drilldown searches for the finding.
+          items:
+            $ref: '#/components/schemas/DrilldownSearch'
+          example:
+            [
+              {
+                "name": "drilldown_name",
+                "search": "index=_internal",
+                "earliest": "-1d@h",
+                "latest": "$info_max_time$"
+              }
+            ]
+      example:
+        {
+          "_time": "2025-02-25T14:27:28.000+00:00",
+          "finding_id": "b8684eb9-059d-4d30-8613-f809395feda8@@notable@@b8684eb9059d4d308613f809395feda8",
+          "risk_object": "bad_user@splunk.com",
+          "risk_object_type": "user",
+          "risk_score": "100",
+          "search_name": "Risk - 24 Hour Risk Threshold Exceeded - Rule",
+          "severities": ["medium"],
+          "severity": "medium",
+          "status": "1",
+          "status_default": "true",
+          "status_description": "Finding is recent and not reviewed.",
+          "status_label": "New",
+          "urgency": "informational",
+          "owner": "splunk_user",
+          "drilldown_searches": [
+            {
+              "name": "drilldown_name",
+              "search": "index=_internal",
+              "earliest": "-1d@h",
+              "latest": "$info_max_time$"
+            }
+          ]
+        }
+    DrilldownSearch:
+      type: object
+      description: The drilldown search for the manual finding to be created.
+      required:
+        - name
+        - search
+        - earliest
+        - latest
+      properties:
+        name:
+          type: string
+          example: drilldown_name
+        search:
+          type: string
+          example: drilldown_search
+        earliest:
+          type: string
+          example: -1d@h
+        latest:
+          type: string
+          example: $info_max_time$
+      example:
+        {
+          "name": "drilldown_name",
+          "search": "index=_internal",
+          "earliest": "-1d@h",
+          "latest": "$info_max_time$"
+        }
+    IdentityGetResponse:
+      description: The response of the get identity by id api call.
+      type: object
+      properties:
+        _last_updated:
+          type: number
+          description: The last time the identity was updated.
+          example: 1740591550.3531699181
+        _sources:
+          description: The source of the identity.
+          type: array
+          items:
+            type: string
+            example: "demo_identities"
+          example: ["demo_identities"]
+        bunit:
+          description: The business unit of the asset.
+          type: array
+          items:
+            type: string
+            example: "americas"
+          example: ["americas"]
+        email:
+          description: The email address of an identity.
+          type: array
+          items:
+            type: string
+            format: email
+            example: "nhenderosn@acmetech.com"
+          example: ["nhenderosn@acmetech.com"]
+        first:
+          description: The first name of an identity.
+          type: array
+          items:
+            type: string
+            example: "nelson"
+          example: ["nelson"]
+        identity:
+          description: A pipe-delimited list of username strings representing the identity.
+          type: array
+          items:
+            type: string
+            example: "test@splunk.com"
+          example: ["test@splunk.com"]
+        identity_tag:
+          description: The tag of the identity.
+          type: array
+          items:
+            type: string
+            example: "americas"
+          example: ["americas"]
+        last:
+          description: The last name of an identity.
+          type: array
+          items:
+            type: string
+            example: "henderosn"
+          example: ["henderosn"]
+        phone:
+          description: A pipe delimited field for the telephone number of an identity.
+          type: array
+          items:
+            type: string
+            example: "+1 (800)555-6434"
+          example: ["+1 (800)555-6434"]
+        startDate:
+          description: The start or hire date of an identity.
+          type: array
+          items:
+            type: string
+            example: "135953520"
+          example: ["135953520"]
+        work_city:
+          description: The primary work site city for an identity.
+          type: array
+          items:
+            type: string
+            example: "Vancouver"
+          example: ["Vancouver"]
+        work_country:
+          description: The primary work site country for an identity.
+          type: array
+          items:
+            type: string
+            example: "usa"
+          example: ["usa"]
+        work_lat:
+          description: The latitude of the primary work site city in decimal degrees, using +/- to indicate direction.
+          type: array
+          items:
+            type: string
+            example: "37.3382"
+          example: ["37.3382"]
+        work_long:
+          description: The longitude of the primary work site city in decimal degrees using +/- to indicate direction.
+          type: array
+          items:
+            type: string
+            example: "121.8863"
+          example: ["121.8863"]
+        id:
+          type: string
+          description: The ID of the identity.
+          example: "67bf51bed9f4fd2e56006989"
+      example:
+        {
+          "_last_updated": 1740591550.3531699181,
+          "_sources": ["demo_identities"],
+          "bunit": ["americas"],
+          "email": ["nhenderosn@acmetech.com"],
+          "first": ["nelson"],
+          "identity": ["test@splunk.com"],
+          "identity_tag": ["americas"],
+          "last": ["henderosn"],
+          "phone": ["+1 (800)555-6434"],
+          "startDate": ["135953520"],
+          "work_city": ["Vancouver"],
+          "work_country": ["usa"],
+          "work_lat": ["37.3382"],
+          "work_long": ["121.8863"],
+          "id": "67bf51bed9f4fd2e56006989"
+        }
+    RiskScoreUpdatePayload:
+      description: The request body for updating the risk score of a risk entity.
+      type: object
+      properties:
+        risk_modifier:
+          description: The risk score delta to be added to the risk entity.
+          type: number
+          example: 100
+        entity_type:
+          type: string
+          description: The type of the risk entity.
+          enum: ["user", "system", "hash_values", "host_artifacts", "tools", "others"]
+          example: "user"
+      example:
+        {
+          "risk_modifier": 100,
+          "entity_type": "user"
+        }
+    RiskScoreUpdateResponse:
+      type: object
+      description: The response body for updating the risk score of a risk entity.
+      properties:
+        message:
+          description: The message of the response.
+          type: string
+          example: The risk score of the 2.2.2.2 with type being user has been updated to 90.
+      example:
+        {
+          "message": "The risk score of the 2.2.2.2 with type being user has been updated to 90."
+        }
+    RiskScoreRetrieveResponse:
+      type: array
+      description: The response body for retrieving the risk scores for a risk entity.
+      items:
+        type: object
+        description: A risk score object.
+        required: ["entity", "risk_score", "entity_type"]
+        properties:
+          entity:
+            description: The entity value of the risk score.
+            type: string
+            example: "1.1.1.1"
+          risk_score:
+            description: The risk score for the entity value.
+            type: string
+            example: "500"
+          entity_type:
+            description: The entity type of the entity with this risk score.
+            type: string
+            example: "system"
+        example: {"entity": "1.1.1.1", "entity_type": "system", "risk_score": "100"}
+      example: [
+          {
+              "entity": "1.1.1.1",
+              "entity_type": "system",
+              "risk_score": "100"
+          },
+          {
+              "entity": "1.1.1.1",
+              "entity_type": "host_artifacts",
+              "risk_score": "200"
+          }
+      ]
+    RateLimitExceededResponse:
+      description: Splunk Enterprise Security Rate Limit Exception Response.
+      type: object
+      required:
+        - request_id
+        - code
+        - message
+      properties:
+        code:
+          description: The custom error code for the rate limit errors.
+          example: MC_0017
+        request_id:
+          description: The request ID of the API call.
+          type: string
+          example: 74730fac-1d5c-4713-bef5-d30ed1c62188
+        message:
+          description: The error message.
+          type: string
+          example: 'User has exceeded the rate limits for this API: get_identity_by_id with limit 100'
+      example:
+        code: MC_0017
+        request_id: 74730fac-1d5c-4713-bef5-d30ed1c62188
+        message: 'User has exceeded the rate limits for this API: get_identity_by_id with limit 100'
+
+    ErrorResponse:
+      description: Splunk Enterprise Security error response.
+      type: object
+      required:
+        - request_id
+        - code
+      properties:
+        code:
+          description: The HTTP error code.
+          type: string
+          example: MC_0100
+        request_id:
+          description: The request ID of the API call.
+          type: string
+          example: 74730fac-1d5c-4713-bef5-d30ed1c62188
+        message:
+          description: The error message.
+          type: string
+          example: Oops...something went wrong.
+      example:
+        code: MC_0100
+        request_id: 74730fac-1d5c-4713-bef5-d30ed1c62188
+        message: Oops...something went wrong.
+    401ErrorResponse:
+      description: Unauthorized.
+    403ErrorResponse:
+      description: Forbidden.
+  securitySchemes:
+    BearerAuth:
+      description: The Bearer auth token.
+      type: http
+      scheme: bearer
+    BasicAuth:
+      description: Basic auth
+      type: http
+      scheme: basic
+security:
+  - BearerAuth: []
+  - BasicAuth: []

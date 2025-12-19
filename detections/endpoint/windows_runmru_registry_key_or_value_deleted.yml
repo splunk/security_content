@@ -1,0 +1,69 @@
+name: Windows RunMRU Registry Key or Value Deleted
+id: e651795f-b2c9-4a84-a18a-b901018a3bfa
+version: 1
+date: '2025-11-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the deletion or modification of Most Recently Used (MRU) command entries stored within the Windows Registry. Adversaries often clear these registry keys, such as HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU, to remove forensic evidence of commands executed via the Windows Run dialog or other system utilities. This activity aims to obscure their actions, hinder incident response efforts, and evade detection. Detection focuses on monitoring for changes (deletion of values or modification of the MRUList value) to these specific registry paths, particularly when performed by unusual processes or outside of typical user behavior. Anomalous deletion events can indicate an attempt at defense evasion or post-exploitation cleanup by a malicious actor.
+data_source:
+- Sysmon EventID 12
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Registry 
+  where Registry.registry_path = "*\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\RunMRU*" Registry.action = deleted 
+  by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
+  Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
+  Registry.status Registry.user Registry.vendor_product 
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)` 
+  | `windows_runmru_registry_key_or_value_deleted_filter`'
+how_to_implement: To successfully implement this search you need to be ingesting information
+  on process that include the name of the process responsible for the changes from
+  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
+  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
+  endpoint product.
+known_false_positives: This event can be seen when administrator delete a history manually 
+  or uninstall/reinstall a software that creates MRU registry entry. It is recommended
+  to check this alert with high priority.
+references:
+- https://www.linkedin.com/posts/mauricefielenbach_cybersecurity-incidentresponse-dfir-activity-7394805779448418304-g0gZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAuFTjIB5weY_kcyu4qp3kHbI4v49tO0zEk
+- https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+- https://www.esentire.com/blog/evalusion-campaign-delivers-amatera-stealer-and-netsupport-rat
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: A most recent used entry was deleted on $dest$ within the Windows registry.
+  risk_objects:
+  - field: dest
+    type: system
+    score: 10
+  threat_objects: []
+tags:
+  analytic_story:
+  - NetSupport RMM Tool Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1112
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/delete_runmru_reg/runmru_deletion.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

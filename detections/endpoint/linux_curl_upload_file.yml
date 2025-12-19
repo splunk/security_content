@@ -1,7 +1,7 @@
 name: Linux Curl Upload File
 id: c1de2d9a-0c02-4bb4-a49a-510c6e9cf2bf
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2025-10-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -74,6 +74,7 @@ tags:
   - Linux Living Off The Land
   - Data Exfiltration
   - Ingress Tool Transfer
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1105

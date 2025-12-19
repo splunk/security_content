@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: 'develop'
           token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
@@ -45,7 +45,7 @@ jobs:
           git status
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.DATA_SOURCES_DEPENDABOT }}
           commit-message: Updated TAs

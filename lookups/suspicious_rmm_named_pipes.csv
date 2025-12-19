@@ -1,0 +1,57 @@
+﻿suspicious_pipe_name,tool,description
+*\__rust_anonymous_pipe1*,RustDesk,Used by RustDesk for remote control
+*\*-*ServerRead,Screenconnect,Used by Connectwise Screenconnect client RMM tool
+*\*-*ServerWrite,Screenconnect,Used by Connectwise Screenconnect client RMM tool
+*\0000023FD0*,MeshAgent,Meshagent (meshcentral) default named pipe pattern
+*\adprinterpipe,anydesk,Used by Anydesk
+*\Bomgar-enum_cp-*,Bomgar,Bomgar Beyoudtrust Remote access software
+*\BuhphoneAgentAPIViewer,RemoteUtilities,RemoteUtilities software pipe name
+*\client32_VistaPipe2,NetSupport,NetSupport Manager pipe name
+*\client32_VistaUIPipe2,NetSupport,NetSupport Manager pipe name
+*\clipboardHelperProgressBar_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\DAV RPC SERVICE,aeroadmin,Used by AeroAdmin
+*\dre_video_uploader,Dameware,Used by Dameware Remote Everywhere Agent
+*\dreconsole_main_instance,Dameware,Used by Dameware Remote Everywhere Agent
+*\IRISLogPipe,SplashTop,Used by Splashtop RMM
+*\Local\RManChatServer,RemoteUtilities,RemoteUtilities software pipe name
+*\LogMeInRescue_ipc*,LogMeIn,LogMeIn  default pipe name
+*\LogMeInRescue_rarc_r_*,LogMeIn,LogMeIn  default pipe name
+*\LogMeInRescue_rarc_w_*,LogMeIn,LogMeIn  default pipe name
+*\MEGAprivacyMEGAsync,MEGAsync,MEGAsync synchro backup
+*\mesh-*,MeshAgent,Meshagent (meshcentral) default named pipe pattern
+*\mlnhcpkomdeavomsjalt,TightVNC,TightVNC default named pipe
+*\MSPAClipboardHelper_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\MSPARegEditHelper_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\MSPxTSHlpSrv_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\PARSEC_IPC,Parsec,Used by Parsec RMM
+*\PARSEC-NP,Parsec,Used by Parsec RMM
+*\RManFUSCallbackNotify32,RemoteUtilities,RemoteUtilities software pipe name
+*\RManFUSServerNotify32,RemoteUtilities,RemoteUtilities software pipe name
+*\RMS-Mini-Id-Local-Settings,RemoteUtilities,RemoteUtilities software pipe name
+*\RMS-Mini-Id-Settings-Notify,RemoteUtilities,RemoteUtilities software pipe name
+*\RMS-Terminal-*,RemoteUtilities,RemoteUtilities software pipe name
+*\RMSFUSClient*,RemoteUtilities,RemoteUtilities software pipe name
+*\RMSPrint*,RemoteUtilities,RemoteUtilities software pipe name
+*\RPC_DEEP_INTEGRATION_PIPE*,RemotePC,RemotePCLauncher.exe and RPCPerfViewer.exe behavior from RemotePC RMM
+*\RPCViewerCom,RemotePC,RemotePCUIU.exe behavior from RemotePC RMM
+*\RustDesk\query_cm,RustDesk,Used by RustDesk for remote control
+*\RustDesk\query_portable_service*,RustDesk,Used by RustDesk for remote control
+*\RustDesk\query_service,RustDesk,Used by RustDesk for remote control
+*\RustDesk\query,RustDesk,Used by RustDesk for remote control
+*\Supremo_Client_2,supremo,Used by supremo RMM
+*\Supremo_Helper_2,supremo,Used by supremo RMM
+*\Supremo_Service,supremo,Used by supremo RMM
+*\TCDirectChat_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\tcpreload_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\TCRmtShellAgentModule_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\TCRmtShellViewerModule_*,Dameware,Used by Dameware Remote Everywhere Agent
+*\TightVNC_Service_Control,EHORUS RMM,TightVNC default named pipe
+*\TightVNC_Service_Control,TightVNC,TightVNC default named pipe
+*\TVN_log_pipe_public_name,EHORUS RMM,TightVNC default named pipe
+*\TVN_log_pipe_public_name,TightVNC,TightVNC default named pipe
+*\winpty-conin-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM
+*\winpty-conout-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe' RMM
+*\winpty-control-*,SimpleHelp,JWrapper-Remote Access used by SimpleHelp 'Remote Access.exe'  RMM
+*\ZAudioClientPipe_*ServerReadPipe*,Zoho Assist,Zoho Assist Remote access software
+*\ZAudioClientPipe_*ServerWritePipe*,Zoho Assist,Zoho Assist RMM
