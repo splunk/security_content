@@ -44,6 +44,7 @@ known_false_positives: False positives may be present based on common applicatio
 references:
 - https://www.aon.com/cyber-solutions/aon_cyber_labs/yours-truly-signed-av-driver-weaponizing-an-antivirus-driver/
 - https://whiteknightlabs.com/2025/11/25/discreet-driver-loading-in-windows/
+- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-config
 drilldown_searches:
 - name: View the detection results for - "$user$" and "$dest$"
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
