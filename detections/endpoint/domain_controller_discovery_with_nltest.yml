@@ -1,7 +1,7 @@
 name: Domain Controller Discovery with Nltest
 id: 41243735-89a7-4c83-bcdd-570aa78f00a1
-version: 8
-date: '2025-11-20'
+version: 9
+date: '2025-12-18'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -17,8 +17,10 @@ data_source:
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where `process_nltest` (Processes.process="*/dclist:*"
-  OR Processes.process="*/dsgetdc:*") by Processes.action Processes.dest Processes.original_file_name
+  as lastTime from datamodel=Endpoint.Processes where
+  (Processes.process_name=nltest.exe OR Processes.original_file_name=nltestrk.exe)
+  (Processes.process="*/dclist:*" OR Processes.process="*/dsgetdc:*")
+  by Processes.action Processes.dest Processes.original_file_name
   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash

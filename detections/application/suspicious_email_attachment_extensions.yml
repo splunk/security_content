@@ -1,7 +1,7 @@
 name: Suspicious Email Attachment Extensions
 id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2025-12-17'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -14,11 +14,16 @@ description: The following analytic detects emails containing attachments with s
   information, system compromise, or data exfiltration. Immediate review and analysis
   of the identified emails and attachments are crucial to mitigate these risks.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Email where All_Email.file_name="*" by All_Email.src_user,
-  All_Email.file_name All_Email.message_id | `security_content_ctime(firstTime)` |
-  `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Email")` | `suspicious_email_attachments`
-  | `suspicious_email_attachment_extensions_filter`'
+  All_Email.file_name All_Email.message_id
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name("All_Email")`
+  | lookup update=true is_suspicious_file_extension_lookup file_name OUTPUT suspicious
+  | search suspicious=true
+  | `suspicious_email_attachment_extensions_filter`
 how_to_implement: "You need to ingest data from emails. Specifically, the sender's
   address and the file names of any attachments must be mapped to the Email data model.\n
   **Splunk Phantom Playbook Integration**\nIf Splunk Phantom is also configured in
