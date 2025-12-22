@@ -16,7 +16,7 @@ data_source:
 - Sysmon EventID 11
 search: |
   | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path IN("*\\WINDOWS\\inf","*\\WINDOWS\\System32\\drivers\\*", "*\\WINDOWS\\System32\\DriverStore\\FileRepository\\*","*:\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*")
+  where Filesystem.file_path IN("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*")
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
@@ -33,6 +33,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: Unknown at this point
 references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
+- https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html
 drilldown_searches:
 - name: View the detection results for - "$user$"
   search: '%original_detection_search% | search  user = "$user$"'
