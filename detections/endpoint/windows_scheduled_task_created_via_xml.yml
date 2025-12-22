@@ -1,7 +1,7 @@
 name: Windows Scheduled Task Created Via XML
 id: 7e03b682-3965-4598-8e91-a60a40a3f7e4
-version: 10
-date: '2025-10-07'
+version: 11
+date: '2025-12-18'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -20,7 +20,7 @@ search: |
 
   from datamodel=Endpoint.Processes where 
   
-  `process_schtasks`
+  (Processes.process_name=schtasks.exe OR Processes.original_file_name=schtasks.exe)
   Processes.process IN ("* /create *", "* -create *")
   Processes.process IN ("* /xml *", "* -xml *")
   
