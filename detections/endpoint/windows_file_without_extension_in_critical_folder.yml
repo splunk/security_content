@@ -28,6 +28,7 @@ known_false_positives: Unknown at this point
 references:
 - https://blog.talosintelligence.com/2022/02/threat-advisory-hermeticwiper.html
 - https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html
+- https://learn.microsoft.com/en-us/answers/questions/2184241/where-does-windows-installation-search-for-drivers
 drilldown_searches:
 - name: View the detection results for - "$user$"
   search: '%original_detection_search% | search  user = "$user$"'
