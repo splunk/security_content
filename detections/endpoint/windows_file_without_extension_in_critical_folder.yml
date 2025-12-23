@@ -49,7 +49,9 @@ rba:
   - field: user
     type: user
     score: 90
-  threat_objects: []
+  threat_objects:
+  - field: file_name
+    type: file_name
 tags:
   analytic_story:
   - Data Destruction
