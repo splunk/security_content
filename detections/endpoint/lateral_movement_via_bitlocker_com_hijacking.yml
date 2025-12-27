@@ -4,7 +4,7 @@ id: 990d5907-c022-4358-9ada-f6e5e69514e8
 version: 1
 date: '2025-09-28'
 author: AAtashGar
-status: Production
+status: production
 description: |-
   This detection identifies potential lateral movement activities
   using BitLocker COM hijacking techniques. It monitors for changes
