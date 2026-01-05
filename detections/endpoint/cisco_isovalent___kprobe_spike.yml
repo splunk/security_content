@@ -14,7 +14,7 @@ description: |
   More than 10 kprobe events within 5 minutes may indicate suspicious activity, such as an attacker probing the kernel through repeated system calls (e.g., nsenter, mount, sethostname). 
   Such abnormal volume and frequency of kprobe usage within application pods or on nodes can signal container escape attempts or low-level tampering with the host, thereby representing a potential security threat.
 search: |
-  `cisco_isovalent` "process_kprobe.action"!=""
+  `cisco_isovalent` process_kprobe.action!=""
   | bin _time span=5m | rename process_kprobe.parent.pod.name as pod_name 
   | stats count as kprobe_count 
           values(process_kprobe.function_name) as functions
