@@ -14,7 +14,8 @@ search: |
 
   (
       process_name IN ("nsenter","mount","ps","ls")
-      OR process="*nsenter*" OR process="*mount*" OR process="*ps aux*" OR process="*ps -ef*"
+      OR
+      process IN ("*nsenter*", "*mount*", "*ps aux*", "*ps -ef*")
   )
   | bin _time span=5m
   | stats 
