@@ -65,7 +65,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Windows AppDomainManager hijack artifact file [$file_name$] is created in [$file_path$] on [$dest$]
+  message: Potential Windows AppDomainManager hijack artifact files created on [$dest$]
   risk_objects:
   - field: dest
     type: system
