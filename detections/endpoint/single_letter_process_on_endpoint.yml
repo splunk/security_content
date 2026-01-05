@@ -1,7 +1,7 @@
 name: Single Letter Process On Endpoint
 id: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2025-12-29'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -18,16 +18,79 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)`
-  | eval process_name_length = len(process_name), endExe = if(substr(process_name,
-  -4) == ".exe", 1, 0) | search process_name_length=5 AND endExe=1 | `single_letter_process_on_endpoint_filter`'
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
+    Processes.process_name IN (
+      "_.exe",
+      "-.exe",
+      ",.exe",
+      ";.exe",
+      "!.exe",
+      "'.exe"
+      "(.exe",
+      "(.exe",
+      ").exe",
+      ").exe",
+      "@.exe",
+      "&.exe",
+      "#.exe",
+      "%.exe",
+      "`.exe",
+      "^.exe",
+      "+.exe",
+      "=.exe",
+      "~.exe",
+      "$.exe",
+      "0.exe",
+      "1.exe",
+      "2.exe",
+      "3.exe",
+      "4.exe",
+      "5.exe",
+      "6.exe",
+      "7.exe",
+      "8.exe",
+      "9.exe",
+      "a.exe",
+      "b.exe",
+      "c.exe",
+      "d.exe",
+      "e.exe",
+      "f.exe",
+      "g.exe",
+      "h.exe",
+      "i.exe",
+      "j.exe",
+      "k.exe",
+      "l.exe",
+      "m.exe",
+      "N.exe",
+      "o.exe",
+      "p.exe",
+      "q.exe",
+      "r.exe",
+      "s.exe",
+      "t.exe",
+      "u.exe",
+      "v.exe",
+      "w.exe",
+      "x.exe",
+      "y.exe",
+      "z.exe",
+    )
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process
+     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user
+     Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(firstTime)`
+  | `single_letter_process_on_endpoint_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
