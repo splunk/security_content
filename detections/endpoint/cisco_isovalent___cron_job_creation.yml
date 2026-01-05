@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Cron Job Creation
 id: 94531a31-a041-4777-909f-cd92ed3b71ad
 version: 1
-date: '2025-11-18'
+date: '2026-01-05'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -40,7 +40,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: cron job creation detected in pod $pod_name$ in the cluster $cluster_name$
+  message: cron job creation detected in pod [$pod_name$] in the cluster [$cluster_name$]
   risk_objects:
   - field: pod_name
     type: system

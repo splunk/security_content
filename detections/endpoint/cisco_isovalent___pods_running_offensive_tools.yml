@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Pods Running Offensive Tools
 id: e9d0b9e6-2f3c-4a8a-9d61-2b6f4a9c1c2e
 version: 1
-date: '2025-11-18'
+date: '2026-01-05'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -38,7 +38,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Offensive tool execution ($process_name$) detected in pod $pod_name$ on cluster $cluster_name$
+  message: Offensive tool execution [$process_name$] detected in pod [$pod_name$] on cluster [$cluster_name$]
   risk_objects:
   - field: pod_name
     type: system

@@ -60,7 +60,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$
+  message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$ using a command - [$process$]
   risk_objects:
   - field: pod_name
     type: system

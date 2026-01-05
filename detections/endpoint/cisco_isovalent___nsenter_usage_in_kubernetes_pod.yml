@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Nsenter Usage in Kubernetes Pod
 id: cd07120d-4265-481a-ba0f-3b91fbc5a02f
 version: 1
-date: '2025-11-18'
+date: '2026-01-05'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -43,7 +43,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: An nsenter escape attempt has been detected by user on container pod - $pod_name$
+  message: An nsenter escape attempt has been detected by user on container pod - [$pod_name$]
   risk_objects:
   - field: pod_name
     type: system

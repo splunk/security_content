@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Shell Execution
 id: 12345678-abcd-1234-ef00-1234567890ab
 version: 1
-date: '2025-11-18'
+date: '2026-01-05'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -30,7 +30,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: The shell $process_name$ was executed by $user$ on container pod namespace $node_name$
+  message: The shell [$process_name$] was executed on container pod namespace [$node_name$]
   risk_objects:
   - field: node_name
     type: system
