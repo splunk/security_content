@@ -51,7 +51,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Suspicious (non‑allowlisted) image $pod_image_name$ used by pod $pod_name$ in namespace $Namespace$ in the cluster $cluster_name$
+  message: Non Allowlisted image $pod_image_name$ used by pod $pod_name$ in namespace $Namespace$ in the cluster $cluster_name$
   risk_objects:
   - field: pod_name
     type: system
