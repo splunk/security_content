@@ -8,7 +8,7 @@ type: TTP
 description: The following analytic detects the execution of native .NET binaries
   from non-standard directories within the Windows operating system. It leverages
   Endpoint Detection and Response (EDR) telemetry, comparing process names and original
-  file names against a predefined lookup using the `is_net_windows_file_macro` macro.
+  file names against a predefined lookup "is_net_windows_file".
   This activity is significant because adversaries may move .NET binaries to unconventional
   paths to evade detection and execute malicious code. If confirmed malicious, this
   behavior could allow attackers to execute arbitrary code, escalate privileges, or
