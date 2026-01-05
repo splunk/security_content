@@ -66,4 +66,3 @@ tests:
     source: not_applicable
     sourcetype: cisco:isovalent:processConnect
 
-
