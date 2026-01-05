@@ -1,6 +1,6 @@
 name: System Processes Run From Unexpected Locations
 id: a34aae96-ccf8-4aef-952c-3ea21444444d
-version: 14
+version: 13
 date: '2025-12-31'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
