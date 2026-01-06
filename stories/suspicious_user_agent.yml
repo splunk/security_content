@@ -1,0 +1,26 @@
+name: Suspicious User Agent
+id: 34c760e1-d0f0-4e1e-ae42-8ad6ae1ddfe6
+version: 1
+status: production
+date: '2026-01-05'
+author: Raven Tait, Splunk
+description: Leverage advanced Splunk searches to detect and investigate suspicious user agent strings 
+  on the network, including malware, command and control frameworks, RMM software, and other unwanted 
+  programs.
+narrative: It is a common for attackers of all types to leverage existing
+  tools and frameworks to carry out activities on endpoints. Often less skilled adversaries
+  forget to change some defaults, especially when it comes to things like user agents. 
+  Fortunately, there are a number of ways to monitor network data in Splunk
+  to detect suspicious activity involving these default user agent strings.
+references: 
+- https://github.com/BC-SECURITY/Malleable-C2-Profiles
+- https://www.keysight.com/blogs/en/tech/nwvs/2021/07/28/koadic-c3-command-control-decoded
+- https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_http_user_agents_list.csv
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

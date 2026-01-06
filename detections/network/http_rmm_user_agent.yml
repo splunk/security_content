@@ -9,10 +9,9 @@ description: This Splunk query analyzes web logs to identify and categorize user
   detecting various types of Remote Monitoring and Mangement applications. This activity 
   can signify possible compromised hosts on the network.
 data_source:
-- Splunk Stream HTTP
 - Suricata
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-  from datamodel=Web by Web.http_user_agent Web.http_method, Web.url, Web.url_length Web.src, Web.dest 
+  from datamodel=Web where Web.http_user_agent != null by Web.http_user_agent Web.http_method, Web.url, Web.url_length Web.src, Web.dest 
   | `drop_dm_object_name("Web")`
   | lookup rmm_user_agents rmm_user_agent AS http_user_agent OUTPUT tool
   | where isnotnull(tool)
@@ -43,7 +42,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A known malware user agent $http_user_agent$ was performing a request to $src$.
+  message: A known rmm user agent $http_user_agent$ was performing a request from $src$.
   risk_objects:
   - field: src
     type: system
@@ -54,6 +53,7 @@ rba:
 tags:
   analytic_story:
   - Remote Monitoring and Management Software
+  - Suspicious User Agent
   asset_type: Network
   mitre_attack_id:
   - T1071.001

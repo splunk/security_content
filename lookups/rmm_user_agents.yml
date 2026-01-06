@@ -8,4 +8,4 @@ description: A list of user agents used with known user agents associated with R
 match_type:
 - WILDCARD(rmm_user_agent)
 min_matches: 1
-case_sensitive_match: false
+case_sensitive_match: true

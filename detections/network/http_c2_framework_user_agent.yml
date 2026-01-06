@@ -10,10 +10,9 @@ description: This Splunk query analyzes web logs to identify and categorize
   attempting to interact with hosts on the network using known default configurations of command
   and control tools.
 data_source:
-- Splunk Stream HTTP
 - Suricata
 search: '| tstats  `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-  from datamodel=Web by Web.http_user_agent Web.http_method, Web.url, Web.url_length Web.src, Web.dest 
+  from datamodel=Web where Web.http_user_agent != null by Web.http_user_agent Web.http_method, Web.url, Web.url_length Web.src, Web.dest 
   | `drop_dm_object_name("Web")`
   | lookup suspicious_c2_user_agents c2_user_agent AS http_user_agent OUTPUT tool, description
   | where isnotnull(tool)
@@ -47,15 +46,14 @@ drilldown_searches:
 rba:
   message: A known C2 Framework user agent $http_user_agent$ was performing a request from $src$ to $dest$.
   risk_objects:
-  - field: dest
-    type: system
-    score: 60
   - field: src
     type: system
     score: 60
   threat_objects:
   - field: http_user_agent
     type: http_user_agent
+  - field: dest
+    type: system
 tags:
   analytic_story:
   - Cobalt Strike
@@ -65,6 +63,7 @@ tags:
   - Spearphishing Attachments
   - Malicious PowerShell
   - BishopFox Sliver Adversary Emulation Framework
+  - Suspicious User Agent
   asset_type: Network
   mitre_attack_id:
   - T1071.001
