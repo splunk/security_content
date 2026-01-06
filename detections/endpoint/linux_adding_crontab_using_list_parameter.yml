@@ -1,8 +1,8 @@
 name: Linux Adding Crontab Using List Parameter
 id: 52f6d751-1fd4-4c74-a4c9-777ecfeb5c58
-version: 7
-date: '2025-05-02'
-author: Teoderick Contreras, Splunk
+version: 8
+date: '2025-09-17'
+author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
 description: The following analytic detects suspicious modifications to cron jobs
@@ -40,6 +40,7 @@ references:
 - https://cert.gov.ua/article/39518
 tags:
   analytic_story:
+  - Cisco Isovalent Suspicious Activity
   - Industroyer2
   - Linux Privilege Escalation
   - Linux Living Off The Land
@@ -61,3 +62,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.003/crontab_list_parameter/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+- name: True Positive Test - Cisco Isovalent
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec
