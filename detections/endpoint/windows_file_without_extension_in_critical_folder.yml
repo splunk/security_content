@@ -10,7 +10,7 @@ data_source:
 - Sysmon EventID 11
 search: |
   | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Filesystem
-  where Filesystem.file_path IN("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*", "*\\WINDOWS\\inf\\*","*\\Program Files*", "*\\WINDOWS\\System32\\DriverStore\\*","*:\\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*","*systemroot*","*\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*","*\\Windows\\servicing\\*", "*\\Windows\\ELAMBKUP\\*","*\\Windows\\Boot\\*","*\\System32\\Boot\\*","*\\System32\\Recovery\\*", "C:\\AMD\\*", "C:\\OEM\\*")
+  where Filesystem.file_path IN("*\\System32\\drivers\\*", "*\\syswow64\\drivers\\*", "*\\WINDOWS\\inf\\*","*\\Program Files*", "*\\WINDOWS\\System32\\DriverStore\\*","*:\\Windows\\WinSxS\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Definition Updates\\*","*\\ProgramData\\Microsoft\\Windows Defender\\Platform\\*","*\\Windows\\servicing\\*", "*\\Windows\\ELAMBKUP\\*","*\\Windows\\Boot\\*","*\\System32\\Boot\\*","*\\System32\\Recovery\\*", "C:\\AMD\\*", "C:\\OEM\\*")
   by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
   Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
   Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
