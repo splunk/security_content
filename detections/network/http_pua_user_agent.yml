@@ -56,7 +56,7 @@ tags:
   - Local Privilege Escalation With KrbRelayUp
   - BlackSuit Ransomware
   - Cactus Ransomware
-  - Suspicious User Agent
+  - Suspicious User Agents
   asset_type: Network
   mitre_attack_id:
   - T1071.001

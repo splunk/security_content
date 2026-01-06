@@ -61,6 +61,7 @@ rba:
 tags:
   analytic_story:
   - HTTP Request Smuggling
+  - Suspicious User Agents
   asset_type: Network
   mitre_attack_id:
   - T1071.001

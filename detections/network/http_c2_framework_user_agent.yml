@@ -63,7 +63,7 @@ tags:
   - Spearphishing Attachments
   - Malicious PowerShell
   - BishopFox Sliver Adversary Emulation Framework
-  - Suspicious User Agent
+  - Suspicious User Agents
   asset_type: Network
   mitre_attack_id:
   - T1071.001

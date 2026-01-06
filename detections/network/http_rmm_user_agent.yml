@@ -53,7 +53,7 @@ rba:
 tags:
   analytic_story:
   - Remote Monitoring and Management Software
-  - Suspicious User Agent
+  - Suspicious User Agents
   asset_type: Network
   mitre_attack_id:
   - T1071.001
