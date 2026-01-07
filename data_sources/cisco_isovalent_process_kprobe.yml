@@ -3,13 +3,16 @@ id: b2620ef2-fac6-467f-bdc8-253d65db1cb9
 version: 1
 date: '2025-11-18'
 author: Bhavin Patel, Splunk
-description: Captures kernel probe (kprobe) telemetry from Cisco Isovalent Runtime Security, including function name, arguments, and process context, enabling visibility into low-level kernel interactions that may indicate container escape attempts or system tampering.
+description: Captures kernel probe (kprobe) telemetry from Cisco Isovalent Runtime
+  Security, including function name, arguments, and process context, enabling visibility
+  into low-level kernel interactions that may indicate container escape attempts or
+  system tampering.
 source: not_applicable
 sourcetype: cisco:isovalent
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404
-  version: 3.4.2
+  version: 3.5.2
 fields:
 - _time
 - app
@@ -115,7 +118,7 @@ fields:
 - vendor_region
 output_fields:
 - pod_name
-example_log: |
- {"process_kprobe":{"process":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NjIwOTk3MjEyOjEwNTYwNDc=","pid":1056047,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve","start_time":"2025-10-06T00:00:46.054215601Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","refcnt":1,"tid":1056047,"in_init_tree":false},"parent":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","pid":1056042,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve rootcwd clone","start_time":"2025-10-06T00:00:45.939345635Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDozOTUzMzQzODExNjox","tid":1056042,"in_init_tree":false},"function_name":"__arm64_sys_execve","args":[{"string_arg":"/bin/gzip","label":"filename"},{"bytes_arg":"","label":"argv"}],"action":"KPROBE_ACTION_POST","policy_name":"auditd-equivalent-security-monitoring","return_action":"KPROBE_ACTION_POST"},"node_name":"ip-192-168-89-64.us-west-2.compute.internal","time":"2025-10-06T00:00:46.054335518Z","cluster_name":"k8s-goat-cluster","node_labels":{"alpha.eksctl.io/cluster-name":"k8s-goat-cluster","alpha.eksctl.io/nodegroup-name":"ng-a99d40b1","beta.kubernetes.io/arch":"arm64","beta.kubernetes.io/instance-type":"t4g.medium","beta.kubernetes.io/os":"linux","eks.amazonaws.com/capacityType":"ON_DEMAND","eks.amazonaws.com/nodegroup":"ng-a99d40b1","eks.amazonaws.com/nodegroup-image":"ami-0339636baccc3c183","eks.amazonaws.com/sourceLaunchTemplateId":"lt-0da0169006f2a7c39","eks.amazonaws.com/sourceLaunchTemplateVersion":"1","failure-domain.beta.kubernetes.io/region":"us-west-2","failure-domain.beta.kubernetes.io/zone":"us-west-2c","k8s.io/cloud-provider-aws":"16c540d8ecc5192189b6444fb194814b","kubernetes.io/arch":"arm64","kubernetes.io/hostname":"ip-192-168-89-64.us-west-2.compute.internal","kubernetes.io/os":"linux","node.kubernetes.io/instance-type":"t4g.medium","topology.k8s.aws/zone-id":"usw2-az3","topology.kubernetes.io/region":"us-west-2","topology.kubernetes.io/zone":"us-west-2c"}}
+example_log: '{"process_kprobe":{"process":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NjIwOTk3MjEyOjEwNTYwNDc=","pid":1056047,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve","start_time":"2025-10-06T00:00:46.054215601Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","refcnt":1,"tid":1056047,"in_init_tree":false},"parent":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","pid":1056042,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve
+  rootcwd clone","start_time":"2025-10-06T00:00:45.939345635Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDozOTUzMzQzODExNjox","tid":1056042,"in_init_tree":false},"function_name":"__arm64_sys_execve","args":[{"string_arg":"/bin/gzip","label":"filename"},{"bytes_arg":"","label":"argv"}],"action":"KPROBE_ACTION_POST","policy_name":"auditd-equivalent-security-monitoring","return_action":"KPROBE_ACTION_POST"},"node_name":"ip-192-168-89-64.us-west-2.compute.internal","time":"2025-10-06T00:00:46.054335518Z","cluster_name":"k8s-goat-cluster","node_labels":{"alpha.eksctl.io/cluster-name":"k8s-goat-cluster","alpha.eksctl.io/nodegroup-name":"ng-a99d40b1","beta.kubernetes.io/arch":"arm64","beta.kubernetes.io/instance-type":"t4g.medium","beta.kubernetes.io/os":"linux","eks.amazonaws.com/capacityType":"ON_DEMAND","eks.amazonaws.com/nodegroup":"ng-a99d40b1","eks.amazonaws.com/nodegroup-image":"ami-0339636baccc3c183","eks.amazonaws.com/sourceLaunchTemplateId":"lt-0da0169006f2a7c39","eks.amazonaws.com/sourceLaunchTemplateVersion":"1","failure-domain.beta.kubernetes.io/region":"us-west-2","failure-domain.beta.kubernetes.io/zone":"us-west-2c","k8s.io/cloud-provider-aws":"16c540d8ecc5192189b6444fb194814b","kubernetes.io/arch":"arm64","kubernetes.io/hostname":"ip-192-168-89-64.us-west-2.compute.internal","kubernetes.io/os":"linux","node.kubernetes.io/instance-type":"t4g.medium","topology.k8s.aws/zone-id":"usw2-az3","topology.kubernetes.io/region":"us-west-2","topology.kubernetes.io/zone":"us-west-2c"}}
 
-
+  '
