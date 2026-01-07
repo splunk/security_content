@@ -1,0 +1,79 @@
+﻿c2_user_agent,tool,description
+antSword/v*,antSword,antSword webshell pentest tools abused by APT41 and other attackers
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36",Brute Ratel,Default user agent string for Brute Ratel
+CanisRufus,CanisRufus,A stealthy Python based Windows backdoor that uses Github as a command and control server
+PologiyKolokol,CapLoader,CapLoader
+sliverua,CloudflarePagesRedirector,CloudFlare C2 default examples UA
+ligoloua,CloudflarePagesRedirector,CloudFlare C2 default examples UA
+Microsoft Internet Explorer,Cobalt Strike,Default user agent string for pitty_tiger Malleable C2 Profile
+Microsoft-CryptoAPI/6.1,Cobalt Strike,Default user agent string for oscp Malleable C2 Profile
+Mozilla Firefox/4.0,Cobalt Strike,Default user agent string for formbook Malleable C2 Profile
+Mozilla Firefox/4.0(compatible; MSIE 7.0; Windows NT 6.1; Trident/7.0;SLC2; .NET CLD 3.5.30729; Media Center PC 6.0;),Cobalt Strike,Default user agent string for globeimposter Malleable C2 Profile
+Mozilla/4.0,Cobalt Strike,Default user agent string for string_of_paerls Malleable C2 Profile
+Mozilla/4.0 (Windows 7 6.1) Java/1.7.0_11,Cobalt Strike,Default user agent string for fiesta Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 6.0;Windows NT 5.1),Cobalt Strike,Default user agent string for comfoo Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 6.0b; Windows NT 5.0; .NET CLR 1.0.2914),Cobalt Strike,Default user agent string for asprox Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1; SV1),Cobalt Strike,Default user agent string for zeus Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; Trident/7.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729,Cobalt Strike,Default user agent string for covid19_koadic Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/4.0; SLCC2; .NET CLR 3.0.30729; .NET4.0C; .NET4.0E ),Cobalt Strike,Default user agent string for chches_APT10 Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.1; WOW64; Trident/7.0; SLCC2; .NET CLR 2.0.50727; Media Center PC 6.0),Cobalt Strike,Default user agent string for emotet Malleable C2 Profile
+Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729),Cobalt Strike,"Default user agent string for magnitude, taidoor Malleable C2 Profiles"
+Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; SLCC2; Media Center PC 6.0),Cobalt Strike,Default user agent string for POSeidon Malleable C2 Profile
+Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko,Cobalt Strike,"Default user agent string for bazarloader, dukes_apt29, mayoclinic, randomized Malleable C2 Profiles"
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",Cobalt Strike,Default user agent string for bing_maps Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36",Cobalt Strike,Default user agent string for mscrl Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (XHTML, like Gecko) Chrome/87.0.4280.89 Safari/537.36",Cobalt Strike,Default user agent string for salesforce_api Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko)",Cobalt Strike,"Default user agent string for iheartradio, office365_calendar, slack, trevor, youtube_video Malleable C2 Profiles"
+"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36",Cobalt Strike,Default user agent string for kronos Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",Cobalt Strike,"Default user agent string for reddit, stackoverflow Malleable C2 Profiles"
+Mozilla/5.0 (Windows NT 6.1) AppleWebKit/587.38,Cobalt Strike,Default user agent string for jasperloader Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/587.38 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",Cobalt Strike,"Default user agent string for gotomeeting, msu_edu, template Malleable C2 Profiles"
+"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36",Cobalt Strike,"Default user agent string for gandcrab, quantloader Malleable C2 Profiles"
+Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko,Cobalt Strike,"Default user agent string for amazon, cnnvideo_getonly, googledrive_getonly, msnbcvideo_getonly, onedrive_getonly, pandora, safebrowsing, trick_ryuk, ursnif_IcedID, wikipedia_getonly Malleable C2 Profiles"
+Mozilla/5.0 (Windows NT 6.1; Win64; x64; Trident/7.0; rv:11.0) like Gecko),Cobalt Strike,Default user agent string for hancitor Malleable C2 Profile
+Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0,Cobalt Strike,"Default user agent string for bluenoroff_rat, ratankba Malleable C2 Profiles"
+Mozilla/5.0 (Windows NT 6.1; rv:24.0) Gecko/20100101 Firefox/24.0,Cobalt Strike,Default user agent string for backoff Malleable C2 Profile
+"Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36",Cobalt Strike,Default user agent string for zloader Malleable C2 Profile
+Mozilla/5.0 (Windows NT 6.; WOW64; rv:20.0) Gecko/20100101 Firefox/20.0,Cobalt Strike,Default user agent string for sofacy Malleable C2 Profile
+Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 5.2) Java/1.5.0_08,Cobalt Strike,Default user agent string for havex Malleable C2 Profile
+"Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko",Cobalt Strike,Default user agent string for bingsearch_getonly Malleable C2 Profile
+Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 5.1; SLCC1; .NET CLR 1.1.4322),Cobalt Strike,Default user agent string for trickbot Malleable C2 Profile
+Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/5.0),Cobalt Strike,Default user agent string for etumbot Malleable C2 Profile
+Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; SLCC2; .NET4.0E; QQBrowser/7.0.3698.400),Cobalt Strike,Default user agent string for xbash Malleable C2 Profile
+"Mozilla/5.0 (iPhone; CPU iPhone OS 12_1_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16C104",Cobalt Strike,Default user agent string for zoom Malleable C2 Profile
+Mozilla/5.2 (Windows NT 6.2; rv:50.2) Gecko/20200103 Firefox/50.2,Cobalt Strike,Default user agent string for jaff Malleable C2 Profile
+Shockwave Flash,Cobalt Strike,Default user agent string for rtmp Malleable C2 Profile
+Windows-Update-Agent/10.0.10011.16384 Client-Protocol/1.40,Cobalt Strike,"Default user agent string for microsoftupdate_getonly, windows-updates Malleable C2 Profiles"
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Trident/4.0),Cobalt Strike,Default user agent string for Cobalt Strike 
+Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0; BOIE9;ENUS),Cobalt Strike,Default user agent string for Cobalt Strike 
+Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; XBLWP7; ZuneWP7),Cobalt Strike,Default user agent string for Cobalt Strike 
+Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; InfoPath.2; .NET4.0C; .NET4.0E),Cobalt Strike,Default user agent string for Cobalt Strike 
+Mozilla/4.0 (compatible; Win32; WinHttp.WinHttpRequest.5),Cobalt Strike / Koadic,Default user agent string for qakbot Malleable C2 Profile and Koadic Stage 1
+Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko,Cobalt Strike / Mythic C2,Default User-Agent string for Several C2 Frameworks
+"Mozilla/6.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36",GraphStrike,Default User-Agent string for Cobaltstrike GraphStrike server (not a legitimate UA)
+"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36",Havoc C2,Default user agent string for Havoc C2 HTTP Listener
+Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 10.0; Win64; x64; Trident/7.0; .NET4.0C; .NET4.0E; .NET CLR 2.0.50727; .NET CLR 3.0.30729; .NET CLR 3.5.30729),Koadic,Default user agent string for Koadic Stage 0 and Stage 2
+Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0) like Gecko*,Multiple,"Default user agent string used by multpile C2 frameworks including Metasploit, Cobalt Strike, Merlin, and more"
+dvadcat,netsupport RAT,netsupport RAT
+Mozilla/5.0 (compatible; ngrok),ngrok,ngrok user agent
+nimplant,nimplant,user agent default for a light-weight first-stage C2 implant written in Nim
+NimPlant C2 Client,nimplant,user agent default for a light-weight first-stage C2 implant written in Nim
+linux:feeds:v2 (by /u/pico-sh),picosh,hacker labs - open source and managed web services leveraging SSH
+pivotnacci/*,pivotnacci,Pivotnacci allows you to create a socks server which communicates with HTTP agents
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",PoshC2,Default user agent string for PoshC2
+azure-logic-apps/1.0,Power Automate,Power Automate user-agent also used by C2 NTT-Security-Japan/pac2 (LOLC2)
+remoteit/*,remoteit,remoteit
+C2FunctionAgent,ServerlessRedirector,ServerlessRedirector
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.8827.897 Safari/537.36",Sliver C2,Default user agent string for Sliver Windows agent
+"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.8827.897 Safari/537.36",Sliver C2,Default user agent string for Sliver Linux agent
+"Mozilla/5.0 (Macintosh; Intel Mac OS X %s) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.8827.897 Safari/537.36",Sliver C2,Default user agent string for Sliver Mac agent
+Cat,SmartLoader,SmartLoader
+SmartLoader,SmartLoader,SmartLoader
+Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 10.0; WOW64; Trident/7.0; Specula; Microsoft Outlook*,Specula,default user agent template for specula C2
+"Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like TsunamiWave",Tsunami,Tsunami C2 framework default UA
+tunnelto-client,tunnelto,tunnelto.dev client default user agent
+"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36 Edg/129.0.0.0",Tuoni C2,Default user agent string for Tuoni C2
+*Dev-Tunnels-Service-*,vscode,could be used when accessing a vscode dev tunnel - abused by attackers as a C2
+Yakit/1.0.0,Yakit,WebShell
+Mozilla/5.0 (Windows NT 6.3; rv:36.0) Gecko/20100101 Firefox/36.0,Empire,Empire default User agents
+Mozilla/6.0 (X11; Linux x86_64; rv:24.0) Gecko/20140205 Firefox/27.0 Iceweasel/25.3.0,Empire,Empire default User agents
