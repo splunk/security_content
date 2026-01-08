@@ -1,6 +1,6 @@
 detections:
   - content: HTTP Suspicious Tool User Agent
-    removed_in_version: 5.24.0
+    removed_in_version: 5.22.0
     reason: Detection has been renamed for clarity
     replacement_content:
       - HTTP Scripting Tool User Agent
