@@ -84,7 +84,7 @@ fields:
 - vendor_product
 - WebApplication
 output_fields:
-- src_ip
+- src
 - dest
 - dest_port
 - FileDirection
