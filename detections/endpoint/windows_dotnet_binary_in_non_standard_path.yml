@@ -1,14 +1,14 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2025-12-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 description: The following analytic detects the execution of native .NET binaries
   from non-standard directories within the Windows operating system. It leverages
   Endpoint Detection and Response (EDR) telemetry, comparing process names and original
-  file names against a predefined lookup using the `is_net_windows_file_macro` macro.
+  file names against a predefined lookup "is_net_windows_file".
   This activity is significant because adversaries may move .NET binaries to unconventional
   paths to evade detection and execute malicious code. If confirmed malicious, this
   behavior could allow attackers to execute arbitrary code, escalate privileges, or
@@ -17,17 +17,31 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes where NOT (Processes.process_path
-  IN ("*\\Windows\\ADWS\\*","*\\Windows\\SysWOW64*", "*\\Windows\\system32*", "*\\Windows\\NetworkController\\*",
-  "*\\Windows\\SystemApps\\*", "*\\WinSxS\\*", "*\\Windows\\Microsoft.NET\\*")) by
-  Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `is_net_windows_file_macro` | `windows_dotnet_binary_in_non_standard_path_filter`'
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime
+  FROM datamodel=Endpoint.Processes where
+  NOT Processes.process_path IN (
+        "*:\\Windows\\ADWS\\*",
+        "*:\\Windows\\Microsoft.NET\\*",
+        "*:\\Windows\\NetworkController\\*",
+        "*:\\Windows\\System32\\*",
+        "*:\\Windows\\SystemApps\\*",
+        "*:\\Windows\\SysWOW64\\*",
+        "*:\\Windows\\WinSxS\\*"
+      )
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+     Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+     Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | lookup update=true is_net_windows_file filename as process_name OUTPUT netFile
+  | lookup update=true is_net_windows_file originalFileName as original_file_name OUTPUT netFile
+  | search netFile=true
+  | `windows_dotnet_binary_in_non_standard_path_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

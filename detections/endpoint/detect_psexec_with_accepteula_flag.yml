@@ -1,7 +1,7 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2025-12-15'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -18,8 +18,14 @@ data_source:
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
 search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where `process_psexec` Processes.process=*accepteula* by Processes.action Processes.dest
+  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where
+  (
+    Processes.process_name IN ("psexec.exe", "psexec64.exe")
+    OR
+    Processes.original_file_name="psexec.c"
+  )
+  Processes.process=*accepteula*
+  by Processes.action Processes.dest
   Processes.original_file_name Processes.parent_process Processes.parent_process_exec
   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
   Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid

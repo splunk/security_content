@@ -1,0 +1,124 @@
+name: Cisco Isovalent Process Kprobe
+id: b2620ef2-fac6-467f-bdc8-253d65db1cb9
+version: 1
+date: '2025-11-18'
+author: Bhavin Patel, Splunk
+description: Captures kernel probe (kprobe) telemetry from Cisco Isovalent Runtime
+  Security, including function name, arguments, and process context, enabling visibility
+  into low-level kernel interactions that may indicate container escape attempts or
+  system tampering.
+source: not_applicable
+sourcetype: cisco:isovalent
+supported_TA:
+- name: Cisco Security Cloud
+  url: https://splunkbase.splunk.com/app/7404
+  version: 3.5.2
+fields:
+- _time
+- app
+- cluster_name
+- description
+- duration
+- eventtype
+- host
+- id
+- index
+- linecount
+- node_labels.alpha.eksctl.io/cluster-name
+- node_labels.alpha.eksctl.io/nodegroup-name
+- node_labels.beta.kubernetes.io/arch
+- node_labels.beta.kubernetes.io/instance-type
+- node_labels.beta.kubernetes.io/os
+- node_labels.eks.amazonaws.com/capacityType
+- node_labels.eks.amazonaws.com/nodegroup
+- node_labels.eks.amazonaws.com/nodegroup-image
+- node_labels.eks.amazonaws.com/sourceLaunchTemplateId
+- node_labels.eks.amazonaws.com/sourceLaunchTemplateVersion
+- node_labels.failure-domain.beta.kubernetes.io/region
+- node_labels.failure-domain.beta.kubernetes.io/zone
+- node_labels.k8s.io/cloud-provider-aws
+- node_labels.kubernetes.io/arch
+- node_labels.kubernetes.io/hostname
+- node_labels.kubernetes.io/os
+- node_labels.node.kubernetes.io/instance-type
+- node_labels.topology.k8s.aws/zone-id
+- node_labels.topology.kubernetes.io/region
+- node_labels.topology.kubernetes.io/zone
+- node_name
+- process_kprobe.action
+- process_kprobe.args{}.bytes_arg
+- process_kprobe.args{}.int_arg
+- process_kprobe.args{}.label
+- process_kprobe.args{}.size_arg
+- process_kprobe.args{}.string_arg
+- process_kprobe.function_name
+- process_kprobe.parent.arguments
+- process_kprobe.parent.auid
+- process_kprobe.parent.binary
+- process_kprobe.parent.cwd
+- process_kprobe.parent.docker
+- process_kprobe.parent.exec_id
+- process_kprobe.parent.flags
+- process_kprobe.parent.in_init_tree
+- process_kprobe.parent.parent_exec_id
+- process_kprobe.parent.pid
+- process_kprobe.parent.pod.container.id
+- process_kprobe.parent.pod.container.image.id
+- process_kprobe.parent.pod.container.image.name
+- process_kprobe.parent.pod.container.name
+- process_kprobe.parent.pod.container.pid
+- process_kprobe.parent.pod.container.start_time
+- process_kprobe.parent.pod.name
+- process_kprobe.parent.pod.namespace
+- process_kprobe.parent.pod.pod_labels.run
+- process_kprobe.parent.pod.workload
+- process_kprobe.parent.pod.workload_kind
+- process_kprobe.parent.start_time
+- process_kprobe.parent.tid
+- process_kprobe.parent.uid
+- process_kprobe.policy_name
+- process_kprobe.process.arguments
+- process_kprobe.process.auid
+- process_kprobe.process.binary
+- process_kprobe.process.cwd
+- process_kprobe.process.docker
+- process_kprobe.process.exec_id
+- process_kprobe.process.flags
+- process_kprobe.process.in_init_tree
+- process_kprobe.process.parent_exec_id
+- process_kprobe.process.pid
+- process_kprobe.process.pod.container.id
+- process_kprobe.process.pod.container.image.id
+- process_kprobe.process.pod.container.image.name
+- process_kprobe.process.pod.container.name
+- process_kprobe.process.pod.container.pid
+- process_kprobe.process.pod.container.start_time
+- process_kprobe.process.pod.name
+- process_kprobe.process.pod.namespace
+- process_kprobe.process.pod.pod_labels.run
+- process_kprobe.process.pod.workload
+- process_kprobe.process.pod.workload_kind
+- process_kprobe.process.refcnt
+- process_kprobe.process.start_time
+- process_kprobe.process.tid
+- process_kprobe.process.uid
+- process_kprobe.return_action
+- punct
+- severity
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- src
+- src_type
+- tag
+- tag::app
+- tag::eventtype
+- time
+- vendor_region
+output_fields:
+- pod_name
+example_log: '{"process_kprobe":{"process":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NjIwOTk3MjEyOjEwNTYwNDc=","pid":1056047,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve","start_time":"2025-10-06T00:00:46.054215601Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","refcnt":1,"tid":1056047,"in_init_tree":false},"parent":{"exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDoyNjA5NjE5NTA2MTI3NjQ4OjEwNTYwNDI=","pid":1056042,"uid":0,"cwd":"/","binary":"/usr/sbin/logrotate","arguments":"/etc/logrotate.conf","flags":"execve
+  rootcwd clone","start_time":"2025-10-06T00:00:45.939345635Z","auid":4294967295,"parent_exec_id":"aXAtMTkyLTE2OC04OS02NC51cy13ZXN0LTIuY29tcHV0ZS5pbnRlcm5hbDozOTUzMzQzODExNjox","tid":1056042,"in_init_tree":false},"function_name":"__arm64_sys_execve","args":[{"string_arg":"/bin/gzip","label":"filename"},{"bytes_arg":"","label":"argv"}],"action":"KPROBE_ACTION_POST","policy_name":"auditd-equivalent-security-monitoring","return_action":"KPROBE_ACTION_POST"},"node_name":"ip-192-168-89-64.us-west-2.compute.internal","time":"2025-10-06T00:00:46.054335518Z","cluster_name":"k8s-goat-cluster","node_labels":{"alpha.eksctl.io/cluster-name":"k8s-goat-cluster","alpha.eksctl.io/nodegroup-name":"ng-a99d40b1","beta.kubernetes.io/arch":"arm64","beta.kubernetes.io/instance-type":"t4g.medium","beta.kubernetes.io/os":"linux","eks.amazonaws.com/capacityType":"ON_DEMAND","eks.amazonaws.com/nodegroup":"ng-a99d40b1","eks.amazonaws.com/nodegroup-image":"ami-0339636baccc3c183","eks.amazonaws.com/sourceLaunchTemplateId":"lt-0da0169006f2a7c39","eks.amazonaws.com/sourceLaunchTemplateVersion":"1","failure-domain.beta.kubernetes.io/region":"us-west-2","failure-domain.beta.kubernetes.io/zone":"us-west-2c","k8s.io/cloud-provider-aws":"16c540d8ecc5192189b6444fb194814b","kubernetes.io/arch":"arm64","kubernetes.io/hostname":"ip-192-168-89-64.us-west-2.compute.internal","kubernetes.io/os":"linux","node.kubernetes.io/instance-type":"t4g.medium","topology.k8s.aws/zone-id":"usw2-az3","topology.kubernetes.io/region":"us-west-2","topology.kubernetes.io/zone":"us-west-2c"}}
+
+  '

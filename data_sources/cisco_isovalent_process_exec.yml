@@ -1,0 +1,148 @@
+name: Cisco Isovalent Process Exec
+id: 87654321-dcba-4321-00fe-0987654321ba
+version: 1
+date: '2025-11-18'
+author: Bhavin Patel, Splunk
+description: Logs process execution events within Cisco Isovalent environments, providing
+  visibility into process exec ancestry and Kubernetes workload identity.
+source: not_applicable
+sourcetype: cisco:isovalent:processExec
+supported_TA:
+- name: Cisco Security Cloud
+  url: https://splunkbase.splunk.com/app/7404
+  version: 3.5.2
+fields:
+- _time
+- cluster_name
+- container_id
+- eventtype
+- host
+- index
+- linecount
+- node_labels.alpha.eksctl.io/cluster-name
+- node_labels.alpha.eksctl.io/nodegroup-name
+- node_labels.beta.kubernetes.io/arch
+- node_labels.beta.kubernetes.io/instance-type
+- node_labels.beta.kubernetes.io/os
+- node_labels.eks.amazonaws.com/capacityType
+- node_labels.eks.amazonaws.com/nodegroup
+- node_labels.eks.amazonaws.com/nodegroup-image
+- node_labels.eks.amazonaws.com/sourceLaunchTemplateId
+- node_labels.eks.amazonaws.com/sourceLaunchTemplateVersion
+- node_labels.failure-domain.beta.kubernetes.io/region
+- node_labels.failure-domain.beta.kubernetes.io/zone
+- node_labels.k8s.io/cloud-provider-aws
+- node_labels.kubernetes.io/arch
+- node_labels.kubernetes.io/hostname
+- node_labels.kubernetes.io/os
+- node_labels.node.kubernetes.io/instance-type
+- node_labels.topology.k8s.aws/zone-id
+- node_labels.topology.kubernetes.io/region
+- node_labels.topology.kubernetes.io/zone
+- node_name
+- parent_process
+- parent_process_exec
+- parent_process_id
+- parent_process_name
+- parent_process_path
+- pod_image_name
+- pod_name
+- pod_namespace
+- process
+- process_current_directory
+- process_exec
+- process_exec.ancestors{}.arguments
+- process_exec.ancestors{}.auid
+- process_exec.ancestors{}.binary
+- process_exec.ancestors{}.cwd
+- process_exec.ancestors{}.exec_id
+- process_exec.ancestors{}.flags
+- process_exec.ancestors{}.in_init_tree
+- process_exec.ancestors{}.parent_exec_id
+- process_exec.ancestors{}.pid
+- process_exec.ancestors{}.refcnt
+- process_exec.ancestors{}.start_time
+- process_exec.ancestors{}.tid
+- process_exec.ancestors{}.uid
+- process_exec.parent.arguments
+- process_exec.parent.auid
+- process_exec.parent.binary
+- process_exec.parent.cwd
+- process_exec.parent.docker
+- process_exec.parent.exec_id
+- process_exec.parent.flags
+- process_exec.parent.in_init_tree
+- process_exec.parent.parent_exec_id
+- process_exec.parent.pid
+- process_exec.parent.pod.container.id
+- process_exec.parent.pod.container.image.id
+- process_exec.parent.pod.container.image.name
+- process_exec.parent.pod.container.name
+- process_exec.parent.pod.container.pid
+- process_exec.parent.pod.container.security_context.privileged
+- process_exec.parent.pod.container.start_time
+- process_exec.parent.pod.name
+- process_exec.parent.pod.namespace
+- process_exec.parent.pod.pod_labels.controller-revision-hash
+- process_exec.parent.pod.pod_labels.k8s-app
+- process_exec.parent.pod.pod_labels.pod-template-generation
+- process_exec.parent.pod.workload
+- process_exec.parent.pod.workload_kind
+- process_exec.parent.start_time
+- process_exec.parent.tid
+- process_exec.parent.uid
+- process_exec.process.arguments
+- process_exec.process.auid
+- process_exec.process.binary
+- process_exec.process.cwd
+- process_exec.process.docker
+- process_exec.process.exec_id
+- process_exec.process.flags
+- process_exec.process.in_init_tree
+- process_exec.process.parent_exec_id
+- process_exec.process.pid
+- process_exec.process.pod.container.id
+- process_exec.process.pod.container.image.id
+- process_exec.process.pod.container.image.name
+- process_exec.process.pod.container.maybe_exec_probe
+- process_exec.process.pod.container.name
+- process_exec.process.pod.container.pid
+- process_exec.process.pod.container.security_context.privileged
+- process_exec.process.pod.container.start_time
+- process_exec.process.pod.name
+- process_exec.process.pod.namespace
+- process_exec.process.pod.pod_labels.app.kubernetes.io/instance
+- process_exec.process.pod.pod_labels.app.kubernetes.io/name
+- process_exec.process.pod.pod_labels.controller-revision-hash
+- process_exec.process.pod.pod_labels.k8s-app
+- process_exec.process.pod.pod_labels.pod-template-generation
+- process_exec.process.pod.workload
+- process_exec.process.pod.workload_kind
+- process_exec.process.start_time
+- process_exec.process.tid
+- process_exec.process.uid
+- process_id
+- process_name
+- punct
+- source
+- sourcetype
+- splunk_server
+- splunk_server_group
+- tag
+- tag::eventtype
+- time
+- user_id
+- vendor_product
+output_fields:
+- process_name
+- process
+example_log: '{"process_exec":{"process":{"exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MTQ2Mjg5OTk5MjQ2MDAwNDozNTAyOTE0","pid":3502914,"uid":0,"cwd":"/app","binary":"/app/grpc-health-probe","arguments":"-addr=:50051
+  -connect-timeout=5s -rpc-timeout=5s","flags":"execve clone","start_time":"2025-08-14T20:42:47.459946745Z","auid":4294967295,"pod":{"namespace":"kube-system","name":"aws-node-9twpn","container":{"id":"containerd://dc5b541d139c38ec01e485712f0eec3d11c0273ca03fccedc56881200c127873","name":"aws-node","image":{"id":"sha256:0b48ad70935c9dea3627854c46a5d12028b941334ad82bf7be6a6fcddd4a2674","name":"066635153087.dkr.ecr.il-central-1.amazonaws.com/amazon-k8s-cni:v1.19.2"},"start_time":"2025-07-28T22:21:44Z","pid":3635324,"maybe_exec_probe":true,"security_context":{}},"pod_labels":{"app.kubernetes.io/instance":"aws-vpc-cni","app.kubernetes.io/name":"aws-node","controller-revision-hash":"dfddff8c5","k8s-app":"aws-node","pod-template-generation":"1"},"workload":"aws-node","workload_kind":"DaemonSet"},"docker":"dc5b541d139c38ec01e485712f0eec3","parent_exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MTQ2Mjg5OTk3MjA5OTEyODozNTAyOTAw","tid":3502914,"in_init_tree":false},"parent":{"exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MTQ2Mjg5OTk3MjA5OTEyODozNTAyOTAw","pid":3502900,"uid":0,"cwd":"/run/containerd/io.containerd.runtime.v2.task/k8s.io/ed66ffdf41f1a8120a25b8aee2609990a556109a17fb159597cb100f574b07fe","binary":"/usr/sbin/runc","arguments":"--root
+  /run/containerd/runc/k8s.io --log /run/containerd/io.containerd.runtime.v2.task/k8s.io/dc5b541d139c38ec01e485712f0eec3d11c0273ca03fccedc56881200c127873/log.json
+  --log-format json --systemd-cgroup exec --process /tmp/runc-process2848112653 --detach
+  --pid-file /run/containerd/io.containerd.runtime.v2.task/k8s.io/dc5b541d139c38ec01e485712f0eec3d11c0273ca03fccedc56881200c127873/939f032732ee71076b86175deba715fc56e5cacb6047fb3602069bdbbfd21e45.pid
+  dc5b541d139c38ec01e485712f0eec3d11c0273ca03fccedc56881200c127873","flags":"execve
+  clone","start_time":"2025-08-14T20:42:47.439585277Z","auid":4294967295,"parent_exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MjczNDAwMDAwMDA6MzA1OQ==","tid":3502900,"in_init_tree":false},"ancestors":[{"exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MjczNDAwMDAwMDA6MzA1OQ==","pid":3059,"uid":0,"cwd":"/run/containerd/io.containerd.runtime.v2.task/k8s.io/ed66ffdf41f1a8120a25b8aee2609990a556109a17fb159597cb100f574b07fe","binary":"/usr/bin/containerd-shim-runc-v2","arguments":"-namespace
+  k8s.io -id ed66ffdf41f1a8120a25b8aee2609990a556109a17fb159597cb100f574b07fe -address
+  /run/containerd/containerd.sock","flags":"procFS auid","start_time":"2025-07-28T22:21:34.807485194Z","auid":4294967295,"parent_exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6NjAwMDAwMDA6MQ==","tid":3059,"in_init_tree":false},{"exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6NjAwMDAwMDA6MQ==","pid":1,"uid":0,"cwd":"/","binary":"/usr/lib/systemd/systemd","arguments":"--switched-root
+  --system --deserialize 21","flags":"procFS auid rootcwd","start_time":"2025-07-28T22:21:07.527485203Z","auid":4294967295,"parent_exec_id":"aXAtMTAtMC0xMC0yNTMudXMtd2VzdC0yLmNvbXB1dGUuaW50ZXJuYWw6MTow","tid":1,"in_init_tree":false}]},"node_name":"ip-10-0-10-253.us-west-2.compute.internal","time":"2025-08-14T20:42:47.459945318Z","cluster_name":"isovalent-2","node_labels":{"alpha.eksctl.io/cluster-name":"isovalent-2","alpha.eksctl.io/instance-id":"i-0839d680c54ccef60","alpha.eksctl.io/nodegroup-name":"ng-default","beta.kubernetes.io/arch":"amd64","beta.kubernetes.io/instance-type":"t3.medium","beta.kubernetes.io/os":"linux","failure-domain.beta.kubernetes.io/region":"us-west-2","failure-domain.beta.kubernetes.io/zone":"us-west-2c","k8s.io/cloud-provider-aws":"480fc25a68b07748a13498c4eb5a2a07","kubernetes.io/arch":"amd64","kubernetes.io/hostname":"ip-10-0-10-253.us-west-2.compute.internal","kubernetes.io/os":"linux","node-lifecycle":"on-demand","node.kubernetes.io/instance-type":"t3.medium","topology.k8s.aws/zone-id":"usw2-az3","topology.kubernetes.io/region":"us-west-2","topology.kubernetes.io/zone":"us-west-2c"}}'

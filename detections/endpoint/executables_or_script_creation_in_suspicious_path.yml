@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 20
-date: '2025-10-31'
+version: 21
+date: '2025-12-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -118,6 +118,7 @@ tags:
   - GhostRedirector IIS Module and Rungan Backdoor
   - Lokibot
   - Castle RAT
+  - SesameOp
   asset_type: Endpoint
   mitre_attack_id:
   - T1036
