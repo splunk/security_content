@@ -1,8 +1,8 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 8
+version: 9
 date: '2025-05-02'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the execution of the "At" application
@@ -66,9 +66,12 @@ tags:
   - Linux Persistence Techniques
   - Linux Living Off The Land
   - Scheduled Tasks
+  - Cisco Isovalent Suspicious Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.002
+  atomic_guid:
+  - 9ddf2e5e-7e2c-46c2-9940-3c2ff29c7213
   product:
   - Splunk Enterprise
   - Splunk Enterprise Security
@@ -80,3 +83,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.002/at_execution/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+- name: True Positive Test - Cisco Isovalent
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec
