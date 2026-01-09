@@ -1,7 +1,7 @@
 name: Windows File Collection Via Copy Utilities
 id: dbdd556d-9da8-4c42-9980-8a3ffe25a758
-version: 1
-date: '2025-08-26'
+version: 2
+date: '2025-12-18'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -10,8 +10,33 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
-  where `process_copy` Processes.process IN ("*.doc*","*.docx*","*.xls*","*.xlsx*","*.ppt*","*.pptx*","*.log*","*.txt*","*.db*","*.7z*","*.zip*","*.rar*","*.tar*","*.gz*","*.jpg*","*.gif*","*.png*","*.bmp*","*.pdf*","*.rtf*")
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+  from datamodel=Endpoint.Processes where
+  (
+    Processes.process_name IN ("copy.exe", "xcopy.exe")
+    OR
+    Processes.original_file_name IN ("copy.exe", "xcopy.exe")
+  )
+  Processes.process IN (
+    "*.7z*",
+    "*.bmp*",
+    "*.db*",
+    "*.doc*",
+    "*.gif*",
+    "*.gz*",
+    "*.jpg*",
+    "*.log*",
+    "*.pdf*",
+    "*.png*",
+    "*.ppt*",
+    "*.rar*",
+    "*.rtf*",
+    "*.tar*",
+    "*.txt*",
+    "*.xls*",
+    "*.zip*"
+  )
   by Processes.action Processes.dest Processes.original_file_name
   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -21,7 +46,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` 
-  | `windows_file_collection_via_copy_utilities_filter`'
+  | `windows_file_collection_via_copy_utilities_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

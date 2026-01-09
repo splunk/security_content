@@ -31,8 +31,9 @@ jobs:
           mv dist/DA-ESS-ContentUpdate-latest.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: content-latest
           path: |
             artifacts/DA-ESS-ContentUpdate-latest.tar.gz
+            dist/api

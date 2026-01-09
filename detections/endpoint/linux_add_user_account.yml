@@ -1,8 +1,8 @@
 name: Linux Add User Account
 id: 51fbcaf2-6259-11ec-b0f3-acde48001122
-version: 7
+version: 8
 date: '2025-05-02'
-author: Teoderick Contreras, Splunk
+author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
 description: The following analytic detects the creation of new user accounts on Linux
@@ -14,6 +14,7 @@ description: The following analytic detects the creation of new user accounts on
   the system, posing a severe security risk.
 data_source:
 - Sysmon for Linux EventID 1
+- Cisco Isovalent Process Exec
 search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Processes
   where Processes.process_name IN ("useradd", "adduser") OR Processes.process IN ("*useradd
   *", "*adduser *") by Processes.action Processes.dest Processes.original_file_name
@@ -40,6 +41,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - Cisco Isovalent Suspicious Activity
   asset_type: Endpoint
   mitre_attack_id:
   - T1136.001
@@ -54,3 +56,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/linux_adduser/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+- name: True Positive Test - Cisco Isovalent
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec
