@@ -1,7 +1,7 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: 11
-date: '2025-09-18'
+version: 12
+date: '2025-12-17'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -54,7 +54,9 @@ rba:
   - field: dest
     type: system
     score: 81
-  threat_objects: []
+  threat_objects:
+    - field: file_name
+      type: file_name
 tags:
   analytic_story:
   - XWorm
@@ -66,6 +68,7 @@ tags:
   - RedLine Stealer
   - Interlock Ransomware
   - APT37 Rustonotto and FadeStealer
+  - PromptFlux
   asset_type: Endpoint
   mitre_attack_id:
   - T1547.001
