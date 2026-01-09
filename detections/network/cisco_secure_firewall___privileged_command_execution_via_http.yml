@@ -32,7 +32,7 @@ search: |
           by dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall_privileged_command_execution_via_http_filter`
+  | `cisco_secure_firewall___privileged_command_execution_via_http_filter`
 how_to_implement: |
   This search requires Cisco Secure Firewall Threat Defense Logs, which
   includes the FileEvent EventType. This search uses an input macro named `cisco_secure_firewall`.

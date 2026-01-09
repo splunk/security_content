@@ -32,7 +32,7 @@ search: |
           by dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall_ssh_connection_to_non_standard_port_filter`
+  | `cisco_secure_firewall___ssh_connection_to_non_standard_port_filter`
 how_to_implement: |
   This search requires Cisco Secure Firewall Threat Defense Logs, which
   includes the FileEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
