@@ -44,9 +44,9 @@ apps:
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud
-  version: 3.5.2
+  version: 3.5.3
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_352.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_353.tgz
 - uid: 6652
   title: Add-on for Linux Sysmon
   appid: Splunk_TA_linux_sysmon
@@ -221,10 +221,10 @@ apps:
 - uid: 3471
   title: Splunk Add-on for AppDynamics
   appid: Splunk_TA_AppDynamics
-  version: 3.1.5
+  version: 3.1.6
   description: The Splunk Add-on for AppDynamics enables you to easily configure data
     inputs to pull data from AppDynamics' REST APIs
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_315.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_316.tgz
 - uid: 4221
   title: Cisco NVM Add-on for Splunk
   appid: TA-Cisco-NVM
