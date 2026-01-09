@@ -8,7 +8,7 @@ jobs:
     steps:
       - name: Check out repository (PR)
         if: ${{ github.event_name == 'pull_request' }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           ref: refs/pull/${{ github.event.pull_request.number }}/merge
 
@@ -37,7 +37,7 @@ jobs:
           cp -r dist/*.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: content-latest
           path: |

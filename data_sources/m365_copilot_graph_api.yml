@@ -9,7 +9,7 @@ sourcetype: o365:graph:api
 supported_TA:
 - name: Splunk Add-on for Microsoft Office 365
   url: https://splunkbase.splunk.com/app/4055
-  version: 5.0.0
+  version: 5.1.0
 fields:
 - appDisplayName
 - appId

@@ -1,0 +1,8 @@
+pua_pipe_name,tool,description,type
+*-stderr,PSEXEC,Remote execution like PsExec,Lateral Movement
+*-stdin,PSEXEC,Remote execution like PsExec,Lateral Movement
+*-stdout,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\dotnet-diagnostic-*,DotNet,Part of the .NET diagnostics infrastructure- Used by several C2 frameworks (May have FP),Lateral Movement
+*\PSEXEC*,PSEXEC,Remote execution like PsExec,Lateral Movement
+*\PSEXESVC*,PSEXEC,Remote execution like PsExec,Lateral Movement
+*CyberGhost*,CyberGhost VPN,CyberGhost VPN Service,VPN

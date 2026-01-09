@@ -1,0 +1,73 @@
+name: Windows Executable Masquerading as Benign File Types
+id: 0470c8e7-dd8d-420f-8302-073e8a2b66f0
+version: 1
+date: '2025-11-20'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |
+  The following analytic detects the presence of executable files masquerading as benign file types on Windows systems. Adversaries employ this technique to evade defenses and trick users into executing malicious code by renaming executables with extensions commonly associated with documents, images, or other non-executable formats (e.g., .pdf, .jpg, .doc, .png).
+data_source:
+- Sysmon EventID 29
+search: |
+  `sysmon`
+  EventCode=29
+  NOT `executable_extensions`
+  | stats count min(_time) as firstTime max(_time) as lastTime
+    by Image file_name file_path process_guid file_hash process_id dest user EventCode
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `windows_executable_masquerading_as_benign_file_types_filter`
+how_to_implement: |
+  To implement Sysmon EventCode 29 (File Block Executable), you must ensure that your Sysmon deployment is configured to log instances where executable file creation is blocked based on your organization's FileBlockExecutable rules. Once enabled, the corresponding Splunk search requires Sysmon operational logs and an input macro named sysmon, which should be customized to match your environment-specific index, source, and sourcetype settings for Windows Sysmon data. We strongly recommend replacing this macro with values appropriate to your Splunk environment so the search scopes correctly. The search also uses a post-filter macro designed to filter out known false positives.
+known_false_positives: |
+  File types that are not included in the filter for this detection may generate false positives, so proper filtering is required.
+references:
+  - https://www.linkedin.com/posts/mauricefielenbach_cybersecurity-incidentresponse-dfir-activity-7394805779448418304-g0gZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAAuFTjIB5weY_kcyu4qp3kHbI4v49tO0zEk
+  - https://www.blackhillsinfosec.com/a-sysmon-event-id-breakdown/
+  - https://thedfirreport.com/2023/10/30/netsupport-intrusion-results-in-domain-compromise/
+  - https://www.esentire.com/blog/evalusion-campaign-delivers-amatera-stealer-and-netsupport-rat
+drilldown_searches:
+  - name: View the detection results for - "$dest$"
+    search: '%original_detection_search% | search  dest = "$dest$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: A valid Windows PE executable $file_name$ located in $file_path$ was dropped on $dest$, disguised as a non-executable file type.
+  risk_objects:
+    - field: dest
+      type: system
+      score: 50
+  threat_objects:
+    - field: Image
+      type: process
+    - field: file_name
+      type: file_name
+    - field: file_path
+      type: file_path
+tags:
+  analytic_story:
+    - NetSupport RMM Tool Abuse
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1036.008
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.008/masquerading_executable_as_non_exec_file_type/non_exec_ext_but_exec_detected.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

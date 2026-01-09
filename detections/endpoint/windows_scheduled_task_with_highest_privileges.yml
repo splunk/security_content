@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Highest Privileges
 id: 2f15e1a4-0fc2-49dd-919e-cbbe60699218
-version: 11
-date: '2025-10-31'
+version: 12
+date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -75,6 +75,7 @@ tags:
   - RedLine Stealer
   - Compromised Windows Host
   - Castle RAT
+  - NetSupport RMM Tool Abuse
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

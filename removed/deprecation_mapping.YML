@@ -1,4 +1,14 @@
 detections:
+  - content: HTTP Suspicious Tool User Agent
+    removed_in_version: 5.22.0
+    reason: Detection has been renamed for clarity
+    replacement_content:
+      - HTTP Scripting Tool User Agent
+  - content: Cobalt Strike Named Pipes
+    removed_in_version: 5.22.0
+    reason: Detection is now part of a larger collection of suspicious named pipes
+    replacement_content:
+      - Windows Suspicious C2 Named Pipe
   - content: Windows Default RDP File Creation
     removed_in_version: 5.20.0
     reason: Detections updated to use the new search logic and field names.

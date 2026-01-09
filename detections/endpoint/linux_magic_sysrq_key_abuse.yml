@@ -1,32 +1,61 @@
 name: Linux Magic SysRq Key Abuse
 id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
-version: 1
-date: '2025-08-28'
+version: 2
+date: '2025-11-27'
 author: Milad Cheraghi
 status: production
 type: TTP
 description: |
-  Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries
-  with root or sufficient privileges to manipulate or destabilize a system.
+  Detects potential abuse of the Linux Magic SysRq (System Request) key by adversaries with root or sufficient privileges to manipulate or destabilize a system.
   Writing to /proc/sysrq-trigger can crash the system, kill processes, or bypass standard logging.
   Monitoring SysRq abuse helps detect stealthy post-exploitation activity.
+  Correlate with related EXECVE or PROCTITLE events to identify the process or user responsible for the access or modification.
 data_source:
   - Linux Auditd Path
-search: '`linux_auditd` type=Path name="/proc/sysrq-trigger" OR name="/proc/sys/kernel/sysrq" OR name="/etc/sysctl.conf"
+  - Linux Auditd Cwd
+search: |
+  `linux_auditd`
+  (type=PATH OR type=CWD)
+  | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
+
+  | stats
+    values(type) as types
+    values(name) as names
+    values(nametype) as nametype
+    values(cwd) as cwd_list
+    values(_time) as event_times
+    by audit_id, host
+
+  | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
+  | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+  | eval matched_paths = mvfilter(match(candidate_paths, ".*/proc/sysrq-trigger|.*/proc/sys/kernel/sysrq|.*/etc/sysctl.conf"))
+  | eval match_count = mvcount(matched_paths)
+  | eval reconstructed_path = mvindex(matched_paths, 0)
+  | eval e_time = mvindex(event_times, 0)
+  | where match_count > 0
   | rename host as dest
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest name
+
+  | stats count min(e_time) as firstTime max(e_time) as lastTime
+    values(nametype) as nametype
+    by current_working_directory
+       reconstructed_path
+       match_count
+       dest
+       audit_id
+
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | `linux_magic_sysrq_key_abuse_filter`'
+  | `linux_magic_sysrq_key_abuse_filter`
 how_to_implement: |
   To implement this detection, ensure auditd is configured to watch:
     - /proc/sysrq-trigger
     - /proc/sys/kernel/sysrq
     - /etc/sysctl.conf
-  with write and attribute changes (`-p wa`) and key `sysrq`.
+  with write and attribute changes (`-p wa`) and key `sysrq`. Make sure the type=CWD record type is activate in your auditd configuration and
   Use the Splunk Add-on for Unix and Linux for proper ingestion and CIM normalization.
   This enables effective monitoring of Linux endpoints for SysRq abuse.
-known_false_positives: Legitimate administrative activity modifying SysRq for debugging or recovery.
+known_false_positives: |
+  Legitimate administrative activity modifying SysRq for debugging or recovery.
   Please update the filter macros to remove false positives.
 references:
   - https://www.kernel.org/doc/html/v4.10/_sources/admin-guide/sysrq.txt
@@ -73,6 +102,6 @@ tests:
   - name: True Positive Test
     attack_data:
       - data:
-          https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/linux_sysrq_abuse/linux_sysrq_abuse.log
+          https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1529/auditd_path_sysrq/path_sysrq.log
         source: auditd
         sourcetype: auditd

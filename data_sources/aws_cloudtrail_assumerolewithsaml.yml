@@ -18,7 +18,7 @@ separator_value: AssumeRoleWithSAML
 supported_TA:
 - name: Splunk Add-on for AWS
   url: https://splunkbase.splunk.com/app/1876
-  version: 8.0.0
+  version: 8.1.0
 fields:
 - _time
 - action

@@ -1,7 +1,7 @@
 name: Linux Curl Upload File
 id: c1de2d9a-0c02-4bb4-a49a-510c6e9cf2bf
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2025-10-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,6 +15,7 @@ description: The following analytic detects the use of the curl command with spe
   and potential compromise of AWS resources.
 data_source:
 - Sysmon for Linux EventID 1
+- Cisco Isovalent Process Exec
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
   Processes.process IN ("*-F *", "*--form *","*--upload-file *","*-T *","*-d *","*--data
@@ -74,6 +75,7 @@ tags:
   - Linux Living Off The Land
   - Data Exfiltration
   - Ingress Tool Transfer
+  - NPM Supply Chain Compromise
   asset_type: Endpoint
   mitre_attack_id:
   - T1105
@@ -88,3 +90,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/atomic_red_team/curl-linux-sysmon.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+- name: True Positive Test - Cisco Isovalent
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_isovalent/cisco_isovalent.log
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec

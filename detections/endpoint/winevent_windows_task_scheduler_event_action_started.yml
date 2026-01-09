@@ -1,7 +1,7 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
-version: 10
-date: '2025-05-26'
+version: 11
+date: '2025-12-10'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -48,6 +48,8 @@ tags:
   - Qakbot
   - Sandworm Tools
   - Industroyer2
+  - PlugX
+  - Remcos
   asset_type: Endpoint
   mitre_attack_id:
   - T1053.005

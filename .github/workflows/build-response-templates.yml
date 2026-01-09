@@ -1,0 +1,38 @@
+name: build response templates
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  push:
+    branches:
+      - develop
+jobs:
+  build-response-templates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository code
+        uses: actions/checkout@v6
+       
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+          
+      - name: Install Python Dependencies
+        run: |
+          pip install pyyaml jsonschema
+
+      - name: Running build and validation for response templates
+        run: |
+          echo "Generate merged response templates and manifest"
+          python .github/workflows/response_templates/template_script.py -d ./response_templates -o ./response_templates/merged_response_templates -m
+          echo "Run validation for response templates"
+          python .github/workflows/response_templates/validate_response_templates.py -s .github/workflows/response_templates/mcopenapi_public.yml -d response_templates -m response_templates/merged_response_templates/manifest.json --merged-dir response_templates/merged_response_templates
+          mkdir -p dist/api/response_templates
+          cp response_templates/merged_response_templates/* dist/api/response_templates/
+
+      - name: store_artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: response-templates
+          path: |
+            dist/api/response_templates
