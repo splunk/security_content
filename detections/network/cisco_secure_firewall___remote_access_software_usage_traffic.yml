@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Remote Access Software Usage Traffic
 id: ac54d39e-a75d-4f42-971d-006db3a0423a
-version: 3
-date: '2025-10-14'
+version: 4
+date: '2026-06-01'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: |
         values(transport) as transport
         values(url) as url
         values(rule) as rule
-        count by src_ip ClientApplication action
+        count by src ClientApplication action
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | lookup cisco_secure_firewall_appid_remote_mgmt_and_desktop_tools appName AS ClientApplication OUTPUT category, appDescription as Description
@@ -47,12 +47,12 @@ references:
 - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
 - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$")
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
     as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
@@ -62,9 +62,9 @@ drilldown_searches:
   latest_offset: $info_max_time$
 rba:
   message: Traffic to known remote access software [$ClientApplication$] was 
-    detected from $src_ip$.
+    detected from $src$.
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 25
   threat_objects:

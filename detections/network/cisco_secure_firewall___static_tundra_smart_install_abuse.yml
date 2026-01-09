@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Static Tundra Smart Install Abuse
 id: 7e9a5a2c-2f1a-4b6a-9a4b-9e7d9c8f5a21
-version: 1
-date: '2025-08-21'
+version: 2
+date: '2026-06-01'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -24,14 +24,14 @@ search: |
           values(MitreAttackGroups) as MitreAttackGroups 
           values(InlineResult) as InlineResult 
           values(InlineResultReason) as InlineResultReason 
-          values(dest_ip) as dest_ip 
+          values(dest) as dest 
           values(dest_port) as dest_port 
           values(rule) as rule 
           values(transport) as transport 
           values(app) as app 
           min(_time) as firstTime 
           max(_time) as lastTime 
-          by src_ip
+          by src
   | where unique_signature_count >= 2
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
@@ -48,12 +48,12 @@ references:
 - https://blog.talosintelligence.com/static-tundra/
 - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-20180328-smi2
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$"
-  search: '%original_detection_search% | search  dest_ip = "$dest_ip$"'
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -61,13 +61,13 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Smart Install exploitation or protocol abuse targeting $dest_ip$ originating from $src_ip$
+  message: Smart Install exploitation or protocol abuse targeting $dest$ originating from $src$
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 30
   threat_objects:
-    - field: src_ip
+    - field: src
       type: ip_address
     - field: signature
       type: signature
