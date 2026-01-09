@@ -9,6 +9,13 @@ description: This Splunk query analyzes web access logs to identify and categori
   non-browser user agents, detecting various types of security tools, scripting languages,
   automation frameworks, and suspicious patterns. This activity can signify malicious actors
   attempting to interact with web endpoints in non-standard ways.
+deprecation_info:
+   content_type: Search
+   full_stanza_name: ESCU - HTTP Suspicious Tool User Agent - Rule
+   removed_in_version: 5.22.0
+   reason: Detection has been renamed for clarity
+   replacement_content:
+   - HTTP Scripting Tool User Agent
 data_source:
 - Nginx Access
 search: '`nginx_access_logs`
