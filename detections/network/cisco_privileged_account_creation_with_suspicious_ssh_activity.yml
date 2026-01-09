@@ -81,10 +81,11 @@ tags:
   analytic_story:
     - Cisco Secure Firewall Threat Defense Analytics
     - Salt Typhoon
+  asset_type: Network
   mitre_attack_id:
+    - T1021.004
     - T1136
     - T1078
-    - T1021.004
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
