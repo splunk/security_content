@@ -1,7 +1,7 @@
 name: Detect RTLO In File Name
 id: 468b7e11-d362-43b8-b6ec-7a2d3b246678
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-10'
 author: Steven Dick
 status: production
 type: TTP
