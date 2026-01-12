@@ -1,20 +1,20 @@
 name: Browser Hijacking
 id: 530d884d-c40f-4da2-bcd6-11d36b36f6ee
 version: 1
-date: '2025-12-18'
+date: '2026-01-12'
 author: Teoderick Contreras, Splunk
 status: production
 description: These behaviors associated with browser hijacking techniques where malware manipulates browser configurations, preferences, or registry settings to alter browsing behavior, disable updates, and install unauthorized extensions. Modern hijackers may directly modify Chrome preference files, use automation to inject unwanted content, or change policy settings (including allowlisting extensions) to persist and evade standard protections. These actions often result in unwanted redirects, malicious extension loading, or persistent policy tampering that can compromise user browsing integrity and system security. Detecting such modifications helps identify potential hijacker activity early and supports incident response efforts.
-narrative: Browser hijacking is a common tactic used by malicious actors to gain control over a user’s browsing experience, often without their knowledge. Attackers manipulate browser settings, install unauthorized extensions, or modify registry keys to redirect traffic, inject ads, or persistently override security policies. In Chrome, this can include altering the Extension Install Allowlist or preference files to load malicious or unwanted extensions automatically. Such modifications not only degrade user experience but can also introduce malware, credential theft, or data leakage. Detecting these registry and policy changes provides early warning of hijacker activity, enabling timely remediation before wider compromise occurs.
+narrative: Browser hijacking is a common tactic used by malicious actors to gain control over a user's browsing experience, often without their knowledge. Attackers manipulate browser settings, install unauthorized extensions, or modify registry keys to redirect traffic, inject ads, or persistently override security policies. In Chrome, this can include altering the Extension Install Allowlist or preference files to load malicious or unwanted extensions automatically. Such modifications not only degrade user experience but can also introduce malware, credential theft, or data leakage. Detecting these registry and policy changes provides early warning of hijacker activity, enabling timely remediation before wider compromise occurs.
 references:
-- https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
+  - https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
 tags:
   category:
-  - Data Destruction
-  - Malware
-  - Adversary Tactics
+    - Data Destruction
+    - Malware
+    - Adversary Tactics
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   usecase: Advanced Threat Detection

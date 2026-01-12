@@ -1,21 +1,21 @@
 name: Windows Chrome Extension Allowed Registry Modification
 id: 2846089a-ffe9-4881-a2a2-43f3be2b8cc7
 version: 1
-date: '2025-12-17'
+date: '2026-01-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects modifications to the Windows registry keys that control the Chrome Extension Install Allowlist. Unauthorized changes to these keys may indicate attempts to bypass Chrome extension restrictions or install unapproved extensions. This detection helps identify potential security policy violations or malicious activity targeting Chrome extension settings.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry 
+  - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
   where Registry.registry_path = "*\\Google\\Chrome\\ExtensionInstallAllowlist*"
   by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
   Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
   Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
-  | `drop_dm_object_name(Registry)` 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
+  | `drop_dm_object_name(Registry)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
   | `windows_chrome_extension_allowed_registry_modification_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the registry value name, registry path, and registry value data from your
@@ -40,7 +40,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: ExtensionInstallAllowlist Policy in $registry_path$ was modified on $dest$
+  message: Chrome ExtensionInstallAllowlist Policy in $registry_path$ was modified on $dest$
   risk_objects:
   - field: dest
     type: system
