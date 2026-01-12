@@ -1,0 +1,89 @@
+name: Cisco Secure Firewall - SSH Connection to Non-Standard Port
+id: 9b0c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e
+version: 1
+date: '2026-01-06'
+author: Nasreddine Bencherchali, Michael Haag, Splunk
+status: production
+type: Anomaly
+description: |
+  This analytic detects inbound SSH connections to non-standard ports on network devices using Cisco Secure Firewall Intrusion Events. APT actors have been observed enabling SSH servers on high, non-default TCP ports to maintain encrypted remote access to compromised network infrastructure.
+  This detection leverages Snort signature 65369 to identify SSH protocol traffic on unusual ports, which may indicate persistence mechanisms or backdoor access established by threat actors.
+data_source:
+  - Cisco Secure Firewall Threat Defense Intrusion Event
+search: |
+  `cisco_secure_firewall` 
+  EventType=IntrusionEvent 
+  signature_id=65369
+  | fillnull
+  | stats dc(signature_id) as unique_signature_count 
+          values(signature_id) as signature_id 
+          values(signature) as signature 
+          values(class_desc) as class_desc 
+          values(MitreAttackGroups) as MitreAttackGroups 
+          values(InlineResult) as InlineResult 
+          values(InlineResultReason) as InlineResultReason 
+          values(src) as src 
+          values(dest_port) as dest_port 
+          values(rule) as rule 
+          values(transport) as transport 
+          values(app) as app 
+          min(_time) as firstTime 
+          max(_time) as lastTime 
+          by dest
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `cisco_secure_firewall___ssh_connection_to_non_standard_port_filter`
+how_to_implement: |
+  This search requires Cisco Secure Firewall Threat Defense Logs, which
+  includes the FileEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+  We strongly recommend that you specify your environment-specific configurations
+  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+  with configurations for your Splunk environment. The search also uses a post-filter
+  macro designed to filter out known false positives.
+  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+  The malware & file access policy must also enable logging.
+known_false_positives: |
+  No false positives have been identified yet.
+references:
+  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+drilldown_searches:
+  - name: View the detection results for - "$src$"
+    search: '%original_detection_search% | search  src = "$src$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$src$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
+      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: Inbound SSH connection to non-standard port $dest_port$ detected from $src$ to network device $dest$
+  risk_objects:
+    - field: dest
+      type: system
+      score: 50
+  threat_objects:
+    - field: src
+      type: ip_address
+tags:
+  analytic_story:
+    - Cisco Secure Firewall Threat Defense Analytics
+    - Salt Typhoon
+  asset_type: Network
+  mitre_attack_id:
+    - T1021.004
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: network
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
+        source: not_applicable
+        sourcetype: cisco:sfw:estreamer
