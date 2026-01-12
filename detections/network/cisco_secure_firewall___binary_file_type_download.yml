@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Binary File Type Download
 id: 24b2c2e3-2ff7-4a23-b814-87f8a62028cd
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-06-01'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -21,10 +21,10 @@ search: |
           values(ClientApplication) as ClientApplication
           values(file_hash) as file_hash
           values(SHA_Disposition) as SHA_Disposition
-          by FileDirection FileType src_ip dest app file_name ThreatName dest_port Description
+          by FileDirection FileType src dest app file_name ThreatName dest_port Description
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
-  | table firstTime lastTime src_ip dest dest_port FileDirection FileType Description uri file_name file_hash app ClientApplication SHA_Disposition ThreatName
+  | table firstTime lastTime src dest dest_port FileDirection FileType Description uri file_name file_hash app ClientApplication SHA_Disposition ThreatName
   | `cisco_secure_firewall___binary_file_type_download_filter`
 how_to_implement: |
   This search requires Cisco Secure Firewall Threat Defense Logs, which
@@ -39,12 +39,12 @@ known_false_positives: IT admins or developers may legitimately download executa
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -52,9 +52,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: The host $src_ip$ downloaded a file $file_name$ of type $FileType$ from $dest$.
+  message: The host $src$ downloaded a file $file_name$ of type $FileType$ from $dest$.
   risk_objects:
-    - field: src_ip
+    - field: src
       type: system
       score: 30
   threat_objects:
