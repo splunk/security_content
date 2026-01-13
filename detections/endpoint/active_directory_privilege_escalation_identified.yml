@@ -1,9 +1,9 @@
 name: Active Directory Privilege Escalation Identified
 id: 583e8a68-f2f7-45be-8fc9-bf725f0e22fd
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-13'
 author: Mauricio Velazco, Splunk
-status: production
+status: experimental
 type: Correlation
 data_source: []
 description: The following analytic identifies potential privilege escalation activities

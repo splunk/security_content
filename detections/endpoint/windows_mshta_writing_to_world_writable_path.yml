@@ -1,10 +1,10 @@
 name: Windows MSHTA Writing to World Writable Path
 id: efbcf8ee-bc75-47f1-8985-a5c638c4faf0
-version: '7'
-date: '2025-05-06'
+version: 7
+date: '2026-01-13'
 author: Michael Haag, Splunk
 data_source:
-- Sysmon EventID 11
+  - Sysmon EventID 11
 type: TTP
 status: production
 description: The following analytic identifies instances of `mshta.exe` writing files
@@ -14,19 +14,37 @@ description: The following analytic identifies instances of `mshta.exe` writing 
   or execute malicious code, deviating from the utility's legitimate use. If confirmed
   malicious, this behavior could lead to the execution of multi-stage payloads, potentially
   resulting in full system compromise and unauthorized access to sensitive information.
-search: '`sysmon` EventCode=11 Image="*\\mshta.exe" TargetFilename IN ("*\\Windows\\Tasks\\*",
-  "*\\Windows\\Temp\\*", "*\\Windows\\tracing\\*", "*\\Windows\\PLA\\Reports\\*",
-  "*\\Windows\\PLA\\Rules\\*", "*\\Windows\\PLA\\Templates\\*", "*\\Windows\\PLA\\Reports\\en-US\\*",
-  "*\\Windows\\PLA\\Rules\\en-US\\*", "*\\Windows\\Registration\\CRMLog\\*", "*\\Windows\\System32\\Tasks\\*",
-  "*\\Windows\\System32\\Com\\dmp\\*", "*\\Windows\\System32\\LogFiles\\WMI\\*", "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
-  "*\\Windows\\System32\\spool\\PRINTERS\\*", "*\\Windows\\System32\\spool\\SERVERS\\*",
-  "*\\Windows\\System32\\spool\\drivers\\color\\*", "*\\Windows\\System32\\Tasks\\Microsoft\\Windows\\RemoteApp
-  and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\*", "*\\Windows\\SysWOW64\\Com\\dmp\\*",
-  "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\RemoteApp
-  and Desktop Connections Update\\*", "*\\Windows\\SysWOW64\\Tasks\\Microsoft\\Windows\\PLA\\System\\*")
+search: |
+  `sysmon`
+  EventCode=11
+  (
+    Image="*\\mshta.exe"
+    OR
+    OriginalFileName="mshta.exe"
+  )
+  TargetFilename IN (
+                      "*\\Windows\\PLA\\Reports\\*",
+                      "*\\Windows\\PLA\\Rules\\*",
+                      "*\\Windows\\PLA\\Templates\\*",
+                      "*\\Windows\\Registration\\CRMLog\\*",
+                      "*\\Windows\\System32\\Com\\dmp\\*",
+                      "*\\Windows\\System32\\LogFiles\\WMI\\*",
+                      "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
+                      "*\\Windows\\System32\\spool\\drivers\\color\\*",
+                      "*\\Windows\\System32\\spool\\PRINTERS\\*",
+                      "*\\Windows\\System32\\spool\\SERVERS\\*",
+                      "*\\Windows\\System32\\Tasks\\*",
+                      "*\\Windows\\SysWOW64\\Com\\dmp\\*",
+                      "*\\Windows\\SysWOW64\\Tasks\\*",
+                      "*\\Windows\\Tasks\\*",
+                      "*\\Windows\\Temp\\*",
+                      "*\\Windows\\tracing\\*"
+                    )
   | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
   file_path  process_guid process_id user user_id vendor_product Image TargetFilename
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_mshta_writing_to_world_writable_path_filter`'
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_mshta_writing_to_world_writable_path_filter`
 how_to_implement: The analytic is designed to be run against Sysmon event logs collected
   from endpoints. The analytic requires the Sysmon event logs to be ingested into
   Splunk. The search focuses on EventCode 11 where the Image is `mshta.exe` and the
