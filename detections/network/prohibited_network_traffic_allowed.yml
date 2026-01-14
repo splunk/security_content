@@ -1,7 +1,7 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 9
-date: '2025-06-17'
+version: 10
+date: '2026-01-14'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   into an environment. This is necessary so that the search can identify an 'action'
   taken on the traffic of interest. The search requires the Network_Traffic data model
   be populated.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$src_ip$"

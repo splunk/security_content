@@ -1,7 +1,7 @@
 name: Email Attachments With Lots Of Spaces
 id: 56e877a6-1455-4479-ada6-0550dc1e22f8
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -33,7 +33,7 @@ how_to_implement: "You need to ingest data from emails. Specifically, the sender
   gather further information about the file attachment and its network behaviors.
   If Phantom finds malicious behavior and an analyst approves of the results, the
   email will be deleted from the user's inbox."
-known_false_positives: None at this time
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Abnormal number of spaces present in attachment filename from $src_user$

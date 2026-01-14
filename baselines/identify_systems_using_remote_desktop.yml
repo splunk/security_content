@@ -1,7 +1,7 @@
 name: Identify Systems Using Remote Desktop
 id: 063dfe9f-b1d7-4254-a16d-1e2e7eadd6a8
-version: 1
-date: '2019-04-01'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -12,7 +12,7 @@ search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint
   | `drop_dm_object_name(Processes)` | sort - count'
 how_to_implement: To successfully implement this search you must be ingesting endpoint
   data that records process activity.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

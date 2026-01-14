@@ -1,7 +1,7 @@
 name: GitHub Organizations Disable 2FA Requirement
 id: 3ed0d6ba-4791-4fa8-a1ef-403e438c7033
-version: 3
-date: '2025-06-24'
+version: 4
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: '`github_organizations` vendor_action=org.disable_two_factor_requirement
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `github_organizations_disable_2fa_requirement_filter`'
 how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/
   - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610

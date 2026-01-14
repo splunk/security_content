@@ -1,7 +1,7 @@
 name: Spoolsv Suspicious Process Access
 id: 799b606e-da81-11eb-93f8-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with process access event where SourceImage, TargetImage, GrantedAccess and
   CallTrace executions from your endpoints. If you are using Sysmon, you must have
   at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of spoolsv.exe.
-known_false_positives: Unknown. Filter as needed.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://github.com/cube0x0/impacket/commit/73b9466c17761384ece11e1028ec6689abad6818
 - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available

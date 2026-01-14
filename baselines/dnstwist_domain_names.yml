@@ -1,7 +1,7 @@
 name: DNSTwist Domain Names
 id: 19f7d2ec-6028-4d01-bcdb-bda9a034c17f
-version: 2
-date: '2018-10-08'
+version: 3
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -13,7 +13,7 @@ search: '| dnstwist domainlist=domains.csv | `remove_valid_domains` | eval domai
 how_to_implement: To successfully implement this search you need to update the file
   called domains.csv in the DA-ESS-SOC/lookup directory. Or `cim_corporate_email_domains.csv`
   and `cim_corporate_web_domains.csv` from **Splunk\_SA\_CIM**.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

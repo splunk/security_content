@@ -1,7 +1,7 @@
 name: MacOS LOLbin
 id: 58d270fb-5b39-418e-a855-4b8ac046805e
-version: 8
-date: '2025-10-14'
+version: 9
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search: '`osquery_macro` name=es_process_events columns.cmdline IN ("find*", "cr
 how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow
   the link in references, which describes how to setup process auditing in MacOS with
   endpoint security and osquery.
-known_false_positives: None identified.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 drilldown_searches:

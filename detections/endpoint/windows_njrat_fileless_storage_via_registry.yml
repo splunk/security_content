@@ -1,7 +1,7 @@
 name: Windows Njrat Fileless Storage via Registry
 id: a5fffbbd-271f-4980-94ed-4fbf17f0af1c
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.njrat
 drilldown_searches:

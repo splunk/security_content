@@ -1,7 +1,7 @@
 name: Detect Certify Command Line Arguments
 id: e6d2dc61-a8b9-4b03-906c-da0ca75d71b8
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -37,7 +37,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://github.com/GhostPack/Certify
 - https://github.com/ly4k/Certipy

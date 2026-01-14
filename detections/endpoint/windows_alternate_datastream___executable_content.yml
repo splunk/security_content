@@ -1,7 +1,7 @@
 name: Windows Alternate DataStream - Executable Content
 id: a258bf2a-34fd-4986-8086-78f506e00206
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -23,7 +23,7 @@ search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 | regex
   | `windows_alternate_datastream___executable_content_filter`'
 how_to_implement: Target environment must ingest Sysmon data, specifically Event ID
   15, and import hashing/imphash must be enabled within Sysmon.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://car.mitre.org/analytics/CAR-2020-08-001/
 - https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams

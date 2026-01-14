@@ -1,7 +1,7 @@
 name: Detect Baron Samedit CVE-2021-3156 via OSQuery
 id: 1de31d5d-8fa6-4ee0-af89-17069134118a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -19,7 +19,7 @@ how_to_implement: OSQuery installed and configured to pick up process events (in
   at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
   The vulnerability is exposed when a non privledged user tries passing in a single
   \ character at the end of the command while using the shell and edit flags.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Potential Baron Samedit behavior on $dest$

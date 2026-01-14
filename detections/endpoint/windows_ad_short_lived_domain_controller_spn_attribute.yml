@@ -1,7 +1,7 @@
 name: Windows AD Short Lived Domain Controller SPN Attribute
 id: 57e27f27-369c-4df8-af08-e8c7ee8373d4
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Dean Luxton
 type: TTP
 status: production
@@ -32,7 +32,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services
   Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody`
   to `Write All Properties` applied to the domain root and all descendant objects.
-known_false_positives: None.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.dcshadow.com/
 - https://blog.netwrix.com/2022/09/28/dcshadow_attack/

@@ -1,7 +1,7 @@
 name: Windows System Time Discovery W32tm Delay
 id: b2cc69e7-11ba-42dc-a269-59c069a48870
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -38,7 +38,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://cert.gov.ua/article/405538
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.dcrat
