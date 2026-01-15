@@ -385,6 +385,7 @@ TRUE,ktmw32.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hij
 TRUE,ktmw32.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
 TRUE,ldvpocx.ocx,*\Program Files\Symantec_Client_Security\Symantec AntiVirus*,T1574.002,https://www.secureworks.com/research/a-peek-into-bronze-unions-toolbox
 TRUE,ldvpocx.ocx,*\Program Files\Symantec AntiVirus*,T1574.002,https://www.secureworks.com/research/a-peek-into-bronze-unions-toolbox
+TRUE,libcares-2.dll,*\git\mingw64\bin*,T1574.002,https://www.trellix.com/en-au/blogs/research/hiding-in-plain-sight-multi-actor-ahost-exe-attacks/
 TRUE,libvlc.dll,*\Program Files\VideoLAN\VLC*,T1574.002,https://news.sophos.com/en-us/2022/11/03/family-tree-dll-sideloading-cases-may-be-related/
 TRUE,licensemanagerapi.dll,*\Windows\System32\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
 TRUE,licensemanagerapi.dll,*\Windows\SysWOW64\*,T1574.002,https://wietze.github.io/blog/hijacking-dlls-in-windows
