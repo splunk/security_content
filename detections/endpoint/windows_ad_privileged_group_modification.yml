@@ -1,13 +1,20 @@
 name: Windows AD Privileged Group Modification
 id: 187bf937-c436-4c65-bbcb-7539ffe02da1
-version: 7
+version: 7 
 date: '2026-01-14'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
 - Windows Event Log Security 4728
-description: Detect users added to privileged AD Groups.
+description: |
+  This detection identifies when users are added to privileged Active Directory
+  groups by leveraging the Windows Security Event Code 4728 along with a lookup
+  of privileged AD groups provided by Splunk Enterprise Security.
+  Attackers often add user accounts to privileged AD groups to escalate privileges
+  or maintain persistence within an Active Directory environment.
+  Monitoring for modifications to privileged groups can help identify potential security breaches
+  and unauthorized access attempts.
 search: '`wineventlog_security` EventCode IN (4728) | stats min(_time) as _time dc(user)
   as usercount, values(user) as user values(user_category) as user_category values(src_user_category)
   as src_user_category values(dvc) as dvc by signature, Group_Name,src_user dest | lookup
