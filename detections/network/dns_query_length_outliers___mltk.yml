@@ -1,7 +1,7 @@
 name: DNS Query Length Outliers - MLTK
 id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-15'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
@@ -40,6 +40,20 @@ how_to_implement: "To successfully implement this search, you will need to ensur
 known_false_positives: If you are seeing more results than desired, you may consider
   reducing the value for threshold in the search. You should also periodically re-run
   the support search to re-build the ML model on the latest data.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references: []
 rba:
   message: DNS Query Length Outliers

@@ -1,7 +1,7 @@
 name: MacOS - Re-opened Applications
 id: 40bb64f9-f619-4e3d-8732-328d40377c4b
-version: 5
-date: '2025-05-05'
+version: 6
+date: '2026-01-15'
 author: Jamie Windley, Splunk
 status: experimental
 type: TTP
@@ -37,6 +37,20 @@ known_false_positives: At this stage, there are no known false positives. During
   In the event that the legitimate modification by the system of these files is in
   fact logged to the process log, then the process_name of that process can be added
   to an allow list.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references: []
 rba:
   message: Possible persistence mechanism via plists on $dest$

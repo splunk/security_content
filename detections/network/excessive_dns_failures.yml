@@ -1,7 +1,7 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-15'
 author: bowesmana, Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -28,6 +28,20 @@ how_to_implement: To successfully implement this search you must ensure that DNS
 known_false_positives: It is possible legitimate traffic can trigger this rule. Please
   investigate as appropriate. The threshold for generating an event can also be customized
   to better suit your environment.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references: []
 rba:
   message: Excessive DNS failures detected on $src$

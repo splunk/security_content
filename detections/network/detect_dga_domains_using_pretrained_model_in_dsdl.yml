@@ -1,7 +1,7 @@
 name: Detect DGA domains using pretrained model in DSDL
 id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-15'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: experimental
 type: Anomaly
@@ -38,6 +38,20 @@ how_to_implement: "Steps to deploy DGA detection model into Splunk App DSDL.\\ T
   notebook.\n* Upload `pretrained_dga_model_dsdl.json` into `notebooks/data` folder."
 known_false_positives: False positives may be present if domain name is similar to
   dga generated domains.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references:
 - https://attack.mitre.org/techniques/T1568/002/
 - https://unit42.paloaltonetworks.com/threat-brief-understanding-domain-generation-algorithms-dga/

@@ -1,7 +1,7 @@
 name: Exchange PowerShell Abuse via SSRF
 id: 29228ab4-0762-11ec-94aa-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-15'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -22,6 +22,20 @@ how_to_implement: The following analytic requires on-premise Exchange to be logg
   to Splunk using the TA - https://splunkbase.splunk.com/app/3225. Ensure logs are
   parsed correctly, or tune the analytic for your environment.
 known_false_positives: Limited false positives, however, tune as needed.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references:
 - https://github.com/GossiTheDog/ThreatHunting/blob/master/AzureSentinel/Exchange-Powershell-via-SSRF
 - https://blog.orange.tw/2021/08/proxylogon-a-new-attack-surface-on-ms-exchange-part-1.html

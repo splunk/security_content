@@ -1,6 +1,6 @@
 name: Detect SNICat SNI Exfiltration
 id: 82d06410-134c-11eb-adc1-0242ac120002
-version: 6
+version: 7
 date: '2026-01-14'
 author: Shannon Davis, Splunk
 status: experimental
@@ -23,6 +23,20 @@ how_to_implement: You must be ingesting Zeek SSL data into Splunk. Zeek data sho
   once this has been detected, and run other searches to decode the SNI data to prove
   or disprove if any data exfiltration has taken place.
 known_false_positives: No false positives have been identified at this time.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references:
 - https://www.mnemonic.io/resources/blog/introducing-snicat/
 - https://github.com/mnemonic-no/SNIcat

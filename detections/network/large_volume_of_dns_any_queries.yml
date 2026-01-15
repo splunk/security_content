@@ -1,7 +1,7 @@
 name: Large Volume of DNS ANY Queries
 id: 8fa891f7-a533-4b3c-af85-5aa2e7c1f1eb
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-15'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -22,6 +22,20 @@ how_to_implement: To successfully implement this search you must ensure that DNS
 known_false_positives: Legitimate ANY requests may trigger this search, however it
   is unusual to see a large volume of them under typical circumstances. You may modify
   the threshold in the search to better suit your environment.
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references: []
 rba:
   message: Large Volume of DNS ANY Queries by $dest$

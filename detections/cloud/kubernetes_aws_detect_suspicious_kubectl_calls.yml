@@ -1,7 +1,7 @@
 name: Kubernetes AWS detect suspicious kubectl calls
 id: 042a3d32-8318-4763-9679-09db2644a8f2
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-15'
 author: Rod Soto, Patrick Bareiss, Splunk
 status: experimental
 type: Anomaly
@@ -34,6 +34,20 @@ how_to_implement: The detection is based on data that originates from Kubernetes
 known_false_positives: Kubectl calls are not malicious by nature. However source IP,
   verb and Object can reveal potential malicious activity, specially anonymous suspicious
   IPs and sensitive objects such as configmaps or secrets
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 references: []
 rba:
   message: Suspicious kubectl API calls from $user$
