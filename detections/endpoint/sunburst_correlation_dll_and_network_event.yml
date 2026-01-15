@@ -1,6 +1,6 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
-version: 8
+version: 7
 date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: experimental

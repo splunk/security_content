@@ -1,6 +1,6 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
-version: 9
+version: 8
 date: '2026-01-14'
 author: Mikael Bjerkeland, Splunk
 status: experimental

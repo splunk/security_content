@@ -1,6 +1,6 @@
 name: Windows MSHTA Writing to World Writable Path
 id: efbcf8ee-bc75-47f1-8985-a5c638c4faf0
-version: 7
+version: 8
 date: '2026-01-13'
 author: Michael Haag, Splunk
 data_source:

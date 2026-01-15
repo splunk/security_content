@@ -1,6 +1,6 @@
 name: Suspicious Curl Network Connection
 id: 3f613dc0-21f2-4063-93b1-5d3c15eef22f
-version: 10
+version: 9
 date: '2026-01-14'
 author: Michael Haag, Splunk
 status: experimental

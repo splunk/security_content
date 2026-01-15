@@ -1,6 +1,6 @@
 name: WinRM Spawning a Process
 id: a081836a-ba4d-11eb-8593-acde48001122
-version: 9
+version: 8
 date: '2026-01-14'
 author: Drew Church, Michael Haag, Splunk
 status: experimental

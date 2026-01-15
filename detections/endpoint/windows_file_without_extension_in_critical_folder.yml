@@ -1,6 +1,6 @@
 name: Windows File Without Extension In Critical Folder
 id: 0dbcac64-963c-11ec-bf04-acde48001122
-version: 8
+version: 7
 date: '2026-01-14'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
