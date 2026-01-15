@@ -20,10 +20,10 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   where All_Traffic.action IN ("allowed", "allow") 
   [| inputlookup interesting_ports_lookup where is_prohibited="true" 
   | table dest_port transport | dedup dest_port transport 
-  | rename dest_port as All_Traffic.dest_port | rename transport as All_Traffic.transport]
+  | rename dest_port as All_Traffic.dest_port | rename transport as All_Traffic.transport] 
   by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.action All_Traffic.dvc All_Traffic.src_port All_Traffic.vendor_product All_Traffic.rule 
-  | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port transport as All_Traffic.transport OUTPUT app is_prohibited note
-  | `security_content_ctime(firstTime)`
+  | lookup update=true interesting_ports_lookup dest_port as All_Traffic.dest_port transport as All_Traffic.transport OUTPUT app is_prohibited note 
+  | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `drop_dm_object_name("All_Traffic")` 
   | `prohibited_network_traffic_allowed_filter`'
