@@ -1,7 +1,7 @@
 name: O365 New MFA Method Registered
 id: 4e12db1f-f7c7-486d-8152-a221cad6ac2b
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -16,11 +16,11 @@ description: The following analytic detects the registration of a new Multi-Fact
   Immediate verification and remediation are required to secure the affected account.
 search: "`o365_management_activity` Workload=AzureActiveDirectory Operation=\"Update user.\" 
   | eval propertyName = mvindex('ModifiedProperties{}.Name', 0) 
-  | search propertyName = StrongAuthenticationMethod 
+  | search propertyName IN (\"StrongAuthenticationMethod\", \"StrongAuthenticationPhoneAppDetail\")
   | eval oldvalue = mvindex('ModifiedProperties{}.OldValue',0) 
   | eval newvalue = mvindex('ModifiedProperties{}.NewValue',0) 
-  | rex field=newvalue max_match=0 \"(?i)(?<new_method_type>\\\"MethodType\\\")\" 
-  | rex field=oldvalue max_match=0 \"(?i)(?<old_method_type>\\\"MethodType\\\")\" 
+  | rex field=newvalue max_match=0 \"(?i)(?<new_method_type>\\\"MethodType|DeviceName\\\")\" 
+  | rex field=oldvalue max_match=0 \"(?i)(?<old_method_type>\\\"MethodType|DeviceName\\\")\" 
   | eval count_new_method_type = coalesce(mvcount(new_method_type), 0) 
   | eval count_old_method_type = coalesce(mvcount(old_method_type), 0) 
   | where count_new_method_type > count_old_method_type 
