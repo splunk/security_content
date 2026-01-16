@@ -1,0 +1,86 @@
+name: macOS Gatekeeper Bypass
+id: bd0f0072-18d1-472e-8164-ab359d35a9d2
+version: 1
+date: '2026-01-16'
+author: Jamie Windley
+status: production
+type: Anomaly
+description: |
+  This detection identifies potential macOS Gatekeeper bypass activity by monitoring for processes that remove or disable quarantine enforcement on application bundles. 
+  It detects the use of xattr to clear or delete the com.apple.quarantine extended attribute from .app files, as well as the use of PlistBuddy to modify application Info.plist files by setting LSFileQuarantineEnabled to false.
+  These actions may indicate attempts to bypass macOS Gatekeeper protections in order to execute untrusted or unsigned applications without user warnings.
+data_source:
+- osquery
+search: "| tstats `security_content_summariesonly` \n    count\n    values(Processes.process)\
+  \ as process\n    values(Processes.parent_process) AS parent_process\n    values(Processes.parent_process_exec)\
+  \ AS parent_process_exec\n    values(Processes.parent_process_id) AS parent_process_id\n\
+  \    values(Processes.parent_process_name) AS parent_process_name\n    values(Processes.parent_process_path)\
+  \ AS parent_process_path \n    min(_time) as firstTime \n    max(_time) as lastTime\n\
+  \  \n  from datamodel=Endpoint.Processes where \n  (\n  Processes.process_name =\
+  \ \"xattr\"\n  (Processes.process=\"*-d*\", Processes.process=\"*com.apple.quarantine*\"\
+  , Processes.process=\"*.app*\") OR (Processes.process=\"*-c*\", Processes.process=\"\
+  *.app*\")\n  )\n  OR\n  (\n    Processes.process_name = \"PListBuddy\"\n    Processes.process\
+  \ IN (\"*Add*\", \"*Set*\",\"*write*\") Processes.process=\"*LSFileQuarantineEnabled*\"\
+  , Processes.process=\"*false*\", Processes.process=\"*Info.plist*\"\n  )\n  by Processes.action\
+  \ Processes.dest Processes.process Processes.process_hash\n     Processes.process_id\
+  \ Processes.process_name Processes.process_path\n     Processes.user Processes.vendor_product\n\
+  \  \n  | `drop_dm_object_name(Processes)` | `macos_gatekeeper_bypass_filter`"
+how_to_implement: |
+  Collection of process execution events from macOS endpoints is required. This can be achieved using osquery's `es_process_events` table, EndpointSecurity framework integrations, or an EDR platform capable of recording process command lines. 
+  Ensure that captured events include at least the process path, full command line, user context, and timestamp.
+known_false_positives: |
+  Legitimate activity by developers or IT administrators, such as removing quarantine attributes with xattr or modifying Info.plist files to set LSFileQuarantineEnabled to false for testing, deployment, or enterprise software distribution, may trigger this detection. 
+  Security researchers or power users disabling Gatekeeper in controlled environments can also generate alerts without malicious intent.
+references:
+- https://attack.mitre.org/detectionstrategies/DET0288/
+- https://www.atomicredteam.io/atomic-red-team/atomics/T1553.001
+- https://unit42.paloaltonetworks.com/gatekeeper-bypass-macos/
+
+drilldown_searches:
+- name: View the detection results for - "$__UPDATE__FIRST_RISK_OBJECT$" and "$__UPDATE__SECOND_RISK_OBJECT$"
+  search: '%original_detection_search% | search  "$__UPDATE__FIRST_RISK_OBJECT = "$__UPDATE__FIRST_RISK_OBJECT$"
+    second_observable_type_here = "$__UPDATE__SECOND_RISK_OBJECT$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$__UPDATE__FIRST_RISK_OBJECT$"
+    and "$__UPDATE__SECOND_RISK_OBJECT$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$__UPDATE__FIRST_RISK_OBJECT$",
+    "$__UPDATE__SECOND_RISK_OBJECT$") starthoursago=168  | stats count min(_time)
+    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
+    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: macOS gatekeeper bypass via $process$ by $user$ on $dest$
+  risk_objects:
+  - field: dest
+    type: system
+    score: 10
+  - field: user
+    type: user
+    score: 10
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - Security Solution Tampering
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1553.001
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1553.001/atomic_red_team/macos_gatekeeper_bypass_xattr/macos_gatekeeper_bypass_xattr.log
+    sourcetype: osquery:results
+    source: osquery
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1553.001/macos_gatekeeper_bypass_LSFileQuarantineEnabled/macos_gatekeeper_bypass_LSFileQuarantineEnabled.log
+    sourcetype: osquery:results
+    source: osquery
