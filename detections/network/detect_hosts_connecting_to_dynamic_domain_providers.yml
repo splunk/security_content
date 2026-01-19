@@ -1,6 +1,6 @@
 name: Detect hosts connecting to dynamic domain providers
 id: a1e761ac-1344-4dbd-88b2-3f34c912d359
-version: 10
+version: 9
 date: '2026-01-19'
 author: Bhavin Patel, Splunk
 status: production
