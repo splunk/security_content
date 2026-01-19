@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-01-19'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -15,16 +15,27 @@ description: The following analytic detects network traffic associated with
   malware, posing a severe threat to the organization's security.
 data_source:
 - Palo Alto Network Traffic
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(All_Traffic.dest_port) as dest_port latest(All_Traffic.user)
-  as user from datamodel=Network_Traffic by All_Traffic.action All_Traffic.app All_Traffic.bytes
-  All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
-  All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
-  All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user
-  All_Traffic.vendor_product | `drop_dm_object_name("All_Traffic")` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | lookup remote_access_software remote_appid
-  AS app OUTPUT isutility, description as signature, comment_reference as desc, category
-  | search isutility = True | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_traffic_filter`'
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+          values(All_Traffic.dest_port) as dest_port
+          latest(All_Traffic.user) as user
+  from datamodel=Network_Traffic
+  where isnotnull(All_Traffic.app) AND All_Traffic.app!=""
+  by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in
+     All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
+     All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
+     All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip
+     All_Traffic.src_port All_Traffic.transport All_Traffic.user
+     All_Traffic.vendor_product
+  | `drop_dm_object_name("All_Traffic")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | lookup remote_access_software remote_appid AS app OUTPUT isutility, description as signature, comment_reference as desc, category
+  | search isutility = True
+  | `remote_access_software_usage_exceptions`
+  | `detect_remote_access_software_usage_traffic_filter`
 how_to_implement: The following analytic was developed with Palo Alto traffic 
   logs. Ensure that the logs are being ingested into Splunk and mapped to the 
   Network_Traffic data model. Use the Splunk Common Information Model (CIM) to 

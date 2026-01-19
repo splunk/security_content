@@ -1,7 +1,7 @@
 name: 3CX Supply Chain Attack Network Indicators
 id: 791b727c-deec-4fbe-a732-756131b3c5a1
-version: 7
-date: '2025-06-10'
+version: 8
+date: '2026-01-19'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -15,11 +15,21 @@ description: The following analytic identifies DNS queries to domains associated
   and data breaches.
 data_source:
 - Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` min(_time) as firstTime from datamodel=Network_Resolution
-  by DNS.answer DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src
-  DNS.vendor_product | `drop_dm_object_name(DNS)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | lookup 3cx_ioc_domains domain as query OUTPUT
-  Description isIOC | search isIOC=true | `3cx_supply_chain_attack_network_indicators_filter`'
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+  from datamodel=Network_Resolution
+  where isnotnull(DNS.query) AND DNS.query!=""
+  by DNS.answer DNS.answer_count DNS.query
+     DNS.query_count DNS.reply_code_id DNS.src
+     DNS.vendor_product
+  | `drop_dm_object_name(DNS)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | lookup 3cx_ioc_domains domain as query OUTPUT Description isIOC
+  | search isIOC=true
+  | `3cx_supply_chain_attack_network_indicators_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information
   into the `Network Resolution` datamodel in the `DNS` node. In addition, confirm
   the latest CIM App 4.20 or higher is installed and the latest TA''s are installed.
