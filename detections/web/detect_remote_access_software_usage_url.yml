@@ -23,8 +23,9 @@ search: |
                  latest(Web.url) as url
                  latest(Web.user) as user
                  latest(Web.dest) as dest
-  from datamodel=Web
-  where Web.url_domain=*
+  from datamodel=Web where
+  Web.url_domain=*
+  NOT Web.url_domain IN ("-", "unknown")
   by Web.action Web.src Web.category Web.url_domain Web.url_length
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`

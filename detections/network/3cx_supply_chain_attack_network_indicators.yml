@@ -19,8 +19,9 @@ search: |
   | tstats `security_content_summariesonly`
     count min(_time) as firstTime
           max(_time) as lastTime
-  from datamodel=Network_Resolution
-  where DNS.query=*
+  from datamodel=Network_Resolution where
+  DNS.query=*
+  NOT DNS.query IN ("-", "unknown")
   by DNS.answer DNS.answer_count DNS.query
      DNS.query_count DNS.reply_code_id DNS.src
      DNS.vendor_product

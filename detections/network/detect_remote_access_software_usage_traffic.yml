@@ -21,8 +21,9 @@ search: |
           max(_time) as lastTime
           values(All_Traffic.dest_port) as dest_port
           latest(All_Traffic.user) as user
-  from datamodel=Network_Traffic
-  where All_Traffic.app=*
+  from datamodel=Network_Traffic where
+  All_Traffic.app=*
+  NOT All_Traffic.app IN ("-", "unknown")
   by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in
      All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip
      All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
