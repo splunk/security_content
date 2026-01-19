@@ -23,6 +23,7 @@ search: |
     values(Processes.user) as user
     min(_time) as firstTime
     max(_time) as lastTime
+    latest(Processes.action) as action
     values(Processes.original_file_name) as original_file_name
     values(Processes.parent_process) as parent_process
     values(Processes.parent_process_exec) as parent_process_exec
