@@ -5,13 +5,13 @@ date: '2025-12-13'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies the execution of commonly used NirSoft
-  utilities on Windows systems. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on process execution details such as process name, parent
-  process, and command-line arguments. This activity is significant for a SOC because
-  NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes
-  like credential theft or system reconnaissance. If confirmed malicious, this activity
-  could lead to unauthorized access, data exfiltration, or further system compromise.
+description: |
+  The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems.
+  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution details such as process name, parent process, and command-line arguments.
+  This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance.
+  If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further system compromise.
+  Note that this search does not use a where clause to filter out known benign paths, as NirSoft utilities can be executed from various locations. This might hinder performance in environments with high data volumes.
+  Apply additional filtering as necessary to enhance this.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688

@@ -1,6 +1,6 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 11
+version: 10
 date: '2026-01-19'
 author: Michael Haag, Splunk
 status: production
