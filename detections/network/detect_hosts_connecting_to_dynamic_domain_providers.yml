@@ -18,7 +18,7 @@ data_source:
 search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime
     from datamodel=Network_Resolution
-    where isnotnull(DNS.query) AND DNS.query!=""
+    where DNS.query=*
     by DNS.answer DNS.answer_count DNS.query DNS.query_count
        DNS.reply_code_id DNS.src DNS.vendor_product
   | `drop_dm_object_name("DNS")`

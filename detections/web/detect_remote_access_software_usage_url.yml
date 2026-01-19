@@ -24,7 +24,7 @@ search: |
                  latest(Web.user) as user
                  latest(Web.dest) as dest
   from datamodel=Web
-  where isnotnull(Web.url_domain) AND Web.url_domain!=""
+  where Web.url_domain=*
   by Web.action Web.src Web.category Web.url_domain Web.url_length
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
