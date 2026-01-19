@@ -1,7 +1,7 @@
 name: Common Ransomware Extensions
 id: a9e5c5db-db11-43ca-86a8-c852d1b2c0ec
-version: 16
-date: '2025-10-01'
+version: 17
+date: '2026-01-19'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: TTP
@@ -21,14 +21,44 @@ search: |
     max(_time) as lastTime 
     count latest(Filesystem.user) as user 
           values(Filesystem.file_path) as file_path 
-    from datamodel=Endpoint.Filesystem by 
-          Filesystem.action Filesystem.dest
-          Filesystem.file_access_time Filesystem.file_create_time 
-          Filesystem.file_hash Filesystem.file_modify_time
-          Filesystem.file_name Filesystem.file_path 
-          Filesystem.file_acl Filesystem.file_size
-          Filesystem.process_guid Filesystem.process_id 
-          Filesystem.user Filesystem.vendor_product
+    from datamodel=Endpoint.Filesystem
+    where NOT Filesystem.file_name IN (
+      "*.bat",
+      "*.cmd",
+      "*.com",
+      "*.cpl",
+      "*.dll",
+      "*.doc",
+      "*.docx",
+      "*.exe",
+      "*.gif",
+      "*.jar",
+      "*.jpeg",
+      "*.jpg",
+      "*.js",
+      "*.lnk",
+      "*.pif",
+      "*.png",
+      "*.ppt",
+      "*.pptx",
+      "*.ps1",
+      "*.psm1",
+      "*.scr",
+      "*.sys",
+      "*.txt",
+      "*.vbs",
+      "*.wsf",
+      "*.xls",
+      "*.xlsx",
+      "*.zip"
+    )
+    by Filesystem.action Filesystem.dest
+       Filesystem.file_access_time Filesystem.file_create_time 
+       Filesystem.file_hash Filesystem.file_modify_time
+       Filesystem.file_name Filesystem.file_path 
+       Filesystem.file_acl Filesystem.file_size
+       Filesystem.process_guid Filesystem.process_id 
+       Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name(Filesystem)` 
   | rex field=file_name "(?<file_extension>(\.[^\.]+){1,2})$"
   | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT
