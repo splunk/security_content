@@ -73,6 +73,7 @@ search: |
           values(file_modify_time) as file_modify_time
           values(file_acl) as file_acl 
           values(file_size) as file_size 
+          values(file_path) as file_path 
           values(process_guid) as process_guid 
           values(process_id) as process_id 
           values(user) as user 
