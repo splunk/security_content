@@ -49,8 +49,7 @@ search: |
       "*.vbs",
       "*.wsf",
       "*.xls",
-      "*.xlsx",
-      "*.zip"
+      "*.xlsx"
     )
     by Filesystem.action Filesystem.dest
        Filesystem.file_access_time Filesystem.file_create_time 
@@ -61,8 +60,7 @@ search: |
        Filesystem.user Filesystem.vendor_product
   | `drop_dm_object_name(Filesystem)` 
   | rex field=file_name "(?<file_extension>(\.[^\.]+){1,2})$"
-  | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT
-  Extensions Name 
+  | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT Extensions Name 
   | search Name !=False 
   | stats min(firstTime) as firstTime 
           max(lastTime) as lastTime 
