@@ -1,7 +1,7 @@
 name: Common Ransomware Notes
 id: ada0f478-84a8-4641-a3f1-d82362d6bd71
-version: 13
-date: '2025-12-15'
+version: 14
+date: '2026-01-20'
 author: David Dorsey, Splunk
 status: production
 type: Hunting
@@ -51,6 +51,7 @@ tags:
   - Interlock Ransomware
   - NailaoLocker Ransomware
   - Hellcat Ransomware
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1485

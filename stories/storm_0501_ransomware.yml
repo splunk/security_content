@@ -1,0 +1,50 @@
+name: Storm-0501 Ransomware
+id: 97b6cb8f-2b29-48e2-9d06-f9521302f955
+version: 1
+status: production
+date: '2026-01-20'
+author: Michael Haag, Splunk
+description: >
+  Detects tactics, techniques, and procedures (TTPs) associated with Storm-0501, a financially motivated 
+  ransomware-as-a-service (RaaS) affiliate that has evolved from targeting on-premises environments to 
+  sophisticated hybrid cloud attacks. Storm-0501 has deployed multiple ransomware families including 
+  Hive, BlackCat/ALPHV, Hunters International, LockBit, and most recently Embargo ransomware. The group 
+  is known for targeting government, manufacturing, transportation, law enforcement, and healthcare 
+  sectors, primarily in the United States. This analytic story provides comprehensive detection coverage 
+  for their complete attack chain, from initial credential abuse through Azure AD/Entra ID compromise 
+  and cloud-native ransomware deployment.
+
+narrative: >
+  Storm-0501, active since 2021 (originally operating as Sabbath/54bb47h), represents a significant 
+  evolution in hybrid cloud ransomware operations. Their attack methodology begins with exploitation 
+  of weak credentials and over-privileged accounts for initial access, followed by extensive Active 
+  Directory reconnaissance using tools like ADRecon. The group leverages Impacket tools (wmiexec, 
+  smbexec, atexec), PsExec, and legitimate RMM software (AnyDesk, Level.io, NinjaOne) for lateral 
+  movement, while Cobalt Strike provides command and control capabilities.
+  
+  
+  The critical differentiator in Storm-0501 operations is their hybrid cloud pivot technique. After 
+  compromising on-premises infrastructure and extracting NTDS.dit credentials, the group targets 
+  Azure AD Connect sync accounts (MSOL_*, Sync_*) to gain access to cloud environments. Once in 
+  Azure AD/Entra ID, they establish persistence through federated domain manipulation, create backdoor 
+  service principals, and escalate privileges to Global Administrator. Recent intelligence indicates 
+  Storm-0501 has evolved toward cloud-native ransomware tactics, leveraging legitimate cloud APIs to 
+  exfiltrate data using Rclone, destroy Azure backups, and manipulate M365 retention policies without 
+  deploying traditional ransomware binaries. This evolution makes traditional endpoint-based detection 
+  insufficient and requires robust cloud audit log monitoring. Detections in this story cover credential 
+  dumping, lateral movement tools, defense evasion, Azure AD persistence mechanisms, backup deletion, 
+  and data exfiltration patterns characteristic of Storm-0501 campaigns.
+
+references:
+  - https://www.microsoft.com/en-us/security/blog/2024/09/26/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/
+  - https://cyble.com/blog/embargo-ransomware/
+  - https://aadinternals.com/post/aadbackdoor/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve: []

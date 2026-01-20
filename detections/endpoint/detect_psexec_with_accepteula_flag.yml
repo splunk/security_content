@@ -1,7 +1,7 @@
 name: Detect PsExec With accepteula Flag
 id: 27c3a83d-cada-47c6-9042-67baf19d2574
-version: 14
-date: '2025-12-15'
+version: 15
+date: '2026-01-20'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -95,6 +95,7 @@ tags:
   - Volt Typhoon
   - Seashell Blizzard
   - VanHelsing Ransomware
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.002

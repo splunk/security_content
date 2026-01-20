@@ -1,7 +1,7 @@
 name: Windows Suspicious C2 Named Pipe
 id: 90599d85-dc2a-4d4c-8c59-9485c3665828
-version: 1
-date: '2025-12-05'
+version: 2
+date: '2026-01-20'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -75,19 +75,20 @@ rba:
       type: process_name
 tags:
   analytic_story:
-    - APT37 Rustonotto and FadeStealer
-    - BlackByte Ransomware
-    - Brute Ratel C4
-    - Cobalt Strike
-    - DarkSide Ransomware
-    - Gozi Malware
-    - Graceful Wipe Out Attack
-    - Hellcat Ransomware
-    - LockBit Ransomware
-    - Meterpreter
-    - Remote Monitoring and Management Software
-    - Trickbot
-    - Tuoni
+  - Storm-0501 Ransomware
+  - APT37 Rustonotto and FadeStealer
+  - BlackByte Ransomware
+  - Brute Ratel C4
+  - Cobalt Strike
+  - DarkSide Ransomware
+  - Gozi Malware
+  - Graceful Wipe Out Attack
+  - Hellcat Ransomware
+  - LockBit Ransomware
+  - Meterpreter
+  - Remote Monitoring and Management Software
+  - Trickbot
+  - Tuoni
   asset_type: Endpoint
   mitre_attack_id:
     - T1559

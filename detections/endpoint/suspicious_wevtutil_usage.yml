@@ -1,7 +1,7 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 14
-date: '2025-07-29'
+version: 15
+date: '2026-01-20'
 author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -73,6 +73,7 @@ tags:
   - ShrinkLocker
   - Storm-2460 CLFS Zero Day Exploitation
   - Scattered Spider
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.001
