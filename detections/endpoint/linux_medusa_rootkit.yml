@@ -1,7 +1,7 @@
 name: Linux Medusa Rootkit
 id: 7add8520-71d5-43aa-b262-ee082b1f0238
-version: 2
-date: '2025-10-14'
+version: 3
+date: '2026-01-20'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -60,6 +60,7 @@ tags:
   - China-Nexus Threat Activity
   - Medusa Rootkit
   - Hellcat Ransomware
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1014

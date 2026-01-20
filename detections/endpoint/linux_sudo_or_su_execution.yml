@@ -1,7 +1,7 @@
 name: Linux Sudo OR Su Execution
 id: 4b00f134-6d6a-11ec-a90c-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -42,6 +42,7 @@ tags:
   analytic_story:
   - Linux Privilege Escalation
   - Linux Persistence Techniques
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1548.003
