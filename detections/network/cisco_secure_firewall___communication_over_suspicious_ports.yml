@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Communication Over Suspicious Ports
 id: d85c05c8-42c0-4e4a-87e7-4e1bb3e844e3
-version: 3
-date: '2026-06-01'
+version: 4
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
