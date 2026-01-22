@@ -13,7 +13,6 @@ description: >
   sectors, primarily in the United States. This analytic story provides comprehensive detection coverage 
   for their complete attack chain, from initial credential abuse through Azure AD/Entra ID compromise 
   and cloud-native ransomware deployment.
-
 narrative: >
   Storm-0501, active since 2021 (originally operating as Sabbath/54bb47h), represents a significant 
   evolution in hybrid cloud ransomware operations. Their attack methodology begins with exploitation 
@@ -21,7 +20,6 @@ narrative: >
   Directory reconnaissance using tools like ADRecon. The group leverages Impacket tools (wmiexec, 
   smbexec, atexec), PsExec, and legitimate RMM software (AnyDesk, Level.io, NinjaOne) for lateral 
   movement, while Cobalt Strike provides command and control capabilities.
-  
   
   The critical differentiator in Storm-0501 operations is their hybrid cloud pivot technique. After 
   compromising on-premises infrastructure and extracting NTDS.dit credentials, the group targets 
@@ -34,7 +32,6 @@ narrative: >
   insufficient and requires robust cloud audit log monitoring. Detections in this story cover credential 
   dumping, lateral movement tools, defense evasion, Azure AD persistence mechanisms, backup deletion, 
   and data exfiltration patterns characteristic of Storm-0501 campaigns.
-
 references:
   - https://www.microsoft.com/en-us/security/blog/2024/09/26/storm-0501-ransomware-attacks-expanding-to-hybrid-cloud-environments/
   - https://cyble.com/blog/embargo-ransomware/
