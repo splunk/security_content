@@ -1,6 +1,6 @@
 name: WBAdmin Delete System Backups
 id: cd5aed7e-5cea-11eb-ae93-0242ac130002
-version: 9
+version: 10
 date: '2026-01-20'
 author: Michael Haag, Splunk
 status: production
