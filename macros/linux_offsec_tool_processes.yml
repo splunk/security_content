@@ -1,0 +1,24 @@
+definition: process_name IN (
+      /* --- Network Scanning / Enumeration --- */
+      "nmap", "masscan", "zmap", "amap", "netcat", "nc", "hping3", "ike-scan",
+      "dnsenum", "dnsrecon", "fierce", "theharvester", "sublist3r",
+      
+      /* --- Exploitation Frameworks --- */
+      "metasploit", "msfconsole", "msfvenom", "empire", "pupy", "covenant", "havoc",
+      "sliver-client", "sliver-server", "poshc2", "mythic", "evilginx", "beef-xss",
+
+      /* --- Credential Access / Cracking --- */
+      "hydra", "medusa", "john", "hashcat", "crowbar", "patator", "mimikatz",
+      "impacket-",
+
+      /* --- Reconnaissance / Enumeration --- */
+      "ldapdomaindump", "enum4linux", "smbclient", "smbmap", "crackmapexec",
+      "bloodhound", "sharphound", "linpeas", "linenum", "pspy", "ldpreload",
+      
+      /* --- Privilege Escalation / Persistence --- */
+      "peass-ng", "linpeas", "linux-exploit-suggester", "les", "exploitdb",
+      "persistence", "dirtycow", "dirtypipe", "sudo_killer")
+
+description: customer specific splunk configurations(eg- index, source, sourcetype).
+  Replace the macro definition with configurations for your Splunk Environment.
+name: linux_offsec_tool_processes

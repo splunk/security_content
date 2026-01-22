@@ -1,7 +1,7 @@
 name: System Processes Run From Unexpected Locations
 id: a34aae96-ccf8-4aef-952c-3ea21444444d
 version: 13
-date: '2025-12-13'
+date: '2025-12-31'
 author: David Dorsey, Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -23,12 +23,13 @@ search: |
     NOT Processes.process_path IN (
       "*:\\$WINDOWS.~BT\\*",
       "*:\\$WinREAgent\\*",
+      "*:\\Program Files \(x86\)\\Windows Kits\\10\\App Certification Kit\\*",
       "*:\\Windows\\SoftwareDistribution\\*",
       "*:\\Windows\\System32\\*",
       "*:\\Windows\\SystemTemp\\*",
       "*:\\Windows\\SysWOW64\\*",
       "*:\\Windows\\uus\\*",
-      "*:\\Windows\\WinSxS\\*",
+      "*:\\Windows\\WinSxS\\*"
     )
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
      Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id

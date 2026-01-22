@@ -127,6 +127,7 @@ tags:
   - GhostRedirector IIS Module and Rungan Backdoor
   - Lokibot
   - Castle RAT
+  - SesameOp
   asset_type: Endpoint
   mitre_attack_id:
   - T1543

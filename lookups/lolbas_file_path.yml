@@ -1,10 +1,10 @@
 name: lolbas_file_path
-date: 2024-12-23
-version: 2
+date: 2025-12-18
+version: 3
 id: b88d9c91-33c6-408a-8ef0-00806932f8c5
 author: Splunk Threat Research Team
 lookup_type: csv
-description: A list of LOLBAS and their file path used in determining if a script or binary is valid on windows, Updated for 2024 from lolbas project.
+description: A list of LOLBAS and their file path used in determining if a script or binary is valid on windows systems.
 default_match: false
 match_type: 
 - WILDCARD(lolbas_file_name)
