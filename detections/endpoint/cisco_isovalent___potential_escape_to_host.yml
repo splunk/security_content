@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Potential Escape to Host
 id: 2b8a7a21-bec6-4e1f-84c4-7b319f45d2ab
-version: 1
-date: '2025-11-18'
+version: 2
+date: '2026-01-20'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -71,6 +71,7 @@ rba:
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1611

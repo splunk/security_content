@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Kprobe Spike
 id: 3df0e9a8-7d5e-4b2f-bcd7-bf93e671d1f2
-version: 1
-date: '2026-01-05'
+version: 2
+date: '2026-01-20'
 author: Bhavin Patel, Splunk
 type: Hunting
 data_source:
@@ -35,6 +35,7 @@ references:
 tags:
   analytic_story:
   - Cisco Isovalent Suspicious Activity
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1068
