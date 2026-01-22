@@ -1,13 +1,13 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-01-22'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies DNS queries with unusually large lengths
   by computing the standard deviation of query lengths and filtering those exceeding
-  twice the standard deviation. It leverages DNS query data from the Network_Resolution
+  four times the standard deviation. It leverages DNS query data from the Network_Resolution
   data model, focusing on the length of the domain names being resolved. This activity
   is significant as unusually long DNS queries can indicate data exfiltration or command-and-control
   communication attempts. If confirmed malicious, this activity could allow attackers
@@ -15,24 +15,35 @@ description: The following analytic identifies DNS queries with unusually large 
   the network.
 data_source:
 - Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where NOT DNS.record_type IN("Pointer","PTR") by DNS.answer DNS.answer_count DNS.query
-  DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product host | `drop_dm_object_name("DNS")`
-  | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld)
-  | search tld_len<=24 | eval query_length = len(query) | table host query query_length
-  record_type count | eventstats stdev(query_length) AS stdev avg(query_length) AS
-  avg p50(query_length) AS p50 | where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev
+search: '
+  | tstats `security_content_summariesonly` count min(_time) as firstTime
+    max(_time) as lastTime from datamodel=Network_Resolution
+    where NOT DNS.record_type IN("Pointer","PTR") by DNS.answer DNS.answer_count DNS.query
+    DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product DNS.dest DNS.record_type
+  | `drop_dm_object_name("DNS")` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | eval tlds=split(query,".") 
+  | eval tld=mvindex(tlds,-1) 
+  | eval tld_len=len(tld) 
+  | search tld_len<=20 
+  | eval query_length = len(query) 
+  | table firstTime  lastTime src dest query query_length record_type count record_type
+  | eventstats stdev(query_length) AS stdev avg(query_length) AS
+      avg p50(query_length) AS p50 
+  | where query_length>(avg+stdev*4) 
+  | eval z_score=(query_length-avg)/stdev
   | `dns_query_length_with_high_standard_deviation_filter`'
 how_to_implement: To successfully implement this search, you will need to ensure that
   DNS data is populating the Network_Resolution data model.
 known_false_positives: It's possible there can be long domain names that are legitimate.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$host$"
-  search: '%original_detection_search% | search  host = "$host$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$host$"
+- name: View risk events for the last 7 days for - "$src$"
   search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$")
     starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
     values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
@@ -42,13 +53,15 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A dns query $query$ with 2 time standard deviation of name len of the dns
-    query in host  $host$
+  message: A dns query $query$ with 4 time standard deviation of name len of the dns
+    query in src $src$
   risk_objects:
-  - field: host
+  - field: src
     type: system
     score: 56
-  threat_objects: []
+  threat_objects:
+  - field: query
+    type: url
 tags:
   analytic_story:
   - Hidden Cobra Malware
