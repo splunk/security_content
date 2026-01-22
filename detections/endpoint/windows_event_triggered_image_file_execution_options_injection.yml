@@ -22,7 +22,7 @@ search: '`wineventlog_application` EventCode=3000 | rename param1 AS "Process" p
 how_to_implement: This analytic requires capturing the Windows Event Log Application
   channel in XML.
 known_false_positives: False positives may be present and tuning will be required
-  before turning into a TTP or before updating this detection to create a finding or intermediate findings.
+  before turning into a finding or intermediate finding.
 references:
 - https://blog.thinkst.com/2022/09/sensitive-command-token-so-much-offense.html
 - https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/registry-entries-for-silent-process-exit

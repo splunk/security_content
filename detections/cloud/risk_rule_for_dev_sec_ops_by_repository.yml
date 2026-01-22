@@ -6,7 +6,7 @@ author: Bhavin Patel
 status: production
 type: Correlation
 description: The following analytic identifies high-risk activities within repositories
-  by correlating repository data with risk scores. It leverages findings and intermediate findings created by detectionsfrom the
+  by correlating repository data with risk scores. It leverages findings and intermediate findings created by detections from the
   Dev Sec Ops analytic stories, summing risk scores and capturing source and user
   information. The detection focuses on high-risk scores above 100 and sources with
   more than three occurrences. This activity is significant as it highlights repositories
