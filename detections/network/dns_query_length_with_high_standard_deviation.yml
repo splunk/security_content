@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: The following analytic identifies DNS queries with unusually large lengths
   by computing the standard deviation of query lengths and filtering those exceeding
-  four times the standard deviation. It leverages DNS query data from the Network_Resolution
+  two times the standard deviation. It leverages DNS query data from the Network_Resolution
   data model, focusing on the length of the domain names being resolved. This activity
   is significant as unusually long DNS queries can indicate data exfiltration or command-and-control
   communication attempts. If confirmed malicious, this activity could allow attackers
@@ -31,9 +31,9 @@ search: '
   | table firstTime lastTime src dest query query_length record_type count record_type 
   | eventstats stdev(query_length) AS stdev avg(query_length) AS
       avg p50(query_length) AS p50 
-  | where query_length>(avg+stdev*4) 
+  | where query_length>(avg+stdev*2) 
   | eval z_score=(query_length-avg)/stdev 
-  | stats count values(query) values(dest) avg(query_length) values(record_type) min(firstTime) as firstTime latest(lastTime) as lastTime by src
+  | stats count values(query) as query values(dest) as dest avg(query_length) as avg_query_length values(record_type) as record_type min(firstTime) as firstTime latest(lastTime) as lastTime by src
   | `dns_query_length_with_high_standard_deviation_filter`'
 how_to_implement: To successfully implement this search, you will need to ensure that
   DNS data is populating the Network_Resolution data model.
@@ -54,12 +54,11 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A dns query $query$ with 4 time standard deviation of name len of the dns
-    query in src $src$
+  message: Potentially suspicious DNS query [$query$] with high standard deviation from src - [$src$]
   risk_objects:
   - field: src
     type: system
-    score: 56
+    score: 30
   threat_objects:
   - field: query
     type: url
