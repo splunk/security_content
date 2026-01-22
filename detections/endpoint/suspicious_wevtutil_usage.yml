@@ -74,6 +74,7 @@ tags:
   - Storm-2460 CLFS Zero Day Exploitation
   - Scattered Spider
   - Storm-0501 Ransomware
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1070.001
