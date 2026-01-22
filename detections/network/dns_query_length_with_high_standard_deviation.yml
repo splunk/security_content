@@ -18,21 +18,22 @@ data_source:
 search: '
   | tstats `security_content_summariesonly` count min(_time) as firstTime
     max(_time) as lastTime from datamodel=Network_Resolution
-    where NOT DNS.record_type IN("Pointer","PTR") by DNS.answer DNS.answer_count DNS.query
-    DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product DNS.dest DNS.record_type
+    where NOT DNS.record_type IN ("Pointer","PTR","SOA", "SRV") DNS.query != *. by DNS.answer DNS.answer_count DNS.query
+    DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product DNS.dest DNS.record_type 
   | `drop_dm_object_name("DNS")` 
   | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
+  | `security_content_ctime(lastTime)` 
   | eval tlds=split(query,".") 
   | eval tld=mvindex(tlds,-1) 
   | eval tld_len=len(tld) 
   | search tld_len<=20 
   | eval query_length = len(query) 
-  | table firstTime  lastTime src dest query query_length record_type count record_type
+  | table firstTime lastTime src dest query query_length record_type count record_type 
   | eventstats stdev(query_length) AS stdev avg(query_length) AS
       avg p50(query_length) AS p50 
   | where query_length>(avg+stdev*4) 
-  | eval z_score=(query_length-avg)/stdev
+  | eval z_score=(query_length-avg)/stdev 
+  | stats count values(query) values(dest) avg(query_length) values(record_type) min(firstTime) as firstTime latest(lastTime) as lastTime by src
   | `dns_query_length_with_high_standard_deviation_filter`'
 how_to_implement: To successfully implement this search, you will need to ensure that
   DNS data is populating the Network_Resolution data model.
