@@ -87,7 +87,7 @@ search: |
 how_to_implement: You must be ingesting data that records the filesystem activity
   from your hosts to populate the Endpoint Filesystem data model node. To see the
   additional metadata, add the following fields, if not already present, please review
-  the detailed documentation on how to create a new field within Incident Review
+  the detailed documentation on how to create a new field within Mission Control Queue
 known_false_positives: It is possible for a legitimate file with these extensions
   to be created. If this is a true ransomware attack, there will be a large number
   of files created with these extensions.

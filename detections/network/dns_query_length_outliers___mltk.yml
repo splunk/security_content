@@ -1,7 +1,7 @@
 name: DNS Query Length Outliers - MLTK
 id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-22'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
@@ -30,11 +30,10 @@ how_to_implement: "To successfully implement this search, you will need to ensur
   the associated support search, so that the model created by the support search is
   available for use. You should periodically re-run the support search to rebuild
   the model with the latest data available in your environment.\nThis search produces
-  fields (`query`,`query_length`,`count`) that are not yet supported by ES Incident
-  Review and therefore cannot be viewed when a finding event is raised. These fields
+  fields (`query`,`query_length`,`count`) that are not yet supported by Mission Control Queue and therefore cannot be viewed when a finding event is raised. These fields
   contribute additional context to the finding. To see the additional metadata, add
-  the following fields, if not already present, to Incident Review - Event Attributes
-  (Configure > Incident Management > Incident Review Settings > Add New Entry):\n
+  the following fields, if not already present, to Mission Control Queue
+  (Configure > Findings and Investigations > Add New Entry):\n
   * **Label:** DNS Query, **Field:** query\n* **Label:** DNS Query Length, **Field:**
   query_length\n* **Label:** Number of events, **Field:** count\n"
 known_false_positives: If you are seeing more results than desired, you may consider

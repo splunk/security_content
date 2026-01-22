@@ -1,8 +1,8 @@
 name: Scattered Spider
 id: 3df97513-d898-4168-927a-ed3595d6ea41
-version: 1
+version: 2
 status: production
-date: '2025-07-29'
+date: '2026-01-22'
 author: Michael Haag, Splunk
 description: >
   Detects tactics, techniques, and procedures (TTPs) associated with Scattered Spider (UNC3944, Octo Tempest, Storm-0875), 
@@ -18,7 +18,7 @@ description: >
   exploitation. The analytics in this story detect their signature behaviors including MFA bombing attacks, unauthorized remote 
   access tool deployment, cloud API abuse, credential harvesting with tools like Mimikatz, and their unique operational security 
   practices of monitoring victim communications to evade detection. Coverage includes process monitoring, network analytics, 
-  cloud API detection, and behavioral correlation rules designed to identify the subtle indicators that traditional signature-based 
+  cloud API detection, and behavioral detections designed to identify the subtle indicators that traditional signature-based 
   tools miss while providing actionable intelligence for incident response teams.
 
 narrative: >
