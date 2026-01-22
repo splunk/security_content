@@ -58,7 +58,7 @@ search: |
   | `security_content_ctime(lastTime)`
   | `cisco_privileged_account_creation_with_suspicious_ssh_activity_filter`
 how_to_implement: |
-  This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation", "Cisco Secure Firewall - SSH Connection to sshd_operns", and "Cisco Secure Firewall - SSH Connection to Non-Standard Port". These detections must be configured to generate risk on the same risk object field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
+  This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation", "Cisco Secure Firewall - SSH Connection to sshd_operns", and "Cisco Secure Firewall - SSH Connection to Non-Standard Port". These detections must be configured to generate risk on the same entity field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
 known_false_positives: |
   No false positives have been identified yet.
 references:

@@ -1,7 +1,7 @@
 name: Windows Event Triggered Image File Execution Options Injection
 id: f7abfab9-12ea-44e8-8745-475f9ca6e0a4
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-22'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -22,7 +22,7 @@ search: '`wineventlog_application` EventCode=3000 | rename param1 AS "Process" p
 how_to_implement: This analytic requires capturing the Windows Event Log Application
   channel in XML.
 known_false_positives: False positives may be present and tuning will be required
-  before turning into a TTP or notable.
+  before turning into a TTP or before updating this detection to create a finding or intermediate findings.
 references:
 - https://blog.thinkst.com/2022/09/sensitive-command-token-so-much-offense.html
 - https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/registry-entries-for-silent-process-exit
