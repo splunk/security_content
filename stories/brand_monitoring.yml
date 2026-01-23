@@ -1,7 +1,7 @@
 name: Brand Monitoring
 id: 91c676cf-0b23-438d-abee-f6335e1fce78
-version: 1
-date: '2017-12-19'
+version: 2
+date: '2026-01-22'
 author: David Dorsey, Splunk
 status: production
 description: Detect and investigate activity that may indicate that an adversary is
@@ -21,7 +21,7 @@ narrative: 'While you can educate your users and customers about the risks and t
   provide you with early warnings and situational awareness--powerful elements of
   an effective defense.
 
-  Notable events will include IP addresses, URLs, and user data. Drilling down can
+  Findings and intermediate findings will include IP addresses, URLs, and user data. Drilling down can
   provide you with even more actionable intelligence, including likely geographic
   information, contextual searches to help you scope the problem, and investigative
   searches.'

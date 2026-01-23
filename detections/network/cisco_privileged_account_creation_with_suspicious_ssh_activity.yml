@@ -1,7 +1,7 @@
 name: Cisco Privileged Account Creation with Suspicious SSH Activity
 id: 7f8e2b4c-9a3d-4e1f-8c5b-6d7e8f9a0b1c
-version: 1
-date: '2026-01-06'
+version: 2
+date: '2026-01-22'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Correlation
@@ -58,7 +58,7 @@ search: |
   | `security_content_ctime(lastTime)`
   | `cisco_privileged_account_creation_with_suspicious_ssh_activity_filter`
 how_to_implement: |
-  This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation", "Cisco Secure Firewall - SSH Connection to sshd_operns", and "Cisco Secure Firewall - SSH Connection to Non-Standard Port". These detections must be configured to generate risk on the same risk object field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
+  This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation", "Cisco Secure Firewall - SSH Connection to sshd_operns", and "Cisco Secure Firewall - SSH Connection to Non-Standard Port". These detections must be configured to generate risk on the same entity field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
 known_false_positives: |
   No false positives have been identified yet.
 references:

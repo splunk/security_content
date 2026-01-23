@@ -52,19 +52,20 @@ known_false_positives: |
 references: []
 tags:
   analytic_story:
-    - Chaos Ransomware
-    - Rhysida Ransomware
-    - Ransomware
-    - LockBit Ransomware
-    - Medusa Ransomware
-    - SamSam Ransomware
-    - Clop Ransomware
-    - Ryuk Ransomware
-    - Black Basta Ransomware
-    - Termite Ransomware
-    - Interlock Ransomware
-    - NailaoLocker Ransomware
-    - Hellcat Ransomware
+  - Chaos Ransomware
+  - Rhysida Ransomware
+  - Ransomware
+  - LockBit Ransomware
+  - Medusa Ransomware
+  - SamSam Ransomware
+  - Clop Ransomware
+  - Ryuk Ransomware
+  - Black Basta Ransomware
+  - Termite Ransomware
+  - Interlock Ransomware
+  - NailaoLocker Ransomware
+  - Hellcat Ransomware
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
     - T1485
