@@ -1,9 +1,9 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 14
-date: '2025-09-18'
+version: 15
+date: '2026-01-23'
 author: Bhavin Patel, Splunk
-status: experimental
+status: production
 type: TTP
 description: The following analytic identifies the execution of `outlook.exe` writing
   a `.zip` file to the disk. It leverages data from the Endpoint data model, specifically
@@ -35,9 +35,26 @@ how_to_implement: You must be ingesting data that records filesystem and process
   sources, such as Sysmon.
 known_false_positives: It is not uncommon for outlook to write legitimate zip files
   to the disk.
-references: []
+references:
+- https://www.paubox.com/news/hackers-exploit-corrupted-zip-and-office-files-to-bypass-email-security
+- https://docs.datadoghq.com/security/default_rules/def-000-14w/
+-https://theweborion.com/blog/zip-files/
+drilldown_searches:
+- name: View the detection results for - "$user$" and "$dest$"
+  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$user$" and "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
+    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
+    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
+    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
+    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
+    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
 rba:
-  message: ZIP file written by outlook.exe on $dest$
+  message: ZIP file - [$file_name$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
   risk_objects:
   - field: user
     type: user
@@ -45,7 +62,9 @@ rba:
   - field: dest
     type: system
     score: 25
-  threat_objects: []
+  threat_objects:
+  - field: file_name
+    type: file_name
 tags:
   analytic_story:
   - Spearphishing Attachments
@@ -61,4 +80,10 @@ tags:
   - Splunk Enterprise
   - Splunk Enterprise Security
   - Splunk Cloud
-  security_domain: network
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/outlook_writing_zip/outlook_writing_zip.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog
