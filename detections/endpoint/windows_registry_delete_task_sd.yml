@@ -22,7 +22,7 @@ search: |
   Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*")
   Registry.user="SYSTEM"
   Registry.registry_value_name="SD"
-  Registry.action=Deleted
+  Registry.action=deleted
 
   by Registry.action Registry.dest Registry.process_guid
      Registry.process_id Registry.registry_hive
