@@ -1,7 +1,7 @@
 name: Linux Auditd Preload Hijack Via Preload File
 id: c1b7abca-55cb-4a39-bdfb-e28c1c12745f
-version: 8
-date: '2025-11-27'
+version: 9
+date: '2026-01-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -87,10 +87,11 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-    - Linux Living Off The Land
-    - Linux Privilege Escalation
-    - Linux Persistence Techniques
-    - Compromised Linux Host
+  - VoidLink Cloud-Native Linux Malware
+  - Linux Living Off The Land
+  - Linux Privilege Escalation
+  - Linux Persistence Techniques
+  - Compromised Linux Host
   asset_type: Endpoint
   mitre_attack_id:
     - T1574.006
