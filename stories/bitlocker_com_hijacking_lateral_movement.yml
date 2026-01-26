@@ -1,15 +1,42 @@
----
-# Analytic Story: BitLocker COM Hijacking Lateral Movement
 name: BitLocker COM Hijacking Lateral Movement
 id: 9d1f4a2b-6e3c-4f7d-8a9b-1c5e7f8d3e4f
 version: 1
 date: '2025-11-23'
-author: Ali Atashgar (AAtashGar)
+author: Ali Atashgar (AAtashGar), Github Community
 status: production
 description: |
-  Detection content for the 2025 BitLocker COM hijacking lateral
-  movement technique using HKCU registry manipulation
-  of Network Unlock COM object.
+  This Analytic Story focuses on detecting lateral movement via exploitation of BitLocker COM Hijacking
+  (MITRE ATT&CK Technique **T1546.015** – Event Triggered Execution: Component Object Model Hijacking)
+  a technique observed in 2025 campaigns. Attackers modify registry values under HKCU associated with
+  a specific BitLocker-related CLSID (`{A7A63E5C-3877-4840-8727-C1EA9D7A4D50}`)
+  hijacking legitimate BitLocker processes such as `baaupdate.exe` or `BdeUISrv.exe`.
+  This allows malicious code to execute in the context of a high-privilege system process
+  facilitating lateral movement across Windows environments—especially
+  after gaining initial access to an endpoint.
+
+  The detection correlates the following suspicious behaviors on the same host:
+  - Registry handle operations (e.g., SetInformation,
+  CreateFile) targeting the hijacked CLSID key in HKCU
+  - Subsequent execution of BitLocker-related binaries (baaupdate.exe, BdeUISrv.exe)
+  shortly after the registry modification
+  - Anomalous child processes or unusual command-line arguments
+  spawned from these legitimate processes
+
+  Monitoring these patterns can serve as an early indicator of COM hijacking
+  attempts for lateral movement 
+  particularly in environments where BitLocker is enabled or attackers already
+  have foothold access.
+
+  MITRE ATT&CK Mappings:
+  - T1546.015: Event Triggered Execution: Component Object Model Hijacking
+  - TA0008: Lateral Movement
+
+  Recommendations:
+  - Enable continuous monitoring of sensitive CLSID registry modifications
+  (especially under HKCU\Software\Classes\CLSID)
+  - Combine with EDR telemetry to detect anomalous process execution chains
+  involving BitLocker components
+  - Consider restricting write access to relevant registry paths where feasible
 narrative: |
   In August 2025, a novel lateral movement technique was published that abuses
   the BitLocker Network Unlock COM object
