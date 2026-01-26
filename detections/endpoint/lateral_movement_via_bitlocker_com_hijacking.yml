@@ -1,9 +1,8 @@
----
 name: Lateral Movement via BitLocker COM Hijacking
 id: 990d5907-c022-4358-9ada-f6e5e69514e8
 version: 1
 date: '2025-09-28'
-author: AAtashGar
+author: Ali Atashgar (AAtashGar), Github Community
 status: production
 description: |-
   This detection identifies potential lateral movement activities
@@ -12,7 +11,7 @@ description: |-
   handle operations on CLSIDs, and executions of specific processes like
   baaupdate.exe and BdeUISrv.exe. These events are correlated by host to
   detect sequences indicative of this attack vector.
-type: Correlation
+type: TTP
 references:
   - https://medium.com/@seripallychetan/bitlocker-com-hijack-a-new-frontier-in-lateral-movement-tactics-ac5039b18dc6
   - https://ipurple.team/2025/08/04/lateral-movement-bitlocker/
