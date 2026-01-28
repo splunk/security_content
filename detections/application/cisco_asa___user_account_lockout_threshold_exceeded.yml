@@ -1,7 +1,7 @@
 name: Cisco ASA - User Account Lockout Threshold Exceeded
 id: 3e8f9c2a-6d4b-4a7e-9c5f-1b8d7e3a9f2c
-version: 1
-date: '2025-11-18'
+version: 2
+date: '2026-1-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
