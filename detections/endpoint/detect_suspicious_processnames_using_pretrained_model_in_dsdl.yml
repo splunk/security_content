@@ -1,7 +1,7 @@
 name: Detect suspicious processnames using pretrained model in DSDL
 id: a15f8977-ad7d-4669-92ef-b59b97219bf5
-version: 8
-date: '2026-01-15'
+version: 7
+date: '2025-05-02'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
 status: experimental
@@ -38,20 +38,6 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   names and speed up the data modeling process.
 known_false_positives: False positives may be present if a suspicious processname
   is similar to a benign processname.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references:
 - https://www.cisa.gov/uscert/ncas/alerts/aa20-302a
 - https://www.splunk.com/en_us/blog/security/random-words-on-entropy-and-dns.html

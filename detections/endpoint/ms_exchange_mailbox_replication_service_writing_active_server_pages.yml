@@ -1,7 +1,7 @@
 name: MS Exchange Mailbox Replication service writing Active Server Pages
 id: 985f322c-57a5-11ec-b9ac-acde48001122
-version: 7
-date: '2026-01-15'
+version: 6
+date: '2025-05-02'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -33,20 +33,6 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: The query is structured in a way that `action` (read, create)
   is not defined. Review the results of this query, filter, and tune as necessary.
   It may be necessary to generate this query specific to your endpoint product.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references:
 - https://redcanary.com/blog/blackbyte-ransomware/
 rba:

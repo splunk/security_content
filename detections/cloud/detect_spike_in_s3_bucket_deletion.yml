@@ -1,7 +1,7 @@
 name: Detect Spike in S3 Bucket deletion
 id: e733a326-59d2-446d-b8db-14a17151aa68
-version: 6
-date: '2026-01-15'
+version: 5
+date: '2025-05-02'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
@@ -40,20 +40,6 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
   once to create a baseline of previously seen S3 bucket-deletion activity.
 known_false_positives: Based on the values of`dataPointThreshold` and `deviationThreshold`,
   the false positive rate may vary. Please modify this according the your environment.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: Spike in AWS S3 Bucket Deletion from $user$

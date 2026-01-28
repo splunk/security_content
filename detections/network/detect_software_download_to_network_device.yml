@@ -1,7 +1,7 @@
 name: Detect Software Download To Network Device
 id: cc590c66-f65f-48f2-986a-4797244762f8
-version: 7
-date: '2026-01-15'
+version: 6
+date: '2025-05-02'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -30,20 +30,6 @@ how_to_implement: This search looks for Network Traffic events to TFTP, FTP or S
   (netboot) which is not in the Asset inventory.
 known_false_positives: This search will also report any legitimate attempts of software
   downloads to network devices as well as outbound SSH sessions from network devices.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: Potentially unauthorized software download to $dest$

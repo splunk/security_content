@@ -1,7 +1,7 @@
 name: Detect Unauthorized Assets by MAC address
 id: dcfd6b40-42f9-469d-a433-2e53f7489ff4
-version: 7
-date: '2026-01-15'
+version: 6
+date: '2025-05-02'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -29,20 +29,6 @@ known_false_positives: This search might be prone to high false positives. Pleas
   be detected as unauthorized. If this is the case, verify the MAC address of the
   system responsible for the false positive and add it to the Assets and Identity
   framework with the proper information.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: Potentially Unauthorized Device observed

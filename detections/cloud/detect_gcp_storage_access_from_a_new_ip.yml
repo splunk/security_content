@@ -1,7 +1,7 @@
 name: Detect GCP Storage access from a new IP
 id: ccc3246a-daa1-11ea-87d0-0242ac130022
-version: 6
-date: '2026-01-15'
+version: 5
+date: '2025-05-02'
 author: Shannon Davis, Splunk
 status: experimental
 type: Anomaly
@@ -39,20 +39,6 @@ known_false_positives: GCP Storage buckets can be accessed from any IP (if the A
   are open to allow it), as long as it can make a successful connection. This will
   be a false postive, since the search is looking for a new IP within the past two
   hours.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: GCP Bucket $bucket_name$ accessed from a new IP ($remote_ip$)

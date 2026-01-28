@@ -1,7 +1,7 @@
 name: Unusually Long Command Line - MLTK
 id: 57edaefa-a73b-45e5-bbae-f39c1473f941
-version: 8
-date: '2026-01-15'
+version: 7
+date: '2025-05-02'
 author: Rico Valdez, Splunk
 status: experimental
 type: Anomaly
@@ -52,20 +52,6 @@ known_false_positives: Some legitimate applications use long command lines for i
   the support search to re-build the ML model on the latest data. You may get unexpected
   results if the user identified in the results is not present in the data used to
   build the associated model.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: Unusually long command line usage on $dest$

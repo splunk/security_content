@@ -1,7 +1,7 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 7
-date: '2026-01-15'
+version: 6
+date: '2025-05-02'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -28,20 +28,6 @@ known_false_positives: Some software may create WMI temporary event subscription
   for various purposes. The included search contains an exception for two of these
   that occur by default on Windows 10 systems. You may need to modify the search to
   create exceptions for other legitimate events.
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
 references: []
 rba:
   message: WMI Temporary event subscription detected on $dest$
