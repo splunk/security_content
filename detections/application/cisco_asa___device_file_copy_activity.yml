@@ -1,7 +1,7 @@
 name: Cisco ASA - Device File Copy Activity
 id: 4d7e8f3a-9c2b-4e6f-8a1d-5b9c7e2f4a8c
 version: 2
-date: '2026-1-28'
+date: '2026-01-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

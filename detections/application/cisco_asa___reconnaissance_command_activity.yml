@@ -1,7 +1,7 @@
 name: Cisco ASA - Reconnaissance Command Activity
 id: 6e9d4f7a-3c8b-4a9e-8d2f-7b5c9e1a6f3d
 version: 2
-date: '2026-1-28'
+date: '2026-01-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Cisco ASA - Device File Copy to Remote Location
 id: 8a9e5f2b-6d4c-4e7f-9b3a-1c8d7f5e2a9b
 version: 2
-date: '2026-1-28'
+date: '2026-01-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

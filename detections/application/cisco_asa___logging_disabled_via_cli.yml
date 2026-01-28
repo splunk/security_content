@@ -1,7 +1,7 @@
 name: Cisco ASA - Logging Disabled via CLI
 id: 7b4c9f3e-5a88-4b7b-9c4b-94d8e5d67201
 version: 4
-date: '2026-1-28'
+date: '2026-01-28'
 author: Bhavin Patel, Micheal Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
