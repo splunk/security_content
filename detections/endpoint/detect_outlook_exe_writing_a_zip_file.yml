@@ -13,7 +13,7 @@ description: The following analytic identifies the execution of `outlook.exe` wr
   data access, data exfiltration, or the delivery of malware, potentially compromising
   the security of the affected system and network.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 15
+- Sysmon EventID 1 AND Sysmon EventID 11
 search: |
   | tstats `security_content_summariesonly` min(_time) as firstTime max(_time)
       as lastTime FROM datamodel=Endpoint.Processes where Processes.process_name=outlook.exe
@@ -34,7 +34,7 @@ search: |
       [| tstats `security_content_summariesonly` count values(Filesystem.file_path)
           as file_path values(Filesystem.file_name) as file_name FROM datamodel=Endpoint.Filesystem
           where (Filesystem.file_path=*.zip ) AND (Filesystem.file_path=C:\\Users*
-          OR Filesystem.file_path=*Local\\Temp*) by _time span=5m Filesystem.process_guid Filesystem.process_id Filesystem.file_hash
+          OR Filesystem.file_path=*Local\\Temp*) Filesystem.action=created by _time span=5m Filesystem.process_guid Filesystem.process_id Filesystem.file_hash
           Filesystem.dest Filesystem.dvc Filesystem.signature Filesystem.signature_id
       | `drop_dm_object_name(Filesystem)` 
       | `security_content_ctime(firstTime)` 
