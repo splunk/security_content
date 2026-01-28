@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - File Download Over Uncommon Port
 id: f26445a8-a6a2-4855-bec0-0c39e52e5b8f
-version: 3
-date: '2026-06-01'
+version: 4
+date: '2026-01-28'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
