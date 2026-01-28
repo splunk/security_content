@@ -47,7 +47,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A chromium process with the --disable-extensions flag was launched on $dest$ by user $user$.
+  message: A chromium process with the --disable-logging flag was launched on $dest$ by user $user$.
   risk_objects:
   - field: dest
     type: system
