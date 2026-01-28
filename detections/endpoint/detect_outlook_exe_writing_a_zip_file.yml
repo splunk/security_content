@@ -86,6 +86,8 @@ rba:
   threat_objects:
   - field: file_name
     type: file_name
+  - field: file_path
+    type: file_path
 tags:
   analytic_story:
   - Spearphishing Attachments
