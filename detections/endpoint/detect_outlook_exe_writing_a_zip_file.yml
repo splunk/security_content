@@ -4,7 +4,7 @@ version: 15
 date: '2026-01-23'
 author: Bhavin Patel, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
   The following analytic identifies the execution of `outlook.exe` writing a `.zip` file to the disk.
   It leverages data from the Endpoint data model, specifically monitoring process and filesystem activities.
