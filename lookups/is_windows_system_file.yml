@@ -1,6 +1,6 @@
 name: is_windows_system_file
-date: 2024-12-23
-version: 2
+date: 2025-12-31
+version: 3
 id: ce238622-4d8f-41a4-a747-5d0adab9c854
 author: Splunk Threat Research Team
 lookup_type: csv

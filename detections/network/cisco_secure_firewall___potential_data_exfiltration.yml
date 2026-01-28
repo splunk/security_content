@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Potential Data Exfiltration
 id: 3d8536b6-52b4-4c3e-b695-3f2e90bb22be
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-06-01'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -19,7 +19,7 @@ search: |
       Values(url) as url
       Values(rule) as rule
       Values(dest_port) as dest_port
-      by src_ip, dest, Exfiltrated, transport, action
+      by src, dest, Exfiltrated, transport, action
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_secure_firewall___potential_data_exfiltration_filter`
@@ -39,12 +39,12 @@ known_false_positives: |
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -52,9 +52,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Potential data exfiltration from $src_ip$ to $dest$ with $Exfiltrated$ MB of data exfiltrated"
+  message: Potential data exfiltration from $src$ to $dest$ with $Exfiltrated$ MB of data exfiltrated"
   risk_objects:
-    - field: src_ip
+    - field: src
       type: system
       score: 40
   threat_objects:

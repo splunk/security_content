@@ -1,7 +1,7 @@
 name: Suspicious Linux Discovery Commands
 id: 0edd5112-56c9-11ec-b990-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-20'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -72,6 +72,7 @@ rba:
 tags:
   analytic_story:
   - Linux Post-Exploitation
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1059.004

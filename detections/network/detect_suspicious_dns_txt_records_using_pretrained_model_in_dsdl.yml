@@ -1,7 +1,7 @@
 name: Detect suspicious DNS TXT records using pretrained model in DSDL
 id: 92f65c3a-968c-11ed-a1eb-0242ac120002
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-20'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: experimental
 type: Anomaly
@@ -58,6 +58,7 @@ tags:
   - DNS Hijacking
   - Suspicious DNS Traffic
   - Command And Control
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1568.002

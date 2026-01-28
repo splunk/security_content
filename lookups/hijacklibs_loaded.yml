@@ -1,6 +1,6 @@
 name: hijacklibs_loaded
-date: 2024-12-23
-version: 2
+date: 2026-01-15
+version: 3
 id: 0a58a703-3a7a-4b27-a82b-f5a61acd3f1a
 author: Splunk Threat Research Team
 lookup_type: csv

@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Citrix NetScaler Memory Overread Attempt
 id: 93db24a0-fd21-45d7-9daf-84afd5a8cca2
-version: 1
-date: '2025-07-17'
+version: 2
+date: '2026-06-01'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -24,12 +24,12 @@ search: |
           values(MitreAttackGroups) as MitreAttackGroups
           values(InlineResult) as InlineResult
           values(InlineResultReason) as InlineResultReason
-          values(src_ip) as src_ip
+          values(src) as src
           values(dest_port) as dest_port
           values(rule) as rule
           values(transport) as transport
           values(app) as app
-          by dest_ip
+          by dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_secure_firewall___citrix_netscaler_memory_overread_attempt_filter`
@@ -54,22 +54,22 @@ references:
   - https://labs.watchtowr.com/how-much-more-must-we-bleed-citrix-netscaler-memory-disclosure-citrixbleed-2-cve-2025-5777/
   - https://github.com/projectdiscovery/nuclei-templates/blob/main/http/cves/2025/CVE-2025-5777.yaml
 drilldown_searches:
-  - name: View the detection results for - "$src_ip$" and "$dest_ip$"
-    search: '%original_detection_search% | search src_ip="$src_ip$" dest_ip="$dest_ip$"'
+  - name: View the detection results for - "$src$" and "$dest$"
+    search: '%original_detection_search% | search src="$src$" dest="$dest$"'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$src_ip$" and "$dest_ip$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$", "$dest_ip$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+  - name: View risk events for the last 7 days for - "$src$" and "$dest$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: Potential exploitation of CVE-2025-5777 from $src_ip$
+  message: Potential exploitation of CVE-2025-5777 from $src$
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 85
   threat_objects:
-    - field: src_ip
+    - field: src
       type: system
 tags:
   analytic_story:
