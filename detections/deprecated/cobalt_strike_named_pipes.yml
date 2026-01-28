@@ -4,14 +4,6 @@ version: 13
 date: '2025-12-04'
 author: Michael Haag, Splunk
 status: deprecated
-deprecation_info:
-  content_type: Search
-  full_stanza_name: ESCU - Cobalt Strike Named Pipes - Rule
-  reason: Detection is now part of a larger collection of suspicious named pipes
-  removed_in_version: 5.22.0
-  replacement_content: []
-  # TODO - commented out for now. This will be updated after a parsing improvement.
-  #- Windows Suspicious C2 Named Pipe
 type: TTP
 description: The following analytic detects the use of default or publicly known named
   pipes associated with Cobalt Strike. It leverages Sysmon EventID 17 and 18 to identify
