@@ -1,12 +1,12 @@
 name: Risk Rule for Dev Sec Ops by Repository
 id: 161bc0ca-4651-4c13-9c27-27770660cf67
 version: 9
-date: '2026-01-14'
+date: '2026-01-22'
 author: Bhavin Patel
 status: production
 type: Correlation
 description: The following analytic identifies high-risk activities within repositories
-  by correlating repository data with risk scores. It leverages risk events from the
+  by correlating repository data with risk scores. It leverages findings and intermediate findings created by detections from the
   Dev Sec Ops analytic stories, summing risk scores and capturing source and user
   information. The detection focuses on high-risk scores above 100 and sources with
   more than three occurrences. This activity is significant as it highlights repositories

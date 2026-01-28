@@ -1,7 +1,7 @@
 name: Linux SSH Remote Services Script Execute
 id: aa1748dd-4a5c-457a-9cf6-ca7b4eb711b3
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-01-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -69,6 +69,7 @@ tags:
   analytic_story:
   - Linux Living Off The Land
   - Hellcat Ransomware
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.004

@@ -1,7 +1,7 @@
 name: NLTest Domain Trust Discovery
 id: c3e05466-5f22-11eb-ae93-0242ac130002
-version: 9
-date: '2025-12-18'
+version: 10
+date: '2026-01-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -78,6 +78,7 @@ tags:
   - Rhysida Ransomware
   - IcedID
   - Ryuk Ransomware
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1482

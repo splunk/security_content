@@ -55,6 +55,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - StealC Stealer
   - Crypto Stealer
   - Braodo Stealer
   - APT37 Rustonotto and FadeStealer
