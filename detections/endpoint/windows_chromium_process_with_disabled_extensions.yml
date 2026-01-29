@@ -49,7 +49,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: User $user$ launched a Chromium-based browser on $dest$ with the --disable-extensions flag. Parent process: $parent_process_name$. Command line $process$.
+  message: User $user$ launched a Chromium-based browser on $dest$ with the --disable-extensions flag. Parent process $parent_process_name$. Command line $process$.
   risk_objects:
   - field: dest
     type: system
