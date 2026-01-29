@@ -70,8 +70,6 @@ rba:
     type: process
   - field: parent_process
     type: parent_process
-  - field: parent_process_path
-    type: parent_process_path
 tags:
   analytic_story:
   - Browser Hijacking
