@@ -32,6 +32,7 @@ known_false_positives: Administrators may enable or disable this feature for fra
   cause some false positive.
 references:
 - https://www.trendmicro.com/en_us/research/26/a/analysis-of-the-evelyn-stealer-campaign.html
+- https://peter.sh/experiments/chromium-command-line-switches/
 drilldown_searches:
 - name: View the detection results for - "$user$" and "$dest$"
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -47,7 +48,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A chromium process with the --disable-popup-blocking flag was launched on $dest$ by user $user$.
+  message: A Chromium-based browser process was launched on $dest$ by user $user$ with the --disable-popup-blocking command-line flag. The process was spawned by $parent_process_name$ and used the following command line $process$.
   risk_objects:
   - field: dest
     type: system
@@ -55,6 +56,12 @@ rba:
   threat_objects:
   - field: parent_process_name
     type: parent_process_name
+  - field: process
+    type: process
+  - field: parent_process
+    type: parent_process
+  - field: parent_process_path
+    type: parent_process_path
 tags:
   analytic_story:
   - Browser Hijacking

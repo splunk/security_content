@@ -19,9 +19,9 @@ search: |
      Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
      Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
      Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | rex field=Processes.process "--window-size=(?<window_width>\d+),(?<window_height>\d+)"
+  | rex field=Processes.process "--window-size=(?<window_width>\d+)\s*,\s*(?<window_height>\d+)"
   | eval window_width=tonumber(window_width), window_height=tonumber(window_height)
-  | where isnotnull(window_width) AND isnotnull(window_height) AND window_height < 100 AND window_width < 100
+  | where window_height < 100 AND window_width < 100
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
@@ -34,6 +34,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.trendmicro.com/en_us/research/26/a/analysis-of-the-evelyn-stealer-campaign.html
+- https://peter.sh/experiments/chromium-command-line-switches/
 drilldown_searches:
 - name: View the detection results for - "$user$" and "$dest$"
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -49,7 +50,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A chromium process with a small window size was launched on $dest$ by user $user$.
+  message: A Chromium-based browser process was launched on $dest$ by user $user$ with an unusually small window size (less than 100×100 pixels). The process was spawned by $parent_process_name$ and included the following command-line parameters $process$.
   risk_objects:
   - field: dest
     type: system
@@ -57,6 +58,12 @@ rba:
   threat_objects:
   - field: parent_process_name
     type: parent_process_name
+  - field: process
+    type: process
+  - field: parent_process
+    type: parent_process
+  - field: parent_process_path
+    type: parent_process_path
 tags:
   analytic_story:
   - Browser Hijacking

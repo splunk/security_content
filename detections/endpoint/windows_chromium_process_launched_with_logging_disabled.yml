@@ -5,7 +5,7 @@ date: '2026-01-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances of Chromium-based browser processes on Windows launched with logging disabled via command-line arguments. Disabling logging can be used by automation frameworks or isolated testing environment but it is also a technique employed by malware and malicious scripts to evade security monitoring. This behavior reduces visibility into browser activity and can bypass user-installed or enterprise security tools. Analysts should review the parent process, command-line parameters, and execution context to determine whether the activity is legitimate or suspicious.
+description: The following analytic ddetects instances of Chromium-based browser processes on Windows launched with logging disabled via command-line arguments such as --disable-logging and --disable-logging-redirect. The --disable-logging flag forces browser logging to be disabled, while --disable-logging-redirect disables log redirection and is commonly used for testing or debugging scenarios. Logging is enabled by default in Chromium debug builds, making these flags more likely to appear in debug or development environments. While these options may be legitimately used by automation frameworks, debugging workflows, or isolated testing environments, they are also leveraged by malware and malicious scripts to evade security monitoring. Disabling browser logging reduces visibility into browser activity and may bypass user-installed or enterprise security controls. Analysts should review the parent process, full command-line parameters, and execution context to determine whether the behavior is expected or potentially suspicious.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
@@ -32,6 +32,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
 known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.trendmicro.com/en_us/research/26/a/analysis-of-the-evelyn-stealer-campaign.html
+- https://peter.sh/experiments/chromium-command-line-switches/
 drilldown_searches:
 - name: View the detection results for - "$user$" and "$dest$"
   search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -47,7 +48,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A chromium process with the --disable-logging flag was launched on $dest$ by user $user$.
+  message: A Chromium-based browser process was launched on $dest$ by user $user$ with the --disable-logging command-line flag. The process was spawned by $parent_process_name$ and used the following command line $process$.
   risk_objects:
   - field: dest
     type: system
@@ -55,6 +56,12 @@ rba:
   threat_objects:
   - field: parent_process_name
     type: parent_process_name
+  - field: process
+    type: process
+  - field: parent_process
+    type: parent_process
+  - field: parent_process_path
+    type: parent_process_path
 tags:
   analytic_story:
   - Browser Hijacking
