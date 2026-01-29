@@ -1,7 +1,7 @@
 name: Windows Chromium Process Loaded Extension via Command-Line
 id: 1b8a468a-52e3-4206-b14a-73165441684c
-version: 1
-date: '2026-01-12'
+version: 2
+date: '2026-01-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
