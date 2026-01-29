@@ -4,7 +4,7 @@ version: 7
 date: '2026-01-29'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
-type: Hunting
+type: Anomaly
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
