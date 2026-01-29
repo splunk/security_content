@@ -38,7 +38,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   your endpoints into the `Endpoint` datamodel in the `Processes` node. In addition,
   confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
   endpoint product.
-kknown_false_positives: Administrators may enable or disable this feature for framework testing that may
+known_false_positives: Administrators may enable or disable this feature for framework testing that may
   cause some false positive.
 references:
 - https://www.trendmicro.com/en_us/research/26/a/analysis-of-the-evelyn-stealer-campaign.html
