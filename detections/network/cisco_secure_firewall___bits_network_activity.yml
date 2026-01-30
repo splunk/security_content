@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Bits Network Activity
 id: b08e69d4-b42d-494c-bd30-abaaa3571ba4
-version: 4
-date: '2026-06-01'
+version: 5
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

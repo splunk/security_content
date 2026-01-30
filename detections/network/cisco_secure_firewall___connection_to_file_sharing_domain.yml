@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Connection to File Sharing Domain
 id: f7e5e792-d907-46c1-a58e-4ff974dc462a
-version: 5
-date: '2026-06-01'
+version: 6
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
