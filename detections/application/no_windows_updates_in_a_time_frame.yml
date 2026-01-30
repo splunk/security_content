@@ -1,7 +1,7 @@
 name: No Windows Updates in a time frame
 id: 1a77c08c-2f56-409c-a2d3-7d64617edd4f
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-14'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Hunting
@@ -27,7 +27,7 @@ how_to_implement: To successfully implement this search, it requires that the 'U
   wish to monitor. The Windows add-on should be also be installed and configured to
   properly parse Windows events in Splunk. There may be other data sources which can
   populate this data model, including vulnerability management systems.
-known_false_positives: None identified
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

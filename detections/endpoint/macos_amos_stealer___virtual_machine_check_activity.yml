@@ -1,7 +1,7 @@
 name: MacOS AMOS Stealer - Virtual Machine Check Activity
 id: 4e41ad21-9761-426d-8aa1-083712ff9f30
-version: 2
-date: '2025-10-14'
+version: 3
+date: '2026-01-14'
 author: Nasreddine Bencherchali, Splunk, Alex Karkins
 status: production
 type: Anomaly
@@ -32,7 +32,7 @@ search: |
   | `macos_amos_stealer___virtual_machine_check_activity_filter`
 how_to_implement: |
   This detection leverages osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
-known_false_positives: None identified.
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
   - https://www.virustotal.com/gui/search/behaviour_processes%253A%2522osascript%2520-e%2520set%2522%2520AND%2520behaviour_processes%253A%2522system_profiler%2522%2520AND%2520(behaviour_processes%253A%2522VMware%2522%2520OR%2520behaviour_processes%253A%2522QEMU%2522)?type=files

@@ -1,7 +1,7 @@
 name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
-version: 10
-date: '2025-07-30'
+version: 11
+date: '2026-01-14'
 author: Steven Dick, Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -35,7 +35,7 @@ how_to_implement:
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://attack.mitre.org/software/S0332/
 drilldown_searches:

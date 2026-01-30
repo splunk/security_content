@@ -1,7 +1,7 @@
 name: Windows Mshta Execution In Registry
 id: e13ceade-b673-4d34-adc4-4d9c01729753
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://redcanary.com/threat-detection-report/techniques/mshta/
 - https://learn.microsoft.com/en-us/microsoft-365/security/intelligence/fileless-threats?view=o365-worldwide

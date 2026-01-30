@@ -1,7 +1,7 @@
 name: Disable Show Hidden Files
 id: 6f3ccfa2-91fe-11eb-8f9b-acde48001122
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -31,7 +31,7 @@ how_to_implement:
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
   Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/W32~Tiotua-P/detailed-analysis
 drilldown_searches:

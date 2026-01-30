@@ -1,7 +1,7 @@
 name: Windows Privilege Escalation System Process Without System Parent
 id: 5a5351cd-ba7e-499e-ad82-2ce160ffa637
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -23,7 +23,7 @@ search: '`sysmon` EventCode=1 IntegrityLevel="system" ParentUser=* NOT ParentUse
   `security_content_ctime(lastTime)` | `windows_privilege_escalation_system_process_without_system_parent_filter`'
 how_to_implement: Target environment must ingest sysmon data, specifically Event ID
   1 with process integrity and parent user data.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://attack.mitre.org/techniques/T1068/
 - https://vuls.cert.org/confluence/display/Wiki/2021/06/21/Finding+Privilege+Escalation+Vulnerabilities+in+Windows+using+Process+Monitor

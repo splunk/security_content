@@ -1,7 +1,7 @@
 name: Windows PowerShell Script Block With Malicious String
 id: 0f09cedd-10f1-4b9f-bdea-7a8b06ea575d
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -25,7 +25,7 @@ search: '`powershell` ScriptBlockText=* EventCode=4104
 how_to_implement: The following analytic requires PowerShell operational logs to be
   imported. Modify the powershell macro as needed to match the sourcetype or add index.
   This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Unknown, possible usage by internal red team or powershell
+known_false_positives: No false positives have been identified at this time.
   commands with overlap.
 references:
 - https://attack.mitre.org/techniques/T1059/001/

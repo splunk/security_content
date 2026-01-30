@@ -1,7 +1,7 @@
 name: Windows New Custom Security Descriptor Set On EventLog Channel
 id: c0e5dd5a-2117-41d5-a04c-82a762a86a38
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-01-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -30,7 +30,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   used for this search is typically generated via logs that report reads and writes
   to the registry. If you are using Sysmon, you must have at least version 2.0 of
   the official Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: None identified, setting up the "CustomSD" value is considered
+known_false_positives: No false positives have been identified at this time.
   a legacy option and shouldn't be a common activity.
 references:
 - https://learn.microsoft.com/en-us/troubleshoot/windows-server/group-policy/set-event-log-security-locally-or-via-group-policy

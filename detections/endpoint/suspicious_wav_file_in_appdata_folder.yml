@@ -1,7 +1,7 @@
 name: Suspicious WAV file in Appdata Folder
 id: 5be109e6-1ac5-11ec-b421-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -35,7 +35,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, file_name, file_path and command-line
   executions from your endpoints. If you are using Sysmon, you must have at least
   version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://success.trendmicro.com/dcx/s/solution/1123281-remcos-malware-information?language=en_US
 - https://blog.malwarebytes.com/threat-intelligence/2021/07/remcos-rat-delivered-via-visual-basic/

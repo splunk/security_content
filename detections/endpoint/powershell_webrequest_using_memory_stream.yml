@@ -1,7 +1,7 @@
 name: PowerShell WebRequest Using Memory Stream
 id: 103affa6-924a-4b53-aff4-1d5075342aab
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -23,7 +23,7 @@ search: '`powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient
 how_to_implement: The following analytic requires PowerShell operational logs to be
   imported. Modify the powershell macro as needed to match the sourcetype or add index.
   This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Unknown, possible custom scripting.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.mandiant.com/resources/blog/tracking-evolution-gootloader-operations
 - https://thedfirreport.com/2022/05/09/seo-poisoning-a-gootloader-story/

@@ -1,7 +1,7 @@
 name: IcedID Exfiltrated Archived File Creation
 id: 0db4da70-f14b-11eb-8043-acde48001122
-version: 8
-date: '2025-09-18'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -27,7 +27,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.cisecurity.org/insights/white-papers/security-primer-icedid
 tags:
