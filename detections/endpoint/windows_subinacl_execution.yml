@@ -1,7 +1,7 @@
 name: Windows SubInAcl Execution
 id: 12491419-1a6f-4af4-afc3-4e2052f0610e
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-01-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: None identified. Attempts to disable security-related services
+known_false_positives: No false positives have been identified at this time.
   should be identified and understood.
 references:
 - https://www.pwc.com/gx/en/issues/cybersecurity/cyber-threat-intelligence/cyber-year-in-retrospect/yir-cyber-threats-report-download.pdf

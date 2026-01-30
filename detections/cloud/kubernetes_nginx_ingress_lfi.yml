@@ -1,7 +1,7 @@
 name: Kubernetes Nginx Ingress LFI
 id: 0f83244b-425b-4528-83db-7a88c5f66e48
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ search: '`kubernetes_container_controller` | rex field=_raw "^(?<remote_addr>\S+
   OUTPUT lfi_path | search lfi_path=yes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
   | `kubernetes_nginx_ingress_lfi_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://github.com/splunk/splunk-connect-for-kubernetes
 - https://www.offensive-security.com/metasploit-unleashed/file-inclusion-vulnerabilities/

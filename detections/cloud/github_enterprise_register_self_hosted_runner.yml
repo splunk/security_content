@@ -1,7 +1,7 @@
 name: GitHub Enterprise Register Self Hosted Runner
 id: b27685a2-8826-4123-ab78-2d9d0d419ed0
-version: 3
-date: '2025-11-25'
+version: 4
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -21,7 +21,7 @@ search: '`github_enterprise` action=enterprise.register_self_hosted_runner
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `github_enterprise_register_self_hosted_runner_filter`'
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
 - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610

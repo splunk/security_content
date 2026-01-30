@@ -1,7 +1,7 @@
 name: Schedule Task with Rundll32 Command Trigger
 id: 75b00fd8-a0ff-11eb-8b31-acde48001122
-version: 7
-date: '2025-10-31'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -23,7 +23,7 @@ how_to_implement: To successfully implement this search, you need to be
   ingesting logs with the task schedule (Exa. Security Log EventCode 4698) 
   endpoints. Tune and filter known instances of Task schedule used in your 
   environment.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/

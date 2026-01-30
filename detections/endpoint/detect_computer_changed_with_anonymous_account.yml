@@ -1,7 +1,7 @@
 name: Detect Computer Changed with Anonymous Account
 id: 1400624a-d42d-484d-8843-e6753e6e3645
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Rod Soto, Jose Hernandez, Splunk
 status: experimental
 type: Hunting
@@ -26,7 +26,7 @@ how_to_implement: This search requires audit computer account management to be e
   for Windows Event Logs. Replace the macro definition with configurations for your
   Splunk environment. The search also uses a post-filter macro designed to filter
   out known false positives.
-known_false_positives: None thus far found
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.lares.com/blog/from-lares-labs-defensive-guidance-for-zerologon-cve-2020-1472/
 tags:

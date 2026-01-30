@@ -1,7 +1,7 @@
 name: Enumerate Users Local Group Using Telegram
 id: fcd74532-ae54-11eb-a5ab-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ how_to_implement:
   To successfully implement this search, you need to be ingesting
   logs with the Task Schedule (Exa. Security Log EventCode 4798) endpoints. Tune and
   filter known instances of process like logonUI used in your environment.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
   - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4798

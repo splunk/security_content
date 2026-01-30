@@ -1,7 +1,7 @@
 name: Kubernetes newly seen TCP edge
 id: 13f081d6-7052-428a-bbb0-892c79ca7c65
-version: 6
-date: '2025-06-24'
+version: 7
+date: '2026-01-14'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -33,7 +33,7 @@ how_to_implement:
   Access Token. Lastly set up the add-on to ingest metrics from O11y cloud using the
   following settings, and any other settings left at default:\n* Name sim_npm_metrics_to_metrics_index\n
   * Metric Resolution 10000"
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://github.com/signalfx/splunk-otel-collector-chart
 rba:

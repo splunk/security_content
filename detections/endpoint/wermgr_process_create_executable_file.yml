@@ -1,7 +1,7 @@
 name: Wermgr Process Create Executable File
 id: ab3bcce0-a105-11eb-973c-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name, parent process, and command-line executions from your
   endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
   Sysmon TA. Tune and filter known instances of wermgr.exe may be used.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/
