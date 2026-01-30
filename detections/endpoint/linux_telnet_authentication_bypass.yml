@@ -50,7 +50,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
+  message: An instance of $parent_process_name$ spawning $process_name$ with CommandLine $process$ was identified
     on endpoint $dest$ by user $user$ related to an authentication bypass in telnetd.
   risk_objects:
   - field: user
