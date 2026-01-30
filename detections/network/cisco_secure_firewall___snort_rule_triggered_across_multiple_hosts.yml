@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Snort Rule Triggered Across Multiple Hosts
 id: a4c76d0a-56b6-44be-814b-939746c4d406
-version: 3
-date: '2026-06-01'
+version: 4
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Linux Ingress Tool Transfer with Curl
 id: 8c1de57d-abc1-4b41-a727-a7a8fc5e0857
-version: 9
-date: '2025-10-27'
+version: 10
+date: '2026-01-20'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -14,15 +14,29 @@ description: The following analytic detects the use of the curl command with spe
   to unauthorized code execution, enabling attackers to compromise the system further.
 data_source:
 - Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_name=curl
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | where match(process, "(?i)(-O|-sO|-ksO|--output)") | `linux_ingress_tool_transfer_with_curl_filter`'
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+          
+  from datamodel=Endpoint.Processes where
+  
+  Processes.process_name=curl
+  Processes.process IN ("*-O*","*-sO*","*-ksO*","*--output*")
+  by Processes.action Processes.dest Processes.original_file_name
+     Processes.parent_process Processes.parent_process_exec
+     Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path
+     Processes.process Processes.process_exec Processes.process_guid
+     Processes.process_hash Processes.process_id
+     Processes.process_integrity_level Processes.process_name
+     Processes.process_path Processes.user Processes.user_id
+     Processes.vendor_product
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | where match(process, "(?i)(-O|-sO|-ksO|--output)")
+  | `linux_ingress_tool_transfer_with_curl_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
