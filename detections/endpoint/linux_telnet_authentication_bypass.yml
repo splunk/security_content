@@ -5,9 +5,10 @@ date: '2026-01-29'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: Detects an authentication bypass in telnet. An attacker can supply a specifically 
-  crafted USER environment variable (-f root) that is passed to /usr/bin/login. Because this input
-  isn't sanitized an attacker can force the system to skip authentication and login directly as root.
+description: Detects an authentication bypass in telnet tracked as CVE-2026-24061. An attacker can
+  supply a specifically crafted USER environment variable (-f root) that is passed to /usr/bin/login. 
+  Because this input isn't sanitized an attacker can force the system to skip authentication and 
+  login directly as root.
 data_source:
 - Sysmon for Linux EventID 1
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
@@ -59,7 +60,13 @@ rba:
   - field: dest
     type: system
     score: 56
-  threat_objects: []
+  threat_objects:
+  - field: parent_process
+    type: parent_process
+  - field: process
+    type: process
+  - field: process_name
+    type: process_name
 tags:
   analytic_story:
   - Telnetd CVE-2026-24061
