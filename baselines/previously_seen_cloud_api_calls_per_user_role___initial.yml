@@ -1,7 +1,7 @@
 name: Previously Seen Cloud API Calls Per User Role - Initial
 id: 69d75f4b-b794-4a66-a777-730357b886b4
-version: 1
-date: '2020-09-03'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -16,7 +16,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   enough_data | outputlookup previously_seen_cloud_api_calls_per_user_role'
 how_to_implement: You must be ingesting Cloud infrastructure logs from your cloud
   provider.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

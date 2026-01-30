@@ -1,7 +1,7 @@
 name: Previously Seen Cloud Compute Images - Initial
 id: 7744597f-d07a-4cea-94a7-e0f8aaebc410
-version: 1
-date: '2020-10-08'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -15,7 +15,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   | outputlookup previously_seen_cloud_compute_images'
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the latest Change Datamodel accelerated
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

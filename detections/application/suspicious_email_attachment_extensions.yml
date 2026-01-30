@@ -1,7 +1,7 @@
 name: Suspicious Email Attachment Extensions
 id: 473bd65f-06ca-4dfe-a2b8-ba04ab4a0084
-version: 9
-date: '2025-12-17'
+version: 10
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -39,7 +39,7 @@ how_to_implement: |
   Phantom and the playbook will gather further information about the file attachment
   and its network behaviors. If Phantom finds malicious behavior and an analyst approves
   of the results, the email will be deleted from the user's inbox.'"
-known_false_positives: None identified
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Email attachment $file_name$ with suspicious extension from $src_user$

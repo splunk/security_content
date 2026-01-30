@@ -66,7 +66,7 @@ search: |
 how_to_implement: To properly run this search, Splunk needs to ingest data from networking
   telemetry sources such as firewalls like Cisco Secure Firewall, NetFlow, or host-based networking events. Ensure
   that the Network_Traffic data model is populated to enable this search effectively.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for $src_ip$

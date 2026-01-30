@@ -1,7 +1,7 @@
 name: Icacls Deny Command
 id: cf8d753e-a8fe-11eb-8f58-acde48001122
-version: 9
-date: '2025-06-17'
+version: 10
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,7 +42,7 @@ how_to_implement: |
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Unknown. It is possible some administrative scripts use ICacls.
+known_false_positives: No false positives have been identified at this time.
   Filter as needed.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/

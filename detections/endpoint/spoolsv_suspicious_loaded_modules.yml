@@ -1,7 +1,7 @@
 name: Spoolsv Suspicious Loaded Modules
 id: a5e451f8-da81-11eb-b245-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ search: '`sysmon` EventCode=7 Image ="*\\spoolsv.exe" ImageLoaded="*\\Windows\\S
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and imageloaded executions from your endpoints. If you
   are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://raw.githubusercontent.com/hieuttmmo/sigma/dceb13fe3f1821b119ae495b41e24438bd97e3d0/rules/windows/image_load/sysmon_cve_2021_1675_print_nightmare.yml
 drilldown_searches:
