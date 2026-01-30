@@ -1,7 +1,7 @@
 name: Rundll32 Shimcache Flush
 id: a913718a-25b6-11ec-96d3-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ how_to_implement:
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://blueteamops.medium.com/shimcache-flush-89daff28d15e
 drilldown_searches:

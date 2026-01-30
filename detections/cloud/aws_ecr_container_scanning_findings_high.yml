@@ -1,7 +1,7 @@
 name: AWS ECR Container Scanning Findings High
 id: 30a0e9f8-f1dd-4f9d-8fc2-c622461d781c
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ search: '`cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanF
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_ecr_container_scanning_findings_high_filter`'
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
   search works with AWS CloudTrail logs.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html
 drilldown_searches:

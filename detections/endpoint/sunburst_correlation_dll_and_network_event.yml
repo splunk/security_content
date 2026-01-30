@@ -1,7 +1,7 @@
 name: Sunburst Correlation DLL and Network Event
 id: 701a8740-e8db-40df-9190-5516d3819787
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: TTP
@@ -26,7 +26,7 @@ how_to_implement: This detection relies on sysmon logs with the Event ID 7, Driv
   loaded. Please tune your sysmon config that you DriverLoad event for SolarWinds.Orion.Core.BusinessLayer.dll
   is captured by Sysmon. Additionally, you need sysmon logs for Event ID 22, DNS Query.
   We suggest to run this detection at least once a day over the last 14 days.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.mandiant.com/resources/evasive-attacker-leverages-solarwinds-supply-chain-compromises-with-sunburst-backdoor
 rba:

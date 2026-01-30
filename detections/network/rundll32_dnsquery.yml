@@ -1,7 +1,7 @@
 name: Rundll32 DNSQuery
 id: f1483f5e-ee29-11eb-9d23-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -24,7 +24,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the process name and eventcode = 22 dnsquery executions from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
   Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://any.run/malware-trends/icedid
 drilldown_searches:

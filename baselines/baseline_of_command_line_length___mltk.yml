@@ -1,7 +1,7 @@
 name: Baseline of Command Line Length - MLTK
 id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
-version: 1
-date: '2019-05-08'
+version: 2
+date: '2026-01-14'
 author: Rico Valdez, Splunk
 type: Baseline
 status: production
@@ -29,7 +29,7 @@ how_to_implement:
   periodically re-run this search to rebuild the model with the latest data. More
   information on the algorithm used in the search can be found at
   `https://help.splunk.com/en/splunk-enterprise/apply-machine-learning/use-splunk-machine-learning-toolkit/5.5.0/algorithms-and-scoring-metrics-in-mltk/algorithms-in-the-splunk-machine-learning-toolkit#densityfunction-0`.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

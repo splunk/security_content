@@ -1,7 +1,7 @@
 name: Suspicious SQLite3 LSQuarantine Behavior
 id: e1997b2e-655f-4561-82fd-aeba8e1c1a86
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -35,7 +35,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Unknown.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://redcanary.com/blog/clipping-silver-sparrows-wings/
 - https://www.marcosantadev.com/manage-plist-files-plistbuddy/

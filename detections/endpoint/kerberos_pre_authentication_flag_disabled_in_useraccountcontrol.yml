@@ -1,7 +1,7 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ search: >
 how_to_implement: To successfully implement this search, you need to be ingesting
   Domain Controller events. The Advanced Security Audit policy setting `User Account
   Management` within `Account Management` needs to be enabled.
-known_false_positives: Unknown.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://docs.microsoft.com/en-us/troubleshoot/windows-server/identity/useraccountcontrol-manipulate-account-properties
 - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html

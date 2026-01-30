@@ -1,7 +1,7 @@
 name: Detect Zerologon via Zeek
 id: bf7a06ec-f703-11ea-adc1-0242ac120002
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -23,7 +23,7 @@ how_to_implement: You must be ingesting Zeek DCE-RPC data into Splunk. Zeek data
   also be getting ingested in JSON format.  We are detecting when all three RPC operations
   (NetrServerReqChallenge, NetrServerAuthenticate3, NetrServerPasswordSet2) are splunk_security_essentials_app
   via bro:rpc:json.  These three operations are then correlated on the Zeek UID field.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.secura.com/blog/zero-logon
 - https://github.com/SecuraBV/CVE-2020-1472

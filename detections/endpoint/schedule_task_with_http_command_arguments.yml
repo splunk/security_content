@@ -1,7 +1,7 @@
 name: Schedule Task with HTTP Command Arguments
 id: 523c2684-a101-11eb-916b-acde48001122
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ search: '`wineventlog_security` EventCode=4698 | xmlkv Message| search Arguments
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and
   filter known instances of Task schedule used in your environment.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://app.any.run/tasks/92d7ef61-bfd7-4c92-bc15-322172b4ebec/
 drilldown_searches:
