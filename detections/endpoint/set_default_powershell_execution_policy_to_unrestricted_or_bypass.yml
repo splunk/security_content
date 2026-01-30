@@ -1,6 +1,5 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 17
 version: 18
 date: '2026-01-30'
 author: Steven Dick, Patrick Bareiss, Splunk
