@@ -1,7 +1,7 @@
 name: Detect Outbound LDAP Traffic
 id: 5e06e262-d7cd-4216-b2f8-27b437e18458
-version: 8
-date: '2025-05-22'
+version: 9
+date: '2026-01-14'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
@@ -29,7 +29,7 @@ how_to_implement: In order to properly run this search, Splunk needs to ingest d
   from Next Generation Firewalls like, Cisco Secure Firewall Threat Defense, Palo Alto Networks Firewalls
   or other network control devices that mediate the traffic allowed into an environment.
   The search requires the Network_Traffic data model to be populated.
-known_false_positives: Unknown at this moment. Outbound LDAP traffic should not be
+known_false_positives: No false positives have been identified at this time.
   allowed outbound through your perimeter firewall. Please check those servers to
   verify if the activity is legitimate.
 references:

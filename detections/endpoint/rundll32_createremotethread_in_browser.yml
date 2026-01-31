@@ -1,7 +1,7 @@
 name: Rundll32 CreateRemoteThread In Browser
 id: f8a22586-ee2d-11eb-a193-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
   related to create remote thread or injecting codes. If you are using Sysmon, you
   must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.joesandbox.com/analysis/380662/0/html
 drilldown_searches:

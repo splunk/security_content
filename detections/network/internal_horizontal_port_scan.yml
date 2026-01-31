@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan
 id: 1ff9eb9a-7d72-4993-a55e-59a839e607f1
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-01-14'
 author: Dean Luxton
 status: production
 type: TTP
@@ -30,7 +30,7 @@ search: '| tstats `security_content_summariesonly` values(All_Traffic.action) as
 how_to_implement: To properly run this search, Splunk needs to ingest data from networking
   telemetry sources such as firewalls, NetFlow, or host-based networking events. Ensure
   that the Network_Traffic data model is populated to enable this search effectively.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$src_ip$"

@@ -1,7 +1,7 @@
 name: O365 ZAP Activity Detection
 id: 4df275fd-a0e5-4246-8b92-d3201edaef7a
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -23,7 +23,7 @@ search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
   Office 365 management activity events. Some features of Zero-hour purge are only
   offered within E3/E5 license level tenants, events may not be available otherwise.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/zero-hour-auto-purge?view=o365-worldwide
 drilldown_searches:

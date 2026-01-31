@@ -1,7 +1,7 @@
 name: Wermgr Process Spawned CMD Or Powershell Process
 id: e8fc95bc-a107-11eb-a978-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/

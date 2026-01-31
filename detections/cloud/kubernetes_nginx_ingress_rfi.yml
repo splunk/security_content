@@ -1,7 +1,7 @@
 name: Kubernetes Nginx Ingress RFI
 id: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -21,7 +21,7 @@ search: '`kubernetes_container_controller` | rex field=_raw "^(?<remote_addr>\S+
   host, http_user_agent, proxy, phase, severity | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)` | `kubernetes_nginx_ingress_rfi_filter`'
 how_to_implement: You must ingest Kubernetes logs through Splunk Connect for Kubernetes.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://github.com/splunk/splunk-connect-for-kubernetes
 - https://www.invicti.com/blog/web-security/remote-file-inclusion-vulnerability/

@@ -1,7 +1,7 @@
 name: Windows Alternate DataStream - Base64 Content
 id: 683f48de-982f-4a7e-9aac-9cec550da498
-version: 9
-date: '2025-09-18'
+version: 10
+date: '2026-01-14'
 author: Steven Dick, Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search: '`sysmon` EventCode=15 NOT Contents IN ("-","[ZoneTransfer]*") | regex T
   | `security_content_ctime(lastTime)` | `windows_alternate_datastream___base64_content_filter`'
 how_to_implement: Target environment must ingest sysmon data, specifically Event ID
   15.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f
 - https://car.mitre.org/analytics/CAR-2020-08-001/

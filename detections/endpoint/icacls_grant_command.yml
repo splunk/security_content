@@ -1,7 +1,7 @@
 name: ICACLS Grant Command
 id: b1b1e316-accc-11eb-a9b4-acde48001122
-version: 9
-date: '2025-11-20'
+version: 10
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,7 +42,7 @@ how_to_implement: |
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Unknown. Filter as needed.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 drilldown_searches:

@@ -1,7 +1,7 @@
 name: Detect Windows DNS SIGRed via Splunk Stream
 id: babd8d10-d073-11ea-87d0-0242ac130003
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -14,15 +14,22 @@ description: The following analytic detects attempts to exploit the SIGRed vulne
   data breaches and infrastructure compromise. Immediate investigation and remediation
   are crucial to mitigate these risks.
 data_source: []
-search: '`stream_dns` | spath "query_type{}" | search "query_type{}" IN (SIG,KEY)
-  | spath protocol_stack | search protocol_stack="ip:tcp:dns" | append [search `stream_tcp`
-  bytes_out>65000] | `detect_windows_dns_sigred_via_splunk_stream_filter` | stats
-  count by flow_id | where count>1 | fields - count'
+search: |
+  `stream_dns`
+  | spath "query_type{}"
+  | search "query_type{}" IN (SIG,KEY)
+  | spath protocol_stack
+  | search protocol_stack="ip:tcp:dns"
+  | append [search `stream_tcp` bytes_out>65000]
+  | stats count by flow_id
+  | where count>1
+  | fields - count
+  | `detect_windows_dns_sigred_via_splunk_stream_filter`
 how_to_implement: You must be ingesting Splunk Stream DNS and Splunk Stream TCP. We
   are detecting SIG and KEY records via stream:dns and TCP payload over 65KB in size
   via stream:tcp.  Replace the macro definitions ('stream:dns' and 'stream:tcp') with
   configurations for your Splunk environment.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Potential SIGRed activity detected

@@ -1,7 +1,7 @@
 name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ search: '| tstats count as api_calls values(All_Changes.command) as command from
 how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
   run the baseline search `Baseline Of Cloud Infrastructure API Calls Per User` to
   create the probability density function.
-known_false_positives: None.
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$dest$"
@@ -67,7 +67,6 @@ tags:
   - Splunk Cloud
   security_domain: network
   manual_test: This search needs the baseline `Baseline Of Cloud Infrastructure API Calls Per User` to be run first.
-tests:
 tests:
 - name: True Positive Test
   attack_data:

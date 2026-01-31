@@ -1,7 +1,7 @@
 name: Crowdstrike Privilege Escalation For Non-Admin User
 id: 69e2860c-0e4b-40ae-9dc4-bf9e3bf2a548
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly
@@ -24,7 +24,7 @@ how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Stre
   to the "CrowdStrike:Event:Streams:JSON" event stream. Process and store the JSON
   logs as needed, integrating them into your logging or SIEM system for monitoring
   and analysis.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
 drilldown_searches:

@@ -1,7 +1,7 @@
 name: Windows Unusual NTLM Authentication Users By Destination
 id: 1120a204-8444-428b-8657-6ea4e1f3e840
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -15,16 +15,33 @@ data_source:
 - NTLM Operational 8004
 - NTLM Operational 8005
 - NTLM Operational 8006
-search: '`ntlm_audit` EventCode = 8004 SChannelName=* WorkstationName=* | eval src
-  = replace(WorkstationName,"\\\\","")  ```CIM alignment, remove leading \\ from some
-  auth attempts ``` | eval dest = SChannelName, user = UserName ``` CIM alignment```
-  | where SChannelName!=src ``` Remove NTLM auths to self, improves accuracy for certain
-  applications ``` | `windows_unusual_ntlm_authentication_users_by_destination_filter`
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(eval(upper(user)))
-  as unique_count by dest | eventstats avg(unique_count) as unique_avg , stdev(unique_count)
-  as unique_std | eval upperBound_unique=(1+unique_avg+unique_std*3) ``` adjust formula
-  for sensitivity``` | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(),
-  0) | where isOutlier==1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+search: |
+  `ntlm_audit`
+  EventCode = 8004
+  SChannelName=*
+  WorkstationName=*
+  ```CIM alignment, remove leading \\ from some auth attempts ```
+  | eval src = replace(WorkstationName,"\\\\","")
+  | eval dest = SChannelName, user = UserName
+
+  ``` Remove NTLM auths to self, improves accuracy for certain applications ```
+  | where SChannelName!=src
+
+  | stats count min(_time) as firstTime
+                max(_time) as lastTime
+                dc(eval(upper(user))) as unique_count by dest
+
+  | eventstats avg(unique_count) as unique_avg
+               stdev(unique_count) as unique_std
+
+  ```adjust formula for sensitivity```
+  | eval upperBound_unique=(1+unique_avg+unique_std*3)
+
+  | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
+  | where isOutlier==1
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_unusual_ntlm_authentication_users_by_destination_filter`
 how_to_implement: The following analytic detects when an unusual number of NTLM authentications
   is attempted against the same destination. This activity generally results when
   an attacker attempts to brute force, password spray, or otherwise authenticate to
@@ -76,7 +93,7 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: 
+  - data:
       https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/ntlm_bruteforce/ntlm_bruteforce.log
     source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
     sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: Baseline Of Cloud Security Group API Calls Per User
 id: 67b84d51-8329-4909-849f-8d38ce54260a
-version: 1
-date: '2020-09-07'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -27,7 +27,7 @@ how_to_implement: You must have Enterprise Security 6.0 or later, if not you wil
   90 days of data. You can modify the search window to build the model over a longer
   period of time, which may give you better results. You may also want to periodically
   re-run this search to rebuild the model with the latest data.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:
