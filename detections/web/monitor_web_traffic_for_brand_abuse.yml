@@ -1,7 +1,7 @@
 name: Monitor Web Traffic For Brand Abuse
 id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
-version: 6
-date: '2025-12-13'
+version: 7
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -29,7 +29,7 @@ how_to_implement: You need to ingest data from your web traffic. This can be acc
   by indexing data from a web proxy, or using a network traffic analysis tool, such
   as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain
   Names", which creates the permutations of the domain that will be checked for.
-known_false_positives: None at this time
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Potential Brand Abus discovered in web logs

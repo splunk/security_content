@@ -1,7 +1,7 @@
 name: Windows Indirect Command Execution Via Series Of Forfiles
 id: bfdaabe7-3db8-48c5-80c1-220f9b8f22be
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -41,7 +41,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/forfiles
 - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS

@@ -1,7 +1,7 @@
 name: Baseline of Network ACL Activity by ARN
 id: fc0edd96-ff2b-4810-9f1f-63da3783fd63
-version: 1
-date: '2018-05-21'
+version: 2
+date: '2026-01-14'
 author: Bhavin Patel, Splunk
 type: Baseline
 status: production
@@ -18,7 +18,7 @@ search: '`cloudtrail` `network_acl_events` | spath output=arn path=userIdentity.
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
   and Splunk Add-on for AWS version (4.4.0 or later), then configure your CloudTrail
   inputs. To add or remove API event names for network ACLs, edit the macro `network_acl_events`.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

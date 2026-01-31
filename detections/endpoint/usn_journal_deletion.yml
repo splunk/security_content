@@ -1,7 +1,7 @@
 name: USN Journal Deletion
 id: b6e0ff70-b122-4227-9368-4cf322ab43c3
-version: 8
-date: '2025-10-07'
+version: 9
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -49,7 +49,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: None identified
+known_false_positives: No false positives have been identified at this time.
 references: 
 - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/fsutil-usn
 drilldown_searches:

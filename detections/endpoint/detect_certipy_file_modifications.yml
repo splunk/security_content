@@ -1,7 +1,7 @@
 name: Detect Certipy File Modifications
 id: 7e3df743-b1d8-4631-8fa8-bd5819688876
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -26,7 +26,7 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name, parent process, and command-line executions from your
   endpoints as well as file creation or deletion events.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://github.com/ly4k/Certipy
 drilldown_searches:

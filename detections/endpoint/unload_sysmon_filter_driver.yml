@@ -1,7 +1,7 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-01-14'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: Unknown at the moment
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.ired.team/offensive-security/defense-evasion/unloading-sysmon-driver
 drilldown_searches:

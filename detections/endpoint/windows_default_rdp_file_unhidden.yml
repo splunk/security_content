@@ -1,7 +1,7 @@
 name: Windows Default Rdp File Unhidden
 id: f5c1f64b-db59-4913-991e-3dac8adff288
-version: 1
-date: '2025-07-30'
+version: 2
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://medium.com/@bonguides25/how-to-clear-rdp-connections-history-in-windows-cf0ffb67f344
 - https://thelocalh0st.github.io/posts/rdp/

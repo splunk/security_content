@@ -1,7 +1,7 @@
 name: Windows Non Discord App Access Discord LevelDB
 id: 1166360c-d495-45ac-87a6-8948aac1fa07
 version: 7
-date: '2025-12-16'
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 data_source:
 - Windows Event Log Security 4663
@@ -23,7 +23,7 @@ search: '`wineventlog_security` EventCode=4663 object_file_path IN ("*\\discord\
 how_to_implement: To successfully implement this search, you must ingest Windows Security
   Event logs and track event code 4663. For 4663, enable "Audit Object Access" in
   Group Policy. Then check the two boxes listed for both "Success" and "Failure."
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.404keylogger
 drilldown_searches:

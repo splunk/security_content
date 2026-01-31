@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process With Obfuscation Techniques
 id: cde75cf6-3c7a-4dd6-af01-27cdb4511fd4
-version: 14
-date: '2025-10-14'
+version: 15
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -25,8 +25,9 @@ search: '| tstats `security_content_summariesonly` count values(Processes.proces
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|
   eval num_obfuscation = (mvcount(split(process,"`"))-1) + (mvcount(split(process,
-  "^"))-1) + (mvcount(split(process, "''"))-1) | `malicious_powershell_process_with_obfuscation_techniques_filter`
-  | search num_obfuscation > 10'
+  "^"))-1) + (mvcount(split(process, "''"))-1)
+  | search num_obfuscation > 10
+  | `malicious_powershell_process_with_obfuscation_techniques_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

@@ -1,7 +1,7 @@
 name: Allow Operation with Consent Admin
 id: 7de17d7a-c9d8-11eb-a812-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -28,7 +28,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   logs with the registry value name, registry path, and registry value data from your
   endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
   Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-gpsb/341747f5-6b5d-4d30-85fc-fa1cc04038d4
 - https://www.trendmicro.com/vinfo/no/threat-encyclopedia/malware/Ransom.Win32.MRDEC.MRA/

@@ -1,7 +1,7 @@
 name: Previously Seen Users in CloudTrail - Initial
 id: 0a87ecf9-dc6a-43af-861a-205e75a09bf5
-version: 1
-date: '2020-05-28'
+version: 2
+date: '2026-01-14'
 author: Rico Valdez, Splunk
 type: Baseline
 status: production
@@ -19,7 +19,7 @@ how_to_implement: You must install and configure the Splunk Add-on for AWS (vers
   to the Authentication data model for cloud use cases. Validate the user name entries
   in `previously_seen_users_console_logins`, which is a lookup file created by this
   support search.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:
