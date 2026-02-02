@@ -22,7 +22,8 @@ search: |
   | rex field=Processes.process "--window-size=(?<window_width>\d+)\s*,\s*(?<window_height>\d+)"
   | eval window_width=tonumber(window_width), window_height=tonumber(window_height)
   | where window_height < 100 AND window_width < 100
-  | `drop_dm_object_name(Processes)` 
+  | `drop_dm_object_name(Processes)`
+  | fields * window_width window_height
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `windows_chromium_browser_launched_with_small_window_size_filter`
@@ -50,7 +51,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A Chromium-based browser process was launched on $dest$ by user $user$ with an unusually small window size (window_width x window_height pixels). The process was spawned by $parent_process_name$ and included the following command-line parameters $process$.
+  message: A Chromium-based browser process was launched on $dest$ by user $user$ with an unusually small window size ($window_width$ x $window_height$ pixels). The process was spawned by $parent_process_name$ and included the following command-line parameters $process$.
   risk_objects:
   - field: dest
     type: system
