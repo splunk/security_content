@@ -50,7 +50,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: A $process_name$ process was launched on $dest$ by user $user$ and attempted to load a browser extension via command-line parameters. Parent process $parent_process_name$. Command line $process$.
+  message: $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ and attempted to load a browser extension via command-line $process$.
   risk_objects:
     - field: dest
       type: system
