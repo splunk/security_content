@@ -18,7 +18,7 @@ data_source:
   - Windows Event Log Security 4738
 search: >
   `wineventlog_security` EventCode=4738 UserAccountControl="*%%2096*"
-  | rename Account_Name as user, SubjectUserName as actor | stats count earliest(_time) as firstTime latest(_time) as lastTime by actor, user, dest
+  | rename TargetUserName as user, SubjectUserName as actor | stats count earliest(_time) as firstTime latest(_time) as lastTime by actor, user, dest
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`
