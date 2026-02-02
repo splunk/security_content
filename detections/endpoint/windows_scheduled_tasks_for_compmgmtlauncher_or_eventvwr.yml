@@ -1,7 +1,7 @@
 name: Windows Scheduled Tasks for CompMgmtLauncher or Eventvwr
 id: feb43b86-8c38-46cd-865e-20ce8a96c26c
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 data_source:
   - Windows Event Log Security 4698
@@ -27,7 +27,7 @@ how_to_implement:
   To successfully implement this search, you need to be ingesting
   Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
   as the URL ToolBox application are also required.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
   - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers

@@ -1,7 +1,7 @@
 name: Windows New Deny Permission Set On Service SD Via Sc.EXE
 id: d0f6a5e5-dbfd-46e1-8bd5-2e2905947c33
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-01-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: None identified. Attempts to add deny aces to services, especially
+known_false_positives: No false positives have been identified at this time.
   security-related services should be immediately investigated.
 references:
 - https://www.sans.org/blog/red-team-tactics-hiding-windows-services/

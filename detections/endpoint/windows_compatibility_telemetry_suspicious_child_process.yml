@@ -1,7 +1,7 @@
 name: Windows Compatibility Telemetry Suspicious Child Process
 id: 56fe46ca-ffef-46fe-8f0e-5cd4b7b4cc0c
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-01-14'
 author: Steven Dick
 status: production
 type: TTP
@@ -38,7 +38,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: None identified
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://attack.mitre.org/techniques/T1546/
 - https://scythe.io/threat-thursday/windows-telemetry-persistence

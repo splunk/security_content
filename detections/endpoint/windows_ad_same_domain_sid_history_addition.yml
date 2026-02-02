@@ -1,7 +1,7 @@
 name: Windows AD Same Domain SID History Addition
 id: 5fde0b7c-df7a-40b1-9b3a-294c00f0289d
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-01-14'
 author: Dean Luxton
 type: TTP
 status: production
@@ -25,7 +25,7 @@ how_to_implement: To successfully implement this search, you need to be ingestin
   eventcodes `4738` and `4742`. The Advanced Security Audit policy settings `Audit
   User Account Management` and  `Audit Computer Account Management` within `Account
   Management` all need to be enabled. SID resolution is not required..
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://adsecurity.org/?p=1772
 - https://learn.microsoft.com/en-us/windows/win32/adschema/a-sidhistory?redirectedfrom=MSDN

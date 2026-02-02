@@ -1,7 +1,7 @@
 name: Cloud API Calls From Previously Unseen User Roles
 id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-version: 6
-date: '2025-06-10'
+version: 7
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -32,7 +32,7 @@ how_to_implement: You must be ingesting your cloud infrastructure logs from your
   can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window`
   macro. You can also provide additional filtering for this search by customizing
   the `cloud_api_calls_from_previously_unseen_user_roles_filter`
-known_false_positives: None.
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$dest$"

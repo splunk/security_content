@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan NMAP Top 20
 id: 3141a041-4f57-4277-9faa-9305ca1f8e5b
-version: 8
-date: '2025-12-02'
+version: 9
+date: '2026-01-29'
 author: Dean Luxton
 status: production
 type: TTP
@@ -15,13 +15,50 @@ description: This analytic identifies instances where an internal host has attem
   By monitoring network traffic logs, this detection helps detect and respond to such
   behavior promptly, enhancing network security and preventing potential threats.
 search: |
-  | tstats `security_content_summariesonly` values(All_Traffic.action) as action values(All_Traffic.src_category) as src_category values(All_Traffic.dest_zone) as dest_zone values(All_Traffic.src_zone) as src_zone values(All_Traffic.src_port) as src_port dc(All_Traffic.dest_ip) as totalDestIPCount count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.rule) as rule from datamodel=Network_Traffic
-  where All_Traffic.src_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") AND All_Traffic.dest_port IN (21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 445, 993, 995, 1723, 3306, 3389, 5900, 8080)
-  by All_Traffic.src_ip All_Traffic.dest_port All_Traffic.transport span=1h _time
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+          dc(All_Traffic.dest_ip) as totalDestIPCount
+          values(All_Traffic.action) as action
+          values(All_Traffic.dest_zone) as dest_zone
+          values(All_Traffic.rule) as rule
+          values(All_Traffic.src_category) as src_category
+          values(All_Traffic.src_port) as src_port
+          values(All_Traffic.src_zone) as src_zone
+
+  from datamodel=Network_Traffic where
+
+  All_Traffic.src_ip IN (
+    "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+    "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+    "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+    "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
+  )
+  All_Traffic.dest_port IN (
+    21, 22, 23, 25, 53, 80, 110, 111,
+    135, 139, 143, 443, 445, 993, 995,
+    1723, 3306, 3389, 5900, 8080
+  )
+
+  by span=1h _time
+     All_Traffic.src_ip All_Traffic.dest_port
+     All_Traffic.transport
+
   | `drop_dm_object_name("All_Traffic")`
   | where totalDestIPCount>=250
   | eval dest_port=transport + "/" + dest_port
-  | stats min(firstTime) as firstTime max(lastTime) as lastTime values(action) as action sum(totalDestIPCount) as totalDestIPCount values(src_category) as src_category values(dest_port) as dest_ports dc(dest_port) as num_ports_scanned values(dest_zone) as dest_zone values(src_zone) as src_zone values(rule) as rule by _time src_ip
+  | stats min(firstTime) as firstTime
+          max(lastTime) as lastTime
+          dc(dest_port) as num_ports_scanned
+          sum(totalDestIPCount) as totalDestIPCount
+          values(action) as action
+          values(dest_port) as dest_ports
+          values(dest_zone) as dest_zone
+          values(rule) as rule
+          values(src_category) as src_category
+          values(src_zone) as src_zone
+    by _time src_ip
   | fields - _time
   | `security_content_ctime(lastTime)`
   | `security_content_ctime(firstTime)`
@@ -29,7 +66,7 @@ search: |
 how_to_implement: To properly run this search, Splunk needs to ingest data from networking
   telemetry sources such as firewalls like Cisco Secure Firewall, NetFlow, or host-based networking events. Ensure
   that the Network_Traffic data model is populated to enable this search effectively.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for $src_ip$

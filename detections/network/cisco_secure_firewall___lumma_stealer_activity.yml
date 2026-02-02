@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Lumma Stealer Activity
 id: 96bce783-c22e-4e48-8cf1-3eb2794c5083
-version: 2
-date: '2026-06-01'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP

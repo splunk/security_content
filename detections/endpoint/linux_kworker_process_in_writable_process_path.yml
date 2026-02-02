@@ -1,7 +1,7 @@
 name: Linux Kworker Process In Writable Process Path
 id: 1cefb270-74a5-4e27-aa0c-2b6fa7c5b4ed
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -34,7 +34,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.ncsc.gov.uk/files/Cyclops-Blink-Malware-Analysis-Report.pdf
 - https://www.trendmicro.com/en_us/research/22/c/cyclops-blink-sets-sights-on-asus-routers--.html

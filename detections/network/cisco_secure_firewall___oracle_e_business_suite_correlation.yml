@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Oracle E-Business Suite Correlation
 id: 9e995d21-6870-43de-acd9-76f372bcf323
-version: 2
-date: '2026-06-01'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP

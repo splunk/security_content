@@ -1,7 +1,7 @@
 name: Windows Excessive Service Stop Attempt
 id: 8f3a614f-6b98-4f7d-82dd-d0df38452a8b
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 drilldown_searches:
