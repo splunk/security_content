@@ -5,7 +5,12 @@ date: '2026-01-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic ddetects instances of Chromium-based browser processes on Windows launched with logging disabled via command-line arguments such as --disable-logging and --disable-logging-redirect. The --disable-logging flag forces browser logging to be disabled, while --disable-logging-redirect disables log redirection and is commonly used for testing or debugging scenarios. Logging is enabled by default in Chromium debug builds, making these flags more likely to appear in debug or development environments. While these options may be legitimately used by automation frameworks, debugging workflows, or isolated testing environments, they are also leveraged by malware and malicious scripts to evade security monitoring. Disabling browser logging reduces visibility into browser activity and may bypass user-installed or enterprise security controls. Analysts should review the parent process, full command-line parameters, and execution context to determine whether the behavior is expected or potentially suspicious.
+description: |
+  The following analytic detects instances of Chromium-based browser processes on Windows launched with logging disabled via command-line arguments such as --disable-logging and --disable-logging-redirect.
+  The --disable-logging flag forces browser logging to be disabled, while --disable-logging-redirect disables log redirection and is commonly used for testing or debugging scenarios.
+  Logging is enabled by default in Chromium debug builds, making these flags more likely to appear in debug or development environments.
+  While these options may be legitimately used by automation frameworks, debugging workflows, or isolated testing environments, they are also leveraged by malware and malicious scripts to evade security monitoring.
+  Disabling browser logging reduces visibility into browser activity and may bypass user-installed or enterprise security controls. Analysts should review the parent process, full command-line parameters, and execution context to determine whether the behavior is expected or potentially suspicious.
 data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
