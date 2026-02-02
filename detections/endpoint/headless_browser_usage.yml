@@ -58,7 +58,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A Chromium-based browser process was launched on $dest$ by user $user$ with the --headless command-line flag. The process was spawned by $parent_process_name$ and used the following command line $process$.
+  message: A Chromium-based browser process $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ with the command-line $process$.
   risk_objects:
   - field: dest
     type: system
