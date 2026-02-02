@@ -1,0 +1,26 @@
+name: Telnetd CVE-2026-24061
+id: ff584f81-4cd6-4b57-b6ed-178a8a1aa58f
+version: 1
+status: production
+date: '2026-01-29'
+author: Raven Tait, Splunk
+description: In January 2026, the GNU telnetd service from GNU InetUtils was found to be vulnerable to authentication-bypass by Kyu Neushwaistein (aka Carlos Cortes Alvarez). This flaw allows an attacker to establish a Telnet session without providing valid credentials, granting unauthorized access to the target system.
+narrative: This vulnerability is an authentication bypass in telnetd. An attacker can supply
+ a specifically crafted USER environment variable that is passed to login. Because this input 
+ isn't sanitized an attacker can force the system to skip authentication and login directly as root.
+ Impacting GNU telnetd, this is tracked as CVE-2026-24061 and has a CVSS v3 score of 9.8 (critical).
+ While Telnet is considered an outdated protocol for remote access and command execution, it continues 
+ to be used in certain Unix/Linux environments, embedded systems, network devices, and operational 
+ technology infrastructure.
+references:
+- https://www.safebreach.com/blog/safebreach-labs-root-cause-analysis-and-poc-exploit-for-cve-2026-24061/
+tags:
+  category:
+  - Privilege Escalation
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
+  cve:
+  - CVE-2026-24061
