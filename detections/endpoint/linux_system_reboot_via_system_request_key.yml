@@ -1,7 +1,7 @@
 name: Linux System Reboot Via System Request Key
 id: e1912b58-ed9c-422c-bbb0-2dbc70398345
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.kernel.org/doc/html/latest/admin-guide/sysrq.html
 - https://cert.gov.ua/article/3718487

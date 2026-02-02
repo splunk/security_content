@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Bits Network Activity
 id: b08e69d4-b42d-494c-bd30-abaaa3571ba4
-version: 3
-date: '2025-07-10'
+version: 5
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -10,7 +10,7 @@ data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
   `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") ClientApplication="BITS" AND NOT url IN ("*://msedge.b.tlu.dl*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest, dest_port, transport, rule, url, EVE_Process, ClientApplication, ClientApplicationVersion, action
+  | stats count min(_time) as firstTime max(_time) as lastTime by src, dest, dest_port, transport, rule, url, EVE_Process, ClientApplication, ClientApplicationVersion, action
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `cisco_secure_firewall___bits_network_activity_filter`
@@ -30,12 +30,12 @@ known_false_positives: |
 references:
 - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -43,9 +43,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: $src_ip$ downloaded a file from $url$ via BITS Service
+  message: $src$ downloaded a file from $url$ via BITS Service
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 25
   - field: dest

@@ -1,7 +1,7 @@
 name: Windows AD GPO Disabled
 id: 72793bc0-c0cd-400e-9e60-fdf36f278917
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Dean Luxton
 status: production
 type: TTP
@@ -23,7 +23,7 @@ how_to_implement: Ensure you are ingesting Active Directory audit logs - specifi
   event 5136, admon data is also used to display the display name of the GPO. See
   lantern article in references for further on how to onboard AD audit data. Ensure
   the wineventlog_security and admon macros are configured with the correct indexes.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://lantern.splunk.com/Security/Product_Tips/Enterprise_Security/Enabling_an_audit_trail_from_Active_Directory
 drilldown_searches:

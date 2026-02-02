@@ -1,7 +1,7 @@
 name: O365 Concurrent Sessions From Different Ips
 id: 58e034de-1f87-4812-9dc3-a4f68c7db930
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-01-14'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=User
   | `o365_concurrent_sessions_from_different_ips_filter`'
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
   works with o365:management:activity
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://attack.mitre.org/techniques/T1185/
 - https://breakdev.org/evilginx-2-next-generation-of-phishing-2fa-tokens/

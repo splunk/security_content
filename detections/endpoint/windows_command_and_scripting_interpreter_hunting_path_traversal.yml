@@ -1,11 +1,12 @@
 name: Windows Command and Scripting Interpreter Hunting Path Traversal
 id: d0026380-b3c4-4da0-ac8e-02790063ff6b
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-10'
 author: Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies path traversal command-line executions,
+description: |
+  The following analytic identifies path traversal command-line executions,
   leveraging data from Endpoint Detection and Response (EDR) agents. It detects patterns
   in command-line arguments indicative of path traversal techniques, such as multiple
   instances of "/..", "\..", or "\\..". This activity is significant as it often indicates
@@ -14,23 +15,38 @@ description: The following analytic identifies path traversal command-line execu
   code, potentially leading to system compromise, data exfiltration, or further lateral
   movement within the network.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | eval count_of_pattern1 = (mvcount(split(process,"/.."))-1) | eval count_of_pattern2
-  = (mvcount(split(process,"\.."))-1) | eval count_of_pattern3 = (mvcount(split(process,"\\.."))-1)
-  | eval count_of_pattern4 = (mvcount(split(process,"//.."))-1) | search count_of_pattern1
-  > 1 OR count_of_pattern2 > 1 OR count_of_pattern3 > 1 OR count_of_pattern4 > 1 |
-  `windows_command_and_scripting_interpreter_hunting_path_traversal_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+  - CrowdStrike ProcessRollup2
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+  as lastTime FROM datamodel=Endpoint.Processes where
+  Processes.process IN ("*\\..*", "*//..*", "*\..*", "*/..*")
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process
+     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+     Processes.process_integrity_level Processes.process_name Processes.process_path
+     Processes.user Processes.user_id Processes.vendor_product
+
+  | `drop_dm_object_name("Processes")`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | eval count_of_pattern1 = (mvcount(split(process,"/.."))-1)
+  | eval count_of_pattern2 = (mvcount(split(process,"\.."))-1)
+  | eval count_of_pattern3 = (mvcount(split(process,"\\.."))-1)
+  | eval count_of_pattern4 = (mvcount(split(process,"//.."))-1)
+
+  | search count_of_pattern1 > 1
+           OR
+           count_of_pattern2 > 1
+           OR
+           count_of_pattern3 > 1
+           OR
+           count_of_pattern4 > 1
+  | `windows_command_and_scripting_interpreter_hunting_path_traversal_filter`
+how_to_implement: |
+  The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
   you must ingest logs that contain the process GUID, process name, and parent process.
@@ -39,25 +55,25 @@ how_to_implement: The detection is based on data that originates from Endpoint D
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: false positive may vary depends on the score you want to check.
-  The bigger number of path traversal string count the better.
+known_false_positives: |
+  False positives may vary depending on the score you want to check.
 references:
-- https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
+  - https://app.any.run/tasks/713f05d2-fe78-4b9d-a744-f7c133e3fafb/
 tags:
   analytic_story:
-  - Windows Defense Evasion Tactics
-  - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
+    - Windows Defense Evasion Tactics
+    - Microsoft Support Diagnostic Tool Vulnerability CVE-2022-30190
   asset_type: Endpoint
   mitre_attack_id:
-  - T1059
+    - T1059
   product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
   security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/path_traversal/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+  - name: True Positive Test
+    attack_data:
+    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/path_traversal/sysmon.log
+      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+      sourcetype: XmlWinEventLog

@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 14
-date: '2025-10-22'
+version: 16
+date: '2026-01-14'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -25,7 +25,15 @@ search: |
           
   from datamodel=Endpoint.Processes where 
   
-  `process_procdump`
+  (
+    Processes.process_name IN (
+      "procdump.exe",
+      "procdump64.exe",
+      "procdump64a.exe"
+    )
+    OR
+    Processes.original_file_name=procdump
+  )
   Processes.process IN (*-ma*, *-mm*, "*-mp*", */ma*, */mm*, "*/mp*")
   Processes.process IN (* ls*, "* keyiso*", "* samss*")
   
@@ -49,7 +57,7 @@ how_to_implement: |
   the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
   data model. Use the Splunk Common Information Model (CIM) to normalize the field
   names and speed up the data modeling process.
-known_false_positives: None identified.
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://attack.mitre.org/techniques/T1003/001/
   - https://docs.microsoft.com/en-us/sysinternals/downloads/procdump

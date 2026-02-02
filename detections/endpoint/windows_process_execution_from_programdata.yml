@@ -1,11 +1,12 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: '5'
-date: '2025-09-18'
+version: 6
+date: '2026-01-13'
 author: Teoderick Contreras, Splunk
 status: production
-type: Anomaly
-description: The following analytic identifies processes running from file paths within
+type: Hunting
+description: |
+  The following analytic identifies processes running from file paths within
   the ProgramData directory, a common location abused by adversaries for executing
   malicious code while evading detection. Threat actors often drop and execute payloads
   from this directory to bypass security controls, as it typically has write permissions
@@ -18,16 +19,22 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
+search: |
+  | tstats `security_content_summariesonly` count values(Processes.process_name)
   as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_path = "*:\\ProgramData\\*"
+  as lastTime from datamodel=Endpoint.Processes where
+  
+  Processes.process_path = "*:\\ProgramData\\*"
+  
   by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
   Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
   Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
   Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
   Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_process_execution_from_programdata_filter`'
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_process_execution_from_programdata_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -41,32 +48,9 @@ known_false_positives: Administrators may allow execution of specific binaries i
   non-standard paths. Filter as needed.
 references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
-drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-rba:
-  message: Suspicious process $process_name$ running from a process path- $process_path$
-    on host- $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects:
-  - field: parent_process_name
-    type: parent_process_name
 tags:
   analytic_story:
+  - StealC Stealer
   - SnappyBee
   - XWorm
   - Salt Typhoon

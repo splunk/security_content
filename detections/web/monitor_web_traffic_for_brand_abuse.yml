@@ -1,7 +1,7 @@
 name: Monitor Web Traffic For Brand Abuse
 id: 134da869-e264-4a8f-8d7e-fcd0ec88f301
-version: 5
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -14,14 +14,22 @@ description: The following analytic identifies web requests to domains that clos
   malicious, attackers could deceive users, steal credentials, or distribute malware,
   leading to significant reputational and financial damage.
 data_source: []
-search: '| tstats `security_content_summariesonly` values(Web.url) as urls min(_time)
-  as firstTime from datamodel=Web by Web.src | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)`
-  | `brand_abuse_web` | `monitor_web_traffic_for_brand_abuse_filter`'
+search: |
+  | tstats `security_content_summariesonly`
+    values(Web.url) as urls 
+    min(_time) as firstTime 
+    from datamodel=Web
+    by Web.src
+  | `drop_dm_object_name("Web")`
+  | `security_content_ctime(firstTime)`
+  | lookup update=true brandMonitoring_lookup domain as urls OUTPUT domain_abuse
+  | search domain_abuse=true
+  | `monitor_web_traffic_for_brand_abuse_filter`
 how_to_implement: You need to ingest data from your web traffic. This can be accomplished
   by indexing data from a web proxy, or using a network traffic analysis tool, such
   as Bro or Splunk Stream. You also need to have run the search "ESCU - DNSTwist Domain
   Names", which creates the permutations of the domain that will be checked for.
-known_false_positives: None at this time
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Potential Brand Abus discovered in web logs

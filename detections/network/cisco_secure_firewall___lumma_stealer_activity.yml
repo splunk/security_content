@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Lumma Stealer Activity
 id: 96bce783-c22e-4e48-8cf1-3eb2794c5083
-version: 1
-date: '2025-04-28'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -22,14 +22,14 @@ search: |
           values(MitreAttackGroups) as MitreAttackGroups 
           values(InlineResult) as InlineResult 
           values(InlineResultReason) as InlineResultReason 
-          values(dest_ip) as dest_ip 
+          values(dest) as dest 
           values(dest_port) as dest_port 
           values(rule) as rule 
           values(transport) as transport 
           values(app) as app 
           min(_time) as firstTime 
           max(_time) as lastTime 
-          by src_ip
+          by src
   | where unique_signature_count >= 3
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
@@ -47,12 +47,12 @@ known_false_positives: False positives should be very unlikely.
 references:
   - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$" and "$src_ip$"
-  search: '%original_detection_search% | search  dest_ip = "$dest_ip$" and src_ip = "$src_ip$"'
+- name: View the detection results for - "$dest$" and "$src$"
+  search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -60,15 +60,15 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Lumma Stealer Activity on host $dest_ip$ origniating from $src_ip$
+  message: Lumma Stealer Activity on host $dest$ origniating from $src$
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 25
   threat_objects:
     - field: signature
       type: signature
-    - field: src_ip
+    - field: src
       type: ip_address
 tags:
   analytic_story: 

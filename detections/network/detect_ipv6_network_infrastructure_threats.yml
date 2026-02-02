@@ -1,7 +1,7 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
-version: 7
-date: '2025-10-21'
+version: 8
+date: '2026-01-14'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -29,7 +29,7 @@ how_to_implement: This search uses a standard SPL query on logs from Cisco Netwo
   more information. The search also requires that the Cisco Networks Add-on for Splunk
   (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco
   network devices.
-known_false_positives: None currently known
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.ciscolive.com/c/dam/r/ciscolive/emea/docs/2020/pdf/BRKSEC-3200.pdf
 - https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/ipv6_fhsec/configuration/xe-16-12/ip6f-xe-16-12-book/ip6-ra-guard.html

@@ -10,7 +10,7 @@ sourcetype: cisco:sfw:estreamer
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404
-  version: 3.5.1
+  version: 3.5.3
 fields:
 - AC_RuleAction
 - action
@@ -109,7 +109,7 @@ fields:
 - vendor_product
 - WebApplication
 output_fields:
-- src_ip
+- src
 - dest
 - dest_port
 - transport

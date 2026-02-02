@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 5
-date: '2025-12-08'
+version: 7
+date: '2026-01-21'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -38,13 +38,13 @@ data_source:
   - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
   `cisco_secure_firewall` EventType=IntrusionEvent
-  | stats count AS total_alerts, dc(signature_id) AS sig_count, values(SnortRuleGroups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src_ip) AS src_ip BY _time dest_ip signature_id
+  | stats count AS total_alerts, dc(signature_id) AS sig_count, values(SnortRuleGroups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest signature_id
   | lookup cisco_snort_ids_to_threat_mapping signature_id OUTPUT threat, category, message
   | where isnotnull(threat)
   | bin _time span=1d
-  | stats count AS Total_Alerts, dc(signature_id) AS sig_count, values(signature_id) AS signature_id, values(category) AS category, values(message) AS message, values(snort_rule_groups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src_ip) AS src_ip BY _time dest_ip threat
+  | stats count AS Total_Alerts, dc(signature_id) AS sig_count, values(signature_id) AS signature_id, values(category) AS category, values(message) AS message, values(snort_rule_groups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest threat
   | lookup threat_snort_count threat OUTPUT description, distinct_count_snort_ids
-  | table _time, dest_ip, src_ip, threat, category, message, description, signature_id, signature, snort_rule_groups, sig_count, distinct_count_snort_ids, connection_id, rule, dest_port, transport, app
+  | table _time, dest, src, threat, category, message, description, signature_id, signature, snort_rule_groups, sig_count, distinct_count_snort_ids, connection_id, rule, dest_port, transport, app
   | where sig_count >= distinct_count_snort_ids
   | `cisco_secure_firewall___intrusion_events_by_threat_activity_filter`
 how_to_implement: |
@@ -61,12 +61,12 @@ references:
   - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
   - https://blog.talosintelligence.com/static-tundra/
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$"
-  search: '%original_detection_search% | search  dest_ip = "$dest_ip$"'
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$""
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$dest$""
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -74,9 +74,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Potential $threat$ activity detected on $dest_ip$ originating from $src_ip$.
+  message: Potential $threat$ activity detected on $dest$ originating from $src$.
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 50
   threat_objects:

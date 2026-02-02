@@ -1,7 +1,7 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 17
-date: '2025-10-31'
+version: 19
+date: '2025-12-15'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -76,6 +76,7 @@ rba:
     type: process_name
 tags:
   analytic_story:
+  - StealC Stealer
   - PlugX
   - Water Gamayun
   - Warzone RAT
@@ -126,6 +127,7 @@ tags:
   - GhostRedirector IIS Module and Rungan Backdoor
   - Lokibot
   - Castle RAT
+  - SesameOp
   asset_type: Endpoint
   mitre_attack_id:
   - T1543

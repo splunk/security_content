@@ -1,7 +1,7 @@
 name: Detect RClone Command-Line Usage
 id: 32e0baea-b3f1-11eb-a2ce-acde48001122
-version: 14
-date: '2025-10-14'
+version: 16
+date: '2026-01-20'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -22,7 +22,7 @@ data_source:
 search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where
-  `process_rclone`
+  (Processes.original_file_name="rclone.exe" OR Processes.process_name="rclone.exe")
   Processes.process IN (
           "*copy*", "*mega*", "*pcloud*", "*ftp*",
           "*--config*", "*--progress*", "*--no-check-certificate*",
@@ -89,12 +89,13 @@ rba:
       type: process_name
 tags:
   analytic_story:
-    - Hellcat Ransomware
-    - DarkSide Ransomware
-    - Ransomware
-    - Black Basta Ransomware
-    - Cactus Ransomware
-    - Cisco Network Visibility Module Analytics
+  - Storm-0501 Ransomware
+  - Hellcat Ransomware
+  - DarkSide Ransomware
+  - Ransomware
+  - Black Basta Ransomware
+  - Cactus Ransomware
+  - Cisco Network Visibility Module Analytics
   asset_type: Endpoint
   mitre_attack_id:
     - T1020

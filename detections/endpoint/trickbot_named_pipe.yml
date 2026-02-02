@@ -1,7 +1,7 @@
 name: Trickbot Named Pipe
 id: 1804b0a4-a682-11eb-8f68-acde48001122
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -23,7 +23,7 @@ search: '`sysmon` EventCode IN (17,18) PipeName="\\pipe\\*lacesomepipe" | stats 
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and pipename from your endpoints. If you are using Sysmon,
   you must have at least version 6.0.4 of the Sysmon TA. .
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://labs.vipre.com/trickbot-and-its-modules/
 - https://whitehat.eu/incident-response-case-study-featuring-ryuk-and-trickbot-part-2/

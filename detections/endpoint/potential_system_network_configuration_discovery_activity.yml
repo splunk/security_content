@@ -1,7 +1,7 @@
 name: Potential System Network Configuration Discovery Activity
 id: 3f0b95e3-3195-46ac-bea3-84fb59e7fac5
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2025-12-17'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -18,18 +18,46 @@ data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
 - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process)
-  as process values(Processes.parent_process) as parent_process min(_time) as firstTime
-  max(_time) as lastTime from datamodel=Endpoint.Processes where NOT Processes.user
-  IN ("","unknown") by Processes.action Processes.dest Processes.original_file_name
+search: |
+  | tstats `security_content_summariesonly` 
+    count values(Processes.process) as process
+          values(Processes.parent_process) as parent_process
+          min(_time) as firstTime
+          max(_time) as lastTime
+  from datamodel=Endpoint.Processes where
+  
+  NOT Processes.user IN ("","unknown")
+  
+  by Processes.action Processes.dest Processes.original_file_name
   Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
   Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
   Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
   Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product _time | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | search
-  `system_network_configuration_discovery_tools` | transaction dest connected=false
-  maxpause=5m | where eventcount>=5 | `potential_system_network_configuration_discovery_activity_filter`'
+  Processes.user Processes.user_id Processes.vendor_product _time
+  
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `drop_dm_object_name(Processes)`
+  | search process_name IN (
+            "arp.exe",
+            "dsquery.exe",
+            "hostname.exe",
+            "ipconfig.exe",
+            "nbstat.exe",
+            "net.exe",
+            "net1.exe",
+            "nltest.exe",
+            "netsh.exe",
+            "nslookup.exe",
+            "ping.exe",
+            "quser.exe",
+            "qwinsta.exe",
+            "telnet.exe",
+            "tracert.exe",
+          )
+  | transaction dest connected=false maxpause=5m
+  | where eventcount>=5
+  | `potential_system_network_configuration_discovery_activity_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

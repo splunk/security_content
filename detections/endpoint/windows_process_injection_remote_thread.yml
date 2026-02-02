@@ -1,7 +1,7 @@
 name: Windows Process Injection Remote Thread
 id: 8a618ade-ca8f-4d04-b972-2d526ba59924
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ how_to_implement:
   that records process activity from your hosts like remote thread EventCode=8 of
   sysmon. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon
   TA.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
   - https://thedfirreport.com/2023/06/12/a-truly-graceful-wipe-out/
