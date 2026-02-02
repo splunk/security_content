@@ -17,97 +17,86 @@ references:
   - https://ipurple.team/2025/08/04/lateral-movement-bitlocker/
 search: |
   (`wineventlog_security`) OR (`wineventlog_system`) \
-      EventCode IN (7040, 4657, 4663, 4688)
-      [ search `wineventlog_system` EventCode=7040 service="Remote Registry"
-      | fields ComputerName
-      | dedup ComputerName
-          ]
-  | where
-      (EventCode=7040 AND service="Remote Registry") OR
-      (EventCode=4657 AND Operation_Type="New registry value created"
-      AND Object_Name LIKE "%CLSID%") OR
-      (EventCode=4663 AND Object_Name LIKE "%CLSID%") OR
-      (EventCode=4688 AND (
-      (process_name="baaupdate.exe" AND parent_process_name="explorer.exe") OR
-      (process_name="BdeUISrv.exe" AND parent_process_name="svchost.exe")
-      ))
-  | eval srvchngstsTime=if(EventCode=7040, _time, null)
-  | eval regvlsetTime=if(EventCode=4657, _time, null)
-  | eval reghandleTime=if(EventCode=4663, _time, null)
-  | eval procexecTime=if(EventCode=4688, _time, null)
-  | eval ServiceMessage=if(EventCode=7040, Message, null)
-  | eval ProcessName_4663=if(EventCode=4663, process, null)
-  | eval CLSID_Path=if(EventCode IN (4657, 4663), Object_Name, null)
+  ((EventCode=7040 AND Service_Name="Remote Registry" AND Message="The start type of the Remote Registry service was changed*") \
+  OR (EventCode=4657 AND OperationType="New registry value created" AND ObjectName="*A7A63E5C-3877-4840-8727-C1EA9D7A4D50*") \
+  OR (EventCode=4663 AND ObjectName="*A7A63E5C-3877-4840-8727-C1EA9D7A4D50*") \
+  OR (EventCode=4688 AND ((NewProcessName="baaupdate.exe" AND ParentProcessName="explorer.exe") \
+  OR (NewProcessName="BdeUISrv.exe" AND ParentProcessName="svchost.exe"))))
+
+ | eval Service_Change_Time=if(EventCode=7040, _time, null) 
+ | eval Registry_Change_Time=if(EventCode=4657, _time, null) 
+ | eval Handle_Creation_Time=if(EventCode=4663, _time, null) 
+ | eval Process_Execution_Time=if(EventCode=4688, _time, null) 
+ | eval Service_Message=if(EventCode=7040, Message, null) 
+ | eval Process_Accessing_Registry=if(EventCode=4663, ProcessName, null) 
+ | bin _time span=10m
   | stats
-      values(srvchngstsTime) AS srvchngstsTime
-      values(regvlsetTime) AS regvlsetTime
-      values(reghandleTime) AS reghandleTime
-      values(procexecTime) AS procexecTime
-      values(ServiceMessage) AS ServiceMessage
-      values(CLSID_Path) AS CLSID_Path
-      values(New_Value_Type) AS New_Value_Type
-      values(New_Value) AS New_Value
-      values(Access_Mask) AS AccessMask
-      values(ProcessName_4663) AS ProcessName_4663
-      values(parent_process_id) AS parent_process_id
-      values(parent_process_name) AS parent_process_name
-      values(process_id) AS process_id
-      values(process_name) AS process_name
-      values(TimeDiff1) AS TimeDiff_Service_to_Registry
-      values(TimeDiff2) AS TimeDiff_Registry_to_Handle
-      values(TimeDiff3) AS TimeDiff_Handle_to_Process
+      values(Service_Change_Time) AS Service_Change_Time
+      values(Service_Message) AS Service_Message
+      values(Registry_Change_Time) AS Registry_Change_Time
+      values(ObjectName) AS CLSID_PATH
+      values(NewValue) AS Registry_value
+      values(NewValueType) AS Registry_Value_Type
+      values(Handle_Creation_Time) AS Handle_Creation_Time
+      values(Process_Accessing_Registry) AS Process_Accessing_Registry
+      values(Process_Execution_Time) AS Process_Execution_Time  
+      values(ProcessId) AS ParentProcessId
+      values(ParentProcessName) AS ParentProcessName
+      values(NewProcessId) AS NewProcessId
+      values(NewProcessName) AS NewProcessName
       count(eval(EventCode=7040)) AS SrvEvts
       count(eval(EventCode=4657)) AS RegEvts
       count(eval(EventCode=4663)) AS HdlEvts
       count(eval(EventCode=4688)) AS ProcEvts
-      by ComputerName
+      by Computer
   | where SrvEvts>0 AND RegEvts>0 AND HdlEvts>0 AND ProcEvts>0
-  | where isnotnull(CLSID_Path)
-  | eval srvchngstsTime=strftime(srvchngstsTime, "%Y-%m-%d %H:%M:%S")
-  | eval regvlsetTime=strftime(regvlsetTime, "%Y-%m-%d %H:%M:%S")
-  | eval reghandleTime=strftime(reghandleTime, "%Y-%m-%d %H:%M:%S")
-  | eval procexecTime=strftime(procexecTime, "%Y-%m-%d %H:%M:%S")
-  | table
-      ComputerName
-      srvchngstsTime
-      ServiceMessage
-      regvlsetTime
-      CLSID_Path
-      New_Value_Type
-      New_Value
-      reghandleTime
-      ProcessName_4663
-      AccessMask
-      procexecTime
-      parent_process_id
-      parent_process_name
-      process_id
-      process_name
-  | rename
-      ComputerName AS "Host"
-      CLSID_Path AS "CLSID Path"
-      srvchngstsTime AS "Service Change Time"
-      ServiceMessage AS "Service Message"
-      regvlsetTime AS "Registry Change Time"
-      New_Value_Type AS "Registry Value Type"
-      New_Value AS "Registry Value"
-      reghandleTime AS "Handle Creation Time"
-      AccessMask AS "Access Mask"
-      ProcessName_4663 AS "Process Accessing Registry"
-      procexecTime AS "Process Execution Time"
-      parent_process_name AS "Parent Process"
-      process_name AS "Process Name"
-      parent_process_id AS "Parent Process ID"
-      process_id AS "Process ID"
-  | sort - "Service Change Time"
+  | eval Service_Change_Time=strftime(Service_Change_Time, "%Y-%m-%d %H:%M:%S")
+  | eval Registry_Change_Time=strftime(Registry_Change_Time, "%Y-%m-%d %H:%M:%S")
+  | eval Handle_Creation_Time=strftime(Handle_Creation_Time, "%Y-%m-%d %H:%M:%S")
+  | eval Process_Execution_Time=strftime(Process_Execution_Time, "%Y-%m-%d %H:%M:%S")
+  | sort - Service_Change_Time
   | `lateral_movement_via_bitlocker_com_hijacking_filter`
 how_to_implement: |-
-  Ensure Windows Event Logs are being ingested into Splunk,
-  particularly from the Security channel (wineventlog).
-  This detection requires fields like EventCode, ComputerName,
-  service, Operation_Type, Object_Name, process_name, parent_process_name,
-  Message, process, New_Value_Type, New_Value, Access_Mask, parent_process_id,
-  and process_id. Use Sysmon or Endpoint data models for enhanced coverage.
+  Ensure Windows Event Logs are being ingested into Splunk, particularly from the Security channel (wineventlog),
+  and System channel (for EventCode 7040).This detection requires fields like EventCode, ComputerName, Service_Name,
+  OperationType, ObjectName, NewProcessName, ParentProcessName, Message, ProcessName, NewValue, NewValueType, ProcessId,
+  ParentProcessId, and count values from stats.Use Sysmon or Endpoint data models for enhanced coverage.
+  For Event IDs 4657 and 4663 (registry modifications and access attempts),
+  auditing must be enabled as these events are not logged by default.
+  Follow these steps to configure auditing
+  1. **Enable Object Access Auditing in Group Policy or Local Security Policy:**
+   - Open Local Security Policy (secpol.msc) or Group Policy Editor (gpedit.msc).
+   - Navigate to Computer Configuration > Windows Settings > Security Settings >
+     Advanced Audit Policy Configuration > Audit Policies > Object Access.
+   - Enable "Audit Registry" for Success and Failure (or specifically "Audit Handle Manipulation"
+     and "Audit Kernel Object" if needed for finer control).
+  2. **Set System Access Control List (SACL) on the specific registry key:**
+   - Open Registry Editor (regedit.exe) as Administrator.
+   - Navigate to the target key: HKCU\Software\Classes\CLSID\{A7A63E5C-3877-4840-8727-C1EA9D7A4D50}
+     (or the relevant subkeys where changes are expected).
+   - Right-click the key > Permissions > Advanced > Auditing tab.
+   - Click "Add" > Select Principal (e.g., "Everyone" or a specific user/group for broader monitoring).
+   - Set Type to "Success" and "Failure".
+   - Check permissions to audit, such as "Set Value", "Create Subkey", "Delete", "Query Value", "Enumerate Subkeys",
+     and "Write DAC" (adjust based on the attack vector; at minimum, include "Set Value" for 4657 and access operations for 4663).
+   - Apply the changes. This SACL must be set on the exact keys/values to generate events 4657 (for value modifications) and 4663
+     (for handle access).
+  **Important Note on HKCU:**  
+    Since this registry path is located under **HKEY_CURRENT_USER (HKCU)**,
+    the SACL is user-specific and applies only to the currently logged-on user profile.
+    To ensure comprehensive coverage on multi-user systems
+    (e.g., Terminal Servers, Remote Desktop Session Hosts, or shared workstations),
+    this SACL configuration must be applied **for each user profile** that needs to be monitored.  
+   - One common approach is to log in as each relevant user
+     (or use a script/tool like PowerShell with scheduled tasks or logon scripts) to set the SACL in their HKCU hive.  
+   - For domain environments, consider using Group Policy Preferences
+     (Registry) or logon scripts to automate applying these auditing settings per user.  
+   - If monitoring all users is impractical, prioritize high-risk or privileged accounts.
+  Note SACLs are object-specific and do not propagate unless inheritance is enabled.
+  For domain-wide deployment, use Group Policy to apply these settings where possible.
+  Test the configuration by simulating registry changes (as the target user) to verify events are generated in the Security log.
+  For EventCode 7040 (service changes), ensure "Audit System Events" is enabled under Audit Policies > System Audit Policies > System.
+  Without these auditing configurations, the detection will not trigger for registry-related events.
 known_false_positives: |-
   Legitimate administrative activities may trigger this detection,
   such as software installations or system configurations involving
@@ -127,8 +116,6 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 tags:
-  analytic_story:
-    - BitLocker COM Hijacking Lateral Movement
   asset_type: Endpoint
   mitre_attack_id:
     - T1546.015
@@ -137,3 +124,15 @@ tags:
     - Splunk Enterprise Security
     - Splunk Cloud
   security_domain: endpoint
+tests:
+  - name: True Positive Test security log
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1546.015/bitlocker_com_hijacking/windows-security.log
+        source: XmlWinEventLog:security
+        sourcetype: XmlWinEventLog
+tests:
+  - name: True Positive Test system log
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1546.015/bitlocker_com_hijacking/windows-system.log
+        source: XmlWinEventLog:system
+        sourcetype: XmlWinEventLog
