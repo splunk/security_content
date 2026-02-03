@@ -1,1 +1,1 @@
-contentctl==5.5.11
+contentctl==5.5.12
