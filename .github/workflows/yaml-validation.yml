@@ -40,29 +40,6 @@ jobs:
           go install github.com/google/yamlfmt/cmd/yamlfmt@latest
           echo "$HOME/go/bin" >> $GITHUB_PATH
       
-      - name: Get changed detection files
-        id: changed-files
+      - name: Validate all detection YAML files
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
-            FILES=$(git diff --name-only --diff-filter=ACM ${{ github.event.pull_request.base.sha }}...${{ github.sha }} | grep '^detections/.*\.ya\?ml$' || true)
-          else
-            FILES=$(git diff --name-only --diff-filter=ACM ${{ github.event.before }}...${{ github.sha }} | grep '^detections/.*\.ya\?ml$' || true)
-          fi
-          
-          if [ -z "$FILES" ]; then
-            echo "No YAML files changed in detections/"
-            echo "files=" >> $GITHUB_OUTPUT
-          else
-            echo "Changed files:"
-            echo "$FILES"
-            echo "files=$FILES" >> $GITHUB_OUTPUT
-          fi
-      
-      - name: Validate YAML files
-        if: steps.changed-files.outputs.files != ''
-        run: |
-          python scripts/validate_yaml.py ${{ steps.changed-files.outputs.files }}
-      
-      - name: No files to validate
-        if: steps.changed-files.outputs.files == ''
-        run: echo "No YAML files in detections/ were changed"
+          python scripts/validate_yaml.py detections/
