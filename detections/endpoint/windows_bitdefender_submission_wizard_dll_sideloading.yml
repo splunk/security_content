@@ -40,7 +40,7 @@ known_false_positives: |
   1. Bitdefender Submission Wizard is executed from unusual locations during legitimate troubleshooting
   2. Development or testing environments use modified Bitdefender tools
   
-  Use the filter macro to allowlist known-good execution paths if needed.
+  Use the filter macro to allowlist known good execution paths if needed.
 references:
   - https://attack.mitre.org/techniques/T1574/002/
   - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
