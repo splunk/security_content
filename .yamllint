@@ -1,4 +1,4 @@
----
+# https://yamllint.readthedocs.io/en/latest/configuration.html
 # yamllint configuration for security_content
 # Aligned with .yamlfmt config to avoid conflicts
 # This config validates YAML syntax and enforces consistency while yamlfmt handles formatting
