@@ -1,0 +1,126 @@
+---
+# yamllint configuration for security_content
+# Aligned with .yamlfmt config to avoid conflicts
+# This config validates YAML syntax and enforces consistency while yamlfmt handles formatting
+
+extends: default
+
+# Ignore all YAML files except those in detections/
+ignore: |
+  /.git/
+  /dist/
+  /venv/
+  /node_modules/
+  /*.yml
+  /*.yaml
+  /app_template/
+  /baselines/
+  /dashboards/
+  /data_sources/
+  /deployments/
+  /docs/
+  /lookups/
+  /macros/
+  /notebooks/
+  /playbooks/
+  /removed/
+  /response_templates/
+  /stories/
+  /workbooks/
+
+rules:
+    # Comments: Enforce proper spacing for readability
+    # - require-starting-space: Ensures "# comment" not "#comment"
+    # - min-spaces-from-content: Requires space between code and inline comment
+    comments:
+        require-starting-space: true
+        min-spaces-from-content: 1
+
+    # Comments indentation: Disabled to allow flexible comment placement
+    # Useful for multi-line field comments that may not align with strict indent rules
+    comments-indentation: disable
+
+    # Document start: Don't require "---" at the beginning
+    # Our YAML files are standalone detection rules, not multi-document streams
+    document-start: {present: false}
+
+    # Empty lines: Allow up to 2 blank lines for visual separation
+    # Helps organize long detection rules into logical sections
+    empty-lines: {max: 2, max-start: 2, max-end: 2}
+
+    # Indentation: Disabled - yamlfmt handles this consistently
+    # yamlfmt uses 4-space base indent with 2-space offsets for nested structures
+    # yamllint's indent rules conflict with yamlfmt's behavior, so we let yamlfmt control it
+    indentation: disable
+
+    # Line length: Disabled due to extremely long search queries
+    # Detection rules often have 500+ character search fields that can't be wrapped
+    line-length: disable
+
+    # New line at end of file: Required for POSIX compliance
+    # Prevents issues with git diffs and ensures proper file termination
+    new-line-at-end-of-file: enable
+
+    # Trailing spaces: Not allowed
+    # Catches accidental whitespace that causes git diff noise
+    trailing-spaces: {}
+
+    # New lines: LF only (Unix style)
+    # Enforces consistent line endings across all platforms for git compatibility
+    new-lines: {type: unix}
+
+    # Key duplicates: Critical validation to catch errors
+    # Prevents accidentally defining the same field twice (e.g., two "name:" fields)
+    key-duplicates: enable
+
+    # Truthy values: Allow both YAML 1.1 and 1.2 boolean representations
+    # Permits 'true/false', 'yes/no', 'on/off' for compatibility with various tools
+    # check-keys: false allows "no" as a key name (e.g., for test scenarios)
+    truthy:
+        allowed-values: ['true', 'false', 'yes', 'no', 'on', 'off']
+        check-keys: false
+
+    # Brackets: Consistent spacing in flow sequences []
+    # Enforces "[item1, item2]" not "[ item1, item2 ]"
+    brackets:
+        min-spaces-inside: 0
+        max-spaces-inside: 0
+
+    # Braces: Consistent spacing in flow mappings {}
+    # Allows "{key: value}" with optional space after colon
+    braces:
+        min-spaces-inside: 0
+        max-spaces-inside: 1
+        min-spaces-inside-empty: 0
+        max-spaces-inside-empty: 0
+
+    # Colons: Enforce "key: value" spacing (not "key : value" or "key:value")
+    # Standard YAML formatting for readability
+    colons:
+        max-spaces-before: 0
+        max-spaces-after: 1
+
+    # Commas: Enforce consistent spacing in flow collections
+    # Requires "item1, item2" not "item1,item2" or "item1 ,item2"
+    commas:
+        max-spaces-before: 0
+        min-spaces-after: 1
+        max-spaces-after: 1
+
+    # Hyphens: Enforce "- item" spacing for array items (not "-item" or "-  item")
+    # Ensures consistent block sequence formatting
+    hyphens:
+        max-spaces-after: 1
+
+    # Empty values: Control where null/empty values are allowed
+    # Allow "field:" with no value in mappings (common in our detection rules)
+    # Forbid in flow mappings to catch likely errors: "{key:}" is probably wrong
+    empty-values:
+        forbid-in-block-mappings: false
+        forbid-in-flow-mappings: true
+
+    # Quoted strings: Allow both single and double quotes
+    # Don't require quotes on unquoted strings - let yamlfmt handle quote style
+    quoted-strings:
+        quote-type: any
+        required: false

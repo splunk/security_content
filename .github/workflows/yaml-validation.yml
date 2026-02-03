@@ -1,0 +1,70 @@
+name: YAML Validation
+
+on:
+  pull_request:
+    paths:
+      - 'detections/**/*.yml'
+      - 'detections/**/*.yaml'
+  push:
+    branches:
+      - develop
+    paths:
+      - 'detections/**/*.yml'
+      - 'detections/**/*.yaml'
+
+jobs:
+  validate:
+    name: Validate Detection YAML Files
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+          architecture: 'x64'
+      
+      - name: Install yamllint
+        run: pip install yamllint
+      
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: '1.21'
+      
+      - name: Install yamlfmt
+        run: |
+          go install github.com/google/yamlfmt/cmd/yamlfmt@latest
+          echo "$HOME/go/bin" >> $GITHUB_PATH
+      
+      - name: Get changed detection files
+        id: changed-files
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            FILES=$(git diff --name-only --diff-filter=ACM ${{ github.event.pull_request.base.sha }}...${{ github.sha }} | grep '^detections/.*\.ya\?ml$' || true)
+          else
+            FILES=$(git diff --name-only --diff-filter=ACM ${{ github.event.before }}...${{ github.sha }} | grep '^detections/.*\.ya\?ml$' || true)
+          fi
+          
+          if [ -z "$FILES" ]; then
+            echo "No YAML files changed in detections/"
+            echo "files=" >> $GITHUB_OUTPUT
+          else
+            echo "Changed files:"
+            echo "$FILES"
+            echo "files=$FILES" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Validate YAML files
+        if: steps.changed-files.outputs.files != ''
+        run: |
+          python scripts/validate_yaml.py ${{ steps.changed-files.outputs.files }}
+      
+      - name: No files to validate
+        if: steps.changed-files.outputs.files == ''
+        run: echo "No YAML files in detections/ were changed"

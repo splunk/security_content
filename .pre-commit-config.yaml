@@ -11,5 +11,19 @@ repos:
         args: [--autofix]
       - id: requirements-txt-fixer
       - id: detect-aws-credentials
+        args: ['--allow-missing-credentials']
       - id: detect-private-key
       - id: forbid-submodules
+
+  # yamlfmt: Auto-format YAML files in detections/ folder
+  - repo: local
+    hooks:
+      - id: yamlfmt
+        name: yamlfmt (detections only)
+        description: Format YAML files in detections/ with yamlfmt
+        entry: python .pre-commit-hooks/yamlfmt-hook.py
+        language: system
+        files: ^detections/.*\.(yml|yaml)$
+        pass_filenames: true
+        # Optional: Specify custom yamlfmt binary path if not in PATH
+        # args: [--yamlfmt-path, /path/to/yamlfmt]
