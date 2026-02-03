@@ -1,0 +1,88 @@
+name: Windows TinyCC Shellcode Execution
+id: fdb6774e-e465-4912-86e3-63cf9ab91491
+version: 1
+date: '2026-02-02'
+author: Michael Haag, Splunk
+status: production
+type: TTP
+description: |
+  Detects abuse of Tiny-C-Compiler (TinyCC) for shellcode execution, where tcc.exe is renamed to masquerade as svchost.exe and used to compile and execute C source files containing shellcode. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers renamed tcc.exe to svchost.exe and executed conf.c containing Metasploit block_api shellcode with the flags -nostdlib -run.
+  
+  TinyCC is a legitimate C compiler, but its ability to compile and execute code on-the-fly makes it attractive to attackers seeking to evade detection. The combination of a renamed compiler binary executing from non-standard locations with suspicious flags is a strong indicator of malicious activity.
+data_source:
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
+    from datamodel=Endpoint.Processes 
+    where (Processes.process_name="svchost.exe" OR Processes.process_name="tcc.exe")
+      AND (Processes.process="*-nostdlib*" AND Processes.process="*-run*")
+      AND (Processes.process="*.c" OR Processes.process="*conf.c*")
+      AND NOT Processes.process_path IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")
+    by Processes.action Processes.dest Processes.user Processes.process Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+       Processes.process_name Processes.process_id Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_integrity_level Processes.process_path Processes.original_file_name Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_tinycc_shellcode_execution_filter`
+how_to_implement: |
+  To successfully implement this search, you need to be ingesting logs with process creation information from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventCode 1 (Process Create). Ensure that command-line arguments are being captured in your Sysmon configuration.
+  
+  The detection relies on the OriginalFileName field being populated to distinguish between legitimate svchost.exe and renamed tcc.exe binaries. Ensure Sysmon is configured to capture full command-line arguments.
+known_false_positives: |
+  Legitimate TinyCC usage by developers may trigger this detection if executed from non-standard locations. However, the combination of:
+  1. Renamed binary (svchost.exe with tcc.exe OriginalFileName)
+  2. Execution from user-writable directories (AppData, Temp, ProgramData)
+  3. Suspicious flags (-nostdlib -run) with .c file execution
+  
+  is highly suspicious and warrants investigation. Legitimate TinyCC usage typically occurs from Program Files or developer directories with standard compilation workflows.
+  
+  Use the filter macro to allowlist known development environments if needed.
+references:
+  - https://attack.mitre.org/techniques/T1059/003/
+  - https://attack.mitre.org/techniques/T1027/
+  - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
+  - https://github.com/phoenixthrush/Tiny-C-Compiler
+drilldown_searches:
+  - name: View the detection results for - "$dest$" and "$user$"
+    search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+    earliest_offset: $info_min_time$
+    latest_offset: $info_max_time$
+rba:
+  message: TinyCC compiler abuse detected on $dest$ by user $user$ executing shellcode from $process_path$, indicating potential malicious code execution
+  risk_objects:
+    - field: dest
+      type: system
+      score: 80
+    - field: user
+      type: user
+      score: 80
+  threat_objects:
+    - field: process_name
+      type: process_name
+    - field: process_path
+      type: file_path
+tags:
+  analytic_story:
+    - Lotus Blossom Chrysalis Backdoor
+  asset_type: Endpoint
+  mitre_attack_id:
+    - T1059.003
+    - T1027
+    - T1036
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+  cve: []
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.005/lotus_blossom_chrysalis/windows-sysmon.log
+        sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
