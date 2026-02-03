@@ -5,59 +5,33 @@ date: '2026-01-14'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies instances where `WinRAR.exe` has been
-  renamed and executed. It leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on process names and original file names within the Endpoint data
-  model. This activity is significant because renaming executables is a common tactic
-  used by attackers to evade detection. If confirmed malicious, this could indicate
-  an attempt to bypass security controls, potentially leading to unauthorized data
-  extraction or further system compromise.
+description: The following analytic identifies instances where `WinRAR.exe` has been renamed and executed. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names within the Endpoint data model. This activity is significant because renaming executables is a common tactic used by attackers to evade detection. If confirmed malicious, this could indicate an attempt to bypass security controls, potentially leading to unauthorized data extraction or further system compromise.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=WinRAR.exe
-  (Processes.process_name!=rar.exe AND Processes.process_name!=winrar.exe) 
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process 
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id 
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec 
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level 
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `detect_renamed_winrar_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: No false positives have been identified at this time.
-  instances of WinRAR.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.original_file_name=WinRAR.exe (Processes.process_name!=rar.exe AND Processes.process_name!=winrar.exe) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_renamed_winrar_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: No false positives have been identified at this time. instances of WinRAR.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1560.001/T1560.001.md
 tags:
-  analytic_story:
-  - China-Nexus Threat Activity
-  - Collection and Staging
-  - CISA AA22-277A
-  - Salt Typhoon
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1560.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - China-Nexus Threat Activity
+        - Collection and Staging
+        - CISA AA22-277A
+        - Salt Typhoon
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1560.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1560.001/archive_utility/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

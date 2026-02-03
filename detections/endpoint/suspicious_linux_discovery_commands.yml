@@ -5,85 +5,49 @@ date: '2026-01-20'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of suspicious bash commands
-  commonly used in scripts like AutoSUID, LinEnum, and LinPeas for system discovery
-  on a Linux host. It leverages Endpoint Detection and Response (EDR) data, specifically
-  looking for a high number of distinct commands executed within a short time frame.
-  This activity is significant as it often precedes privilege escalation or other
-  malicious actions. If confirmed malicious, an attacker could gain detailed system
-  information, identify vulnerabilities, and potentially escalate privileges, posing
-  a severe threat to the environment.
+description: The following analytic detects the execution of suspicious bash commands commonly used in scripts like AutoSUID, LinEnum, and LinPeas for system discovery on a Linux host. It leverages Endpoint Detection and Response (EDR) data, specifically looking for a high number of distinct commands executed within a short time frame. This activity is significant as it often precedes privilege escalation or other malicious actions. If confirmed malicious, an attacker could gain detailed system information, identify vulnerabilities, and potentially escalate privileges, posing a severe threat to the environment.
 data_source:
-- Sysmon for Linux EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.action) as action values(Processes.original_file_name)
-  as original_file_name values(Processes.parent_process) as parent_process values(Processes.parent_process_exec)
-  as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid
-  values(Processes.parent_process_id) as parent_process_id values(Processes.parent_process_name)
-  as parent_process_name values(Processes.parent_process_path) as parent_process_path
-  values(Processes.process) as process values(Processes.process_exec) as process_exec
-  values(Processes.process_guid) as process_guid values(Processes.process_hash) as
-  process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level)
-  as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id)
-  as user_id values(Processes.vendor_product) as vendor_product dc(Processes.process)
-  as distinct_commands dc(Processes.process_name) as distinct_process_names from datamodel=Endpoint.Processes
-  where [|inputlookup linux_tool_discovery_process | rename process as Processes.process
-  |table Processes.process] by _time span=5m Processes.user Processes.dest | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where
-  distinct_commands > 40 AND distinct_process_names > 3 | `suspicious_linux_discovery_commands_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Unless an administrator is using these commands to troubleshoot
-  or audit a system, the execution of these commands should be monitored.
+    - Sysmon for Linux EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process) as parent_process values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_id) as parent_process_id values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product dc(Processes.process) as distinct_commands dc(Processes.process_name) as distinct_process_names from datamodel=Endpoint.Processes where [|inputlookup linux_tool_discovery_process | rename process as Processes.process |table Processes.process] by _time span=5m Processes.user Processes.dest | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where distinct_commands > 40 AND distinct_process_names > 3 | `suspicious_linux_discovery_commands_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Unless an administrator is using these commands to troubleshoot or audit a system, the execution of these commands should be monitored.
 references:
-- https://attack.mitre.org/matrices/enterprise/linux/
-- https://attack.mitre.org/techniques/T1059/004/
-- https://github.com/IvanGlinkin/AutoSUID
-- https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
-- https://github.com/rebootuser/LinEnum
+    - https://attack.mitre.org/matrices/enterprise/linux/
+    - https://attack.mitre.org/techniques/T1059/004/
+    - https://github.com/IvanGlinkin/AutoSUID
+    - https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS
+    - https://github.com/rebootuser/LinEnum
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious Linux Discovery Commands detected on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 81
-  threat_objects: []
+    message: Suspicious Linux Discovery Commands detected on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 81
+    threat_objects: []
 tags:
-  analytic_story:
-  - Linux Post-Exploitation
-  - VoidLink Cloud-Native Linux Malware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Linux Post-Exploitation
+        - VoidLink Cloud-Native Linux Malware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
-    source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon:linux
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.004/linux_discovery_tools/sysmon_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

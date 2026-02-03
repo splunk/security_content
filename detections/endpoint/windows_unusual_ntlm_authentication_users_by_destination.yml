@@ -5,95 +5,76 @@ date: '2026-01-14'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when a device is the target of numerous
-  NTLM authentications using a null domain. This activity generally results when an
-  attacker attempts to brute force, password spray, or otherwise authenticate to a
-  domain joined Windows device from a non-domain device. This activity may also generate
-  a large number of EventID 4776 events in tandem, however these events will not indicate
-  the attacker or target device.
+description: The following analytic detects when a device is the target of numerous NTLM authentications using a null domain. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device from a non-domain device. This activity may also generate a large number of EventID 4776 events in tandem, however these events will not indicate the attacker or target device.
 data_source:
-- NTLM Operational 8004
-- NTLM Operational 8005
-- NTLM Operational 8006
+    - NTLM Operational 8004
+    - NTLM Operational 8005
+    - NTLM Operational 8006
 search: |
-  `ntlm_audit`
-  EventCode = 8004
-  SChannelName=*
-  WorkstationName=*
-  ```CIM alignment, remove leading \\ from some auth attempts ```
-  | eval src = replace(WorkstationName,"\\\\","")
-  | eval dest = SChannelName, user = UserName
+    `ntlm_audit`
+    EventCode = 8004
+    SChannelName=*
+    WorkstationName=*
+    ```CIM alignment, remove leading \\ from some auth attempts ```
+    | eval src = replace(WorkstationName,"\\\\","")
+    | eval dest = SChannelName, user = UserName
 
-  ``` Remove NTLM auths to self, improves accuracy for certain applications ```
-  | where SChannelName!=src
+    ``` Remove NTLM auths to self, improves accuracy for certain applications ```
+    | where SChannelName!=src
 
-  | stats count min(_time) as firstTime
-                max(_time) as lastTime
-                dc(eval(upper(user))) as unique_count by dest
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  dc(eval(upper(user))) as unique_count by dest
 
-  | eventstats avg(unique_count) as unique_avg
-               stdev(unique_count) as unique_std
+    | eventstats avg(unique_count) as unique_avg
+                 stdev(unique_count) as unique_std
 
-  ```adjust formula for sensitivity```
-  | eval upperBound_unique=(1+unique_avg+unique_std*3)
+    ```adjust formula for sensitivity```
+    | eval upperBound_unique=(1+unique_avg+unique_std*3)
 
-  | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
-  | where isOutlier==1
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_unusual_ntlm_authentication_users_by_destination_filter`
-how_to_implement: The following analytic detects when an unusual number of NTLM authentications
-  is attempted against the same destination. This activity generally results when
-  an attacker attempts to brute force, password spray, or otherwise authenticate to
-  a domain joined Windows device using an NTLM based process/attack. This same activity
-  may also generate a large number of EventID 4776 events as well.
-known_false_positives: Vulnerability scanners, print servers, and applications that
-  deal with non-domain joined authentications. Recommend adjusting the upperBound_unique
-  eval for tailoring the correlation to your environment, running with a 24hr search
-  window will smooth out some statistical noise.
+    | eval isOutlier=CASE(unique_count > upperBound_unique, 1, true(), 0)
+    | where isOutlier==1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_unusual_ntlm_authentication_users_by_destination_filter`
+how_to_implement: The following analytic detects when an unusual number of NTLM authentications is attempted against the same destination. This activity generally results when an attacker attempts to brute force, password spray, or otherwise authenticate to a domain joined Windows device using an NTLM based process/attack. This same activity may also generate a large number of EventID 4776 events as well.
+known_false_positives: Vulnerability scanners, print servers, and applications that deal with non-domain joined authentications. Recommend adjusting the upperBound_unique eval for tailoring the correlation to your environment, running with a 24hr search window will smooth out some statistical noise.
 references:
-- https://attack.mitre.org/techniques/T1110/003/
-- https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
-- https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
-- https://www.varonis.com/blog/investigate-ntlm-brute-force
-- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
+    - https://attack.mitre.org/techniques/T1110/003/
+    - https://techcommunity.microsoft.com/t5/ask-the-directory-services-team/ntlm-blocking-and-you-application-analysis-and-auditing/ba-p/397191
+    - https://techcommunity.microsoft.com/t5/microsoft-defender-for-identity/enriched-ntlm-authentication-data-using-windows-event-8004/m-p/871827
+    - https://www.varonis.com/blog/investigate-ntlm-brute-force
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/4d1235e3-2c96-4e9f-a147-3cb338a0d09f
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The device [$dest$] was the target of $count$ NTLM authentications using
-    $unique_count$ unique user accounts.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: The device [$dest$] was the target of $count$ NTLM authentications using $unique_count$ unique user accounts.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Active Directory Password Spraying
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1110.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Password Spraying
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1110.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data:
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/ntlm_bruteforce/ntlm_bruteforce.log
-    source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/ntlm_bruteforce/ntlm_bruteforce.log
+          source: XmlWinEventLog:Microsoft-Windows-NTLM/Operational
+          sourcetype: XmlWinEventLog

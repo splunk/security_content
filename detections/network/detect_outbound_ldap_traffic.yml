@@ -5,58 +5,38 @@ date: '2026-01-14'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
-description: The following analytic identifies outbound LDAP traffic to external IP
-  addresses. It leverages the Network_Traffic data model to detect connections on
-  ports 389 or 636 that are not directed to private IP ranges (RFC1918). This activity
-  is significant because outbound LDAP traffic can indicate potential data exfiltration
-  or unauthorized access attempts. If confirmed malicious, attackers could exploit
-  this to access sensitive directory information, leading to data breaches or further
-  network compromise.
+description: The following analytic identifies outbound LDAP traffic to external IP addresses. It leverages the Network_Traffic data model to detect connections on ports 389 or 636 that are not directed to private IP ranges (RFC1918). This activity is significant because outbound LDAP traffic can indicate potential data exfiltration or unauthorized access attempts. If confirmed malicious, attackers could exploit this to access sensitive directory information, leading to data breaches or further network compromise.
 data_source:
-- Palo Alto Network Traffic
-- Cisco Secure Firewall Threat Defense Connection Event
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(All_Traffic.dest_ip) as dest_ip from datamodel=Network_Traffic.All_Traffic
-  where All_Traffic.dest_port = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip
-  = 10.0.0.0/8 OR All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip = 172.16.0.0/12)
-  by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
-  All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
-  All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
-  All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.rule |`drop_dm_object_name("All_Traffic")`
-  | where src_ip != dest_ip | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`
-  |`detect_outbound_ldap_traffic_filter`'
-how_to_implement: In order to properly run this search, Splunk needs to ingest data
-  from Next Generation Firewalls like, Cisco Secure Firewall Threat Defense, Palo Alto Networks Firewalls
-  or other network control devices that mediate the traffic allowed into an environment.
-  The search requires the Network_Traffic data model to be populated.
-known_false_positives: No false positives have been identified at this time.
-  allowed outbound through your perimeter firewall. Please check those servers to
-  verify if the activity is legitimate.
+    - Palo Alto Network Traffic
+    - Cisco Secure Firewall Threat Defense Connection Event
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_ip) as dest_ip from datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 389 OR All_Traffic.dest_port = 636 AND NOT (All_Traffic.dest_ip = 10.0.0.0/8 OR All_Traffic.dest_ip=192.168.0.0/16 OR All_Traffic.dest_ip = 172.16.0.0/12) by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.rule |`drop_dm_object_name("All_Traffic")` | where src_ip != dest_ip | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)` |`detect_outbound_ldap_traffic_filter`'
+how_to_implement: In order to properly run this search, Splunk needs to ingest data from Next Generation Firewalls like, Cisco Secure Firewall Threat Defense, Palo Alto Networks Firewalls or other network control devices that mediate the traffic allowed into an environment. The search requires the Network_Traffic data model to be populated.
+known_false_positives: No false positives have been identified at this time. allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
 references:
-- https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+    - https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
 tags:
-  analytic_story:
-  - Log4Shell CVE-2021-44228
-  - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-44228
-  mitre_attack_id:
-  - T1190
-  - T1059
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Log4Shell CVE-2021-44228
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-44228
+    mitre_attack_id:
+        - T1190
+        - T1059
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: Palo Alto True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
-    sourcetype: pan:traffic
-    source: pan:traffic
-- name: Cisco Secure Firewall True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: Palo Alto True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
+          sourcetype: pan:traffic
+          source: pan:traffic
+    - name: Cisco Secure Firewall True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

@@ -5,65 +5,49 @@ date: '2025-05-02'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly
-description: This detection identifies DNS queries to domains that match previously
-  decommissioned S3 buckets. This activity is significant because attackers may attempt
-  to recreate deleted S3 buckets that were previously public to hijack them for malicious
-  purposes. If successful, this could allow attackers to host malicious content or
-  exfiltrate data through compromised bucket names that may still be referenced by
-  legitimate applications.
+description: This detection identifies DNS queries to domains that match previously decommissioned S3 buckets. This activity is significant because attackers may attempt to recreate deleted S3 buckets that were previously public to hijack them for malicious purposes. If successful, this could allow attackers to host malicious content or exfiltrate data through compromised bucket names that may still be referenced by legitimate applications.
 data_source:
-- Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.answer
-  DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product
-  | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | eval bucket_domain = lower(query) | lookup decommissioned_buckets bucketName as
-  bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_dns_query_to_decommissioned_s3_bucket_filter`'
-how_to_implement: To successfully implement this detection, you need to be ingesting
-  DNS query logs and have them mapped to the Network_Resolution data model. Additionally,
-  ensure that the baseline search "Baseline Of Open S3 Bucket Decommissioning" is
-  running and populating the decommissioned_buckets KVstore lookup.
-known_false_positives: Some applications or scripts may continue to reference old
-  S3 bucket names after they have been decommissioned. These should be investigated
-  and updated to prevent potential security risks.
+    - Sysmon EventID 22
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.answer DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval bucket_domain = lower(query) | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_dns_query_to_decommissioned_s3_bucket_filter`'
+how_to_implement: To successfully implement this detection, you need to be ingesting DNS query logs and have them mapped to the Network_Resolution data model. Additionally, ensure that the baseline search "Baseline Of Open S3 Bucket Decommissioning" is running and populating the decommissioned_buckets KVstore lookup.
+known_false_positives: Some applications or scripts may continue to reference old S3 bucket names after they have been decommissioned. These should be investigated and updated to prevent potential security risks.
 references:
-- https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
-- https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
+    - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
+    - https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
 drilldown_searches:
-- name: DNS Activity for Host
-  search: '| from datamodel:Network_Resolution | search src="$src$"'
-  earliest_offset: -7d@d
-  latest_offset: now
+    - name: DNS Activity for Host
+      search: '| from datamodel:Network_Resolution | search src="$src$"'
+      earliest_offset: -7d@d
+      latest_offset: now
 rba:
-  message: A DNS query to decommissioned S3 bucket $query$ was detected from host
-    $src$
-  risk_objects:
-  - field: src
-    type: system
-    score: 30
-  threat_objects:
-  - field: query
-    type: domain
+    message: A DNS query to decommissioned S3 bucket $query$ was detected from host $src$
+    risk_objects:
+        - field: src
+          type: system
+          score: 30
+    threat_objects:
+        - field: query
+          type: domain
 tags:
-  analytic_story:
-  - AWS S3 Bucket Security Monitoring
-  - Data Destruction
-  asset_type: Network
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - AWS S3 Bucket Security Monitoring
+        - Data Destruction
+    asset_type: Network
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: Baseline Dataset Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
-    source: cloudtrail
-    sourcetype: aws:cloudtrail
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/dns.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: Baseline Dataset Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
+          source: cloudtrail
+          sourcetype: aws:cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/dns.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

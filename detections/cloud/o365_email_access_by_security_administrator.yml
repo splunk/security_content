@@ -5,65 +5,50 @@ date: '2025-05-02'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies when a user with sufficient access
-  to O365 Security & Compliance portal uses premium investigation features (Threat
-  Explorer) to directly view email. Adversaries may exploit privileged access with
-  this premium feature to enumerate or exfiltrate sensitive data.
+description: The following analytic identifies when a user with sufficient access to O365 Security & Compliance portal uses premium investigation features (Threat Explorer) to directly view email. Adversaries may exploit privileged access with this premium feature to enumerate or exfiltrate sensitive data.
 data_source:
-- Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess
-  | rename InternetMessageId as signature_id, UserId as src_user | fillnull | stats
-  count min(_time) as firstTime max(_time) as lastTime by signature dest user src
-  vendor_account vendor_product src_user signature_id | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_email_access_by_security_administrator_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events. Threat Explorer is a premium feature with
-  o365, logging may not be available with proper license.
-known_false_positives: Legitamate access by security administators for incident response
-  measures.
+    - Office 365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess | rename InternetMessageId as signature_id, UserId as src_user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product src_user signature_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_access_by_security_administrator_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Threat Explorer is a premium feature with o365, logging may not be available with proper license.
+known_false_positives: Legitamate access by security administators for incident response measures.
 references:
-- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-investigate-delivered-malicious-email?view=o365-worldwide
+    - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/threat-explorer-investigate-delivered-malicious-email?view=o365-worldwide
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$src_user$"
-  search: '%original_detection_search% | search  user = "$user$" src_user = "$src_user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$src_user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$src_user$"
+      search: '%original_detection_search% | search  user = "$user$" src_user = "$src_user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$src_user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A security administrator $src_user$ accessed email messages for $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  - field: src_user
-    type: user
-    score: 25
-  threat_objects: []
+    message: A security administrator $src_user$ accessed email messages for $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 25
+        - field: src_user
+          type: user
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Exfiltration
-  - Azure Active Directory Account Takeover
-  - Office 365 Account Takeover
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1114.002
-  - T1567
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Data Exfiltration
+        - Azure Active Directory Account Takeover
+        - Office 365 Account Takeover
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.002
+        - T1567
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+          sourcetype: o365:management:activity
+          source: o365

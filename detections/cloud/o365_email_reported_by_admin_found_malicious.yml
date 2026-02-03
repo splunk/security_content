@@ -5,66 +5,51 @@ date: '2025-05-02'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when an email manually submitted to Microsoft
-  through the Security & Compliance portal is found to be malicious. This capability
-  is an enhanced protection feature that can be used within o365 tenants by administrative
-  users to report potentially malicious emails. This correlation looks for any submission
-  that returns a Phish or Malware verdict upon submission.
+description: The following analytic detects when an email manually submitted to Microsoft through the Security & Compliance portal is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by administrative users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
 data_source:
-- Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission
-  | search RescanVerdict IN (Phish,Malware) | rename Id as signature_id, SenderIP
-  as src, Recipients{} as dest_user, P1Sender as src_user | fillnull | stats count
-  min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product
-  signature signature_id dest_user src_user Subject SubmissionContent | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `o365_email_reported_by_admin_found_malicious_filter`'
-how_to_implement: You must install splunk Microsoft Office 365 add-on. This search
-  works with o365:management:activity
+    - Office 365 Universal Audit Log
+search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission | search RescanVerdict IN (Phish,Malware) | rename Id as signature_id, SenderIP as src, Recipients{} as dest_user, P1Sender as src_user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id dest_user src_user Subject SubmissionContent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_reported_by_admin_found_malicious_filter`'
+how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: Administrators that submit known phishing training exercises.
 references:
-- https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
+    - https://learn.microsoft.com/en-us/microsoft-365/security/office-365-security/submissions-outlook-report-messages?view=o365-worldwide
 drilldown_searches:
-- name: View the detection results for - "$src_user$" and "$user$"
-  search: '%original_detection_search% | search  src_user = "$src_user$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_user$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_user$" and "$user$"
+      search: '%original_detection_search% | search  src_user = "$src_user$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_user$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: O365 security admin $user$ manually reported a suspicious email from $src_user$
-  risk_objects:
-  - field: src_user
-    type: user
-    score: 50
-  - field: user
-    type: user
-    score: 50
-  threat_objects:
-  - field: Subject
-    type: email_subject
+    message: O365 security admin $user$ manually reported a suspicious email from $src_user$
+    risk_objects:
+        - field: src_user
+          type: user
+          score: 50
+        - field: user
+          type: user
+          score: 50
+    threat_objects:
+        - field: Subject
+          type: email_subject
 tags:
-  analytic_story:
-  - Spearphishing Attachments
-  - Suspicious Emails
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1566.001
-  - T1566.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Spearphishing Attachments
+        - Suspicious Emails
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1566.001
+        - T1566.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566/o365_various_alerts/o365_various_alerts.log
+          sourcetype: o365:management:activity
+          source: o365

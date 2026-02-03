@@ -5,55 +5,48 @@ date: '2025-05-02'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-data_source: 
-- ASL AWS CloudTrail
+data_source:
+    - ASL AWS CloudTrail
 description: The following analytic detects when AWS S3 bucket versioning is suspended by a user. It leverages AWS CloudTrail logs to identify `PutBucketVersioning` events with the `VersioningConfiguration.Status` set to `Suspended`. This activity is significant because disabling versioning can prevent recovery of deleted or modified data, which is a common tactic in ransomware attacks. If confirmed malicious, this action could lead to data loss and hinder recovery efforts, severely impacting data integrity and availability.
-search: '`amazon_security_lake` api.operation=PutBucketVersioning 
-  | spath input=api.request.data path=VersioningConfiguration.Status output=Status 
-  | spath input=api.request.data path=bucketName output=bucketName
-  | search Status=Suspended 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region api.request.data bucketName
-  | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `asl_aws_disable_bucket_versioning_filter`'
+search: '`amazon_security_lake` api.operation=PutBucketVersioning | spath input=api.request.data path=VersioningConfiguration.Status output=Status | spath input=api.request.data path=bucketName output=bucketName | search Status=Suspended | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region api.request.data bucketName | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `asl_aws_disable_bucket_versioning_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
 known_false_positives: It is possible that an AWS Administrator has legitimately disabled versioning on certain buckets to avoid costs.
 references:
-- https://invictus-ir.medium.com/ransomware-in-the-cloud-7f14805bbe82
-- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
+    - https://invictus-ir.medium.com/ransomware-in-the-cloud-7f14805bbe82
+    - https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Bucket Versioning is suspended for S3 buckets- $bucketName$ by user $user$ from IP address $src$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: Bucket Versioning is suspended for S3 buckets- $bucketName$ by user $user$ from IP address $src$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Suspicious AWS S3 Activities
-  - Data Exfiltration
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1490
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Suspicious AWS S3 Activities
+        - Data Exfiltration
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1490
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json
-    sourcetype: aws:asl
-    source: aws_asl
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1490/aws_bucket_version/asl_ocsf_cloudtrail.json
+          sourcetype: aws:asl
+          source: aws_asl

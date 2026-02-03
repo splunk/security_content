@@ -5,145 +5,126 @@ date: '2026-01-19'
 author: David Dorsey, Michael Haag, Splunk, Steven Dick
 status: production
 type: TTP
-description: The following analytic detects modifications to files with extensions
-  commonly associated with ransomware. It leverages the Endpoint.Filesystem data model
-  to identify changes in file extensions that match known ransomware patterns. This
-  activity is significant because it suggests an attacker is attempting to encrypt
-  or alter files, potentially leading to severe data loss and operational disruption.
-  If confirmed malicious, this activity could result in the encryption of critical
-  data, rendering it inaccessible and causing significant damage to the organization's
-  data integrity and availability.
+description: The following analytic detects modifications to files with extensions commonly associated with ransomware. It leverages the Endpoint.Filesystem data model to identify changes in file extensions that match known ransomware patterns. This activity is significant because it suggests an attacker is attempting to encrypt or alter files, potentially leading to severe data loss and operational disruption. If confirmed malicious, this activity could result in the encryption of critical data, rendering it inaccessible and causing significant damage to the organization's data integrity and availability.
 data_source:
-- Sysmon EventID 11
+    - Sysmon EventID 11
 search: |
-  | tstats `security_content_summariesonly` 
-    min(_time) as firstTime 
-    max(_time) as lastTime 
-    count latest(Filesystem.user) as user 
-          values(Filesystem.file_path) as file_path 
-    from datamodel=Endpoint.Filesystem
-    where NOT Filesystem.file_name IN (
-      "*.bat",
-      "*.cmd",
-      "*.com",
-      "*.cpl",
-      "*.dll",
-      "*.doc",
-      "*.docx",
-      "*.exe",
-      "*.gif",
-      "*.jar",
-      "*.jpeg",
-      "*.jpg",
-      "*.js",
-      "*.lnk",
-      "*.pif",
-      "*.png",
-      "*.ppt",
-      "*.pptx",
-      "*.ps1",
-      "*.psm1",
-      "*.scr",
-      "*.sys",
-      "*.txt",
-      "*.vbs",
-      "*.wsf",
-      "*.xls",
-      "*.xlsx"
-    )
-    by Filesystem.action Filesystem.dest
-       Filesystem.file_access_time Filesystem.file_create_time 
-       Filesystem.file_hash Filesystem.file_modify_time
-       Filesystem.file_name Filesystem.file_path 
-       Filesystem.file_acl Filesystem.file_size
-       Filesystem.process_guid Filesystem.process_id 
-       Filesystem.user Filesystem.vendor_product
-  | `drop_dm_object_name(Filesystem)` 
-  | rex field=file_name "(?<file_extension>(\.[^\.]+){1,2})$"
-  | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT Extensions Name 
-  | search Name !=False 
-  | stats min(firstTime) as firstTime 
-          max(lastTime) as lastTime 
-          dc(file_path) as path_count 
-          dc(file_name) as file_count 
-          values(action) as action 
-          values(file_access_time) as file_access_time 
-          values(file_create_time) as file_create_time 
-          values(file_hash) as file_hash 
-          values(file_modify_time) as file_modify_time
-          values(file_acl) as file_acl 
-          values(file_size) as file_size 
-          values(file_path) as file_path 
-          values(process_guid) as process_guid 
-          values(process_id) as process_id 
-          values(user) as user 
-          values(vendor_product) as vendor_product 
-          values(file_name) as file_name 
-          values(file_extension) as file_extension 
-          values(Name) as Name 
-    by dest 
-  | where path_count > 1 OR file_count > 20 
-  | `common_ransomware_extensions_filter`
-how_to_implement: You must be ingesting data that records the filesystem activity
-  from your hosts to populate the Endpoint Filesystem data model node. To see the
-  additional metadata, add the following fields, if not already present, please review
-  the detailed documentation on how to create a new field within Mission Control Queue
-known_false_positives: It is possible for a legitimate file with these extensions
-  to be created. If this is a true ransomware attack, there will be a large number
-  of files created with these extensions.
+    | tstats `security_content_summariesonly`
+      min(_time) as firstTime
+      max(_time) as lastTime
+      count latest(Filesystem.user) as user
+            values(Filesystem.file_path) as file_path
+      from datamodel=Endpoint.Filesystem
+      where NOT Filesystem.file_name IN (
+        "*.bat",
+        "*.cmd",
+        "*.com",
+        "*.cpl",
+        "*.dll",
+        "*.doc",
+        "*.docx",
+        "*.exe",
+        "*.gif",
+        "*.jar",
+        "*.jpeg",
+        "*.jpg",
+        "*.js",
+        "*.lnk",
+        "*.pif",
+        "*.png",
+        "*.ppt",
+        "*.pptx",
+        "*.ps1",
+        "*.psm1",
+        "*.scr",
+        "*.sys",
+        "*.txt",
+        "*.vbs",
+        "*.wsf",
+        "*.xls",
+        "*.xlsx"
+      )
+      by Filesystem.action Filesystem.dest
+         Filesystem.file_access_time Filesystem.file_create_time
+         Filesystem.file_hash Filesystem.file_modify_time
+         Filesystem.file_name Filesystem.file_path
+         Filesystem.file_acl Filesystem.file_size
+         Filesystem.process_guid Filesystem.process_id
+         Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | rex field=file_name "(?<file_extension>(\.[^\.]+){1,2})$"
+    | lookup update=true ransomware_extensions_lookup Extensions AS file_extension OUTPUT Extensions Name
+    | search Name !=False
+    | stats min(firstTime) as firstTime
+            max(lastTime) as lastTime
+            dc(file_path) as path_count
+            dc(file_name) as file_count
+            values(action) as action
+            values(file_access_time) as file_access_time
+            values(file_create_time) as file_create_time
+            values(file_hash) as file_hash
+            values(file_modify_time) as file_modify_time
+            values(file_acl) as file_acl
+            values(file_size) as file_size
+            values(file_path) as file_path
+            values(process_guid) as process_guid
+            values(process_id) as process_id
+            values(user) as user
+            values(vendor_product) as vendor_product
+            values(file_name) as file_name
+            values(file_extension) as file_extension
+            values(Name) as Name
+      by dest
+    | where path_count > 1 OR file_count > 20
+    | `common_ransomware_extensions_filter`
+how_to_implement: You must be ingesting data that records the filesystem activity from your hosts to populate the Endpoint Filesystem data model node. To see the additional metadata, add the following fields, if not already present, please review the detailed documentation on how to create a new field within Mission Control Queue
+known_false_positives: It is possible for a legitimate file with these extensions to be created. If this is a true ransomware attack, there will be a large number of files created with these extensions.
 references:
-- https://github.com/splunk/security_content/issues/2448
+    - https://github.com/splunk/security_content/issues/2448
 drilldown_searches:
-- name: View the detection results for "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with
-    the $file_extension$ extension. This extension and behavior may indicate a $Name$
-    ransomware attack.
-  risk_objects:
-  - field: user
-    type: user
-    score: 90
-  - field: dest
-    type: system
-    score: 90
-  threat_objects: []
+    message: The device $dest$ wrote $file_count$ files to $path_count$ path(s) with the $file_extension$ extension. This extension and behavior may indicate a $Name$ ransomware attack.
+    risk_objects:
+        - field: user
+          type: user
+          score: 90
+        - field: dest
+          type: system
+          score: 90
+    threat_objects: []
 tags:
-  analytic_story:
-  - Rhysida Ransomware
-  - Prestige Ransomware
-  - Ransomware
-  - LockBit Ransomware
-  - Medusa Ransomware
-  - SamSam Ransomware
-  - Clop Ransomware
-  - Ryuk Ransomware
-  - Black Basta Ransomware
-  - Termite Ransomware
-  - Interlock Ransomware
-  - NailaoLocker Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Rhysida Ransomware
+        - Prestige Ransomware
+        - Ransomware
+        - LockBit Ransomware
+        - Medusa Ransomware
+        - SamSam Ransomware
+        - Clop Ransomware
+        - Ryuk Ransomware
+        - Black Basta Ransomware
+        - Termite Ransomware
+        - Interlock Ransomware
+        - NailaoLocker Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/ransomware_notes/ransom-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

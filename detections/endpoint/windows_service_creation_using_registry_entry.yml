@@ -5,78 +5,55 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects the modification of registry keys that
-  define Windows services using reg.exe. This detection leverages Splunk to search
-  for specific keywords in the registry path, value name, and value data fields. This
-  activity is significant because it indicates potential unauthorized changes to service
-  configurations, a common persistence technique used by attackers. If confirmed malicious,
-  this could allow an attacker to maintain access, escalate privileges, or move laterally
-  within the network, leading to data theft, ransomware, or other damaging outcomes.
+description: The following analytic detects the modification of registry keys that define Windows services using reg.exe. This detection leverages Splunk to search for specific keywords in the registry path, value name, and value data fields. This activity is significant because it indicates potential unauthorized changes to service configurations, a common persistence technique used by attackers. If confirmed malicious, this could allow an attacker to maintain access, escalate privileges, or move laterally within the network, leading to data theft, ransomware, or other damaging outcomes.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services*"
-  Registry.registry_value_name = ImagePath) by Registry.action Registry.dest Registry.process_guid
-  Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
-  Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`
-  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_service_creation_using_registry_entry_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: Third party tools may used this technique to create services
-  but not so common.
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services*" Registry.registry_value_name = ImagePath) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_service_creation_using_registry_entry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: Third party tools may used this technique to create services but not so common.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/36d49de4c8b00bf36054294b4a1fcbab3917d7c5/atomics/T1574.011/T1574.011.md
+    - https://github.com/redcanaryco/atomic-red-team/blob/36d49de4c8b00bf36054294b4a1fcbab3917d7c5/atomics/T1574.011/T1574.011.md
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A Windows Service was created on a endpoint from $dest$ using a registry
-    entry
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects: []
+    message: A Windows Service was created on a endpoint from $dest$ using a registry entry
+    risk_objects:
+        - field: dest
+          type: system
+          score: 64
+    threat_objects: []
 tags:
-  analytic_story:
-  - PlugX
-  - CISA AA23-347A
-  - China-Nexus Threat Activity
-  - Windows Persistence Techniques
-  - SnappyBee
-  - Derusbi
-  - Windows Registry Abuse
-  - Salt Typhoon
-  - Active Directory Lateral Movement
-  - Suspicious Windows Registry Activities
-  - Crypto Stealer
-  - Brute Ratel C4
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1574.011
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - PlugX
+        - CISA AA23-347A
+        - China-Nexus Threat Activity
+        - Windows Persistence Techniques
+        - SnappyBee
+        - Derusbi
+        - Windows Registry Abuse
+        - Salt Typhoon
+        - Active Directory Lateral Movement
+        - Suspicious Windows Registry Activities
+        - Crypto Stealer
+        - Brute Ratel C4
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1574.011
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.011/change_registry_path_service/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

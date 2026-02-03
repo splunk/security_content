@@ -5,60 +5,33 @@ date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic detects unusually long command lines, which may
-  indicate malicious activity. It leverages data from Endpoint Detection and Response
-  (EDR) agents, focusing on the length of command lines executed on hosts. This behavior
-  is significant because attackers often use obfuscated or complex command lines to
-  evade detection and execute malicious payloads. If confirmed malicious, this activity
-  could lead to data theft, ransomware deployment, or further system compromise. Analysts
-  should investigate the source and content of the command line, inspect relevant
-  artifacts, and review concurrent processes to identify potential threats.
+description: The following analytic detects unusually long command lines, which may indicate malicious activity. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on the length of command lines executed on hosts. This behavior is significant because attackers often use obfuscated or complex command lines to evade detection and execute malicious payloads. If confirmed malicious, this activity could lead to data theft, ransomware deployment, or further system compromise. Analysts should investigate the source and content of the command line, inspect relevant artifacts, and review concurrent processes to identify potential threats.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|  eval
-  processlen=len(process) | eventstats stdev(processlen) as stdev, avg(processlen)
-  as avg by dest | stats max(processlen) as maxlen, values(stdev) as stdevperhost,
-  values(avg) as avgperhost by dest, user, process_name, process
-  |eval threshold = 3 | where maxlen > ((threshold*stdevperhost) + avgperhost)
-  | `unusually_long_command_line_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|  eval processlen=len(process) | eventstats stdev(processlen) as stdev, avg(processlen) as avg by dest | stats max(processlen) as maxlen, values(stdev) as stdevperhost, values(avg) as avgperhost by dest, user, process_name, process |eval threshold = 3 | where maxlen > ((threshold*stdevperhost) + avgperhost) | `unusually_long_command_line_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Some legitimate applications start with long command lines.
 references: []
 rba:
-  message: Unusually long command line $process_name$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 42
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: Unusually long command line $process_name$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 42
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Suspicious Command-Line Executions
-  - Unusual Processes
-  - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
-  - Ransomware
-  asset_type: Endpoint
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Suspicious Command-Line Executions
+        - Unusual Processes
+        - Possible Backdoor Activity Associated With MUDCARP Espionage Campaigns
+        - Ransomware
+    asset_type: Endpoint
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint

@@ -5,75 +5,61 @@ date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of hidden scheduled tasks
-  on Windows systems, which are not visible in the UI. It leverages Windows Security
-  EventCode 4698 to identify tasks where the 'Hidden' setting is enabled. This behavior
-  is significant as it may indicate malware activity, such as Industroyer2, or the
-  use of living-off-the-land binaries (LOLBINs) to download additional payloads. If
-  confirmed malicious, this activity could allow attackers to execute code stealthily,
-  maintain persistence, or further compromise the system by downloading additional
-  malicious payloads.
+description: The following analytic detects the creation of hidden scheduled tasks on Windows systems, which are not visible in the UI. It leverages Windows Security EventCode 4698 to identify tasks where the 'Hidden' setting is enabled. This behavior is significant as it may indicate malware activity, such as Industroyer2, or the use of living-off-the-land binaries (LOLBINs) to download additional payloads. If confirmed malicious, this activity could allow attackers to execute code stealthily, maintain persistence, or further compromise the system by downloading additional malicious payloads.
 data_source:
-- Windows Event Log Security 4698
+    - Windows Event Log Security 4698
 search: |
-  `wineventlog_security`
-  EventCode=4698 
-  TaskContent = "*&lt;Hidden&gt;true&lt;/Hidden&gt;*"
-  | stats count min(_time) as firstTime max(_time) as lastTime
-    by TaskName TaskContent action signature status dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_hidden_schedule_task_settings_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and
-  filter known instances of Task schedule used in your environment.
+    `wineventlog_security`
+    EventCode=4698
+    TaskContent = "*&lt;Hidden&gt;true&lt;/Hidden&gt;*"
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by TaskName TaskContent action signature status dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_hidden_schedule_task_settings_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the task schedule (Exa. Security Log EventCode 4698) endpoints. Tune and filter known instances of Task schedule used in your environment.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
-- https://cert.gov.ua/article/39518
+    - https://www.welivesecurity.com/2022/04/12/industroyer2-industroyer-reloaded/
+    - https://cert.gov.ua/article/39518
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A schedule task with hidden setting enable in host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects: []
+    message: A schedule task with hidden setting enable in host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 64
+    threat_objects: []
 tags:
-  analytic_story:
-  - CISA AA22-257A
-  - Active Directory Discovery
-  - Malicious Inno Setup Loader
-  - Compromised Windows Host
-  - Data Destruction
-  - Industroyer2
-  - Cactus Ransomware
-  - Scheduled Tasks
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1053
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - CISA AA22-257A
+        - Active Directory Discovery
+        - Malicious Inno Setup Loader
+        - Compromised Windows Host
+        - Data Destruction
+        - Industroyer2
+        - Cactus Ransomware
+        - Scheduled Tasks
+        - Hellcat Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/inno_schtask.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/hidden_schedule_task/inno_schtask.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -6,51 +6,45 @@ author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies excessive AccessDenied events within an hour timeframe for IAM users in AWS. It leverages AWS CloudTrail logs to detect multiple failed access attempts from the same source IP and user identity. This activity is significant as it may indicate that an access key has been compromised and is being misused for unauthorized discovery actions. If confirmed malicious, this could allow attackers to gather information about the AWS environment, potentially leading to further exploitation or privilege escalation.
-data_source: 
-- ASL AWS CloudTrail
-search: '`amazon_security_lake` api.response.error=AccessDenied OR api.response.error=OperationNotPermittedException OR api.response.error=*Unauthorized* actor.user.type=IAMUser 
-  | bucket _time span=1h 
-  | stats count as failures min(_time) as firstTime max(_time) as lastTime dc(api.operation) as dc_operation, dc(api.service.name) as dc_service values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region by _time actor.user.uid 
-  | where failures >= 5 AND dc_operation >= 1 AND dc_service >= 1 
-  | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `asl_aws_iam_accessdenied_discovery_events_filter`'
+data_source:
+    - ASL AWS CloudTrail
+search: '`amazon_security_lake` api.response.error=AccessDenied OR api.response.error=OperationNotPermittedException OR api.response.error=*Unauthorized* actor.user.type=IAMUser | bucket _time span=1h | stats count as failures min(_time) as firstTime max(_time) as lastTime dc(api.operation) as dc_operation, dc(api.service.name) as dc_service values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region by _time actor.user.uid | where failures >= 5 AND dc_operation >= 1 AND dc_service >= 1 | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_iam_accessdenied_discovery_events_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
 known_false_positives: It is possible to start this detection will need to be tuned by source IP or user. In addition, change the count values to an upper threshold to restrict false positives.
 references:
-- https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
+    - https://aws.amazon.com/premiumsupport/knowledge-center/troubleshoot-iam-permission-errors/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied.
-  risk_objects:
-  - field: user
-    type: user
-    score: 10
-  threat_objects:
-  - field: src_ip
-    type: ip_address
+    message: User $user$ is seen to perform excessive number of discovery related api calls- $failures$, within an hour where the access was denied.
+    risk_objects:
+        - field: user
+          type: user
+          score: 10
+    threat_objects:
+        - field: src_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Suspicious Cloud User Activities
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1580
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story:
+        - Suspicious Cloud User Activities
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1580
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/asl_ocsf_cloudtrail.json
-    sourcetype: aws:asl
-    source: aws_asl
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1580/aws_iam_accessdenied_discovery_events/asl_ocsf_cloudtrail.json
+          sourcetype: aws:asl
+          source: aws_asl

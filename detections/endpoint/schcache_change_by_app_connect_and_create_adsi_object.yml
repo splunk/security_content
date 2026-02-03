@@ -5,69 +5,53 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an application attempting to connect and
-  create an ADSI object to perform an LDAP query. It leverages Sysmon EventCode 11
-  to identify changes in the Active Directory Schema cache files located in %LOCALAPPDATA%\Microsoft\Windows\SchCache
-  or %systemroot%\SchCache. This activity is significant as it can indicate the presence
-  of suspicious applications, such as ransomware, using ADSI object APIs for LDAP
-  queries. If confirmed malicious, this behavior could allow attackers to gather sensitive
-  directory information, potentially leading to further exploitation or lateral movement
-  within the network.
+description: The following analytic detects an application attempting to connect and create an ADSI object to perform an LDAP query. It leverages Sysmon EventCode 11 to identify changes in the Active Directory Schema cache files located in %LOCALAPPDATA%\Microsoft\Windows\SchCache or %systemroot%\SchCache. This activity is significant as it can indicate the presence of suspicious applications, such as ransomware, using ADSI object APIs for LDAP queries. If confirmed malicious, this behavior could allow attackers to gather sensitive directory information, potentially leading to further exploitation or lateral movement within the network.
 data_source:
-- Sysmon EventID 11
+    - Sysmon EventID 11
 search: |-
-  `sysmon` EventCode=11 TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
-      = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe")) 
-  | stats count min(_time)
-      as firstTime max(_time) as lastTime by action dest file_name file_path process_guid
-      process_id user_id vendor_product process_name 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `schcache_change_by_app_connect_and_create_adsi_object_filter`
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA.
-known_false_positives: normal application like mmc.exe and other ldap query tool may
-  trigger this detections.
+    `sysmon` EventCode=11 TargetFilename = "*\\Windows\\SchCache\\*" TargetFilename
+        = "*.sch*" NOT (Image IN ("*\\Windows\\system32\\mmc.exe"))
+    | stats count min(_time)
+        as firstTime max(_time) as lastTime by action dest file_name file_path process_guid
+        process_id user_id vendor_product process_name
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `schcache_change_by_app_connect_and_create_adsi_object_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: normal application like mmc.exe and other ldap query tool may trigger this detections.
 references:
-- https://docs.microsoft.com/en-us/windows/win32/adsi/adsi-and-uac
-- https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
+    - https://docs.microsoft.com/en-us/windows/win32/adsi/adsi-and-uac
+    - https://news.sophos.com/en-us/2021/08/09/blackmatter-ransomware-emerges-from-the-shadow-of-darkside/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Process $process_name$ created a file $file_name$ on host $dest$ 
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: Process $process_name$ created a file $file_name$ on host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - BlackMatter Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1087.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - BlackMatter Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1087.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.002/blackmatter_schcache/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

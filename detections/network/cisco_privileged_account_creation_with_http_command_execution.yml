@@ -6,83 +6,77 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Correlation
 description: |
-  This analytic correlates risk events between privileged account creation on Cisco IOS devices and HTTP requests to privileged execution paths such as `/level/15/exec/-/*`.
-  APT actors have been observed creating privileged accounts and then running commands on routers via HTTP GET or POST requests that target privileged execution paths.
-  These requests allow attackers to execute commands with the highest privilege level (15) on Cisco devices without requiring interactive SSH access.
-  This correlation identifies when both "Cisco IOS Suspicious Privileged Account Creation" and "Privileged Command Execution via HTTP" Snort detections fire for the same network device.
-  This behavior indicates an attacker leveraging the newly created account to execute commands remotely via HTTP.
+    This analytic correlates risk events between privileged account creation on Cisco IOS devices and HTTP requests to privileged execution paths such as `/level/15/exec/-/*`.
+    APT actors have been observed creating privileged accounts and then running commands on routers via HTTP GET or POST requests that target privileged execution paths.
+    These requests allow attackers to execute commands with the highest privilege level (15) on Cisco devices without requiring interactive SSH access.
+    This correlation identifies when both "Cisco IOS Suspicious Privileged Account Creation" and "Privileged Command Execution via HTTP" Snort detections fire for the same network device.
+    This behavior indicates an attacker leveraging the newly created account to execute commands remotely via HTTP.
 data_source: []
 search: |
-  | tstats `security_content_summariesonly`
-    min(_time) as firstTime
-    max(_time) as lastTime
-    sum(All_Risk.calculated_risk_score) as risk_score
-    count(All_Risk.calculated_risk_score) as risk_event_count
+    | tstats `security_content_summariesonly`
+      min(_time) as firstTime
+      max(_time) as lastTime
+      sum(All_Risk.calculated_risk_score) as risk_score
+      count(All_Risk.calculated_risk_score) as risk_event_count
 
-    values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id
-    dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count
+      values(All_Risk.annotations.mitre_attack.mitre_tactic_id) as annotations.mitre_attack.mitre_tactic_id
+      dc(All_Risk.annotations.mitre_attack.mitre_tactic_id) as mitre_tactic_id_count
 
-    values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id
-    dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count
+      values(All_Risk.annotations.mitre_attack.mitre_technique_id) as annotations.mitre_attack.mitre_technique_id
+      dc(All_Risk.annotations.mitre_attack.mitre_technique_id) as mitre_technique_id_count
 
-    values(All_Risk.tag) as tag
-    values(source) as source
-    dc(source) as source_count
+      values(All_Risk.tag) as tag
+      values(source) as source
+      dc(source) as source_count
 
-    values(contributing_events_search)
+      values(contributing_events_search)
 
-    values(All_Risk.threat_object)
+      values(All_Risk.threat_object)
 
-    from datamodel=Risk.All_Risk where
+      from datamodel=Risk.All_Risk where
 
-    source IN (
-      "*Cisco IOS Suspicious Privileged Account Creation*",
-      "*Cisco Secure Firewall - Privileged Command Execution via HTTP*"
-    )
-    by All_Risk.normalized_risk_object
-  | `drop_dm_object_name(All_Risk)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | where source_count >= 2
-  | `cisco_privileged_account_creation_with_http_command_execution_filter`
+      source IN (
+        "*Cisco IOS Suspicious Privileged Account Creation*",
+        "*Cisco Secure Firewall - Privileged Command Execution via HTTP*"
+      )
+      by All_Risk.normalized_risk_object
+    | `drop_dm_object_name(All_Risk)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | where source_count >= 2
+    | `cisco_privileged_account_creation_with_http_command_execution_filter`
 how_to_implement: |
-  This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation" and "Cisco Secure Firewall - Privileged Command Execution via HTTP". These detections must be configured to generate risk on the same entity field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
+    This correlation search requires that the following detections are enabled and generating risk events - "Cisco IOS Suspicious Privileged Account Creation" and "Cisco Secure Firewall - Privileged Command Execution via HTTP". These detections must be configured to generate risk on the same entity field (the network device IP). The search correlates risk events within a 24-hour time window. Ensure that both Cisco IOS logs (sourcetype "cisco:ios") and Cisco Secure Firewall Threat Defense Intrusion Event logs are being ingested and that the underlying detections are properly configured.
 known_false_positives: |
-  No false positives have been identified yet.
+    No false positives have been identified yet.
 references:
-  - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-239a
 drilldown_searches:
-  - name: View the detection results for - "$risk_object$"
-    search: '%original_detection_search% | search  risk_object = "$risk_object$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$risk_object$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$risk_object$"
+      search: '%original_detection_search% | search  risk_object = "$risk_object$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$risk_object$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$risk_object$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 tags:
-  analytic_story:
-    - Cisco Secure Firewall Threat Defense Analytics
-    - Salt Typhoon
-  asset_type: Network
-  mitre_attack_id:
-    - T1021.004
-    - T1136
-    - T1078
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+        - Salt Typhoon
+    asset_type: Network
+    mitre_attack_id:
+        - T1021.004
+        - T1136
+        - T1078
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data:
-        https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_correlation.log
-      source: not_applicable
-      sourcetype: stash
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/SaltTyphoon/salttyphoon_correlation.log
+          source: not_applicable
+          sourcetype: stash

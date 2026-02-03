@@ -6,111 +6,65 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: |
-  This detection identifies potential FakeCAPTCHA/ClickFix clipboard hijacking campaigns by looking for PowerShell execution with hidden window parameters and distinctive strings related to fake CAPTCHA verification. These campaigns use social engineering to trick users into pasting malicious PowerShell commands from their clipboard, typically delivering information stealers or remote access trojans.
+    This detection identifies potential FakeCAPTCHA/ClickFix clipboard hijacking campaigns by looking for PowerShell execution with hidden window parameters and distinctive strings related to fake CAPTCHA verification. These campaigns use social engineering to trick users into pasting malicious PowerShell commands from their clipboard, typically delivering information stealers or remote access trojans.
 data_source:
-  - Sysmon EventID 1
-  - Windows Event Log Security 4688
-  - CrowdStrike ProcessRollup2
-  - Cisco Network Visibility Module Flow Data
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes where `process_powershell`
-  AND Processes.process="*-w*h*"
-  AND (
-  (Processes.process IN ("*robot*", "*captcha*", "*verify*", "*security check*", "*complete verification*"))
-  OR
-  (
-  (Processes.process IN ("*iwr *", "*Invoke-WebRequest*", "*wget *", "*curl *", "*Net.WebClient*", "*DownloadString*", "*[Convert]::FromBase64String*"))
-  AND
-  (Processes.process IN ("*iex*", "*Invoke-Expression*"))
-  AND
-  (Processes.process IN ("*click*", "*verify*", "*check*", "*human*", "*bot*", "*token*", "*challenge*"))
-  )
-  OR
-  (
-  Processes.process="*clipboard*"
-  AND Processes.process="*iex*"
-  AND (Processes.process="*FromBase64String*" OR Processes.process="*decode*")
-  )
-  )
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process
-  Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-  Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_powershell_fakecaptcha_clipboard_execution_filter`'
-how_to_implement: To successfully implement this search, you need to be
-  ingesting logs with the process name, process path, and command-line
-  executions from your endpoints. If you are using Sysmon, you must have at
-  least Sysmon version 6.0.4 with EventID 1 configured. The full command line
-  arguments are necessary for proper detection.
-known_false_positives: Legitimate PowerShell commands that use hidden windows
-  for automation tasks may trigger this detection. The search specifically looks
-  for patterns typical of FakeCAPTCHA campaigns. You may need to add additional
-  exclusions for legitimate administrative activities in your environment by
-  modifying the filter macro.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+    - Cisco Network Visibility Module Flow Data
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where `process_powershell` AND Processes.process="*-w*h*" AND ( (Processes.process IN ("*robot*", "*captcha*", "*verify*", "*security check*", "*complete verification*")) OR ( (Processes.process IN ("*iwr *", "*Invoke-WebRequest*", "*wget *", "*curl *", "*Net.WebClient*", "*DownloadString*", "*[Convert]::FromBase64String*")) AND (Processes.process IN ("*iex*", "*Invoke-Expression*")) AND (Processes.process IN ("*click*", "*verify*", "*check*", "*human*", "*bot*", "*token*", "*challenge*")) ) OR ( Processes.process="*clipboard*" AND Processes.process="*iex*" AND (Processes.process="*FromBase64String*" OR Processes.process="*decode*") ) ) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_fakecaptcha_clipboard_execution_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, process path, and command-line executions from your endpoints. If you are using Sysmon, you must have at least Sysmon version 6.0.4 with EventID 1 configured. The full command line arguments are necessary for proper detection.
+known_false_positives: Legitimate PowerShell commands that use hidden windows for automation tasks may trigger this detection. The search specifically looks for patterns typical of FakeCAPTCHA campaigns. You may need to add additional exclusions for legitimate administrative activities in your environment by modifying the filter macro.
 references:
-  - https://urlhaus.abuse.ch/
-  - https://www.proofpoint.com/us/blog/threat-insight/security-brief-clickfix-social-engineering-technique-floods-threat-landscape
-  - https://reliaquest.com/blog/using-captcha-for-compromise/
-  - https://attack.mitre.org/techniques/T1204/001/
-  - https://github.com/MHaggis/ClickGrab
+    - https://urlhaus.abuse.ch/
+    - https://www.proofpoint.com/us/blog/threat-insight/security-brief-clickfix-social-engineering-technique-floods-threat-landscape
+    - https://reliaquest.com/blog/using-captcha-for-compromise/
+    - https://attack.mitre.org/techniques/T1204/001/
+    - https://github.com/MHaggis/ClickGrab
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A potential FakeCAPTCHA/ClickFix campaign execution was detected on
-    $dest$ running a PowerShell command with hidden window and suspicious
-    verification strings typical of social engineering attacks.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 80
-  threat_objects:
-    - field: process
-      type: process
+    message: A potential FakeCAPTCHA/ClickFix campaign execution was detected on $dest$ running a PowerShell command with hidden window and suspicious verification strings typical of social engineering attacks.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 80
+    threat_objects:
+        - field: process
+          type: process
 tags:
-  analytic_story:
-  - Scattered Lapsus$ Hunters
-  - Fake CAPTCHA Campaigns
-  - Cisco Network Visibility Module Analytics
-  - Interlock Ransomware
-  - NetSupport RMM Tool Abuse
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1059.001
-    - T1204.001
-    - T1059.003
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - Scattered Lapsus$ Hunters
+        - Fake CAPTCHA Campaigns
+        - Cisco Network Visibility Module Analytics
+        - Interlock Ransomware
+        - NetSupport RMM Tool Abuse
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.001
+        - T1204.001
+        - T1059.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-  - name: True Positive Test - Sysmon
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/captcha_windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
-  - name: True Positive Test - Cisco NVM
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
-        source: not_applicable
-        sourcetype: cisco:nvm:flowdata
+    - name: True Positive Test - Sysmon
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/captcha_windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+    - name: True Positive Test - Cisco NVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+          source: not_applicable
+          sourcetype: cisco:nvm:flowdata

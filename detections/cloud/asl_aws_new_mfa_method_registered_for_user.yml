@@ -5,67 +5,49 @@ date: '2025-06-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the registration of a new Multi-Factor
-  Authentication (MFA) method for an AWS account, as logged through Amazon Security
-  Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice`
-  API operation within ASL logs. This behavior is significant because adversaries
-  who gain unauthorized access to an AWS account may register a new MFA method to
-  maintain persistence. If confirmed malicious, this activity could allow attackers
-  to secure their access, making it harder to detect and remove their presence from
-  the compromised environment.
+description: The following analytic identifies the registration of a new Multi-Factor Authentication (MFA) method for an AWS account, as logged through Amazon Security Lake (ASL). It detects this activity by monitoring the `CreateVirtualMFADevice` API operation within ASL logs. This behavior is significant because adversaries who gain unauthorized access to an AWS account may register a new MFA method to maintain persistence. If confirmed malicious, this activity could allow attackers to secure their access, making it harder to detect and remove their presence from the compromised environment.
 data_source:
-- ASL AWS CloudTrail
-search: '`amazon_security_lake` api.operation=CreateVirtualMFADevice 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region
-  | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `asl_aws_new_mfa_method_registered_for_user_filter`'
+    - ASL AWS CloudTrail
+search: '`amazon_security_lake` api.operation=CreateVirtualMFADevice | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_new_mfa_method_registered_for_user_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
 known_false_positives: Newly onboarded users who are registering an MFA method for the first time will also trigger this detection.
 references:
-- https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
-- https://attack.mitre.org/techniques/T1556/
-- https://attack.mitre.org/techniques/T1556/006/
-- https://twitter.com/jhencinski/status/1618660062352007174
+    - https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
+    - https://attack.mitre.org/techniques/T1556/
+    - https://attack.mitre.org/techniques/T1556/006/
+    - https://twitter.com/jhencinski/status/1618660062352007174
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new virtual device is added to user $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: A new virtual device is added to user $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - AWS Identity and Access Management Account Takeover
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1556.006
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - AWS Identity and Access Management Account Takeover
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1556.006
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
-    sourcetype: aws:asl
-    source: aws_asl
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/aws_new_mfa_method_registered_for_user/asl_ocsf_cloudtrail.json
+          sourcetype: aws:asl
+          source: aws_asl

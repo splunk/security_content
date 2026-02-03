@@ -5,82 +5,53 @@ date: '2026-01-14'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects changes in the ScManager service security
-  descriptor settings. It leverages data from Endpoint Detection and Response (EDR)
-  agents, specifically searching for any process execution involving the "sc.exe"
-  binary with the "sdset" flag targeting the "scmanager" service. If confirmed malicious,
-  this could allow an attacker to escalate their privileges.
+description: The following analytic detects changes in the ScManager service security descriptor settings. It leverages data from Endpoint Detection and Response (EDR) agents, specifically searching for any process execution involving the "sc.exe" binary with the "sdset" flag targeting the "scmanager" service. If confirmed malicious, this could allow an attacker to escalate their privileges.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.process_name=sc.exe OR Processes.original_file_name=sc.exe) Processes.process="*sdset
-  *" Processes.process="*scmanager*" by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scmanager_security_descriptor_tampering_via_sc_exe_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process name, and process original file name.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: No false positives have been identified at this time.
-  descriptor settings of the scmanager service should be immediately investigated
-  and understood.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=sc.exe OR Processes.original_file_name=sc.exe) Processes.process="*sdset *" Processes.process="*scmanager*" by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scmanager_security_descriptor_tampering_via_sc_exe_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process name, and process original file name. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: No false positives have been identified at this time. descriptor settings of the scmanager service should be immediately investigated and understood.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/8ac5c4f84692b11ea2832d18d3dc6f1ce7fb4e41/atomics/T1569.002/T1569.002.md#atomic-test-7---modifying-acl-of-service-control-manager-via-sdet
-- https://0xv1n.github.io/posts/scmanager/
-- https://attack.mitre.org/techniques/T1569/002/
+    - https://github.com/redcanaryco/atomic-red-team/blob/8ac5c4f84692b11ea2832d18d3dc6f1ce7fb4e41/atomics/T1569.002/T1569.002.md#atomic-test-7---modifying-acl-of-service-control-manager-via-sdet
+    - https://0xv1n.github.io/posts/scmanager/
+    - https://attack.mitre.org/techniques/T1569/002/
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $parent_process_name$ spawning $process_name$ was identified
-    attempting to disable security services on endpoint $dest$ by user $user$.
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  - field: dest
-    type: system
-    score: 64
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: An instance of $parent_process_name$ spawning $process_name$ was identified attempting to disable security services on endpoint $dest$ by user $user$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+        - field: dest
+          type: system
+          score: 64
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Defense Evasion or Unauthorized Access Via SDDL Tampering
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1569.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Defense Evasion or Unauthorized Access Via SDDL Tampering
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1569.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/scmanager_sddl_tamper/scmanager_sddl_tamper_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/scmanager_sddl_tamper/scmanager_sddl_tamper_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

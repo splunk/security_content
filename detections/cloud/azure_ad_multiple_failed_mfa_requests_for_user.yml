@@ -5,79 +5,51 @@ date: '2025-05-02'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic identifies multiple failed multi-factor authentication
-  (MFA) requests for a single user within an Azure AD tenant. It leverages Azure AD
-  Sign-in Logs, specifically error code 500121, to detect more than 10 failed MFA
-  attempts within 10 minutes. This behavior is significant as it may indicate an adversary
-  attempting to bypass MFA by bombarding the user with repeated authentication prompts.
-  If confirmed malicious, this activity could lead to unauthorized access, allowing
-  attackers to compromise user accounts and potentially escalate their privileges
-  within the environment.
+description: The following analytic identifies multiple failed multi-factor authentication (MFA) requests for a single user within an Azure AD tenant. It leverages Azure AD Sign-in Logs, specifically error code 500121, to detect more than 10 failed MFA attempts within 10 minutes. This behavior is significant as it may indicate an adversary attempting to bypass MFA by bombarding the user with repeated authentication prompts. If confirmed malicious, this activity could lead to unauthorized access, allowing attackers to compromise user accounts and potentially escalate their privileges within the environment.
 data_source:
-- Azure Active Directory Sign-in activity
-search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication" 
-  | rename properties.* as * 
-  | bucket span=10m _time 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(src) as src by user, status.additionalDetails, appDisplayName, user_agent, vendor_account, vendor_product, signature
-  | where count > 10 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the Signin log category.
-known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
-  or application issues. Filter as needed.
+    - Azure Active Directory Sign-in activity
+search: '`azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication" | rename properties.* as * | bucket span=10m _time | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest values(src) as src by user, status.additionalDetails, appDisplayName, user_agent, vendor_account, vendor_product, signature | where count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multiple_failed_mfa_requests_for_user_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+known_false_positives: Multiple Failed MFA requests may also be a sign of authentication or application issues. Filter as needed.
 references:
-- https://www.mandiant.com/resources/blog/russian-targeting-gov-business
-- https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
-- https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
-- https://attack.mitre.org/techniques/T1621/
-- https://attack.mitre.org/techniques/T1078/004/
-- https://www.cisa.gov/sites/default/files/publications/fact-sheet-implement-number-matching-in-mfa-applications-508c.pdf
+    - https://www.mandiant.com/resources/blog/russian-targeting-gov-business
+    - https://arstechnica.com/information-technology/2022/03/lapsus-and-solar-winds-hackers-both-use-the-same-old-trick-to-bypass-mfa/
+    - https://therecord.media/russian-hackers-bypass-2fa-by-annoying-victims-with-repeated-push-notifications/
+    - https://attack.mitre.org/techniques/T1621/
+    - https://attack.mitre.org/techniques/T1078/004/
+    - https://www.cisa.gov/sites/default/files/publications/fact-sheet-implement-number-matching-in-mfa-applications-508c.pdf
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ failed to complete MFA authentication more than 9 times in
-    a timespan of 10 minutes.
-  risk_objects:
-  - field: user
-    type: user
-    score: 54
-  threat_objects: []
+    message: User $user$ failed to complete MFA authentication more than 9 times in a timespan of 10 minutes.
+    risk_objects:
+        - field: user
+          type: user
+          score: 54
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1078.004
-  - T1586.003
-  - T1621
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1078.004
+        - T1586.003
+        - T1621
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/multiple_failed_mfa_requests/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

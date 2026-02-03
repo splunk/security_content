@@ -7,58 +7,51 @@ status: experimental
 type: Anomaly
 description: This detection identifies web requests to domains that match previously decommissioned S3 buckets through web proxy logs. This activity is significant because attackers may attempt to access or recreate deleted S3 buckets that were previously public to hijack them for malicious purposes. If successful, this could allow attackers to host malicious content or exfiltrate data through compromised bucket names that may still be referenced by legitimate applications.
 data_source:
-- AWS Cloudfront
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Web.http_method) as http_method values(Web.http_user_agent) as http_user_agent values(Web.url) as url values(Web.user) as user from datamodel=Web where Web.url_domain!="" by Web.src Web.url_domain 
-| `drop_dm_object_name("Web")` 
-| `security_content_ctime(firstTime)` 
-| `security_content_ctime(lastTime)` 
-| eval bucket_domain = lower(url_domain) 
-| lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match 
-| where isnotnull(match) 
-| `detect_web_access_to_decommissioned_s3_bucket_filter`'
+    - AWS Cloudfront
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Web.http_method) as http_method values(Web.http_user_agent) as http_user_agent values(Web.url) as url values(Web.user) as user from datamodel=Web where Web.url_domain!="" by Web.src Web.url_domain | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval bucket_domain = lower(url_domain) | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_web_access_to_decommissioned_s3_bucket_filter`'
 how_to_implement: To successfully implement this detection, you need to be ingesting web proxy logs and have them mapped to the Web data model. Additionally, ensure that the baseline search "Baseline Of Open S3 Bucket Decommissioning" is running and populating the decommissioned_buckets KVStore Lookup.
 known_false_positives: Some applications or web pages may continue to reference old S3 bucket URLs after they have been decommissioned. These should be investigated and updated to prevent potential security risks.
 references:
-- https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
-- https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
+    - https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html
+    - https://labs.watchtowr.com/8-million-requests-later-we-made-the-solarwinds-supply-chain-attack-look-amateur/
 drilldown_searches:
-- name: Web Activity for Host and User
-  search: '| from datamodel:Web | search src="$src$" user="$user$"'
-  earliest_offset: -7d@d
-  latest_offset: now
-- name: Investigate traffic to domain
-  search: '| from datamodel:Web | search src="$src$" url_domain="$url_domain$"'
-  earliest_offset: -7d@d
-  latest_offset: now
+    - name: Web Activity for Host and User
+      search: '| from datamodel:Web | search src="$src$" user="$user$"'
+      earliest_offset: -7d@d
+      latest_offset: now
+    - name: Investigate traffic to domain
+      search: '| from datamodel:Web | search src="$src$" url_domain="$url_domain$"'
+      earliest_offset: -7d@d
+      latest_offset: now
 rba:
-  message: A web request to decommissioned S3 bucket domain $url_domain$ was detected from host $src$ by user $user$
-  risk_objects:
-  - field: src
-    type: system
-    score: 30
-  threat_objects:
-  - field: url_domain
-    type: domain
+    message: A web request to decommissioned S3 bucket domain $url_domain$ was detected from host $src$ by user $user$
+    risk_objects:
+        - field: src
+          type: system
+          score: 30
+    threat_objects:
+        - field: url_domain
+          type: domain
 tags:
-  analytic_story:
-  - AWS S3 Bucket Security Monitoring
-  - Data Destruction
-  asset_type: S3 Bucket
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - AWS S3 Bucket Security Monitoring
+        - Data Destruction
+    asset_type: S3 Bucket
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: Baseline Dataset Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
-    source: cloudtrail
-    sourcetype: aws:cloudtrail
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/web_cloudfront_access.log
-    source: aws_cloudfront_accesslogs
-    sourcetype: aws:cloudfront:accesslogs
+    - name: Baseline Dataset Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/cloudtrail.json
+          source: cloudtrail
+          sourcetype: aws:cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/decommissioned_buckets/web_cloudfront_access.log
+          source: aws_cloudfront_accesslogs
+          sourcetype: aws:cloudfront:accesslogs

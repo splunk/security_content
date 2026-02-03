@@ -5,71 +5,52 @@ date: '2025-05-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the use of the Get-ADComputer cmdlet with
-  parameters indicating a search for Windows endpoints with Kerberos Unconstrained
-  Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify
-  this specific activity. This behavior is significant as it may indicate an attempt
-  by adversaries or Red Teams to gain situational awareness and perform Active Directory
-  discovery. If confirmed malicious, this activity could allow attackers to identify
-  high-value targets for further exploitation, potentially leading to privilege escalation
-  or lateral movement within the network.
+description: The following analytic detects the use of the Get-ADComputer cmdlet with parameters indicating a search for Windows endpoints with Kerberos Unconstrained Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this specific activity. This behavior is significant as it may indicate an attempt by adversaries or Red Teams to gain situational awareness and perform Active Directory discovery. If confirmed malicious, this activity could allow attackers to identify high-value targets for further exploitation, potentially leading to privilege escalation or lateral movement within the network.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText
-  = "*TrustedForDelegation*") | fillnull | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode
-  Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_get_adcomputer_unconstrained_delegation_discovery_filter`'
-how_to_implement: The following  analytic requires PowerShell operational logs to
-  be imported. Modify the powershell macro as needed to match the sourcetype or add
-  index. This analytic is specific to 4104, or PowerShell Script Block Logging.
-known_false_positives: Administrators or power users may leverage PowerView for system
-  management or troubleshooting.
+    - Powershell Script Block Logging 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText = "*TrustedForDelegation*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_get_adcomputer_unconstrained_delegation_discovery_filter`'
+how_to_implement: The following  analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+known_false_positives: Administrators or power users may leverage PowerView for system management or troubleshooting.
 references:
-- https://attack.mitre.org/techniques/T1018/
-- https://adsecurity.org/?p=1667
-- https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos
-- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation
-- https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
+    - https://attack.mitre.org/techniques/T1018/
+    - https://adsecurity.org/?p=1667
+    - https://docs.microsoft.com/en-us/defender-for-identity/cas-isp-unconstrained-kerberos
+    - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation
+    - https://www.cyberark.com/resources/threat-research-blog/weakness-within-kerberos-delegation
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user_id$"
+      search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious PowerShell Get-ADComputer was identified on endpoint $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 35
-  - field: user_id
-    type: user
-    score: 35
-  threat_objects: []
+    message: Suspicious PowerShell Get-ADComputer was identified on endpoint $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 35
+        - field: user_id
+          type: user
+          score: 35
+    threat_objects: []
 tags:
-  analytic_story:
-  - Medusa Ransomware
-  - Active Directory Kerberos Attacks
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1018
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Medusa Ransomware
+        - Active Directory Kerberos Attacks
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1018
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_get_adcomputer_unconstrained_delegation_discovery/windows-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1018/windows_get_adcomputer_unconstrained_delegation_discovery/windows-xml.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

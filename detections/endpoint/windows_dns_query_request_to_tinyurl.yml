@@ -6,75 +6,69 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects a process located in a potentially suspicious location making DNS queries to known URL shortening services, specifically tinyurl.
-  URL shorteners are frequently used by threat actors to obfuscate malicious destinations, including phishing pages, malware distribution sites, or command-and-control (C2) endpoints. 
-  While tinyurl.com is a legitimate service, its use in enterprise environments—particularly by non-browser processes or scripts—should be considered suspicious, especially if correlated with subsequent outbound connections, file downloads, process file path or credential prompts. Analysts should investigate the source process, execution context, and destination domain to determine intent and risk.
+    The following analytic detects a process located in a potentially suspicious location making DNS queries to known URL shortening services, specifically tinyurl.
+    URL shorteners are frequently used by threat actors to obfuscate malicious destinations, including phishing pages, malware distribution sites, or command-and-control (C2) endpoints.
+    While tinyurl.com is a legitimate service, its use in enterprise environments—particularly by non-browser processes or scripts—should be considered suspicious, especially if correlated with subsequent outbound connections, file downloads, process file path or credential prompts. Analysts should investigate the source process, execution context, and destination domain to determine intent and risk.
 data_source:
-- Sysmon EventID 22
+    - Sysmon EventID 22
 search: |
-  `sysmon` 
-  EventCode=22 
-  QueryName = "tinyurl.com"
-  Image IN (
-    "*\\AppData\\*",
-    "*\\Perflogs\\*",
-    "*\\ProgramData\\*",
-    "*\\Temp\\*",
-    "*\\Users\\Public\\*",
-    "*\\Windows\\Tasks\\*"
-    ) 
-  | stats count min(_time) as firstTime max(_time) as lastTime 
-    by answer answer_count dvc process_exec process_guid process_name query query_count 
-       reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_dns_query_request_to_tinyurl_filter`
+    `sysmon`
+    EventCode=22
+    QueryName = "tinyurl.com"
+    Image IN (
+      "*\\AppData\\*",
+      "*\\Perflogs\\*",
+      "*\\ProgramData\\*",
+      "*\\Temp\\*",
+      "*\\Users\\Public\\*",
+      "*\\Windows\\Tasks\\*"
+      )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by answer answer_count dvc process_exec process_guid process_name query query_count
+         reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_dns_query_request_to_tinyurl_filter`
 how_to_implement: |
-  This detection relies on sysmon logs with the Event ID 22, DNS Query.
-  We suggest you run this detection at least once a day over the last 14 days.
+    This detection relies on sysmon logs with the Event ID 22, DNS Query.
+    We suggest you run this detection at least once a day over the last 14 days.
 known_false_positives: |
-  Noise and false positive can be seen if the following instant 
-  messaging is allowed to use within corporate network. In this case, a filter is needed.
+    Noise and false positive can be seen if the following instant
+    messaging is allowed to use within corporate network. In this case, a filter is needed.
 references:
-- https://x.com/Unit42_Intel/status/1919418143476199869
+    - https://x.com/Unit42_Intel/status/1919418143476199869
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious process $process_name$ made a DNS query for $QueryName$ on $dvc$
-  risk_objects:
-  - field: dvc
-    type: system
-    score: 40
-  threat_objects:
-  - field: process_name
-    type: process_name
-
+    message: Suspicious process $process_name$ made a DNS query for $QueryName$ on $dvc$
+    risk_objects:
+        - field: dvc
+          type: system
+          score: 40
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Malicious Inno Setup Loader
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1105
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Malicious Inno Setup Loader
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1105
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/tinyurl_dns_query/tinyurl.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1105/tinyurl_dns_query/tinyurl.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

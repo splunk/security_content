@@ -5,69 +5,49 @@ date: '2025-05-02'
 author: Rod Soto, Splunk
 status: production
 type: TTP
-description: The following analytic detects updates to the SAML provider in AWS. It
-  leverages AWS CloudTrail logs to identify the `UpdateSAMLProvider` event, analyzing
-  fields such as `sAMLProviderArn`, `sourceIPAddress`, and `userIdentity` details.
-  Monitoring updates to the SAML provider is crucial as it may indicate a perimeter
-  compromise of federated credentials or unauthorized backdoor access set by an attacker.
-  If confirmed malicious, this activity could allow attackers to manipulate identity
-  federation, potentially leading to unauthorized access to cloud resources and sensitive
-  data.
+description: The following analytic detects updates to the SAML provider in AWS. It leverages AWS CloudTrail logs to identify the `UpdateSAMLProvider` event, analyzing fields such as `sAMLProviderArn`, `sourceIPAddress`, and `userIdentity` details. Monitoring updates to the SAML provider is crucial as it may indicate a perimeter compromise of federated credentials or unauthorized backdoor access set by an attacker. If confirmed malicious, this activity could allow attackers to manipulate identity federation, potentially leading to unauthorized access to cloud resources and sensitive data.
 data_source:
-- AWS CloudTrail UpdateSAMLProvider
-search: '`cloudtrail` eventName=UpdateSAMLProvider 
-  | rename user_name as user
-  | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.sAMLProviderArn) as request_parameters by signature dest user user_agent src vendor_account vendor_region vendor_product 
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  |`aws_saml_update_identity_provider_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
-known_false_positives: Updating a SAML provider or creating a new one may not necessarily
-  be malicious however it needs to be closely monitored.
+    - AWS CloudTrail UpdateSAMLProvider
+search: '`cloudtrail` eventName=UpdateSAMLProvider | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.sAMLProviderArn) as request_parameters by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` |`aws_saml_update_identity_provider_filter`'
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+known_false_positives: Updating a SAML provider or creating a new one may not necessarily be malicious however it needs to be closely monitored.
 references:
-- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
-- https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
-- https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
-- https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
+    - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+    - https://www.splunk.com/en_us/blog/security/a-golden-saml-journey-solarwinds-continued.html
+    - https://www.fireeye.com/content/dam/fireeye-www/blog/pdfs/wp-m-unc2452-2021-000343-01.pdf
+    - https://www.cyberark.com/resources/threat-research-blog/golden-saml-newly-discovered-attack-technique-forges-authentication-to-cloud-apps
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ from IP address $src$ has trigged
-    an event $signature$ to update the SAML provider to $request_parameters$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ from IP address $src$ has trigged an event $signature$ to update the SAML provider to $request_parameters$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Cloud Federated Credential Abuse
-  asset_type: AWS Federated Account
-  mitre_attack_id:
-  - T1078
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Cloud Federated Credential Abuse
+    asset_type: AWS Federated Account
+    mitre_attack_id:
+        - T1078
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078/update_saml_provider/update_saml_provider.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

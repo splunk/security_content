@@ -6,65 +6,44 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Windows Event Log System 7040
-description: The following analytic detects the disabling of Windows Update services,
-  such as "Update Orchestrator Service for Windows Update," "WaaSMedicSvc," and "Windows
-  Update." It leverages Windows System Event ID 7040 logs to identify changes in service
-  start modes to 'disabled.' This activity is significant as it can indicate an adversary's
-  attempt to evade defenses by preventing critical updates, leaving the system vulnerable
-  to exploits. If confirmed malicious, this could allow attackers to maintain persistence
-  and exploit unpatched vulnerabilities, compromising the integrity and security of
-  the affected host.
-search: '`wineventlog_system` EventCode=7040 (service_name IN ("Update Orchestrator
-  Service for Windows Update", "WaaSMedicSvc", "Windows Update") OR param1 IN ("UsoSvc",
-  "WaaSMedicSvc", "wuauserv")) AND (param3=disabled OR start_mode = disabled) | stats
-  count min(_time) as firstTime max(_time) as lastTime by Computer Error_Code service_name
-  start_mode param1 param2 param3 param4 | rename Computer as dest | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_service_stop_win_updates_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the Service name, Service File Name Service Start type, and Service Type
-  from your endpoints (like Windows system.log Event ID 7040)
-known_false_positives: Network administrator may disable this services as part of
-  its audit process within the network. Filter is needed.
+    - Windows Event Log System 7040
+description: The following analytic detects the disabling of Windows Update services, such as "Update Orchestrator Service for Windows Update," "WaaSMedicSvc," and "Windows Update." It leverages Windows System Event ID 7040 logs to identify changes in service start modes to 'disabled.' This activity is significant as it can indicate an adversary's attempt to evade defenses by preventing critical updates, leaving the system vulnerable to exploits. If confirmed malicious, this could allow attackers to maintain persistence and exploit unpatched vulnerabilities, compromising the integrity and security of the affected host.
+search: '`wineventlog_system` EventCode=7040 (service_name IN ("Update Orchestrator Service for Windows Update", "WaaSMedicSvc", "Windows Update") OR param1 IN ("UsoSvc", "WaaSMedicSvc", "wuauserv")) AND (param3=disabled OR start_mode = disabled) | stats count min(_time) as firstTime max(_time) as lastTime by Computer Error_Code service_name start_mode param1 param2 param3 param4 | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_service_stop_win_updates_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints (like Windows system.log Event ID 7040)
+known_false_positives: Network administrator may disable this services as part of its audit process within the network. Filter is needed.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.redline_stealer
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Windows update services $service_name$ was being disabled on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects: []
+    message: Windows update services $service_name$ was being disabled on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects: []
 tags:
-  analytic_story:
-  - CISA AA23-347A
-  - RedLine Stealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1489
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - CISA AA23-347A
+        - RedLine Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1489
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/win_update_services_stop/system.log
-    source: XmlWinEventLog:System
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/redline/win_update_services_stop/system.log
+          source: XmlWinEventLog:System
+          sourcetype: XmlWinEventLog

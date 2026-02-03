@@ -5,87 +5,48 @@ date: '2025-05-02'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
-description: "The following analytic detects outbound network connections from Java\
-  \ processes to default ports used by LDAP and RMI protocols, which may indicate\
-  \ exploitation of the CVE-2021-44228-Log4j vulnerability. This detection leverages\
-  \ data from Endpoint Detection and Response (EDR) agents, focusing on process and\
-  \ network traffic logs. Monitoring this activity is crucial as it can signify an\
-  \ attacker\u2019s attempt to perform JNDI lookups and retrieve malicious payloads.\
-  \ If confirmed malicious, this activity could lead to remote code execution and\
-  \ further compromise of the affected server."
+description: "The following analytic detects outbound network connections from Java processes to default ports used by LDAP and RMI protocols, which may indicate exploitation of the CVE-2021-44228-Log4j vulnerability. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs. Monitoring this activity is crucial as it can signify an attacker’s attempt to perform JNDI lookups and retrieve malicious payloads. If confirmed malicious, this activity could lead to remote code execution and further compromise of the affected server."
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR
-  Processes.process_name=javaw.exe) by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | join process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-  where (All_Traffic.dest_port= 389 OR All_Traffic.dest_port= 636 OR All_Traffic.dest_port
-  = 1389 OR All_Traffic.dest_port = 1099 ) by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
-  All_Traffic.dest  All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
-  All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
-  All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.direction All_Traffic.process_id
-  | `drop_dm_object_name(All_Traffic)` | rename dest as connection_to_CNC]
-  | table _time dest parent_process_name process_name process_path process dest_port 
-  | `outbound_network_connection_from_java_using_default_ports_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Legitimate Java applications may use perform outbound connections
-  to these ports. Filter as needed
+    - Sysmon EventID 1 AND Sysmon EventID 3
+search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where (Processes.process_name="java.exe" OR Processes.process_name=javaw.exe OR Processes.process_name=javaw.exe) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join process_id [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where (All_Traffic.dest_port= 389 OR All_Traffic.dest_port= 636 OR All_Traffic.dest_port = 1389 OR All_Traffic.dest_port = 1099 ) by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest  All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.direction All_Traffic.process_id | `drop_dm_object_name(All_Traffic)` | rename dest as connection_to_CNC] | table _time dest parent_process_name process_name process_path process dest_port | `outbound_network_connection_from_java_using_default_ports_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate Java applications may use perform outbound connections to these ports. Filter as needed
 references:
-- https://www.lunasec.io/docs/blog/log4j-zero-day/
-- https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
+    - https://www.lunasec.io/docs/blog/log4j-zero-day/
+    - https://www.govcert.admin.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Java performed outbound connections to default ports of LDAP or RMI on
-    $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 54
-  threat_objects: []
+    message: Java performed outbound connections to default ports of LDAP or RMI on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 54
+    threat_objects: []
 tags:
-  analytic_story:
-  - Log4Shell CVE-2021-44228
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-44228
-  mitre_attack_id:
-  - T1190
-  - T1133
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Log4Shell CVE-2021-44228
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-44228
+    mitre_attack_id:
+        - T1190
+        - T1133
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/outbound_java/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

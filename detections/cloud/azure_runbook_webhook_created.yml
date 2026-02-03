@@ -5,74 +5,50 @@ date: '2025-09-03'
 author: Mauricio Velazco, Brian Serocki, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of a new Automation Runbook
-  Webhook within an Azure tenant. It leverages Azure Audit events, specifically the
-  "Create or Update an Azure Automation webhook" operation, to identify this activity.
-  This behavior is significant because Webhooks can trigger Automation Runbooks via
-  unauthenticated URLs exposed to the Internet, posing a security risk. If confirmed
-  malicious, an attacker could use this to execute code, create users, or maintain
-  persistence within the environment, potentially leading to unauthorized access and
-  control over Azure resources.
+description: The following analytic detects the creation of a new Automation Runbook Webhook within an Azure tenant. It leverages Azure Audit events, specifically the "Create or Update an Azure Automation webhook" operation, to identify this activity. This behavior is significant because Webhooks can trigger Automation Runbooks via unauthenticated URLs exposed to the Internet, posing a security risk. If confirmed malicious, an attacker could use this to execute code, create users, or maintain persistence within the environment, potentially leading to unauthorized access and control over Azure resources.
 data_source:
-- Azure Audit Create or Update an Azure Automation webhook
-search: '`azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded 
-  | dedup object 
-  | rename claims.ipaddr as src_ip
-  | rename caller as user 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest by object user, src_ip, resourceGroupName, object_path
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `azure_runbook_webhook_created_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Audit events into your Splunk environment. Specifically,
-  this analytic leverages the Azure Activity log category.
-known_false_positives: Administrators may legitimately create Azure Runbook Webhooks.
-  Filter as needed.
+    - Azure Audit Create or Update an Azure Automation webhook
+search: '`azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded | dedup object | rename claims.ipaddr as src_ip | rename caller as user | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest by object user, src_ip, resourceGroupName, object_path | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_runbook_webhook_created_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. Specifically, this analytic leverages the Azure Activity log category.
+known_false_positives: Administrators may legitimately create Azure Runbook Webhooks. Filter as needed.
 references:
-- https://docs.microsoft.com/en-us/azure/automation/overview
-- https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
-- https://docs.microsoft.com/en-us/azure/automation/automation-webhooks?tabs=portal
-- https://www.inversecos.com/2021/12/how-to-detect-malicious-azure.html
-- https://www.netspi.com/blog/technical/cloud-penetration-testing/maintaining-azure-persistence-via-automation-accounts/
-- https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT503/AZT503-3/
-- https://attack.mitre.org/techniques/T1078/004/
+    - https://docs.microsoft.com/en-us/azure/automation/overview
+    - https://docs.microsoft.com/en-us/azure/automation/automation-runbook-types
+    - https://docs.microsoft.com/en-us/azure/automation/automation-webhooks?tabs=portal
+    - https://www.inversecos.com/2021/12/how-to-detect-malicious-azure.html
+    - https://www.netspi.com/blog/technical/cloud-penetration-testing/maintaining-azure-persistence-via-automation-accounts/
+    - https://microsoft.github.io/Azure-Threat-Research-Matrix/Persistence/AZT503/AZT503-3/
+    - https://attack.mitre.org/techniques/T1078/004/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new Azure Runbook Webhook $object$ was created by $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 63
-  threat_objects: []
+    message: A new Azure Runbook Webhook $object$ was created by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 63
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Persistence
-  asset_type: Azure Tenant
-  mitre_attack_id:
-  - T1078.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Azure Active Directory Persistence
+    asset_type: Azure Tenant
+    mitre_attack_id:
+        - T1078.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
-    source: mscs:azure:audit
-    sourcetype: mscs:azure:audit
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azure_runbook_webhook/azure-activity.log
+          source: mscs:azure:audit
+          sourcetype: mscs:azure:audit

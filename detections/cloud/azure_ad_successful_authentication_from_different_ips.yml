@@ -5,77 +5,50 @@ date: '2025-05-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects an Azure AD account successfully authenticating
-  from multiple unique IP addresses within a 30-minute window. It leverages Azure
-  AD SignInLogs to identify instances where the same user logs in from different IPs
-  in a short time frame. This behavior is significant as it may indicate compromised
-  credentials being used by an adversary, potentially following a phishing attack.
-  If confirmed malicious, this activity could allow unauthorized access to corporate
-  resources, leading to data breaches or further exploitation within the network.
+description: The following analytic detects an Azure AD account successfully authenticating from multiple unique IP addresses within a 30-minute window. It leverages Azure AD SignInLogs to identify instances where the same user logs in from different IPs in a short time frame. This behavior is significant as it may indicate compromised credentials being used by an adversary, potentially following a phishing attack. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the network.
 data_source:
-- Azure Active Directory
-search: '`azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs 
-  | rename properties.* as * 
-  | bucket span=30m _time 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(src) AS unique_ips values(dest) as dest values(src) as src by user vendor_account vendor_product signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | where unique_ips > 1 
-  | `azure_ad_successful_authentication_from_different_ips_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the Signin log category.
-known_false_positives: A user with successful authentication events from different
-  Ips may also represent the legitimate use of more than one device. Filter as needed
-  and/or customize the threshold to fit your environment.
+    - Azure Active Directory
+search: '`azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs | rename properties.* as * | bucket span=30m _time | fillnull | stats count min(_time) as firstTime max(_time) as lastTime dc(src) AS unique_ips values(dest) as dest values(src) as src by user vendor_account vendor_product signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | where unique_ips > 1 | `azure_ad_successful_authentication_from_different_ips_filter`'
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+known_false_positives: A user with successful authentication events from different Ips may also represent the legitimate use of more than one device. Filter as needed and/or customize the threshold to fit your environment.
 references:
-- https://attack.mitre.org/techniques/T1110
-- https://attack.mitre.org/techniques/T1110.001
-- https://attack.mitre.org/techniques/T1110.003
+    - https://attack.mitre.org/techniques/T1110
+    - https://attack.mitre.org/techniques/T1110.001
+    - https://attack.mitre.org/techniques/T1110.003
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ has had successful authentication events from more than one
-    unique IP address in the span of 30 minutes.
-  risk_objects:
-  - field: user
-    type: user
-    score: 56
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ has had successful authentication events from more than one unique IP address in the span of 30 minutes.
+    risk_objects:
+        - field: user
+          type: user
+          score: 56
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Compromised User Account
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Tenant
-  mitre_attack_id:
-  - T1110.001
-  - T1110.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Compromised User Account
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Tenant
+    mitre_attack_id:
+        - T1110.001
+        - T1110.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_successful_authentication_from_different_ips/azuread.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/azure_ad_successful_authentication_from_different_ips/azuread.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

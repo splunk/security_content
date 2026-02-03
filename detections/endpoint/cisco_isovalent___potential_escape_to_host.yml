@@ -5,85 +5,80 @@ date: '2026-01-20'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
-- Cisco Isovalent Process Exec
+    - Cisco Isovalent Process Exec
 status: production
 description: |
-  This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
+    This analytic detects potential container escape or reconnaissance attempts by monitoring for the rapid execution of multiple suspicious Linux commands (nsenter, mount, ps aux, and ls) within a short time window. The search aggregates process execution logs into 5-minute buckets and identifies when two or more distinct commands occur in quick succession. This behavior is noteworthy because attackers often chain these commands together to pivot from a container into the host, enumerate processes, or browse filesystems. For a SOC, catching these clustered command executions is important because it highlights possible adversary activity attempting to break isolation and escalate privileges inside a Kubernetes environment.
 search: |
-  `cisco_isovalent_process_exec`
+    `cisco_isovalent_process_exec`
 
-  (
-      process_name IN ("nsenter","mount","ps","ls")
-      OR
-      process IN ("*nsenter*", "*mount*", "*ps aux*", "*ps -ef*")
-  )
-  | bin _time span=5m
-  | stats 
-      count AS total_events
-      dc(process_name) AS distinct_cmds
-      min(_time) AS firstTime
-      max(_time) AS lastTime
-      values(process) AS process
-      values(process_name) AS process_name
-    BY cluster_name node_name pod_name _time
-  | eval duration_s = round(lastTime - firstTime, 0)
-  | where distinct_cmds >= 2 AND duration_s <= 120
-  | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_isovalent___potential_escape_to_host_filter`
+    (
+        process_name IN ("nsenter","mount","ps","ls")
+        OR
+        process IN ("*nsenter*", "*mount*", "*ps aux*", "*ps -ef*")
+    )
+    | bin _time span=5m
+    | stats
+        count AS total_events
+        dc(process_name) AS distinct_cmds
+        min(_time) AS firstTime
+        max(_time) AS lastTime
+        values(process) AS process
+        values(process_name) AS process_name
+      BY cluster_name node_name pod_name _time
+    | eval duration_s = round(lastTime - firstTime, 0)
+    | where distinct_cmds >= 2 AND duration_s <= 120
+    | table _time cluster_name node_name pod_name total_events distinct_cmds duration_s firstTime lastTime process process_name
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_isovalent___potential_escape_to_host_filter`
 how_to_implement: |
-  This detection relies on process execution telemetry from Cisco Isovalent Runtime Security. 
-  Ensure Isovalent Runtime Security is deployed and configured in your Kubernetes environment 
-  to generate process_exec events. Configure the Cisco Security Cloud TA to collect these logs 
-  via HEC and normalize them into Splunk CIM. Privileged pods and hostPID configurations 
-  should be closely monitored as they increase the risk of container escape attempts.
+    This detection relies on process execution telemetry from Cisco Isovalent Runtime Security.
+    Ensure Isovalent Runtime Security is deployed and configured in your Kubernetes environment
+    to generate process_exec events. Configure the Cisco Security Cloud TA to collect these logs
+    via HEC and normalize them into Splunk CIM. Privileged pods and hostPID configurations
+    should be closely monitored as they increase the risk of container escape attempts.
 known_false_positives: |
-  Some legitimate administrative containers or troubleshooting workflows may use nsenter 
-  or mount commands (e.g., debugging nodes with hostPID pods). Such activity should be 
-  investigated in context to ensure it is not malicious.
+    Some legitimate administrative containers or troubleshooting workflows may use nsenter
+    or mount commands (e.g., debugging nodes with hostPID pods). Such activity should be
+    investigated in context to ensure it is not malicious.
 references:
-- https://attack.mitre.org/techniques/T1611/
-- https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/
+    - https://attack.mitre.org/techniques/T1611/
+    - https://unit42.paloaltonetworks.com/hildegard-malware-teamtnt/
 drilldown_searches:
-- name: View the detection results for pod - "$pod_name$"
-  search: '%original_detection_search% | search pod_name = "$pod_name$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$pod_name$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for pod - "$pod_name$"
+      search: '%original_detection_search% | search pod_name = "$pod_name$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$pod_name$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$ using a command - [$process$]
-  risk_objects:
-  - field: pod_name
-    type: system
-    score: 70
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: Escape-to-host attempt detected in pod $pod_name$ on cluster $cluster_name$ using a command - [$process$]
+    risk_objects:
+        - field: pod_name
+          type: system
+          score: 70
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Cisco Isovalent Suspicious Activity
-  - VoidLink Cloud-Native Linux Malware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1611
-  atomic_guid: []
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Cisco Isovalent Suspicious Activity
+        - VoidLink Cloud-Native Linux Malware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1611
+    atomic_guid: []
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1611/cisco_isovalent_k8_escape/cisco_isovalent.log
-      source: not_applicable
-      sourcetype: cisco:isovalent:processExec
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1611/cisco_isovalent_k8_escape/cisco_isovalent.log
+          source: not_applicable
+          sourcetype: cisco:isovalent:processExec

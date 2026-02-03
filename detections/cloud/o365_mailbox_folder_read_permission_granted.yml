@@ -4,70 +4,47 @@ version: 9
 date: '2025-10-21'
 author: Mauricio Velazco, Splunk
 data_source:
-  - O365 ModifyFolderPermissions
+    - O365 ModifyFolderPermissions
 type: TTP
 status: production
-description: The following analytic identifies instances where read permissions are
-  granted to mailbox folders within an Office 365 environment. It detects this activity
-  by monitoring the `o365_management_activity` data source for the `Set-MailboxFolderPermission`
-  and `Add-MailboxFolderPermission` operations. This behavior is significant as it
-  may indicate unauthorized access or changes to mailbox folder permissions, potentially
-  exposing sensitive email content. If confirmed malicious, an attacker could gain
-  unauthorized access to read email communications, leading to data breaches or information
-  leakage.
-search: '`o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission" OR Operation="Add-MailboxFolderPermission" ) 
-  | eval isReadRole=if(match(AccessRights,"^(ReadItems|Author|NonEditingAuthor|Owner|PublishingAuthor|Reviewer)$"), "true", "false") 
-  | search isReadRole="true" 
-  | rename UserId as user  
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product Identity AccessRights 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `o365_mailbox_folder_read_permission_granted_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Mailbox folder permissions may be configured for legitimate
-  purposes, filter as needed.
+description: The following analytic identifies instances where read permissions are granted to mailbox folders within an Office 365 environment. It detects this activity by monitoring the `o365_management_activity` data source for the `Set-MailboxFolderPermission` and `Add-MailboxFolderPermission` operations. This behavior is significant as it may indicate unauthorized access or changes to mailbox folder permissions, potentially exposing sensitive email content. If confirmed malicious, an attacker could gain unauthorized access to read email communications, leading to data breaches or information leakage.
+search: '`o365_management_activity` Workload=Exchange (Operation="Set-MailboxFolderPermission" OR Operation="Add-MailboxFolderPermission" ) | eval isReadRole=if(match(AccessRights,"^(ReadItems|Author|NonEditingAuthor|Owner|PublishingAuthor|Reviewer)$"), "true", "false") | search isReadRole="true" | rename UserId as user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product Identity AccessRights | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_mailbox_folder_read_permission_granted_filter`'
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Mailbox folder permissions may be configured for legitimate purposes, filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1098/002/
-- https://learn.microsoft.com/en-us/powershell/module/exchange/add-mailboxfolderpermission?view=exchange-ps
-- https://learn.microsoft.com/en-us/powershell/module/exchange/set-mailboxfolderpermission?view=exchange-ps
+    - https://attack.mitre.org/techniques/T1098/002/
+    - https://learn.microsoft.com/en-us/powershell/module/exchange/add-mailboxfolderpermission?view=exchange-ps
+    - https://learn.microsoft.com/en-us/powershell/module/exchange/set-mailboxfolderpermission?view=exchange-ps
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A folder was granted read permission by $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 42
-  threat_objects: []
+    message: A folder was granted read permission by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 42
+    threat_objects: []
 tags:
-  analytic_story:
-  - Office 365 Collection Techniques
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1098.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: audit
+    analytic_story:
+        - Office 365 Collection Techniques
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1098.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.002/o365_mailbox_folder_read_granted/o365_mailbox_folder_read_granted.log
+          source: o365
+          sourcetype: o365:management:activity

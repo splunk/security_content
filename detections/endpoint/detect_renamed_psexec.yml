@@ -5,69 +5,45 @@ date: '2025-05-02'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
 status: production
 type: Hunting
-description: The following analytic identifies instances where `PsExec.exe` has been
-  renamed and executed on an endpoint. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process names and original file names. This activity
-  is significant because renaming `PsExec.exe` is a common tactic to evade detection.
-  If confirmed malicious, this could allow an attacker to execute commands remotely,
-  potentially leading to unauthorized access, lateral movement, or further compromise
-  of the network.
+description: The following analytic identifies instances where `PsExec.exe` has been renamed and executed on an endpoint. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and original file names. This activity is significant because renaming `PsExec.exe` is a common tactic to evade detection. If confirmed malicious, this could allow an attacker to execute commands remotely, potentially leading to unauthorized access, lateral movement, or further compromise of the network.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.process_name!=psexec.exe
-  AND Processes.process_name!=psexec64.exe) AND Processes.original_file_name=psexec.c
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `detect_renamed_psexec_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Limited false positives should be present. It is possible some
-  third party applications may use older versions of PsExec, filter as needed.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name!=psexec.exe AND Processes.process_name!=psexec64.exe) AND Processes.original_file_name=psexec.c by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_renamed_psexec_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Limited false positives should be present. It is possible some third party applications may use older versions of PsExec, filter as needed.
 references:
-- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
-- https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
+    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1569.002/T1569.002.yaml
+    - https://redcanary.com/blog/threat-hunting-psexec-lateral-movement/
 tags:
-  analytic_story:
-  - Active Directory Lateral Movement
-  - BlackByte Ransomware
-  - Cactus Ransomware
-  - China-Nexus Threat Activity
-  - CISA AA22-320A
-  - DarkGate Malware
-  - DarkSide Ransomware
-  - DHS Report TA18-074A
-  - HAFNIUM Group
-  - Medusa Ransomware
-  - Rhysida Ransomware
-  - Salt Typhoon
-  - SamSam Ransomware
-  - Sandworm Tools
-  - VanHelsing Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1569.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Lateral Movement
+        - BlackByte Ransomware
+        - Cactus Ransomware
+        - China-Nexus Threat Activity
+        - CISA AA22-320A
+        - DarkGate Malware
+        - DarkSide Ransomware
+        - DHS Report TA18-074A
+        - HAFNIUM Group
+        - Medusa Ransomware
+        - Rhysida Ransomware
+        - Salt Typhoon
+        - SamSam Ransomware
+        - Sandworm Tools
+        - VanHelsing Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1569.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1569.002/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

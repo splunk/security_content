@@ -5,87 +5,49 @@ date: '2025-05-02'
 author: Michael Hart, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an excessive number of `sc.exe` processes
-  launched with the command line argument `start= disabled` within a short period.
-  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on
-  process names, command-line executions, and process GUIDs. This activity is significant
-  as it may indicate an attempt to disable critical services, potentially impairing
-  system defenses. If confirmed malicious, this behavior could allow an attacker to
-  disrupt security mechanisms, hinder incident response, and maintain control over
-  the compromised system.
+description: The following analytic detects an excessive number of `sc.exe` processes launched with the command line argument `start= disabled` within a short period. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names, command-line executions, and process GUIDs. This activity is significant as it may indicate an attempt to disable critical services, potentially impairing system defenses. If confirmed malicious, this behavior could allow an attacker to disrupt security mechanisms, hinder incident response, and maintain control over the compromised system.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` distinct_count(Processes.process)
-  as distinct_cmdlines values(Processes.action) as action values(Processes.original_file_name)
-  as original_file_name values(Processes.parent_process_exec) as parent_process_exec
-  values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_name)
-  as parent_process_name values(Processes.parent_process_path) as parent_process_path
-  values(Processes.process) as process values(Processes.process_exec) as process_exec
-  values(Processes.process_guid) as process_guid values(Processes.process_hash) as
-  process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level)
-  as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id)
-  as user_id values(Processes.vendor_product) as vendor_product min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name
-  = "sc.exe" AND Processes.process="*start= disabled*" by Processes.dest Processes.user
-  Processes.parent_process Processes.process_name Processes.parent_process_id, _time
-  span=30m | where distinct_cmdlines >= 8 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `excessive_number_of_service_control_start_as_disabled_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Legitimate programs and administrators will execute sc.exe
-  with the start disabled flag.  It is possible, but unlikely from the telemetry of
-  normal Windows operation we observed, that sc.exe will be called more than seven
-  times in a short period of time.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` distinct_count(Processes.process) as distinct_cmdlines values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE Processes.process_name = "sc.exe" AND Processes.process="*start= disabled*" by Processes.dest Processes.user Processes.parent_process Processes.process_name Processes.parent_process_id, _time span=30m | where distinct_cmdlines >= 8 | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_number_of_service_control_start_as_disabled_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate programs and administrators will execute sc.exe with the start disabled flag.  It is possible, but unlikely from the telemetry of normal Windows operation we observed, that sc.exe will be called more than seven times in a short period of time.
 references:
-- https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
-- https://attack.mitre.org/techniques/T1562/001/
+    - https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/sc-create
+    - https://attack.mitre.org/techniques/T1562/001/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An excessive amount of $process_name$ was executed on $dest$ attempting
-    to disable services.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: An excessive amount of $process_name$ was executed on $dest$ attempting to disable services.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 80
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Windows Defense Evasion Tactics
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Defense Evasion Tactics
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/sc_service_start_disabled/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

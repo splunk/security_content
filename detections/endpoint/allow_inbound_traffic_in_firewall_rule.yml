@@ -5,66 +5,48 @@ date: '2025-11-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects a suspicious PowerShell command that allows
-  inbound traffic to a specific local port within the public profile. It leverages
-  PowerShell script block logging (EventCode 4104) to identify commands containing
-  keywords like "firewall," "Inbound," "Allow," and "-LocalPort." This activity is
-  significant because it may indicate an attacker attempting to establish remote access
-  by modifying firewall rules. If confirmed malicious, this could allow unauthorized
-  access to the machine, potentially leading to further exploitation and data exfiltration.
+description: The following analytic detects a suspicious PowerShell command that allows inbound traffic to a specific local port within the public profile. It leverages PowerShell script block logging (EventCode 4104) to identify commands containing keywords like "firewall," "Inbound," "Allow," and "-LocalPort." This activity is significant because it may indicate an attacker attempting to establish remote access by modifying firewall rules. If confirmed malicious, this could allow unauthorized access to the machine, potentially leading to further exploitation and data exfiltration.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*firewall*" ScriptBlockText
-  = "*Inbound*" ScriptBlockText = "*Allow*"  ScriptBlockText = "*-LocalPort*" | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
-  user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs  from your endpoints. make sure you enable needed
-  registry to monitor this event.
-known_false_positives: administrator may allow inbound traffic in certain network
-  or machine.
+    - Powershell Script Block Logging 4104
+search: '`powershell` EventCode=4104 ScriptBlockText = "*firewall*" ScriptBlockText = "*Inbound*" ScriptBlockText = "*Allow*"  ScriptBlockText = "*-LocalPort*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `allow_inbound_traffic_in_firewall_rule_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
+known_false_positives: administrator may allow inbound traffic in certain network or machine.
 references:
-- https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
+    - https://docs.microsoft.com/en-us/powershell/module/netsecurity/new-netfirewallrule?view=windowsserver2019-ps
 drilldown_searches:
-- name: View the detection results for - "$user_id$" and "$dest$"
-  search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user_id$" and "$dest$"
+      search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious firewall modification detected on endpoint $dest$ by user $user_id$.
-  risk_objects:
-  - field: user_id
-    type: user
-    score: 3
-  - field: dest
-    type: system
-    score: 3
-  threat_objects: []
+    message: Suspicious firewall modification detected on endpoint $dest$ by user $user_id$.
+    risk_objects:
+        - field: user_id
+          type: user
+          score: 3
+        - field: dest
+          type: system
+          score: 3
+    threat_objects: []
 tags:
-  analytic_story:
-  - Prohibited Traffic Allowed or Protocol Mismatch
-  - NetSupport RMM Tool Abuse
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1021.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Prohibited Traffic Allowed or Protocol Mismatch
+        - NetSupport RMM Tool Abuse
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1021.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/allow_inbound_traffic_in_firewall_rule/windows-xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1021/allow_inbound_traffic_in_firewall_rule/windows-xml.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

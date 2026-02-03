@@ -5,103 +5,62 @@ date: '2025-09-18'
 author: Steven Dick
 status: production
 type: Anomaly
-description: This analytic is used to identify when a removable media device is attached
-  to a machine and then a process is executed from the same drive letter assigned
-  to the removable media device. Adversaries and Insider Threats may use removable
-  media devices for several malicious activities, including initial access, execution,
-  and exfiltration.
+description: This analytic is used to identify when a removable media device is attached to a machine and then a process is executed from the same drive letter assigned to the removable media device. Adversaries and Insider Threats may use removable media devices for several malicious activities, including initial access, execution, and exfiltration.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 13
-search: "| tstats `security_content_summariesonly` count values(Processes.process)\
-  \ as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes\
-  \ where Processes.process_current_directory=* AND NOT Processes.process_current_directory\
-  \ IN (\"C:\\\\*\",\"*\\\\sysvol\\\\*\") \nby Processes.action Processes.dest Processes.original_file_name\
-  \ Processes.parent_process Processes.parent_process_exec \nProcesses.parent_process_guid\
-  \ Processes.parent_process_id Processes.parent_process_name \nProcesses.parent_process_path\
-  \ Processes.process Processes.process_exec Processes.process_guid Processes.process_hash\
-  \ \nProcesses.process_id Processes.process_integrity_level Processes.process_name\
-  \ Processes.process_path \nProcesses.user Processes.user_id Processes.vendor_product\
-  \ Processes.process_current_directory\n| `drop_dm_object_name(Processes)` \n| rex\
-  \ field=process_current_directory \"^(?<object_handle>[^\\\\\\]+\\\\\\)\" \n| where\
-  \ isnotnull(object_handle) \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\
-  \ \n| join dest,object_handle \n  [| tstats `security_content_summariesonly` count\
-  \ values(Registry.action) as action values(Registry.process_guid) as process_guid\
-  \ values(Registry.process_id) as process_id values(Registry.registry_hive) as registry_hive\
-  \ values(Registry.registry_key_name) as registry_key_name values(Registry.registry_value_name)\
-  \ as registry_value_name values(Registry.registry_value_type) as registry_value_type\
-  \ values(Registry.status) as status values(Registry.user) as user values(Registry.vendor_product)\
-  \ as vendor_product from datamodel=Endpoint.Registry where Registry.registry_value_data=\"\
-  *:\\\\*\" AND Registry.registry_path=\"*USBSTOR*\" AND Registry.registry_path IN\
-  \ (\"HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows Portable Devices\\\\Devices\\\\*\"\
-  ,\"HKLM\\\\System\\\\CurrentControlSet\\\\Enum\\\\SWD\\\\WPDBUSENUM\\\\*\") by Registry.dest,Registry.registry_value_data,\
-  \ Registry.registry_path \n  | `drop_dm_object_name(Registry)` \n  | eval object_handle\
-  \ = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path,\
-  \ \"??\"),1),\"&amp;\"),2),\"PROD_\",\"\")\n      ]\n| `windows_process_executed_from_removable_media_filter`"
-how_to_implement: To successfully implement this search, you must ingest endpoint
-  logging that tracks changes to the HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\
-  or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ registry keys as well as Process
-  Execution commands. Ensure that the field from the event logs is being mapped to
-  the proper fields in the Endpoint.Registry data model. This analytic joins the Process
-  and Registry datamodels together based on the drive letter extract to the "object_handle"
-  field from both datasets.
-known_false_positives: Legitimate USB activity will also be detected. Please verify
-  and investigate as appropriate.
+    - Sysmon EventID 1 AND Sysmon EventID 13
+search: "| tstats `security_content_summariesonly` count values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_current_directory=* AND NOT Processes.process_current_directory IN (\"C:\\\\*\",\"*\\\\sysvol\\\\*\") \nby Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec \nProcesses.parent_process_guid Processes.parent_process_id Processes.parent_process_name \nProcesses.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash \nProcesses.process_id Processes.process_integrity_level Processes.process_name Processes.process_path \nProcesses.user Processes.user_id Processes.vendor_product Processes.process_current_directory\n| `drop_dm_object_name(Processes)` \n| rex field=process_current_directory \"^(?<object_handle>[^\\\\\\]+\\\\\\)\" \n| where isnotnull(object_handle) \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)` \n| join dest,object_handle \n  [| tstats `security_content_summariesonly` count values(Registry.action) as action values(Registry.process_guid) as process_guid values(Registry.process_id) as process_id values(Registry.registry_hive) as registry_hive values(Registry.registry_key_name) as registry_key_name values(Registry.registry_value_name) as registry_value_name values(Registry.registry_value_type) as registry_value_type values(Registry.status) as status values(Registry.user) as user values(Registry.vendor_product) as vendor_product from datamodel=Endpoint.Registry where Registry.registry_value_data=\"*:\\\\*\" AND Registry.registry_path=\"*USBSTOR*\" AND Registry.registry_path IN (\"HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows Portable Devices\\\\Devices\\\\*\",\"HKLM\\\\System\\\\CurrentControlSet\\\\Enum\\\\SWD\\\\WPDBUSENUM\\\\*\") by Registry.dest,Registry.registry_value_data, Registry.registry_path \n  | `drop_dm_object_name(Registry)` \n  | eval object_handle = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path, \"??\"),1),\"&amp;\"),2),\"PROD_\",\"\")\n      ]\n| `windows_process_executed_from_removable_media_filter`"
+how_to_implement: To successfully implement this search, you must ingest endpoint logging that tracks changes to the HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\ or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ registry keys as well as Process Execution commands. Ensure that the field from the event logs is being mapped to the proper fields in the Endpoint.Registry data model. This analytic joins the Process and Registry datamodels together based on the drive letter extract to the "object_handle" field from both datasets.
+known_false_positives: Legitimate USB activity will also be detected. Please verify and investigate as appropriate.
 references:
-- https://attack.mitre.org/techniques/T1200/
-- https://www.cisa.gov/news-events/news/using-caution-usb-drives
-- https://www.bleepingcomputer.com/news/security/fbi-hackers-use-badusb-to-target-defense-firms-with-ransomware/
+    - https://attack.mitre.org/techniques/T1200/
+    - https://www.cisa.gov/news-events/news/using-caution-usb-drives
+    - https://www.bleepingcomputer.com/news/security/fbi-hackers-use-badusb-to-target-defense-firms-with-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search dest = "$dest$" and user= "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$"
-    , "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate USB events on $dest$
-  search: '| from datamodel:Endpoint.Processes | search dest=$dest$ process_current_directory=$object_handle$*'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search dest = "$dest$" and user= "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$" , "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate USB events on $dest$
+      search: '| from datamodel:Endpoint.Processes | search dest=$dest$ process_current_directory=$object_handle$*'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The process [$process_name$] was launched using files on a removable storage
-    device named [$object_name$] by [$user$] on $dest$
-  risk_objects:
-  - field: user
-    type: user
-    score: 35
-  - field: dest
-    type: system
-    score: 35
-  threat_objects:
-  - field: process_name
-    type: process_name
-  - field: object_name
-    type: registry_value_name
-  - field: object_handle
-    type: registry_value_text
+    message: The process [$process_name$] was launched using files on a removable storage device named [$object_name$] by [$user$] on $dest$
+    risk_objects:
+        - field: user
+          type: user
+          score: 35
+        - field: dest
+          type: system
+          score: 35
+    threat_objects:
+        - field: process_name
+          type: process_name
+        - field: object_name
+          type: registry_value_name
+        - field: object_handle
+          type: registry_value_text
 tags:
-  analytic_story:
-  - Data Protection
-  - APT37 Rustonotto and FadeStealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1200
-  - T1025
-  - T1091
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Protection
+        - APT37 Rustonotto and FadeStealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1200
+        - T1025
+        - T1091
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/sysmon_usb_use_execution/sysmon_usb_use_execution.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/sysmon_usb_use_execution/sysmon_usb_use_execution.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

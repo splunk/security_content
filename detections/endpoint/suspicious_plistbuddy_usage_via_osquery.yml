@@ -5,41 +5,29 @@ date: '2025-10-21'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects the use of the PlistBuddy utility on macOS
-  to create or modify property list (.plist) files. It leverages OSQuery to monitor
-  process events, specifically looking for commands that interact with LaunchAgents
-  and set properties like RunAtLoad. This activity is significant because PlistBuddy
-  can be used to establish persistence mechanisms, as seen in malware like Silver
-  Sparrow. If confirmed malicious, this could allow an attacker to maintain persistence,
-  execute arbitrary commands, and potentially escalate privileges on the compromised
-  system.
+description: The following analytic detects the use of the PlistBuddy utility on macOS to create or modify property list (.plist) files. It leverages OSQuery to monitor process events, specifically looking for commands that interact with LaunchAgents and set properties like RunAtLoad. This activity is significant because PlistBuddy can be used to establish persistence mechanisms, as seen in malware like Silver Sparrow. If confirmed malicious, this could allow an attacker to maintain persistence, execute arbitrary commands, and potentially escalate privileges on the compromised system.
 data_source:
-  - osquery
-search: '`osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*"
-  OR "columns.cmdline"="*true*" |  `suspicious_plistbuddy_usage_via_osquery_filter`'
-how_to_implement: OSQuery must be installed and configured to pick up process events
-  (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402.
-  Modify the macro and validate fields are correct.
-known_false_positives: Some legitimate applications may use PlistBuddy to create or
-  modify property lists and possibly generate false positives. Review the property
-  list being modified or created to confirm.
+    - osquery
+search: '`osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*" OR "columns.cmdline"="*true*" |  `suspicious_plistbuddy_usage_via_osquery_filter`'
+how_to_implement: OSQuery must be installed and configured to pick up process events (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402. Modify the macro and validate fields are correct.
+known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.
 references:
-- https://www.marcosantadev.com/manage-plist-files-plistbuddy/
+    - https://www.marcosantadev.com/manage-plist-files-plistbuddy/
 rba:
-  message: Suspicious usage of plistbuddy on $host$
-  risk_objects:
-  - field: host
-    type: system
-    score: 25
-  threat_objects: []
+    message: Suspicious usage of plistbuddy on $host$
+    risk_objects:
+        - field: host
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Silver Sparrow
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1543.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Silver Sparrow
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint

@@ -5,73 +5,47 @@ date: '2025-06-24'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
-description:
-  The following analytic detects the use of PowerShell's Invoke-RestMethod
-  cmdlet to collect geolocation data from ipinfo.io or IP address information from
-  api.ipify.org. This behavior leverages PowerShell Script Block Logging to identify
-  scripts that gather external IP information and potential geolocation data. This
-  activity is significant as it may indicate reconnaissance efforts, where threat
-  actors are attempting to determine the geographical location or network details
-  of a compromised system. While some legitimate software may use these services,
-  this pattern is commonly observed in malware and post-exploitation toolkits like
-  those used by Water Gamayun threat actors.
+description: The following analytic detects the use of PowerShell's Invoke-RestMethod cmdlet to collect geolocation data from ipinfo.io or IP address information from api.ipify.org. This behavior leverages PowerShell Script Block Logging to identify scripts that gather external IP information and potential geolocation data. This activity is significant as it may indicate reconnaissance efforts, where threat actors are attempting to determine the geographical location or network details of a compromised system. While some legitimate software may use these services, this pattern is commonly observed in malware and post-exploitation toolkits like those used by Water Gamayun threat actors.
 data_source:
-  - Powershell Script Block Logging 4104
-search:
-  '`powershell` EventCode=4104 (ScriptBlockText="*Invoke-RestMethod*" AND (ScriptBlockText="*ipinfo.io*"
-  OR ScriptBlockText="*api.ipify.org*")) | stats count min(_time) as firstTime max(_time)
-  as lastTime by dest signature signature_id user_id vendor_product Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_powershell_invoke_restmethod_ip_information_collection_filter`'
-how_to_implement:
-  To successfully implement this analytic, you will need to enable
-  PowerShell Script Block Logging on some or all endpoints. Additional setup here
-  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
-known_false_positives:
-  Some legitimate applications or administrative scripts may
-  use these services for IP validation or geolocation. Filter as needed for approved
-  administrative tools.
+    - Powershell Script Block Logging 4104
+search: '`powershell` EventCode=4104 (ScriptBlockText="*Invoke-RestMethod*" AND (ScriptBlockText="*ipinfo.io*" OR ScriptBlockText="*api.ipify.org*")) | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_invoke_restmethod_ip_information_collection_filter`'
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives: Some legitimate applications or administrative scripts may use these services for IP validation or geolocation. Filter as needed for approved administrative tools.
 references:
-  - https://securityintelligence.com/posts/new-threat-actor-water-gamayun-targets-telecom-finance/
-  - https://www.ncsc.gov.uk/report/weekly-threat-report-12th-april-2024
+    - https://securityintelligence.com/posts/new-threat-actor-water-gamayun-targets-telecom-finance/
+    - https://www.ncsc.gov.uk/report/weekly-threat-report-12th-april-2024
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A PowerShell script on $dest$ is collecting external IP or geolocation information using Invoke-RestMethod.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 45
-  threat_objects: []
+    message: A PowerShell script on $dest$ is collecting external IP or geolocation information using Invoke-RestMethod.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 45
+    threat_objects: []
 tags:
-  analytic_story:
-    - Water Gamayun
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1082
-    - T1016
-    - T1059.001
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Water Gamayun
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1082
+        - T1016
+        - T1059.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/irm_powershell.log
-        source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/atomic_red_team/irm_powershell.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

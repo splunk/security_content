@@ -6,88 +6,84 @@ author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
 description: |
-  This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events. 
-  It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where four of the following Snort signature IDs 64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811 occurs in the span of 15 minutes from the same host.
-  If confirmed malicious, this behavior is highly indicative of a successful infection of Lumma Stealer.
+    This analytic detects Lumma Stealer activity using Cisco Secure Firewall Intrusion Events.
+    It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where four of the following Snort signature IDs 64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811 occurs in the span of 15 minutes from the same host.
+    If confirmed malicious, this behavior is highly indicative of a successful infection of Lumma Stealer.
 data_source:
-  - Cisco Secure Firewall Threat Defense Intrusion Event
+    - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
-  `cisco_secure_firewall` EventType=IntrusionEvent signature_id IN (64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811)
-  | bin _time span=15m
-  | fillnull
-  | stats dc(signature_id) as unique_signature_count 
-          values(signature_id) as signature_id 
-          values(signature) as signature 
-          values(class_desc) as class_desc 
-          values(MitreAttackGroups) as MitreAttackGroups 
-          values(InlineResult) as InlineResult 
-          values(InlineResultReason) as InlineResultReason 
-          values(dest) as dest 
-          values(dest_port) as dest_port 
-          values(rule) as rule 
-          values(transport) as transport 
-          values(app) as app 
-          min(_time) as firstTime 
-          max(_time) as lastTime 
-          by src
-  | where unique_signature_count >= 3
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___lumma_stealer_activity_filter`
+    `cisco_secure_firewall` EventType=IntrusionEvent signature_id IN (64793, 64794, 64797, 64798, 64799, 64800, 64801, 62709, 64167, 64168, 64169, 64796, 62710, 62711, 62712, 62713, 62714, 62715, 62716, 62717, 64812, 64810, 64811)
+    | bin _time span=15m
+    | fillnull
+    | stats dc(signature_id) as unique_signature_count
+            values(signature_id) as signature_id
+            values(signature) as signature
+            values(class_desc) as class_desc
+            values(MitreAttackGroups) as MitreAttackGroups
+            values(InlineResult) as InlineResult
+            values(InlineResultReason) as InlineResultReason
+            values(dest) as dest
+            values(dest_port) as dest_port
+            values(rule) as rule
+            values(transport) as transport
+            values(app) as app
+            min(_time) as firstTime
+            max(_time) as lastTime
+            by src
+    | where unique_signature_count >= 3
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___lumma_stealer_activity_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The intrusion access policy must also be configured.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The intrusion access policy must also be configured.
 known_false_positives: False positives should be very unlikely.
 references:
-  - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.lumma
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$src$"
-  search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$src$"
+      search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Lumma Stealer Activity on host $dest$ origniating from $src$
-  risk_objects:
-    - field: dest
-      type: system
-      score: 25
-  threat_objects:
-    - field: signature
-      type: signature
-    - field: src
-      type: ip_address
+    message: Lumma Stealer Activity on host $dest$ origniating from $src$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects:
+        - field: signature
+          type: signature
+        - field: src
+          type: ip_address
 tags:
-  analytic_story: 
-    - Cisco Secure Firewall Threat Defense Analytics
-    - Lumma Stealer
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1190
-    - T1210
-    - T1027
-    - T1204
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+        - Lumma Stealer
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1190
+        - T1210
+        - T1027
+        - T1204
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

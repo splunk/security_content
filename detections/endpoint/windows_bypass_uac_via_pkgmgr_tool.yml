@@ -6,83 +6,49 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-description: The following analytic detects the execution of the deprecated 'pkgmgr.exe'
-  process with an XML input file, which is unusual and potentially suspicious. This
-  detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on
-  process execution details and command-line arguments. The significance lies in the
-  deprecated status of 'pkgmgr.exe' and the use of XML files, which could indicate
-  an attempt to bypass User Account Control (UAC). If confirmed malicious, this activity
-  could allow an attacker to execute commands with elevated privileges, leading to
-  potential system compromise and unauthorized changes.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where  Processes.process_name = pkgmgr.exe
-  Processes.process = "*.xml*" NOT(Processes.parent_process_path IN("*:\\windows\\system32\\*",
-  "*:\\windows\\syswow64\\*", "*:\\Program Files*")) by Processes.action Processes.dest
-  Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_bypass_uac_via_pkgmgr_tool_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present on recent Windows Operating
-  Systems. Filtering may be required based on process_name. In addition, look for
-  non-standard, unsigned, module loads into LSASS. If query is too noisy, modify by
-  adding Endpoint.processes process_name to query to identify the process making the
-  modification.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+description: The following analytic detects the execution of the deprecated 'pkgmgr.exe' process with an XML input file, which is unusual and potentially suspicious. This detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process execution details and command-line arguments. The significance lies in the deprecated status of 'pkgmgr.exe' and the use of XML files, which could indicate an attempt to bypass User Account Control (UAC). If confirmed malicious, this activity could allow an attacker to execute commands with elevated privileges, leading to potential system compromise and unauthorized changes.
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where  Processes.process_name = pkgmgr.exe Processes.process = "*.xml*" NOT(Processes.parent_process_path IN("*:\\windows\\system32\\*", "*:\\windows\\syswow64\\*", "*:\\Program Files*")) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_bypass_uac_via_pkgmgr_tool_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present on recent Windows Operating Systems. Filtering may be required based on process_name. In addition, look for non-standard, unsigned, module loads into LSASS. If query is too noisy, modify by adding Endpoint.processes process_name to query to identify the process making the modification.
 references:
-- https://asec.ahnlab.com/en/17692/
-- https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
+    - https://asec.ahnlab.com/en/17692/
+    - https://www.blackberry.com/us/en/solutions/endpoint-security/ransomware-protection/warzone#:~:text=Warzone%20RAT%20(AKA%20Ave%20Maria)%20is%20a%20remote%20access%20trojan,is%20as%20an%20information%20stealer.
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A pkgmgr.exe executed with package manager xml input file on $dest$
-  risk_objects:
-  - field: user
-    type: user
-    score: 9
-  - field: dest
-    type: system
-    score: 9
-  threat_objects: []
+    message: A pkgmgr.exe executed with package manager xml input file on $dest$
+    risk_objects:
+        - field: user
+          type: user
+          score: 9
+        - field: dest
+          type: system
+          score: 9
+    threat_objects: []
 tags:
-  analytic_story:
-  - Warzone RAT
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1548.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Warzone RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1548.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/pkgmgr_uac_bypass/pkgmgr_create_file.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/warzone_rat/pkgmgr_uac_bypass/pkgmgr_create_file.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

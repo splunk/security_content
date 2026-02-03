@@ -5,86 +5,58 @@ date: '2025-09-18'
 author: Steven Dick
 status: production
 type: Anomaly
-description: This analytic is used to identify when a USB removable media device is
-  attached to a Windows host. In this scenario we are querying the Endpoint Registry
-  data model to look for modifications to the Windows Portable Device keys HKLM\SOFTWARE\Microsoft\Windows
-  Portable Devices\Devices\ or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\
-  . Adversaries and Insider Threats may use removable media devices for several malicious
-  activities, including initial access, execution, and exfiltration.
+description: This analytic is used to identify when a USB removable media device is attached to a Windows host. In this scenario we are querying the Endpoint Registry data model to look for modifications to the Windows Portable Device keys HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\ or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ . Adversaries and Insider Threats may use removable media devices for several malicious activities, including initial access, execution, and exfiltration.
 data_source:
-- Sysmon EventID 12
-- Sysmon EventID 13
-search: "| tstats `security_content_summariesonly` min(_time) as firstTime, max(_time)\
-  \ as lastTime, count from datamodel=Endpoint.Registry \nwhere Registry.registry_path\
-  \ IN (\"HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows Portable Devices\\\\Devices\\\\\
-  *\",\"HKLM\\\\System\\\\CurrentControlSet\\\\Enum\\\\SWD\\\\WPDBUSENUM\\\\*\") \n\
-  AND Registry.registry_value_name =\"FriendlyName\" AND Registry.registry_path=\"\
-  *USBSTOR*\" \nby Registry.action Registry.dest Registry.process_guid Registry.process_id\
-  \ Registry.registry_hive Registry.registry_path \nRegistry.registry_key_name Registry.registry_value_data\
-  \ Registry.registry_value_name  \nRegistry.registry_value_type Registry.status Registry.user\
-  \ Registry.vendor_product \n| `drop_dm_object_name(Registry)`\n| eval object_handle\
-  \ = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path,\
-  \ \"??\"),1),\"&amp;\"),2),\"PROD_\",\"\")\n| `security_content_ctime(firstTime)`\
-  \ \n| `security_content_ctime(lastTime)`\n| `windows_wpdbusenum_registry_key_modification_filter`"
-how_to_implement: To successfully implement this search, you must ingest endpoint
-  logging that tracks changes to the HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\
-  or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ registry keys. Ensure that
-  the field from the event logs is being mapped to the proper fields in the Endpoint.Registry
-  data model.
-known_false_positives: Legitimate USB activity will also be detected. Please verify
-  and investigate as appropriate.
+    - Sysmon EventID 12
+    - Sysmon EventID 13
+search: "| tstats `security_content_summariesonly` min(_time) as firstTime, max(_time) as lastTime, count from datamodel=Endpoint.Registry \nwhere Registry.registry_path IN (\"HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows Portable Devices\\\\Devices\\\\*\",\"HKLM\\\\System\\\\CurrentControlSet\\\\Enum\\\\SWD\\\\WPDBUSENUM\\\\*\") \nAND Registry.registry_value_name =\"FriendlyName\" AND Registry.registry_path=\"*USBSTOR*\" \nby Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path \nRegistry.registry_key_name Registry.registry_value_data Registry.registry_value_name  \nRegistry.registry_value_type Registry.status Registry.user Registry.vendor_product \n| `drop_dm_object_name(Registry)`\n| eval object_handle = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path, \"??\"),1),\"&amp;\"),2),\"PROD_\",\"\")\n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\n| `windows_wpdbusenum_registry_key_modification_filter`"
+how_to_implement: To successfully implement this search, you must ingest endpoint logging that tracks changes to the HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\ or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ registry keys. Ensure that the field from the event logs is being mapped to the proper fields in the Endpoint.Registry data model.
+known_false_positives: Legitimate USB activity will also be detected. Please verify and investigate as appropriate.
 references:
-- https://attack.mitre.org/techniques/T1200/
-- https://www.cisa.gov/news-events/news/using-caution-usb-drives
-- https://www.bleepingcomputer.com/news/security/fbi-hackers-use-badusb-to-target-defense-firms-with-ransomware/
+    - https://attack.mitre.org/techniques/T1200/
+    - https://www.cisa.gov/news-events/news/using-caution-usb-drives
+    - https://www.bleepingcomputer.com/news/security/fbi-hackers-use-badusb-to-target-defense-firms-with-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate USB events on $dest$
-  search: '| from datamodel:Endpoint.Registry | search dest=$dest$ registry_path IN
-    ("HKLM\\SOFTWARE\\Microsoft\\Windows Portable Devices\\Devices\\*","HKLM\\System\\CurrentControlSet\\Enum\\SWD\\WPDBUSENUM\\*")'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate USB events on $dest$
+      search: '| from datamodel:Endpoint.Registry | search dest=$dest$ registry_path IN ("HKLM\\SOFTWARE\\Microsoft\\Windows Portable Devices\\Devices\\*","HKLM\\System\\CurrentControlSet\\Enum\\SWD\\WPDBUSENUM\\*")'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A removable storage device named [$object_name$] with drive letter [$object_handle$]
-    was attached to $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 10
-  threat_objects:
-  - field: object_name
-    type: registry_value_name
-  - field: object_handle
-    type: registry_value_text
+    message: A removable storage device named [$object_name$] with drive letter [$object_handle$] was attached to $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 10
+    threat_objects:
+        - field: object_name
+          type: registry_value_name
+        - field: object_handle
+          type: registry_value_text
 tags:
-  analytic_story:
-  - Data Protection
-  - APT37 Rustonotto and FadeStealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1200
-  - T1025
-  - T1091
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Protection
+        - APT37 Rustonotto and FadeStealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1200
+        - T1025
+        - T1091
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/sysmon_usb_use_execution/sysmon_usb_use_execution.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/sysmon_usb_use_execution/sysmon_usb_use_execution.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

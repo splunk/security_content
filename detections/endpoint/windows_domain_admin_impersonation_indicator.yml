@@ -6,84 +6,49 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Windows Event Log Security 4627
-description: The following analytic identifies potential Kerberos ticket forging attacks,
-  specifically the Diamond Ticket attack. This is detected when a user logs into a
-  host and the GroupMembership field in event 4627 indicates a privileged group (e.g.,
-  Domain Admins), but the user does not actually belong to that group in the directory
-  service. The detection leverages Windows Security Event Log 4627, which logs account
-  logon events. The analytic cross-references the GroupMembership field from the event
-  against a pre-populated lookup of actual group memberships. Its crucial to note
-  that the accuracy and effectiveness of this detection heavily rely on the users
-  diligence in populating and regularly updating this lookup table. Any discrepancies
-  between the events GroupMembership and the lookup indicate potential ticket forging.
-  Kerberos ticket forging, especially the Diamond Ticket attack, allows attackers
-  to impersonate any user and potentially gain unauthorized access to resources. By
-  forging a ticket that indicates membership in a privileged group, an attacker can
-  bypass security controls and gain elevated privileges. Detecting such discrepancies
-  in group memberships during logon events can be a strong indicator of this attack
-  in progress, making it crucial for security teams to monitor and investigate. If
-  validated as a true positive, this indicates that an attacker has successfully forged
-  a Kerberos ticket and may have gained unauthorized access to critical resources,
-  potentially with elevated privileges.
-search: '`wineventlog_security` EventCode=4627 LogonType=3 NOT TargetUserName IN ("*$",
-  "SYSTEM", "DWM-*","LOCAL SERVICE","NETWORK SERVICE", "ANONYMOUS LOGON", "UMFD-*")
-  | where match(GroupMembership, "Domain Admins") | stats count by _time TargetUserName
-  GroupMembership action app dest signature_id user vendor_product | lookup domain_admins
-  username as TargetUserName OUTPUT username | fillnull value=NotDA username | search
-  username = "NotDA" | `windows_domain_admin_impersonation_indicator_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Authentication events across all endpoints and ingest Event Id 4627. Specifically,
-  the Audit Group Membership subcategory within the Logon Logoff category needs to
-  be enabled. Its crucial to note that the accuracy and effectiveness of this detection
-  heavily rely on the users diligence in populating and regularly updating this lookup
-  table.
-known_false_positives: False positives may trigger the detections certain scenarios
-  like directory service delays or out of date lookups. Filter as needed.
+    - Windows Event Log Security 4627
+description: The following analytic identifies potential Kerberos ticket forging attacks, specifically the Diamond Ticket attack. This is detected when a user logs into a host and the GroupMembership field in event 4627 indicates a privileged group (e.g., Domain Admins), but the user does not actually belong to that group in the directory service. The detection leverages Windows Security Event Log 4627, which logs account logon events. The analytic cross-references the GroupMembership field from the event against a pre-populated lookup of actual group memberships. Its crucial to note that the accuracy and effectiveness of this detection heavily rely on the users diligence in populating and regularly updating this lookup table. Any discrepancies between the events GroupMembership and the lookup indicate potential ticket forging. Kerberos ticket forging, especially the Diamond Ticket attack, allows attackers to impersonate any user and potentially gain unauthorized access to resources. By forging a ticket that indicates membership in a privileged group, an attacker can bypass security controls and gain elevated privileges. Detecting such discrepancies in group memberships during logon events can be a strong indicator of this attack in progress, making it crucial for security teams to monitor and investigate. If validated as a true positive, this indicates that an attacker has successfully forged a Kerberos ticket and may have gained unauthorized access to critical resources, potentially with elevated privileges.
+search: '`wineventlog_security` EventCode=4627 LogonType=3 NOT TargetUserName IN ("*$", "SYSTEM", "DWM-*","LOCAL SERVICE","NETWORK SERVICE", "ANONYMOUS LOGON", "UMFD-*") | where match(GroupMembership, "Domain Admins") | stats count by _time TargetUserName GroupMembership action app dest signature_id user vendor_product | lookup domain_admins username as TargetUserName OUTPUT username | fillnull value=NotDA username | search username = "NotDA" | `windows_domain_admin_impersonation_indicator_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Authentication events across all endpoints and ingest Event Id 4627. Specifically, the Audit Group Membership subcategory within the Logon Logoff category needs to be enabled. Its crucial to note that the accuracy and effectiveness of this detection heavily rely on the users diligence in populating and regularly updating this lookup table.
+known_false_positives: False positives may trigger the detections certain scenarios like directory service delays or out of date lookups. Filter as needed.
 references:
-- https://trustedsec.com/blog/a-diamond-in-the-ruff
-- https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks
-- https://github.com/GhostPack/Rubeus/pull/136
-- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4627
+    - https://trustedsec.com/blog/a-diamond-in-the-ruff
+    - https://unit42.paloaltonetworks.com/next-gen-kerberos-attacks
+    - https://github.com/GhostPack/Rubeus/pull/136
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4627
 drilldown_searches:
-- name: View the detection results for - "$TargetUserName$"
-  search: '%original_detection_search% | search  TargetUserName = "$TargetUserName$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$TargetUserName$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$TargetUserName$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$TargetUserName$"
+      search: '%original_detection_search% | search  TargetUserName = "$TargetUserName$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$TargetUserName$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$TargetUserName$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $TargetUserName$ may be impersonating a Domain Administrator through a
-    forged Kerberos ticket.
-  risk_objects:
-  - field: TargetUserName
-    type: user
-    score: 80
-  threat_objects: []
+    message: $TargetUserName$ may be impersonating a Domain Administrator through a forged Kerberos ticket.
+    risk_objects:
+        - field: TargetUserName
+          type: user
+          score: 80
+    threat_objects: []
 tags:
-  analytic_story:
-  - Active Directory Kerberos Attacks
-  - Gozi Malware
-  - Compromised Windows Host
-  - Active Directory Privilege Escalation
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1558
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Kerberos Attacks
+        - Gozi Malware
+        - Compromised Windows Host
+        - Active Directory Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1558
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/diamond_ticket/security.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/diamond_ticket/security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

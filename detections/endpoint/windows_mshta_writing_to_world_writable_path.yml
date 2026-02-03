@@ -4,106 +4,85 @@ version: 8
 date: '2026-01-13'
 author: Michael Haag, Splunk
 data_source:
-  - Sysmon EventID 11
+    - Sysmon EventID 11
 type: TTP
 status: production
-description: The following analytic identifies instances of `mshta.exe` writing files
-  to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file
-  write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`.
-  This activity is significant as it often indicates an attempt to establish persistence
-  or execute malicious code, deviating from the utility's legitimate use. If confirmed
-  malicious, this behavior could lead to the execution of multi-stage payloads, potentially
-  resulting in full system compromise and unauthorized access to sensitive information.
+description: The following analytic identifies instances of `mshta.exe` writing files to world-writable directories. It leverages Sysmon EventCode 11 logs to detect file write operations by `mshta.exe` to directories like `C:\Windows\Tasks` and `C:\Windows\Temp`. This activity is significant as it often indicates an attempt to establish persistence or execute malicious code, deviating from the utility's legitimate use. If confirmed malicious, this behavior could lead to the execution of multi-stage payloads, potentially resulting in full system compromise and unauthorized access to sensitive information.
 search: |
-  `sysmon`
-  EventCode=11
-  (
-    Image="*\\mshta.exe"
-    OR
-    OriginalFileName="mshta.exe"
-  )
-  TargetFilename IN (
-                      "*\\Windows\\PLA\\Reports\\*",
-                      "*\\Windows\\PLA\\Rules\\*",
-                      "*\\Windows\\PLA\\Templates\\*",
-                      "*\\Windows\\Registration\\CRMLog\\*",
-                      "*\\Windows\\System32\\Com\\dmp\\*",
-                      "*\\Windows\\System32\\LogFiles\\WMI\\*",
-                      "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
-                      "*\\Windows\\System32\\spool\\drivers\\color\\*",
-                      "*\\Windows\\System32\\spool\\PRINTERS\\*",
-                      "*\\Windows\\System32\\spool\\SERVERS\\*",
-                      "*\\Windows\\System32\\Tasks\\*",
-                      "*\\Windows\\SysWOW64\\Com\\dmp\\*",
-                      "*\\Windows\\SysWOW64\\Tasks\\*",
-                      "*\\Windows\\Tasks\\*",
-                      "*\\Windows\\Temp\\*",
-                      "*\\Windows\\tracing\\*"
-                    )
-  | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
-  file_path  process_guid process_id user user_id vendor_product Image TargetFilename
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_mshta_writing_to_world_writable_path_filter`
-how_to_implement: The analytic is designed to be run against Sysmon event logs collected
-  from endpoints. The analytic requires the Sysmon event logs to be ingested into
-  Splunk. The search focuses on EventCode 11 where the Image is `mshta.exe` and the
-  TargetFilename is within world-writable directories such as `C:\Windows\Tasks`,
-  `C:\Windows\Temp`, and others. The detection is designed to catch the initial file
-  write operation by `mshta.exe` to these locations, which is indicative of an attempt
-  to establish persistence or execute malicious code. The analytic can be modified
-  to include additional world-writable directories as needed.
-known_false_positives: False positives may occur if legitimate processes are writing
-  to world-writable directories. It is recommended to investigate the context of the
-  file write operation to determine if it is malicious or not. Modify the search to
-  include additional known good paths for `mshta.exe` to reduce false positives.
+    `sysmon`
+    EventCode=11
+    (
+      Image="*\\mshta.exe"
+      OR
+      OriginalFileName="mshta.exe"
+    )
+    TargetFilename IN (
+                        "*\\Windows\\PLA\\Reports\\*",
+                        "*\\Windows\\PLA\\Rules\\*",
+                        "*\\Windows\\PLA\\Templates\\*",
+                        "*\\Windows\\Registration\\CRMLog\\*",
+                        "*\\Windows\\System32\\Com\\dmp\\*",
+                        "*\\Windows\\System32\\LogFiles\\WMI\\*",
+                        "*\\Windows\\System32\\Microsoft\\Crypto\\RSA\\MachineKeys\\*",
+                        "*\\Windows\\System32\\spool\\drivers\\color\\*",
+                        "*\\Windows\\System32\\spool\\PRINTERS\\*",
+                        "*\\Windows\\System32\\spool\\SERVERS\\*",
+                        "*\\Windows\\System32\\Tasks\\*",
+                        "*\\Windows\\SysWOW64\\Com\\dmp\\*",
+                        "*\\Windows\\SysWOW64\\Tasks\\*",
+                        "*\\Windows\\Tasks\\*",
+                        "*\\Windows\\Temp\\*",
+                        "*\\Windows\\tracing\\*"
+                      )
+    | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
+    file_path  process_guid process_id user user_id vendor_product Image TargetFilename
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_mshta_writing_to_world_writable_path_filter`
+how_to_implement: The analytic is designed to be run against Sysmon event logs collected from endpoints. The analytic requires the Sysmon event logs to be ingested into Splunk. The search focuses on EventCode 11 where the Image is `mshta.exe` and the TargetFilename is within world-writable directories such as `C:\Windows\Tasks`, `C:\Windows\Temp`, and others. The detection is designed to catch the initial file write operation by `mshta.exe` to these locations, which is indicative of an attempt to establish persistence or execute malicious code. The analytic can be modified to include additional world-writable directories as needed.
+known_false_positives: False positives may occur if legitimate processes are writing to world-writable directories. It is recommended to investigate the context of the file write operation to determine if it is malicious or not. Modify the search to include additional known good paths for `mshta.exe` to reduce false positives.
 references:
-- https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
-- https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
+    - https://www.mandiant.com/resources/blog/apt29-wineloader-german-political-parties
+    - https://www.zscaler.com/blogs/security-research/european-diplomats-targeted-spikedwine-wineloader
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $Image$ writing to $TargetFilename$ was detected on $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects:
-  - field: Image
-    type: file_name
+    message: An instance of $Image$ writing to $TargetFilename$ was detected on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 64
+    threat_objects:
+        - field: Image
+          type: file_name
 tags:
-  analytic_story:
-  - APT29 Diplomatic Deceptions with WINELOADER
-  - Suspicious MSHTA Activity
-  - XWorm
-  group:
-  - APT29
-  - Cozy Bear
-  - Midnight Blizzard
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1218.005
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - APT29 Diplomatic Deceptions with WINELOADER
+        - Suspicious MSHTA Activity
+        - XWorm
+    group:
+        - APT29
+        - Cozy Bear
+        - Midnight Blizzard
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1218.005
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
-    sourcetype: XmlWinEventLog
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218.005/atomic_red_team/mshta_tasks_windows-sysmon.log
+          sourcetype: XmlWinEventLog
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

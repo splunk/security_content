@@ -5,64 +5,45 @@ date: '2025-05-02'
 author: Bhavin Patel, Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the deletion of AWS Network Access Control
-  Lists (ACLs). It leverages AWS CloudTrail logs to identify events where a user deletes
-  a network ACL entry. This activity is significant because deleting a network ACL
-  can remove critical access restrictions, potentially allowing unauthorized access
-  to cloud instances. If confirmed malicious, this action could enable attackers to
-  bypass network security controls, leading to unauthorized access, data exfiltration,
-  or further compromise of the cloud environment.
+description: The following analytic detects the deletion of AWS Network Access Control Lists (ACLs). It leverages AWS CloudTrail logs to identify events where a user deletes a network ACL entry. This activity is significant because deleting a network ACL can remove critical access restrictions, potentially allowing unauthorized access to cloud instances. If confirmed malicious, this action could enable attackers to bypass network security controls, leading to unauthorized access, data exfiltration, or further compromise of the cloud environment.
 data_source:
-- AWS CloudTrail DeleteNetworkAclEntry
-search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
-  | fillnull 
-  | rename user_name as user
-  | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail
-  inputs.
-known_false_positives: It's possible that a user has legitimately deleted a network
-  ACL.
+    - AWS CloudTrail DeleteNetworkAclEntry
+search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false | fillnull | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs.
+known_false_positives: It's possible that a user has legitimately deleted a network ACL.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ from $src$ has sucessfully deleted network ACLs entry, such that the instance is accessible from anywhere
-  risk_objects:
-  - field: user
-    type: user
-    score: 5
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ from $src$ has sucessfully deleted network ACLs entry, such that the instance is accessible from anywhere
+    risk_objects:
+        - field: user
+          type: user
+          score: 5
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - AWS Network ACL Activity
-  asset_type: AWS Instance
-  mitre_attack_id:
-  - T1562.007
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - AWS Network ACL Activity
+    asset_type: AWS Instance
+    mitre_attack_id:
+        - T1562.007
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.007/aws_delete_acl/aws_cloudtrail_events.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

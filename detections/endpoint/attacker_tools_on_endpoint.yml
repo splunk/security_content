@@ -5,105 +5,65 @@ date: '2025-07-29'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
-description:
-  The following analytic detects the execution of tools commonly exploited
-  by cybercriminals, such as those used for unauthorized access, network scanning,
-  or data exfiltration. It leverages process activity data from Endpoint Detection
-  and Response (EDR) agents, focusing on known attacker tool names. This activity
-  is significant because it serves as an early warning system for potential security
-  incidents, enabling prompt response. If confirmed malicious, this activity could
-  lead to unauthorized access, data theft, or further network compromise, posing a
-  severe threat to the organization's security infrastructure.
+description: The following analytic detects the execution of tools commonly exploited by cybercriminals, such as those used for unauthorized access, network scanning, or data exfiltration. It leverages process activity data from Endpoint Detection and Response (EDR) agents, focusing on known attacker tool names. This activity is significant because it serves as an early warning system for potential security incidents, enabling prompt response. If confirmed malicious, this activity could lead to unauthorized access, data theft, or further network compromise, posing a severe threat to the organization's security infrastructure.
 data_source:
-  - Sysmon EventID 1
-  - Windows Event Log Security 4688
-  - CrowdStrike ProcessRollup2
-  - Cisco Network Visibility Module Flow Data
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime values(Processes.process) as process values(Processes.parent_process)
-  as parent_process from datamodel=Endpoint.Processes where
-  [| inputlookup attacker_tools | rename attacker_tool_names AS Processes.process_name | fields Processes.process_name] AND
-  Processes.dest!=unknown AND Processes.user!=unknown by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup
-  attacker_tools attacker_tool_names AS process_name OUTPUT description | search description
-  !=false| `attacker_tools_on_endpoint_filter`'
-how_to_implement:
-  The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives:
-  Some administrator activity can be potentially triggered, please
-  add those users to the filter macro.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+    - Cisco Network Visibility Module Flow Data
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process) as process values(Processes.parent_process) as parent_process from datamodel=Endpoint.Processes where [| inputlookup attacker_tools | rename attacker_tool_names AS Processes.process_name | fields Processes.process_name] AND Processes.dest!=unknown AND Processes.user!=unknown by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name(Processes)` | lookup attacker_tools attacker_tool_names AS process_name OUTPUT description | search description !=false| `attacker_tools_on_endpoint_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some administrator activity can be potentially triggered, please add those users to the filter macro.
 references: []
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message:
-    An attacker tool $process_name$, listed in attacker_tools.csv is executed
-    on host $dest$ by User $user$. This process $process_name$ is known to do- $description$
-  risk_objects:
-    - field: user
-      type: user
-      score: 64
-    - field: dest
-      type: system
-      score: 64
-  threat_objects:
-    - field: process_name
-      type: process_name
+    message: An attacker tool $process_name$, listed in attacker_tools.csv is executed on host $dest$ by User $user$. This process $process_name$ is known to do- $description$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+        - field: dest
+          type: system
+          score: 64
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-    - XMRig
-    - Unusual Processes
-    - SamSam Ransomware
-    - CISA AA22-264A
-    - Compromised Windows Host
-    - PHP-CGI RCE Attack on Japanese Organizations
-    - Cisco Network Visibility Module Analytics
-    - Scattered Spider
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1003
-    - T1036.005
-    - T1595
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - XMRig
+        - Unusual Processes
+        - SamSam Ransomware
+        - CISA AA22-264A
+        - Compromised Windows Host
+        - PHP-CGI RCE Attack on Japanese Organizations
+        - Cisco Network Visibility Module Analytics
+        - Scattered Spider
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1003
+        - T1036.005
+        - T1595
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test - Sysmon
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
-  - name: True Positive Test - Cisco NVM
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
-        source: not_applicable
-        sourcetype: cisco:nvm:flowdata
+    - name: True Positive Test - Sysmon
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1595/attacker_scan_tools/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+    - name: True Positive Test - Cisco NVM
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_network_visibility_module/cisco_nvm_flowdata/nvm_flowdata.log
+          source: not_applicable
+          sourcetype: cisco:nvm:flowdata

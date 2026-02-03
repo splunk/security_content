@@ -6,65 +6,46 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- Windows Event Log Security 4732
-description: The following analytic detects the addition of a new member to the DnsAdmins
-  group in Active Directory by leveraging Event ID 4732. This detection uses security
-  event logs to identify changes to this high-privilege group. Monitoring this activity
-  is crucial because members of the DnsAdmins group can manage the DNS service, often
-  running on Domain Controllers, and potentially execute malicious code with SYSTEM
-  privileges. If confirmed malicious, this activity could allow an attacker to escalate
-  privileges and gain control over critical domain services, posing a significant
-  security risk.
-search: '`wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins | stats min(_time)
-  as firstTime max(_time) as lastTime values(TargetUserName) as target_users_added
-  values(user) as user by  dest src_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_dnsadmins_new_member_added_filter`'
-how_to_implement: To successfully implement this search, Domain Controller events
-  need to be ingested. The Advanced Security Audit policy setting `Audit Security
-  Group Management` within `Account Management` needs to be enabled.
-known_false_positives: New members can be added to the DnsAdmins group as part of
-  legitimate administrative tasks. Filter as needed.
+    - Windows Event Log Security 4732
+description: The following analytic detects the addition of a new member to the DnsAdmins group in Active Directory by leveraging Event ID 4732. This detection uses security event logs to identify changes to this high-privilege group. Monitoring this activity is crucial because members of the DnsAdmins group can manage the DNS service, often running on Domain Controllers, and potentially execute malicious code with SYSTEM privileges. If confirmed malicious, this activity could allow an attacker to escalate privileges and gain control over critical domain services, posing a significant security risk.
+search: '`wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins | stats min(_time) as firstTime max(_time) as lastTime values(TargetUserName) as target_users_added values(user) as user by  dest src_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dnsadmins_new_member_added_filter`'
+how_to_implement: To successfully implement this search, Domain Controller events need to be ingested. The Advanced Security Audit policy setting `Audit Security Group Management` within `Account Management` needs to be enabled.
+known_false_positives: New members can be added to the DnsAdmins group as part of legitimate administrative tasks. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1098/
-- https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise
-- https://www.hackingarticles.in/windows-privilege-escalation-dnsadmins-to-domainadmin/
-- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732
+    - https://attack.mitre.org/techniques/T1098/
+    - https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/from-dnsadmins-to-system-to-domain-compromise
+    - https://www.hackingarticles.in/windows-privilege-escalation-dnsadmins-to-domainadmin/
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4732
 drilldown_searches:
-- name: View the detection results for - "$src_user$"
-  search: '%original_detection_search% | search  src_user = "$src_user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_user$"
+      search: '%original_detection_search% | search  src_user = "$src_user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new member $user$ added to the DnsAdmins group by $src_user$
-  risk_objects:
-  - field: src_user
-    type: user
-    score: 40
-  threat_objects: []
+    message: A new member $user$ added to the DnsAdmins group by $src_user$
+    risk_objects:
+        - field: src_user
+          type: user
+          score: 40
+    threat_objects: []
 tags:
-  analytic_story:
-  - Active Directory Privilege Escalation
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1098
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Privilege Escalation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1098
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/dnsadmins_member_added/windows-security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
