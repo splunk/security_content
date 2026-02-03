@@ -71,6 +71,7 @@ rba:
     type: process_name
 tags:
   analytic_story:
+  - Lotus Blossom Chrysalis Backdoor
   - Winter Vivern
   - Active Directory Discovery
   - Rhysida Ransomware

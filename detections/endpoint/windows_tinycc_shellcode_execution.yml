@@ -16,7 +16,7 @@ search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
     from datamodel=Endpoint.Processes 
     where (Processes.process_name="svchost.exe" OR Processes.process_name="tcc.exe")
-      AND (Processes.process="*-nostdlib*" AND Processes.process="*-run*")
+      AND (Processes.process="* -nostdlib*" AND Processes.process="* -run*")
       AND (Processes.process="*.c" OR Processes.process="*conf.c*")
       AND NOT Processes.process_path IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")
     by Processes.action Processes.dest Processes.user Processes.process Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

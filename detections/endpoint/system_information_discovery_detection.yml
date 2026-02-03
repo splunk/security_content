@@ -76,6 +76,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - Lotus Blossom Chrysalis Backdoor
   - Windows Discovery Techniques
   - Gozi Malware
   - Medusa Ransomware

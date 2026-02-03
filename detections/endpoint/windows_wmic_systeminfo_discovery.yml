@@ -65,6 +65,7 @@ rba:
     type: process_name
 tags:
   analytic_story:
+  - Lotus Blossom Chrysalis Backdoor
   - LAMEHUG
   asset_type: Endpoint
   mitre_attack_id:
