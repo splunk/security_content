@@ -7,7 +7,6 @@ status: production
 type: TTP
 description: |
   Detects abuse of Tiny-C-Compiler (TinyCC) for shellcode execution, where tcc.exe is renamed to masquerade as svchost.exe and used to compile and execute C source files containing shellcode. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers renamed tcc.exe to svchost.exe and executed conf.c containing Metasploit block_api shellcode with the flags -nostdlib -run.
-  
   TinyCC is a legitimate C compiler, but its ability to compile and execute code on-the-fly makes it attractive to attackers seeking to evade detection. The combination of a renamed compiler binary executing from non-standard locations with suspicious flags is a strong indicator of malicious activity.
 data_source:
   - Sysmon EventID 1

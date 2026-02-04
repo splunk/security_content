@@ -1,7 +1,7 @@
 name: Lotus Blossom Chrysalis Backdoor
 id: 4c58f09f-f76f-4261-bbf8-3be406d2fbad
 version: 1
-date: '2026-02-02'
+date: '2026-02-03'
 author: Michael Haag, Splunk
 status: production
 description: Leverage searches that allow you to detect and investigate activities related to Lotus Blossom's Chrysalis backdoor supply chain attack. Monitor for DLL side-loading abuse of Bitdefender Submission Wizard, TinyCC shellcode execution with suspicious command-line flags, BluetoothService persistence in user directories, and system information collection via whoami/systeminfo commands. Investigate unusual process execution patterns, NSIS installer deployments to suspicious paths, and malicious service installations. Combining behavioral detections with threat intelligence enables early identification of Lotus Blossom tradecraft, including custom loaders, Microsoft Warbird abuse, and C2 communications mimicking legitimate API traffic patterns.

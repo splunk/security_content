@@ -7,7 +7,6 @@ status: production
 type: TTP
 description: |
   Detects DLL side-loading abuse of Bitdefender Submission Wizard (BDSubmit.exe, bdsw.exe) where a malicious log.dll is loaded instead of the legitimate library. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers renamed Bitdefender Submission Wizard to BluetoothService.exe and placed a malicious log.dll alongside it in %AppData%\Bluetooth. The legitimate Bitdefender tool calls LogInit and LogWrite exported functions, which the malicious DLL intercepts to decrypt and execute shellcode.
-  
   This detection identifies when Bitdefender Submission Wizard binaries load log.dll from non-standard paths, particularly from user-writable directories like AppData, which is highly suspicious and indicates DLL side-loading abuse.
 data_source:
   - Sysmon EventID 7

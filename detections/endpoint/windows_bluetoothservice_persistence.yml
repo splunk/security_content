@@ -7,7 +7,6 @@ status: production
 type: TTP
 description: |
   Detects creation of a Windows service named "BluetoothService" with a binary path in user-writable directories, particularly %AppData%\Bluetooth. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers created a service named "BluetoothService" pointing to a malicious binary (renamed Bitdefender Submission Wizard) in a hidden AppData directory.
-  
   While legitimate Bluetooth services exist in Windows, they are system services with binaries in System32. Any BluetoothService created with a binary path in user directories (AppData, Temp, Downloads) is highly suspicious and indicates potential malware persistence.
 data_source:
   - Windows Event Log System 7045
