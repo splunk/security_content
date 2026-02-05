@@ -7,7 +7,17 @@ status: experimental
 type: Hunting
 description: The following analytic detects SSL certificates with Punycode domains in the SSL issuer email domain, identified by the prefix "xn--". It leverages the Certificates Datamodel to flag these domains and uses CyberChef for decoding. This activity is significant as Punycode can be used for domain spoofing and phishing attacks. If confirmed malicious, attackers could deceive users and systems, potentially leading to unauthorized access and data breaches.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Certificates.All_Certificates by All_Certificates.SSL.ssl_issuer_email_domain All_Certificates.SSL.ssl_issuer All_Certificates.SSL.ssl_subject_email All_Certificates.SSL.dest All_Certificates.SSL.src All_Certificates.SSL.sourcetype All_Certificates.SSL.ssl_subject_email_domain | `drop_dm_object_name("All_Certificates.SSL")` | eval punycode=if(like(ssl_issuer_email_domain,"%xn--%"),1,0) | where punycode=1 | cyberchef infield="ssl_issuer_email_domain" outfield="convertedPuny" jsonrecipe="[{"op":"From Punycode","args":[true]}]" | table ssl_issuer_email_domain convertedPuny ssl_issuer ssl_subject_email dest src sourcetype ssl_subject_email_domain | `ssl_certificates_with_punycode_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Certificates.All_Certificates
+      BY All_Certificates.SSL.ssl_issuer_email_domain All_Certificates.SSL.ssl_issuer All_Certificates.SSL.ssl_subject_email
+         All_Certificates.SSL.dest All_Certificates.SSL.src All_Certificates.SSL.sourcetype
+         All_Certificates.SSL.ssl_subject_email_domain
+    | `drop_dm_object_name("All_Certificates.SSL")`
+    | eval punycode=if(like(ssl_issuer_email_domain,"%xn--%"),1,0)
+    | where punycode=1
+    | cyberchef infield="ssl_issuer_email_domain" outfield="convertedPuny" jsonrecipe="[{"op":"From Punycode","args":[true]}]"
+    | table ssl_issuer_email_domain convertedPuny ssl_issuer ssl_subject_email dest src sourcetype ssl_subject_email_domain
+    | `ssl_certificates_with_punycode_filter`
 how_to_implement: Ensure data is properly being ingested into the Certificates datamodel. If decoding the of interest, the CyberChef app is needed https://splunkbase.splunk.com/app/5348. If decoding is not needed, remove the cyberchef lines.
 known_false_positives: False positives may be present if the organization works with international businesses. Filter as needed.
 references:

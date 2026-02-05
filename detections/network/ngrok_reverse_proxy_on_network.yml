@@ -8,7 +8,16 @@ type: Anomaly
 description: The following analytic detects DNS queries to common Ngrok domains, indicating potential use of the Ngrok reverse proxy tool. It leverages the Network Resolution datamodel to identify queries to domains such as "*.ngrok.com" and "*.ngrok.io". While Ngrok usage is not inherently malicious, it has been increasingly adopted by adversaries for covert communication and data exfiltration. If confirmed malicious, this activity could allow attackers to bypass network defenses, establish persistent connections, and exfiltrate sensitive data, posing a significant threat to the network's security.
 data_source:
     - Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  from datamodel=Network_Resolution where DNS.query IN ("*.ngrok.com","*.ngrok.io", "ngrok.*.tunnel.com", "korgn.*.lennut.com") by DNS.answer DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product |  `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ngrok_reverse_proxy_on_network_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
+      WHERE DNS.query IN ("*.ngrok.com","*.ngrok.io", "ngrok.*.tunnel.com", "korgn.*.lennut.com")
+      BY DNS.answer DNS.answer_count DNS.query
+         DNS.query_count DNS.reply_code_id DNS.src
+         DNS.vendor_product
+    | `drop_dm_object_name("DNS")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `ngrok_reverse_proxy_on_network_filter`
 how_to_implement: The Network Resolution Datamodel will need to have data mapped to it regarding DNS queries. Modify query as needed to use another source.
 known_false_positives: False positives will be present based on organizations that allow the use of Ngrok. Filter or monitor as needed.
 references:

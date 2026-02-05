@@ -8,7 +8,27 @@ type: Anomaly
 description: The following analytic identifies the use of cleartext protocols that risk leaking sensitive information. It detects network traffic on legacy protocols such as Telnet (port 23), POP3 (port 110), IMAP (port 143), and non-anonymous FTP (port 21). The detection leverages the Network_Traffic data model to identify TCP traffic on these ports. Monitoring this activity is crucial as it can expose credentials and other sensitive data to interception. If confirmed malicious, attackers could capture authentication details, leading to unauthorized access and potential data breaches.
 data_source:
     - Cisco Secure Firewall Threat Defense Connection Event
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic where NOT All_Traffic.action IN ("blocked", "block") AND All_Traffic.transport="tcp" AND (All_Traffic.dest_port="23" OR All_Traffic.dest_port="143" OR All_Traffic.dest_port="110" OR (All_Traffic.dest_port="21" AND All_Traffic.user != "anonymous")) by All_Traffic.user All_Traffic.src_ip All_Traffic.dest All_Traffic.dest_port All_Traffic.rule | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `drop_dm_object_name("All_Traffic")` | `protocols_passing_authentication_in_cleartext_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic
+      WHERE NOT All_Traffic.action IN ("blocked", "block")
+        AND
+        All_Traffic.transport="tcp"
+        AND
+        (All_Traffic.dest_port="23"
+        OR
+        All_Traffic.dest_port="143"
+        OR
+        All_Traffic.dest_port="110"
+        OR
+        (All_Traffic.dest_port="21"
+        AND
+        All_Traffic.user != "anonymous"))
+      BY All_Traffic.user All_Traffic.src_ip All_Traffic.dest
+         All_Traffic.dest_port All_Traffic.rule
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `drop_dm_object_name("All_Traffic")`
+    | `protocols_passing_authentication_in_cleartext_filter`
 how_to_implement: This search requires you to be ingesting your network traffic, and populating the Network_Traffic data model. For more accurate result it's better to limit destination to organization private and public IP range, like All_Traffic.dest IN(192.168.0.0/16,172.16.0.0/12,10.0.0.0/8, x.x.x.x/22)
 known_false_positives: Some networks may use leverage clear text protocols such as kerberos, FTP or telnet servers. Apply the necessary exclusions where needed.
 references:

@@ -8,7 +8,25 @@ type: Hunting
 description: This analytic provides comprehensive monitoring of configuration changes on Cisco devices by analyzing archive logs. Configuration archive logging captures all changes made to a device's configuration, providing a detailed audit trail that can be used to identify suspicious or malicious activities. This detection is particularly valuable for identifying patterns of malicious configuration changes that might indicate an attacker's presence, such as the creation of backdoor accounts, SNMP community string modifications, and TFTP server configurations for data exfiltration. By analyzing these logs, security teams can gain a holistic view of configuration changes across sessions and users, helping to detect sophisticated attack campaigns like those conducted by threat actors such as Static Tundra.
 data_source:
     - Cisco IOS Logs
-search: '| tstats `security_content_summariesonly` count values(All_Changes.command) as commands min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where ( (All_Changes.command="*username*privilege 15*") OR (All_Changes.command="*username*password*") OR (All_Changes.command="*USER TABLE MODIFIED*") OR (All_Changes.command="*tftp-server*") OR (All_Changes.command="*snmp-server community*") ) by All_Changes.dvc All_Changes.user | `drop_dm_object_name("All_Changes")` | rename dvc as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cisco_configuration_archive_logging_analysis_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count values(All_Changes.command) as commands min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
+      WHERE (
+            (All_Changes.command="*username*privilege 15*")
+            OR
+            (All_Changes.command="*username*password*")
+            OR
+            (All_Changes.command="*USER TABLE MODIFIED*")
+            OR
+            (All_Changes.command="*tftp-server*")
+            OR
+            (All_Changes.command="*snmp-server community*")
+        )
+      BY All_Changes.dvc All_Changes.user
+    | `drop_dm_object_name("All_Changes")`
+    | rename dvc as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_configuration_archive_logging_analysis_filter`
 how_to_implement: To implement this search, you need to be ingesting Cisco IOS logs with the sourcetype "cisco:ios" and have these logs mapped to the Change datamodel. Ensure that your Cisco IOS devices are configured to send logs to your Splunk environment, with configuration archive logging enabled. On Cisco devices, enable archive logging with the commands "archive" and "log config" in global configuration mode. Configure command logging with "archive log config logging enable" and ensure that the appropriate logging levels are set with "logging trap informational". The detection looks for patterns of suspicious configuration changes across sessions, focusing on account creation, SNMP modifications, and TFTP server configurations.
 known_false_positives: Legitimate configuration changes during routine maintenance or device setup may trigger this detection, especially when multiple related changes are made in a single session. Network administrators often make several configuration changes in sequence during maintenance windows. To reduce false positives, consider implementing a baseline of expected administrative activities, including approved administrative usernames and scheduled maintenance windows. The detection includes a threshold (count > 2) to filter out isolated configuration changes, but this threshold may need to be adjusted based on your environment's normal activity patterns.
 references:

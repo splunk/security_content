@@ -8,7 +8,19 @@ type: Anomaly
 description: This detection identifies DNS queries to domains that match previously decommissioned S3 buckets. This activity is significant because attackers may attempt to recreate deleted S3 buckets that were previously public to hijack them for malicious purposes. If successful, this could allow attackers to host malicious content or exfiltrate data through compromised bucket names that may still be referenced by legitimate applications.
 data_source:
     - Sysmon EventID 22
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where DNS.message_type=QUERY by DNS.answer DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval bucket_domain = lower(query) | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_dns_query_to_decommissioned_s3_bucket_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
+      WHERE DNS.message_type=QUERY
+      BY DNS.answer DNS.answer_count DNS.query
+         DNS.query_count DNS.reply_code_id DNS.src
+         DNS.vendor_product
+    | `drop_dm_object_name("DNS")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | eval bucket_domain = lower(query)
+    | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match
+    | where isnotnull(match)
+    | `detect_dns_query_to_decommissioned_s3_bucket_filter`
 how_to_implement: To successfully implement this detection, you need to be ingesting DNS query logs and have them mapped to the Network_Resolution data model. Additionally, ensure that the baseline search "Baseline Of Open S3 Bucket Decommissioning" is running and populating the decommissioned_buckets KVstore lookup.
 known_false_positives: Some applications or scripts may continue to reference old S3 bucket names after they have been decommissioned. These should be investigated and updated to prevent potential security risks.
 references:

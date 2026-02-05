@@ -8,7 +8,18 @@ data_source:
 type: Anomaly
 status: production
 description: The following analytic detects the execution of a DNS query by a process to the associated Telegram API domain, which could indicate access via a Telegram bot commonly used by malware for command and control (C2) communications. By monitoring DNS queries related to Telegram's infrastructure, the detection identifies potential attempts to establish covert communication channels between a compromised system and external malicious actors. This behavior is often observed in cyberattacks where Telegram bots are used to receive commands or exfiltrate data, making it a key indicator of suspicious or malicious activity within a network.
-search: '`sysmon` EventCode=22  query = "api.telegram.org" process_name != "telegram.exe" | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dns_query_request_by_telegram_bot_api_filter`'
+search: |-
+    | `sysmon` EventCode=22  query = "api.telegram.org" process_name != "telegram.exe"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY answer answer_count dvc
+           process_exec process_guid process_name
+           query query_count reply_code_id
+           signature signature_id src
+           user_id vendor_product QueryName
+           QueryResults QueryStatus
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_dns_query_request_by_telegram_bot_api_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: a third part automation using telegram API.
 references:

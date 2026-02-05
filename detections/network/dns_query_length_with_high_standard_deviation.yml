@@ -8,7 +8,27 @@ type: Anomaly
 description: The following analytic identifies DNS queries with unusually large lengths by computing the standard deviation of query lengths and filtering those exceeding two times the standard deviation. It leverages DNS query data from the Network_Resolution data model, focusing on the length of the domain names being resolved. This activity is significant as unusually long DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allow attackers to stealthily transfer data or maintain persistent communication channels within the network.
 data_source:
     - Sysmon EventID 22
-search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Resolution where NOT DNS.record_type IN ("Pointer","PTR","SOA", "SRV") DNS.query != *. by DNS.answer DNS.answer_count DNS.query DNS.query_count DNS.reply_code_id DNS.src DNS.vendor_product DNS.dest DNS.record_type | `drop_dm_object_name("DNS")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval tlds=split(query,".") | eval tld=mvindex(tlds,-1) | eval tld_len=len(tld) | search tld_len<=20 | eval query_length = len(query) | table firstTime lastTime src dest query query_length record_type count record_type | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50 | where query_length>(avg+stdev*2) | eval z_score=(query_length-avg)/stdev | stats count values(query) as query values(dest) as dest avg(query_length) as avg_query_length values(record_type) as record_type min(firstTime) as firstTime latest(lastTime) as lastTime by src | `dns_query_length_with_high_standard_deviation_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Resolution
+      WHERE NOT DNS.record_type IN ("Pointer","PTR","SOA", "SRV") DNS.query != *.
+      BY DNS.answer DNS.answer_count DNS.query
+         DNS.query_count DNS.reply_code_id DNS.src
+         DNS.vendor_product DNS.dest DNS.record_type
+    | `drop_dm_object_name("DNS")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | eval tlds=split(query,".")
+    | eval tld=mvindex(tlds,-1)
+    | eval tld_len=len(tld)
+    | search tld_len<=20
+    | eval query_length = len(query)
+    | table firstTime lastTime src dest query query_length record_type count record_type
+    | eventstats stdev(query_length) AS stdev avg(query_length) AS avg p50(query_length) AS p50
+    | where query_length>(avg+stdev*2)
+    | eval z_score=(query_length-avg)/stdev
+    | stats count values(query) as query values(dest) as dest avg(query_length) as avg_query_length values(record_type) as record_type min(firstTime) as firstTime latest(lastTime) as lastTime
+      BY src
+    | `dns_query_length_with_high_standard_deviation_filter`
 how_to_implement: To successfully implement this search, you will need to ensure that DNS data is populating the Network_Resolution data model.
 known_false_positives: It's possible there can be long domain names that are legitimate.
 references: []

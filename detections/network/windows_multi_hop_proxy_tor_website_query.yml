@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic identifies DNS queries to known TOR proxy websites, such as "*.torproject.org" and "www.theonionrouter.com". It leverages Sysmon EventCode 22 to detect these queries by monitoring DNS query events from endpoints. This activity is significant because adversaries often use TOR proxies to disguise the source of their malicious traffic, making it harder to trace their actions. If confirmed malicious, this behavior could indicate an attempt to obfuscate network traffic, potentially allowing attackers to exfiltrate data or communicate with command and control servers undetected.
 data_source:
     - Sysmon EventID 22
-search: '`sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com") | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_multi_hop_proxy_tor_website_query_filter`'
+search: |-
+    | `sysmon` EventCode=22 QueryName IN ("*.torproject.org", "www.theonionrouter.com")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY answer answer_count dvc
+           process_exec process_guid process_name
+           query query_count reply_code_id
+           signature signature_id src
+           user_id vendor_product QueryName
+           QueryResults QueryStatus
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_multi_hop_proxy_tor_website_query_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and sysmon eventcode = 22 dns query events from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: third party application may use this proxies if allowed in production environment. Filter is needed.
 references:

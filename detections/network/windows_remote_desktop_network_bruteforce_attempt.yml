@@ -8,7 +8,24 @@ type: Anomaly
 description: The following analytic identifies potential Remote Desktop Protocol (RDP) brute force attacks by monitoring network traffic for RDP application activity. This query detects potential RDP brute force attacks by identifying source IPs that have made more than 10 connection attempts to the same RDP port on a host within a one-hour window. The results are presented in a table that includes the source and destination IPs, destination port, number of attempts, and the times of the first and last connection attempts, helping to prioritize IPs based on the intensity of activity.
 data_source:
     - Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count, min(_time) as firstTime, max(_time) as lastTime values(Al_Traffic.src_port) as src_port from datamodel=Network_Traffic where (All_Traffic.app=rdp OR All_Traffic.dest_port=3389)   by All_Traffic.action All_Traffic.app All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.direction  All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip  All_Traffic.transport All_Traffic.user All_Traffic.vendor_product | `drop_dm_object_name("All_Traffic")`  | eval duration=lastTime-firstTime  | where count > 10 AND duration < 3600  | `security_content_ctime(firstTime)`  | `security_content_ctime(lastTime)`  | `windows_remote_desktop_network_bruteforce_attempt_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count, min(_time) as firstTime, max(_time) as lastTime values(Al_Traffic.src_port) as src_port FROM datamodel=Network_Traffic
+      WHERE (
+            All_Traffic.app=rdp
+            OR
+            All_Traffic.dest_port=3389
+        )
+      BY All_Traffic.action All_Traffic.app All_Traffic.dest
+         All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.direction
+         All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
+         All_Traffic.src All_Traffic.src_ip All_Traffic.transport
+         All_Traffic.user All_Traffic.vendor_product
+    | `drop_dm_object_name("All_Traffic")`
+    | eval duration=lastTime-firstTime
+    | where count > 10 AND duration < 3600
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_remote_desktop_network_bruteforce_attempt_filter`
 how_to_implement: You must ensure that your network traffic data is populating the Network_Traffic data model. Adjust the count and duration thresholds as necessary to tune the sensitivity of your detection.
 known_false_positives: RDP gateways may have unusually high amounts of traffic from all other hosts' RDP applications in the network.Any legitimate RDP traffic using wrong/expired credentials will be also detected as a false positive.
 references:
