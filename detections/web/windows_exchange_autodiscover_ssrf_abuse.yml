@@ -8,7 +8,26 @@ type: TTP
 description: This analytic identifies potential exploitation attempts of ProxyShell (CVE-2021-34473, CVE-2021-34523, CVE-2021-31207) and ProxyNotShell (CVE-2022-41040, CVE-2022-41082) vulnerabilities in Microsoft Exchange Server. The detection focuses on identifying the SSRF attack patterns used in these exploit chains. The analytic monitors for suspicious POST requests to /autodiscover/autodiscover.json endpoints that may indicate attempts to enumerate LegacyDN attributes as part of initial reconnaissance. It also detects requests containing X-Rps-CAT parameters that could indicate attempts to impersonate Exchange users and access the PowerShell backend. Additionally, it looks for MAPI requests that may be used to obtain user SIDs, along with suspicious user agents (particularly Python-based) commonly used in automated exploit attempts. If successful, these attacks can lead to remote code execution as SYSTEM, allowing attackers to deploy webshells, access mailboxes, or gain persistent access to the Exchange server and potentially the broader network environment.
 data_source:
     - Windows IIS
-search: ' | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where (Web.status=200) AND Web.http_method=POST by Web.src Web.status Web.uri_path Web.dest Web.http_method Web.uri_query Web.http_user_agent | `drop_dm_object_name("Web")` | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover/autodiscover.json%"),1,0) | eval has_rps_cat=if(like(lower(uri_query),"%x-rps-cat=%"),1,0) | eval exchange_backend=if(like(lower(uri_query),"%/powershell/?%"),1,0) | eval mapi=if(like(uri_query,"%/mapi/%"),1,0) | eval suspicious_agent=if(match(lower(http_user_agent), "python|urllib"),1,0) | addtotals fieldname=Score is_autodiscover, has_rps_cat, exchange_backend, mapi, suspicious_agent | where Score >= 3 | fields Score, src, dest, status, uri_query, uri_path, http_method, http_user_agent | `windows_exchange_autodiscover_ssrf_abuse_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE (
+            Web.status=200
+        )
+        AND Web.http_method=POST
+      BY Web.src Web.status Web.uri_path
+         Web.dest Web.http_method Web.uri_query
+         Web.http_user_agent
+    | `drop_dm_object_name("Web")`
+    | eval is_autodiscover=if(like(lower(uri_path),"%autodiscover/autodiscover.json%"),1,0)
+    | eval has_rps_cat=if(like(lower(uri_query),"%x-rps-cat=%"),1,0)
+    | eval exchange_backend=if(like(lower(uri_query),"%/powershell/?%"),1,0)
+    | eval mapi=if(like(uri_query,"%/mapi/%"),1,0)
+    | eval suspicious_agent=if(match(lower(http_user_agent), "python
+    | urllib"),1,0)
+    | addtotals fieldname=Score is_autodiscover, has_rps_cat, exchange_backend, mapi, suspicious_agent
+    | where Score >= 3
+    | fields Score, src, dest, status, uri_query, uri_path, http_method, http_user_agent
+    | `windows_exchange_autodiscover_ssrf_abuse_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic, Exchange OR IIS logs, mapped to `Web` datamodel in the `Web` node. In addition, confirm the latest CIM App 4.20 or higher is installed.
 known_false_positives: False positives are limited.
 references:

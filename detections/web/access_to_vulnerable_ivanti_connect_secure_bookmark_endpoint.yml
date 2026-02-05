@@ -8,7 +8,15 @@ type: TTP
 data_source:
     - Suricata
 description: The following analytic identifies access to the /api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark endpoint, which is associated with CVE-2023-46805 and CVE-2024-21887 vulnerabilities. It detects this activity by monitoring for GET requests that receive a 403 Forbidden response with an empty body. This behavior is significant as it indicates potential exploitation attempts against Ivanti Connect Secure systems. If confirmed malicious, attackers could exploit these vulnerabilities to gain unauthorized access or control over the affected systems, leading to potential data breaches or system compromise.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*" Web.http_method=GET Web.status=403 by Web.src, Web.dest, Web.http_user_agent, Web.status, Web.url source | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `access_to_vulnerable_ivanti_connect_secure_bookmark_endpoint_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url="*/api/v1/configuration/users/user-roles/user-role/rest-userrole1/web/web-bookmarks/bookmark*" Web.http_method=GET Web.status=403
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.status, Web.url source
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `access_to_vulnerable_ivanti_connect_secure_bookmark_endpoint_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Suricata, Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
 known_false_positives: This analytic is limited to HTTP Status 403; adjust as necessary. False positives may occur if the URI path is IP-restricted or externally blocked. It's recommended to review the context of the alerts and adjust the analytic parameters to better fit the specific environment.
 references:

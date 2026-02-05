@@ -7,7 +7,15 @@ status: production
 type: Anomaly
 data_source: []
 description: The following analytic identifies attempts to download viruses that were blocked by Zscaler within a network. It leverages web proxy logs to detect blocked actions indicative of virus download attempts. Key data points such as device owner, user, URL category, destination URL, and IP are analyzed. This activity is significant as it helps in early detection and remediation of potential virus threats, enhancing network security. If confirmed malicious, this activity could indicate an attempt to compromise the network, potentially leading to data breaches or further malware infections.
-search: '`zscaler_proxy` action=blocked threatname!="None" threatclass=Virus | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user urlcategory url src dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `zscaler_virus_download_threat_blocked_filter`'
+search: |-
+    | `zscaler_proxy` action=blocked threatname!="None" threatclass=Virus
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action deviceowner user
+           urlcategory url src
+           dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `zscaler_virus_download_threat_blocked_filter`
 how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscaler configuration.
 references:

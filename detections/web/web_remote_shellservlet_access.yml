@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Nginx Access
 description: The following analytic identifies attempts to access the Remote ShellServlet on a web server, specifically targeting Confluence servers vulnerable to CVE-2023-22518 and CVE-2023-22515. It leverages web data to detect URLs containing "*plugins/servlet/com.jsos.shell/*" with a status code of 200. This activity is significant as it is commonly associated with web shells and other malicious behaviors, potentially leading to unauthorized command execution. If confirmed malicious, attackers could gain remote code execution capabilities, compromising the server and potentially the entire network.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_remote_shellservlet_access_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("*plugins/servlet/com.jsos.shell/*") Web.status=200
+      BY Web.http_user_agent, Web.status Web.http_method,
+         Web.url, Web.url_length, Web.src,
+         Web.dest, sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `web_remote_shellservlet_access_filter`
 how_to_implement: This analytic necessitates the collection of web data, which can be achieved through Splunk Stream or by utilizing the Splunk Add-on for Apache Web Server. No additional configuration is required for this analytic.
 known_false_positives: False positives may occur depending on the web server's configuration. If the web server is intentionally configured to utilize the Remote ShellServlet, then the detections by this analytic would not be considered true positives.
 references:

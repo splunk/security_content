@@ -8,7 +8,16 @@ data_source:
 type: TTP
 status: production
 description: The following analytic identifies potential exploitation of the WordPress Bricks Builder plugin RCE vulnerability. It detects HTTP POST requests to the URL path "/wp-json/bricks/v1/render_element" with a status code of 200, leveraging the Web datamodel. This activity is significant as it indicates an attempt to exploit CVE-2024-25600, a known vulnerability that allows remote code execution. If confirmed malicious, an attacker could execute arbitrary commands on the target server, leading to potential full system compromise and unauthorized access to sensitive data.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/wp-json/bricks/v1/render_element") Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.uri_path, Web.status, Web.http_method, sourcetype, source | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wordpress_bricks_builder_plugin_rce_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("*/wp-json/bricks/v1/render_element") Web.status=200 Web.http_method=POST
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.url, Web.uri_path, Web.status,
+         Web.http_method, sourcetype, source
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `wordpress_bricks_builder_plugin_rce_filter`
 how_to_implement: The search is based on data in the Web datamodel and was modeled from NGINX logs. Ensure that the Web datamodel is accelerated and that the data source for the Web datamodel is properly configured. If using other web sources, modify they query, or review the data, as needed.
 known_false_positives: False positives may be possible, however we restricted it to HTTP Status 200 and POST requests, based on the POC. Upon investigation review the POST body for the actual payload - or command - being executed.
 references:

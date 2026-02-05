@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Suricata
 description: The following analytic identifies the potential exploitation of a vulnerability (CVE-2023-20198) in the Web User Interface of Cisco IOS XE software. It detects suspicious account creation and subsequent actions, including the deployment of a non-persistent implant configuration file. The detection leverages the Web datamodel, focusing on specific URL patterns and HTTP methods. This activity is significant as it indicates unauthorized administrative access, which can lead to full control of the device. If confirmed malicious, attackers could maintain privileged access, compromising the device's integrity and security.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/webui/logoutconfirm.html?logon_hash=*") Web.http_method=POST Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `cisco_ios_xe_implant_access_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("/webui/logoutconfirm.html?logon_hash=*") Web.http_method=POST Web.status=200
+      BY Web.http_user_agent, Web.status Web.http_method,
+         Web.url, Web.url_length, Web.src,
+         Web.dest, sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_ios_xe_implant_access_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
 known_false_positives: False positives may be present, restrict to Cisco IOS XE devices or perimeter appliances. Modify the analytic as needed based on hunting for successful exploitation of CVE-2023-20198.
 references:

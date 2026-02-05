@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic detects HTTP requests containing payloads related to the Spring4Shell vulnerability (CVE-2022-22965). It leverages Splunk Stream HTTP data to inspect the HTTP request body and form data for specific fields such as "class.module.classLoader.resources.context.parent.pipeline.first". This activity is significant as it indicates an attempt to exploit a critical vulnerability in Spring Framework, potentially leading to remote code execution. If confirmed malicious, this could allow attackers to gain unauthorized access, execute arbitrary code, and compromise the affected system.
 data_source:
     - Splunk Stream HTTP
-search: '`stream_http` http_method IN ("POST") | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count by src dest http_method http_user_agent uri_path url bytes_in bytes_out | search http_request_body IN ("*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*", "*class.module.classLoader.resources.context.parent.pipeline.first.pattern*","*suffix=.jsp*") | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `web_spring4shell_http_request_class_module_filter`'
+search: |-
+    | `stream_http` http_method IN ("POST")
+      | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count
+        BY src dest http_method
+           http_user_agent uri_path url
+           bytes_in bytes_out
+      | search http_request_body IN ("*class.module.classLoader.resources.context.parent.pipeline.first.fileDateFormat=_*", "*class.module.classLoader.resources.context.parent.pipeline.first.pattern*","*suffix=.jsp*")
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `web_spring4shell_http_request_class_module_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the stream HTTP logs or network logs that catch network traffic. Make sure that the http-request-body, payload, or request field is enabled.
 known_false_positives: False positives may occur and filtering may be required. Restrict analytic to asset type.
 references:

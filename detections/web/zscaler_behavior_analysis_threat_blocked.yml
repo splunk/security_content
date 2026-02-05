@@ -7,7 +7,15 @@ status: production
 type: Anomaly
 data_source: []
 description: The following analytic identifies threats blocked by the Zscaler proxy based on behavior analysis. It leverages web proxy logs to detect entries where actions are blocked and threat names and classes are specified. This detection is significant as it highlights potential malicious activities that were intercepted by Zscaler's behavior analysis, providing early indicators of threats. If confirmed malicious, these blocked threats could indicate attempted breaches or malware infections, helping security teams to understand and mitigate potential risks in their environment.
-search: '`zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis" | stats count min(_time) as firstTime max(_time) as lastTime by action deviceowner user threatname url src dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `zscaler_behavior_analysis_threat_blocked_filter`'
+search: |-
+    | `zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action deviceowner user
+           threatname url src
+           dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `zscaler_behavior_analysis_threat_blocked_filter`
 how_to_implement: You must install the latest version of Zscaler Add-on from Splunkbase. You must be ingesting Zscaler events into your Splunk environment through an ingester. This analytic was written to be used with the "zscalernss-web" sourcetype leveraging the Zscaler proxy data. This enables the integration with Splunk Enterprise Security. Security teams are encouraged to adjust the detection parameters, ensuring the detection is tailored to their specific environment.
 known_false_positives: False positives are limited to Zscalar configuration.
 references:

@@ -8,7 +8,15 @@ type: TTP
 data_source:
     - Suricata
 description: The following analytic identifies attempts to exploit a critical template injection vulnerability (CVE-2023-22527) in outdated Confluence Data Center and Server versions. It detects POST requests to the "/template/aui/text-inline.vm" endpoint with HTTP status codes 200 or 202, indicating potential OGNL injection attacks. This activity is significant as it allows unauthenticated attackers to execute arbitrary code remotely. If confirmed malicious, attackers could gain full control over the affected Confluence instance, leading to data breaches, system compromise, and further network infiltration. Immediate patching is essential to mitigate this threat.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/template/aui/text-inline.vm*" Web.http_method=POST Web.status IN (200, 202) by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `confluence_pre_auth_rce_via_ognl_injection_cve_2023_22527_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url="*/template/aui/text-inline.vm*" Web.http_method=POST Web.status IN (200, 202)
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.url, Web.status
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `confluence_pre_auth_rce_via_ognl_injection_cve_2023_22527_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel.
 known_false_positives: False positives may be present with legitimate applications. Attempt to filter by dest IP or use Asset groups to restrict to confluence servers.
 references:

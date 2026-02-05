@@ -8,7 +8,17 @@ type: Anomaly
 description: This detection identifies web requests to domains that match previously decommissioned S3 buckets through web proxy logs. This activity is significant because attackers may attempt to access or recreate deleted S3 buckets that were previously public to hijack them for malicious purposes. If successful, this could allow attackers to host malicious content or exfiltrate data through compromised bucket names that may still be referenced by legitimate applications.
 data_source:
     - AWS Cloudfront
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Web.http_method) as http_method values(Web.http_user_agent) as http_user_agent values(Web.url) as url values(Web.user) as user from datamodel=Web where Web.url_domain!="" by Web.src Web.url_domain | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval bucket_domain = lower(url_domain) | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match | where isnotnull(match) | `detect_web_access_to_decommissioned_s3_bucket_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Web.http_method) as http_method values(Web.http_user_agent) as http_user_agent values(Web.url) as url values(Web.user) as user FROM datamodel=Web
+      WHERE Web.url_domain!=""
+      BY Web.src Web.url_domain
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | eval bucket_domain = lower(url_domain)
+    | lookup decommissioned_buckets bucketName as bucket_domain OUTPUT bucketName as match
+    | where isnotnull(match)
+    | `detect_web_access_to_decommissioned_s3_bucket_filter`
 how_to_implement: To successfully implement this detection, you need to be ingesting web proxy logs and have them mapped to the Web data model. Additionally, ensure that the baseline search "Baseline Of Open S3 Bucket Decommissioning" is running and populating the decommissioned_buckets KVStore Lookup.
 known_false_positives: Some applications or web pages may continue to reference old S3 bucket URLs after they have been decommissioned. These should be investigated and updated to prevent potential security risks.
 references:

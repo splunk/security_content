@@ -8,7 +8,13 @@ data_source:
 type: Anomaly
 status: production
 description: The following analytic detects a high volume of outbound web traffic, specifically over 1GB of data sent to a URL within a 2-minute window. It leverages the Web data model to identify significant uploads by analyzing the sum of bytes out. This activity is significant as it may indicate potential data exfiltration by malware or malicious insiders. If confirmed as malicious, this behavior could lead to unauthorized data transfer, resulting in data breaches and loss of sensitive information. Immediate investigation is required to determine the legitimacy of the transfer and mitigate any potential threats.
-search: '| tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out values(Web.user) as user values(Web.app) as app values(Web.dest) as dest from datamodel=Web by _time span=2m Web.url Web.src sourcetype | search sum_bytes_out > 1070000000 | `drop_dm_object_name("Web")`| `high_volume_of_bytes_out_to_url_filter`'
+search: |-
+    | tstats  `security_content_summariesonly` count sum(Web.bytes_out) as sum_bytes_out values(Web.user) as user values(Web.app) as app values(Web.dest) as dest FROM datamodel=Web
+      BY _time span=2m Web.url
+         Web.src sourcetype
+    | search sum_bytes_out > 1070000000
+    | `drop_dm_object_name("Web")`
+    | `high_volume_of_bytes_out_to_url_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel. Please adjust the threshold for the sum of bytes out as per your environment and user behavior.
 known_false_positives: This search may trigger false positives if there is a legitimate reason for a high volume of bytes out to a URL. We recommend to investigate these findings. Consider updating the filter macro to exclude the applications that are relevant to your environment.
 references:

@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic detects potential post-exploitation activity related to the Microsoft SharePoint CVE-2025-53770 vulnerability. After successful exploitation via the ToolPane.aspx endpoint, attackers typically deploy a webshell named "spinstall0.aspx" in the SharePoint layouts directory. This detection identifies GET requests to this webshell, which indicates active use of the backdoor for command execution, data exfiltration, or credential/key extraction. Attackers commonly use these webshells to extract encryption keys, authentication tokens, and other sensitive information from the compromised SharePoint server.
 data_source:
     - Suricata
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url="*/_layouts/15/spinstall0.aspx*" Web.http_method="GET" by Web.url Web.src Web.dest Web.status Web.http_user_agent Web.url_length sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sharepoint_spinstall0_get_request_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url="*/_layouts/15/spinstall0.aspx*" Web.http_method="GET"
+      BY Web.url Web.src Web.dest
+         Web.status Web.http_user_agent Web.url_length
+         sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_sharepoint_spinstall0_get_request_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Microsoft SharePoint or web proxy logs that capture SharePoint traffic. The detection focuses on GET requests to the spinstall0.aspx file, which is a known webshell deployed after successful exploitation of the CVE-2025-53770 vulnerability. Configure comprehensive logging for your SharePoint web servers and ensure that all HTTP requests are being captured and forwarded to your SIEM. Ensure proper IIS logging is enabled. Tune, modify the analytic as needed based on HTTP methods.
 known_false_positives: Limited false positives are expected as spinstall0.aspx is not a legitimate SharePoint component. However, security teams investigating the incident might also access this file for analysis purposes. Verify the source IP addresses against known security team IPs and the timing of the requests in relation to the initial exploitation attempt.
 references:

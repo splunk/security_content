@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Suricata
 description: The following analytic detects attempts to exploit the Citrix Bleed vulnerability (CVE-2023-4966), which can lead to the leaking of session tokens. It identifies HTTP requests with a 200 status code targeting the /oauth/idp/.well-known/openid-configuration URL endpoint. By parsing web traffic and filtering based on user agent details, HTTP method, source and destination IPs, and sourcetype, it aims to identify potentially malicious requests. This activity is significant for a SOC because successful exploitation can allow attackers to impersonate legitimate users, bypass authentication, and access sensitive data. If confirmed malicious, it could lead to unauthorized data access, network propagation, and critical information exfiltration.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/oauth/idp/.well-known/openid-configuration*")  Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `citrix_adc_and_gateway_unauthorized_data_disclosure_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("*/oauth/idp/.well-known/openid-configuration*")  Web.status=200
+      BY Web.http_user_agent, Web.status Web.http_method,
+         Web.url, Web.url_length, Web.src,
+         Web.dest, sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `citrix_adc_and_gateway_unauthorized_data_disclosure_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto. We recommend hunting in the environment first to understand the scope of the issue and then deploying this detection to monitor for future exploitation attempts. Limit or restrict to Citrix devices only if possible.
 known_false_positives: False positives may be present based on organization use of Citrix ADC and Gateway. Filter, or restrict the analytic to Citrix devices only.
 references:

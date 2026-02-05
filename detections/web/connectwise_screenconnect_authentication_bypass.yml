@@ -8,7 +8,17 @@ data_source:
 type: TTP
 status: production
 description: The following analytic detects attempts to exploit the ConnectWise ScreenConnect CVE-2024-1709 vulnerability, which allows attackers to bypass authentication via an alternate path or channel. It leverages web request logs to identify access to the SetupWizard.aspx page, indicating potential exploitation. This activity is significant as it can lead to unauthorized administrative access and remote code execution. If confirmed malicious, attackers could create administrative users and gain full control over the affected system, posing severe security risks. Immediate remediation by updating to version 23.9.8 or above is recommended.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/SetupWizard.aspx/*","*/SetupWizard/") Web.status=200 Web.http_method=POST by Web.src, Web.dest, Web.http_user_agent, Web.url, Web.status, Web.http_method, sourcetype, source | rex field=Web.url "/SetupWizard.aspx/(?<randomPath>.+)" | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `connectwise_screenconnect_authentication_bypass_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("*/SetupWizard.aspx/*","*/SetupWizard/") Web.status=200 Web.http_method=POST
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.url, Web.status, Web.http_method,
+         sourcetype, source
+    | rex field=Web.url "/SetupWizard.aspx/(?<randomPath>.+)"
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `connectwise_screenconnect_authentication_bypass_filter`
 how_to_implement: To implement this analytic, ensure proper logging is occurring with IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk. The analytic was written against Suricata. The proper TA will need to be enabled and should be mapped to CIM and the Web datamodel. Ingestion of the data source is required to utilize this detection. In addition, if it is not mapped to the datamodel, modify the query for your application logs to look for requests the same URI and investigate further.
 known_false_positives: False positives are not expected, as the detection is based on the presence of web requests to the SetupWizard.aspx page, which is not a common page to be accessed by legitimate users. Note that the analytic is limited to HTTP POST and a status of 200 to reduce false positives. Modify the query as needed to reduce false positives or hunt for additional indicators of compromise.
 references:

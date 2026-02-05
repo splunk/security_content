@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Nginx Access
 description: The following analytic identifies potential exploitation attempts on a known vulnerability in Atlassian Confluence, specifically targeting the /setup/*.action* URL pattern. It leverages web logs within the Splunk 'Web' Data Model, filtering for successful accesses (HTTP status 200) to these endpoints. This activity is significant as it suggests attackers might be exploiting a privilege escalation flaw in Confluence. If confirmed malicious, it could result in unauthorized access or account creation with escalated privileges, leading to potential data breaches or further exploitation within the environment.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("*/setup/setupadministrator.action*", "*/setup/finishsetup.action*", "*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/bootstrap/selectsetupstep.action*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `confluence_data_center_and_server_privilege_escalation_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("*/setup/setupadministrator.action*", "*/setup/finishsetup.action*", "*/json/setup-restore-local.action*", "*/json/setup-restore-progress.action*", "*/json/setup-restore.action*", "*/bootstrap/selectsetupstep.action*") Web.status=200
+      BY Web.http_user_agent, Web.status Web.http_method,
+         Web.url, Web.url_length, Web.src,
+         Web.dest, sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `confluence_data_center_and_server_privilege_escalation_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relavent for traffic into the `Web` datamodel.
 known_false_positives: False positives may be present with legitimate applications. Attempt to filter by dest IP or use Asset groups to restrict to confluence servers.
 references:

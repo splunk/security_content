@@ -8,7 +8,22 @@ type: Anomaly
 description: This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the second stage of the attack. This phase occurs when an attacker attempts to trigger deserialization of a previously uploaded malicious session file by sending a GET request with a specially crafted JSESSIONID cookie. These requests typically have specific characteristics, including a JSESSIONID cookie with a leading dot that matches a previously uploaded filename, and typically result in a HTTP 500 error when the exploitation succeeds.
 data_source:
     - Nginx Access
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.http_method=GET AND Web.cookie="*JSESSIONID=.*" AND Web.status=500 by Web.src, Web.dest, Web.http_user_agent, Web.uri_path, Web.cookie, Web.status | `drop_dm_object_name("Web")` | where match(cookie, "^JSESSIONID=\.") | rex field=cookie "JSESSIONID=\.(?<cookie_path>[^;]+)" | eval severity="High" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `tomcat_session_deserialization_attempt_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.http_method=GET
+        AND
+        Web.cookie="*JSESSIONID=.*"
+        AND
+        Web.status=500
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.uri_path, Web.cookie, Web.status
+    | `drop_dm_object_name("Web")`
+    | where match(cookie, "^JSESSIONID=\.")
+    | rex field=cookie "JSESSIONID=\.(?<cookie_path>[^;]+)"
+    | eval severity="High"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `tomcat_session_deserialization_attempt_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs from your web servers, proxies, or WAFs that process web traffic to Tomcat instances. The data must be mapped to the Web datamodel in the Web node. Ensure your web servers are logging requests that include HTTP methods, status codes, URI paths, and cookie information. Particularly important is capturing the JSESSIONID cookie values. The detection specifically looks for GET requests with a JSESSIONID cookie that starts with a dot (.) and results in a 500 status code, which is characteristic of successful deserialization attempts.
 known_false_positives: Limited false positives should occur as this pattern is highly specific to CVE-2025-24813 exploitation. However, legitimate application errors that use similar cookie patterns and result in 500 status codes might trigger false positives. Review the JSESSIONID cookie format and the associated request context to confirm exploitation attempts.
 references:

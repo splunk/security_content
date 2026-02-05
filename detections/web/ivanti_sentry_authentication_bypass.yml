@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Suricata
 description: The following analytic identifies unauthenticated access attempts to the System Manager Portal in Ivanti Sentry, exploiting CVE-2023-38035. It detects this activity by monitoring HTTP requests to specific endpoints ("/mics/services/configservice/*", "/mics/services/*", "/mics/services/MICSLogService*") with a status code of 200. This behavior is significant for a SOC as it indicates potential unauthorized access, which could lead to OS command execution as root. If confirmed malicious, this activity could result in significant system compromise and data breaches, especially if port 8443 is exposed to the internet.
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") Web.status=200 by Web.http_user_agent, Web.status Web.http_method, Web.url, Web.url_length, Web.src, Web.dest, sourcetype | `drop_dm_object_name("Web")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ivanti_sentry_authentication_bypass_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.url IN ("/mics/services/configservice/*", "/mics/services/*","/mics/services/MICSLogService*") Web.status=200
+      BY Web.http_user_agent, Web.status Web.http_method,
+         Web.url, Web.url_length, Web.src,
+         Web.dest, sourcetype
+    | `drop_dm_object_name("Web")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `ivanti_sentry_authentication_bypass_filter`
 how_to_implement: To implement this analytic, a network product similar to Suricata or Palo Alto needs to be mapped to the Web datamodel. Modify accordingly to work with your products.
 known_false_positives: It is important to note that false positives may occur if the search criteria are expanded beyond the HTTP status code 200. In other words, if the search includes other HTTP status codes, the likelihood of encountering false positives increases. This is due to the fact that HTTP status codes other than 200 may not necessarily indicate a successful exploitation attempt.
 references:

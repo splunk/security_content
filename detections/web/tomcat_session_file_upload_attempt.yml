@@ -8,7 +8,23 @@ type: Anomaly
 description: This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the initial stage of the attack. This first phase occurs when an attacker attempts to upload a malicious serialized Java object with a .session file extension via an HTTP PUT request. When successful, these uploads typically result in HTTP status codes 201 (Created) or 409 (Conflict) and create the foundation for subsequent deserialization attacks by placing malicious content in a location where Tomcat's session management can access it.
 data_source:
     - Nginx Access
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web where Web.http_method=PUT AND Web.uri_path="*.session" AND (Web.status=201 OR Web.status=409) by Web.src, Web.dest, Web.http_user_agent, Web.uri_path, Web.status | `drop_dm_object_name("Web")` | rex field=uri_path "/(?<filename>[^/]+)\.session$" | eval severity="High" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `tomcat_session_file_upload_attempt_filter`'
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.http_method=PUT
+        AND
+        Web.uri_path="*.session"
+        AND
+        (Web.status=201
+        OR
+        Web.status=409)
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.uri_path, Web.status
+    | `drop_dm_object_name("Web")`
+    | rex field=uri_path "/(?<filename>[^/]+)\.session$"
+    | eval severity="High"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `tomcat_session_file_upload_attempt_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs from your web servers, proxies, or WAFs that process web traffic to Tomcat instances. The data must be mapped to the Web datamodel in the Web node. Ensure your web servers are logging HTTP PUT requests, including status codes and URI paths. This detection specifically looks for PUT requests targeting files with a .session extension that result in HTTP status codes 201 or 409, which indicate successful creation of files - a pattern consistent with the first stage of CVE-2025-24813 exploitation.
 known_false_positives: Some legitimate applications might use PUT requests to create .session files, especially in custom implementations that leverage Tomcat's session persistence mechanism. Verify if the detected activity is part of a normal application flow or if it correlates with other suspicious behavior, such as subsequent GET requests with manipulated JSESSIONID cookies.
 references:
