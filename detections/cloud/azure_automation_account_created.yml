@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic detects the creation of a new Azure Automation account within an Azure tenant. It leverages Azure Audit events, specifically the Azure Activity log category, to identify when an account is created or updated. This activity is significant because Azure Automation accounts can be used to automate tasks and orchestrate actions across Azure and on-premise environments. If an attacker creates an Automation account with elevated privileges, they could maintain persistence, execute malicious runbooks, and potentially escalate privileges or execute code on virtual machines, posing a significant security risk.
 data_source:
     - Azure Audit Create or Update an Azure Automation account
-search: '`azure_audit` operationName.value="Microsoft.Automation/automationAccounts/write" status.value=Succeeded | dedup object | rename claims.ipaddr as src, subscriptionId as vendor_account, operationName.value as signature | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product object object_path signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_automation_account_created_filter`'
+search: |-
+    | `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/write" status.value=Succeeded
+      | dedup object
+      | rename claims.ipaddr as src, subscriptionId as vendor_account, operationName.value as signature
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product object
+           object_path signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_automation_account_created_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. Specifically, this analytic leverages the Azure Activity log category.
 known_false_positives: Administrators may legitimately create Azure Automation accounts. Filter as needed.
 references:

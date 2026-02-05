@@ -11,7 +11,17 @@ data_source:
     - AWS CloudTrail ModifySnapshotAttribute
     - AWS CloudTrail DeleteSnapshot
 description: The following analytic detects a series of AWS API calls related to EC2 snapshots within a short time window, indicating potential exfiltration via EC2 Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such as creating, describing, and modifying snapshot attributes. This activity is significant as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots externally. If confirmed malicious, the attacker could gain access to sensitive information stored in the snapshots, leading to data breaches and potential compliance violations.
-search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com" |  bin _time span=5m | rename user_name as user |  stats count dc(signature) as distinct_api_calls values(signature) as signature values(dest) as dest values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(user_agent) as user_agent by _time user src vendor_account vendor_region vendor_product | where distinct_api_calls >= 2 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_exfiltration_via_ec2_snapshot_filter`'
+search: |-
+    | `cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
+      | bin _time span=5m
+      | rename user_name as user
+      | stats count dc(signature) as distinct_api_calls values(signature) as signature values(dest) as dest values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(user_agent) as user_agent
+        BY _time user src
+           vendor_account vendor_region vendor_product
+      | where distinct_api_calls >= 2
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_exfiltration_via_ec2_snapshot_filter`
 how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com` from src_ip to remove false positives caused by guard duty. We recommend you adjust the time window as per your environment.
 known_false_positives: It is possible that an AWS admin has legitimately shared a snapshot with an other account for a specific purpose. Please check any recent change requests filed in your organization.
 references:

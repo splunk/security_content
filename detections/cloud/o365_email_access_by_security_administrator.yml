@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic identifies when a user with sufficient access to O365 Security & Compliance portal uses premium investigation features (Threat Explorer) to directly view email. Adversaries may exploit privileged access with this premium feature to enumerate or exfiltrate sensitive data.
 data_source:
     - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess | rename InternetMessageId as signature_id, UserId as src_user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product src_user signature_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_access_by_security_administrator_filter`'
+search: |-
+    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess
+      | rename InternetMessageId as signature_id, UserId as src_user
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           src vendor_account vendor_product
+           src_user signature_id
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_email_access_by_security_administrator_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. Threat Explorer is a premium feature with o365, logging may not be available with proper license.
 known_false_positives: Legitamate access by security administators for incident response measures.
 references:

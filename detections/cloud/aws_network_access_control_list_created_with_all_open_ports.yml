@@ -9,7 +9,22 @@ description: The following analytic detects the creation of AWS Network Access C
 data_source:
     - AWS CloudTrail CreateNetworkAclEntry
     - AWS CloudTrail ReplaceNetworkAclEntry
-search: "`cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1 | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1 | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from' | where port_range>1024] | fillnull | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product requestParameters.ruleAction requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to requestParameters.portRange.from requestParameters.cidrBlock | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `aws_network_access_control_list_created_with_all_open_ports_filter`"
+search: |-
+    | `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+      | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
+      | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from'
+      | where port_range>1024]
+      | fillnull
+      | rename user_name as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           user_agent src vendor_account
+           vendor_region vendor_product requestParameters.ruleAction
+           requestParameters.egress requestParameters.aclProtocol requestParameters.portRange.to
+           requestParameters.portRange.from requestParameters.cidrBlock
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_network_access_control_list_created_with_all_open_ports_filter`
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS, version 4.4.0 or later, and configure your AWS CloudTrail inputs.
 known_false_positives: It's possible that an admin has created this ACL with all ports open for some legitimate purpose however, this should be scoped and not allowed in production environment.
 references: []

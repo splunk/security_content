@@ -7,7 +7,15 @@ status: production
 type: Anomaly
 description: The following analytic identifies an excessive number of authentication failures, including failed attempts against MFA prompt codes. It uses data from the `o365_management_activity` dataset, focusing on events where the authentication status is marked as failure. This behavior is significant as it may indicate a brute force attack or an attempt to compromise user accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the environment.
 data_source: []
-search: '`o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure | stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS user_agent values(status) AS status values(src_ip) AS src values(signature) as signature by user vendor_account vendor_product dest | where count > 10 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_authentication_failures_alert_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory UserAuthenticationMethod=* status=failure
+      | stats count earliest(_time) AS firstTime latest(_time) AS lastTime values(UserAuthenticationMethod) AS UserAuthenticationMethod values(UserAgent) AS user_agent values(status) AS status values(src_ip) AS src values(signature) as signature
+        BY user vendor_account vendor_product
+           dest
+      | where count > 10
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_excessive_authentication_failures_alert_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: The threshold for alert is above 10 attempts and this should reduce the number of false positives.
 references:

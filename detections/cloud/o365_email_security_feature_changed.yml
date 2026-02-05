@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic identifies when specific O365 advanced security settings are altered within the Office 365 tenant. If an attacker successfully disables O365 security settings, they can operate within the tenant with reduced risk of detection. This can lead to unauthorized data access, data exfiltration, account compromise, or other malicious activities without leaving a detailed audit trail.
 data_source:
     - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") Operation IN ("*AntiPhish*","*SafeLink*","*SafeAttachment*","*Malware*") | rename Id as object_id, UserId as user, Operation as signature, ObjectId as object | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature object_id object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_security_feature_changed_filter`'
+search: |-
+    | `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") Operation IN ("*AntiPhish*","*SafeLink*","*SafeAttachment*","*Malware*")
+      | rename Id as object_id, UserId as user, Operation as signature, ObjectId as object
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product signature
+           object_id object
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_email_security_feature_changed_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Administrators might alter features for troubleshooting, performance reasons, or other administrative tasks. Filter as needed.
 references:

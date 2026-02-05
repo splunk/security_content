@@ -8,7 +8,20 @@ type: Anomaly
 description: The following analytic identifies a single source IP failing to authenticate into the AWS Console with multiple valid users. It uses CloudTrail logs and calculates the standard deviation for source IP, leveraging the 3-sigma rule to detect unusual numbers of failed authentication attempts. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or further exploitation within the AWS environment.
 data_source:
     - AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName=ConsoleLogin action=failure | rename eventName as action, eventSource as dest, userName as user, userAgent as user_agent, sourceIPAddress as src, userIdentity.accountId as vendor_account, awsRegion as vendor_region | bucket span=10m _time | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts values(action) as action values(dest) as dest values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(vendor_product) as vendor_product values(user_agent) as user_agent by _time, src | eventstats avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts) as ip_std by _time | eval upperBound=(avg_attempts+ip_std*3) | eval  isOutlier=if(distinct_attempts > 10 and distinct_attempts >= upperBound, 1, 0) | where isOutlier = 1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_unusual_number_of_failed_authentications_from_ip_filter`'
+search: |-
+    | `cloudtrail` eventName=ConsoleLogin action=failure
+      | rename eventName as action, eventSource as dest, userName as user, userAgent as user_agent, sourceIPAddress as src, userIdentity.accountId as vendor_account, awsRegion as vendor_region
+      | bucket span=10m _time
+      | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts values(action) as action values(dest) as dest values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(vendor_product) as vendor_product values(user_agent) as user_agent
+        BY _time, src
+      | eventstats avg(distinct_attempts) as avg_attempts , stdev(distinct_attempts) as ip_std
+        BY _time
+      | eval upperBound=(avg_attempts+ip_std*3)
+      | eval  isOutlier=if(distinct_attempts > 10 and distinct_attempts >= upperBound, 1, 0)
+      | where isOutlier = 1
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_unusual_number_of_failed_authentications_from_ip_filter`
 how_to_implement: You must install Splunk Add-on for AWS in order to ingest Cloudtrail. We recommend the users to try different combinations of the bucket span time and the calculation of the upperBound field to tune this search according to their environment
 known_false_positives: No known false postives for this detection. Please review this alert
 references:

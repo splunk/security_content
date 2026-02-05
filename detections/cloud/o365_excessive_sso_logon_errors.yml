@@ -8,7 +8,15 @@ type: Anomaly
 description: The following analytic detects accounts experiencing a high number of Single Sign-On (SSO) logon errors. It leverages data from the `o365_management_activity` dataset, focusing on failed user login attempts with SSO errors. This activity is significant as it may indicate brute-force attempts or the hijacking/reuse of SSO tokens. If confirmed malicious, attackers could potentially gain unauthorized access to user accounts, leading to data breaches, privilege escalation, or further lateral movement within the organization.
 data_source:
     - O365 UserLoginFailed
-search: '`o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src vendor_account vendor_product dest signature user_agent | where count >= 5 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_excessive_sso_logon_errors_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed
+      | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
+        BY src vendor_account vendor_product
+           dest signature user_agent
+      | where count >= 5
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_excessive_sso_logon_errors_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: Logon errors may not be malicious in nature however it may indicate attempts to reuse a token or password obtained via credential access attack.
 references:

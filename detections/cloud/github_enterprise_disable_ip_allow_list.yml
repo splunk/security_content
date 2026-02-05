@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic identifies when an IP allow list is disabled in GitHub Enterprise. The detection monitors GitHub Enterprise audit logs for actions related to disabling IP allow lists at the organization or enterprise level. This behavior is concerning because IP allow lists are a critical security control that restricts access to GitHub Enterprise resources to only trusted IP addresses. When disabled, it could indicate an attacker attempting to bypass access controls to gain unauthorized access from untrusted networks. The impact includes potential exposure of sensitive code repositories and GitHub Enterprise resources to access from any IP address. SOC teams should investigate such events, especially if they were not pre-approved changes, as they may indicate compromise of admin credentials or malicious insider activity.
 data_source:
     - GitHub Enterprise Audit Logs
-search: '`github_enterprise` action=ip_allow_list.disable | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, user_agent, user_id, action | eval user=actor | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_enterprise_disable_ip_allow_list_filter`'
+search: |-
+    | `github_enterprise` action=ip_allow_list.disable
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_is_bot,
+           actor_location.country_code, business, business_id,
+           user_agent, user_id, action
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_enterprise_disable_ip_allow_list_filter`
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
 known_false_positives: No false positives have been identified at this time.
 references:

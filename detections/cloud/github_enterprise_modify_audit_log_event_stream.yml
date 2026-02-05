@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic detects when a user modifies or disables audit log event streaming in GitHub Enterprise. The detection monitors GitHub Enterprise audit logs for configuration changes that affect the audit log streaming functionality, which is used to send audit events to security monitoring platforms. This behavior could indicate an attacker attempting to prevent their malicious activities from being logged and detected by tampering with the audit trail. For a SOC, identifying modifications to audit logging is critical as it may be a precursor to other attacks where adversaries want to operate undetected. The impact could be severe as organizations lose visibility into user actions, configuration changes, and security events within their GitHub Enterprise environment, potentially allowing attackers to perform malicious activities without detection. This creates a significant blind spot in security monitoring and incident response capabilities.
 data_source:
     - GitHub Enterprise Audit Logs
-search: '`github_enterprise` action=audit_log_streaming.update | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, user_agent, action | eval user=actor | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_enterprise_modify_audit_log_event_stream_filter` '
+search: |-
+    | `github_enterprise` action=audit_log_streaming.update
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_ip,
+           actor_is_bot, actor_location.country_code, business,
+           business_id, user_agent, action
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_enterprise_modify_audit_log_event_stream_filter`
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
 known_false_positives: No false positives have been identified at this time.
 references:

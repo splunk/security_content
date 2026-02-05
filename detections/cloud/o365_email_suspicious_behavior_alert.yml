@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic identifies when one of O365 the built-in security detections for suspicious email behaviors are triggered.  These alerts often indicate that an attacker may have compromised a mailbox within the environment. Any detections from built-in Office 365 capabilities should be monitored and responded to appropriately. Certain premium Office 365 capabilities further enhance these detection and response functions.
 data_source:
     - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name IN ("Suspicious email sending patterns detected","User restricted from sending email","Suspicious Email Forwarding Activity","Email sending limit exceeded") | fromjson Data | rename Name as signature, AlertId as signature_id, ObjectId as user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_suspicious_behavior_alert_filter`'
+search: |-
+    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name IN ("Suspicious email sending patterns detected","User restricted from sending email","Suspicious Email Forwarding Activity","Email sending limit exceeded")
+      | fromjson Data
+      | rename Name as signature, AlertId as signature_id, ObjectId as user
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product signature
+           signature_id
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_email_suspicious_behavior_alert_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. The alerts must be enabled in the o365 security portal.
 known_false_positives: Users emailing for legitimate business purposes that appear suspicious.
 references:

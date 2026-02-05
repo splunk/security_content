@@ -8,7 +8,15 @@ type: TTP
 description: The following analytic detects the addition of an application role assignment grant to a user in Office 365. It leverages data from the `o365_management_activity` dataset, specifically monitoring the "Add app role assignment grant to user" operation. This activity is significant as it can indicate unauthorized privilege escalation or the assignment of sensitive roles to users. If confirmed malicious, this could allow an attacker to gain elevated permissions, potentially leading to unauthorized access to critical resources and data within the Office 365 environment.
 data_source:
     - O365 Add app role assignment grant to user.
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user." | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_add_app_role_assignment_grant_user_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user."
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           src vendor_account vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_add_app_role_assignment_grant_user_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: The creation of a new Federation is not necessarily malicious, however this events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a different cloud provider.
 references:

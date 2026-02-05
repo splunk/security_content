@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic identifies user sessions in Office 365 accessed from multiple IP addresses, indicating potential adversary-in-the-middle (AiTM) phishing attacks. It detects this activity by analyzing Azure Active Directory logs for 'UserLoggedIn' operations and flags sessions with more than one associated IP address. This behavior is significant as it suggests unauthorized concurrent access, which is uncommon in normal usage. If confirmed malicious, the impact could include data theft, account takeover, and the launching of internal phishing campaigns, posing severe risks to organizational security.
 data_source:
     - O365 UserLoggedIn
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn | fillnull | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src by signature dest user vendor_account vendor_product SessionId | where mvcount(src) > 1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_concurrent_sessions_from_different_ips_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src
+        BY signature dest user
+           vendor_account vendor_product SessionId
+      | where mvcount(src) > 1
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_concurrent_sessions_from_different_ips_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: No false positives have been identified at this time.
 references:

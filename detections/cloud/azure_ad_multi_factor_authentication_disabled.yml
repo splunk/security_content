@@ -8,7 +8,20 @@ type: TTP
 description: The following analytic detects attempts to disable multi-factor authentication (MFA) for an Azure AD user. It leverages Azure Active Directory AuditLogs to identify the "Disable Strong Authentication" operation. This activity is significant because disabling MFA can allow adversaries to maintain persistence using compromised accounts without raising suspicion. If confirmed malicious, this action could enable attackers to bypass an essential security control, potentially leading to unauthorized access and prolonged undetected presence in the environment.
 data_source:
     - Azure Active Directory Disable Strong Authentication
-search: '`azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication" | rename properties.* as * | rename targetResources{}.type as type | rename initiatedBy.user.userPrincipalName as initiatedBy | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent initiatedBy signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multi_factor_authentication_disabled_filter`'
+search: |-
+    | `azure_monitor_aad` category=AuditLogs operationName="Disable Strong Authentication"
+      | rename properties.* as *
+      | rename targetResources{}.type as type
+      | rename initiatedBy.user.userPrincipalName as initiatedBy
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product user_agent
+           initiatedBy signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_multi_factor_authentication_disabled_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: Legitimate use case may require for users to disable MFA. Filter as needed.
 references:

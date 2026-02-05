@@ -8,7 +8,23 @@ type: TTP
 description: The following analytic identifies the creation of open/public S3 buckets in AWS. It detects this activity by analyzing AWS CloudTrail events for `PutBucketAcl` actions where the access control list (ACL) grants permissions to all users or authenticated users. This activity is significant because open S3 buckets can expose sensitive data to unauthorized access, leading to data breaches. If confirmed malicious, an attacker could read, write, or fully control the contents of the bucket, potentially leading to data exfiltration or tampering.
 data_source:
     - AWS CloudTrail
-search: '`cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl | rex field=_raw "(?<json_field>{.+})" | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{} | search grantees=* | mvexpand grantees | spath input=grantees output=uri path=Grantee.URI | spath input=grantees output=permission path=Permission | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers") | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL") | rename requestParameters.bucketName AS bucketName | stats count min(_time) as firstTime max(_time) as lastTime by user_arn userIdentity.principalId userAgent uri permission bucketName | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `detect_new_open_s3_buckets_filter`'
+search: |-
+    | `cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl
+      | rex field=_raw "(?<json_field>{.+})"
+      | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
+      | search grantees=*
+      | mvexpand grantees
+      | spath input=grantees output=uri path=Grantee.URI
+      | spath input=grantees output=permission path=Permission
+      | search uri IN ("http://acs.amazonaws.com/groups/global/AllUsers","http://acs.amazonaws.com/groups/global/AuthenticatedUsers")
+      | search permission IN ("READ","READ_ACP","WRITE","WRITE_ACP","FULL_CONTROL")
+      | rename requestParameters.bucketName AS bucketName
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY user_arn userIdentity.principalId userAgent
+           uri permission bucketName
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `detect_new_open_s3_buckets_filter`
 how_to_implement: You must install the AWS App for Splunk.
 known_false_positives: While this search has no known false positives, it is possible that an AWS admin has legitimately created a public bucket for a specific purpose. That said, AWS strongly advises against granting full control to the "All Users" group.
 references: []

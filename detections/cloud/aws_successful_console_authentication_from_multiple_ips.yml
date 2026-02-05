@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic detects an AWS account successfully authenticating from multiple unique IP addresses within a 5-minute window. It leverages AWS CloudTrail logs, specifically monitoring `ConsoleLogin` events and counting distinct source IPs. This behavior is significant as it may indicate compromised credentials, potentially from a phishing attack, being used concurrently by an adversary and a legitimate user. If confirmed malicious, this activity could allow unauthorized access to corporate resources, leading to data breaches or further exploitation within the AWS environment.
 data_source:
     - AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName = ConsoleLogin | bin span=5m _time | rename user_name as user | stats  dc(src) as distinct_ip_count values(src) as src values(user_agent) as user_agent values(dest) as dest by _time, user, signature, vendor_account, vendor_region, vendor_product | where distinct_ip_count>1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_successful_console_authentication_from_multiple_ips_filter`'
+search: |-
+    | `cloudtrail` eventName = ConsoleLogin
+      | bin span=5m _time
+      | rename user_name as user
+      | stats  dc(src) as distinct_ip_count values(src) as src values(user_agent) as user_agent values(dest) as dest
+        BY _time, user, signature,
+           vendor_account, vendor_region, vendor_product
+      | where distinct_ip_count>1
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_successful_console_authentication_from_multiple_ips_filter`
 how_to_implement: You must install Splunk AWS add on and Splunk App for AWS. This search works when AWS CloudTrail events are normalized use the Authentication datamodel.
 known_false_positives: A user with successful authentication events from different Ips may also represent the legitimate use of more than one device. Filter as needed and/or customize the threshold to fit your environment.
 references:

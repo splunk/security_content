@@ -8,7 +8,17 @@ data_source:
 type: TTP
 status: production
 description: The following analytic identifies the assignment of elevated mailbox permissions in an Office 365 environment via the Add-MailboxPermission operation. It leverages logs from the Exchange workload in the o365_management_activity data source, focusing on permissions such as FullAccess, ChangePermission, or ChangeOwner. This activity is significant as it indicates potential unauthorized access or control over mailboxes, which could lead to data exfiltration or privilege escalation. If confirmed malicious, attackers could gain extensive access to sensitive email data and potentially manipulate mailbox settings, posing a severe security risk.
-search: '`o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner) | rename Identity AS dest_user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user src vendor_account vendor_product dest_user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_elevated_mailbox_permission_assigned_filter`'
+search: |-
+    | `o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner)
+      | rename Identity AS dest_user
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           src vendor_account vendor_product
+           dest_user
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_elevated_mailbox_permission_assigned_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: FullAccess mailbox delegation may be assigned for legitimate purposes, filter as needed.
 references:

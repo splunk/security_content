@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic detects the deletion of AWS Network Access Control Lists (ACLs). It leverages AWS CloudTrail logs to identify events where a user deletes a network ACL entry. This activity is significant because deleting a network ACL can remove critical access restrictions, potentially allowing unauthorized access to cloud instances. If confirmed malicious, this action could enable attackers to bypass network security controls, leading to unauthorized access, data exfiltration, or further compromise of the cloud environment.
 data_source:
     - AWS CloudTrail DeleteNetworkAclEntry
-search: '`cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false | fillnull | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_network_access_control_list_deleted_filter`'
+search: |-
+    | `cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
+      | fillnull
+      | rename user_name as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           user_agent src vendor_account
+           vendor_region vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_network_access_control_list_deleted_filter`
 how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your AWS CloudTrail inputs.
 known_false_positives: It's possible that a user has legitimately deleted a network ACL.
 references: []

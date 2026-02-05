@@ -9,7 +9,18 @@ data_source:
 type: TTP
 status: production
 description: This detection identifies the presence of the default AzureHound user-agent string within Microsoft Graph Activity logs and NonInteractive SignIn Logs. AzureHound is a tool used for gathering information about Azure Active Directory environments, often employed by security professionals for legitimate auditing purposes. However, it can also be leveraged by malicious actors to perform reconnaissance activities, mapping out the Azure AD infrastructure to identify potential vulnerabilities and targets for further exploitation. Detecting its usage can help in identifying unauthorized access attempts and preemptively mitigating potential security threats to your Azure environment.
-search: '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs, NonInteractiveUserSignInLogs) properties.userAgent=azurehound* | rename properties.userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature | iplocation src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_azurehound_useragent_detected_filter`'
+search: |-
+    | `azure_monitor_aad` category IN (MicrosoftGraphActivityLogs, NonInteractiveUserSignInLogs) properties.userAgent=azurehound*
+      | rename properties.userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product user_agent
+           signature
+      | iplocation src
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_azurehound_useragent_detected_filter`
 how_to_implement: The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest NonInteractiveUserSignInLogs and MicrosoftGraphActivityLogs via an Azure EventHub. See reference for links for further details.
 known_false_positives: No false positives have been identified at this time.
 references:

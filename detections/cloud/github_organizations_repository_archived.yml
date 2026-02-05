@@ -8,7 +8,19 @@ type: Anomaly
 description: The following analytic detects when a repository is archived in GitHub Organizations. The detection monitors GitHub Organizations audit logs for repository archival events by tracking actor details, repository information, and associated metadata. For a SOC, identifying repository archival is important as it could indicate attempts to make critical code inaccessible or preparation for repository deletion. While archiving is a legitimate feature, unauthorized archival of active repositories could signal account compromise, insider threats, or attempts to disrupt development operations. The impact of unauthorized repository archival includes loss of active development access, disruption to workflows and CI/CD pipelines, and potential business delays if critical repositories are affected. Additionally, archived repositories may be targeted for subsequent deletion, potentially resulting in permanent loss of intellectual property if proper backups are not maintained.
 data_source:
     - GitHub Organizations Audit Logs
-search: '`github_organizations` vendor_action=repo.archived | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, visibility, vendor_action | eval user=actor | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_organizations_repository_archived_filter`'
+search: |-
+    | `github_organizations` vendor_action=repo.archived
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_is_bot,
+           actor_location.country_code, business, business_id,
+           org, org_id, repo,
+           repo_id, user_agent, visibility,
+           vendor_action
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_organizations_repository_archived_filter`
 how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
 known_false_positives: No false positives have been identified at this time.
 references:

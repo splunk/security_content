@@ -8,7 +8,21 @@ type: Anomaly
 description: The following analytic detects the disabling of security jobs in CircleCI pipelines. It leverages CircleCI log data, renaming and extracting fields such as job names, workflow IDs, user information, commit messages, URLs, and branches. The detection identifies mandatory jobs for each workflow and checks if they were executed. This activity is significant because disabling security jobs can allow malicious code to bypass security checks, leading to potential data breaches, system downtime, and reputational damage. If confirmed malicious, this could result in unauthorized code execution and compromised pipeline integrity.
 data_source:
     - CircleCI
-search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *  | stats values(job_name) as job_names by workflow_id workflow_name user commit_message url branch | lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job | search mandatory_job=* | eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0) | where mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
+search: |-
+    | `circleci`
+      | rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *
+      | stats values(job_name) as job_names
+        BY workflow_id workflow_name user
+           commit_message url branch
+      | lookup mandatory_job_for_workflow workflow_name OUTPUTNEW job_name AS mandatory_job
+      | search mandatory_job=*
+      | eval mandatory_job_executed=if(like(job_names, "%".mandatory_job."%"), 1, 0)
+      | where mandatory_job_executed=0
+      | eval phase="build"
+      | rex field=url "(?<repository>[^\/]*\/[^\/]*)$"
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `circle_ci_disable_security_job_filter`
 how_to_implement: You must index CircleCI logs.
 known_false_positives: No false positives have been identified at this time.
 references: []

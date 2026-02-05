@@ -8,7 +8,16 @@ type: TTP
 data_source:
     - Azure Active Directory
 description: The following analytic detects the assignment of an Azure AD Privileged Identity Management (PIM) role. It leverages Azure Active Directory events to identify when a user is added as an eligible member to a PIM role. This activity is significant because PIM roles grant elevated privileges, and their assignment should be closely monitored to prevent unauthorized access. If confirmed malicious, an attacker could exploit this to gain privileged access, potentially leading to unauthorized actions, data breaches, or further compromise of the environment.
-search: '`azure_monitor_aad` operationName="Add eligible member to role in PIM completed*" | rename properties.* as * | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_pim_role_assigned_filter`'
+search: |-
+    | `azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
+      | rename properties.* as *
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_pim_role_assigned_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: As part of legitimate administrative behavior, users may be assigned PIM roles. Filter as needed
 references:

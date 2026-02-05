@@ -8,7 +8,23 @@ type: TTP
 description: The following analytic detects the addition of a new owner to a Service Principal within an Azure AD tenant. It leverages Azure Active Directory events from the AuditLog log category to identify this activity. This behavior is significant because Service Principals do not support multi-factor authentication or conditional access policies, making them a target for adversaries seeking persistence or privilege escalation. If confirmed malicious, this activity could allow attackers to maintain access to the Azure AD environment with single-factor authentication, potentially leading to unauthorized access and control over critical resources.
 data_source:
     - Azure Active Directory Add owner to application
-search: '`azure_monitor_aad` operationName="Add owner to application" | rename properties.* as * | rename initiatedBy.user.userPrincipalName as initiatedBy | rename targetResources{}.userPrincipalName as newOwner | rename targetResources{}.modifiedProperties{}.newValue as displayName | eval displayName = mvindex(displayName,1) | where initiatedBy!=newOwner | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product initiatedBy result newOwner displayName signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_owner_added_filter`'
+search: |-
+    | `azure_monitor_aad` operationName="Add owner to application"
+      | rename properties.* as *
+      | rename initiatedBy.user.userPrincipalName as initiatedBy
+      | rename targetResources{}.userPrincipalName as newOwner
+      | rename targetResources{}.modifiedProperties{}.newValue as displayName
+      | eval displayName = mvindex(displayName,1)
+      | where initiatedBy!=newOwner
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product initiatedBy
+           result newOwner displayName
+           signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_service_principal_owner_added_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately add new owners for Service Principals. Filter as needed.
 references:

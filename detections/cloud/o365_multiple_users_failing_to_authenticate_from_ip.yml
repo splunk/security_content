@@ -8,7 +8,15 @@ type: TTP
 data_source:
     - O365 UserLoginFailed
 description: The following analytic identifies instances where more than 10 unique user accounts fail to authenticate from a single IP address within a 5-minute window. This detection leverages O365 audit logs, specifically Azure Active Directory login failures (AzureActiveDirectoryStsLogon). Such activity is significant as it may indicate brute-force attacks or password spraying attempts. If confirmed malicious, this behavior suggests an external entity is attempting to breach security by targeting multiple accounts, potentially leading to unauthorized access. Immediate action is required to block or monitor the suspicious IP and notify affected users to enhance their security measures.
-search: '`o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126 | bucket span=5m _time | fillnull | stats dc(user) as unique_accounts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as user_agent values(dest) as dest by _time src vendor_account vendor_product | where unique_accounts > 10 | `o365_multiple_users_failing_to_authenticate_from_ip_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed ErrorNumber=50126
+      | bucket span=5m _time
+      | fillnull
+      | stats dc(user) as unique_accounts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as user_agent values(dest) as dest
+        BY _time src vendor_account
+           vendor_product
+      | where unique_accounts > 10
+      | `o365_multiple_users_failing_to_authenticate_from_ip_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: A source Ip failing to authenticate with multiple users in a short period of time is not common legitimate behavior.
 references:

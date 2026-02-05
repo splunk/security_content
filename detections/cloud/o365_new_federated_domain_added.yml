@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic identifies the addition of a new federated domain in an Office 365 environment. This behavior is detected by analyzing Office 365 management activity logs, specifically filtering for Workload=Exchange and Operation="Add-FederatedDomain". The addition of a new federated domain is significant as it may indicate unauthorized changes or potential compromises. If confirmed malicious, attackers could establish a backdoor, bypass security measures, or exfiltrate data, leading to data breaches and unauthorized access to sensitive information. Immediate investigation is required to review the details of the added domain and any concurrent suspicious activities.
 data_source:
     - O365
-search: '`o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*" | eval src="NA" | fillnull | stats count values(ModifiedProperties{}.NewValue) as new_value by user user_agent authentication_service signature Workload src vendor_account vendor_product dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_new_federated_domain_added_filter`'
+search: |-
+    | `o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
+      | eval src="NA"
+      | fillnull
+      | stats count values(ModifiedProperties{}.NewValue) as new_value
+        BY user user_agent authentication_service
+           signature Workload src
+           vendor_account vendor_product dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_new_federated_domain_added_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity.
 known_false_positives: The creation of a new Federated domain is not necessarily malicious, however these events need to be followed closely, as it may indicate federated credential abuse or backdoor via federated identities at a similar or different cloud provider.
 references:

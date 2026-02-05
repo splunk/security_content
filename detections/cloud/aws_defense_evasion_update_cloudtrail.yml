@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic detects `UpdateTrail` events in AWS CloudTrail logs. It identifies attempts to modify CloudTrail settings, potentially to evade logging. The detection leverages CloudTrail logs, focusing on `UpdateTrail` events where the user agent is not the AWS console and the operation is successful. This activity is significant because altering CloudTrail settings can disable or limit logging, hindering visibility into AWS account activities. If confirmed malicious, this could allow attackers to operate undetected, compromising the integrity and security of the AWS environment.
 data_source:
     - AWS CloudTrail UpdateTrail
-search: '`cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `aws_defense_evasion_update_cloudtrail_filter`'
+search: |-
+    | `cloudtrail` eventName = UpdateTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success
+      | rename user_name as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           user_agent src vendor_account
+           vendor_region vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_defense_evasion_update_cloudtrail_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible that an AWS admin has updated cloudtrail logging. Please investigate this activity.
 references:

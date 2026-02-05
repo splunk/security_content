@@ -10,7 +10,18 @@ status: production
 description: >-
     This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals.
     This type of behaviour is associated with tools such as Azure enumberation tools such as AzureHound or ROADtools.
-search: '`azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals) | fillnull | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/beta\/servicePrincipals\/(?P<servicePrincipalb>.*?)\/" | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/v1.0\/servicePrincipals\/(?P<servicePrincipalv1>.*?)\/" | eval spn=coalesce(servicePrincipalb,servicePrincipalv1) | fillnull | stats count min(_time) as _time dc(spn) as spn_count values(user_id) as user_id by dest user src vendor_account vendor_product signature | where spn_count>9 | `azure_ad_service_principal_enumeration_filter`'
+search: |-
+    | `azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals)
+      | fillnull
+      | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/beta\/servicePrincipals\/(?P<servicePrincipalb>.*?)\/"
+      | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/v1.0\/servicePrincipals\/(?P<servicePrincipalv1>.*?)\/"
+      | eval spn=coalesce(servicePrincipalb,servicePrincipalv1)
+      | fillnull
+      | stats count min(_time) as _time dc(spn) as spn_count values(user_id) as user_id
+        BY dest user src
+           vendor_account vendor_product signature
+      | where spn_count>9
+      | `azure_ad_service_principal_enumeration_filter`
 how_to_implement: >-
     Run this detection over historical data to identify then tune out any known services which may be performing this action. Thresholds can be lowered or raised to meet requirements.
     The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest MicrosoftGraphActivityLogs via Azure EventHub. See reference for links for further details on how to onboard this log source.

@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects a single source IP failing to authenticate with 30 unique valid users within 5 minutes in Azure Active Directory. It leverages Azure AD SignInLogs with error code 50126, indicating invalid passwords. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or privilege escalation within the Azure AD environment.
 data_source:
     - Azure Active Directory
-search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false | rename properties.* as * | bucket span=5m _time | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime dc(user) as unique_user values(dest) as dest values(user) as user values(user_agent) as user_agent values(vendor_account) as vendor_account values(vendor_product) as vendor_product by src signature | where unique_user > 30 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
+search: |-
+    | `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+      | rename properties.* as *
+      | bucket span=5m _time
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime dc(user) as unique_user values(dest) as dest values(user) as user values(user_agent) as user_agent values(vendor_account) as vendor_account values(vendor_product) as vendor_product
+        BY src signature
+      | where unique_user > 30
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
 known_false_positives: A source Ip failing to authenticate with multiple users is not a common for legitimate behavior.
 references:

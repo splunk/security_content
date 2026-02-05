@@ -8,7 +8,25 @@ type: TTP
 description: The following analytic detects when an email submitted to Microsoft using the built-in report button in Outlook is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
 data_source:
     - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="Email reported by user as*" | fromjson Data | rename _raw AS temp etps AS _raw | extract pairdelim=";" kvdelim=":" | rename _raw AS etps temp AS _raw | search RescanVerdict IN (Phish,Malware) | rex field=tsd "\<(?<src_user>.+)\>" | eval src_user = case(isnull(src_user),tsd,true(),src_user) | rename Name as signature, AlertId as signature_id, AlertEntityId as user, tsd as sender, ms as subject | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id src_user sender subject | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_reported_by_user_found_malicious_filter`'
+search: |-
+    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="Email reported by user as*"
+      | fromjson Data
+      | rename _raw AS temp etps AS _raw
+      | extract pairdelim=";" kvdelim=":"
+      | rename _raw AS etps temp AS _raw
+      | search RescanVerdict IN (Phish,Malware)
+      | rex field=tsd "\<(?<src_user>.+)\>"
+      | eval src_user = case(isnull(src_user),tsd,true(),src_user)
+      | rename Name as signature, AlertId as signature_id, AlertEntityId as user, tsd as sender, ms as subject
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product signature
+           signature_id src_user sender
+           subject
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_email_reported_by_user_found_malicious_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. You must deploy/allow the usage of the Microsoft Office Report A Message function.
 known_false_positives: No false positives have been identified at this time.
 references:

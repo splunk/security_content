@@ -8,7 +8,16 @@ type: Hunting
 description: The following analytic identifies IAM users attempting to update or modify AWS Lambda code via the AWS CLI. It leverages CloudTrail logs to detect successful `UpdateFunctionCode` events initiated by IAM users. This activity is significant as it may indicate an attempt to gain persistence, further access, or plant backdoors within your AWS environment. If confirmed malicious, an attacker could upload and execute malicious code automatically when the Lambda function is triggered, potentially compromising the integrity and security of your AWS infrastructure.
 data_source:
     - AWS CloudTrail
-search: '`cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode = success  user_type=IAMUser | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` |`aws_lambda_updatefunctioncode_filter`'
+search: |-
+    | `cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode = success  user_type=IAMUser
+      | rename user_name as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           user_agent src vendor_account
+           vendor_region vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_lambda_updatefunctioncode_filter`
 how_to_implement: You must install Splunk AWS Add on and enable Cloudtrail logs in your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible that an AWS admin or an autorized IAM user has updated the lambda fuction code legitimately.
 references:

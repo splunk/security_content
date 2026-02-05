@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic detects instances where a user has initiated an eDiscovery search or exported a PST file in an Office 365 environment. It leverages Office 365 management activity logs, specifically filtering for events under ThreatManagement with the name "eDiscovery search started or exported." This activity is significant as it may indicate data exfiltration attempts or unauthorized access to sensitive information. If confirmed malicious, it suggests an attacker or insider threat is attempting to gather or exfiltrate data, potentially leading to data breaches, loss of intellectual property, or unauthorized access to confidential communications. Immediate investigation is required.
 data_source:
     - O365
-search: '`o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported" | fillnull | stats count earliest(_time) as firstTime latest(_time) as lastTime by Source Severity AlertEntityId Name user src vendor_account vendor_product dest signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_pst_export_alert_filter`'
+search: |-
+    | `o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported"
+      | fillnull
+      | stats count earliest(_time) as firstTime latest(_time) as lastTime
+        BY Source Severity AlertEntityId
+           Name user src
+           vendor_account vendor_product dest
+           signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_pst_export_alert_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: PST export can be done for legitimate purposes but due to the sensitive nature of its content it must be monitored.
 references:

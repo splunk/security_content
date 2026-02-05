@@ -8,7 +8,19 @@ type: Anomaly
 description: The following analytic detects when classic branch protection rules are disabled in GitHub Organizations. The detection monitors GitHub Organizations audit logs for branch protection removal events by tracking actor details, repository information, and associated metadata. For a SOC, identifying disabled branch protection is critical as it could indicate attempts to bypass code review requirements and security controls. Branch protection rules are essential security controls that enforce code review, prevent force pushes, and maintain code quality. Disabling these protections could allow malicious actors to directly push unauthorized code changes or backdoors to protected branches. The impact of disabled branch protection includes potential code tampering, bypass of security reviews, introduction of vulnerabilities or malicious code, and compromise of software supply chain integrity. This activity could be part of a larger attack chain where an adversary first disables security controls before attempting to inject malicious code.
 data_source:
     - GitHub Organizations Audit Logs
-search: '`github_organizations` vendor_action=protected_branch.destroy | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, org, org_id, repo, repo_id, user_agent, vendor_action, name | eval user=actor | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `github_organizations_disable_classic_branch_protection_rule_filter`'
+search: |-
+    | `github_organizations` vendor_action=protected_branch.destroy
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_ip,
+           actor_is_bot, actor_location.country_code, business,
+           business_id, org, org_id,
+           repo, repo_id, user_agent,
+           vendor_action, name
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_organizations_disable_classic_branch_protection_rule_filter`
 how_to_implement: You must ingest GitHub Organizations logs using Splunk Add-on for Github using a Personal Access Token https://splunk.github.io/splunk-add-on-for-github-audit-log-monitoring/Install/ .
 known_false_positives: No false positives have been identified at this time.
 references:

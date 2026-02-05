@@ -8,7 +8,19 @@ type: TTP
 description: The following analytic detects the creation of a Service Principal in an Azure AD environment. It leverages Azure Active Directory events ingested through EventHub, specifically monitoring the "Add service principal" operation. This activity is significant because Service Principals can be used by adversaries to establish persistence and bypass multi-factor authentication and conditional access policies. If confirmed malicious, this could allow attackers to maintain single-factor access to the Azure AD environment, potentially leading to unauthorized access to resources and prolonged undetected activity.
 data_source:
     - Azure Active Directory Add service principal
-search: '`azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=* | rename properties.* as * | rename targetResources{}.displayName as displayName | rename targetResources{}.type as type | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product displayName result signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_service_principal_created_filter`'
+search: |-
+    | `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
+      | rename properties.* as *
+      | rename targetResources{}.displayName as displayName
+      | rename targetResources{}.type as type
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product displayName
+           result signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_service_principal_created_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment thorough an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLog log category.
 known_false_positives: Administrator may legitimately create Service Principal. Filter as needed.
 references:

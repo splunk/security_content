@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic detects the creation of a new Automation Runbook Webhook within an Azure tenant. It leverages Azure Audit events, specifically the "Create or Update an Azure Automation webhook" operation, to identify this activity. This behavior is significant because Webhooks can trigger Automation Runbooks via unauthenticated URLs exposed to the Internet, posing a security risk. If confirmed malicious, an attacker could use this to execute code, create users, or maintain persistence within the environment, potentially leading to unauthorized access and control over Azure resources.
 data_source:
     - Azure Audit Create or Update an Azure Automation webhook
-search: '`azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded | dedup object | rename claims.ipaddr as src_ip | rename caller as user | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest by object user, src_ip, resourceGroupName, object_path | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_runbook_webhook_created_filter`'
+search: |-
+    | `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded
+      | dedup object
+      | rename claims.ipaddr as src_ip
+      | rename caller as user
+      | stats count min(_time) as firstTime max(_time) as lastTime values(dest) as dest
+        BY object user, src_ip,
+           resourceGroupName, object_path
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_runbook_webhook_created_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Audit events into your Splunk environment. Specifically, this analytic leverages the Azure Activity log category.
 known_false_positives: Administrators may legitimately create Azure Runbook Webhooks. Filter as needed.
 references:

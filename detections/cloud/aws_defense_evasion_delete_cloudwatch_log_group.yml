@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic detects the deletion of CloudWatch log groups in AWS, identified through `DeleteLogGroup` events in CloudTrail logs. This detection leverages CloudTrail data to monitor for successful log group deletions, excluding console-based actions. This activity is significant as it indicates potential attempts to evade logging and monitoring, which is crucial for maintaining visibility into AWS activities. If confirmed malicious, this could allow attackers to hide their tracks, making it difficult to detect further malicious actions or investigate incidents within the compromised AWS environment.
 data_source:
     - AWS CloudTrail DeleteLogGroup
-search: '`cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com userAgent !=console.amazonaws.com errorCode = success | rename user_name as user | stats count min(_time) as firstTime max(_time) as lastTime by signature dest user user_agent src vendor_account vendor_region vendor_product | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `aws_defense_evasion_delete_cloudwatch_log_group_filter`'
+search: |-
+    | `cloudtrail` eventName = DeleteLogGroup eventSource = logs.amazonaws.com userAgent !=console.amazonaws.com errorCode = success
+      | rename user_name as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY signature dest user
+           user_agent src vendor_account
+           vendor_region vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_defense_evasion_delete_cloudwatch_log_group_filter`
 how_to_implement: You must install Splunk AWS Add on and enable CloudTrail logs in your AWS Environment.
 known_false_positives: While this search has no known false positives, it is possible that an AWS admin has deleted CloudWatch logging. Please investigate this activity.
 references:

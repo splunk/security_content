@@ -8,7 +8,19 @@ type: TTP
 description: The following analytic detects when an email manually submitted to Microsoft through the Security & Compliance portal is found to be malicious. This capability is an enhanced protection feature that can be used within o365 tenants by administrative users to report potentially malicious emails. This correlation looks for any submission that returns a Phish or Malware verdict upon submission.
 data_source:
     - Office 365 Universal Audit Log
-search: '`o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission | search RescanVerdict IN (Phish,Malware) | rename Id as signature_id, SenderIP as src, Recipients{} as dest_user, P1Sender as src_user | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product signature signature_id dest_user src_user Subject SubmissionContent | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_email_reported_by_admin_found_malicious_filter`'
+search: |-
+    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission
+      | search RescanVerdict IN (Phish,Malware)
+      | rename Id as signature_id, SenderIP as src, Recipients{} as dest_user, P1Sender as src_user
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product signature
+           signature_id dest_user src_user
+           Subject SubmissionContent
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_email_reported_by_admin_found_malicious_filter`
 how_to_implement: You must install splunk Microsoft Office 365 add-on. This search works with o365:management:activity
 known_false_positives: Administrators that submit known phishing training exercises.
 references:

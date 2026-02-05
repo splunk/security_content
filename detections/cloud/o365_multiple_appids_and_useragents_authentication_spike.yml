@@ -9,7 +9,14 @@ data_source:
     - O365 UserLoggedIn
     - O365 UserLoginFailed
 description: The following analytic identifies unusual authentication activity in an O365 environment, where a single user account experiences more than 8 authentication attempts using 3 or more unique application IDs and over 5 unique user agents within a short timeframe. It leverages O365 audit logs, focusing on authentication events and applying statistical thresholds. This behavior is significant as it may indicate an adversary probing for multi-factor authentication weaknesses. If confirmed malicious, it suggests a compromised account, potentially leading to unauthorized access, privilege escalation, and data exfiltration. Early detection is crucial to prevent further exploitation.
-search: '`o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn OR Operation=UserLoginFailed) | bucket span=5m _time | stats dc(_raw) as failed_attempts dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId) values(OS) values(signature) as signature by _time user src vendor_account vendor_product dest | where failed_attempts > 5 and unique_user_agents > 5 and unique_app_ids > 2 | `o365_multiple_appids_and_useragents_authentication_spike_filter`'
+search: |-
+    | `o365_management_activity` Workload=AzureActiveDirectory (Operation=UserLoggedIn OR Operation=UserLoginFailed)
+      | bucket span=5m _time
+      | stats dc(_raw) as failed_attempts dc(ApplicationId) as unique_app_ids dc(UserAgent) as unique_user_agents values(ApplicationId) values(OS) values(signature) as signature
+        BY _time user src
+           vendor_account vendor_product dest
+      | where failed_attempts > 5 and unique_user_agents > 5 and unique_app_ids > 2
+      | `o365_multiple_appids_and_useragents_authentication_spike_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Rapid authentication from the same user using more than 5 different user agents and 3 application IDs is highly unlikely under normal circumstances. However, there are potential scenarios that could lead to false positives.
 references:

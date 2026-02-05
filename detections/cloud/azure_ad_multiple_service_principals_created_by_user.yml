@@ -8,7 +8,20 @@ data_source:
 type: Anomaly
 status: production
 description: The following analytic identifies instances where a single user creates more than three unique OAuth applications within a 10-minute timeframe in Azure AD. It detects this activity by monitoring the 'Add service principal' operation and aggregating data in 10-minute intervals. This behavior is significant as it may indicate an adversary rapidly creating multiple service principals to stage an attack or expand their foothold within the network. If confirmed malicious, this activity could allow attackers to establish persistence, escalate privileges, or access sensitive information within the Azure environment.
-search: '`azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=* | rename properties.* as * | bucket span=10m _time | rename targetResources{}.displayName as displayName | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime dc(displayName) as unique_apps values(displayName) as displayName values(dest) as dest values(src) as src values(user) as user values(user_agent) as user_agent by src_user vendor_account vendor_product signature | where unique_apps > 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_multiple_service_principals_created_by_user_filter`'
+search: |-
+    | `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
+      | rename properties.* as *
+      | bucket span=10m _time
+      | rename targetResources{}.displayName as displayName
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime dc(displayName) as unique_apps values(displayName) as displayName values(dest) as dest values(src) as src values(user) as user values(user_agent) as user_agent
+        BY src_user vendor_account vendor_product
+           signature
+      | where unique_apps > 3
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_multiple_service_principals_created_by_user_filter`
 how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
 known_false_positives: Certain users or applications may create multiple service principals in a short period of time for legitimate purposes. Filter as needed.
 references:
