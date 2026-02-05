@@ -8,7 +8,16 @@ data_source:
 type: TTP
 status: production
 description: The following analytic identifies failed authentication attempts during the Multi-Factor Authentication (MFA) challenge in an Okta tenant. It uses the Authentication datamodel to detect specific failed events where the authentication signature is `user.authentication.auth_via_mfa`. This activity is significant as it may indicate an adversary attempting to authenticate with compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing attempt to bypass MFA protections, potentially leading to unauthorized access and further compromise of the affected account.
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  values(Authentication.app) as app values(Authentication.reason) as reason values(Authentication.signature) as signature  values(Authentication.method) as method  from datamodel=Authentication where  Authentication.signature=user.authentication.auth_via_mfa Authentication.action = failure by _time Authentication.src Authentication.user Authentication.dest Authentication.action | `drop_dm_object_name("Authentication")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| iplocation src | `okta_authentication_failed_during_mfa_challenge_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime  values(Authentication.app) as app values(Authentication.reason) as reason values(Authentication.signature) as signature  values(Authentication.method) as method FROM datamodel=Authentication
+      WHERE Authentication.signature=user.authentication.auth_via_mfa Authentication.action = failure
+      BY _time Authentication.src Authentication.user
+         Authentication.dest Authentication.action
+    | `drop_dm_object_name("Authentication")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | iplocation src
+    | `okta_authentication_failed_during_mfa_challenge_filter`
 how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
 known_false_positives: A user may have accidentally entered the wrong credentials during the MFA challenge. If the user is new to MFA, they may have trouble authenticating. Ensure that the user is aware of the MFA process and has the correct credentials.
 references:

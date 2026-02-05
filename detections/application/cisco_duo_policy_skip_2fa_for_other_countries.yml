@@ -17,7 +17,17 @@ description: |
     such policy changes to circumvent strong authentication controls, potentially leading to account compromise, data breaches, or
     lateral movement within the environment. Early detection of these policy modifications enables the SOC to investigate and respond
     before attackers can leverage the weakened controls, thereby reducing the risk and impact of a successful attack.
-search: '`cisco_duo_administrator` action=policy_update OR action=policy_create | spath input=description | search user_locations_default_action="Allow access without 2FA" | rename object as user | stats count min(_time) as firstTime max(_time) as lastTime by action actionlabel description user admin_email | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `cisco_duo_policy_skip_2fa_for_other_countries_filter`'
+search: |-
+    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+      | spath input=description
+      | search user_locations_default_action="Allow access without 2FA"
+      | rename object as user
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action actionlabel description
+           user admin_email
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `cisco_duo_policy_skip_2fa_for_other_countries_filter`
 how_to_implement: The analytic leverages Duo activity logs to be ingested using the Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
 known_false_positives: No false positives have been identified at this time.
 references:
