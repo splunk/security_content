@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the use of the `[Adsisearcher]` type accelerator in PowerShell to query Active Directory for domain groups. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific script blocks containing `[adsisearcher]` and group-related queries. This activity is significant as it may indicate an attempt by adversaries or Red Teams to enumerate domain groups for situational awareness and Active Directory discovery. If confirmed malicious, this behavior could lead to further reconnaissance, privilege escalation, or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `domain_group_discovery_with_adsisearcher_filter`'
+search: |-
+    | `powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `domain_group_discovery_with_adsisearcher_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use Adsisearcher for troubleshooting.
 references:

@@ -7,7 +7,16 @@ status: production
 type: Anomaly
 description: The following analytic identifies user accounts experiencing an excessive number of lockouts within a short timeframe. It leverages the 'Change' data model, specifically focusing on events where the result indicates a lockout. This activity is significant as it may indicate a brute-force attack or misconfiguration, both of which require immediate attention. If confirmed malicious, this behavior could lead to account compromise, unauthorized access, and potential lateral movement within the network.
 data_source: []
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Change.All_Changes where  All_Changes.result="*lock*" by All_Changes.user All_Changes.result |`drop_dm_object_name("All_Changes")` |`drop_dm_object_name("Account_Management")`| `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | search count > 5 | `detect_excessive_user_account_lockouts_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change.All_Changes
+      WHERE All_Changes.result="*lock*"
+      BY All_Changes.user All_Changes.result
+    | `drop_dm_object_name("All_Changes")`
+    | `drop_dm_object_name("Account_Management")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | search count > 5
+    | `detect_excessive_user_account_lockouts_filter`
 how_to_implement: ou must ingest your Windows security event logs in the `Change` datamodel under the nodename is `Account_Management`, for this search to execute successfully. Please consider updating the cron schedule and the count of lockouts you want to monitor, according to your environment.
 known_false_positives: It is possible that a legitimate user is experiencing an issue causing multiple account login failures leading to lockouts.
 references: []

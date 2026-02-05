@@ -8,7 +8,16 @@ type: Anomaly
 description: The following analytic detects the use of the Linux 'xclip' command to copy data from the clipboard. It leverages Linux Auditd telemetry, focusing on process names and command-line arguments related to clipboard operations. This activity is significant because adversaries can exploit clipboard data to capture sensitive information such as passwords or IP addresses. If confirmed malicious, this technique could lead to unauthorized data exfiltration, compromising sensitive information and potentially aiding further attacks within the environment.
 data_source:
     - Linux Auditd Execve
-search: '`linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" ) | rename host as dest | rename comm as process_name | rename exe as process | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_auditd_clipboard_data_copy_filter`'
+search: |-
+    | `linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" )
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY argc execve_command dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_clipboard_data_copy_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: False positives may be present on Linux desktop as it may commonly be used by administrators or end users. Filter as needed.
 references:

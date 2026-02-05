@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects the deletion of cron jobs on a Linux machine. It leverages filesystem event logs to identify when files within the "/etc/cron.*" directory are deleted. This activity is significant because attackers or malware may delete cron jobs to disable scheduled security tasks or evade detection mechanisms. If confirmed malicious, this action could allow an attacker to disrupt system operations, evade security measures, or facilitate further malicious activities such as data wiping, as seen with the acidrain malware.
 data_source:
     - Sysmon for Linux EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path="/etc/cron.*" by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `linux_deletion_of_cron_jobs_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.action=deleted Filesystem.file_path="/etc/cron.*"
+      BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+         Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_deletion_of_cron_jobs_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:

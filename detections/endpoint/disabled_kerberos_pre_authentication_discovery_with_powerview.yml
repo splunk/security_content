@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of the `Get-DomainUser` commandlet with the `-PreauthNotRequired` parameter using PowerShell Script Block Logging (EventCode=4104). This command is part of PowerView, a tool used for enumerating Windows Active Directory networks. Identifying domain accounts with Kerberos Pre-Authentication disabled is significant because adversaries can leverage this information to attempt offline password cracking. If confirmed malicious, this activity could lead to unauthorized access to domain accounts, potentially compromising sensitive information and escalating privileges within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainUser*" AND ScriptBlockText="*PreauthNotRequired*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `disabled_kerberos_pre_authentication_discovery_with_powerview_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use PowerView for troubleshooting
 references:

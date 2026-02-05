@@ -8,7 +8,18 @@ data_source:
 type: TTP
 status: production
 description: The following analytic detects the enabling of PowerShell Web Access via PowerShell commands. It leverages PowerShell script block logging (EventCode 4104) to identify the execution of the `Install-WindowsFeature` cmdlet with the `WindowsPowerShellWebAccess` parameter. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks.
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Install-WindowsFeature*WindowsPowerShellWebAccess*","*Install-PswaWebApplication*","*Add-PswaAuthorizationRule*UserName *ComputerName *") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_enable_powershell_web_access_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN ("*Install-WindowsFeature*WindowsPowerShellWebAccess*","*Install-PswaWebApplication*","*Add-PswaAuthorizationRule*UserName *ComputerName *")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_enable_powershell_web_access_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: It is possible that legitimate scripts or network administrators may enable PowerShell Web Access. Monitor and escalate as needed.
 references:

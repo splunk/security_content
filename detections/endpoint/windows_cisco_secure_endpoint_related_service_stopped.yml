@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic detects the suspicious termination of known services commonly targeted by ransomware before file encryption. It leverages Windows System Event Logs (EventCode 7036) to identify when critical services such as Volume Shadow Copy, backup, and antivirus services are stopped. This activity is significant because ransomware often disables these services to avoid errors and ensure successful file encryption. If confirmed malicious, this behavior could lead to widespread data encryption, rendering files inaccessible and potentially causing significant operational disruption and data loss.
 data_source:
     - Windows Event Log System 7036
-search: '`wineventlog_system` `normalized_service_binary_field` | rename param1 as display_name | rename param2 as status | search EventCode=7036 display_name IN ("Cisco AMP Orbital", "*Cisco Secure Endpoint*", "*Cisco Security Connector Monitoring*", "CiscoSAM", "CiscoAMPHeurDriver", "CiscoAMPELAMDriver", "CiscoAMPCEFWDriver", "ImmunetNetworkMonitorDriver", "ImmunetProtectDriver", "ImmunetSelfProtectDriver") status IN ("stopped", "arrêté") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode display_name normalized_service_name status dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_cisco_secure_endpoint_related_service_stopped_filter`'
+search: |-
+    | `wineventlog_system` `normalized_service_binary_field`
+      | rename param1 as display_name
+      | rename param2 as status
+      | search EventCode=7036 display_name IN ("Cisco AMP Orbital", "*Cisco Secure Endpoint*", "*Cisco Security Connector Monitoring*", "CiscoSAM", "CiscoAMPHeurDriver", "CiscoAMPELAMDriver", "CiscoAMPCEFWDriver", "ImmunetNetworkMonitorDriver", "ImmunetProtectDriver", "ImmunetSelfProtectDriver") status IN ("stopped", "arrêté")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY EventCode display_name normalized_service_name
+           status dest
+      | `security_content_ctime(lastTime)`
+      | `security_content_ctime(firstTime)`
+      | `windows_cisco_secure_endpoint_related_service_stopped_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
 known_false_positives: Administrator or troubleshooting activities may trigger this alert. Investigate the process performing this action to determine if its a legitimate activity.
 references:

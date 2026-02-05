@@ -8,7 +8,18 @@ type: Hunting
 description: The following analytic detects the execution of the `Get-NetTcpconnection` PowerShell cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet lists network connections on a system, which adversaries may use for situational awareness and Active Directory discovery. Monitoring this activity is crucial as it can indicate reconnaissance efforts by an attacker. If confirmed malicious, this behavior could allow an attacker to map the network, identify critical systems, and plan further attacks, potentially leading to data exfiltration or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-NetTcpconnection*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getnettcpconnection_with_powershell_script_block_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-NetTcpconnection*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `getnettcpconnection_with_powershell_script_block_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:

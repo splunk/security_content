@@ -8,7 +8,14 @@ type: Anomaly
 description: The following analytic detects the suspicious service started. This behavior is critical for a SOC to monitor because it may indicate attempts to gain unauthorized access or maintain control over a system. Such actions could be signs of malicious activity. If confirmed, this could lead to serious consequences, including a compromised system, unauthorized access to sensitive data, or even a wider breach affecting the entire network. Detecting and responding to these signs early is essential to prevent potential security incidents.
 data_source:
     - Linux Auditd Proctitle
-search: '`linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*") | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `linux_auditd_service_started_filter`'
+search: |-
+    | `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*")
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_service_started_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:

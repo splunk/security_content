@@ -8,7 +8,15 @@ type: TTP
 description: The following analytic detects attempts to install unsigned MSIX/AppX packages using the -AllowUnsigned parameter. This detection leverages Windows event logs from the AppXDeployment-Server, specifically focusing on EventID 603 which indicates the start of a deployment operation with specific deployment flags. The flag value 8388608 corresponds to the -AllowUnsigned option in PowerShell's Add-AppxPackage cmdlet. This activity is significant as adversaries have been observed leveraging unsigned MSIX packages to deliver malware, bypassing signature verification that would normally protect users from malicious packages. If confirmed malicious, this could allow attackers to execute arbitrary code, establish persistence, or deliver malware while evading traditional detection mechanisms.
 data_source:
     - Windows Event Log AppXDeployment-Server 855
-search: '`wineventlog_appxdeploymentserver` EventCode=603 Flags="8388608" | stats count min(_time) as firstTime max(_time) as lastTime values(Path) as file_name values(CallingProcess) as CallingProcess by dvc EventCode Flags user_id | rename dvc as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_appx_deployment_unsigned_package_installation_filter`'
+search: |-
+    | `wineventlog_appxdeploymentserver` EventCode=603 Flags="8388608"
+      | stats count min(_time) as firstTime max(_time) as lastTime values(Path) as file_name values(CallingProcess) as CallingProcess
+        BY dvc EventCode Flags
+           user_id
+      | rename dvc as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_appx_deployment_unsigned_package_installation_filter`
 how_to_implement: To implement this search, you need to configure Windows event log collection for the Microsoft-Windows-AppXDeploymentServer/Operational channel. This can be done through Windows Event Forwarding, Splunk Universal Forwarders, or other log collection methods. Ensure that the log collection method preserves the full XML structure of the events. The sourcetype should be set to XmlWinEventLog or WinEventLog depending on your environment configuration. This detection specifically looks for EventID 603 with a Flags value of 8388608, which indicates the use of the -AllowUnsigned parameter when installing MSIX packages.
 known_false_positives: Legitimate software development and testing activities may trigger this detection. Internal application development teams testing MSIX packages before signing or system administrators installing custom unsigned applications for business purposes may use the -AllowUnsigned parameter. Note that the -AllowUnsigned flag is only available on Windows 11 and later versions. Verify if the package installation is expected in your environment and if the calling process and user are authorized to install unsigned packages.
 references:

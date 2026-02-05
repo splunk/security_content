@@ -8,7 +8,14 @@ type: Anomaly
 description: The following analytic detects when a new certificate is requested from Certificate Services - AD CS. It leverages Event ID 4886, which indicates that a certificate request has been received. This activity is significant because unauthorized certificate requests can be part of credential theft or lateral movement tactics. If confirmed malicious, an attacker could use the certificate to impersonate users, gain unauthorized access to resources, or establish persistent access within the environment. Monitoring and correlating this event with other suspicious activities is crucial for identifying potential security incidents.
 data_source:
     - Windows Event Log Security 4886
-search: '`wineventlog_security` EventCode=4886 | stats count min(_time) as firstTime max(_time) as lastTime by dest, name, Requester, action, Attributes | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_steal_authentication_certificates_certificate_request_filter`'
+search: |-
+    | `wineventlog_security` EventCode=4886
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest, name, Requester,
+           action, Attributes
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_steal_authentication_certificates_certificate_request_filter`
 how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference.
 known_false_positives: False positives will be generated based on normal certificate requests. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
 references:

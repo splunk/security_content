@@ -8,7 +8,28 @@ type: TTP
 description: The following analytic detects the execution of gpupdate.exe without command line arguments and with an active network connection. This behavior is identified using Endpoint Detection and Response (EDR) telemetry, focusing on process execution and network traffic data. It is significant because gpupdate.exe typically runs with specific arguments, and its execution without them, especially with network activity, is often associated with malicious software like Cobalt Strike. If confirmed malicious, this activity could indicate an attacker leveraging gpupdate.exe for lateral movement, command and control, or other nefarious purposes, potentially leading to system compromise.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name=gpupdate.exe by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | regex process="(?i)(gpupdate\.exe.{0,4}$)"| join  process_id [| tstats `security_content_summariesonly` count values(All_Traffic.app) as app values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.direction) as direction values(All_Traffic.dvc) as dvc values(All_Traffic.protocol) as protocol values(All_Traffic.protocol_version) as protocol_version values(All_Traffic.src) as src values(All_Traffic.src_ip) as src_ip values(All_Traffic.src_port) as src_port values(All_Traffic.transport) as transport FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port != 0 by All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port | `drop_dm_object_name(All_Traffic)` | rename dest as C2 ] | table _time user dest parent_process_name process_name process_path process process_id dest_port C2 app dest_ip direction dvc protocol protocol_version src src_ip src_port transport | `gpupdate_with_no_command_line_arguments_with_network_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+      WHERE Processes.process_name=gpupdate.exe
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | regex process="(?i)(gpupdate\.exe.{0,4}$)"
+    | join  process_id [
+    | tstats `security_content_summariesonly` count values(All_Traffic.app) as app values(All_Traffic.dest_ip) as dest_ip values(All_Traffic.direction) as direction values(All_Traffic.dvc) as dvc values(All_Traffic.protocol) as protocol values(All_Traffic.protocol_version) as protocol_version values(All_Traffic.src) as src values(All_Traffic.src_ip) as src_ip values(All_Traffic.src_port) as src_port values(All_Traffic.transport) as transport FROM datamodel=Network_Traffic.All_Traffic
+      WHERE All_Traffic.dest_port != 0
+      BY All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+    | `drop_dm_object_name(All_Traffic)`
+    | rename dest as C2 ]
+    | table _time user dest parent_process_name process_name process_path process process_id dest_port C2 app dest_ip direction dvc protocol protocol_version src src_ip src_port transport
+    | `gpupdate_with_no_command_line_arguments_with_network_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Limited false positives may be present in small environments. Tuning may be required based on parent process.
 references:

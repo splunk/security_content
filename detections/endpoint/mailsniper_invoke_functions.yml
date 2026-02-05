@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of known MailSniper PowerShell functions on a machine. It leverages PowerShell logs (EventCode 4104) to identify specific script block text associated with MailSniper activities. This behavior is significant as MailSniper is often used by attackers to harvest sensitive emails from compromised Exchange servers. If confirmed malicious, this activity could lead to unauthorized access to sensitive email data, credential theft, and further compromise of the email infrastructure.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*", "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*", "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `mailsniper_invoke_functions_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*", "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*", "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `mailsniper_invoke_functions_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
 known_false_positives: No false positives have been identified at this time.
 references:

@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects suspicious PowerShell script execution involving compressed stream data processing, identified via EventCode 4104. It leverages PowerShell Script Block Logging to flag scripts using `IO.Compression`, `IO.StreamReader`, or decompression methods. This activity is significant as it often indicates obfuscated PowerShell or embedded .NET/binary execution, which are common tactics for evading detection. If confirmed malicious, this behavior could allow attackers to execute hidden code, escalate privileges, or maintain persistence within the environment.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_processing_stream_of_data_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_processing_stream_of_data_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: powershell may used this function to process compressed data.
 references:

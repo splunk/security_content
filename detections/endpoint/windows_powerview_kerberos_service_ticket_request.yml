@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of the `Get-DomainSPNTicket` commandlet, part of the PowerView tool, by leveraging PowerShell Script Block Logging (EventCode=4104). This commandlet requests Kerberos service tickets for specified service principal names (SPNs). Monitoring this activity is crucial as it can indicate attempts to perform Kerberoasting, a technique used to extract SPN account passwords via cracking tools like hashcat. If confirmed malicious, this activity could allow attackers to gain unauthorized access to sensitive accounts, potentially leading to privilege escalation and further network compromise.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText=*Get-DomainSPNTicket* | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powerview_kerberos_service_ticket_request_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText=*Get-DomainSPNTicket*
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powerview_kerberos_service_ticket_request_filter`
 how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: False positive may include Administrators using PowerView for troubleshooting and management.
 references:

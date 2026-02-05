@@ -8,7 +8,18 @@ type: TTP
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of the `Find-LocalAdminAccess` cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet is part of PowerView, a toolkit for Windows domain enumeration. Identifying the use of `Find-LocalAdminAccess` is crucial as adversaries may use it to find machines where the current user has local administrator access, facilitating lateral movement or privilege escalation. If confirmed malicious, this activity could allow attackers to target and compromise additional systems within the network, significantly increasing their control and access to sensitive information.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_get_local_admin_with_findlocaladminaccess_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*Find-LocalAdminAccess*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_get_local_admin_with_findlocaladminaccess_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:

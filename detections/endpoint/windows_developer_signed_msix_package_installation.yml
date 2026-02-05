@@ -8,7 +8,14 @@ type: Anomaly
 description: This detection identifies the installation of developer-signed MSIX packages that lack Microsoft Store signatures. All malicious MSIX packages observed in recent threat campaigns (including those from FIN7, Zloader/Storm-0569, and FakeBat/Storm-1113) were developer-signed rather than Microsoft Store signed. Microsoft Store apps have specific publisher IDs containing '8wekyb3d8bbwe' or 'cw5n1h2txyewy', while developer-signed packages lack these identifiers. This detection focuses on EventID 855 from the Microsoft-Windows-AppXDeployment-Server/Operational logs, which indicates a completed package installation.
 data_source:
     - Windows Event Log AppXDeployment-Server 855
-search: '`wineventlog_appxdeploymentserver` EventCode=855 NOT PackageMoniker IN ("*8wekyb3d8bbwe*","*cw5n1h2txyewy*") | stats count min(_time) as firstTime max(_time) as lastTime values(PackageMoniker) as PackageMoniker by dvc EventCode user_id | rename dvc as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_developer_signed_msix_package_installation_filter`'
+search: |-
+    | `wineventlog_appxdeploymentserver` EventCode=855 NOT PackageMoniker IN ("*8wekyb3d8bbwe*","*cw5n1h2txyewy*")
+      | stats count min(_time) as firstTime max(_time) as lastTime values(PackageMoniker) as PackageMoniker
+        BY dvc EventCode user_id
+      | rename dvc as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_developer_signed_msix_package_installation_filter`
 how_to_implement: To implement this detection, you need to be collecting Windows Event logs from the Microsoft-Windows-AppXDeploymentServer/Operational channel. In Splunk, this typically requires the Windows TA and configuration to collect from this specific channel. Ensure your Windows event collection is properly configured to capture EventCode 855 from the Microsoft-Windows-AppXDeploymentServer/Operational log.
 known_false_positives: Legitimate developer-signed applications that are not from the Microsoft Store will trigger this detection. Organizations should maintain a baseline of expected developer-signed applications in their environment and tune the detection accordingly. Common legitimate developer-signed applications include in-house developed applications and some third-party applications that are not distributed through the Microsoft Store.
 references:

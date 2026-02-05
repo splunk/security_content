@@ -8,7 +8,14 @@ type: Hunting
 description: The following analytic identifies the creation or modification of Image File Execution Options (IFEO) registry keys, detected via EventCode 3000 in the Application channel. This detection leverages Windows Event Logs to monitor for process names added to IFEO under specific registry paths. This activity is significant as it can indicate attempts to set traps for process monitoring or debugging, often used by attackers for persistence or evasion. If confirmed malicious, this could allow an attacker to execute arbitrary code or manipulate process behavior, leading to potential system compromise.
 data_source:
     - Windows Event Log Application 3000
-search: '`wineventlog_application` EventCode=3000 | rename param1 AS "Process" param2 AS "Exit_Code" | stats count min(_time) as firstTime max(_time) as lastTime by Process Exit_Code dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_triggered_image_file_execution_options_injection_filter`'
+search: |-
+    | `wineventlog_application` EventCode=3000
+      | rename param1 AS "Process" param2 AS "Exit_Code"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY Process Exit_Code dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_event_triggered_image_file_execution_options_injection_filter`
 how_to_implement: This analytic requires capturing the Windows Event Log Application channel in XML.
 known_false_positives: False positives may be present and tuning will be required before turning into a finding or intermediate finding.
 references:

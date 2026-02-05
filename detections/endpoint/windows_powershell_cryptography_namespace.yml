@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects suspicious PowerShell script execution involving the cryptography namespace via EventCode 4104. It leverages PowerShell Script Block Logging to identify scripts using cryptographic functions, excluding common hashes like SHA and MD5. This activity is significant as it is often associated with malware that decrypts or decodes additional malicious payloads. If confirmed malicious, this could allow an attacker to execute further code, escalate privileges, or establish persistence within the environment. Analysts should investigate the parent process, decrypted data, network connections, and the user executing the script.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*System.Security.Cryptography*" AND NOT(ScriptBlockText IN ("*SHA*", "*MD5*", "*DeriveBytes*")) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_cryptography_namespace_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*System.Security.Cryptography*" AND NOT(ScriptBlockText IN ("*SHA*", "*MD5*", "*DeriveBytes*"))
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powershell_cryptography_namespace_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: False positives should be limited. Filter as needed.
 references:

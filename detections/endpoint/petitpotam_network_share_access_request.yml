@@ -8,7 +8,14 @@ type: TTP
 description: The following analytic detects network share access requests indicative of the PetitPotam attack (CVE-2021-36942). It leverages Windows Event Code 5145, which logs attempts to access network share objects. This detection is significant as PetitPotam can coerce authentication from domain controllers, potentially leading to unauthorized access. If confirmed malicious, this activity could allow attackers to escalate privileges or move laterally within the network, posing a severe security risk. Ensure Event Code 5145 is enabled via Group Policy to utilize this analytic effectively.
 data_source:
     - Windows Event Log Security 5145
-search: '`wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc | stats count min(_time) as firstTime max(_time) as lastTime by dest, SubjectUserSid, ShareName, src, AccessMask, AccessReason | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `petitpotam_network_share_access_request_filter`'
+search: |-
+    | `wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest, SubjectUserSid, ShareName,
+           src, AccessMask, AccessReason
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `petitpotam_network_share_access_request_filter`
 how_to_implement: Windows Event Code 5145 is required to utilize this analytic and it may not be enabled in most environments.
 known_false_positives: False positives have been limited when the Anonymous Logon is used for Account Name.
 references:

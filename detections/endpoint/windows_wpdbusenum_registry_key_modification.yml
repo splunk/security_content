@@ -9,7 +9,23 @@ description: This analytic is used to identify when a USB removable media device
 data_source:
     - Sysmon EventID 12
     - Sysmon EventID 13
-search: "| tstats `security_content_summariesonly` min(_time) as firstTime, max(_time) as lastTime, count from datamodel=Endpoint.Registry \nwhere Registry.registry_path IN (\"HKLM\\\\SOFTWARE\\\\Microsoft\\\\Windows Portable Devices\\\\Devices\\\\*\",\"HKLM\\\\System\\\\CurrentControlSet\\\\Enum\\\\SWD\\\\WPDBUSENUM\\\\*\") \nAND Registry.registry_value_name =\"FriendlyName\" AND Registry.registry_path=\"*USBSTOR*\" \nby Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path \nRegistry.registry_key_name Registry.registry_value_data Registry.registry_value_name  \nRegistry.registry_value_type Registry.status Registry.user Registry.vendor_product \n| `drop_dm_object_name(Registry)`\n| eval object_handle = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path, \"??\"),1),\"&amp;\"),2),\"PROD_\",\"\")\n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\n| `windows_wpdbusenum_registry_key_modification_filter`"
+search: |-
+    | tstats `security_content_summariesonly` min(_time) as firstTime, max(_time) as lastTime, count FROM datamodel=Endpoint.Registry
+      WHERE Registry.registry_path IN ("HKLM\\SOFTWARE\\Microsoft\\Windows Portable Devices\\Devices\\*","HKLM\\System\\CurrentControlSet\\Enum\\SWD\\WPDBUSENUM\\*")
+        AND
+        Registry.registry_value_name ="FriendlyName"
+        AND
+        Registry.registry_path="*USBSTOR*"
+      BY Registry.action Registry.dest Registry.process_guid
+         Registry.process_id Registry.registry_hive Registry.registry_path
+         Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
+         Registry.registry_value_type Registry.status Registry.user
+         Registry.vendor_product
+    | `drop_dm_object_name(Registry)`
+    | eval object_handle = registry_value_data, object_name = replace(mvindex(split(mvindex(split(registry_path, "??"),1),"&amp;"),2),"PROD_","")
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_wpdbusenum_registry_key_modification_filter`
 how_to_implement: To successfully implement this search, you must ingest endpoint logging that tracks changes to the HKLM\SOFTWARE\Microsoft\Windows Portable Devices\Devices\ or HKLM\System\CurrentControlSet\Enum\SWD\WPDBUSENUM\ registry keys. Ensure that the field from the event logs is being mapped to the proper fields in the Endpoint.Registry data model.
 known_false_positives: Legitimate USB activity will also be detected. Please verify and investigate as appropriate.
 references:

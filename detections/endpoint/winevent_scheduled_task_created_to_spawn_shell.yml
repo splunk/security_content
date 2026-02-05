@@ -8,7 +8,14 @@ type: TTP
 description: The following analytic detects the creation of scheduled tasks designed to execute commands using native Windows shells like PowerShell, Cmd, Wscript, or Cscript. It leverages Windows Security EventCode 4698 to identify when such tasks are registered. This activity is significant as it may indicate an attempt to establish persistence or execute malicious commands on a system. If confirmed malicious, this could allow an attacker to maintain access, execute arbitrary code, or escalate privileges, posing a severe threat to the environment.
 data_source:
     - Windows Event Log Security 4698
-search: '`wineventlog_security` EventCode=4698 TaskContent IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*") | stats count min(_time) as firstTime max(_time) as lastTime by Computer, TaskName, TaskContent | rename Computer as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winevent_scheduled_task_created_to_spawn_shell_filter`'
+search: |-
+    | `wineventlog_security` EventCode=4698 TaskContent IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY Computer, TaskName, TaskContent
+      | rename Computer as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `winevent_scheduled_task_created_to_spawn_shell_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 known_false_positives: False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately.
 references:

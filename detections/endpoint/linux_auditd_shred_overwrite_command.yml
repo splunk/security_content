@@ -8,7 +8,14 @@ type: TTP
 description: The following analytic detects the execution of the 'shred' command on a Linux machine, which is used to overwrite files to make them unrecoverable. It leverages data from Linux Auditd, focusing on process names and command-line arguments. This activity is significant because the 'shred' command can be used in destructive attacks, such as those seen in the Industroyer2 malware targeting energy facilities. If confirmed malicious, this activity could lead to the permanent destruction of critical files, severely impacting system integrity and data availability.
 data_source:
     - Linux Auditd Proctitle
-search: '`linux_auditd`  proctitle IN ("*shred*")  AND proctitle IN ("*-n*", "*-z*", "*-u*", "*-s*") | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `linux_auditd_shred_overwrite_command_filter`'
+search: |-
+    | `linux_auditd`  proctitle IN ("*shred*")  AND proctitle IN ("*-n*", "*-z*", "*-u*", "*-s*")
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_shred_overwrite_command_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:

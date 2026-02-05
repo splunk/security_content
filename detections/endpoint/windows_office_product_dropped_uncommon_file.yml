@@ -8,7 +8,29 @@ type: Anomaly
 description: The following analytic detects Microsoft Office applications dropping or creating executables or scripts on a Windows OS. It leverages process creation and file system events from the Endpoint data model to identify Office applications like Word or Excel generating files with extensions such as ".exe", ".dll", or ".ps1". This behavior is significant as it is often associated with spear-phishing attacks where malicious files are dropped to compromise the host. If confirmed malicious, this activity could lead to code execution, privilege escalation, or persistent access, posing a severe threat to the environment.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_office_products` by _time span=1h Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | join process_guid, _time [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.dll", "*.exe", "*.js", "*.pif", "*.ps1", "*.scr", "*.vbe", "*.vbs") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time file_name file_path process_name process_path process process_guid] | dedup file_create_time | table dest, process_name, process, file_create_time, file_name, file_path, process_guid | `windows_office_product_dropped_uncommon_file_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+      WHERE `process_office_products`
+      BY _time span=1h Processes.action
+         Processes.dest Processes.original_file_name Processes.parent_process
+         Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+         Processes.parent_process_name Processes.parent_process_path Processes.process
+         Processes.process_exec Processes.process_guid Processes.process_hash
+         Processes.process_id Processes.process_integrity_level Processes.process_name
+         Processes.process_path Processes.user Processes.user_id
+         Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | join process_guid, _time [
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.file_name IN ("*.dll", "*.exe", "*.js", "*.pif", "*.ps1", "*.scr", "*.vbe", "*.vbs")
+      BY _time span=1h Filesystem.dest
+         Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
+         Filesystem.file_path
+    | `drop_dm_object_name(Filesystem)`
+    | fields _time dest file_create_time file_name file_path process_name process_path process process_guid]
+    | dedup file_create_time
+    | table dest, process_name, process, file_create_time, file_name, file_path, process_guid
+    | `windows_office_product_dropped_uncommon_file_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: office macro for automation may do this behavior
 references:

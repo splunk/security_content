@@ -8,7 +8,18 @@ type: TTP
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of PowerView PowerShell cmdlets `Get-ObjectAcl` or `Get-DomainObjectAcl`, which are used to enumerate Access Control List (ACL) permissions for Active Directory objects. It leverages Event ID 4104 from PowerShell Script Block Logging to identify this activity. This behavior is significant as it may indicate an attempt to discover weak permissions in Active Directory, potentially leading to privilege escalation. If confirmed malicious, attackers could exploit these permissions to gain unauthorized access or escalate their privileges within the network.
-search: '`powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powerview_ad_access_control_list_enumeration_filter`'
+search: |-
+    | `powershell` EventCode=4104  (ScriptBlockText=*get-objectacl* OR ScriptBlockText=*Get-DomainObjectAcl*)
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powerview_ad_access_control_list_enumeration_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.=
 known_false_positives: Administrators may leverage PowerView for legitimate purposes, filter as needed.
 references:

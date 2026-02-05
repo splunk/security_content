@@ -9,7 +9,14 @@ data_source:
     - Windows Event Log Security 5136
     - Windows Event Log Security 5137
 description: The following analytic detects the creation of a new Group Policy Object (GPO) by leveraging Event IDs 5136 and 5137. This detection uses directory service change events to identify when a new GPO is created. Monitoring GPO creation is crucial as adversaries can exploit GPOs to escalate privileges or deploy malware across an Active Directory network. If confirmed malicious, this activity could allow attackers to control system configurations, deploy ransomware, or propagate malware, leading to widespread compromise and significant operational disruption.
-search: '`wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New Group Policy Object" AND (AttributeLDAPDisplayName=displayName OR AttributeLDAPDisplayName=gPCFileSysPath) ) ObjectClass=groupPolicyContainer | stats values(AttributeValue) as details values(SubjectUserSid) as User values(ObjectDN) as ObjectDN by ObjectGUID Computer dest | eval GPO_Name = mvindex(details, 0) | eval GPO_Path = mvindex(details, 1) | fields - details | `windows_group_policy_object_created_filter`'
+search: |-
+    | `wineventlog_security` EventCode=5137 OR (EventCode=5136 AttributeValue!="New Group Policy Object" AND (AttributeLDAPDisplayName=displayName OR AttributeLDAPDisplayName=gPCFileSysPath) ) ObjectClass=groupPolicyContainer
+      | stats values(AttributeValue) as details values(SubjectUserSid) as User values(ObjectDN) as ObjectDN
+        BY ObjectGUID Computer dest
+      | eval GPO_Name = mvindex(details, 0)
+      | eval GPO_Path = mvindex(details, 1)
+      | fields - details
+      | `windows_group_policy_object_created_filter`
 how_to_implement: To successfully implement this search, the Advanced Security Audit policy setting `Audit Directory Service Changes` within `DS Access` needs to be enabled. Furthermore, the appropriate system access control lists (SACL) need to be created as the used events are not logged by default. A good guide to accomplish this can be found here https://jgspiers.com/audit-group-policy-changes/.
 known_false_positives: Group Policy Objects are created as part of regular administrative operations, filter as needed.
 references:

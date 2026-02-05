@@ -8,7 +8,18 @@ type: TTP
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of the `Find-InterestingDomainAcl` cmdlet, part of the PowerView toolkit, using PowerShell Script Block Logging (EventCode=4104). This detection leverages logs to identify when this command is run, which is significant as adversaries may use it to find misconfigured or unusual Access Control Lists (ACLs) within a domain. If confirmed malicious, this activity could allow attackers to identify privilege escalation opportunities or weak security configurations in Active Directory, potentially leading to unauthorized access or further exploitation.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Find-InterestingDomainAcl*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_find_interesting_acl_with_findinterestingdomainacl_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*Find-InterestingDomainAcl*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_find_interesting_acl_with_findinterestingdomainacl_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:

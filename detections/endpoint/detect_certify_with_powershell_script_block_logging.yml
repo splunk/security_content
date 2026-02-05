@@ -8,7 +8,20 @@ type: TTP
 description: The following analytic detects the use of the Certify tool via an in-memory PowerShell function to enumerate Active Directory Certificate Services (AD CS) environments. It leverages PowerShell Script Block Logging (EventCode 4104) to identify specific command patterns associated with Certify's enumeration and exploitation functions. This activity is significant as it indicates potential reconnaissance or exploitation attempts against AD CS, which could lead to unauthorized certificate issuance. If confirmed malicious, attackers could leverage this to escalate privileges, persist in the environment, or access sensitive information by abusing AD CS.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*")) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown") | eval signature = substr(command,0,256) | `detect_certify_with_powershell_script_block_logging_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | eval file_name = case(isnotnull(file_name),file_name,true(),"unknown")
+      | eval signature = substr(command,0,256)
+      | `detect_certify_with_powershell_script_block_logging_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba..
 known_false_positives: No false positives have been identified at this time.
 references:

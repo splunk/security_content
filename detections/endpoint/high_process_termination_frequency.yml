@@ -8,7 +8,17 @@ type: Anomaly
 description: The following analytic identifies a high frequency of process termination events on a computer within a short period. It leverages Sysmon EventCode 5 logs to detect instances where 15 or more processes are terminated within a 3-second window. This behavior is significant as it is commonly associated with ransomware attempting to avoid exceptions during file encryption. If confirmed malicious, this activity could indicate an active ransomware attack, potentially leading to widespread file encryption and significant data loss.
 data_source:
     - Sysmon EventID 5
-search: '`sysmon` EventCode=5 | bin _time span=3s | stats values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_id) as process_id values(process_name) as process_name values(process_path) as process_path values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count by _time dest EventCode ProcessID signature signature_id vendor_product | where count >= 15 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `high_process_termination_frequency_filter`'
+search: |-
+    | `sysmon` EventCode=5
+      | bin _time span=3s
+      | stats values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_id) as process_id values(process_name) as process_name values(process_path) as process_path values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
+        BY _time dest EventCode
+           ProcessID signature signature_id
+           vendor_product
+      | where count >= 15
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `high_process_termination_frequency_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the Image (process full path of terminated process) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: admin or user tool that can terminate multiple process.
 references:

@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects the usage of PowerShell Cmdlets - New-WebGlobalModule, Enable-WebGlobalModule, and Set-WebGlobalModule, which are used to create, enable, or modify IIS Modules. This detection leverages PowerShell Script Block Logging, specifically monitoring EventCode 4104 for these cmdlets. This activity is significant as adversaries may use these lesser-known cmdlets to manipulate IIS configurations, similar to AppCmd.exe, potentially bypassing traditional defenses. If confirmed malicious, this could allow attackers to persist in the environment, manipulate web server behavior, or escalate privileges.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN("*New-WebGlobalModule*","*Enable-WebGlobalModule*","*Set-WebGlobalModule*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`  | `windows_powershell_iis_components_webglobalmodule_usage_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN("*New-WebGlobalModule*","*Enable-WebGlobalModule*","*Set-WebGlobalModule*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powershell_iis_components_webglobalmodule_usage_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: It is possible administrators or scripts may run these commands, filtering may be required.
 references:

@@ -7,7 +7,15 @@ data_source: []
 type: Anomaly
 status: production
 description: The following analytic detects multiple CrowdStrike LOW severity alerts, indicating a series of minor suspicious activities or policy violations. These alerts are not immediately critical but should be reviewed to prevent potential threats. They often highlight unusual behavior or low-level risks that, if left unchecked, could escalate into more significant security issues. Regular monitoring and analysis of these alerts are essential for maintaining robust security.
-search: '`crowdstrike_stream` tag=alert event.SeverityName= LOW | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime by src_ip src_host | where type_count >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `crowdstrike_multiple_low_severity_alerts_filter`'
+search: |-
+    | `crowdstrike_stream` tag=alert event.SeverityName= LOW
+      | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
+      | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime
+        BY src_ip src_host
+      | where type_count >= 3
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `crowdstrike_multiple_low_severity_alerts_filter`
 how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
 known_false_positives: No false positives have been identified at this time.
 references:

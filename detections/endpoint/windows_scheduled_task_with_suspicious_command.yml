@@ -10,7 +10,20 @@ data_source:
     - Windows Event Log Security 4698
     - Windows Event Log Security 4700
     - Windows Event Log Security 4702
-search: "`wineventlog_security` EventCode IN (4698,4700,4702)\n| eval TaskContent = case(isnotnull(TaskContentNew),TaskContentNew,true(),TaskContent)\n| xmlkv TaskContent\n| stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author by Computer, Caller_User_Name, TaskName, Command, Enabled, Hidden, EventCode\n| lookup windows_suspicious_tasks task_command as Command \n| where tool == \"shell command use\" OR tool == \"suspicious paths\"\n| eval command=TaskName, process=Command+if(isnotnull(Arguments),\" \".Arguments,\"\"), src_user=Author, user = Caller_User_Name, dest = Computer, signature_id = EventCode \n| `security_content_ctime(firstTime)` \n| `security_content_ctime(lastTime)`\n| `windows_scheduled_task_with_suspicious_command_filter` "
+search: |-
+    | `wineventlog_security` EventCode IN (4698,4700,4702)
+      | eval TaskContent = case(isnotnull(TaskContentNew),TaskContentNew,true(),TaskContent)
+      | xmlkv TaskContent
+      | stats count min(_time) as firstTime max(_time) as lastTime latest(Arguments) as Arguments latest(Author) as Author
+        BY Computer, Caller_User_Name, TaskName,
+           Command, Enabled, Hidden,
+           EventCode
+      | lookup windows_suspicious_tasks task_command as Command
+      | where tool == "shell command use" OR tool == "suspicious paths"
+      | eval command=TaskName, process=Command+if(isnotnull(Arguments)," ".Arguments,""), src_user=Author, user = Caller_User_Name, dest = Computer, signature_id = EventCode
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_scheduled_task_with_suspicious_command_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
 known_false_positives: False positives are possible if legitimate applications are allowed to register tasks that call a shell to be spawned. Filter as needed based on command-line or processes that are used legitimately. Windows Defender, Google Chrome, and MS Edge updates may trigger this detection.
 references:

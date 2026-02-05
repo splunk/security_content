@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the use of the `Enter-PSSession` cmdlet to establish an interactive session on a remote endpoint via the WinRM protocol. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity by searching for specific script block text patterns. This behavior is significant as it may indicate lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this activity could allow attackers to execute commands remotely, potentially leading to further compromise of the network and unauthorized access to sensitive information.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText="*Enter-PSSession*" AND ScriptBlockText="*-ComputerName*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `interactive_session_on_remote_endpoint_with_powershell_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText="*Enter-PSSession*" AND ScriptBlockText="*-ComputerName*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `interactive_session_on_remote_endpoint_with_powershell_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup instructions can be found https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators may leverage WinRM and `Enter-PSSession` for administrative and troubleshooting tasks. This activity is usually limited to a small set of hosts or users. In certain environments, tuning may not be possible.
 references:

@@ -8,7 +8,15 @@ type: TTP
 description: The following analytic detects the addition of new IIS modules on a Windows IIS server. It leverages the Windows Event log - Microsoft-IIS-Configuration/Operational, specifically EventCode 29, to identify this activity. This behavior is significant because IIS modules are rarely added to production servers, and unauthorized modules could indicate malicious activity. If confirmed malicious, an attacker could use these modules to execute arbitrary code, escalate privileges, or maintain persistence within the environment, potentially compromising the server and sensitive data.
 data_source:
     - Windows IIS 29
-search: '`iis_operational_logs` EventCode=29 | stats  count min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName Message | rename ComputerName AS dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_new_module_added_filter`'
+search: |-
+    | `iis_operational_logs` EventCode=29
+      | stats  count min(_time) as firstTime max(_time) as lastTime
+        BY OpCode EventCode ComputerName
+           Message
+      | rename ComputerName AS dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_iis_components_new_module_added_filter`
 how_to_implement: You must enabled the IIS Configuration Operational log before ingesting in Splunk. Setup and inputs may be found here https://gist.github.com/MHaggis/64396dfd9fc3734e1d1901a8f2f07040.
 known_false_positives: False positives may be present when updates or an administrator adds a new module to IIS. Monitor and filter as needed.
 references:

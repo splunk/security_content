@@ -8,7 +8,15 @@ type: Hunting
 description: The following analytic detects the installation of MSIX/AppX packages with full trust privileges. This detection leverages Windows event logs from the AppXDeployment-Server, specifically focusing on EventCode 400 which indicates a package deployment operation. Full trust packages are significant as they run with elevated privileges outside the normal AppX container restrictions, allowing them to access system resources that regular AppX packages cannot. Adversaries have been observed leveraging full trust MSIX packages to deliver malware, as documented in recent threat intelligence reports. If confirmed malicious, these packages could allow attackers to execute arbitrary code with elevated privileges, establish persistence, or deliver malware while evading traditional detection mechanisms.
 data_source:
     - Windows Event Log AppXDeployment-Server 400
-search: '`wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true" | stats count min(_time) as firstTime max(_time) as lastTime values(PackageFullName) as PackageFullName values(Path) as PackagePath values(PackageSourceUri) as PackageSourceUri values(PackageDisplayName) as PackageDisplayName values(CallingProcess) as CallingProcess values(IsCentennial) as IsCentennial by dvc EventCode HasFullTrust user_id | rename dvc as dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_appx_deployment_full_trust_package_installation_filter`'
+search: |-
+    | `wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true"
+      | stats count min(_time) as firstTime max(_time) as lastTime values(PackageFullName) as PackageFullName values(Path) as PackagePath values(PackageSourceUri) as PackageSourceUri values(PackageDisplayName) as PackageDisplayName values(CallingProcess) as CallingProcess values(IsCentennial) as IsCentennial
+        BY dvc EventCode HasFullTrust
+           user_id
+      | rename dvc as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_appx_deployment_full_trust_package_installation_filter`
 how_to_implement: To implement this search, you need to configure Windows event log collection for the Microsoft-Windows-AppXDeploymentServer/Operational channel. This can be done through Windows Event Forwarding, Splunk Universal Forwarders, or other log collection methods. Ensure that the log collection method preserves the full XML structure of the events. The sourcetype should be set to XmlWinEventLog or WinEventLog depending on your environment configuration. This detection specifically looks for EventCode 400, which indicates package deployment operations, and filters for packages with full trust privileges.
 known_false_positives: Legitimate applications may be deployed as full trust MSIX packages, especially line-of-business applications that require access to system resources. Microsoft Store applications, development tools, and enterprise applications may legitimately use full trust packages. Verify if the package is from a trusted source and signed by a trusted publisher before taking action. Review the package source URI and calling process to determine if the installation is expected in your environment.
 references:

@@ -9,7 +9,15 @@ description: The following analytic detects suspicious Kerberos Ticket Granting 
 data_source:
     - Windows Event Log Security 4768
     - Windows Event Log Security 4781
-search: '`wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$") OR (EventCode=4768 TargetUserName!="*$") | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName) | transaction RenamedComputerAccount startswith=(EventCode=4781) endswith=(EventCode=4768) | eval short_lived=case((duration<2),"TRUE") | search short_lived = TRUE | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount, short_lived | rename Computer as dest | `suspicious_ticket_granting_ticket_request_filter`'
+search: |-
+    | `wineventlog_security` (EventCode=4781 OldTargetUserName="*$" NewTargetUserName!="*$") OR (EventCode=4768 TargetUserName!="*$")
+      | eval RenamedComputerAccount = coalesce(NewTargetUserName, TargetUserName)
+      | transaction RenamedComputerAccount startswith=(EventCode=4781) endswith=(EventCode=4768)
+      | eval short_lived=case((duration<2),"TRUE")
+      | search short_lived = TRUE
+      | table _time, Computer, EventCode, TargetUserName, RenamedComputerAccount, short_lived
+      | rename Computer as dest
+      | `suspicious_ticket_granting_ticket_request_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller and Kerberos events. The Advanced Security Audit policy setting `Audit Kerberos Authentication Service` within `Account Logon` needs to be enabled.
 known_false_positives: A computer account name change event inmediately followed by a kerberos TGT request with matching fields is unsual. However, legitimate behavior may trigger it. Filter as needed.
 references:

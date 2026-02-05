@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the use of PowerView commandlets to discover Windows endpoints with Kerberos Constrained Delegation. It leverages PowerShell Script Block Logging (EventCode=4104) to identify specific commandlets like `Get-DomainComputer` or `Get-NetComputer` with the `-TrustedToAuth` parameter. This activity is significant as it indicates potential reconnaissance efforts by adversaries or Red Teams to map out privileged delegation settings in Active Directory. If confirmed malicious, this could allow attackers to identify high-value targets for further exploitation, potentially leading to privilege escalation or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-TrustedToAuth*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powerview_constrained_delegation_discovery_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-TrustedToAuth*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powerview_constrained_delegation_discovery_filter`
 how_to_implement: The following  analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may leverage PowerView for system management or troubleshooting.
 references:

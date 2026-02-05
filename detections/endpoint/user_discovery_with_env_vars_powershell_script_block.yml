@@ -8,7 +8,18 @@ type: Hunting
 description: The following analytic detects the use of PowerShell environment variables to identify the current logged user by leveraging PowerShell Script Block Logging (EventCode=4104). This method monitors script blocks containing `$env:UserName` or `[System.Environment]::UserName`. Identifying this activity is significant as adversaries and Red Teams may use it for situational awareness and Active Directory discovery on compromised endpoints. If confirmed malicious, this activity could allow attackers to gain insights into user context, aiding in further exploitation and lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*$env:UserName*" OR ScriptBlockText = "*[System.Environment]::UserName*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `user_discovery_with_env_vars_powershell_script_block_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*$env:UserName*" OR ScriptBlockText = "*[System.Environment]::UserName*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `user_discovery_with_env_vars_powershell_script_block_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use this PowerShell commandlet for troubleshooting.
 references:

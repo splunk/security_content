@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects suspicious PowerShell script execution via EventCode 4104, specifically targeting checks for installed anti-virus products using WMI or PowerShell commands. This detection leverages PowerShell Script Block Logging to identify scripts containing keywords like "SELECT," "WMIC," "AntiVirusProduct," or "AntiSpywareProduct." This activity is significant as it is commonly used by malware and APT actors to map running security applications or services, potentially aiding in evasion techniques. If confirmed malicious, this could allow attackers to disable or bypass security measures, leading to further compromise of the endpoint.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*SELECT*" OR ScriptBlockText = "*WMIC*") AND (ScriptBlockText = "*AntiVirusProduct*" OR ScriptBlockText = "*AntiSpywareProduct*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `recon_avproduct_through_pwh_or_wmi_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*SELECT*" OR ScriptBlockText = "*WMIC*") AND (ScriptBlockText = "*AntiVirusProduct*" OR ScriptBlockText = "*AntiSpywareProduct*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `recon_avproduct_through_pwh_or_wmi_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: network administrator may used this command for checking purposes
 references:

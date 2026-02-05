@@ -8,7 +8,18 @@ type: Anomaly
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects potential malicious activities involving PowerShell's task scheduling cmdlets. It leverages PowerShell Script Block Logging (EventCode 4104) to identify unusual or suspicious use of cmdlets like 'New-ScheduledTask' and 'Set-ScheduledTask'. This activity is significant as attackers often use these cmdlets for persistence and remote execution of malicious code. If confirmed malicious, this could allow attackers to maintain access, deliver additional payloads, or execute ransomware, leading to data theft or other severe impacts. Immediate investigation and mitigation are crucial to prevent further compromise.
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_scheduletask_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powershell_scheduletask_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Benign administrative tasks can also trigger alerts, necessitating a firm understanding of the typical system behavior and precise tuning of the analytic to reduce false positives.
 references:

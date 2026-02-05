@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic detects the use of the LD_PRELOAD environment variable to hijack or hook library functions on a Linux platform. It leverages data from Linux Auditd, focusing on process execution logs that include command-line details. This activity is significant because adversaries, malware authors, and red teamers commonly use this technique to gain elevated privileges and establish persistence on a compromised machine. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, and maintain long-term access to the system.
 data_source:
     - Linux Auditd Execve
-search: '`linux_auditd` execve_command = "*LD_PRELOAD*" | rename host as dest | rename comm as process_name | rename exe as process | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `linux_auditd_preload_hijack_library_calls_filter`'
+search: |-
+    | `linux_auditd` execve_command = "*LD_PRELOAD*"
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY argc execve_command dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_preload_hijack_library_calls_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:

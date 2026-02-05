@@ -8,7 +8,14 @@ type: Anomaly
 description: The following analytic detects when an IIS Module DLL fails to load due to a configuration problem, identified by EventCode 2282. This detection leverages Windows Application event logs to identify repeated failures in loading IIS modules. Such failures can indicate misconfigurations or potential tampering with IIS components. If confirmed malicious, this activity could lead to service disruptions or provide an attacker with opportunities to exploit vulnerabilities within the IIS environment. Immediate investigation is required to determine the legitimacy of the failing module and to mitigate any potential security risks.
 data_source:
     - Windows Event Log Application 2282
-search: '`wineventlog_application` EventCode=2282 | stats  count min(_time) as firstTime max(_time) as lastTime by  EventCode dest Name ModuleDll | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_iis_components_module_failed_to_load_filter`'
+search: |-
+    | `wineventlog_application` EventCode=2282
+      | stats  count min(_time) as firstTime max(_time) as lastTime
+        BY EventCode dest Name
+           ModuleDll
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_iis_components_module_failed_to_load_filter`
 how_to_implement: IIS must be installed and Application event logs must be collected in order to utilize this analytic.
 known_false_positives: False positives will be present until all module failures are resolved or reviewed.
 references:

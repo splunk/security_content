@@ -8,7 +8,20 @@ type: Anomaly
 description: The following analytic identifies the execution of the ActiveMicrosoftApp process as a child of Microsoft Excel. Under normal conditions, Excel primarily spawns internal Office-related processes, and the creation of ActiveMicrosoftApp is uncommon in day-to-day business workflows. Adversaries may abuse this behavior to blend malicious activity within trusted applications, execute unauthorized code, or bypass application control mechanisms. This technique aligns with common tradecraft where Office applications are leveraged as initial access or execution vectors due to their prevalence in enterprise environments. Detecting this relationship helps defenders spot suspicious child processes that may indicate malware execution, persistence mechanisms, or attempts to establish command-and-control. Security teams should investigate the parent Excel process, the context of the ActiveMicrosoftApp execution, and any subsequent network or file activity. While certain legitimate Office features could trigger this process in specific environments, its occurrence generally warrants further scrutiny to validate intent and rule out compromise.
 data_source:
     - Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name = "EXCEL.EXE" Processes.process_name IN ("WINPROJ.EXE", "FOXPROW.exe","SCHDPLUS.exe") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_excel_activemicrosoftapp_child_process_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.parent_process_name = "EXCEL.EXE" Processes.process_name IN ("WINPROJ.EXE", "FOXPROW.exe","SCHDPLUS.exe")
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_excel_activemicrosoftapp_child_process_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Microsoft Project has been discontinued since January 2010, so its presence is unlikely in modern environments. If a related child process is observed, verify its legitimacy to rule out potential misuse.
 references:

@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects suspicious PowerShell script execution using memory streams as a backing store, identified via EventCode 4104. It leverages PowerShell Script Block Logging to capture scripts that create new objects with memory streams, often used to decompress and execute payloads in memory. This activity is significant as it indicates potential in-memory execution of malicious code, bypassing traditional file-based detection. If confirmed malicious, this technique could allow attackers to execute arbitrary code, maintain persistence, or escalate privileges without leaving a trace on the disk.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText = *IO.MemoryStream* | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_using_memory_as_backing_store_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = *New-Object* ScriptBlockText = *IO.MemoryStream*
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_using_memory_as_backing_store_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: powershell may used this function to store out object into memory.
 references:

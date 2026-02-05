@@ -10,7 +10,19 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count as numNsLookup min(_time) as firstTime max(_time) as lastTime values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product values(Processes.parent_process) as parent_process values(Processes.process_name) as process_name values(Processes.parent_process_id) as parent_process_id values(Processes.user) as user from datamodel=Endpoint.Processes where Processes.process_name = "nslookup.exe" by Processes.dest _time span=1m | `drop_dm_object_name(Processes)` | eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots by dest | eval upperThreshold=(avgNsLookup + stdNsLookup *3) | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold, 1, 0) | search isOutlier=1 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `excessive_usage_of_nslookup_app_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count as numNsLookup min(_time) as firstTime max(_time) as lastTime values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product values(Processes.parent_process) as parent_process values(Processes.process_name) as process_name values(Processes.parent_process_id) as parent_process_id values(Processes.user) as user FROM datamodel=Endpoint.Processes
+      WHERE Processes.process_name = "nslookup.exe"
+      BY Processes.dest _time span=1m
+    | `drop_dm_object_name(Processes)`
+    | eventstats avg(numNsLookup) as avgNsLookup, stdev(numNsLookup) as stdNsLookup, count as numSlots
+      BY dest
+    | eval upperThreshold=(avgNsLookup + stdNsLookup *3)
+    | eval isOutlier=if(numNsLookup > 20 and numNsLookup >= upperThreshold, 1, 0)
+    | search isOutlier=1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `excessive_usage_of_nslookup_app_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances of nslookup.exe may be used.
 known_false_positives: No false positives have been identified at this time.
 references:

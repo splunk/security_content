@@ -9,7 +9,23 @@ description: The following analytic detects the rapid creation and deletion of W
 data_source:
     - Windows Event Log System 4720
     - Windows Event Log System 4726
-search: '| tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime from datamodel=Change where All_Changes.result_id=4720 OR All_Changes.result_id=4726 by _time span=1h All_Changes.user All_Changes.dest All_Changes.Account_Management.src All_Changes.Account_Management.src_user | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name("All_Changes")` | `drop_dm_object_name("Account_Management")` | transaction user connected=false maxspan=60m | eval create_result_id=mvindex(result_id, 0) | eval delete_result_id=mvindex(result_id, 1) | search create_result_id = 4720 delete_result_id=4726 | table firstTime lastTime count user src src_user dest create_result_id delete_result_id | `short_lived_windows_accounts_filter`'
+search: |-
+    | tstats `security_content_summariesonly` values(All_Changes.result_id) as result_id count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Change
+      WHERE All_Changes.result_id=4720
+        OR
+        All_Changes.result_id=4726
+      BY _time span=1h All_Changes.user
+         All_Changes.dest All_Changes.Account_Management.src All_Changes.Account_Management.src_user
+    | `security_content_ctime(lastTime)`
+    | `security_content_ctime(firstTime)`
+    | `drop_dm_object_name("All_Changes")`
+    | `drop_dm_object_name("Account_Management")`
+    | transaction user connected=false maxspan=60m
+    | eval create_result_id=mvindex(result_id, 0)
+    | eval delete_result_id=mvindex(result_id, 1)
+    | search create_result_id = 4720 delete_result_id=4726
+    | table firstTime lastTime count user src src_user dest create_result_id delete_result_id
+    | `short_lived_windows_accounts_filter`
 how_to_implement: 'This search requires you to have enabled your Group Management Audit Logs in your Local Windows Security Policy and be ingesting those logs.  More information on how to enable them can be found here: http://whatevernetworks.com/auditing-group-membership-changes-in-active-directory/. We also recommend adjsuting the maxspan and _time parameter to better fit your environment.'
 known_false_positives: It is possible that an administrator created and deleted an account in a short time period.  Verifying activity with an administrator is advised.
 references:

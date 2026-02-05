@@ -10,7 +10,24 @@ data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime from datamodel=Endpoint.Processes where (Processes.process_name IN ("arp.exe","at.exe","bash.exe","bitsadmin.exe","certutil.exe","cmd.exe","cscript.exe", "dsget.exe","dsquery.exe","find.exe","findstr.exe","fsutil.exe","hostname.exe","ipconfig.exe","ksh.exe","nbstat.exe", "net.exe","net1.exe","netdom.exe","netsh.exe","netstat.exe","nltest.exe","nslookup.exe","ntdsutil.exe","pathping.exe", "ping.exe","powershell.exe","pwsh.exe","qprocess.exe","query.exe","qwinsta.exe","reg.exe","rundll32.exe","sc.exe", "scrcons.exe","schtasks.exe","sh.exe","systeminfo.exe","tasklist.exe","tracert.exe","ver.exe","vssadmin.exe", "wevtutil.exe","whoami.exe","wmic.exe","wscript.exe","wusa.exe","zsh.exe") AND Processes.parent_process_name IN ("w3wp.exe", "http*.exe", "nginx*.exe", "php*.exe", "php-cgi*.exe","tomcat*.exe")) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_suspicious_child_process_spawned_from_webserver_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count max(_time) as lastTime, min(_time) as firstTime FROM datamodel=Endpoint.Processes
+      WHERE (
+            Processes.process_name IN ("arp.exe","at.exe","bash.exe","bitsadmin.exe","certutil.exe","cmd.exe","cscript.exe", "dsget.exe","dsquery.exe","find.exe","findstr.exe","fsutil.exe","hostname.exe","ipconfig.exe","ksh.exe","nbstat.exe", "net.exe","net1.exe","netdom.exe","netsh.exe","netstat.exe","nltest.exe","nslookup.exe","ntdsutil.exe","pathping.exe", "ping.exe","powershell.exe","pwsh.exe","qprocess.exe","query.exe","qwinsta.exe","reg.exe","rundll32.exe","sc.exe", "scrcons.exe","schtasks.exe","sh.exe","systeminfo.exe","tasklist.exe","tracert.exe","ver.exe","vssadmin.exe", "wevtutil.exe","whoami.exe","wmic.exe","wscript.exe","wusa.exe","zsh.exe")
+            AND
+            Processes.parent_process_name IN ("w3wp.exe", "http*.exe", "nginx*.exe", "php*.exe", "php-cgi*.exe","tomcat*.exe")
+        )
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name("Processes")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_child_process_spawned_from_webserver_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Legitimate OS functions called by vendor applications, baseline the environment and filter before enabling. Recommend throttle by dest/process_name
 references:

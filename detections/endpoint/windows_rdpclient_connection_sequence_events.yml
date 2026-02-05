@@ -8,7 +8,15 @@ status: production
 description: This analytic monitors Windows RDP client connection sequence events (EventCode 1024) from the Microsoft-Windows-TerminalServices-RDPClient/Operational log. These events track when RDP ClientActiveX initiates connection attempts to remote servers. The connection sequence is a critical phase of RDP where the client and server exchange settings and establish common parameters for the session. Monitoring these events can help identify unusual RDP connection patterns, potential lateral movement attempts, unauthorized remote access activity, and RDP connection chains that may indicate compromised systems. NOTE the analytic was written for Multi-Line as XML was not properly parsed out.
 data_source:
     - Windows Event Log Microsoft Windows TerminalServices RDPClient 1024
-search: '`wineventlog_rdp` EventCode=1024 | rename host as dest | stats count as "Event Count", min(_time) as firstTime, max(_time) as lastTime, values(Message) as messages by dest, source, LogName, EventCode, category | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_rdpclient_connection_sequence_events_filter`'
+search: |-
+    | `wineventlog_rdp` EventCode=1024
+      | rename host as dest
+      | stats count as "Event Count", min(_time) as firstTime, max(_time) as lastTime, values(Message) as messages
+        BY dest, source, LogName,
+           EventCode, category
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_rdpclient_connection_sequence_events_filter`
 how_to_implement: To successfully implement this detection, ensure Windows RDP Client Operational logs are being collected and forwarded to Splunk. Enable logging for "Microsoft-Windows-TerminalServices-RDPClient/Operational", via a new inputs.conf input. See references for more details.
 known_false_positives: Legitimate RDP connections from authorized administrators and users will generate these events. To reduce false positives, you should baseline normal RDP connection patterns in your environment, whitelist expected RDP connection chains between known administrative workstations and servers, and track authorized remote support sessions.
 references:

@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic identifies suspicious PowerShell script execution via EventCode 4104, where WMI performs an event query to list running processes or services. This detection leverages PowerShell Script Block Logging to capture and analyze script block text for specific WMI queries. This activity is significant as it is commonly used by malware and APT actors to map security applications or services on a compromised machine. If confirmed malicious, this could allow attackers to identify and potentially disable security defenses, facilitating further compromise and persistence within the environment.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*" OR ScriptBlockText="*Win32_Service*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `wmi_recon_running_process_or_services_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*" OR ScriptBlockText="*Win32_Service*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `wmi_recon_running_process_or_services_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Network administrator may used this command for checking purposes
 references:

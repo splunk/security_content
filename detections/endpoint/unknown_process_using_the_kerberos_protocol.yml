@@ -8,7 +8,33 @@ type: TTP
 description: The following analytic identifies a non-lsass.exe process making an outbound connection on port 88, which is typically used by the Kerberos authentication protocol. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and network traffic logs. This activity is significant because, under normal circumstances, only the lsass.exe process should interact with the Kerberos Distribution Center. If confirmed malicious, this behavior could indicate an adversary attempting to abuse the Kerberos protocol, potentially leading to unauthorized access or lateral movement within the network.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 3
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where Processes.process_name!=lsass.exe by _time Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | join  process_id dest [| tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic where All_Traffic.dest_port = 88 by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest  All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.direction All_Traffic.process_id | `drop_dm_object_name(All_Traffic)` | rename src as dest ] |  table _time dest parent_process_name process_name process_path process process_id dest_port | `unknown_process_using_the_kerberos_protocol_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+      WHERE Processes.process_name!=lsass.exe
+      BY _time Processes.action Processes.dest
+         Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+         Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
+         Processes.parent_process_path Processes.process Processes.process_exec
+         Processes.process_guid Processes.process_hash Processes.process_id
+         Processes.process_integrity_level Processes.process_name Processes.process_path
+         Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | join  process_id dest [
+    | tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
+      WHERE All_Traffic.dest_port = 88
+      BY All_Traffic.action All_Traffic.app All_Traffic.bytes
+         All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
+         All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
+         All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
+         All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
+         All_Traffic.user All_Traffic.vendor_product All_Traffic.direction
+         All_Traffic.process_id
+    | `drop_dm_object_name(All_Traffic)`
+    | rename src as dest ]
+    | table _time dest parent_process_name process_name process_path process process_id dest_port
+    | `unknown_process_using_the_kerberos_protocol_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: Custom applications may leverage the Kerberos protocol. Filter as needed.
 references:

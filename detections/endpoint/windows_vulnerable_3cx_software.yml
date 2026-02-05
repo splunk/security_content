@@ -8,7 +8,19 @@ status: production
 data_source:
     - Sysmon EventID 1
 description: The following analytic detects instances of the 3CXDesktopApp.exe with a FileVersion of 18.12.x, leveraging Sysmon logs. This detection focuses on identifying vulnerable versions 18.12.407 and 18.12.416 of the 3CX desktop app. Monitoring this activity is crucial as these specific versions have known vulnerabilities that could be exploited by attackers. If confirmed malicious, exploitation of this vulnerability could lead to unauthorized access, code execution, or further compromise of the affected system, posing significant security risks.
-search: '`sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.* | stats count min(_time) as firstTime max(_time) as lastTime by action dest original_file_name parent_process parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process process_exec process_guid process_hash process_id process_integrity_level process_name process_path user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_vulnerable_3cx_software_filter`'
+search: |-
+    | `sysmon` (process_name=3CXDesktopApp.exe OR OriginalFileName=3CXDesktopApp.exe)  FileVersion=18.12.*
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action dest original_file_name
+           parent_process parent_process_exec parent_process_guid
+           parent_process_id parent_process_name parent_process_path
+           process process_exec process_guid
+           process_hash process_id process_integrity_level
+           process_name process_path user
+           user_id vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_vulnerable_3cx_software_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: False positives may be present based on file version, modify the analytic to only look for version between 18.12.407 and 18.12.416 as needed.
 references:

@@ -8,7 +8,18 @@ type: TTP
 data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of the `Get-DomainOU` cmdlet, a part of the PowerView toolkit used for Windows domain enumeration. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this activity. Detecting `Get-DomainOU` usage is significant as adversaries may use it to gather information about organizational units within Active Directory, which can facilitate lateral movement or privilege escalation. If confirmed malicious, this activity could allow attackers to map the domain structure, aiding in further exploitation and persistence within the network.
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_find_domain_organizational_units_with_getdomainou_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*Get-DomainOU*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_find_domain_organizational_units_with_getdomainou_filter`
 how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators may leverage PowerSploit tools for legitimate reasons, filter as needed.
 references:

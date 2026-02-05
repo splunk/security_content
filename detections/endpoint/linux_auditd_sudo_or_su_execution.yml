@@ -8,7 +8,14 @@ type: Anomaly
 description: The following analytic detects the execution of the "sudo" or "su" command on a Linux operating system. It leverages data from Linux Auditd, focusing on process names and parent process names. This activity is significant because "sudo" and "su" commands are commonly used by adversaries to elevate privileges, potentially leading to unauthorized access or control over the system. If confirmed malicious, this activity could allow attackers to execute commands with root privileges, leading to severe security breaches, data exfiltration, or further system compromise.
 data_source:
     - Linux Auditd Proctitle
-search: '`linux_auditd`  proctitle IN ("*sudo *", "*su *") | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest | `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)` | `linux_auditd_sudo_or_su_execution_filter`'
+search: |-
+    | `linux_auditd`  proctitle IN ("*sudo *", "*su *")
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_sudo_or_su_execution_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:

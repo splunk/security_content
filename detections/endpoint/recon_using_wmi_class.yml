@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects suspicious PowerShell activity via EventCode 4104, where WMI performs event queries to gather information on running processes or services. This detection leverages PowerShell Script Block Logging to identify specific WMI queries targeting system information classes like Win32_Bios and Win32_OperatingSystem. This activity is significant as it often indicates reconnaissance efforts by an adversary to profile the compromised machine. If confirmed malicious, the attacker could gain detailed system information, aiding in further exploitation or lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 AND ScriptBlockText IN ("*SELECT*", "*Get-WmiObject*") AND ScriptBlockText IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_ComputerSystem*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*", "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `recon_using_wmi_class_filter`'
+search: |-
+    | `powershell` EventCode=4104 AND ScriptBlockText IN ("*SELECT*", "*Get-WmiObject*") AND ScriptBlockText IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_ComputerSystem*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*", "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `recon_using_wmi_class_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: network administrator may used this command for checking purposes
 references:

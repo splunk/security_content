@@ -8,7 +8,16 @@ type: Anomaly
 description: The following analytic detects suspicious file and directory discovery activities, which may indicate an attacker's effort to locate sensitive documents and files on a compromised system. This behavior often precedes data exfiltration, as adversaries seek to identify valuable or confidential information for theft. By identifying unusual or unauthorized attempts to browse or enumerate files and directories, this analytic helps security teams detect potential reconnaissance or preparatory actions by an attacker, enabling timely intervention to prevent data breaches or unauthorized access.
 data_source:
     - Linux Auditd Execve
-search: '`linux_auditd`  execve_command IN ("*grep*", "*find*") AND execve_command IN ("*.tif*", "*.tiff*", "*.gif*", "*.jpeg*", "*.jpg*", "*.jif*", "*.jfif*", "*.jp2*", "*.jpx*", "*.j2k*", "*.j2c*", "*.fpx*", "*.pcd*", "*.png*", "*.flv*", "*.pdf*", "*.mp4*", "*.mp3*", "*.gifv*", "*.avi*", "*.mov*", "*.mpeg*", "*.wav*", "*.doc*", "*.docx*", "*.xls*", "*.xlsx*", "*.svg*") | rename host as dest | rename comm as process_name | rename exe as process | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_auditd_file_and_directory_discovery_filter`'
+search: |-
+    | `linux_auditd`  execve_command IN ("*grep*", "*find*") AND execve_command IN ("*.tif*", "*.tiff*", "*.gif*", "*.jpeg*", "*.jpg*", "*.jif*", "*.jfif*", "*.jp2*", "*.jpx*", "*.j2k*", "*.j2c*", "*.fpx*", "*.pcd*", "*.png*", "*.flv*", "*.pdf*", "*.mp4*", "*.mp3*", "*.gifv*", "*.avi*", "*.mov*", "*.mpeg*", "*.wav*", "*.doc*", "*.docx*", "*.xls*", "*.xlsx*", "*.svg*")
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY argc execve_command dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_file_and_directory_discovery_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:

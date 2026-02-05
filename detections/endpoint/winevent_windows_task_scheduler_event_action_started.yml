@@ -9,7 +9,13 @@ description: The following analytic detects the execution of tasks registered in
 data_source:
     - Windows Event Log TaskScheduler 200
     - Windows Event Log TaskScheduler 201
-search: '`wineventlog_task_scheduler` EventCode IN ("200","201")  | stats count min(_time) as firstTime max(_time) as lastTime by TaskName dvc EventCode | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `winevent_windows_task_scheduler_event_action_started_filter`'
+search: |-
+    | `wineventlog_task_scheduler` EventCode IN ("200","201")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY TaskName dvc EventCode
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `winevent_windows_task_scheduler_event_action_started_filter`
 how_to_implement: Task Scheduler logs are required to be collected. Enable logging with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational] and renderXml=false. Note, not translating it in XML may require a proper extraction of specific items in the Message.
 known_false_positives: False positives will be present. Filter based on ActionName paths or specify keywords of interest.
 references:

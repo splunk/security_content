@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of suspicious PowerShell commands associated with Meterpreter modules, such as "MSF.Powershell" and "MSF.Powershell.Meterpreter". It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as it indicates potential post-exploitation actions, including credential dumping and persistence mechanisms. If confirmed malicious, an attacker could gain extensive control over the compromised system, escalate privileges, and maintain long-term access, posing a severe threat to the environment.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_load_module_in_meterpreter_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN ("*MSF.Powershell*","*MSF.Powershell.Meterpreter*","*MSF.Powershell.Meterpreter.Kiwi*","*MSF.Powershell.Meterpreter.Transport*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_load_module_in_meterpreter_filter`
 how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: False positives should be very limited as this is strict to MetaSploit behavior.
 references:

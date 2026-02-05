@@ -12,7 +12,38 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
     - Cisco Network Visibility Module Flow Data
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes where `process_powershell` AND Processes.process="*-w*h*" AND ( (Processes.process IN ("*robot*", "*captcha*", "*verify*", "*security check*", "*complete verification*")) OR ( (Processes.process IN ("*iwr *", "*Invoke-WebRequest*", "*wget *", "*curl *", "*Net.WebClient*", "*DownloadString*", "*[Convert]::FromBase64String*")) AND (Processes.process IN ("*iex*", "*Invoke-Expression*")) AND (Processes.process IN ("*click*", "*verify*", "*check*", "*human*", "*bot*", "*token*", "*challenge*")) ) OR ( Processes.process="*clipboard*" AND Processes.process="*iex*" AND (Processes.process="*FromBase64String*" OR Processes.process="*decode*") ) ) by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_fakecaptcha_clipboard_execution_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE `process_powershell`
+        AND
+        Processes.process="*-w*h*"
+        AND
+        ( (Processes.process IN ("*robot*", "*captcha*", "*verify*", "*security check*", "*complete verification*"))
+        OR
+        ( (Processes.process IN ("*iwr *", "*Invoke-WebRequest*", "*wget *", "*curl *", "*Net.WebClient*", "*DownloadString*", "*[Convert]::FromBase64String*"))
+        AND
+        (Processes.process IN ("*iex*", "*Invoke-Expression*"))
+        AND
+        (Processes.process IN ("*click*", "*verify*", "*check*", "*human*", "*bot*", "*token*", "*challenge*")) )
+        OR
+        ( Processes.process="*clipboard*"
+        AND
+        Processes.process="*iex*"
+        AND
+        (Processes.process="*FromBase64String*"
+        OR
+        Processes.process="*decode*") ) )
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_powershell_fakecaptcha_clipboard_execution_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, process path, and command-line executions from your endpoints. If you are using Sysmon, you must have at least Sysmon version 6.0.4 with EventID 1 configured. The full command line arguments are necessary for proper detection.
 known_false_positives: Legitimate PowerShell commands that use hidden windows for automation tasks may trigger this detection. The search specifically looks for patterns typical of FakeCAPTCHA campaigns. You may need to add additional exclusions for legitimate administrative activities in your environment by modifying the filter macro.
 references:

@@ -8,7 +8,20 @@ type: TTP
 description: The following analytic detects suspiciously long data written to the Windows registry, a behavior often linked to fileless malware or persistence techniques. It leverages Endpoint Detection and Response (EDR) telemetry, focusing on registry events with data lengths exceeding 512 characters. This activity is significant as it can indicate an attempt to evade traditional file-based defenses, making it crucial for SOC monitoring. If confirmed malicious, this technique could allow attackers to maintain persistence, execute code, or manipulate system configurations without leaving a conventional file footprint.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count from datamodel=Endpoint.Registry where Registry.registry_value_data=* by _time span=1h Registry.dest Registry.registry_path Registry.registry_value_name Registry.process_guid Registry.registry_value_data Registry.registry_key_name Registry.registry_hive Registry.status Registry.action Registry.process_id Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | eval reg_data_len = len(registry_value_data) | where reg_data_len > 512 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_payload_injection_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Registry
+      WHERE Registry.registry_value_data=*
+      BY _time span=1h Registry.dest
+         Registry.registry_path Registry.registry_value_name Registry.process_guid
+         Registry.registry_value_data Registry.registry_key_name Registry.registry_hive
+         Registry.status Registry.action Registry.process_id
+         Registry.user Registry.vendor_product
+    | `drop_dm_object_name(Registry)`
+    | eval reg_data_len = len(registry_value_data)
+    | where reg_data_len > 512
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_registry_payload_injection_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: No false positives have been identified at this time.
 references:

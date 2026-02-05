@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the deletion of services on a Linux machine. It leverages filesystem event logs to identify when service files within system directories (e.g., /etc/systemd/, /lib/systemd/, /run/systemd/) are deleted. This activity is significant because attackers may delete or modify services to disable security features or evade defenses. If confirmed malicious, this behavior could indicate an attempt to impair system functionality or execute a destructive payload, potentially leading to system instability or data loss. Immediate investigation is required to determine the responsible process and user.
 data_source:
     - Sysmon for Linux EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "*/lib/systemd/*", "*/run/systemd/*") Filesystem.file_path = "*.service" by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_deletion_of_services_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.action=deleted Filesystem.file_path IN ( "/etc/systemd/*", "*/lib/systemd/*", "*/run/systemd/*") Filesystem.file_path = "*.service"
+      BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+         Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_deletion_of_services_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
 known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
 references:

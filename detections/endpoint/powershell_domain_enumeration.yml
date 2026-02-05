@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of PowerShell commands used for domain enumeration, such as `get-netdomaintrust` and `get-adgroupmember`. It leverages PowerShell Script Block Logging (EventCode=4104) to capture and analyze the full command sent to PowerShell. This activity is significant as it often indicates reconnaissance efforts by an attacker to map out the domain structure and identify key users and groups. If confirmed malicious, this behavior could lead to further targeted attacks, privilege escalation, and unauthorized access to sensitive information within the domain.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN (*get-netdomaintrust*, *get-netforesttrust*, *get-addomain*, *get-adgroupmember*, *get-domainuser*) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_domain_enumeration_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText IN (*get-netdomaintrust*, *get-netforesttrust*, *get-addomain*, *get-adgroupmember*, *get-domainuser*)
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_domain_enumeration_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: It is possible there will be false positives, filter as needed.
 references:

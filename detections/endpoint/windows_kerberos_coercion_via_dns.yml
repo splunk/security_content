@@ -10,7 +10,15 @@ data_source:
     - Windows Event Log Security 4662
     - Windows Event Log Security 5136
     - Windows Event Log Security 5137
-search: '`wineventlog_security`  (((EventCode="5136" OR EventCode="5137") ObjectClass="dnsNode" ObjectDN="*1UWhRCA*" ObjectDN="*AAAAA*" ObjectDN="*YBAAAA*") OR (EventCode="4662" AdditionalInfo="*1UWhRCA*" AdditionalInfo="*AAAAA*" AdditionalInfo="*YBAAAA*")) | eval Object=coalesce(lower(ObjectGUID), trim(AdditionalInfo2, "%{}")) | eval user=coalesce(SubjectUserName, Caller_User_Name) | stats min(_time) as firstTime, max(_time) as lastTime values(EventCode) as event_codes values(ObjectDN) as dns_record values(user) as user values(Computer) as dest by Object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_kerberos_coercion_via_dns_filter`'
+search: |-
+    | `wineventlog_security`  (((EventCode="5136" OR EventCode="5137") ObjectClass="dnsNode" ObjectDN="*1UWhRCA*" ObjectDN="*AAAAA*" ObjectDN="*YBAAAA*") OR (EventCode="4662" AdditionalInfo="*1UWhRCA*" AdditionalInfo="*AAAAA*" AdditionalInfo="*YBAAAA*"))
+      | eval Object=coalesce(lower(ObjectGUID), trim(AdditionalInfo2, "%{}"))
+      | eval user=coalesce(SubjectUserName, Caller_User_Name)
+      | stats min(_time) as firstTime, max(_time) as lastTime values(EventCode) as event_codes values(ObjectDN) as dns_record values(user) as user values(Computer) as dest
+        BY Object
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_kerberos_coercion_via_dns_filter`
 how_to_implement: To successfully implement this search, you ned to be ingesting Event codes `4662`, `5136`, `5137`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. For these event codes to be generated, specific SACLs are required.
 known_false_positives: Creating a DNS entry matching this pattern is very unusual in a production environment. Filter as needed.
 references:

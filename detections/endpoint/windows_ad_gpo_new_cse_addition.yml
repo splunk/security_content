@@ -8,7 +8,31 @@ type: TTP
 data_source:
     - Windows Event Log Security 5136
 description: This detection identifies when a a new client side extension is added to an Active Directory Group Policy using the Group Policy Management Console.
-search: '`wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest by ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})" | rex field=new_value max_match=10000 "(?P<new_values>\{.*?\})" | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})" | mvexpand new_values | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\-[A-Z|\d]+\}") | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType | eval newPolicy=if(policyType like "%",policyType,new_values) | join ObjectDN  [| search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update | stats latest(displayName) as displayName by distinguishedName | eval ObjectDN=upper(distinguishedName)] | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName by ObjectDN | `windows_ad_gpo_new_cse_addition_filter`'
+search: |-
+    | `wineventlog_security` EventCode=5136 ObjectClass=groupPolicyContainer AttributeLDAPDisplayName=gPCMachineExtensionNames
+      | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest
+        BY ObjectClass ObjectDN OpCorrelationID
+           src_user SubjectLogonId
+      | rex field=old_value max_match=10000 "(?P<old_values>\{.*?\})"
+      | rex field=new_value max_match=10000 "(?P<new_values>\{.*?\})"
+      | rex field=ObjectDN max_match=10000 "CN=(?P<policy_guid>\{.*?\})"
+      | mvexpand new_values
+      | where NOT new_values IN (old_values,"{00000000-0000-0000-0000-000000000000}",policy_guid) AND match(new_values, "^\{[A-Z
+      | \d]+\-[A-Z
+      | \d]+\-[A-Z
+      | \d]+\-[A-Z
+      | \d]+\-[A-Z
+      | \d]+\}")
+      | lookup msad_guid_lookup guid as new_values OUTPUTNEW displayName as policyType
+      | eval newPolicy=if(policyType like "%",policyType,new_values)
+      | join ObjectDN  [
+      | search `admon` objectCategory="CN=Group-Policy-Container*" admonEventType=Update
+      | stats latest(displayName) as displayName
+        BY distinguishedName
+      | eval ObjectDN=upper(distinguishedName)]
+      | stats values(OpCorrelationID) as OpCorrelationID values(src_user) as src_user values(SubjectLogonId) as SubjectLogonId values(newPolicy) as newPolicy values(displayName) as policyName
+        BY ObjectDN
+      | `windows_ad_gpo_new_cse_addition_filter`
 how_to_implement: Ensure you are ingesting Active Directory audit logs - specifically event 5136, admon data is also used to display the display name of the GPO. See lantern article in references for further on how to onboard AD audit data. Ensure the wineventlog_security and admon macros are configured with the correct indexes.
 known_false_positives: General usage of group policy will trigger this detection, also please not GPOs modified using tools such as SharpGPOAbuse will not generate the AD audit events which enable this detection.
 references:

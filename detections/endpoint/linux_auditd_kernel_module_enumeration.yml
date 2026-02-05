@@ -8,7 +8,16 @@ type: Anomaly
 description: The following analytic identifies the use of the 'kmod' process to list kernel modules on a Linux system. This detection leverages data from Linux Auditd, focusing on process names and command-line executions. While listing kernel modules is not inherently malicious, it can be a precursor to loading unauthorized modules using 'insmod'. If confirmed malicious, this activity could allow an attacker to load kernel modules, potentially leading to privilege escalation, persistence, or other malicious actions within the system.
 data_source:
     - Linux Auditd Syscall
-search: '`linux_auditd` type=SYSCALL comm=lsmod | rename host as dest | stats count min(_time) as firstTime max(_time) as lastTime by comm exe  syscall uid ppid pid success dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `linux_auditd_kernel_module_enumeration_filter`'
+search: |-
+    | `linux_auditd` type=SYSCALL comm=lsmod
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY comm exe syscall
+           uid ppid pid
+           success dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_kernel_module_enumeration_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: False positives are present based on automated tooling or system administrative usage. Filter as needed.
 references:

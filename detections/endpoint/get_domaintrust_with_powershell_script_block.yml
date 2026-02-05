@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of the Get-DomainTrust command from PowerView using PowerShell Script Block Logging (EventCode=4104). This method captures the full command sent to PowerShell, allowing for detailed inspection. Identifying this activity is significant because it may indicate an attempt to gather domain trust information, which is often a precursor to lateral movement or privilege escalation. If confirmed malicious, this activity could enable an attacker to map trust relationships within the domain, potentially leading to further exploitation and compromise of additional systems.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*get-domaintrust*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `get_domaintrust_with_powershell_script_block_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*get-domaintrust*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `get_domaintrust_with_powershell_script_block_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: It is possible certain system management frameworks utilize this command to gather trust information.
 references:

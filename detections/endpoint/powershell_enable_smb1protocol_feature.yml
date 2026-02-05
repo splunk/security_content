@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the enabling of the SMB1 protocol via `powershell.exe`. It leverages PowerShell script block logging (EventCode 4104) to identify the execution of the `Enable-WindowsOptionalFeature` cmdlet with the `SMB1Protocol` parameter. This activity is significant because enabling SMB1 can facilitate lateral movement and file encryption by ransomware, such as RedDot. If confirmed malicious, this action could allow an attacker to propagate through the network, encrypt files, and potentially disrupt business operations.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*" ScriptBlockText = "*SMB1Protocol*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_enable_smb1protocol_feature_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*" ScriptBlockText = "*SMB1Protocol*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_enable_smb1protocol_feature_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
 known_false_positives: network operator may enable or disable this windows feature.
 references:

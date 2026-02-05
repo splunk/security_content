@@ -8,7 +8,17 @@ type: Hunting
 description: The following analytic detects the shutdown of the Windows Event Log service by leveraging Windows Event ID 1100. This event is logged every time the service stops, including during normal system shutdowns. Monitoring this activity is crucial as it can indicate attempts to cover tracks or disable logging. If confirmed malicious, an attacker could hide their activities, making it difficult to trace their actions and investigate further incidents. Analysts should verify if the shutdown was planned and review other alerts and data sources for additional suspicious behavior.
 data_source:
     - Windows Event Log Security 1100
-search: '`wineventlog_security` EventCode=1100 | stats count min(_time) as firstTime max(_time) as lastTime by action app change_type dest dvc name object_attrs object_category service service_name signature signature_id status subject vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_event_logging_service_has_shutdown_filter`'
+search: |-
+    | `wineventlog_security` EventCode=1100
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action app change_type
+           dest dvc name
+           object_attrs object_category service
+           service_name signature signature_id
+           status subject vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_event_logging_service_has_shutdown_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows event logs from your hosts. In addition, the Splunk Windows TA is needed.
 known_false_positives: It is possible the Event Logging service gets shut down due to system errors or legitimate administration tasks. Investigate the cause of this issue and apply additional filters as needed.
 references:

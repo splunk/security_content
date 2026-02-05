@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the execution of the `Get-DomainGroup` cmdlet using PowerShell Script Block Logging (EventCode=4104). This cmdlet, part of the PowerView tool, is used to enumerate domain groups within a Windows domain. The detection leverages script block text to identify this specific command. Monitoring this activity is crucial as it may indicate an adversary or Red Team performing reconnaissance to gain situational awareness and map out Active Directory structures. If confirmed malicious, this activity could lead to further exploitation, including privilege escalation and lateral movement within the network.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `getdomaingroup_with_powershell_script_block_filter`'
+search: |-
+    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainGroup*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `getdomaingroup_with_powershell_script_block_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators or power users may use this PowerView functions for troubleshooting.
 references:

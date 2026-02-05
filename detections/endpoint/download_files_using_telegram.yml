@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects suspicious file downloads by the Telegram application on a Windows system. It leverages Sysmon EventCode 15 to identify instances where Telegram.exe creates files with a Zone.Identifier, indicating a download. This activity is significant as it may indicate an adversary using Telegram to download malicious tools, such as network scanners, for further exploitation. If confirmed malicious, this behavior could lead to network mapping, lateral movement, and potential compromise of additional systems within the network.
 data_source:
     - Sysmon EventID 15
-search: '`sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier" | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc file_hash file_name file_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Contents Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `download_files_using_telegram_filter`'
+search: |-
+    | `sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest dvc file_hash
+           file_name file_path process_exec
+           process_guid process_id process_name
+           process_path signature signature_id
+           user_id vendor_product Contents
+           Image
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `download_files_using_telegram_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and TargetFilename from your endpoints or Events that monitor filestream events which is happened when process download something. (EventCode 15) If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: normal download of file in telegram app. (if it was a common app in network)
 references:

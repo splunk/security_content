@@ -8,7 +8,18 @@ type: Anomaly
 description: The following analytic detects a PowerShell script that enumerates camera devices on the targeted host. This detection leverages PowerShell Script Block Logging, specifically looking for commands querying Win32_PnPEntity for camera-related information. This activity is significant as it is commonly observed in DCRat malware, which collects camera data to send to its command-and-control server. If confirmed malicious, this behavior could indicate an attempt to gather sensitive visual information from the host, potentially leading to privacy breaches or further exploitation.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText= "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText IN ("*Image*", "*Camera*") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_gather_victim_host_information_camera_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText= "* Win32_PnPEntity *" ScriptBlockText= "*SELECT*" ScriptBlockText= "*WHERE*" ScriptBlockText = "*PNPClass*" ScriptBlockText IN ("*Image*", "*Camera*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_gather_victim_host_information_camera_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Administrators may execute this powershell command to get hardware information related to camera on $dest$.
 references:

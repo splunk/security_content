@@ -8,7 +8,17 @@ type: TTP
 description: The following analytic detects the usage of the `plutil` command to modify plist files on macOS systems. It leverages osquery to monitor process events, specifically looking for executions of `/usr/bin/plutil`. This activity is significant because adversaries can use `plutil` to alter plist files, potentially adding malicious binaries or command-line arguments that execute upon user logon or system startup. If confirmed malicious, this could allow attackers to achieve persistence, execute arbitrary code, or escalate privileges, posing a significant threat to the system's security.
 data_source:
     - osquery
-search: '`osquery_macro` name=es_process_events columns.path=/usr/bin/plutil | rename columns.* as * | stats count  min(_time) as firstTime max(_time) as lastTime by username host cmdline pid path parent signing_id | rename username as user, cmdline as process, path as process_path, host as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `macos_plutil_filter`'
+search: |-
+    | `osquery_macro` name=es_process_events columns.path=/usr/bin/plutil
+      | rename columns.* as *
+      | stats count  min(_time) as firstTime max(_time) as lastTime
+        BY username host cmdline
+           pid path parent
+           signing_id
+      | rename username as user, cmdline as process, path as process_path, host as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `macos_plutil_filter`
 how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
 known_false_positives: Administrators using plutil to change plist files.
 references:

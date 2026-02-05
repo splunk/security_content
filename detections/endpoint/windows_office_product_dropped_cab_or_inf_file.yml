@@ -9,7 +9,31 @@ description: The following analytic detects Office products writing .cab or .inf
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 11
     - Windows Event Log Security 4688 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes where `process_office_products` by _time span=1h Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` |rename process_guid as proc_guid | join proc_guid, _time [ | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name IN ("*.cab", "*.inf") by _time span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.file_path Filesystem.process_guid | `drop_dm_object_name(Filesystem)` |rename process_guid as proc_guid | fields _time dest file_create_time file_name file_path process_name process_path process proc_guid] | dedup file_create_time | table dest, process_name, process, file_create_time, file_name, file_path, proc_guid | `windows_office_product_dropped_cab_or_inf_file_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+      WHERE `process_office_products`
+      BY _time span=1h Processes.action
+         Processes.dest Processes.original_file_name Processes.parent_process
+         Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+         Processes.parent_process_name Processes.parent_process_path Processes.process
+         Processes.process_exec Processes.process_guid Processes.process_hash
+         Processes.process_id Processes.process_integrity_level Processes.process_name
+         Processes.process_path Processes.user Processes.user_id
+         Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | rename process_guid as proc_guid
+    | join proc_guid, _time [
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.file_name IN ("*.cab", "*.inf")
+      BY _time span=1h Filesystem.dest
+         Filesystem.file_create_time Filesystem.file_name Filesystem.file_path
+         Filesystem.process_guid
+    | `drop_dm_object_name(Filesystem)`
+    | rename process_guid as proc_guid
+    | fields _time dest file_create_time file_name file_path process_name process_path process proc_guid]
+    | dedup file_create_time
+    | table dest, process_name, process, file_create_time, file_name, file_path, proc_guid
+    | `windows_office_product_dropped_cab_or_inf_file_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem` node.
 known_false_positives: The query is structured in a way that `action` (read, create) is not defined. Review the results of this query, filter, and tune as necessary. It may be necessary to generate this query specific to your endpoint product.
 references:

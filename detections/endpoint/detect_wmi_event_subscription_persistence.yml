@@ -8,7 +8,16 @@ type: TTP
 description: The following analytic identifies the creation of WMI Event Subscriptions, which can be used to establish persistence or perform privilege escalation. It detects EventID 19 (EventFilter creation), EventID 20 (EventConsumer creation), and EventID 21 (FilterToConsumerBinding creation) from Sysmon logs. This activity is significant because WMI Event Subscriptions can execute code with elevated SYSTEM privileges, making it a powerful persistence mechanism. If confirmed malicious, an attacker could maintain long-term access, escalate privileges, and execute arbitrary code, posing a severe threat to the environment.
 data_source:
     - Sysmon EventID 20
-search: '`sysmon` EventID=20 | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc object object_category object_path signature signature_id src status user user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `detect_wmi_event_subscription_persistence_filter`'
+search: |-
+    | `sysmon` EventID=20
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest dvc object
+           object_category object_path signature
+           signature_id src status
+           user user_id vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `detect_wmi_event_subscription_persistence_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with that provide WMI Event Subscription from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventID 19, 20 and 21. Tune and filter known good to limit the volume.
 known_false_positives: It is possible some applications will create a consumer and may be required to be filtered. For tuning, add any additional LOLBin's for further depth of coverage.
 references:

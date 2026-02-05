@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the use of `GetProcAddress` in PowerShell script blocks, leveraging PowerShell Script Block Logging (EventCode=4104). This method captures the full command sent to PowerShell, which is then logged in Windows event logs. The presence of `GetProcAddress` is unusual for typical PowerShell scripts and often indicates malicious activity, as many attack toolkits use it to achieve code execution. If confirmed malicious, this activity could allow an attacker to execute arbitrary code, potentially leading to system compromise. Analysts should review parallel processes and the entire logged script block for further investigation.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText=*getprocaddress* | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_fileless_process_injection_via_getprocaddress_filter`'
+search: |-
+    | `powershell` EventCode=4104 ScriptBlockText=*getprocaddress*
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_fileless_process_injection_via_getprocaddress_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: Limited false positives. Filter as needed.
 references:

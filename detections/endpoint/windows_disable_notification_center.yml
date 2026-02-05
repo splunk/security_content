@@ -8,7 +8,21 @@ type: Anomaly
 description: The following analytic detects the modification of the Windows registry to disable the Notification Center on a host machine. It leverages data from the Endpoint.Registry data model, specifically looking for changes to the "DisableNotificationCenter" registry value set to "0x00000001." This activity is significant because disabling the Notification Center can be a tactic used by RAT malware to hide its presence and subsequent actions. If confirmed malicious, this could allow an attacker to operate stealthily, potentially leading to further system compromise and data exfiltration.
 data_source:
     - Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_value_name= "DisableNotificationCenter" Registry.registry_value_data = "0x00000001") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_disable_notification_center_filter`'
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
+      WHERE (
+            Registry.registry_value_name= "DisableNotificationCenter" Registry.registry_value_data = "0x00000001"
+        )
+      BY Registry.action Registry.dest Registry.process_guid
+         Registry.process_id Registry.registry_hive Registry.registry_path
+         Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
+         Registry.registry_value_type Registry.status Registry.user
+         Registry.vendor_product
+    | `drop_dm_object_name(Registry)`
+    | where isnotnull(registry_value_data)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_disable_notification_center_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin or user may choose to disable this windows features.
 references:

@@ -8,7 +8,13 @@ status: production
 data_source:
     - Windows Event Log Security 5136
 description: The following analytic detects modifications to the SID History attribute in Active Directory by leveraging event code 5136. This detection uses logs from the `wineventlog_security` data source to identify changes to the sIDHistory attribute. Monitoring this activity is crucial as the SID History attribute can be exploited by adversaries to inherit permissions from other accounts, potentially granting unauthorized access. If confirmed malicious, this activity could allow attackers to maintain persistent access and escalate privileges within the domain, posing a significant security risk.
-search: '`wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674" | stats values(ObjectDN) as ObjectDN by _time, Computer, SubjectUserName, AttributeValue | rename Computer as dest | `windows_ad_sid_history_attribute_modified_filter`'
+search: |-
+    | `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=sIDHistory OperationType="%%14674"
+      | stats values(ObjectDN) as ObjectDN
+        BY _time, Computer, SubjectUserName,
+           AttributeValue
+      | rename Computer as dest
+      | `windows_ad_sid_history_attribute_modified_filter`
 how_to_implement: To successfully implement this search, you ned to be ingesting eventcode `5136`. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled. Additionally, a SACL needs to be created for AD objects in order to ingest attribute modifications.
 known_false_positives: Domain mergers and migrations may generate large volumes of false positives for this analytic.
 references:

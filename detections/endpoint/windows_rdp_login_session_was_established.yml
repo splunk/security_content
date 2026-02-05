@@ -8,7 +8,19 @@ type: Anomaly
 description: The following analytic detects instances where a successful Remote Desktop Protocol (RDP) login session was established, as indicated by Windows Security Event ID 4624 with Logon Type 10. This event confirms that a user has not only provided valid credentials but has also initiated a full interactive RDP session. It is a key indicator of successful remote access to a Windows system. When correlated with Event ID 1149, which logs RDP authentication success, this analytic helps distinguish between mere credential acceptance and actual session establishment—critical for effective monitoring and threat detection.
 data_source:
     - Windows Event Log Security 4624
-search: '`wineventlog_security`  EventCode=4624 Logon_Type=10 | stats count min(_time) as firstTime max(_time) as lastTime by action app authentication_method dest dvc process process_id process_name process_path signature signature_id src src_port status subject user user_group vendor_product Logon_Type | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_rdp_login_session_was_established_filter`'
+search: |-
+    | `wineventlog_security`  EventCode=4624 Logon_Type=10
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action app authentication_method
+           dest dvc process
+           process_id process_name process_path
+           signature signature_id src
+           src_port status subject
+           user user_group vendor_product
+           Logon_Type
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_rdp_login_session_was_established_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows Event Logs from domain controllers as well as member servers and workstations. The Advanced Security Audit policy setting `Audit Logon` within `Logon/Logoff` needs to be enabled.
 known_false_positives: This detection can catch for third party application updates or installation. In this scenario false positive filter is needed.
 references:

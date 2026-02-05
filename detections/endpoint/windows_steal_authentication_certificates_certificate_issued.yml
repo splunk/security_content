@@ -8,7 +8,14 @@ type: Anomaly
 description: The following analytic identifies the issuance of a new certificate by Certificate Services - AD CS, detected via Event ID 4887. This event logs the requester user context, DNS hostname of the requesting machine, and the request time. Monitoring this activity is crucial as it can indicate potential misuse of authentication certificates. If confirmed malicious, an attacker could use the issued certificate to impersonate users, escalate privileges, or maintain persistence within the environment. This detection helps in identifying and correlating suspicious certificate-related activities for further investigation.
 data_source:
     - Windows Event Log Security 4887
-search: '`wineventlog_security`  EventCode=4887 | stats count min(_time) as firstTime max(_time) as lastTime by dest, name, Requester, action, Attributes, Subject | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `windows_steal_authentication_certificates_certificate_issued_filter`'
+search: |-
+    | `wineventlog_security`  EventCode=4887
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest, name, Requester,
+           action, Attributes, Subject
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_steal_authentication_certificates_certificate_issued_filter`
 how_to_implement: To implement this analytic, enhanced Audit Logging must be enabled on AD CS and within Group Policy Management for CS server. See Page 115 of first reference.
 known_false_positives: False positives will be generated based on normal certificates issued. Leave enabled to generate Risk, as this is meant to be an anomaly analytic.
 references:

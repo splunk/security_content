@@ -8,7 +8,18 @@ type: TTP
 description: The following analytic detects the use of .NET classes in PowerShell to download a URL payload directly into memory, a common fileless malware staging technique. It leverages PowerShell Script Block Logging (EventCode=4104) to identify suspicious PowerShell commands involving `system.net.webclient`, `system.net.webrequest`, and `IO.MemoryStream`. This activity is significant as it indicates potential fileless malware execution, which is harder to detect and can bypass traditional file-based defenses. If confirmed malicious, this technique could allow attackers to execute code in memory, evade detection, and maintain persistence in the environment.
 data_source:
     - Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*") AND ScriptBlockText="*IO.MemoryStream*" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `powershell_webrequest_using_memory_stream_filter`'
+search: |-
+    | `powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*") AND ScriptBlockText="*IO.MemoryStream*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `powershell_webrequest_using_memory_stream_filter`
 how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: No false positives have been identified at this time.
 references:

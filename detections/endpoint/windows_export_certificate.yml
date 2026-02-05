@@ -8,7 +8,15 @@ type: Anomaly
 description: The following analytic detects the export of a certificate from the Windows Certificate Store. It leverages the Certificates Lifecycle log channel, specifically event ID 1007, to identify this activity. Monitoring certificate exports is crucial as certificates can be used for authentication to VPNs or private resources. If malicious actors export certificates, they could potentially gain unauthorized access to sensitive systems or data, leading to significant security breaches.
 data_source:
     - Windows Event Log CertificateServicesClient 1007
-search: '`certificateservices_lifecycle` EventCode=1007 | xmlkv UserData_Xml | stats count min(_time) as firstTime max(_time) as lastTime by Computer, SubjectName, UserData_Xml | rename Computer as dest | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)` | `windows_export_certificate_filter`'
+search: |-
+    | `certificateservices_lifecycle` EventCode=1007
+      | xmlkv UserData_Xml
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY Computer, SubjectName, UserData_Xml
+      | rename Computer as dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_export_certificate_filter`
 how_to_implement: To implement this analytic, you must collect Microsoft-Windows-CertificateServicesClient-Lifecycle-System/Operational or Microsoft-Windows-CertificateServicesClient-Lifecycle-User/Operational.
 known_false_positives: False positives may be generated based on an automated process or service that exports certificates on the regular. Review is required before setting to alert. Monitor for abnormal processes performing an export.
 references:
