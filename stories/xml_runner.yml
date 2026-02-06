@@ -1,0 +1,19 @@
+name: XML Runner
+id: 2c459fd3-c013-40ee-ae2a-e7aae40b738d
+version: 1
+date: '2026-02-03'
+author: Teoderick Contreras, Splunk
+status: production
+description: This detection identifies activity associated with an XML runner loader that leverages Microsoft Management Console (MSC) files to execute a malicious payload on a targeted host. The loader abuses legitimate Windows utilities to parse XML content and invoke embedded commands, allowing execution without dropping a traditional executable. This technique helps the threat evade signature-based defenses by blending into normal administrative behavior. Detection focuses on anomalous MSC file execution, suspicious XML structures, and unusual parent-child process relationships indicative of living-off-the-land abuse.
+narrative: This malware family is characterized by its use of trusted Windows components to deliver and execute payloads while minimizing its forensic footprint. By relying on XML-based loaders and MSC files, the threat avoids common executable-based detection mechanisms and blends into routine system activity. The family is often observed in targeted intrusions, favoring stealth and persistence over noisy propagation. Its modular design allows operators to adapt payloads per victim, making it a flexible tool for reconnaissance, lateral movement, or follow-on malware deployment.
+references:
+- https://www.securonix.com/blog/analyzing-fluxconsole-using-tax-themed-lures-threat-actors-exploit-windows-management-console-to-deliver-backdoor-payloads/
+- https://research.checkpoint.com/2019/microsoft-management-console-mmc-vulnerabilities/
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
