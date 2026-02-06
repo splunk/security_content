@@ -1,0 +1,18 @@
+name: Suspicious MCP activities
+id: 541aa57e-b4f8-4cfd-9e3b-d34361239ae8 
+version: 1
+date: '2026-02-04'
+author: Rod Soto, Splunk
+status: production
+description: |
+  Leverage Splunk searches to detect and investigate suspicious and malicious activities within monitored MCP (Model Context Protocol) server deployments. This analytic story addresses detection of malicious tool usage patterns, data exfiltration attempts, privilege escalation, and abuse of legitimate MCP server capabilities.
+narrative: |
+   This analytic story addresses the security challenge of detecting malicious activities within authorized Model Context Protocol (MCP) server deployments - identifying when legitimate MCP servers and AI tool integrations are being abused, exploited, or misused to conduct unauthorized activities, exfiltrate data, or bypass security controls. Even properly authorized MCP server deployments pose significant risks when abused, including data exfiltration through legitimate tool capabilities (where attackers leverage filesystem, database, or API access tools to steal sensitive data), privilege escalation through tool chaining (combining multiple tool calls to achieve unauthorized access), lateral movement via cloud service integrations, and abuse of automation capabilities to conduct reconnaissance or maintain persistence. MCP servers provide AI assistants with powerful capabilities including filesystem operations, database queries, API interactions, cloud service access, and code execution. While these tools serve legitimate business purposes, they can be weaponized through prompt injection attacks, compromised credentials, insider threats, or AI jailbreaking techniques. These detections monitor tool invocation patterns, data access behaviors, authentication anomalies, and command execution sequences to identify malicious abuse of monitored MCP infrastructure. By correlating MCP server logs (tool calls, parameters, responses), endpoint telemetry (process behavior, file operations, network connections), authentication events, and behavioral analytics such as unusual tool usage patterns, high-volume data extraction, sensitive file access, abnormal API call sequences, and time-of-day anomalies, security teams can detect malicious MCP abuse early, investigate attack chains leveraging AI capabilities, assess the scope of data compromise, and respond to threats before significant damage occurs. 
+tags:
+  category:
+    - Adversary Tactics
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  usecase: Advanced Threat Detection
