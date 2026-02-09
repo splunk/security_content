@@ -90,6 +90,6 @@ tags:
 tests:
 - name: True Positive Test
   attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/event_stream_events/stream_events.log
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/event_stream_events/stream_events_2.log
     source: CrowdStrike:Event:Streams
     sourcetype: CrowdStrike:Event:Streams:JSON
