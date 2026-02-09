@@ -1,7 +1,7 @@
 name: Windows Service Creation Using Registry Entry
 id: 25212358-948e-11ec-ad47-acde48001122
-version: 15
-date: '2025-05-02'
+version: 16
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -54,6 +54,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - PlugX
   - CISA AA23-347A
   - China-Nexus Threat Activity

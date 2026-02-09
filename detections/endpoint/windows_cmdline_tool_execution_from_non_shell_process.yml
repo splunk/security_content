@@ -1,7 +1,7 @@
 name: Windows Cmdline Tool Execution From Non-Shell Process
 id: 2afa393f-b88d-41b7-9793-623c93a2dfde
-version: 8
-date: '2025-12-04'
+version: 9
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -92,6 +92,7 @@ tags:
     - FIN7
     - Water Gamayun
     - Tuoni
+  - SolarWinds Active Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1059.007

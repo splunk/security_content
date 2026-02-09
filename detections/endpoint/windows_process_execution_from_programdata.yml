@@ -1,7 +1,7 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: 6
-date: '2026-01-13'
+version: 7
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -50,6 +50,7 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - StealC Stealer
   - SnappyBee
   - XWorm

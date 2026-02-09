@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Command
 id: 1f44c126-c26a-4dd3-83bb-0f9a0f03ecc3
-version: 5
-date: '2025-09-18'
+version: 6
+date: '2026-02-09'
 author: Steven Dick
 status: production
 type: TTP
@@ -73,6 +73,7 @@ rba:
     type: signature
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - Scheduled Tasks
   - Ransomware
   - Quasar RAT

@@ -1,7 +1,7 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 12
-date: '2025-11-20'
+version: 13
+date: '2026-02-09'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -76,6 +76,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - Windows Discovery Techniques
   - Gozi Malware
   - Medusa Ransomware

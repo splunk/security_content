@@ -1,7 +1,7 @@
 name: Windows DisableAntiSpyware Registry
 id: 23150a40-9301-4195-b802-5bb4f43067fb
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-09'
 author: Rod Soto, Jose Hernandez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -55,6 +55,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - Azorult
   - Ryuk Ransomware
   - Windows Registry Abuse

@@ -1,7 +1,7 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
-version: 11
-date: '2025-12-10'
+version: 12
+date: '2026-02-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -30,6 +30,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - IcedID
   - BlackSuit Ransomware
   - Windows Persistence Techniques
