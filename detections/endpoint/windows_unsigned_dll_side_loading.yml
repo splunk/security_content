@@ -64,7 +64,7 @@ tags:
     - Salt Typhoon
     - NjRAT
     - Earth Alux
-  - SolarWinds Active Exploitation
+    - SolarWinds Active Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1574.001
