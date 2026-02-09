@@ -86,7 +86,7 @@ tags:
     - Windows System Binary Proxy Execution MSIExec
     - Water Gamayun
     - Cisco Network Visibility Module Analytics
-  - SolarWinds Active Exploitation
+    - SolarWinds Active Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1218.007

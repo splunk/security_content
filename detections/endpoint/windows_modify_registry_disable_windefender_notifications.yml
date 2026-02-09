@@ -62,7 +62,7 @@ tags:
   analytic_story:
     - CISA AA23-347A
     - RedLine Stealer
-  - SolarWinds Active Exploitation
+    - SolarWinds Active Exploitation
   asset_type: Endpoint
   atomic_guid:
     - 12e03af7-79f9-4f95-af48-d3f12f28a260

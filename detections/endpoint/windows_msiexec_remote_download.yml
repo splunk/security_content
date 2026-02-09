@@ -84,7 +84,7 @@ tags:
     - Water Gamayun
     - Cisco Network Visibility Module Analytics
     - StealC Stealer
-  - SolarWinds Active Exploitation
+    - SolarWinds Active Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1218.007
