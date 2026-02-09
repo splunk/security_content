@@ -1,7 +1,7 @@
 name: Windows Hijack Execution Flow Version Dll Side Load
 id: 8351340b-ac0e-41ec-8b07-dd01bf32d6ea
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -51,6 +51,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - Brute Ratel C4
   - XWorm
   - Malicious Inno Setup Loader

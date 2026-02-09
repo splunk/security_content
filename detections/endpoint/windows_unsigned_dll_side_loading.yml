@@ -1,7 +1,7 @@
 name: Windows Unsigned DLL Side-Loading
 id: 5a83ce44-8e0f-4786-a775-8249a525c879
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -64,6 +64,7 @@ tags:
     - Salt Typhoon
     - NjRAT
     - Earth Alux
+  - SolarWinds Active Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1574.001

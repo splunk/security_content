@@ -1,7 +1,7 @@
 name: Windows Known Abused DLL Loaded Suspiciously
 id: dd6d1f16-adc0-4e87-9c34-06189516b803
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-09'
 author: Steven Dick
 status: production
 type: TTP
@@ -60,6 +60,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds Active Exploitation
   - Windows Defense Evasion Tactics
   - Living Off The Land
   asset_type: Endpoint
