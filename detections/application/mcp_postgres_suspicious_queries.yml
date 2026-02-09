@@ -10,6 +10,7 @@ data_source:
   - MCP Server
 search: |
   `mcp_server` method=query direction=inbound
+  | eval dest=host
   | eval query_lower=lower('params.query')
   | eval suspicious_query='params.query'
   | eval is_priv_escalation=if(like(query_lower, "%update%users%role%admin%") OR like(query_lower, "%grant%admin%") OR like(query_lower, "%grant%superuser%"), 1, 0)
@@ -21,23 +22,16 @@ search: |
       is_credential_theft=1, "Credential Theft",
       is_recon=1, "Schema Reconnaissance",
       1=1, "Unknown")
-  | stats 
-      count as event_count,
-      earliest(_time) as first_seen,
-      latest(_time) as last_seen,
-      values(suspicious_query) as suspicious_queries,
-      values(attack_type) as attack_types,
-      dc(attack_type) as attack_diversity
-      by host
-  | eval 
-      first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S"),
-      last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S")
-  | sort - event_count
+  | stats count min(_time) as firstTime max(_time) as lastTime values(suspicious_query) as suspicious_queries values(attack_type) as attack_types dc(attack_type) as attack_diversity by dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | table dest firstTime lastTime count suspicious_queries attack_types attack_diversity
   | `mcp_postgres_suspicious_queries_filter`
 how_to_implement: Install the MCP Technology Add-on from https://splunkbase.splunk.com/app/8377 and ensure MCP PostgreSQL server logging is enabled and forwarding to the right index with proper params.query field extraction. Schedule the search to run every 5-15 minutes and configure alerting thresholds based on your environment.
 known_false_positives: Legitimate database administrators performing user management tasks, ORM frameworks querying information_schema for schema validation, password reset functionality, and CI/CD pipelines running database migrations.
 references:
   - https://splunkbase.splunk.com/app/8377
+  - https://www.nodejs-security.com/blog/the-tale-of-the-vulnerable-mcp-database-server
 tags:
   analytic_story:
     - Suspicious MCP activities

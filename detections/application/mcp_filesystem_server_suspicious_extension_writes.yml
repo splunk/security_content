@@ -12,8 +12,7 @@ search: |
   `mcp_server` method IN ("write_file", "create_file") direction=inbound
   | spath output=file_path path=params.path
   | spath output=file_content path=params.content
-  | spath output=json_host path=host
-  | eval host=coalesce(json_host, host)
+  | eval dest=host
   | eval file_extension=lower(mvindex(split(file_path, "."), -1))
   | where file_extension IN ("exe", "dll", "ps1", "bat", "cmd", "vbs", "js", "sh", "scr", "msi", "hta")
   | eval 
@@ -21,23 +20,14 @@ search: |
       is_system_path=if(like(file_path_lower, "%windows%") OR like(file_path_lower, "%system32%") OR like(file_path_lower, "%program files%") OR like(file_path_lower, "%/usr%") OR like(file_path_lower, "%/bin%") OR like(file_path_lower, "%/etc%"), 1, 0), 
       is_startup_path=if(like(file_path_lower, "%startup%") OR like(file_path_lower, "%autorun%") OR like(file_path_lower, "%cron%") OR like(file_path_lower, "%launchd%") OR like(file_path_lower, "%systemd%") OR like(file_path_lower, "%init.d%"), 1, 0),
       content_length=len(file_content)
-  | stats 
-      count as event_count, 
-      earliest(_time) as first_seen, 
-      latest(_time) as last_seen, 
-      values(file_path) as file_paths, 
-      values(file_extension) as extensions, 
-      max(is_system_path) as targets_system_path, 
-      max(is_startup_path) as targets_startup_path, 
-      avg(content_length) as avg_content_size 
-      by host, method
+  | stats count min(_time) as firstTime max(_time) as lastTime values(file_path) as file_paths values(file_extension) as extensions max(is_system_path) as targets_system_path max(is_startup_path) as targets_startup_path avg(content_length) as avg_content_size by dest, method
   | eval 
-      first_seen=strftime(first_seen, "%Y-%m-%d %H:%M:%S"), 
-      last_seen=strftime(last_seen, "%Y-%m-%d %H:%M:%S"),
       targets_system_path=if(isnull(targets_system_path), 0, targets_system_path),
       targets_startup_path=if(isnull(targets_startup_path), 0, targets_startup_path)
-  | sort - targets_startup_path, - targets_system_path, - event_count
-  | table host first_seen last_seen event_count method extensions file_paths targets_system_path targets_startup_path avg_content_size
+  | sort - targets_startup_path, - targets_system_path, - count
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | table dest firstTime lastTime count method extensions file_paths targets_system_path targets_startup_path avg_content_size
   | `mcp_filesystem_server_suspicious_extension_writes_filter`
 how_to_implement: Install the MCP Technology Add-on from Splunkbase and ensure MCP filesystem server logging is enabled with proper field extraction for params.path and params.content. Schedule the search to run every 5-15 minutes and tune alerting based on whether system or startup paths are targeted.
 known_false_positives: Legitimate developers using LLM assistants to generate scripts or automation tools, DevOps engineers creating deployment scripts, and system administrators generating batch files for maintenance tasks.
