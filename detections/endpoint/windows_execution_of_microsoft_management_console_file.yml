@@ -13,7 +13,27 @@ data_source:
 search: |  
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes 
-  where (Processes.process_name=mmc.exe)  Processes.process = "*.msc*" Processes.process != "*:\Windows\System32*"
+  where (Processes.process_name=mmc.exe)  
+  AND Processes.process = "*.msc*" 
+  AND Processes.process IN (
+    "*\\PerfLogs\\*",
+    "*\\Users\\Administrator\\Music\\*",
+    "*\\Users\\Default\\*",
+    "*\\Users\\Public\\*",
+    "*\\Windows\\debug\\*",
+    "*\\Windows\\fonts\\*",
+    "*\\Windows\\Media\\*",
+    "*\\Windows\\repair\\*",
+    "*\\Windows\\servicing\\*",
+    "*Recycle.bin*",
+    "*\\Download*",
+    "*\\temp\\*",
+    "*\\programdata\\*"
+    "*\\Users\\Administrator\\Music\\*",
+    "*:\\Windows\\Prefetch\\*", 
+    "*:\\Windows\\Cursors\\*", 
+    "*:\\Windows\\INF\\*"
+    )
   by Processes.action
   Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
