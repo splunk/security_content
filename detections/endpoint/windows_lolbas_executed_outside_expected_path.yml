@@ -1,37 +1,51 @@
 name: Windows LOLBAS Executed Outside Expected Path
 id: 326fdf44-b90c-4d2e-adca-1fd140b10536
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2025-12-18'
 author: Steven Dick
 status: production
-type: TTP
-description: The following analytic identifies a LOLBAS process being executed outside
-  of it's expected location. Processes being executed outside of expected locations
-  may be an indicator that an adversary is attempting to evade defenses or execute
-  malicious code. The LOLBAS project documents Windows native binaries that can be
-  abused by threat actors to perform tasks like executing malicious code.
+type: Anomaly
+description: |
+  The following analytic identifies a LOLBAS process being executed outside of it's expected location.
+  Processes being executed outside of expected locations may be an indicator that an adversary is attempting to evade defenses or execute malicious code.
+  The LOLBAS project documents Windows native binaries that can be abused by threat actors to perform tasks like executing malicious code.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-search: '|  tstats `security_content_summariesonly` latest(Processes.parent_process)
-  as parent_process, latest(Processes.process) as process, latest(Processes.process_guid)
-  as process_guid count, min(_time) AS firstTime, max(_time) AS lastTime FROM datamodel=Endpoint.Processes
-  where Processes.process != "unknown" AND NOT Processes.process_path IN ("*\\Program
-  Files*","*\\PROGRA~*","*\\Windows\\System32\\*","*\\Windows\\Syswow64\\*") by Processes.action
-  Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
-  Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
-  Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
-  Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
-  Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  |`drop_dm_object_name(Processes)` | lookup lolbas_file_path lolbas_file_name as
-  process_name OUTPUT description as desc | lookup lolbas_file_path lolbas_file_name
-  as process_name lolbas_file_path as process_path OUTPUT description as is_lolbas_path
-  | search desc!="false" AND is_lolbas_path="false" | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_lolbas_executed_outside_expected_path_filter`'
+  - Sysmon EventID 1
+  - Windows Event Log Security 4688
+search: |
+  | tstats `security_content_summariesonly`
+    count min(_time) as firstTime
+          max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes where
+
+    NOT Processes.process_path IN (
+      "*\\PROGRA~*",
+      "*\\Program Files \(x86\)\\",
+      "*\\Program Files\\",
+      "*:\\Windows\\System32\\*",
+      "*:\\Windows\\SysWOW64\\*",
+      "*:\\Windows\\WinSxS\\*"
+    )
+
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+     Processes.parent_process_name Processes.parent_process_path Processes.process
+     Processes.process_exec Processes.process_guid Processes.process_hash
+     Processes.process_id Processes.process_integrity_level Processes.process_name
+     Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
+  |`drop_dm_object_name(Processes)`
+  | lookup lolbas_file_path lolbas_file_name as process_name OUTPUT description as desc
+  | lookup lolbas_file_path lolbas_file_name as process_name lolbas_file_path as process_path OUTPUT description as is_lolbas_path
+  | search desc!="false" AND is_lolbas_path="false"
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_lolbas_executed_outside_expected_path_filter`
 how_to_implement: To implement this search, you must ingest logs that contain the
   process name and process path, such as with Sysmon EID 1.
-known_false_positives: Vendors will often copy system exectables to a different path
-  for application usage.
+known_false_positives: |
+  Vendors, third party software or update processes may use versions of the binaries listed in the lookup table from non-standard paths.
+  It is recommended to tune this analytic to exclude any known legitimate software or paths in your environment
 references:
 - https://attack.mitre.org/techniques/T1036/
 - https://attack.mitre.org/techniques/T1036/005/
@@ -50,8 +64,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: The user $user$ executed a LOLBAS [$process_name$] from an unexpected location
-    on $dest$
+  message: The user $user$ executed a LOLBAS [$process_name$] from an unexpected location [$process_path$] with CommandLine [$process$] on $dest$
   risk_objects:
   - field: user
     type: user

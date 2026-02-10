@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Oracle E-Business Suite Correlation
 id: 9e995d21-6870-43de-acd9-76f372bcf323
-version: 1
-date: '2025-10-23'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -32,7 +32,7 @@ search: |
           sum(eval(signature_id==65454)) as sig_template_preview
           sum(eval(signature_id==65455)) as sig_sync_servlet
           sum(eval(signature_id IN (65377,65378,65413,65414,65415,65456))) as sig_exploit_activity
-    by src_ip dest_ip
+    by src dest
   | where (
             (
               sig_exploit_activity >= 1 
@@ -71,12 +71,12 @@ references:
   - https://labs.watchtowr.com/well-well-well-its-another-day-oracle-e-business-suite-pre-auth-rce-chain-cve-2025-61882well-well-well-its-another-day-oracle-e-business-suite-pre-auth-rce-chain-cve-2025-61882/
   - https://cloud.google.com/blog/topics/threat-intelligence/oracle-ebusiness-suite-zero-day-exploitation
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$" and "$src_ip$"
-  search: '%original_detection_search% | search  dest_ip = "$dest_ip$" and src_ip = "$src_ip$"'
+- name: View the detection results for - "$dest$" and "$src$"
+  search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -84,15 +84,15 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Multiple Oracle E-Business Suite exploitation signatures $signature_id$ detected from source IP $src_ip$ to destination IP $dest_ip$
+  message: Multiple Oracle E-Business Suite exploitation signatures $signature_id$ detected from source IP $src$ to destination IP $dest$
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 25
   threat_objects:
     - field: signature
       type: signature
-    - field: src_ip
+    - field: src
       type: ip_address
 tags:
   analytic_story: 

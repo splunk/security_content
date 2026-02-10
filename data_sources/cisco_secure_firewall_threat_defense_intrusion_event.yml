@@ -149,7 +149,7 @@ fields:
 - transport
 - vendor_product
 output_fields:
-- src_ip
+- src
 - dest
 - dest_port
 - signature

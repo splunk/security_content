@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Blocked Connection
 id: 17e9b764-3a2b-4d36-9751-32d13ce4718b
-version: 3
-date: '2025-07-10'
+version: 5
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -11,7 +11,7 @@ data_source:
 - Cisco Secure Firewall Threat Defense Connection Event
 search: |
   `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
-  | stats count min(_time) as firstTime max(_time) as lastTime by src_ip, dest, dest_port, transport, rule, url, EVE_Process, action
+  | stats count min(_time) as firstTime max(_time) as lastTime by src, dest, dest_port, transport, rule, url, EVE_Process, action
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)` 
   | `cisco_secure_firewall___blocked_connection_filter`
@@ -28,12 +28,12 @@ known_false_positives: Blocked connection events are generated via an Access Con
 references:
 - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -41,9 +41,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A connection request from $src_ip$ to $dest$ has been blocked according to the configured firewall rule $rule$
+  message: A connection request from $src$ to $dest$ has been blocked according to the configured firewall rule $rule$
   risk_objects:
-  - field: src_ip
+  - field: src
     type: system
     score: 25
   threat_objects:

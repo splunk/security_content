@@ -1,7 +1,7 @@
 name: Previously Seen Cloud Instance Modifications By User - Initial
 id: f36dc403-739d-42f3-83a3-49237d8654c5
-version: 1
-date: '2020-07-29'
+version: 2
+date: '2026-01-14'
 author: Rico Valdez, Splunk
 type: Baseline
 status: production
@@ -14,7 +14,7 @@ search: '| tstats earliest(_time) as firstTimeSeen, latest(_time) as lastTimeSee
   relative_time(now(), "-7d@d"), 1, 0) | outputlookup previously_seen_cloud_instance_modifications_by_user'
 how_to_implement: You must be ingesting the approrpiate cloud infrastructure logs
   and have the latest Change Datamodel accelerated.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

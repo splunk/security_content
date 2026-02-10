@@ -1,0 +1,20 @@
+name: StealC Stealer
+id: ffe19aee-edd5-4065-871c-bafb681dd7a5
+version: 1
+date: '2025-12-15'
+author: Teoderick Contreras, Splunk
+status: production
+description: StealC is a lightweight information-stealing malware primarily focused on harvesting browser-stored data. It targets popular browsers such as Chrome, Edge, Firefox, and Chromium-based variants to extract saved credentials, cookies, autofill data, browsing history, and session tokens. StealC abuses browser SQLite databases and encryption APIs to decrypt stored passwords, enabling account takeover and further compromise. The malware often runs silently in user context, evading detection through minimal footprint, obfuscation, and rapid data exfiltration to command-and-control servers. Detection typically involves monitoring unauthorized access to browser profile directories, suspicious process behavior interacting with browser credential stores, and outbound network traffic to known StealC infrastructure.
+narrative: StealC emerged as a malware-as-a-service information stealer designed to provide cybercriminals with an easy and low-cost way to harvest sensitive user data. First observed in the wild in the early 2020s, specifically in 2023, it gained popularity due to its simplicity, reliability, and focus on browser-stored information. StealC primarily targets credentials, cookies, and session data from widely used browsers, enabling account hijacking and follow-on attacks. Its modular design and frequent updates allow operators to adapt quickly, making StealC a common payload in phishing campaigns, cracked software installers, and malicious downloads distributed across multiple threat ecosystems.
+references:
+- https://malpedia.caad.fkie.fraunhofer.de/details/win.stealc
+tags:
+  category:
+  - Data Destruction
+  - Malware
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - High Priority Intrusion Classification
 id: ec99bb81-c31b-4837-8c7d-1b32aa70b337
-version: 1
-date: '2025-04-28'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -34,7 +34,7 @@ search: |
           values(rule) as rule 
           values(transport) as transport 
           values(app) as app
-          by src_ip, dest_ip, signature, class_desc
+          by src, dest, signature, class_desc
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_secure_firewall___high_priority_intrusion_classification_filter`
@@ -51,12 +51,12 @@ known_false_positives: Some intrusion events that are linked to these classifica
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$dest_ip$" and "$src_ip$"
-  search: '%original_detection_search% | search  dest_ip = "$dest_ip$" and src_ip = "$src_ip$"'
+- name: View the detection results for - "$dest$" and "$src$"
+  search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -64,15 +64,15 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A high priority intrusion event with classification ($class_desc$) was detected from $src_ip$ to $dest_ip$, indicating potential suspicious activity.
+  message: A high priority intrusion event with classification ($class_desc$) was detected from $src$ to $dest$, indicating potential suspicious activity.
   risk_objects:
-    - field: dest_ip
+    - field: dest
       type: system
       score: 25
   threat_objects:
     - field: signature
       type: signature
-    - field: src_ip
+    - field: src
       type: ip_address
 tags:
   analytic_story: 

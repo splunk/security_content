@@ -1,7 +1,7 @@
 name: Detect Baron Samedit CVE-2021-3156
 id: 93fbec4e-0375-440c-8db3-4508eca470c4
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -19,7 +19,7 @@ how_to_implement: Splunk Universal Forwarder running on Linux systems, capturing
   from the /var/log directory. The vulnerability is exposed when a non privledged
   user tries passing in a single \ character at the end of the command while using
   the shell and edit flags.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
   message: Potential Baron Samedit behavior on $dest$

@@ -1,7 +1,7 @@
 name: Azure AD New Federated Domain Added
 id: a87cd633-076d-4ab2-9047-977751a3c1a0
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-01-20'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -62,6 +62,7 @@ tags:
   - Azure Active Directory Persistence
   - Scattered Lapsus$ Hunters
   - Hellcat Ransomware
+  - Storm-0501 Ransomware
   asset_type: Azure Active Directory
   mitre_attack_id:
   - T1484.002

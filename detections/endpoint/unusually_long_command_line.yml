@@ -1,7 +1,7 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-01-14'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -27,8 +27,9 @@ search: '| tstats `security_content_summariesonly` count min(_time) as firstTime
   | `drop_dm_object_name("Processes")` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`|  eval
   processlen=len(process) | eventstats stdev(processlen) as stdev, avg(processlen)
   as avg by dest | stats max(processlen) as maxlen, values(stdev) as stdevperhost,
-  values(avg) as avgperhost by dest, user, process_name, process | `unusually_long_command_line_filter`
-  |eval threshold = 3 | where maxlen > ((threshold*stdevperhost) + avgperhost)'
+  values(avg) as avgperhost by dest, user, process_name, process
+  |eval threshold = 3 | where maxlen > ((threshold*stdevperhost) + avgperhost)
+  | `unusually_long_command_line_filter`'
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,

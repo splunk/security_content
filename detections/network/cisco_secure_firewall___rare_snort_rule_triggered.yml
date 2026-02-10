@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Rare Snort Rule Triggered
 id: e20313d2-7d63-4fcf-b2d9-d6e12c6c7bd7
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
@@ -13,7 +13,7 @@ search: |
   `cisco_secure_firewall` EventType=IntrusionEvent earliest=-7d
   | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime 
           values(signature) as signature 
-          values(src_ip) as src_ip 
+          values(src) as src 
           values(dest) as dest 
           values(dest_port) as dest_port
           values(transport) as transport

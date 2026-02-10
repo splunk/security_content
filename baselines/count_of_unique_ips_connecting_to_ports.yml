@@ -1,7 +1,7 @@
 name: Count of Unique IPs Connecting to Ports
 id: 9f3bae5a-9fe3-49df-8c84-5edc51d84b7f
-version: 1
-date: '2017-09-13'
+version: 2
+date: '2026-01-14'
 author: David Dorsey, Splunk
 type: Baseline
 status: production
@@ -12,7 +12,7 @@ search: '| tstats `security_content_summariesonly` count dc(All_Traffic.src) as 
   | sort - count'
 how_to_implement: To successfully implement this search, you must be ingesting network
   traffic, and populating the Network_Traffic data model.
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

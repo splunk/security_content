@@ -1,7 +1,7 @@
 name: Detect DNS Data Exfiltration using pretrained model in DSDL
 id: 92f65c3a-168c-11ed-71eb-0242ac120012
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-20'
 status: experimental
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
@@ -61,6 +61,7 @@ tags:
   - DNS Hijacking
   - Suspicious DNS Traffic
   - Command And Control
+  - VoidLink Cloud-Native Linux Malware
   asset_type: Endpoint
   mitre_attack_id:
   - T1048.003

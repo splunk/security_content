@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Snort Rule Triggered Across Multiple Hosts
 id: a4c76d0a-56b6-44be-814b-939746c4d406
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -12,7 +12,7 @@ data_source:
 search: |
   `cisco_secure_firewall` EventType=IntrusionEvent
   | bin _time span=1h
-  | stats dc(src_ip) as unique_src_ips, values(src_ip) as src_ip 
+  | stats dc(src) as unique_src_ips, values(src) as src 
           min(_time) as firstTime max(_time) as lastTime
           Values(dest) as dest
           Values(dest_port) as dest_port
@@ -37,12 +37,12 @@ known_false_positives: False positives should be minimal. Simultaneous vulnerabi
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$" and "$signature_id$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$" and signature_id = "$signature_id$"'
+- name: View the detection results for - "$src$" and "$signature_id$"
+  search: '%original_detection_search% | search  src = "$src$" and signature_id = "$signature_id$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$" and "$signature_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$", "$signature_id$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$" and "$signature_id$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$signature_id$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -52,7 +52,7 @@ drilldown_searches:
 rba:
   message: The Snort rule $signature$ was triggered by $unique_src_ips$ unique internal hosts within a one-hour window, indicating potential widespread exploitation or coordinated targeting activity.
   risk_objects:
-    - field: src_ip
+    - field: src
       type: system
       score: 25
   threat_objects:

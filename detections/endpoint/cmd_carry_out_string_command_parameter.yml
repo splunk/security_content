@@ -1,7 +1,7 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 15
-date: '2025-08-22'
+version: 16
+date: '2025-12-16'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -43,6 +43,7 @@ references:
 - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
   analytic_story:
+  - StealC Stealer
   - PlugX
   - Warzone RAT
   - Data Destruction

@@ -1,7 +1,7 @@
 name: Circle CI Disable Security Job
 id: 4a2fdd41-c578-4cd4-9ef7-980e352517f2
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -23,7 +23,7 @@ search: '`circleci` | rename vcs.committer_name as user vcs.subject as commit_me
   mandatory_job_executed=0 | eval phase="build" | rex field=url "(?<repository>[^\/]*\/[^\/]*)$"
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `circle_ci_disable_security_job_filter`'
 how_to_implement: You must index CircleCI logs.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
 - name: View the detection results for - "$user$"

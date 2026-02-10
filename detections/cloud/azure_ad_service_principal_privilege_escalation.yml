@@ -1,7 +1,7 @@
 name: Azure AD Service Principal Privilege Escalation
 id: 29eb39d3-2bc8-49cc-99b3-35593191a588
-version: 6
-date: '2025-06-24'
+version: 7
+date: '2026-01-14'
 author: Dean Luxton
 data_source:
   - Azure Active Directory Add app role assignment to service principal
@@ -29,7 +29,7 @@ how_to_implement:
   The Splunk Add-on for Microsoft Cloud Services add-on is required
   to ingest EntraID audit logs via Azure EventHub. See reference for links for further
   details on how to onboard this log source.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
   - https://splunkbase.splunk.com/app/3110
   - https://splunk.github.io/splunk-add-on-for-microsoft-cloud-services/Install/

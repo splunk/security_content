@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.20.0
+  version: 5.22.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -32,9 +32,9 @@ apps:
 - uid: 1621
   title: Splunk_SA_CIM
   appid: Splunk_SA_CIM
-  version: 6.3.0
+  version: 6.4.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-common-information-model-cim_630.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-common-information-model-cim_640.tgz
 - uid: 6553
   title: Splunk Add-on for Okta Identity Cloud
   appid: Splunk_TA_okta_identity_cloud
@@ -161,9 +161,9 @@ apps:
 - uid: 3110
   title: Splunk Add-on for Microsoft Cloud Services
   appid: SPLUNK_TA_MICROSOFT_CLOUD_SERVICES
-  version: 6.0.0
+  version: 6.1.0
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_600.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-cloud-services_610.tgz
 - uid: 4055
   title: Splunk Add-on for Microsoft Office 365
   appid: SPLUNK_ADD_ON_FOR_MICROSOFT_OFFICE_365
@@ -221,10 +221,10 @@ apps:
 - uid: 3471
   title: Splunk Add-on for AppDynamics
   appid: Splunk_TA_AppDynamics
-  version: 3.1.6
+  version: 3.1.7
   description: The Splunk Add-on for AppDynamics enables you to easily configure data
     inputs to pull data from AppDynamics' REST APIs
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_316.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_317.tgz
 - uid: 4221
   title: Cisco NVM Add-on for Splunk
   appid: TA-Cisco-NVM

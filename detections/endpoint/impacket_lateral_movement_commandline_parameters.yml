@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement Commandline Parameters
 id: 8ce07472-496f-11ec-ab3b-3e22fbd008af
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-01-20'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -84,6 +84,7 @@ tags:
   - Graceful Wipe Out Attack
   - Compromised Windows Host
   - CISA AA22-277A
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1021.002

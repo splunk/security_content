@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Possibly Compromised Host
 id: 244a77bb-3b2a-46f1-bf2c-b4f7cd29276d
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: experimental
 type: Anomaly
@@ -16,7 +16,7 @@ search: |
           values(signature) as signature 
           values(rule) as rule 
           min(_time) as firstTime max(_time) as lastTime 
-          by src_ip dest dest_port transport Impact app impact_desc class_desc MitreAttackGroups InlineResult InlineResultReason
+          by src dest dest_port transport Impact app impact_desc class_desc MitreAttackGroups InlineResult InlineResultReason
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `cisco_secure_firewall___possibly_compromised_host_filter`
@@ -33,12 +33,12 @@ known_false_positives: False positives are directly related to their snort rules
 references:
   - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+- name: View the detection results for - "$src$"
+  search: '%original_detection_search% | search  src = "$src$"'
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time)
+- name: View risk events for the last 7 days for - "$src$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
     as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
     as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
     as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
@@ -46,9 +46,9 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: A high impact IntrusionEvent was detected from $src_ip$ to $dest$.
+  message: A high impact IntrusionEvent was detected from $src$ to $dest$.
   risk_objects:
-    - field: src_ip
+    - field: src
       type: system
       score: 35
   threat_objects:

@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 12
-date: '2025-10-14'
+version: 13
+date: '2026-01-20'
 author: Steven Dick, Sebastian Wurl, Splunk Community
 status: production
 type: Anomaly
@@ -106,6 +106,7 @@ tags:
   - Interlock Ransomware
   - GhostRedirector IIS Module and Rungan Backdoor
   - Scattered Lapsus$ Hunters
+  - Storm-0501 Ransomware
   asset_type: Endpoint
   mitre_attack_id:
   - T1219
