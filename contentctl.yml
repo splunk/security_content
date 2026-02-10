@@ -270,4 +270,4 @@ apps:
   appid: mcp-ta
   version: 0.1.2
   description: description of app
-  hardcoded_path: https://github.com/rsfl/mcp-ta/raw/refs/heads/main/mcp-ta_012.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
