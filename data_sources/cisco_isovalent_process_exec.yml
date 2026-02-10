@@ -10,7 +10,7 @@ sourcetype: cisco:isovalent:processExec
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404
-  version: 3.5.3
+  version: 3.6.0
 fields:
 - _time
 - cluster_name
