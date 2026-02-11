@@ -1,7 +1,7 @@
 name: ASL AWS ECR Container Upload Unknown User
 id: 886a8f46-d7e2-4439-b9ba-aec238e31732
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ search: '`amazon_security_lake` api.operation=PutImage NOT `aws_ecr_users_asl`
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `asl_aws_ecr_container_upload_unknown_user_filter`'
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://attack.mitre.org/techniques/T1204/003/
 drilldown_searches:

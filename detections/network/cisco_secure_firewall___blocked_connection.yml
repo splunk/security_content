@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Blocked Connection
 id: 17e9b764-3a2b-4d36-9751-32d13ce4718b
-version: 4
-date: '2026-06-01'
+version: 5
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

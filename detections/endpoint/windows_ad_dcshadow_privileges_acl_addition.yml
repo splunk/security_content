@@ -1,7 +1,7 @@
 name: Windows AD DCShadow Privileges ACL Addition
 id: ae915743-1aa8-4a94-975c-8062ebc8b723
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-01-14'
 author: Dean Luxton
 status: production
 type: TTP
@@ -42,7 +42,7 @@ how_to_implement: Ensure you are ingesting Active Directory audit logs - specifi
   event 5136. See lantern article in references for further on how to onboard AD audit
   data. Ensure the wineventlog_security macro is configured with the correct indexes
   and include lookups for SID resolution if evt_resolve_ad_obj is set to 0.
-known_false_positives: Unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.labofapenetrationtester.com/2018/04/dcshadow.html
 - https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1

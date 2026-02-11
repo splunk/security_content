@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Intrusion Events by Threat Activity
 id: b71e57e8-c571-4ff1-ae13-bc4384a9e891
-version: 6
-date: '2026-06-01'
+version: 7
+date: '2026-01-21'
 author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Screensaver Event Trigger Execution
 id: 58cea3ec-1f6d-11ec-8560-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ how_to_implement: To successfully implement this search, you must be ingesting d
   product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
   used for this search is typically generated via logs that report reads and writes
   to the registry.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://attack.mitre.org/techniques/T1546/002/
 - https://dmcxblue.gitbook.io/red-team-notes-2-0/red-team-techniques/privilege-escalation/untitled-3/screensaver

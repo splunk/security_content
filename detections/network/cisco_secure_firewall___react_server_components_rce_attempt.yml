@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - React Server Components RCE Attempt
 id: d36459b1-7901-401a-a67e-44426c15b168
 version: 3
-date: '2026-01-28'
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Discover DNS records
 id: c096f721-8842-42ce-bfc7-74bd8c72b7c3
-version: 1
-date: '2025-01-16'
+version: 2
+date: '2026-01-14'
 author: Jose Hernandez, Splunk
 type: Baseline
 status: production
@@ -21,7 +21,7 @@ how_to_implement: To successfully implement this search, you must be ingesting D
   logs, and populating the Network_Resolution data model. Also make sure that the
   cim_corporate_web_domains and cim_corporate_email_domains lookups are populated
   with the domains owned by your corporation
-known_false_positives: none
+known_false_positives: No false positives have been identified at this time.
 references: []
 tags:
   analytic_story:

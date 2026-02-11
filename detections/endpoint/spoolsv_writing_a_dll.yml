@@ -1,7 +1,7 @@
 name: Spoolsv Writing a DLL
 id: d5bf5cf2-da71-11eb-92c2-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-01-14'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -34,7 +34,7 @@ how_to_implement: To successfully implement this search you need to be ingesting
   on process that include the name of the process responsible for the changes from
   your endpoints into the `Endpoint` datamodel in the `Processes` node and `Filesystem`
   node.
-known_false_positives: Unknown.
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
 - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675

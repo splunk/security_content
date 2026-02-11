@@ -1,7 +1,7 @@
 name: GitHub Enterprise Delete Branch Ruleset
 id: 6169ea23-3719-439f-957a-0ea5174b70e2
-version: 3
-date: '2025-10-27'
+version: 4
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -22,7 +22,7 @@ search: '`github_enterprise` action=repository_ruleset.destroy
   | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
   | `github_enterprise_delete_branch_ruleset_filter`'
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
 - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk

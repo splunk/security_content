@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - High Priority Intrusion Classification
 id: ec99bb81-c31b-4837-8c7d-1b32aa70b337
-version: 2
-date: '2026-06-01'
+version: 3
+date: '2026-01-21'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

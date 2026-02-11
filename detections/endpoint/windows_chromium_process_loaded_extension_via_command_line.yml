@@ -1,7 +1,7 @@
 name: Windows Chromium Process Loaded Extension via Command-Line
 id: 1b8a468a-52e3-4206-b14a-73165441684c
-version: 1
-date: '2026-01-12'
+version: 2
+date: '2026-01-29'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,6 +34,7 @@ how_to_implement: |
 known_false_positives: Developers or IT admins loading unpacked extensions for testing or deployment purposes.
 references:
   - https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
+  - https://peter.sh/experiments/chromium-command-line-switches/
 drilldown_searches:
   - name: View the detection results for - "$user$" and "$dest$"
     search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -49,7 +50,7 @@ drilldown_searches:
     earliest_offset: $info_min_time$
     latest_offset: $info_max_time$
 rba:
-  message: A $process_name$ process attempted to load an extension via the commandline $process$ on $dest$.
+  message: $process_name$ was launched by $parent_process_name$ on $dest$ by user $user$ and attempted to load a browser extension via command-line $process$.
   risk_objects:
     - field: dest
       type: system

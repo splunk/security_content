@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Bypass 2FA
 id: 65862e8a-799a-4509-ae1c-4602aa139580
-version: 1
-date: '2025-07-08'
+version: 2
+date: '2026-01-14'
 author: Patrick Bareiss, Splunk
 data_source:
 - Cisco Duo Administrator
@@ -22,7 +22,7 @@ search: '`cisco_duo_administrator` action=policy_update OR action=policy_create
   | `cisco_duo_policy_bypass_2fa_filter`'
 how_to_implement: The analytic leverages Duo activity logs to be ingested using the
   Cisco Security Cloud App (https://splunkbase.splunk.com/app/7404).
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://splunkbase.splunk.com/app/7404
 drilldown_searches:

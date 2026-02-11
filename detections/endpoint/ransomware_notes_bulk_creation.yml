@@ -1,7 +1,7 @@
 name: Ransomware Notes bulk creation
 id: eff7919a-8330-11eb-83f8-acde48001122
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ how_to_implement: You must be ingesting data that records the filesystem
   activity from your hosts to populate the Endpoint file-system data model node.
   If you are using Sysmon, you will need a Splunk Universal Forwarder on each 
   endpoint from which you want to collect data.
-known_false_positives: unknown
+known_false_positives: No false positives have been identified at this time.
 references:
 - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
 - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
