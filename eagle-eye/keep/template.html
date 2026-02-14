@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eagle Eye — Security Content Explorer</title>
-<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<script src="https://unpkg.com/cytoscape@3.30.4/dist/cytoscape.min.js"></script>
 <style>
   :root {
     --bg: #0f1117;
@@ -248,7 +248,7 @@
     background: var(--surface); display: flex; gap: 12px; align-items: center;
   }
   .graph-toolbar input {
-    width: 350px; padding: 8px 12px; border-radius: 6px;
+    width: 100%; padding: 8px 12px; border-radius: 6px;
     border: 1px solid var(--border); background: var(--bg);
     color: var(--text); font-size: 13px; outline: none;
   }
@@ -258,7 +258,7 @@
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
   .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-  #graph-container { flex: 1; background: var(--bg); }
+  #graph-container { flex: 1; background: var(--bg); position: relative; min-height: 0; }
 
   .graph-info {
     position: absolute; bottom: 20px; right: 20px;
@@ -493,6 +493,36 @@
     border-radius: 4px;
   }
   .graph-scope-banner .scope-close:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+
+  /* Graph ego-centric explorer */
+  .graph-search-wrap { position: relative; flex: 1; max-width: 500px; }
+  .graph-search-dropdown {
+    display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+    max-height: 350px; overflow-y: auto; background: var(--surface);
+    border: 1px solid var(--border); border-radius: 6px; z-index: 20;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .graph-search-dropdown.visible { display: block; }
+  .graph-search-result {
+    padding: 8px 12px; cursor: pointer; display: flex; align-items: center;
+    gap: 8px; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .graph-search-result:hover { background: rgba(255,255,255,0.06); }
+  .graph-search-result:last-child { border-bottom: none; }
+  .graph-search-result .result-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .graph-search-result .result-type {
+    font-size: 10px; color: var(--text-muted); text-transform: uppercase; min-width: 70px;
+  }
+  .graph-search-result .result-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #graph-empty-state {
+    position: absolute; bottom: 0; left: 0; right: 0; top: 0;
+    display: flex; align-items: center; justify-content: center;
+    z-index: 5; pointer-events: none;
+  }
+  #graph-empty-state.hidden { display: none; }
+  .graph-empty-inner { text-align: center; color: var(--text-muted); padding: 40px; }
+  .graph-empty-inner h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .graph-empty-inner p { font-size: 14px; line-height: 1.6; }
 </style>
 </head>
 <body>
@@ -578,7 +608,12 @@
 <!-- Graph View -->
 <div id="graph-view" class="view" style="position:relative;">
   <div class="graph-toolbar">
-    <input type="text" id="graph-search" placeholder="Search graph nodes…" autocomplete="off">
+    <div class="graph-search-wrap">
+      <input type="text" id="graph-search" placeholder="Search for a detection, story, data source, or technique…" autocomplete="off">
+      <div class="graph-search-dropdown" id="graph-search-dropdown"></div>
+    </div>
+    <button class="btn" id="graph-reset-btn" title="Clear graph"><span class="btn-icon">⟲</span> Reset</button>
+    <span id="graph-status" style="font-size:12px;color:var(--text-muted);white-space:nowrap;"></span>
     <div class="graph-legend">
       <div class="legend-item"><div class="legend-dot" style="background:var(--detection)"></div>Detection</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--story)"></div>Story</div>
@@ -590,9 +625,18 @@
     <span style="width:8px;height:8px;border-radius:50%;background:var(--story);flex-shrink:0;display:inline-block;"></span>
     <span style="color:var(--text-muted)">Scoped to:</span>
     <span style="font-weight:600" id="graph-scope-label"></span>
-    <button class="scope-close" id="graph-scope-clear" title="Show full graph">&times;</button>
+    <button class="scope-close" id="graph-scope-clear" title="Clear scope">&times;</button>
   </div>
   <div id="graph-container"></div>
+  <div id="graph-empty-state">
+    <div class="graph-empty-inner">
+      <div style="font-size:48px;margin-bottom:16px;">⑆</div>
+      <h3>Relationship Explorer</h3>
+      <p>Search above to add an entity, then click nodes to expand connections.</p>
+      <p style="margin-top:8px;font-size:12px;">Double-click an expanded node to collapse it.</p>
+      <p style="margin-top:12px;font-size:12px;color:var(--text-muted);">Tip: Use "View in Graph" from the Stories tab to start from a story.</p>
+    </div>
+  </div>
   <div class="graph-info" id="graph-info"></div>
 </div>
 
@@ -629,7 +673,6 @@ let activeDetection = null;
 let activeStory = null;
 let activeDS = null;
 let activeMitreId = null;
-let graphNetwork = null;
 let graphInitialized = false;
 let detPivot = null; // { type: 'story'|'datasource'|'mitre'|'cve', value: string }
 
@@ -1228,249 +1271,449 @@ document.getElementById('mitre-search').addEventListener('input', renderMitreLis
 renderMitreList();
 
 // =============================================
-// GRAPH VIEW
+// GRAPH VIEW — Ego-Centric Explorer (Cytoscape.js)
 // =============================================
-function initGraph() {
-  graphInitialized = true;
 
-  var container = document.getElementById('graph-container');
-  // Force a synchronous reflow so the container has real dimensions
-  // (vis-network reads clientWidth/clientHeight during init)
-  void container.offsetHeight;
+var cy = null; // Cytoscape instance
+var expandedSet = new Set(); // entity IDs whose neighbors are showing
+var graphNodeSet = new Set(); // entity IDs currently in the graph
+var graphEdgeSet = new Set(); // canonical "a||b" edge keys for dedup
 
-  var nodes = [];
-  var edges = [];
-  var nodeIds = {};
+// --- Entity index & adjacency list (built once) ---
+var entityIndex = {}; // entityId → {type, name, data}
+var entitySearchList = []; // [{id, name, type, nameLower}]
+var adjacency = {}; // entityId → [{neighborId, edgeType}]
 
-  var COLORS = {
-    detection: '#58a6ff',
-    story: '#f0883e',
-    datasource: '#3fb950',
-    mitre: '#bc8cff'
-  };
-
+(function buildGraphIndexes() {
   DATA.stories.forEach(function(s) {
-    var nid = 'story:' + s.name;
-    if (!nodeIds[nid]) {
-      nodeIds[nid] = true;
-      nodes.push({ id: nid, label: s.name, color: COLORS.story, shape: 'dot', size: 12, group: 'story', title: 'Story: ' + s.name });
-    }
+    var id = 'story:' + s.name;
+    entityIndex[id] = { type: 'story', name: s.name, data: s };
+    entitySearchList.push({ id: id, name: s.name, type: 'story', nameLower: s.name.toLowerCase() });
+    if (!adjacency[id]) adjacency[id] = [];
   });
 
   DATA.data_sources.forEach(function(ds) {
-    var nid = 'ds:' + ds.name;
-    if (!nodeIds[nid]) {
-      nodeIds[nid] = true;
-      nodes.push({ id: nid, label: ds.name, color: COLORS.datasource, shape: 'dot', size: 8, group: 'datasource', title: 'Data Source: ' + ds.name });
-    }
+    var id = 'ds:' + ds.name;
+    entityIndex[id] = { type: 'datasource', name: ds.name, data: ds };
+    entitySearchList.push({ id: id, name: ds.name, type: 'datasource', nameLower: ds.name.toLowerCase() });
+    if (!adjacency[id]) adjacency[id] = [];
   });
 
   allMitre.forEach(function(m) {
-    var nid = 'mitre:' + m;
-    if (!nodeIds[nid]) {
-      nodeIds[nid] = true;
-      nodes.push({ id: nid, label: m, color: COLORS.mitre, shape: 'dot', size: 8, group: 'mitre', title: 'MITRE: ' + m });
-    }
+    var id = 'mitre:' + m;
+    var techInfo = (DATA.mitre && DATA.mitre.techniques) ? DATA.mitre.techniques[m] : null;
+    var label = techInfo ? m + ' \u2014 ' + techInfo.name : m;
+    entityIndex[id] = { type: 'mitre', name: label, data: { id: m, name: techInfo ? techInfo.name : '' } };
+    entitySearchList.push({ id: id, name: label, type: 'mitre', nameLower: label.toLowerCase() });
+    if (!adjacency[id]) adjacency[id] = [];
   });
 
   DATA.detections.forEach(function(d) {
-    var nid = 'det:' + d.id;
-    nodes.push({ id: nid, label: d.name, color: COLORS.detection, shape: 'dot', size: 6, group: 'detection', title: 'Detection: ' + d.name });
+    var id = 'det:' + d.id;
+    entityIndex[id] = { type: 'detection', name: d.name, data: d };
+    entitySearchList.push({ id: id, name: d.name, type: 'detection', nameLower: d.name.toLowerCase() });
+    if (!adjacency[id]) adjacency[id] = [];
 
     (d.analytic_story || []).forEach(function(s) {
       var sid = 'story:' + s;
-      if (nodeIds[sid]) edges.push({ from: nid, to: sid, color: { color: 'rgba(240,136,62,0.25)', hover: COLORS.story } });
+      if (!adjacency[sid]) adjacency[sid] = [];
+      adjacency[id].push({ neighborId: sid, edgeType: 'story' });
+      adjacency[sid].push({ neighborId: id, edgeType: 'story' });
     });
 
     (d.data_source || []).forEach(function(ds) {
       var dsid = 'ds:' + ds;
-      if (nodeIds[dsid]) edges.push({ from: nid, to: dsid, color: { color: 'rgba(63,185,80,0.25)', hover: COLORS.datasource } });
+      if (!adjacency[dsid]) adjacency[dsid] = [];
+      adjacency[id].push({ neighborId: dsid, edgeType: 'datasource' });
+      adjacency[dsid].push({ neighborId: id, edgeType: 'datasource' });
     });
 
     (d.mitre_attack_id || []).forEach(function(m) {
       var mid = 'mitre:' + m;
-      if (nodeIds[mid]) edges.push({ from: nid, to: mid, color: { color: 'rgba(188,140,255,0.25)', hover: COLORS.mitre } });
+      if (!adjacency[mid]) adjacency[mid] = [];
+      adjacency[id].push({ neighborId: mid, edgeType: 'mitre' });
+      adjacency[mid].push({ neighborId: id, edgeType: 'mitre' });
     });
   });
+})();
 
-  var visData = {
-    nodes: new vis.DataSet(nodes),
-    edges: new vis.DataSet(edges)
-  };
+var GRAPH_COLORS = { detection: '#58a6ff', story: '#f0883e', datasource: '#3fb950', mitre: '#bc8cff' };
 
-  // Store for scoped graph features
-  allGraphNodes = nodes.map(function(n) { n.originalSize = n.size; return n; });
-  allGraphEdges = edges;
-  graphVisData = visData;
+function makeEdgeKey(a, b) { return a < b ? a + '||' + b : b + '||' + a; }
 
-  var options = {
-    physics: {
-      solver: 'forceAtlas2Based',
-      forceAtlas2Based: {
-        gravitationalConstant: -30,
-        centralGravity: 0.005,
-        springLength: 120,
-        springConstant: 0.02,
-        damping: 0.4
-      },
-      stabilization: { iterations: 150 }
-    },
-    interaction: { hover: true, tooltipDelay: 100 },
-    nodes: { font: { color: '#e6edf3', size: 10, face: 'sans-serif' }, borderWidth: 0 },
-    edges: { width: 0.5, smooth: { type: 'continuous' } }
-  };
+function addEntityToGraph(entityId) {
+  if (expandedSet.has(entityId)) return;
+  if (!entityIndex[entityId]) return;
+  expandedSet.add(entityId);
 
-  graphNetwork = new vis.Network(container, visData, options);
+  var elementsToAdd = [];
 
-  graphNetwork.on('click', function(params) {
-    var infoPanel = document.getElementById('graph-info');
-    if (params.nodes.length === 0) { infoPanel.classList.remove('visible'); return; }
-    var nodeId = params.nodes[0];
-    var node = nodes.find(function(n) { return n.id === nodeId; });
-    if (!node) return;
+  // Ensure the center node exists
+  if (!graphNodeSet.has(entityId)) {
+    graphNodeSet.add(entityId);
+    var ent = entityIndex[entityId];
+    var label = ent.name.length > 50 ? ent.name.substring(0, 47) + '\u2026' : ent.name;
+    elementsToAdd.push({
+      group: 'nodes',
+      data: { id: entityId, label: label, entityType: ent.type, expanded: true }
+    });
+  } else {
+    // Mark as expanded
+    var existing = cy.getElementById(entityId);
+    if (existing.length) existing.data('expanded', true);
+  }
 
-    var html = '';
-    if (node.group === 'detection') {
-      var d = DATA.detections.find(function(x) { return 'det:' + x.id === nodeId; });
-      if (d) {
-        html = '<h3>' + esc(d.name) + '</h3><p>' + esc(d.description || '') + '</p>'
-          + '<div class="chip-group" style="margin-top:8px;">'
-          + (d.analytic_story || []).map(function(s) { return storyChip(s); }).join('')
-          + (d.mitre_attack_id || []).map(function(m) { return mitreChip(m); }).join('')
-          + (d.data_source || []).map(function(ds) { return dsChip(ds); }).join('')
-          + '</div>';
+  // Add neighbor nodes + edges
+  var neighbors = adjacency[entityId] || [];
+  neighbors.forEach(function(edge) {
+    if (!graphNodeSet.has(edge.neighborId)) {
+      graphNodeSet.add(edge.neighborId);
+      var nent = entityIndex[edge.neighborId];
+      if (nent) {
+        var nlabel = nent.name.length > 50 ? nent.name.substring(0, 47) + '\u2026' : nent.name;
+        elementsToAdd.push({
+          group: 'nodes',
+          data: { id: edge.neighborId, label: nlabel, entityType: nent.type, expanded: false }
+        });
       }
-    } else if (node.group === 'story') {
-      var sName = nodeId.replace('story:', '');
-      var s = DATA.stories.find(function(x) { return x.name === sName; });
-      var count = (storyIndex[sName] || []).length;
-      html = '<h3>' + esc(sName) + '</h3><p>' + esc(s ? s.description : '') + '</p>'
-        + '<p style="margin-top:6px;">' + count + ' detection(s)</p>'
-        + '<div style="margin-top:8px;">' + storyChip(sName) + '</div>';
-    } else if (node.group === 'datasource') {
-      var dsName = nodeId.replace('ds:', '');
-      var ds = DATA.data_sources.find(function(x) { return x.name === dsName; });
-      var dcount = (dsIndex[dsName] || []).length;
-      html = '<h3>' + esc(dsName) + '</h3><p>' + esc(ds ? ds.description : '') + '</p>'
-        + '<p style="margin-top:6px;">Used by ' + dcount + ' detection(s)</p>'
-        + '<div style="margin-top:8px;">' + dsChip(dsName) + '</div>';
-    } else if (node.group === 'mitre') {
-      var mid = nodeId.replace('mitre:', '');
-      var mcount = (mitreIndex[mid] || []).length;
-      html = '<h3>' + esc(mid) + '</h3><p>' + mcount + ' detection(s) map to this technique</p>'
-        + '<div style="margin-top:8px;">' + mitreChip(mid) + '</div>';
     }
-
-    infoPanel.innerHTML = html;
-    infoPanel.classList.add('visible');
-    wireChips(infoPanel);
+    var ek = makeEdgeKey(entityId, edge.neighborId);
+    if (!graphEdgeSet.has(ek)) {
+      graphEdgeSet.add(ek);
+      elementsToAdd.push({
+        group: 'edges',
+        data: { id: ek, source: entityId, target: edge.neighborId, edgeType: edge.edgeType }
+      });
+    }
   });
 
-  document.getElementById('graph-search').addEventListener('input', function(e) {
-    var q = e.target.value.toLowerCase().trim();
-    if (!q) {
-      var updates = allGraphNodes.map(function(n) { return { id: n.id, opacity: 1, font: { color: '#e6edf3' } }; });
-      visData.nodes.update(updates);
+  if (elementsToAdd.length > 0 && cy) {
+    cy.add(elementsToAdd);
+    runLayout(entityId);
+  }
+
+  updateGraphStatus();
+  document.getElementById('graph-empty-state').classList.add('hidden');
+}
+
+function collapseEntity(entityId) {
+  if (!expandedSet.has(entityId)) return;
+  expandedSet.delete(entityId);
+
+  // Mark as not expanded
+  var node = cy.getElementById(entityId);
+  if (node.length) node.data('expanded', false);
+
+  // Remove neighbors that are no longer connected to any expanded entity
+  var neighbors = adjacency[entityId] || [];
+  var toRemove = [];
+  neighbors.forEach(function(edge) {
+    var nId = edge.neighborId;
+    if (expandedSet.has(nId)) return; // keep expanded nodes
+    var keptByOther = (adjacency[nId] || []).some(function(e2) {
+      return e2.neighborId !== entityId && expandedSet.has(e2.neighborId);
+    });
+    if (!keptByOther) toRemove.push(nId);
+  });
+
+  toRemove.forEach(function(nId) { removeNodeAndEdges(nId); });
+
+  // Remove the collapsed entity itself if orphaned
+  var selfKept = (adjacency[entityId] || []).some(function(e) { return expandedSet.has(e.neighborId); });
+  if (!selfKept && expandedSet.size > 0) {
+    removeNodeAndEdges(entityId);
+  }
+
+  if (expandedSet.size === 0) resetGraph();
+  updateGraphStatus();
+}
+
+function removeNodeAndEdges(nodeId) {
+  var node = cy.getElementById(nodeId);
+  if (node.length) {
+    node.connectedEdges().forEach(function(edge) {
+      graphEdgeSet.delete(edge.id());
+    });
+    cy.remove(node); // removes the node and its connected edges
+  }
+  graphNodeSet.delete(nodeId);
+}
+
+function resetGraph() {
+  expandedSet.clear();
+  graphNodeSet.clear();
+  graphEdgeSet.clear();
+  if (cy) cy.elements().remove();
+  document.getElementById('graph-scope-banner').classList.remove('visible');
+  document.getElementById('graph-info').classList.remove('visible');
+  document.getElementById('graph-empty-state').classList.remove('hidden');
+  document.getElementById('graph-search').value = '';
+  updateGraphStatus();
+}
+
+function runLayout(centerNodeId) {
+  if (!cy || cy.nodes().length === 0) return;
+  var layout = cy.layout({
+    name: 'cose',
+    animate: true,
+    animationDuration: 500,
+    animationEasing: 'ease-out',
+    randomize: false,
+    nodeRepulsion: function() { return 8000; },
+    idealEdgeLength: function() { return 120; },
+    gravity: 0.25,
+    numIter: 200,
+    nodeDimensionsIncludeLabels: true,
+    fit: true,
+    padding: 50
+  });
+  layout.run();
+}
+
+function updateGraphStatus() {
+  var el = document.getElementById('graph-status');
+  if (!el) return;
+  var n = graphNodeSet.size;
+  el.textContent = n > 0 ? n + ' nodes \xB7 ' + expandedSet.size + ' expanded' : '';
+}
+
+function showGraphInfo(nodeId) {
+  var infoPanel = document.getElementById('graph-info');
+  var entity = entityIndex[nodeId];
+  if (!entity) { infoPanel.classList.remove('visible'); return; }
+  var isExp = expandedSet.has(nodeId);
+  var hint = isExp
+    ? '<p style="font-size:11px;color:var(--text-muted);margin-top:10px;">Double-click to collapse</p>'
+    : '<p style="font-size:11px;color:var(--text-muted);margin-top:10px;">Click to expand connections</p>';
+
+  var html = '';
+  if (entity.type === 'detection') {
+    var d = entity.data;
+    html = '<h3>' + esc(d.name) + '</h3><p>' + esc(d.description || '') + '</p>'
+      + '<div class="chip-group" style="margin-top:8px;">'
+      + (d.analytic_story || []).map(function(s) { return storyChip(s); }).join('')
+      + (d.mitre_attack_id || []).map(function(m) { return mitreChip(m); }).join('')
+      + (d.data_source || []).map(function(ds) { return dsChip(ds); }).join('')
+      + '</div>' + hint;
+  } else if (entity.type === 'story') {
+    var count = (storyIndex[entity.name] || []).length;
+    html = '<h3>' + esc(entity.name) + '</h3><p>' + esc(entity.data ? entity.data.description : '') + '</p>'
+      + '<p style="margin-top:6px;">' + count + ' detection(s)</p>'
+      + '<div style="margin-top:8px;">' + storyChip(entity.name) + '</div>' + hint;
+  } else if (entity.type === 'datasource') {
+    var dcount = (dsIndex[entity.name] || []).length;
+    html = '<h3>' + esc(entity.name) + '</h3><p>' + esc(entity.data ? entity.data.description : '') + '</p>'
+      + '<p style="margin-top:6px;">Used by ' + dcount + ' detection(s)</p>'
+      + '<div style="margin-top:8px;">' + dsChip(entity.name) + '</div>' + hint;
+  } else if (entity.type === 'mitre') {
+    var mid = nodeId.replace('mitre:', '');
+    var mcount = (mitreIndex[mid] || []).length;
+    html = '<h3>' + esc(entity.name) + '</h3><p>' + mcount + ' detection(s) map to this technique</p>'
+      + '<div style="margin-top:8px;">' + mitreChip(mid) + '</div>' + hint;
+  }
+
+  infoPanel.innerHTML = html;
+  infoPanel.classList.add('visible');
+  wireChips(infoPanel);
+}
+
+function initGraph() {
+  graphInitialized = true;
+  var container = document.getElementById('graph-container');
+
+  cy = cytoscape({
+    container: container,
+    elements: [],
+    style: [
+      {
+        selector: 'node',
+        style: {
+          'label': 'data(label)',
+          'font-size': '9px',
+          'color': '#e6edf3',
+          'text-valign': 'bottom',
+          'text-margin-y': 6,
+          'text-outline-color': '#0f1117',
+          'text-outline-width': 2,
+          'text-max-width': '120px',
+          'text-wrap': 'ellipsis',
+          'min-zoomed-font-size': 8,
+          'width': 16,
+          'height': 16,
+          'border-width': 0,
+          'border-color': '#fff'
+        }
+      },
+      {
+        selector: 'node[entityType="detection"]',
+        style: {
+          'background-color': '#58a6ff',
+          'width': 14,
+          'height': 14
+        }
+      },
+      {
+        selector: 'node[entityType="story"]',
+        style: {
+          'background-color': '#f0883e',
+          'width': 26,
+          'height': 26,
+          'font-size': '11px'
+        }
+      },
+      {
+        selector: 'node[entityType="datasource"]',
+        style: {
+          'background-color': '#3fb950',
+          'width': 18,
+          'height': 18
+        }
+      },
+      {
+        selector: 'node[entityType="mitre"]',
+        style: {
+          'background-color': '#bc8cff',
+          'width': 18,
+          'height': 18
+        }
+      },
+      {
+        selector: 'node[?expanded]',
+        style: {
+          'border-width': 2,
+          'border-color': '#fff',
+          'font-size': '11px'
+        }
+      },
+      {
+        selector: 'edge',
+        style: {
+          'width': 1,
+          'curve-style': 'bezier',
+          'opacity': 0.4
+        }
+      },
+      {
+        selector: 'edge[edgeType="story"]',
+        style: { 'line-color': '#f0883e', 'target-arrow-color': '#f0883e' }
+      },
+      {
+        selector: 'edge[edgeType="datasource"]',
+        style: { 'line-color': '#3fb950', 'target-arrow-color': '#3fb950' }
+      },
+      {
+        selector: 'edge[edgeType="mitre"]',
+        style: { 'line-color': '#bc8cff', 'target-arrow-color': '#bc8cff' }
+      },
+      {
+        selector: 'node:active, node:selected',
+        style: {
+          'overlay-color': '#58a6ff',
+          'overlay-padding': 6,
+          'overlay-opacity': 0.15
+        }
+      }
+    ],
+    layout: { name: 'preset' },
+    minZoom: 0.1,
+    maxZoom: 4,
+    wheelSensitivity: 0.3
+  });
+
+  // Single-click: expand + show info
+  cy.on('tap', 'node', function(evt) {
+    var nodeId = evt.target.id();
+    if (!expandedSet.has(nodeId)) addEntityToGraph(nodeId);
+    showGraphInfo(nodeId);
+  });
+
+  // Tap on background: hide info
+  cy.on('tap', function(evt) {
+    if (evt.target === cy) {
+      document.getElementById('graph-info').classList.remove('visible');
+    }
+  });
+
+  // Double-click: collapse
+  var lastTap = {};
+  cy.on('tap', 'node', function(evt) {
+    var nodeId = evt.target.id();
+    var now = Date.now();
+    if (lastTap.id === nodeId && now - lastTap.time < 400) {
+      collapseEntity(nodeId);
+      document.getElementById('graph-info').classList.remove('visible');
+      lastTap = {};
+    } else {
+      lastTap = { id: nodeId, time: now };
+    }
+  });
+
+  // Search type-ahead
+  var searchInput = document.getElementById('graph-search');
+  var dropdown = document.getElementById('graph-search-dropdown');
+
+  searchInput.addEventListener('input', function() {
+    var q = this.value.toLowerCase().trim();
+    if (q.length < 2) { dropdown.classList.remove('visible'); return; }
+    var results = entitySearchList.filter(function(e) { return e.nameLower.indexOf(q) !== -1; }).slice(0, 25);
+    if (results.length === 0) {
+      dropdown.innerHTML = '<div style="padding:12px;color:var(--text-muted);font-size:13px;">No matches</div>';
+      dropdown.classList.add('visible');
       return;
     }
-    // Clear scope if searching
-    if (graphScope) {
-      graphScope = null;
-      document.getElementById('graph-scope-banner').classList.remove('visible');
-    }
-    var matching = allGraphNodes.filter(function(n) { return n.label.toLowerCase().indexOf(q) !== -1; });
-    var matchIds = {};
-    matching.forEach(function(n) { matchIds[n.id] = true; });
-    var neighborIds = {};
-    allGraphEdges.forEach(function(e) {
-      if (matchIds[e.from]) neighborIds[e.to] = true;
-      if (matchIds[e.to]) neighborIds[e.from] = true;
+    dropdown.innerHTML = results.map(function(r) {
+      return '<div class="graph-search-result" data-entity-id="' + esc(r.id) + '">'
+        + '<span class="result-dot" style="background:' + (GRAPH_COLORS[r.type] || 'var(--text-muted)') + '"></span>'
+        + '<span class="result-type">' + esc(r.type) + '</span>'
+        + '<span class="result-name">' + esc(r.name) + '</span></div>';
+    }).join('');
+    dropdown.classList.add('visible');
+    dropdown.querySelectorAll('.graph-search-result').forEach(function(el) {
+      el.addEventListener('click', function() {
+        var eid = this.dataset.entityId;
+        addEntityToGraph(eid);
+        dropdown.classList.remove('visible');
+        searchInput.value = '';
+        setTimeout(function() {
+          if (cy) {
+            var n = cy.getElementById(eid);
+            if (n.length) cy.animate({ center: { eles: n }, zoom: 1.2, duration: 400 });
+          }
+        }, 600);
+      });
     });
-    var updates = allGraphNodes.map(function(n) {
-      var highlight = matchIds[n.id] || neighborIds[n.id];
-      return { id: n.id, opacity: highlight ? 1 : 0.08, font: { color: highlight ? '#e6edf3' : 'rgba(230,237,243,0.08)' } };
-    });
-    visData.nodes.update(updates);
-    if (matching.length > 0) {
-      graphNetwork.focus(matching[0].id, { scale: 1.2, animation: { duration: 400 } });
-    }
+  });
+
+  searchInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') { dropdown.classList.remove('visible'); searchInput.blur(); }
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.graph-search-wrap')) dropdown.classList.remove('visible');
+  });
+
+  // Reset button
+  document.getElementById('graph-reset-btn').addEventListener('click', resetGraph);
+
+  // Scope banner close
+  document.getElementById('graph-scope-clear').addEventListener('click', function() {
+    document.getElementById('graph-scope-banner').classList.remove('visible');
   });
 }
 
 // =============================================
 // STORY-SCOPED GRAPH
 // =============================================
-var graphScope = null; // null = full graph, or {type:'story', name:'...'}
-var allGraphNodes = [];
-var allGraphEdges = [];
-var graphVisData = null;
-
 function scopeGraphToStory(storyName) {
-  graphScope = { type: 'story', name: storyName };
   switchTab('graph-view');
-
-  // Make sure the graph is initialized first
-  if (!graphInitialized) initGraph();
-
-  // Find relevant node IDs
-  var storyNodeId = 'story:' + storyName;
-  var memberDets = storyIndex[storyName] || [];
-  var relevantIds = {};
-  relevantIds[storyNodeId] = true;
-
-  memberDets.forEach(function(d) {
-    var detId = 'det:' + d.id;
-    relevantIds[detId] = true;
-    (d.data_source || []).forEach(function(ds) { relevantIds['ds:' + ds] = true; });
-    (d.mitre_attack_id || []).forEach(function(m) { relevantIds['mitre:' + m] = true; });
-  });
-
-  // Update node visibility
-  if (graphVisData) {
-    var updates = allGraphNodes.map(function(n) {
-      var visible = relevantIds[n.id];
-      return {
-        id: n.id,
-        opacity: visible ? 1 : 0.03,
-        font: { color: visible ? '#e6edf3' : 'rgba(230,237,243,0.03)' },
-        size: visible ? (n.group === 'story' ? 18 : n.originalSize || n.size) : 1
-      };
-    });
-    graphVisData.nodes.update(updates);
-
-    // Focus on matching nodes
-    var fitIds = Object.keys(relevantIds);
-    if (fitIds.length > 0) {
-      graphNetwork.fit({ nodes: fitIds, animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
-    }
-  }
-
-  // Show scope banner
-  var banner = document.getElementById('graph-scope-banner');
+  resetGraph();
+  addEntityToGraph('story:' + storyName);
   document.getElementById('graph-scope-label').textContent = storyName;
-  banner.classList.add('visible');
+  document.getElementById('graph-scope-banner').classList.add('visible');
+  setTimeout(function() {
+    if (cy) cy.fit(undefined, 50);
+  }, 600);
 }
-
-function clearGraphScope() {
-  graphScope = null;
-  document.getElementById('graph-scope-banner').classList.remove('visible');
-  document.getElementById('graph-search').value = '';
-
-  if (graphVisData) {
-    var updates = allGraphNodes.map(function(n) {
-      return {
-        id: n.id,
-        opacity: 1,
-        font: { color: '#e6edf3' },
-        size: n.originalSize || n.size
-      };
-    });
-    graphVisData.nodes.update(updates);
-    graphNetwork.fit({ animation: { duration: 600 } });
-  }
-}
-
-document.getElementById('graph-scope-clear').addEventListener('click', clearGraphScope);
 
 // =============================================
 // MITRE ATT&CK MATRIX VIEW
