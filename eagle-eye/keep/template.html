@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eagle Eye — Security Content Explorer</title>
+<script src="https://unpkg.com/vis-network@9.1.6/standalone/umd/vis-network.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #161b22;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent-hover: #79c0ff;
+    --detection: #58a6ff;
+    --story: #f0883e;
+    --datasource: #3fb950;
+    --mitre: #bc8cff;
+    --cve: #f85149;
+    --macro: #8b949e;
+    --chip-bg: rgba(255,255,255,0.06);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+
+  header h1 { font-size: 18px; font-weight: 600; white-space: nowrap; }
+  header h1 span { color: var(--accent); }
+
+  .tabs { display: flex; gap: 4px; margin-left: 24px; }
+
+  .tab {
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-muted);
+    border: 1px solid transparent;
+    background: transparent;
+    transition: all 0.15s;
+  }
+
+  .tab:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  .tab.active { color: var(--text); background: rgba(255,255,255,0.08); border-color: var(--border); }
+
+  .stats {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    gap: 16px;
+  }
+  .stats span { white-space: nowrap; }
+  .stats .num { color: var(--accent); font-weight: 600; }
+
+  /* Layout */
+  .view { display: none; height: calc(100vh - 53px); }
+  .view.active { display: flex; }
+
+  .list-panel {
+    width: 380px;
+    min-width: 300px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    background: var(--surface);
+  }
+
+  .search-box { padding: 12px; border-bottom: 1px solid var(--border); }
+
+  .search-box input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    outline: none;
+  }
+  .search-box input:focus { border-color: var(--accent); }
+
+  .filters {
+    padding: 6px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .filter-chip {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    transition: all 0.15s;
+  }
+  .filter-chip:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  .filter-chip.active { color: var(--text); background: rgba(88,166,255,0.15); border-color: var(--accent); }
+
+  /* Pivot banner */
+  .pivot-banner {
+    display: none;
+    padding: 8px 12px;
+    background: rgba(88,166,255,0.08);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text);
+    align-items: center;
+    gap: 8px;
+  }
+  .pivot-banner.visible { display: flex; }
+  .pivot-banner .pivot-label { color: var(--text-muted); }
+  .pivot-banner .pivot-value { font-weight: 600; }
+  .pivot-banner .pivot-close {
+    margin-left: auto;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .pivot-banner .pivot-close:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+
+  .pivot-banner .pivot-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  .list-items { flex: 1; overflow-y: auto; padding: 4px 0; }
+
+  .list-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    border-left: 3px solid transparent;
+    transition: all 0.1s;
+  }
+  .list-item:hover { background: rgba(255,255,255,0.03); }
+  .list-item.active { background: rgba(88,166,255,0.08); border-left-color: var(--accent); }
+  .list-item .item-name { font-size: 13px; font-weight: 500; line-height: 1.4; }
+  .list-item .item-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+    display: flex;
+    gap: 8px;
+  }
+  .list-item .item-meta .badge {
+    padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase;
+  }
+
+  .badge-ttp { background: rgba(248,81,73,0.2); color: #f85149; }
+  .badge-anomaly { background: rgba(188,140,255,0.2); color: #bc8cff; }
+  .badge-hunting { background: rgba(63,185,80,0.2); color: #3fb950; }
+  .badge-correlation { background: rgba(240,136,62,0.2); color: #f0883e; }
+  .badge-production { background: rgba(63,185,80,0.15); color: #3fb950; }
+  .badge-experimental { background: rgba(240,136,62,0.15); color: #f0883e; }
+  .badge-deprecated { background: rgba(139,148,158,0.15); color: #8b949e; }
+
+  /* Detail panel */
+  .detail-panel { flex: 1; overflow-y: auto; padding: 24px 32px; }
+  .detail-panel .empty-state {
+    display: flex; align-items: center; justify-content: center;
+    height: 100%; color: var(--text-muted); font-size: 14px;
+  }
+
+  .detail-header { margin-bottom: 20px; }
+  .detail-header h2 { font-size: 20px; font-weight: 600; line-height: 1.3; margin-bottom: 8px; }
+  .detail-header .meta-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .detail-header .meta-row .badge {
+    padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; text-transform: uppercase;
+  }
+
+  .detail-section { margin-bottom: 20px; }
+  .detail-section h3 {
+    font-size: 12px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 8px;
+  }
+  .detail-section p { font-size: 14px; line-height: 1.6; color: var(--text); }
+
+  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all 0.15s; border: 1px solid;
+    text-decoration: none;
+  }
+  .chip:hover { filter: brightness(1.3); }
+
+  .chip-story { background: rgba(240,136,62,0.12); border-color: rgba(240,136,62,0.3); color: var(--story); }
+  .chip-datasource { background: rgba(63,185,80,0.12); border-color: rgba(63,185,80,0.3); color: var(--datasource); }
+  .chip-mitre { background: rgba(188,140,255,0.12); border-color: rgba(188,140,255,0.3); color: var(--mitre); }
+  .chip-cve { background: rgba(248,81,73,0.12); border-color: rgba(248,81,73,0.3); color: var(--cve); }
+  .chip-macro { background: rgba(139,148,158,0.12); border-color: rgba(139,148,158,0.3); color: var(--macro); }
+  .chip-detection { background: rgba(88,166,255,0.12); border-color: rgba(88,166,255,0.3); color: var(--detection); }
+
+  .chip .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .chip-story .dot { background: var(--story); }
+  .chip-datasource .dot { background: var(--datasource); }
+  .chip-mitre .dot { background: var(--mitre); }
+  .chip-cve .dot { background: var(--cve); }
+  .chip-macro .dot { background: var(--macro); }
+  .chip-detection .dot { background: var(--detection); }
+
+  /* Detection list in story / datasource / mitre views */
+  .detection-list { list-style: none; }
+  .detection-list li {
+    padding: 8px 12px; border-radius: 6px; margin-bottom: 4px;
+    background: var(--chip-bg); cursor: pointer; transition: background 0.15s;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .detection-list li:hover { background: rgba(255,255,255,0.08); }
+  .detection-list li .det-name { font-size: 13px; flex: 1; }
+  .detection-list li .badge {
+    padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; text-transform: uppercase;
+  }
+
+  /* Graph view */
+  #graph-view { flex-direction: column; }
+
+  .graph-toolbar {
+    padding: 12px 20px; border-bottom: 1px solid var(--border);
+    background: var(--surface); display: flex; gap: 12px; align-items: center;
+  }
+  .graph-toolbar input {
+    width: 350px; padding: 8px 12px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg);
+    color: var(--text); font-size: 13px; outline: none;
+  }
+  .graph-toolbar input:focus { border-color: var(--accent); }
+
+  .graph-legend { display: flex; gap: 14px; margin-left: 16px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--text-muted); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  #graph-container { flex: 1; background: var(--bg); }
+
+  .graph-info {
+    position: absolute; bottom: 20px; right: 20px;
+    width: 360px; max-height: 50vh;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 16px; overflow-y: auto;
+    display: none; z-index: 10;
+  }
+  .graph-info.visible { display: block; }
+  .graph-info h3 { font-size: 14px; margin-bottom: 8px; }
+  .graph-info p { font-size: 12px; color: var(--text-muted); line-height: 1.5; margin-bottom: 8px; }
+  .graph-info .chip-group { margin-top: 8px; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+  .count-badge { font-size: 11px; color: var(--text-muted); margin-left: 4px; }
+
+  .ref-list { list-style: none; }
+  .ref-list li { margin-bottom: 4px; }
+  .ref-list a { font-size: 13px; color: var(--accent); text-decoration: none; word-break: break-all; }
+  .ref-list a:hover { text-decoration: underline; }
+
+  .mitre-stat { font-size: 13px; color: var(--text); margin-bottom: 4px; }
+  .mitre-stat .num { color: var(--accent); font-weight: 600; }
+
+  /* Code block for SPL search queries */
+  .search-code {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #e6edf3;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 300px;
+    overflow-y: auto;
+    tab-size: 2;
+    position: relative;
+  }
+
+  .search-code .kw { color: #ff7b72; }
+  .search-code .fn { color: #d2a8ff; }
+  .search-code .str { color: #a5d6ff; }
+  .search-code .field { color: #7ee787; }
+  .search-code .macro { color: #ffa657; }
+  .search-code .pipe { color: #79c0ff; font-weight: bold; }
+  .search-code .op { color: #ff7b72; }
+  .search-code .num { color: #79c0ff; }
+  .search-code .comment { color: #8b949e; font-style: italic; }
+
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px 8px;
+    font-size: 11px;
+    transition: all 0.15s;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,0.15); color: var(--text); }
+
+  /* MITRE ATT&CK Matrix View */
+  #matrix-view { flex-direction: column; }
+
+  .matrix-toolbar {
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .matrix-toolbar .matrix-stats {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: auto;
+    display: flex;
+    gap: 16px;
+  }
+  .matrix-toolbar .matrix-stats .num { color: var(--accent); font-weight: 600; }
+
+  .matrix-legend-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+  .matrix-legend-bar .legend-gradient {
+    width: 80px;
+    height: 10px;
+    border-radius: 3px;
+    background: linear-gradient(to right, rgba(63,185,80,0.0), rgba(63,185,80,0.3), rgba(63,185,80,0.7), rgba(63,185,80,1.0));
+    border: 1px solid var(--border);
+  }
+
+  .matrix-scroll {
+    flex: 1;
+    overflow: auto;
+    padding: 16px;
+  }
+
+  .matrix-grid {
+    display: flex;
+    gap: 4px;
+    min-width: max-content;
+  }
+
+  .matrix-column {
+    min-width: 140px;
+    max-width: 180px;
+    flex: 1;
+  }
+
+  .matrix-column-header {
+    padding: 8px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--text);
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+  .matrix-column-header .tactic-count {
+    font-weight: 400;
+    color: var(--text-muted);
+    font-size: 10px;
+    display: block;
+    margin-top: 2px;
+  }
+
+  .matrix-cell {
+    padding: 5px 8px;
+    margin: 2px 0;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  .matrix-cell:hover {
+    border-color: var(--accent);
+    filter: brightness(1.2);
+  }
+  .matrix-cell .tech-id {
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .matrix-cell .tech-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 10px;
+  }
+  .matrix-cell .tech-count {
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 16px;
+    text-align: right;
+  }
+
+  .matrix-cell.coverage-0 { background: rgba(255,255,255,0.02); color: var(--text-muted); }
+  .matrix-cell.coverage-1 { background: rgba(63,185,80,0.10); color: var(--datasource); }
+  .matrix-cell.coverage-2 { background: rgba(63,185,80,0.20); color: var(--datasource); }
+  .matrix-cell.coverage-3 { background: rgba(63,185,80,0.35); color: var(--text); }
+  .matrix-cell.coverage-4 { background: rgba(63,185,80,0.50); color: var(--text); }
+  .matrix-cell.coverage-5 { background: rgba(63,185,80,0.70); color: #fff; }
+
+  /* Story graph button */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.04);
+    color: var(--text);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); }
+  .btn-icon { font-size: 14px; }
+
+  .graph-scope-banner {
+    display: none;
+    padding: 8px 16px;
+    background: rgba(240,136,62,0.10);
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text);
+    align-items: center;
+    gap: 8px;
+  }
+  .graph-scope-banner.visible { display: flex; }
+  .graph-scope-banner .scope-close {
+    margin-left: auto;
+    cursor: pointer;
+    color: var(--text-muted);
+    background: none;
+    border: none;
+    font-size: 16px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .graph-scope-banner .scope-close:hover { color: var(--text); background: rgba(255,255,255,0.08); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🦅 Eagle <span>Eye</span></h1>
+  <div class="tabs">
+    <button class="tab active" data-view="detections-view">Detections</button>
+    <button class="tab" data-view="stories-view">Stories</button>
+    <button class="tab" data-view="datasources-view">Data Sources</button>
+    <button class="tab" data-view="mitre-view">MITRE</button>
+    <button class="tab" data-view="matrix-view">Matrix</button>
+    <button class="tab" data-view="graph-view">Graph</button>
+  </div>
+  <div class="stats">
+    <span><span class="num" id="stat-detections">0</span> detections</span>
+    <span><span class="num" id="stat-stories">0</span> stories</span>
+    <span><span class="num" id="stat-datasources">0</span> data sources</span>
+    <span><span class="num" id="stat-mitre">0</span> techniques</span>
+  </div>
+</header>
+
+<!-- Detections View -->
+<div id="detections-view" class="view active list-detail">
+  <div class="list-panel">
+    <div class="search-box">
+      <input type="text" id="det-search" placeholder="Search detections…" autocomplete="off">
+    </div>
+    <div class="filters" id="det-filters"></div>
+    <div class="pivot-banner" id="det-pivot">
+      <span class="pivot-dot"></span>
+      <span class="pivot-label">Filtered by:</span>
+      <span class="pivot-value"></span>
+      <button class="pivot-close" title="Clear filter">&times;</button>
+    </div>
+    <div class="list-items" id="det-list"></div>
+  </div>
+  <div class="detail-panel" id="det-detail">
+    <div class="empty-state">Select a detection to view details</div>
+  </div>
+</div>
+
+<!-- Stories View -->
+<div id="stories-view" class="view list-detail">
+  <div class="list-panel">
+    <div class="search-box">
+      <input type="text" id="story-search" placeholder="Search stories…" autocomplete="off">
+    </div>
+    <div class="filters" id="story-filters"></div>
+    <div class="list-items" id="story-list"></div>
+  </div>
+  <div class="detail-panel" id="story-detail">
+    <div class="empty-state">Select a story to view details</div>
+  </div>
+</div>
+
+<!-- Data Sources View -->
+<div id="datasources-view" class="view list-detail">
+  <div class="list-panel">
+    <div class="search-box">
+      <input type="text" id="ds-search" placeholder="Search data sources…" autocomplete="off">
+    </div>
+    <div class="list-items" id="ds-list"></div>
+  </div>
+  <div class="detail-panel" id="ds-detail">
+    <div class="empty-state">Select a data source to view details</div>
+  </div>
+</div>
+
+<!-- MITRE View -->
+<div id="mitre-view" class="view list-detail">
+  <div class="list-panel">
+    <div class="search-box">
+      <input type="text" id="mitre-search" placeholder="Search techniques…" autocomplete="off">
+    </div>
+    <div class="list-items" id="mitre-list"></div>
+  </div>
+  <div class="detail-panel" id="mitre-detail">
+    <div class="empty-state">Select a technique to view details</div>
+  </div>
+</div>
+
+<!-- Graph View -->
+<div id="graph-view" class="view" style="position:relative;">
+  <div class="graph-toolbar">
+    <input type="text" id="graph-search" placeholder="Search graph nodes…" autocomplete="off">
+    <div class="graph-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--detection)"></div>Detection</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--story)"></div>Story</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--datasource)"></div>Data Source</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--mitre)"></div>MITRE</div>
+    </div>
+  </div>
+  <div class="graph-scope-banner" id="graph-scope-banner">
+    <span style="width:8px;height:8px;border-radius:50%;background:var(--story);flex-shrink:0;display:inline-block;"></span>
+    <span style="color:var(--text-muted)">Scoped to:</span>
+    <span style="font-weight:600" id="graph-scope-label"></span>
+    <button class="scope-close" id="graph-scope-clear" title="Show full graph">&times;</button>
+  </div>
+  <div id="graph-container"></div>
+  <div class="graph-info" id="graph-info"></div>
+</div>
+
+<!-- MITRE ATT&CK Matrix View -->
+<div id="matrix-view" class="view">
+  <div class="matrix-toolbar">
+    <span>MITRE ATT&CK Coverage Matrix</span>
+    <div class="matrix-legend-bar">
+      <span>0</span>
+      <div class="legend-gradient"></div>
+      <span>10+</span>
+    </div>
+    <div class="matrix-stats">
+      <span><span class="num" id="matrix-covered">0</span> techniques covered</span>
+      <span><span class="num" id="matrix-gaps">0</span> gaps</span>
+    </div>
+  </div>
+  <div class="matrix-scroll">
+    <div class="matrix-grid" id="matrix-grid"></div>
+  </div>
+</div>
+
+<!-- Data stored safely in a JSON island — avoids script-breaking characters in YAML -->
+<script id="eagle-eye-data" type="application/json">%%DATA_JSON%%</script>
+
+<script>
+// Parse data safely from the JSON island
+const DATA = JSON.parse(document.getElementById('eagle-eye-data').textContent);
+
+// =============================================
+// STATE
+// =============================================
+let activeDetection = null;
+let activeStory = null;
+let activeDS = null;
+let activeMitreId = null;
+let graphNetwork = null;
+let graphInitialized = false;
+let detPivot = null; // { type: 'story'|'datasource'|'mitre'|'cve', value: string }
+
+// =============================================
+// HELPERS
+// =============================================
+function esc(s) {
+  if (s == null) return '';
+  var d = document.createElement('div');
+  d.textContent = String(s);
+  return d.innerHTML.replace(/"/g, '&quot;');
+}
+
+function badgeClass(type) {
+  return 'badge-' + (type || '').toLowerCase().replace(/\s+/g, '');
+}
+
+// Scroll the active list item into view within its container only (no parent scroll)
+function scrollActiveIntoView(container) {
+  var active = container.querySelector('.list-item.active');
+  if (!active) return;
+  var cTop = container.scrollTop;
+  var cH = container.clientHeight;
+  var eTop = active.offsetTop - container.offsetTop;
+  var eH = active.offsetHeight;
+  if (eTop < cTop) {
+    container.scrollTop = eTop;
+  } else if (eTop + eH > cTop + cH) {
+    container.scrollTop = eTop + eH - cH;
+  }
+}
+
+// Known macro names set (built from macros/ directory)
+var macroSet = {};
+(DATA.macro_names || []).forEach(function(m) { macroSet[m] = true; });
+
+// =============================================
+// INDEXES (built once for performance)
+// =============================================
+const allMitre = new Set();
+const mitreIndex = {};
+const dsIndex = {};
+const storyIndex = {};
+
+DATA.detections.forEach(d => {
+  (d.mitre_attack_id || []).forEach(m => {
+    allMitre.add(m);
+    if (!mitreIndex[m]) mitreIndex[m] = [];
+    mitreIndex[m].push(d);
+  });
+  (d.data_source || []).forEach(ds => {
+    if (!dsIndex[ds]) dsIndex[ds] = [];
+    dsIndex[ds].push(d);
+  });
+  (d.analytic_story || []).forEach(s => {
+    if (!storyIndex[s]) storyIndex[s] = [];
+    storyIndex[s].push(d);
+  });
+});
+
+const allMitreSorted = [...allMitre].sort();
+
+// =============================================
+// STATS
+// =============================================
+document.getElementById('stat-detections').textContent = DATA.detections.length;
+document.getElementById('stat-stories').textContent = DATA.stories.length;
+document.getElementById('stat-datasources').textContent = DATA.data_sources.length;
+document.getElementById('stat-mitre').textContent = allMitre.size;
+
+// =============================================
+// TAB SWITCHING
+// =============================================
+var matrixRendered = false;
+function switchTab(viewId) {
+  document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  var tab = document.querySelector('.tab[data-view="' + viewId + '"]');
+  if (tab) tab.classList.add('active');
+  var view = document.getElementById(viewId);
+  if (view) view.classList.add('active');
+  if (viewId === 'graph-view' && !graphInitialized) initGraph();
+  if (viewId === 'matrix-view' && !matrixRendered) { matrixRendered = true; renderMatrix(); }
+}
+
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() { switchTab(this.dataset.view); });
+});
+
+// =============================================
+// CHIP HTML GENERATORS
+// =============================================
+function storyChip(name) {
+  return '<span class="chip chip-story" data-pivot-type="story" data-pivot-value="' + esc(name) + '"><span class="dot"></span>' + esc(name) + '</span>';
+}
+function dsChip(name) {
+  return '<span class="chip chip-datasource" data-pivot-type="datasource" data-pivot-value="' + esc(name) + '"><span class="dot"></span>' + esc(name) + '</span>';
+}
+function mitreChip(m) {
+  return '<span class="chip chip-mitre" data-pivot-type="mitre" data-pivot-value="' + esc(m) + '"><span class="dot"></span>' + esc(m) + '</span>';
+}
+function cveChip(c) {
+  return '<a class="chip chip-cve" href="https://nvd.nist.gov/vuln/detail/' + encodeURIComponent(c) + '" target="_blank"><span class="dot"></span>' + esc(c) + '</a>';
+}
+function macroChip(m) {
+  return '<span class="chip chip-macro"><span class="dot"></span>' + esc(m) + '</span>';
+}
+
+// Wire all pivot-enabled chips inside a container
+function wireChips(container) {
+  container.querySelectorAll('[data-pivot-type]').forEach(function(chip) {
+    chip.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var ptype = this.dataset.pivotType;
+      var pval = this.dataset.pivotValue;
+      if (ptype === 'story') switchToStory(pval);
+      else if (ptype === 'datasource') switchToDS(pval);
+      else if (ptype === 'mitre') switchToMitre(pval);
+      else if (ptype === 'detection') switchToDetection(pval);
+    });
+  });
+}
+
+// =============================================
+// NAVIGATION HELPERS
+// =============================================
+function switchToStory(name) {
+  // Clear any active search/filter so the story is visible in the list
+  storyCatFilter = null;
+  document.getElementById('story-search').value = '';
+  switchTab('stories-view');
+  renderStoryFilters();
+  var story = DATA.stories.find(function(s) { return s.name === name; });
+  if (story) showStory(story.id);
+}
+
+function switchToDetection(name) {
+  detPivot = null;
+  detTypeFilter = null;
+  document.getElementById('det-search').value = '';
+  switchTab('detections-view');
+  renderDetFilters();
+  renderDetPivot();
+  var det = DATA.detections.find(function(d) { return d.name === name; });
+  if (det) {
+    showDetection(det.id);
+  } else {
+    // Detection not found by exact name — show full list
+    renderDetList();
+  }
+}
+
+function switchToDS(name) {
+  document.getElementById('ds-search').value = '';
+  switchTab('datasources-view');
+  var ds = DATA.data_sources.find(function(d) { return d.name === name; });
+  if (ds) showDS(ds.id);
+}
+
+function switchToMitre(technique) {
+  document.getElementById('mitre-search').value = '';
+  switchTab('mitre-view');
+  showMitre(technique);
+}
+
+function pivotToDetections(type, value) {
+  detPivot = { type: type, value: value };
+  activeDetection = null;
+  document.getElementById('det-search').value = '';
+  switchTab('detections-view');
+  renderDetPivot();
+  renderDetList();
+}
+
+function clearPivot() {
+  detPivot = null;
+  renderDetPivot();
+  renderDetList();
+}
+
+function renderDetPivot() {
+  var banner = document.getElementById('det-pivot');
+  if (!detPivot) { banner.classList.remove('visible'); return; }
+  banner.classList.add('visible');
+  var dot = banner.querySelector('.pivot-dot');
+  var label = banner.querySelector('.pivot-value');
+  label.textContent = detPivot.value;
+  var colorMap = { story: 'var(--story)', datasource: 'var(--datasource)', mitre: 'var(--mitre)', cve: 'var(--cve)' };
+  var labelMap = { story: 'Story:', datasource: 'Data Source:', mitre: 'MITRE:', cve: 'CVE:' };
+  dot.style.background = colorMap[detPivot.type] || 'var(--accent)';
+  banner.querySelector('.pivot-label').textContent = labelMap[detPivot.type] || 'Filter:';
+}
+
+document.querySelector('#det-pivot .pivot-close').addEventListener('click', clearPivot);
+
+// =============================================
+// DETECTIONS VIEW
+// =============================================
+var detTypes = [];
+var detTypeSet = {};
+DATA.detections.forEach(function(d) { if (d.type && !detTypeSet[d.type]) { detTypeSet[d.type] = true; detTypes.push(d.type); } });
+detTypes.sort();
+var detTypeFilter = null;
+
+function renderDetFilters() {
+  var c = document.getElementById('det-filters');
+  c.innerHTML = detTypes.map(function(t) {
+    return '<button class="filter-chip ' + (detTypeFilter === t ? 'active' : '') + '" data-type="' + esc(t) + '">' + esc(t) + '</button>';
+  }).join('');
+  c.querySelectorAll('.filter-chip').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      detTypeFilter = detTypeFilter === this.dataset.type ? null : this.dataset.type;
+      renderDetFilters();
+      renderDetList();
+    });
+  });
+}
+
+function getFilteredDetections() {
+  var q = document.getElementById('det-search').value.toLowerCase().trim();
+  return DATA.detections.filter(function(d) {
+    if (detPivot) {
+      if (detPivot.type === 'story' && (d.analytic_story || []).indexOf(detPivot.value) === -1) return false;
+      if (detPivot.type === 'datasource' && (d.data_source || []).indexOf(detPivot.value) === -1) return false;
+      if (detPivot.type === 'mitre' && (d.mitre_attack_id || []).indexOf(detPivot.value) === -1) return false;
+      if (detPivot.type === 'cve' && (d.cve || []).indexOf(detPivot.value) === -1) return false;
+    }
+    if (detTypeFilter && d.type !== detTypeFilter) return false;
+    if (q) {
+      var found = d.name.toLowerCase().indexOf(q) !== -1
+        || (d.mitre_attack_id || []).some(function(m) { return m.toLowerCase().indexOf(q) !== -1; })
+        || (d.analytic_story || []).some(function(s) { return s.toLowerCase().indexOf(q) !== -1; })
+        || (d.security_domain || '').toLowerCase().indexOf(q) !== -1
+        || (d.data_source || []).some(function(ds) { return ds.toLowerCase().indexOf(q) !== -1; })
+        || (d.description || '').toLowerCase().indexOf(q) !== -1;
+      if (!found) return false;
+    }
+    return true;
+  });
+}
+
+function renderDetList() {
+  var items = getFilteredDetections();
+  var c = document.getElementById('det-list');
+  c.innerHTML = items.map(function(d) {
+    return '<div class="list-item ' + (activeDetection === d.id ? 'active' : '') + '" data-id="' + d.id + '">'
+      + '<div class="item-name">' + esc(d.name) + '</div>'
+      + '<div class="item-meta">'
+      + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '?') + '</span>'
+      + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '?') + '</span>'
+      + '<span>' + esc(d.security_domain || '') + '</span>'
+      + '</div></div>';
+  }).join('');
+  c.querySelectorAll('.list-item').forEach(function(el) {
+    el.addEventListener('click', function() { showDetection(this.dataset.id); });
+  });
+  // Scroll active item into view within the list container only
+  scrollActiveIntoView(c);
+}
+
+function showDetection(id) {
+  activeDetection = id;
+  renderDetList();
+  var d = DATA.detections.find(function(x) { return x.id === id; });
+  if (!d) return;
+  var panel = document.getElementById('det-detail');
+
+  var storiesHtml = (d.analytic_story || []).map(function(s) { return storyChip(s); }).join('');
+  var dSourcesHtml = (d.data_source || []).map(function(ds) { return dsChip(ds); }).join('');
+  var mitreHtml = (d.mitre_attack_id || []).map(function(m) { return mitreChip(m); }).join('');
+  var cveHtml = (d.cve || []).map(function(c) { return cveChip(c); }).join('');
+  // Filter macros to only known macro names (excludes SPL comments extracted by regex)
+  var realMacros = (d.macros || []).filter(function(m) { return macroSet[m]; });
+  var macroHtml = realMacros.map(function(m) { return macroChip(m); }).join('');
+
+  var html = '<div class="detail-header">'
+    + '<h2>' + esc(d.name) + '</h2>'
+    + '<div class="meta-row">'
+    + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
+    + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
+    + '<span style="color:var(--text-muted);font-size:12px;">' + esc(d.security_domain || '') + ' · ' + esc(d.asset_type || '') + '</span>'
+    + '</div></div>';
+
+  html += '<div class="detail-section"><h3>Description</h3><p>' + esc(d.description || '') + '</p></div>';
+
+  if (storiesHtml) html += '<div class="detail-section"><h3>Analytic Stories</h3><div class="chip-group">' + storiesHtml + '</div></div>';
+  if (dSourcesHtml) html += '<div class="detail-section"><h3>Data Sources</h3><div class="chip-group">' + dSourcesHtml + '</div></div>';
+  if (mitreHtml) html += '<div class="detail-section"><h3>MITRE ATT&CK</h3><div class="chip-group">' + mitreHtml + '</div></div>';
+  if (cveHtml) html += '<div class="detail-section"><h3>CVEs</h3><div class="chip-group">' + cveHtml + '</div></div>';
+  if (macroHtml) html += '<div class="detail-section"><h3>Macros</h3><div class="chip-group">' + macroHtml + '</div></div>';
+
+  if (d.search) {
+    html += '<div class="detail-section"><h3>Search Query (SPL)</h3>'
+      + '<div class="search-code" style="position:relative;">'
+      + '<button class="copy-btn" id="spl-copy-btn">Copy</button>'
+      + '<code id="spl-code"></code>'
+      + '</div></div>';
+  }
+
+  html += '<div class="detail-section"><h3>Author</h3><p>' + esc(d.author || '') + '</p></div>';
+
+  panel.innerHTML = html;
+
+  // Set SPL text safely via textContent — avoids HTML injection / escaping issues
+  if (d.search) {
+    document.getElementById('spl-code').textContent = d.search;
+    document.getElementById('spl-copy-btn').addEventListener('click', function() {
+      navigator.clipboard.writeText(d.search).then(function() {
+        var btn = document.getElementById('spl-copy-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    });
+  }
+
+  wireChips(panel);
+}
+
+document.getElementById('det-search').addEventListener('input', renderDetList);
+renderDetFilters();
+renderDetPivot();
+renderDetList();
+
+// =============================================
+// STORIES VIEW
+// =============================================
+var storyCategories = [];
+var catSet = {};
+DATA.stories.forEach(function(s) {
+  (s.category || []).forEach(function(c) { if (!catSet[c]) { catSet[c] = true; storyCategories.push(c); } });
+});
+storyCategories.sort();
+var storyCatFilter = null;
+
+function renderStoryFilters() {
+  var c = document.getElementById('story-filters');
+  c.innerHTML = storyCategories.map(function(cat) {
+    return '<button class="filter-chip ' + (storyCatFilter === cat ? 'active' : '') + '" data-cat="' + esc(cat) + '">' + esc(cat) + '</button>';
+  }).join('');
+  c.querySelectorAll('.filter-chip').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      storyCatFilter = storyCatFilter === this.dataset.cat ? null : this.dataset.cat;
+      renderStoryFilters();
+      renderStoryList();
+    });
+  });
+}
+
+function getFilteredStories() {
+  var q = document.getElementById('story-search').value.toLowerCase().trim();
+  return DATA.stories.filter(function(s) {
+    if (storyCatFilter && (s.category || []).indexOf(storyCatFilter) === -1) return false;
+    if (q && s.name.toLowerCase().indexOf(q) === -1 && (s.description || '').toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+}
+
+function renderStoryList() {
+  var items = getFilteredStories();
+  var c = document.getElementById('story-list');
+  c.innerHTML = items.map(function(s) {
+    var count = (storyIndex[s.name] || []).length;
+    return '<div class="list-item ' + (activeStory === s.id ? 'active' : '') + '" data-id="' + s.id + '">'
+      + '<div class="item-name">' + esc(s.name) + '</div>'
+      + '<div class="item-meta"><span>' + count + ' detection' + (count !== 1 ? 's' : '') + '</span>'
+      + '<span>' + (s.category || []).join(', ') + '</span></div></div>';
+  }).join('');
+  c.querySelectorAll('.list-item').forEach(function(el) {
+    el.addEventListener('click', function() { showStory(this.dataset.id); });
+  });
+  scrollActiveIntoView(c);
+}
+
+function showStory(id) {
+  activeStory = id;
+  renderStoryList();
+  var s = DATA.stories.find(function(x) { return x.id === id; });
+  if (!s) return;
+  var panel = document.getElementById('story-detail');
+  var memberDets = storyIndex[s.name] || [];
+  var storyMitreSet = {};
+  var storyDSSet = {};
+  memberDets.forEach(function(d) {
+    (d.mitre_attack_id || []).forEach(function(m) { storyMitreSet[m] = true; });
+    (d.data_source || []).forEach(function(ds) { storyDSSet[ds] = true; });
+  });
+  var storyMitre = Object.keys(storyMitreSet).sort();
+  var storyDS = Object.keys(storyDSSet).sort();
+
+  var mitreHtml = storyMitre.map(function(m) { return mitreChip(m); }).join('');
+  var dSourcesHtml = storyDS.map(function(ds) { return dsChip(ds); }).join('');
+
+  var refsHtml = (s.references || []).map(function(r) {
+    return '<li><a href="' + esc(r) + '" target="_blank">' + esc(r) + '</a></li>';
+  }).join('');
+
+  var detsHtml = memberDets.map(function(d) {
+    return '<li data-pivot-type="detection" data-pivot-value="' + esc(d.name) + '">'
+      + '<span class="det-name">' + esc(d.name) + '</span>'
+      + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
+      + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
+      + '</li>';
+  }).join('');
+
+  var catBadges = (s.category || []).map(function(c) {
+    return '<span class="badge" style="background:rgba(240,136,62,0.15);color:var(--story);">' + esc(c) + '</span>';
+  }).join('');
+
+  var html = '<div class="detail-header"><h2>' + esc(s.name) + '</h2>'
+    + '<div class="meta-row">' + catBadges
+    + '<button class="btn" id="story-graph-btn"><span class="btn-icon">⑆</span>View in Graph</button>'
+    + '</div></div>';
+
+  html += '<div class="detail-section"><h3>Description</h3><p>' + esc(s.description || '') + '</p></div>';
+  if (s.narrative) html += '<div class="detail-section"><h3>Narrative</h3><p>' + esc(s.narrative) + '</p></div>';
+  if (mitreHtml) html += '<div class="detail-section"><h3>MITRE ATT&CK Coverage</h3><div class="chip-group">' + mitreHtml + '</div></div>';
+  if (dSourcesHtml) html += '<div class="detail-section"><h3>Data Sources</h3><div class="chip-group">' + dSourcesHtml + '</div></div>';
+  html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + memberDets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
+  if (refsHtml) html += '<div class="detail-section"><h3>References</h3><ul class="ref-list">' + refsHtml + '</ul></div>';
+
+  panel.innerHTML = html;
+  wireChips(panel);
+
+  // Wire "View in Graph" button via event listener (safer than inline onclick)
+  var graphBtn = document.getElementById('story-graph-btn');
+  if (graphBtn) {
+    graphBtn.addEventListener('click', function() {
+      scopeGraphToStory(s.name);
+    });
+  }
+}
+
+document.getElementById('story-search').addEventListener('input', renderStoryList);
+renderStoryFilters();
+renderStoryList();
+
+// =============================================
+// DATA SOURCES VIEW
+// =============================================
+function getFilteredDS() {
+  var q = document.getElementById('ds-search').value.toLowerCase().trim();
+  return DATA.data_sources.filter(function(ds) {
+    if (q && ds.name.toLowerCase().indexOf(q) === -1
+        && (ds.source || '').toLowerCase().indexOf(q) === -1
+        && (ds.sourcetype || '').toLowerCase().indexOf(q) === -1
+        && (ds.description || '').toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+}
+
+function renderDSList() {
+  var items = getFilteredDS();
+  var c = document.getElementById('ds-list');
+  c.innerHTML = items.map(function(ds) {
+    var count = (dsIndex[ds.name] || []).length;
+    return '<div class="list-item ' + (activeDS === ds.id ? 'active' : '') + '" data-id="' + ds.id + '">'
+      + '<div class="item-name">' + esc(ds.name) + '</div>'
+      + '<div class="item-meta"><span>' + count + ' detection' + (count !== 1 ? 's' : '') + '</span>'
+      + '<span>' + esc(ds.sourcetype || '') + '</span></div></div>';
+  }).join('');
+  c.querySelectorAll('.list-item').forEach(function(el) {
+    el.addEventListener('click', function() { showDS(this.dataset.id); });
+  });
+  scrollActiveIntoView(c);
+}
+
+function showDS(id) {
+  activeDS = id;
+  renderDSList();
+  var ds = DATA.data_sources.find(function(x) { return x.id === id; });
+  if (!ds) return;
+  var panel = document.getElementById('ds-detail');
+  var dets = dsIndex[ds.name] || [];
+
+  var relStoriesSet = {};
+  var relMitreSet = {};
+  dets.forEach(function(d) {
+    (d.analytic_story || []).forEach(function(s) { relStoriesSet[s] = true; });
+    (d.mitre_attack_id || []).forEach(function(m) { relMitreSet[m] = true; });
+  });
+  var relStories = Object.keys(relStoriesSet).sort();
+  var relMitre = Object.keys(relMitreSet).sort();
+
+  var storiesHtml = relStories.map(function(s) { return storyChip(s); }).join('');
+  var mitreHtml = relMitre.map(function(m) { return mitreChip(m); }).join('');
+
+  var taHtml = (ds.supported_TA || []).map(function(ta) {
+    return '<li><a href="' + esc(ta.url || '') + '" target="_blank">' + esc(ta.name || '') + ' v' + esc(ta.version || '') + '</a></li>';
+  }).join('');
+
+  var detsHtml = dets.map(function(d) {
+    return '<li data-pivot-type="detection" data-pivot-value="' + esc(d.name) + '">'
+      + '<span class="det-name">' + esc(d.name) + '</span>'
+      + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
+      + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
+      + '</li>';
+  }).join('');
+
+  var html = '<div class="detail-header"><h2>' + esc(ds.name) + '</h2>'
+    + '<div class="meta-row"><span style="color:var(--text-muted);font-size:12px;">source: ' + esc(ds.source || 'N/A') + ' · sourcetype: ' + esc(ds.sourcetype || 'N/A') + '</span></div></div>';
+
+  html += '<div class="detail-section"><h3>Description</h3><p>' + esc(ds.description || '') + '</p></div>';
+  if (taHtml) html += '<div class="detail-section"><h3>Supported Technology Add-ons</h3><ul class="ref-list">' + taHtml + '</ul></div>';
+  if (storiesHtml) html += '<div class="detail-section"><h3>Related Analytic Stories</h3><div class="chip-group">' + storiesHtml + '</div></div>';
+  if (mitreHtml) html += '<div class="detail-section"><h3>MITRE ATT&CK Techniques Covered</h3><div class="chip-group">' + mitreHtml + '</div></div>';
+  html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + dets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
+
+  panel.innerHTML = html;
+  wireChips(panel);
+}
+
+document.getElementById('ds-search').addEventListener('input', renderDSList);
+renderDSList();
+
+// =============================================
+// MITRE VIEW
+// =============================================
+function getFilteredMitre() {
+  var q = document.getElementById('mitre-search').value.toLowerCase().trim();
+  return allMitreSorted.filter(function(m) {
+    if (q && m.toLowerCase().indexOf(q) === -1) return false;
+    return true;
+  });
+}
+
+function renderMitreList() {
+  var items = getFilteredMitre();
+  var c = document.getElementById('mitre-list');
+  var mitreTechs = (DATA.mitre && DATA.mitre.techniques) ? DATA.mitre.techniques : {};
+  c.innerHTML = items.map(function(m) {
+    var count = (mitreIndex[m] || []).length;
+    var info = mitreTechs[m];
+    var name = info ? info.name : '';
+    return '<div class="list-item ' + (activeMitreId === m ? 'active' : '') + '" data-mid="' + esc(m) + '">'
+      + '<div class="item-name">' + esc(m) + (name ? ' — ' + esc(name) : '') + '</div>'
+      + '<div class="item-meta"><span>' + count + ' detection' + (count !== 1 ? 's' : '') + '</span></div></div>';
+  }).join('');
+  c.querySelectorAll('.list-item').forEach(function(el) {
+    el.addEventListener('click', function() { showMitre(this.dataset.mid); });
+  });
+  scrollActiveIntoView(c);
+}
+
+function showMitre(technique) {
+  activeMitreId = technique;
+  renderMitreList();
+  var panel = document.getElementById('mitre-detail');
+  var dets = mitreIndex[technique] || [];
+
+  var relStoriesSet = {};
+  var relDSSet = {};
+  dets.forEach(function(d) {
+    (d.analytic_story || []).forEach(function(s) { relStoriesSet[s] = true; });
+    (d.data_source || []).forEach(function(ds) { relDSSet[ds] = true; });
+  });
+  var relStories = Object.keys(relStoriesSet).sort();
+  var relDS = Object.keys(relDSSet).sort();
+
+  var storiesHtml = relStories.map(function(s) { return storyChip(s); }).join('');
+  var dSourcesHtml = relDS.map(function(ds) { return dsChip(ds); }).join('');
+
+  var attackUrl = 'https://attack.mitre.org/techniques/' + technique.replace(/\./g, '/') + '/';
+
+  var techInfo = (DATA.mitre && DATA.mitre.techniques) ? DATA.mitre.techniques[technique] : null;
+  var techName = techInfo ? techInfo.name : '';
+  var techTactics = techInfo ? (techInfo.tactics || []) : [];
+  var tacticBadges = techTactics.map(function(t) {
+    var tInfo = (DATA.mitre && DATA.mitre.tactics) ? DATA.mitre.tactics[t] : null;
+    var tName = tInfo ? tInfo.name : t;
+    return '<span class="badge" style="background:rgba(188,140,255,0.15);color:var(--mitre);">' + esc(tName) + '</span>';
+  }).join('');
+
+  var detsHtml = dets.map(function(d) {
+    return '<li data-pivot-type="detection" data-pivot-value="' + esc(d.name) + '">'
+      + '<span class="det-name">' + esc(d.name) + '</span>'
+      + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
+      + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
+      + '</li>';
+  }).join('');
+
+  var html = '<div class="detail-header"><h2>' + esc(technique) + (techName ? ' — ' + esc(techName) : '') + '</h2>'
+    + '<div class="meta-row">' + tacticBadges
+    + '<a href="' + esc(attackUrl) + '" target="_blank" style="color:var(--accent);font-size:12px;text-decoration:none;">View on MITRE ATT&CK →</a></div></div>';
+
+  html += '<div class="detail-section"><p class="mitre-stat"><span class="num">' + dets.length + '</span> detection' + (dets.length !== 1 ? 's' : '') + ' cover this technique</p></div>';
+  if (storiesHtml) html += '<div class="detail-section"><h3>Related Analytic Stories</h3><div class="chip-group">' + storiesHtml + '</div></div>';
+  if (dSourcesHtml) html += '<div class="detail-section"><h3>Required Data Sources</h3><div class="chip-group">' + dSourcesHtml + '</div></div>';
+  html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + dets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
+
+  panel.innerHTML = html;
+  wireChips(panel);
+}
+
+document.getElementById('mitre-search').addEventListener('input', renderMitreList);
+renderMitreList();
+
+// =============================================
+// GRAPH VIEW
+// =============================================
+function initGraph() {
+  graphInitialized = true;
+
+  var container = document.getElementById('graph-container');
+  // Force a synchronous reflow so the container has real dimensions
+  // (vis-network reads clientWidth/clientHeight during init)
+  void container.offsetHeight;
+
+  var nodes = [];
+  var edges = [];
+  var nodeIds = {};
+
+  var COLORS = {
+    detection: '#58a6ff',
+    story: '#f0883e',
+    datasource: '#3fb950',
+    mitre: '#bc8cff'
+  };
+
+  DATA.stories.forEach(function(s) {
+    var nid = 'story:' + s.name;
+    if (!nodeIds[nid]) {
+      nodeIds[nid] = true;
+      nodes.push({ id: nid, label: s.name, color: COLORS.story, shape: 'dot', size: 12, group: 'story', title: 'Story: ' + s.name });
+    }
+  });
+
+  DATA.data_sources.forEach(function(ds) {
+    var nid = 'ds:' + ds.name;
+    if (!nodeIds[nid]) {
+      nodeIds[nid] = true;
+      nodes.push({ id: nid, label: ds.name, color: COLORS.datasource, shape: 'dot', size: 8, group: 'datasource', title: 'Data Source: ' + ds.name });
+    }
+  });
+
+  allMitre.forEach(function(m) {
+    var nid = 'mitre:' + m;
+    if (!nodeIds[nid]) {
+      nodeIds[nid] = true;
+      nodes.push({ id: nid, label: m, color: COLORS.mitre, shape: 'dot', size: 8, group: 'mitre', title: 'MITRE: ' + m });
+    }
+  });
+
+  DATA.detections.forEach(function(d) {
+    var nid = 'det:' + d.id;
+    nodes.push({ id: nid, label: d.name, color: COLORS.detection, shape: 'dot', size: 6, group: 'detection', title: 'Detection: ' + d.name });
+
+    (d.analytic_story || []).forEach(function(s) {
+      var sid = 'story:' + s;
+      if (nodeIds[sid]) edges.push({ from: nid, to: sid, color: { color: 'rgba(240,136,62,0.25)', hover: COLORS.story } });
+    });
+
+    (d.data_source || []).forEach(function(ds) {
+      var dsid = 'ds:' + ds;
+      if (nodeIds[dsid]) edges.push({ from: nid, to: dsid, color: { color: 'rgba(63,185,80,0.25)', hover: COLORS.datasource } });
+    });
+
+    (d.mitre_attack_id || []).forEach(function(m) {
+      var mid = 'mitre:' + m;
+      if (nodeIds[mid]) edges.push({ from: nid, to: mid, color: { color: 'rgba(188,140,255,0.25)', hover: COLORS.mitre } });
+    });
+  });
+
+  var visData = {
+    nodes: new vis.DataSet(nodes),
+    edges: new vis.DataSet(edges)
+  };
+
+  // Store for scoped graph features
+  allGraphNodes = nodes.map(function(n) { n.originalSize = n.size; return n; });
+  allGraphEdges = edges;
+  graphVisData = visData;
+
+  var options = {
+    physics: {
+      solver: 'forceAtlas2Based',
+      forceAtlas2Based: {
+        gravitationalConstant: -30,
+        centralGravity: 0.005,
+        springLength: 120,
+        springConstant: 0.02,
+        damping: 0.4
+      },
+      stabilization: { iterations: 150 }
+    },
+    interaction: { hover: true, tooltipDelay: 100 },
+    nodes: { font: { color: '#e6edf3', size: 10, face: 'sans-serif' }, borderWidth: 0 },
+    edges: { width: 0.5, smooth: { type: 'continuous' } }
+  };
+
+  graphNetwork = new vis.Network(container, visData, options);
+
+  graphNetwork.on('click', function(params) {
+    var infoPanel = document.getElementById('graph-info');
+    if (params.nodes.length === 0) { infoPanel.classList.remove('visible'); return; }
+    var nodeId = params.nodes[0];
+    var node = nodes.find(function(n) { return n.id === nodeId; });
+    if (!node) return;
+
+    var html = '';
+    if (node.group === 'detection') {
+      var d = DATA.detections.find(function(x) { return 'det:' + x.id === nodeId; });
+      if (d) {
+        html = '<h3>' + esc(d.name) + '</h3><p>' + esc(d.description || '') + '</p>'
+          + '<div class="chip-group" style="margin-top:8px;">'
+          + (d.analytic_story || []).map(function(s) { return storyChip(s); }).join('')
+          + (d.mitre_attack_id || []).map(function(m) { return mitreChip(m); }).join('')
+          + (d.data_source || []).map(function(ds) { return dsChip(ds); }).join('')
+          + '</div>';
+      }
+    } else if (node.group === 'story') {
+      var sName = nodeId.replace('story:', '');
+      var s = DATA.stories.find(function(x) { return x.name === sName; });
+      var count = (storyIndex[sName] || []).length;
+      html = '<h3>' + esc(sName) + '</h3><p>' + esc(s ? s.description : '') + '</p>'
+        + '<p style="margin-top:6px;">' + count + ' detection(s)</p>'
+        + '<div style="margin-top:8px;">' + storyChip(sName) + '</div>';
+    } else if (node.group === 'datasource') {
+      var dsName = nodeId.replace('ds:', '');
+      var ds = DATA.data_sources.find(function(x) { return x.name === dsName; });
+      var dcount = (dsIndex[dsName] || []).length;
+      html = '<h3>' + esc(dsName) + '</h3><p>' + esc(ds ? ds.description : '') + '</p>'
+        + '<p style="margin-top:6px;">Used by ' + dcount + ' detection(s)</p>'
+        + '<div style="margin-top:8px;">' + dsChip(dsName) + '</div>';
+    } else if (node.group === 'mitre') {
+      var mid = nodeId.replace('mitre:', '');
+      var mcount = (mitreIndex[mid] || []).length;
+      html = '<h3>' + esc(mid) + '</h3><p>' + mcount + ' detection(s) map to this technique</p>'
+        + '<div style="margin-top:8px;">' + mitreChip(mid) + '</div>';
+    }
+
+    infoPanel.innerHTML = html;
+    infoPanel.classList.add('visible');
+    wireChips(infoPanel);
+  });
+
+  document.getElementById('graph-search').addEventListener('input', function(e) {
+    var q = e.target.value.toLowerCase().trim();
+    if (!q) {
+      var updates = allGraphNodes.map(function(n) { return { id: n.id, opacity: 1, font: { color: '#e6edf3' } }; });
+      visData.nodes.update(updates);
+      return;
+    }
+    // Clear scope if searching
+    if (graphScope) {
+      graphScope = null;
+      document.getElementById('graph-scope-banner').classList.remove('visible');
+    }
+    var matching = allGraphNodes.filter(function(n) { return n.label.toLowerCase().indexOf(q) !== -1; });
+    var matchIds = {};
+    matching.forEach(function(n) { matchIds[n.id] = true; });
+    var neighborIds = {};
+    allGraphEdges.forEach(function(e) {
+      if (matchIds[e.from]) neighborIds[e.to] = true;
+      if (matchIds[e.to]) neighborIds[e.from] = true;
+    });
+    var updates = allGraphNodes.map(function(n) {
+      var highlight = matchIds[n.id] || neighborIds[n.id];
+      return { id: n.id, opacity: highlight ? 1 : 0.08, font: { color: highlight ? '#e6edf3' : 'rgba(230,237,243,0.08)' } };
+    });
+    visData.nodes.update(updates);
+    if (matching.length > 0) {
+      graphNetwork.focus(matching[0].id, { scale: 1.2, animation: { duration: 400 } });
+    }
+  });
+}
+
+// =============================================
+// STORY-SCOPED GRAPH
+// =============================================
+var graphScope = null; // null = full graph, or {type:'story', name:'...'}
+var allGraphNodes = [];
+var allGraphEdges = [];
+var graphVisData = null;
+
+function scopeGraphToStory(storyName) {
+  graphScope = { type: 'story', name: storyName };
+  switchTab('graph-view');
+
+  // Make sure the graph is initialized first
+  if (!graphInitialized) initGraph();
+
+  // Find relevant node IDs
+  var storyNodeId = 'story:' + storyName;
+  var memberDets = storyIndex[storyName] || [];
+  var relevantIds = {};
+  relevantIds[storyNodeId] = true;
+
+  memberDets.forEach(function(d) {
+    var detId = 'det:' + d.id;
+    relevantIds[detId] = true;
+    (d.data_source || []).forEach(function(ds) { relevantIds['ds:' + ds] = true; });
+    (d.mitre_attack_id || []).forEach(function(m) { relevantIds['mitre:' + m] = true; });
+  });
+
+  // Update node visibility
+  if (graphVisData) {
+    var updates = allGraphNodes.map(function(n) {
+      var visible = relevantIds[n.id];
+      return {
+        id: n.id,
+        opacity: visible ? 1 : 0.03,
+        font: { color: visible ? '#e6edf3' : 'rgba(230,237,243,0.03)' },
+        size: visible ? (n.group === 'story' ? 18 : n.originalSize || n.size) : 1
+      };
+    });
+    graphVisData.nodes.update(updates);
+
+    // Focus on matching nodes
+    var fitIds = Object.keys(relevantIds);
+    if (fitIds.length > 0) {
+      graphNetwork.fit({ nodes: fitIds, animation: { duration: 600, easingFunction: 'easeInOutQuad' } });
+    }
+  }
+
+  // Show scope banner
+  var banner = document.getElementById('graph-scope-banner');
+  document.getElementById('graph-scope-label').textContent = storyName;
+  banner.classList.add('visible');
+}
+
+function clearGraphScope() {
+  graphScope = null;
+  document.getElementById('graph-scope-banner').classList.remove('visible');
+  document.getElementById('graph-search').value = '';
+
+  if (graphVisData) {
+    var updates = allGraphNodes.map(function(n) {
+      return {
+        id: n.id,
+        opacity: 1,
+        font: { color: '#e6edf3' },
+        size: n.originalSize || n.size
+      };
+    });
+    graphVisData.nodes.update(updates);
+    graphNetwork.fit({ animation: { duration: 600 } });
+  }
+}
+
+document.getElementById('graph-scope-clear').addEventListener('click', clearGraphScope);
+
+// =============================================
+// MITRE ATT&CK MATRIX VIEW
+// =============================================
+function renderMatrix() {
+  var mitre = DATA.mitre || {};
+  var techniques = mitre.techniques || {};
+  var tacticsInfo = mitre.tactics || {};
+  var tacticOrder = mitre.tactic_order || [];
+
+  // If no enrichment data, show a message
+  if (tacticOrder.length === 0) {
+    document.getElementById('matrix-grid').innerHTML =
+      '<div style="padding:40px;color:var(--text-muted);font-size:14px;">'
+      + 'MITRE ATT&CK enrichment data not available. Re-run build.py with internet access to download technique/tactic mappings.'
+      + '</div>';
+    return;
+  }
+
+  // Build tactic → techniques mapping (only techniques present in detections)
+  var tacticTechs = {};
+  tacticOrder.forEach(function(t) { tacticTechs[t] = []; });
+
+  // All techniques referenced in detections
+  var detTechIds = new Set();
+  DATA.detections.forEach(function(d) {
+    (d.mitre_attack_id || []).forEach(function(m) { detTechIds.add(m); });
+  });
+
+  // Map each technique to its tactics
+  var totalCovered = 0;
+  var totalGaps = 0;
+  var allKnownInTactics = {};
+
+  detTechIds.forEach(function(tid) {
+    var info = techniques[tid];
+    if (info && info.tactics) {
+      info.tactics.forEach(function(tactic) {
+        if (tacticTechs[tactic]) {
+          tacticTechs[tactic].push({ id: tid, name: info.name, count: (mitreIndex[tid] || []).length });
+        }
+      });
+    }
+  });
+
+  // Also add techniques from MITRE that are NOT in detections (to show gaps)
+  Object.keys(techniques).forEach(function(tid) {
+    var info = techniques[tid];
+    if (info.is_sub) return; // Skip sub-techniques for cleaner view
+    (info.tactics || []).forEach(function(tactic) {
+      if (!tacticTechs[tactic]) return;
+      if (!allKnownInTactics[tactic]) allKnownInTactics[tactic] = {};
+      allKnownInTactics[tactic][tid] = info;
+    });
+  });
+
+  // Build the grid
+  var gridHtml = '';
+
+  tacticOrder.forEach(function(tactic) {
+    var tacticName = (tacticsInfo[tactic] || {}).name || tactic;
+    var techs = tacticTechs[tactic] || [];
+
+    // Sort by count descending
+    techs.sort(function(a, b) { return b.count - a.count; });
+
+    // Count gaps (parent techniques in this tactic not covered)
+    var coveredIds = {};
+    techs.forEach(function(t) {
+      coveredIds[t.id] = true;
+      // Also count parent if sub-technique
+      if (t.id.indexOf('.') !== -1) coveredIds[t.id.split('.')[0]] = true;
+    });
+    var tacticKnown = allKnownInTactics[tactic] || {};
+    var gapTechs = Object.keys(tacticKnown).filter(function(tid) { return !coveredIds[tid]; });
+
+    totalCovered += techs.length;
+    totalGaps += gapTechs.length;
+
+    gridHtml += '<div class="matrix-column">';
+    gridHtml += '<div class="matrix-column-header">' + esc(tacticName)
+      + '<span class="tactic-count">' + techs.length + ' covered'
+      + (gapTechs.length > 0 ? ' · ' + gapTechs.length + ' gap' + (gapTechs.length !== 1 ? 's' : '') : '')
+      + '</span></div>';
+
+    // Covered techniques
+    techs.forEach(function(t) {
+      var level = t.count === 0 ? 0 : t.count <= 1 ? 1 : t.count <= 3 ? 2 : t.count <= 5 ? 3 : t.count <= 10 ? 4 : 5;
+      gridHtml += '<div class="matrix-cell coverage-' + level + '" data-pivot-type="mitre" data-pivot-value="' + esc(t.id) + '" title="' + esc(t.id + ': ' + t.name + ' (' + t.count + ' detections)') + '">'
+        + '<span class="tech-id">' + esc(t.id) + '</span>'
+        + '<span class="tech-name">' + esc(t.name) + '</span>'
+        + '<span class="tech-count">' + t.count + '</span>'
+        + '</div>';
+    });
+
+    // Gap techniques (top 10 to avoid overwhelming)
+    gapTechs.slice(0, 10).forEach(function(tid) {
+      var info = tacticKnown[tid];
+      gridHtml += '<div class="matrix-cell coverage-0" data-pivot-type="mitre" data-pivot-value="' + esc(tid) + '" title="' + esc(tid + ': ' + (info ? info.name : '') + ' (0 detections — gap)') + '">'
+        + '<span class="tech-id">' + esc(tid) + '</span>'
+        + '<span class="tech-name">' + esc(info ? info.name : '') + '</span>'
+        + '<span class="tech-count">0</span>'
+        + '</div>';
+    });
+    if (gapTechs.length > 10) {
+      gridHtml += '<div style="padding:4px 8px;font-size:10px;color:var(--text-muted);">+' + (gapTechs.length - 10) + ' more gaps</div>';
+    }
+
+    gridHtml += '</div>';
+  });
+
+  document.getElementById('matrix-grid').innerHTML = gridHtml;
+  document.getElementById('matrix-covered').textContent = totalCovered;
+  document.getElementById('matrix-gaps').textContent = totalGaps;
+
+  // Wire click handlers
+  wireChips(document.getElementById('matrix-grid'));
+}
+
+// Matrix is rendered lazily via switchTab (see switchTab function above)
+</script>
+</body>
+</html>
