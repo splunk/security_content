@@ -7,11 +7,19 @@ and generates a self-contained HTML explorer at eagle-eye/discard/eagle-eye.html
 
 Usage:
     python eagle-eye/keep/build.py
+    python eagle-eye/keep/build.py --envs-dir /path/to/envs
+
+Environment enablement sidecars are loaded from (first path with .yml files wins):
+    1. --envs-dir CLI argument
+    2. EAGLE_EYE_ENVS_DIR environment variable
+    3. <repo>/eagle-eye/keep/environments/*.yml  (local, gitignored)
+    4. ~/.eagle-eye/envs/                        (user home default)
 
 Requirements:
     PyYAML (pip install pyyaml)
 """
 
+import argparse
 import json
 import os
 import re
@@ -28,13 +36,11 @@ except ImportError:
 
 def find_repo_root():
     """Find the repository root (directory containing contentctl.yml)."""
-    # Start from this script's location and walk up
     current = Path(__file__).resolve().parent
     for _ in range(10):
         if (current / "contentctl.yml").exists():
             return current
         current = current.parent
-    # Fallback: try cwd
     if (Path.cwd() / "contentctl.yml").exists():
         return Path.cwd()
     print("ERROR: Could not find repository root (no contentctl.yml found).")
@@ -87,8 +93,6 @@ def extract_macros_from_search(search_str):
     if not search_str:
         return []
     raw = re.findall(r"`([^`]+)`", search_str)
-    # Real macro names are identifiers — never contain spaces.
-    # SPL triple-backtick comments always have descriptive text with spaces.
     return [m for m in raw if " " not in m]
 
 
@@ -96,7 +100,6 @@ def load_mitre_attack():
     """Download and parse MITRE ATT&CK STIX data to build technique→tactics mapping."""
     cache_path = Path(__file__).resolve().parent / ".mitre-cache.json"
 
-    # Try cache first (cache for 7 days)
     if cache_path.exists():
         import time
         age = time.time() - cache_path.stat().st_mtime
@@ -115,7 +118,6 @@ def load_mitre_attack():
     try:
         import ssl
         req = urllib.request.Request(url, headers={"User-Agent": "eagle-eye-builder/1.0"})
-        # Try default SSL context first, fall back to unverified (common on macOS)
         try:
             resp = urllib.request.urlopen(req, timeout=60)
         except Exception:
@@ -128,8 +130,7 @@ def load_mitre_attack():
         print("  Matrix view will show technique IDs only (no names/tactics).")
         return {"techniques": {}, "tactics": {}, "tactic_order": []}
 
-    # Parse tactics
-    tactics_info = {}  # shortname → {name, id}
+    tactics_info = {}
     for obj in stix_data.get("objects", []):
         if obj.get("type") == "x-mitre-tactic" and not obj.get("revoked"):
             short = obj.get("x_mitre_shortname", "")
@@ -139,7 +140,6 @@ def load_mitre_attack():
             if short:
                 tactics_info[short] = {"name": name, "id": ext_id}
 
-    # Standard tactic order
     tactic_order = [
         "reconnaissance", "resource-development", "initial-access", "execution",
         "persistence", "privilege-escalation", "defense-evasion", "credential-access",
@@ -147,8 +147,7 @@ def load_mitre_attack():
         "exfiltration", "impact",
     ]
 
-    # Parse techniques
-    techniques = {}  # ext_id → {name, tactics[], url, is_subtechnique}
+    techniques = {}
     for obj in stix_data.get("objects", []):
         if obj.get("type") != "attack-pattern":
             continue
@@ -162,11 +161,7 @@ def load_mitre_attack():
         phases = obj.get("kill_chain_phases", [])
         tech_tactics = [p["phase_name"] for p in phases if p.get("kill_chain_name") == "mitre-attack"]
         is_sub = obj.get("x_mitre_is_subtechnique", False)
-        techniques[ext_id] = {
-            "name": name,
-            "tactics": tech_tactics,
-            "is_sub": is_sub,
-        }
+        techniques[ext_id] = {"name": name, "tactics": tech_tactics, "is_sub": is_sub}
 
     result = {
         "techniques": techniques,
@@ -176,7 +171,6 @@ def load_mitre_attack():
 
     print(f"  Parsed {len(techniques)} techniques across {len(tactics_info)} tactics")
 
-    # Cache
     try:
         with open(cache_path, "w") as f:
             json.dump(result, f)
@@ -186,12 +180,57 @@ def load_mitre_attack():
     return result
 
 
+VALID_ENABLEMENT_STATUSES = {"backlog", "later", "blocked", "now", "done"}
+
+
+def load_environments(search_paths):
+    """Load environment YAML sidecar files from the first path that has .yml files.
+
+    Args:
+        search_paths: list of (Path, label) tuples to search, in priority order.
+
+    Returns:
+        tuple of (list of env dicts, source label or None)
+    """
+    for p, label in search_paths:
+        if not p.exists():
+            continue
+        yml_files = sorted(p.glob("*.yml"))
+        if not yml_files:
+            continue
+
+        envs = []
+        for f in yml_files:
+            try:
+                with open(f, "r", encoding="utf-8") as fh:
+                    data = yaml.safe_load(fh)
+                    if not data or not isinstance(data, dict) or not data.get("id"):
+                        continue
+                    raw_dets = data.get("detections", {}) or {}
+                    clean_dets = {}
+                    for det_id, status in raw_dets.items():
+                        status_str = str(status).lower().strip()
+                        if status_str in VALID_ENABLEMENT_STATUSES:
+                            clean_dets[str(det_id)] = status_str
+                        else:
+                            print(f"  WARN: {f.name}: unknown status '{status}' for detection {det_id}, skipped")
+                    envs.append({
+                        "id": data["id"],
+                        "name": data.get("name", data["id"]),
+                        "detections": clean_dets,
+                    })
+            except Exception as e:
+                print(f"  WARN: Skipping env file {f.name}: {e}")
+        if envs:
+            return envs, label
+    return [], None
+
+
 def build_detection_record(raw):
     """Extract relevant fields from a raw detection YAML dict."""
     tags = raw.get("tags", {})
     search = raw.get("search", "")
     macros = extract_macros_from_search(search)
-
     return {
         "name": raw.get("name", ""),
         "id": raw.get("id", ""),
@@ -245,13 +284,22 @@ def build_datasource_record(raw):
 
 
 def main():
+    parser = argparse.ArgumentParser(
+        description="Build the Eagle Eye security content explorer HTML."
+    )
+    parser.add_argument(
+        "--envs-dir",
+        help="Path to environment YAML sidecar files. "
+             "Overrides EAGLE_EYE_ENVS_DIR env var and all defaults.",
+    )
+    args = parser.parse_args()
+
     root = find_repo_root()
     print(f"Repository root: {root}")
 
     # --- Load content ---
     print("Loading detections...")
     raw_detections = load_yaml_files_recursive(root / "detections")
-    # Filter out deprecated directory unless they have useful content
     detections = [build_detection_record(d) for d in raw_detections if d.get("name")]
     print(f"  Loaded {len(detections)} detections")
 
@@ -273,6 +321,38 @@ def main():
     print("Loading MITRE ATT&CK enrichment...")
     mitre_enrichment = load_mitre_attack()
 
+    # --- Load environment enablement data ---
+    env_search_paths = []
+    if args.envs_dir:
+        env_search_paths.append(
+            (Path(args.envs_dir).expanduser().resolve(), f"--envs-dir ({args.envs_dir})")
+        )
+    if os.environ.get("EAGLE_EYE_ENVS_DIR"):
+        env_search_paths.append(
+            (Path(os.environ["EAGLE_EYE_ENVS_DIR"]).expanduser().resolve(), "EAGLE_EYE_ENVS_DIR env var")
+        )
+    env_search_paths.append(
+        (Path(__file__).resolve().parent / "environments", "in-repo (eagle-eye/keep/environments/)")
+    )
+    env_search_paths.append(
+        (Path.home() / ".eagle-eye" / "envs", f"user home ({Path.home() / '.eagle-eye' / 'envs'})")
+    )
+
+    print("Loading environments...")
+    environments, env_source = load_environments(env_search_paths)
+    if environments:
+        env_names = ", ".join(e["name"] for e in environments)
+        print(f"  Loaded {len(environments)} environment(s) from: {env_source}")
+        print(f"  Environments: {env_names}")
+    else:
+        print("  No environments found (enablement tracking disabled)")
+        print(f"  Searched: {', '.join(label for _, label in env_search_paths)}")
+        template_src = Path(__file__).resolve().parent / "environments" / "example.yml.template"
+        default_dir = Path.home() / ".eagle-eye" / "envs"
+        print(f"  To get started:")
+        print(f'    mkdir -p "{default_dir}"')
+        print(f'    cp "{template_src}" "{default_dir}/my-env.yml"')
+
     # --- Build data payload ---
     data = {
         "detections": detections,
@@ -280,12 +360,10 @@ def main():
         "data_sources": data_sources,
         "macro_names": macro_names,
         "mitre": mitre_enrichment,
+        "environments": environments,
     }
 
     data_json = json.dumps(data, separators=(",", ":"), ensure_ascii=False)
-    # Escape sequences that would break a <script type="application/json"> island:
-    # - "</script>" or "</Script>" etc. in string values would close the tag early
-    # - "<!--" could open an HTML comment
     data_json = data_json.replace("</", "<\\/")
     data_json = data_json.replace("<!--", "<\\!--")
     print(f"JSON payload: {len(data_json) / 1024:.0f} KB")

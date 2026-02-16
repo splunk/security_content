@@ -127,6 +127,11 @@ package/default/sftp-config.json
 *.code-snippets
 notes
 
+# Eagle Eye — build output and local environment sidecars
+eagle-eye/discard/
+eagle-eye/keep/environments/*.yml
+eagle-eye/keep/.mitre-cache.json
+
 # detection_testing_batch innteractive mode
 bin/docker_detection_tester/*-test-run.json
 bin/docker_detection_tester/apps/

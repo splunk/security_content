@@ -523,6 +523,231 @@
   .graph-empty-inner { text-align: center; color: var(--text-muted); padding: 40px; }
   .graph-empty-inner h3 { font-size: 18px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
   .graph-empty-inner p { font-size: 14px; line-height: 1.6; }
+
+  /* ---- Enablement / Environment ---- */
+  .env-selector {
+    margin-left: auto; display: flex; align-items: center; gap: 8px;
+  }
+  .env-selector label {
+    font-size: 12px; color: var(--text-muted); white-space: nowrap;
+  }
+  .env-selector select {
+    padding: 4px 8px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg);
+    color: var(--text); font-size: 12px; outline: none; max-width: 200px;
+  }
+  .env-selector select:focus { border-color: var(--accent); }
+
+  .enablement-badge {
+    display: inline-block; padding: 1px 7px; border-radius: 4px;
+    font-size: 11px; font-weight: 500; margin-left: 6px; vertical-align: middle;
+  }
+  .enablement-badge.st-done    { background: rgba(63,185,80,0.18); color: #3fb950; }
+  .enablement-badge.st-now     { background: rgba(88,166,255,0.18); color: #58a6ff; }
+  .enablement-badge.st-blocked { background: rgba(248,81,73,0.18); color: #f85149; }
+  .enablement-badge.st-later   { background: rgba(210,153,34,0.18); color: #d29922; }
+  .enablement-badge.st-backlog { background: rgba(139,148,158,0.12); color: #8b949e; }
+  .enablement-badge.st-none    { background: transparent; color: var(--text-muted); font-style: italic; }
+
+  .breakdown-bar-wrap { margin: 6px 0 2px; }
+  .breakdown-bar {
+    display: flex; height: 8px; border-radius: 4px; overflow: hidden;
+    background: rgba(255,255,255,0.04); width: 100%;
+  }
+  .breakdown-bar .seg { height: 100%; transition: width 0.3s; }
+  .breakdown-bar .seg-done    { background: #3fb950; }
+  .breakdown-bar .seg-now     { background: #58a6ff; }
+  .breakdown-bar .seg-blocked { background: #f85149; }
+  .breakdown-bar .seg-later   { background: #d29922; }
+  .breakdown-bar .seg-backlog { background: #484f58; }
+
+  .breakdown-legend {
+    display: flex; gap: 10px; margin-top: 4px; flex-wrap: wrap;
+  }
+  .breakdown-legend span {
+    font-size: 11px; color: var(--text-muted); display: flex; align-items: center; gap: 4px;
+  }
+  .breakdown-legend .dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+  }
+
+  /* Status picker (inline dropdown on badge click) */
+  .enablement-badge.clickable { cursor: pointer; position: relative; }
+  .enablement-badge.clickable:hover { filter: brightness(1.3); }
+  .status-picker {
+    position: absolute; z-index: 100; top: calc(100% + 4px); left: 0;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5); padding: 4px 0; min-width: 120px;
+    display: none;
+  }
+  .status-picker.visible { display: block; }
+  .status-picker-item {
+    padding: 6px 12px; cursor: pointer; font-size: 12px; display: flex;
+    align-items: center; gap: 8px; color: var(--text);
+  }
+  .status-picker-item:hover { background: rgba(255,255,255,0.06); }
+  .status-picker-item .picker-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .status-picker-item.active { font-weight: 600; }
+
+  /* Env management buttons */
+  .env-actions { display: flex; gap: 4px; align-items: center; }
+  .env-btn {
+    padding: 3px 8px; border-radius: 4px; border: 1px solid var(--border);
+    background: transparent; color: var(--text-muted); font-size: 11px;
+    cursor: pointer; white-space: nowrap; transition: all 0.15s;
+  }
+  .env-btn:hover { color: var(--text); background: rgba(255,255,255,0.06); border-color: var(--accent); }
+  .env-btn.danger:hover { border-color: #f85149; color: #f85149; }
+
+  /* Toast notification */
+  .eagle-toast {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 20px; font-size: 13px; color: var(--text); z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4); opacity: 0; transition: opacity 0.3s;
+    pointer-events: none;
+  }
+  .eagle-toast.show { opacity: 1; }
+
+  /* Hidden file input */
+  #env-import-input { display: none; }
+
+  /* ---- AI Enrichment Panel ---- */
+  .ai-section {
+    border: 1px solid var(--border); border-radius: 8px; margin-top: 12px;
+    background: rgba(88,166,255,0.03); overflow: hidden;
+  }
+  .ai-section-header {
+    display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+    border-bottom: 1px solid var(--border); background: rgba(88,166,255,0.05);
+  }
+  .ai-section-header h3 { font-size: 13px; margin: 0; color: var(--accent); }
+  .ai-ask-btn {
+    padding: 4px 12px; border-radius: 5px; border: 1px solid var(--accent);
+    background: rgba(88,166,255,0.10); color: var(--accent); font-size: 11px;
+    cursor: pointer; font-weight: 600; transition: all 0.15s;
+  }
+  .ai-ask-btn:hover { background: rgba(88,166,255,0.20); }
+  .ai-ask-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .ai-ask-btn.loading { animation: ai-pulse 1s infinite; }
+  @keyframes ai-pulse { 0%,100%{opacity:1}50%{opacity:0.5} }
+  .ai-cursor { animation: ai-blink 0.8s step-end infinite; color: var(--accent); font-weight: bold; }
+  @keyframes ai-blink { 0%,100%{opacity:1}50%{opacity:0} }
+  .ai-response {
+    padding: 14px; font-size: 13px; line-height: 1.7; color: var(--text);
+    max-height: 500px; overflow-y: auto;
+  }
+  .ai-response:empty::before {
+    content: 'Click "Ask AI" to get analysis…';
+    color: var(--text-muted); font-style: italic;
+  }
+  .ai-response h1,.ai-response h2,.ai-response h3,.ai-response h4 {
+    font-size: 13px; font-weight: 700; margin: 12px 0 4px; color: var(--accent);
+  }
+  .ai-response h1 { font-size: 15px; }
+  .ai-response h2 { font-size: 14px; }
+  .ai-response p { margin: 4px 0 8px; }
+  .ai-response ul,.ai-response ol { margin: 4px 0 8px 18px; }
+  .ai-response li { margin-bottom: 2px; }
+  .ai-response code {
+    background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 3px;
+    font-family: 'Cascadia Code','Fira Code',monospace; font-size: 12px;
+  }
+  .ai-response pre {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+    padding: 10px; overflow-x: auto; margin: 6px 0;
+  }
+  .ai-response pre code { background: none; padding: 0; }
+  .ai-response strong { color: var(--text); font-weight: 600; }
+  .ai-response blockquote {
+    border-left: 3px solid var(--accent); padding-left: 12px; margin: 6px 0;
+    color: var(--text-muted);
+  }
+  .ai-followup {
+    display: flex; gap: 6px; padding: 0 14px 10px;
+  }
+  .ai-followup input {
+    flex: 1; padding: 6px 10px; border-radius: 5px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); font-size: 12px; outline: none;
+  }
+  .ai-followup input:focus { border-color: var(--accent); }
+  .ai-followup button { padding: 6px 10px; }
+
+  /* ---- AI Settings Modal ---- */
+  .ai-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    z-index: 9000; display: none; align-items: center; justify-content: center;
+  }
+  .ai-modal-overlay.visible { display: flex; }
+  .ai-modal {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    width: 640px; max-width: 90vw; max-height: 85vh; overflow-y: auto;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+  }
+  .ai-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+  }
+  .ai-modal-header h2 { font-size: 16px; margin: 0; }
+  .ai-modal-close {
+    background: none; border: none; color: var(--text-muted); font-size: 20px;
+    cursor: pointer; padding: 4px 8px; border-radius: 4px;
+  }
+  .ai-modal-close:hover { color: var(--text); background: rgba(255,255,255,0.06); }
+  .ai-modal-body { padding: 20px; }
+  .ai-modal-tabs {
+    display: flex; gap: 4px; margin-bottom: 16px; border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .ai-modal-tab {
+    padding: 4px 12px; border-radius: 5px; border: none; background: transparent;
+    color: var(--text-muted); font-size: 12px; cursor: pointer;
+  }
+  .ai-modal-tab:hover { color: var(--text); }
+  .ai-modal-tab.active { color: var(--text); background: rgba(255,255,255,0.08); font-weight: 600; }
+  .ai-modal-panel { display: none; }
+  .ai-modal-panel.active { display: block; }
+  .ai-field { margin-bottom: 14px; }
+  .ai-field label {
+    display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px;
+  }
+  .ai-field input, .ai-field select {
+    width: 100%; padding: 6px 10px; border-radius: 5px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--text); font-size: 13px; outline: none;
+  }
+  .ai-field input:focus, .ai-field select:focus { border-color: var(--accent); }
+  .ai-field textarea {
+    width: 100%; min-height: 200px; padding: 10px; border-radius: 6px;
+    border: 1px solid var(--border); background: var(--bg); color: var(--text);
+    font-family: 'Cascadia Code','Fira Code',monospace; font-size: 12px;
+    line-height: 1.5; outline: none; resize: vertical;
+  }
+  .ai-field textarea:focus { border-color: var(--accent); }
+  .ai-field .field-hint {
+    font-size: 11px; color: var(--text-muted); margin-top: 4px;
+  }
+  .ai-field .var-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .ai-field .var-chip {
+    font-size: 10px; padding: 2px 6px; border-radius: 3px;
+    background: rgba(88,166,255,0.10); color: var(--accent); cursor: pointer;
+    font-family: monospace;
+  }
+  .ai-field .var-chip:hover { background: rgba(88,166,255,0.20); }
+  .ai-modal-footer {
+    display: flex; justify-content: flex-end; gap: 8px;
+    padding: 12px 20px; border-top: 1px solid var(--border);
+  }
+  .ai-modal-footer button {
+    padding: 6px 16px; border-radius: 5px; border: 1px solid var(--border);
+    background: transparent; color: var(--text); font-size: 12px; cursor: pointer;
+  }
+  .ai-modal-footer button:hover { background: rgba(255,255,255,0.06); }
+  .ai-modal-footer .btn-primary {
+    background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600;
+  }
+  .ai-modal-footer .btn-primary:hover { background: var(--accent-hover); }
 </style>
 </head>
 <body>
@@ -543,6 +768,20 @@
     <span><span class="num" id="stat-datasources">0</span> data sources</span>
     <span><span class="num" id="stat-mitre">0</span> techniques</span>
   </div>
+  <div class="env-selector" id="env-selector-wrap">
+    <label for="env-select">Environment:</label>
+    <select id="env-select">
+      <option value="">(none)</option>
+    </select>
+    <div class="env-actions">
+      <button class="env-btn" id="env-new-btn" title="Create new environment">+ New</button>
+      <button class="env-btn" id="env-import-btn" title="Import environment from YAML">Import</button>
+      <button class="env-btn" id="env-export-btn" title="Export current environment as YAML" style="display:none;">Export</button>
+      <button class="env-btn danger" id="env-delete-btn" title="Delete current environment" style="display:none;">Delete</button>
+    </div>
+    <input type="file" id="env-import-input" accept=".yml,.yaml">
+  </div>
+  <button class="env-btn" id="ai-settings-btn" title="AI Settings" style="margin-left:8px;font-size:13px;">🤖 AI</button>
 </header>
 
 <!-- Detections View -->
@@ -620,6 +859,10 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--datasource)"></div>Data Source</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--mitre)"></div>MITRE</div>
     </div>
+    <div id="graph-env-indicator" style="display:none;margin-left:auto;font-size:12px;white-space:nowrap;">
+      <span style="color:var(--text-muted);">Env:</span>
+      <span id="graph-env-name" style="font-weight:600;"></span>
+    </div>
   </div>
   <div class="graph-scope-banner" id="graph-scope-banner">
     <span style="width:8px;height:8px;border-radius:50%;background:var(--story);flex-shrink:0;display:inline-block;"></span>
@@ -662,9 +905,478 @@
 <!-- Data stored safely in a JSON island — avoids script-breaking characters in YAML -->
 <script id="eagle-eye-data" type="application/json">%%DATA_JSON%%</script>
 
+<!-- AI Settings Modal -->
+<div class="ai-modal-overlay" id="ai-modal-overlay">
+  <div class="ai-modal">
+    <div class="ai-modal-header">
+      <h2>🤖 AI Enrichment Settings</h2>
+      <button class="ai-modal-close" id="ai-modal-close">&times;</button>
+    </div>
+    <div class="ai-modal-body">
+      <div class="ai-modal-tabs" id="ai-modal-tabs">
+        <button class="ai-modal-tab active" data-panel="ai-panel-connection">Connection</button>
+        <button class="ai-modal-tab" data-panel="ai-panel-detection">Detection Prompt</button>
+        <button class="ai-modal-tab" data-panel="ai-panel-story">Story Prompt</button>
+        <button class="ai-modal-tab" data-panel="ai-panel-datasource">Data Source Prompt</button>
+        <button class="ai-modal-tab" data-panel="ai-panel-mitre">MITRE Prompt</button>
+      </div>
+      <div class="ai-modal-panel active" id="ai-panel-connection">
+        <div class="ai-field">
+          <label>Endpoint URL</label>
+          <input type="text" id="ai-endpoint" placeholder="http://localhost:11434/v1/chat/completions">
+          <div class="field-hint">Ollama: localhost:11434/v1/… · Docker Model Runner: localhost:12434/engines/… · OpenRouter: openrouter.ai/api/v1/…</div>
+        </div>
+        <div class="ai-field">
+          <label>Model</label>
+          <input type="text" id="ai-model" placeholder="llama3.2">
+          <div class="field-hint">e.g. llama3.2, qwen2.5, mistral, deepseek-r1, openai/gpt-4o</div>
+        </div>
+        <div class="ai-field">
+          <label>API Key (optional — needed for OpenRouter / hosted APIs)</label>
+          <input type="password" id="ai-apikey" placeholder="sk-…">
+          <div class="field-hint">Stored in your browser's localStorage only. Never sent anywhere except the endpoint above.</div>
+        </div>
+        <div class="ai-field">
+          <label>Temperature</label>
+          <input type="number" id="ai-temperature" min="0" max="2" step="0.1" placeholder="0.3">
+        </div>
+        <div class="ai-field">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="ai-streaming" style="width:auto;margin:0;">
+            Enable streaming (show tokens as they arrive)
+          </label>
+          <div class="field-hint">Disable if you see garbled output. When off, the full response appears at once after the model finishes.</div>
+        </div>
+      </div>
+      <div class="ai-modal-panel" id="ai-panel-detection">
+        <div class="ai-field">
+          <label>Detection Prompt Template</label>
+          <textarea id="ai-prompt-detection"></textarea>
+          <div class="field-hint">Available variables (click to insert):</div>
+          <div class="var-chips" data-target="ai-prompt-detection">
+            <span class="var-chip">{name}</span><span class="var-chip">{type}</span>
+            <span class="var-chip">{status}</span><span class="var-chip">{description}</span>
+            <span class="var-chip">{search}</span><span class="var-chip">{mitre}</span>
+            <span class="var-chip">{data_sources}</span><span class="var-chip">{stories}</span>
+            <span class="var-chip">{cves}</span><span class="var-chip">{security_domain}</span>
+            <span class="var-chip">{asset_type}</span><span class="var-chip">{author}</span>
+          </div>
+        </div>
+        <button class="env-btn" onclick="resetPromptToDefault('detection')">Reset to Default</button>
+      </div>
+      <div class="ai-modal-panel" id="ai-panel-story">
+        <div class="ai-field">
+          <label>Story Prompt Template</label>
+          <textarea id="ai-prompt-story"></textarea>
+          <div class="field-hint">Available variables (click to insert):</div>
+          <div class="var-chips" data-target="ai-prompt-story">
+            <span class="var-chip">{name}</span><span class="var-chip">{description}</span>
+            <span class="var-chip">{narrative}</span><span class="var-chip">{category}</span>
+            <span class="var-chip">{detection_names}</span><span class="var-chip">{detection_count}</span>
+            <span class="var-chip">{mitre_coverage}</span><span class="var-chip">{data_sources}</span>
+          </div>
+        </div>
+        <button class="env-btn" onclick="resetPromptToDefault('story')">Reset to Default</button>
+      </div>
+      <div class="ai-modal-panel" id="ai-panel-datasource">
+        <div class="ai-field">
+          <label>Data Source Prompt Template</label>
+          <textarea id="ai-prompt-datasource"></textarea>
+          <div class="field-hint">Available variables (click to insert):</div>
+          <div class="var-chips" data-target="ai-prompt-datasource">
+            <span class="var-chip">{name}</span><span class="var-chip">{source}</span>
+            <span class="var-chip">{sourcetype}</span><span class="var-chip">{description}</span>
+            <span class="var-chip">{detection_names}</span><span class="var-chip">{detection_count}</span>
+            <span class="var-chip">{mitre_coverage}</span><span class="var-chip">{stories}</span>
+          </div>
+        </div>
+        <button class="env-btn" onclick="resetPromptToDefault('datasource')">Reset to Default</button>
+      </div>
+      <div class="ai-modal-panel" id="ai-panel-mitre">
+        <div class="ai-field">
+          <label>MITRE Technique Prompt Template</label>
+          <textarea id="ai-prompt-mitre"></textarea>
+          <div class="field-hint">Available variables (click to insert):</div>
+          <div class="var-chips" data-target="ai-prompt-mitre">
+            <span class="var-chip">{technique_id}</span><span class="var-chip">{technique_name}</span>
+            <span class="var-chip">{tactics}</span><span class="var-chip">{detection_names}</span>
+            <span class="var-chip">{detection_count}</span><span class="var-chip">{data_sources}</span>
+            <span class="var-chip">{stories}</span>
+          </div>
+        </div>
+        <button class="env-btn" onclick="resetPromptToDefault('mitre')">Reset to Default</button>
+      </div>
+    </div>
+    <div class="ai-modal-footer">
+      <button id="ai-modal-cancel">Cancel</button>
+      <button class="btn-primary" id="ai-modal-save">Save</button>
+    </div>
+  </div>
+</div>
+
 <script>
 // Parse data safely from the JSON island
 const DATA = JSON.parse(document.getElementById('eagle-eye-data').textContent);
+
+// =============================================
+// ENABLEMENT / ENVIRONMENT TRACKING
+// =============================================
+var LS_KEY = 'eagle-eye-environments';
+var ENABLEMENT_STATUSES = ['done', 'now', 'blocked', 'later', 'backlog'];
+var ENABLEMENT_COLORS = {
+  done: '#3fb950', now: '#58a6ff', blocked: '#f85149',
+  later: '#d29922', backlog: '#484f58'
+};
+
+// Merge build-time envs with localStorage overrides/additions
+function loadEnvironments() {
+  var builtIn = JSON.parse(JSON.stringify(DATA.environments || []));
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  // stored shape: { envId: { id, name, detections: { detId: status }, _localOnly?: bool } }
+
+  // Merge: for each built-in env, overlay any localStorage detection overrides
+  var merged = builtIn.map(function(env) {
+    if (stored[env.id]) {
+      var s = stored[env.id];
+      if (s.name) env.name = s.name;
+      var dets = env.detections || {};
+      Object.keys(s.detections || {}).forEach(function(k) { dets[k] = s.detections[k]; });
+      env.detections = dets;
+    }
+    return env;
+  });
+
+  // Add localStorage-only environments (created in-browser)
+  Object.keys(stored).forEach(function(sid) {
+    if (stored[sid]._localOnly && !builtIn.find(function(e) { return e.id === sid; })) {
+      merged.push({ id: stored[sid].id, name: stored[sid].name, detections: stored[sid].detections || {} });
+    }
+  });
+
+  return merged;
+}
+
+function saveEnvToLocalStorage(env, localOnly) {
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  stored[env.id] = { id: env.id, name: env.name, detections: env.detections || {} };
+  if (localOnly) stored[env.id]._localOnly = true;
+  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+}
+
+function deleteEnvFromLocalStorage(envId) {
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  delete stored[envId];
+  localStorage.setItem(LS_KEY, JSON.stringify(stored));
+}
+
+var environments = loadEnvironments();
+var activeEnvId = '';
+var activeEnvData = {}; // detectionId -> status
+
+function getActiveEnvObject() {
+  return environments.find(function(e) { return e.id === activeEnvId; });
+}
+
+function setActiveEnv(envId) {
+  activeEnvId = envId;
+  activeEnvData = {};
+  var env = getActiveEnvObject();
+  if (env && env.detections) activeEnvData = env.detections;
+
+  // Persist last active env
+  try { localStorage.setItem('eagle-eye-active-env', envId); } catch(e) {}
+
+  // Show/hide action buttons
+  document.getElementById('env-export-btn').style.display = envId ? '' : 'none';
+  document.getElementById('env-delete-btn').style.display = envId ? '' : 'none';
+
+  // Update graph env indicator
+  var graphInd = document.getElementById('graph-env-indicator');
+  var graphEnvLabel = document.getElementById('graph-env-name');
+  if (activeEnvId && env) {
+    graphInd.style.display = '';
+    graphEnvLabel.textContent = env.name;
+  } else {
+    graphInd.style.display = 'none';
+  }
+}
+
+function setDetectionStatus(detectionId, status) {
+  if (!activeEnvId) return;
+  var env = getActiveEnvObject();
+  if (!env) return;
+  if (!env.detections) env.detections = {};
+  if (status) {
+    env.detections[detectionId] = status;
+  } else {
+    delete env.detections[detectionId];
+  }
+  activeEnvData = env.detections;
+  saveEnvToLocalStorage(env, !!isLocalOnlyEnv(env.id));
+}
+
+function isLocalOnlyEnv(envId) {
+  var stored = {};
+  try { stored = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) {}
+  return stored[envId] && stored[envId]._localOnly;
+}
+
+function getEnablementStatus(detectionId) {
+  if (!activeEnvId) return '';
+  return activeEnvData[detectionId] || '';
+}
+
+function enablementBadgeHtml(detectionId, clickable) {
+  var st = getEnablementStatus(detectionId);
+  if (!activeEnvId) return '';
+  var cls = clickable ? ' clickable' : '';
+  var dataAttr = clickable ? ' data-det-id="' + esc(detectionId) + '" onclick="openStatusPicker(event, this)"' : '';
+  if (!st) return '<span class="enablement-badge st-none' + cls + '"' + dataAttr + '>untracked</span>';
+  return '<span class="enablement-badge st-' + esc(st) + cls + '"' + dataAttr + '>' + esc(st) + '</span>';
+}
+
+function breakdownBarHtml(detectionIds) {
+  if (!activeEnvId || !detectionIds || detectionIds.length === 0) return '';
+  var counts = { done: 0, now: 0, blocked: 0, later: 0, backlog: 0, untracked: 0 };
+  var total = detectionIds.length;
+  detectionIds.forEach(function(id) {
+    var st = getEnablementStatus(id);
+    if (st && counts.hasOwnProperty(st)) counts[st]++;
+    else counts.untracked++;
+  });
+  var barSegs = ENABLEMENT_STATUSES.map(function(st) {
+    var pct = total > 0 ? (counts[st] / total * 100) : 0;
+    return pct > 0 ? '<div class="seg seg-' + st + '" style="width:' + pct.toFixed(1) + '%" title="' + st + ': ' + counts[st] + '"></div>' : '';
+  }).join('');
+  var legend = ENABLEMENT_STATUSES.map(function(st) {
+    return '<span><span class="dot" style="background:' + ENABLEMENT_COLORS[st] + '"></span>' + st + ': ' + counts[st] + '</span>';
+  }).join('');
+  legend += '<span style="color:var(--text-muted);">untracked: ' + counts.untracked + '</span>';
+  return '<div class="breakdown-bar-wrap">'
+    + '<div class="breakdown-bar">' + barSegs + '</div>'
+    + '<div class="breakdown-legend">' + legend + '</div></div>';
+}
+
+function updateGraphEnablementStyles() {
+  if (!cy) return;
+  cy.nodes().forEach(function(node) {
+    if (node.data('entityType') === 'detection') {
+      var detId = node.id().replace('det:', '');
+      node.data('enablementStatus', getEnablementStatus(detId) || '');
+    }
+  });
+}
+
+function refreshAllViews() {
+  renderDetList();
+  renderStoryList();
+  renderDSList();
+  if (activeDetection) showDetection(activeDetection);
+  if (activeStory) showStory(activeStory);
+  if (activeDS) showDS(activeDS);
+  if (cy) updateGraphEnablementStyles();
+}
+
+// ---- Status picker (inline dropdown) ----
+var _activePickerEl = null;
+function openStatusPicker(evt, badgeEl) {
+  evt.stopPropagation();
+  closeStatusPicker();
+  var detId = badgeEl.getAttribute('data-det-id');
+  var currentSt = getEnablementStatus(detId);
+  var picker = document.createElement('div');
+  picker.className = 'status-picker visible';
+  // "untrack" option to remove status
+  var items = ENABLEMENT_STATUSES.concat(['untrack']);
+  items.forEach(function(st) {
+    var item = document.createElement('div');
+    item.className = 'status-picker-item' + (st === currentSt ? ' active' : '');
+    var color = ENABLEMENT_COLORS[st] || 'transparent';
+    var label = st === 'untrack' ? 'untrack (remove)' : st;
+    item.innerHTML = '<span class="picker-dot" style="background:' + color + ';"></span>' + esc(label);
+    item.addEventListener('click', function(e) {
+      e.stopPropagation();
+      setDetectionStatus(detId, st === 'untrack' ? '' : st);
+      closeStatusPicker();
+      refreshAllViews();
+      showToast('Status set to ' + (st === 'untrack' ? 'untracked' : st));
+    });
+    picker.appendChild(item);
+  });
+  badgeEl.style.position = 'relative';
+  badgeEl.appendChild(picker);
+  _activePickerEl = picker;
+  // Close on outside click
+  setTimeout(function() {
+    document.addEventListener('click', _closePicker, { once: true });
+  }, 0);
+}
+function _closePicker() { closeStatusPicker(); }
+function closeStatusPicker() {
+  if (_activePickerEl && _activePickerEl.parentNode) {
+    _activePickerEl.parentNode.removeChild(_activePickerEl);
+  }
+  _activePickerEl = null;
+}
+
+// ---- Toast notifications ----
+var _toastTimer = null;
+function showToast(msg) {
+  var el = document.getElementById('eagle-toast');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'eagle-toast';
+    el.className = 'eagle-toast';
+    document.body.appendChild(el);
+  }
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(function() { el.classList.remove('show'); }, 2000);
+}
+
+// ---- Create / Delete / Import / Export ----
+function createNewEnvironment() {
+  var name = prompt('New environment name:');
+  if (!name || !name.trim()) return;
+  name = name.trim();
+  var id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  if (!id) id = 'env-' + Date.now();
+  // Check for duplicate
+  if (environments.find(function(e) { return e.id === id; })) {
+    alert('An environment with id "' + id + '" already exists.');
+    return;
+  }
+  var env = { id: id, name: name, detections: {} };
+  environments.push(env);
+  saveEnvToLocalStorage(env, true);
+  rebuildEnvSelector(id);
+  showToast('Created environment: ' + name);
+}
+
+function deleteCurrentEnvironment() {
+  if (!activeEnvId) return;
+  var env = getActiveEnvObject();
+  var label = env ? env.name : activeEnvId;
+  if (!confirm('Delete environment "' + label + '"?\n\nThis removes all locally-stored status data for this environment.')) return;
+  deleteEnvFromLocalStorage(activeEnvId);
+  environments = environments.filter(function(e) { return e.id !== activeEnvId; });
+  rebuildEnvSelector('');
+  showToast('Deleted environment: ' + label);
+}
+
+function exportCurrentEnvironment() {
+  if (!activeEnvId) return;
+  var env = getActiveEnvObject();
+  if (!env) return;
+  var lines = ['id: ' + env.id, 'name: ' + env.name, 'detections:'];
+  Object.keys(env.detections || {}).forEach(function(did) {
+    lines.push('  ' + did + ': ' + env.detections[did]);
+  });
+  var blob = new Blob([lines.join('\n') + '\n'], { type: 'text/yaml' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = env.id + '.yml';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Exported: ' + env.name);
+}
+
+function importEnvironment(file) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      var text = e.target.result;
+      // Minimal YAML parser for flat env files
+      var env = { id: '', name: '', detections: {} };
+      var inDets = false;
+      text.split('\n').forEach(function(line) {
+        var trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith('#')) return;
+        if (trimmed === 'detections:') { inDets = true; return; }
+        var m = trimmed.match(/^(\S+):\s+(.+)$/);
+        if (!m) return;
+        if (inDets) {
+          var status = m[2].trim();
+          if (ENABLEMENT_STATUSES.indexOf(status) !== -1) {
+            env.detections[m[1]] = status;
+          }
+        } else {
+          if (m[1] === 'id') env.id = m[2].trim();
+          if (m[1] === 'name') env.name = m[2].trim();
+        }
+      });
+      if (!env.id) { alert('Invalid environment file: missing id'); return; }
+      if (!env.name) env.name = env.id;
+      // Merge or add
+      var existing = environments.find(function(x) { return x.id === env.id; });
+      if (existing) {
+        existing.name = env.name;
+        Object.keys(env.detections).forEach(function(k) { existing.detections[k] = env.detections[k]; });
+        saveEnvToLocalStorage(existing, !!isLocalOnlyEnv(env.id));
+      } else {
+        environments.push(env);
+        saveEnvToLocalStorage(env, true);
+      }
+      rebuildEnvSelector(env.id);
+      showToast('Imported: ' + env.name + ' (' + Object.keys(env.detections).length + ' detections)');
+    } catch(err) {
+      alert('Failed to parse environment file: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ---- Rebuild selector dropdown and activate an env ----
+function rebuildEnvSelector(selectId) {
+  var sel = document.getElementById('env-select');
+  sel.innerHTML = '<option value="">(none)</option>';
+  environments.forEach(function(env) {
+    var opt = document.createElement('option');
+    opt.value = env.id;
+    opt.textContent = env.name;
+    sel.appendChild(opt);
+  });
+  sel.value = selectId || '';
+  setActiveEnv(selectId || '');
+  refreshAllViews();
+}
+
+// ---- Initialize ----
+(function initEnvSelector() {
+  var sel = document.getElementById('env-select');
+  environments.forEach(function(env) {
+    var opt = document.createElement('option');
+    opt.value = env.id;
+    opt.textContent = env.name;
+    sel.appendChild(opt);
+  });
+  sel.addEventListener('change', function() {
+    setActiveEnv(this.value);
+    refreshAllViews();
+  });
+  // Restore last active env
+  var lastEnv = '';
+  try { lastEnv = localStorage.getItem('eagle-eye-active-env') || ''; } catch(e) {}
+  if (lastEnv && environments.find(function(e) { return e.id === lastEnv; })) {
+    sel.value = lastEnv;
+    setActiveEnv(lastEnv);
+  }
+  // Wire buttons
+  document.getElementById('env-new-btn').addEventListener('click', createNewEnvironment);
+  document.getElementById('env-delete-btn').addEventListener('click', deleteCurrentEnvironment);
+  document.getElementById('env-export-btn').addEventListener('click', exportCurrentEnvironment);
+  document.getElementById('env-import-btn').addEventListener('click', function() {
+    document.getElementById('env-import-input').click();
+  });
+  document.getElementById('env-import-input').addEventListener('change', function() {
+    if (this.files[0]) importEnvironment(this.files[0]);
+    this.value = '';
+  });
+})();
 
 // =============================================
 // STATE
@@ -920,7 +1632,7 @@ function renderDetList() {
   var c = document.getElementById('det-list');
   c.innerHTML = items.map(function(d) {
     return '<div class="list-item ' + (activeDetection === d.id ? 'active' : '') + '" data-id="' + d.id + '">'
-      + '<div class="item-name">' + esc(d.name) + '</div>'
+      + '<div class="item-name">' + esc(d.name) + enablementBadgeHtml(d.id, true) + '</div>'
       + '<div class="item-meta">'
       + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '?') + '</span>'
       + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '?') + '</span>'
@@ -957,6 +1669,12 @@ function showDetection(id) {
     + '<span style="color:var(--text-muted);font-size:12px;">' + esc(d.security_domain || '') + ' · ' + esc(d.asset_type || '') + '</span>'
     + '</div></div>';
 
+  if (activeEnvId) {
+    var envObj = environments.find(function(e) { return e.id === activeEnvId; });
+    html += '<div class="detail-section" style="margin-top:4px;"><h3>Enablement</h3>'
+      + '<p style="font-size:12px;color:var(--text-muted);">Environment: <strong style="color:var(--text);">' + esc(envObj ? envObj.name : activeEnvId) + '</strong></p>'
+      + '<p style="margin-top:4px;">Status: ' + enablementBadgeHtml(d.id, true) + '</p></div>';
+  }
   html += '<div class="detail-section"><h3>Description</h3><p>' + esc(d.description || '') + '</p></div>';
 
   if (storiesHtml) html += '<div class="detail-section"><h3>Analytic Stories</h3><div class="chip-group">' + storiesHtml + '</div></div>';
@@ -975,6 +1693,8 @@ function showDetection(id) {
 
   html += '<div class="detail-section"><h3>Author</h3><p>' + esc(d.author || '') + '</p></div>';
 
+  html += aiSectionHtml('detection', d.id);
+
   panel.innerHTML = html;
 
   // Set SPL text safely via textContent — avoids HTML injection / escaping issues
@@ -990,6 +1710,7 @@ function showDetection(id) {
   }
 
   wireChips(panel);
+  wireAISection('detection', d.id, function() { return buildDetectionVars(d); });
 }
 
 document.getElementById('det-search').addEventListener('input', renderDetList);
@@ -1035,11 +1756,14 @@ function renderStoryList() {
   var items = getFilteredStories();
   var c = document.getElementById('story-list');
   c.innerHTML = items.map(function(s) {
-    var count = (storyIndex[s.name] || []).length;
+    var dets = storyIndex[s.name] || [];
+    var count = dets.length;
+    var detIds = dets.map(function(d) { return d.id; });
     return '<div class="list-item ' + (activeStory === s.id ? 'active' : '') + '" data-id="' + s.id + '">'
       + '<div class="item-name">' + esc(s.name) + '</div>'
       + '<div class="item-meta"><span>' + count + ' detection' + (count !== 1 ? 's' : '') + '</span>'
-      + '<span>' + (s.category || []).join(', ') + '</span></div></div>';
+      + '<span>' + (s.category || []).join(', ') + '</span></div>'
+      + breakdownBarHtml(detIds) + '</div>';
   }).join('');
   c.querySelectorAll('.list-item').forEach(function(el) {
     el.addEventListener('click', function() { showStory(this.dataset.id); });
@@ -1073,6 +1797,7 @@ function showStory(id) {
   var detsHtml = memberDets.map(function(d) {
     return '<li data-pivot-type="detection" data-pivot-value="' + esc(d.name) + '">'
       + '<span class="det-name">' + esc(d.name) + '</span>'
+      + enablementBadgeHtml(d.id, true)
       + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
       + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
       + '</li>';
@@ -1091,11 +1816,18 @@ function showStory(id) {
   if (s.narrative) html += '<div class="detail-section"><h3>Narrative</h3><p>' + esc(s.narrative) + '</p></div>';
   if (mitreHtml) html += '<div class="detail-section"><h3>MITRE ATT&CK Coverage</h3><div class="chip-group">' + mitreHtml + '</div></div>';
   if (dSourcesHtml) html += '<div class="detail-section"><h3>Data Sources</h3><div class="chip-group">' + dSourcesHtml + '</div></div>';
+  var storyDetIds = memberDets.map(function(d) { return d.id; });
+  if (activeEnvId) {
+    html += '<div class="detail-section"><h3>Enablement Progress</h3>' + breakdownBarHtml(storyDetIds) + '</div>';
+  }
   html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + memberDets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
   if (refsHtml) html += '<div class="detail-section"><h3>References</h3><ul class="ref-list">' + refsHtml + '</ul></div>';
 
+  html += aiSectionHtml('story', s.id);
+
   panel.innerHTML = html;
   wireChips(panel);
+  wireAISection('story', s.id, function() { return buildStoryVars(s); });
 
   // Wire "View in Graph" button via event listener (safer than inline onclick)
   var graphBtn = document.getElementById('story-graph-btn');
@@ -1128,11 +1860,14 @@ function renderDSList() {
   var items = getFilteredDS();
   var c = document.getElementById('ds-list');
   c.innerHTML = items.map(function(ds) {
-    var count = (dsIndex[ds.name] || []).length;
+    var dsDets = dsIndex[ds.name] || [];
+    var count = dsDets.length;
+    var dsDetIds = dsDets.map(function(d) { return d.id; });
     return '<div class="list-item ' + (activeDS === ds.id ? 'active' : '') + '" data-id="' + ds.id + '">'
       + '<div class="item-name">' + esc(ds.name) + '</div>'
       + '<div class="item-meta"><span>' + count + ' detection' + (count !== 1 ? 's' : '') + '</span>'
-      + '<span>' + esc(ds.sourcetype || '') + '</span></div></div>';
+      + '<span>' + esc(ds.sourcetype || '') + '</span></div>'
+      + breakdownBarHtml(dsDetIds) + '</div>';
   }).join('');
   c.querySelectorAll('.list-item').forEach(function(el) {
     el.addEventListener('click', function() { showDS(this.dataset.id); });
@@ -1167,6 +1902,7 @@ function showDS(id) {
   var detsHtml = dets.map(function(d) {
     return '<li data-pivot-type="detection" data-pivot-value="' + esc(d.name) + '">'
       + '<span class="det-name">' + esc(d.name) + '</span>'
+      + enablementBadgeHtml(d.id, true)
       + '<span class="badge ' + badgeClass(d.type) + '">' + esc(d.type || '') + '</span>'
       + '<span class="badge ' + badgeClass(d.status) + '">' + esc(d.status || '') + '</span>'
       + '</li>';
@@ -1179,10 +1915,17 @@ function showDS(id) {
   if (taHtml) html += '<div class="detail-section"><h3>Supported Technology Add-ons</h3><ul class="ref-list">' + taHtml + '</ul></div>';
   if (storiesHtml) html += '<div class="detail-section"><h3>Related Analytic Stories</h3><div class="chip-group">' + storiesHtml + '</div></div>';
   if (mitreHtml) html += '<div class="detail-section"><h3>MITRE ATT&CK Techniques Covered</h3><div class="chip-group">' + mitreHtml + '</div></div>';
+  var dsDetIds = dets.map(function(d) { return d.id; });
+  if (activeEnvId) {
+    html += '<div class="detail-section"><h3>Enablement Progress</h3>' + breakdownBarHtml(dsDetIds) + '</div>';
+  }
   html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + dets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
+
+  html += aiSectionHtml('datasource', ds.id);
 
   panel.innerHTML = html;
   wireChips(panel);
+  wireAISection('datasource', ds.id, function() { return buildDSVars(ds); });
 }
 
 document.getElementById('ds-search').addEventListener('input', renderDSList);
@@ -1263,8 +2006,11 @@ function showMitre(technique) {
   if (dSourcesHtml) html += '<div class="detail-section"><h3>Required Data Sources</h3><div class="chip-group">' + dSourcesHtml + '</div></div>';
   html += '<div class="detail-section"><h3>Detections <span class="count-badge">(' + dets.length + ')</span></h3><ul class="detection-list">' + detsHtml + '</ul></div>';
 
+  html += aiSectionHtml('mitre', technique);
+
   panel.innerHTML = html;
   wireChips(panel);
+  wireAISection('mitre', technique, function() { return buildMitreVars(technique); });
 }
 
 document.getElementById('mitre-search').addEventListener('input', renderMitreList);
@@ -1353,9 +2099,10 @@ function addEntityToGraph(entityId) {
     graphNodeSet.add(entityId);
     var ent = entityIndex[entityId];
     var label = ent.name.length > 50 ? ent.name.substring(0, 47) + '\u2026' : ent.name;
+    var _enSt = (ent.type === 'detection') ? getEnablementStatus(entityId.replace('det:', '')) : '';
     elementsToAdd.push({
       group: 'nodes',
-      data: { id: entityId, label: label, entityType: ent.type, expanded: true }
+      data: { id: entityId, label: label, entityType: ent.type, expanded: true, enablementStatus: _enSt }
     });
   } else {
     // Mark as expanded
@@ -1371,9 +2118,10 @@ function addEntityToGraph(entityId) {
       var nent = entityIndex[edge.neighborId];
       if (nent) {
         var nlabel = nent.name.length > 50 ? nent.name.substring(0, 47) + '\u2026' : nent.name;
+        var _nEnSt = (nent.type === 'detection') ? getEnablementStatus(edge.neighborId.replace('det:', '')) : '';
         elementsToAdd.push({
           group: 'nodes',
-          data: { id: edge.neighborId, label: nlabel, entityType: nent.type, expanded: false }
+          data: { id: edge.neighborId, label: nlabel, entityType: nent.type, expanded: false, enablementStatus: _nEnSt }
         });
       }
     }
@@ -1489,7 +2237,10 @@ function showGraphInfo(nodeId) {
   var html = '';
   if (entity.type === 'detection') {
     var d = entity.data;
-    html = '<h3>' + esc(d.name) + '</h3><p>' + esc(d.description || '') + '</p>'
+    var _gEnvBadge = enablementBadgeHtml(d.id);
+    html = '<h3>' + esc(d.name) + '</h3>'
+      + (activeEnvId ? '<p style="margin-bottom:6px;">Enablement: ' + _gEnvBadge + '</p>' : '')
+      + '<p>' + esc(d.description || '') + '</p>'
       + '<div class="chip-group" style="margin-top:8px;">'
       + (d.analytic_story || []).map(function(s) { return storyChip(s); }).join('')
       + (d.mitre_attack_id || []).map(function(m) { return mitreChip(m); }).join('')
@@ -1584,6 +2335,26 @@ function initGraph() {
           'border-color': '#fff',
           'font-size': '11px'
         }
+      },
+      {
+        selector: 'node[enablementStatus="done"]',
+        style: { 'border-width': 3, 'border-color': '#3fb950' }
+      },
+      {
+        selector: 'node[enablementStatus="now"]',
+        style: { 'border-width': 3, 'border-color': '#58a6ff' }
+      },
+      {
+        selector: 'node[enablementStatus="blocked"]',
+        style: { 'border-width': 3, 'border-color': '#f85149' }
+      },
+      {
+        selector: 'node[enablementStatus="later"]',
+        style: { 'border-width': 3, 'border-color': '#d29922' }
+      },
+      {
+        selector: 'node[enablementStatus="backlog"]',
+        style: { 'border-width': 3, 'border-color': '#484f58' }
       },
       {
         selector: 'edge',
@@ -1834,6 +2605,658 @@ function renderMatrix() {
 }
 
 // Matrix is rendered lazily via switchTab (see switchTab function above)
+
+// =============================================
+// AI ENRICHMENT
+// =============================================
+var AI_LS_KEY = 'eagle-eye-ai-config';
+var AI_PROMPTS_KEY = 'eagle-eye-ai-prompts';
+var AI_CONV_KEY = 'eagle-eye-ai-conversations'; // session only (not persisted)
+
+var DEFAULT_PROMPTS = {
+  detection: 'You are a senior SOC analyst and Splunk detection engineer.\n\n'
+    + '## Detection\n'
+    + '- Name: {name}\n'
+    + '- Type: {type} | Domain: {security_domain} | Asset: {asset_type}\n'
+    + '- Status: {status}\n'
+    + '- MITRE ATT&CK: {mitre}\n'
+    + '- Data Sources: {data_sources}\n'
+    + '- Analytic Stories: {stories}\n'
+    + '- CVEs: {cves}\n\n'
+    + '## SPL\n```\n{search}\n```\n\n'
+    + '## Description\n{description}\n\n'
+    + 'Provide a structured analysis:\n'
+    + '1. **Risk & Threat Context** — What real-world threat does this detect? Where does it sit in a typical attack chain? What risk does it address?\n'
+    + '2. **Incident Relevance** — When this fires, what kind of incident is likely underway? What is the expected severity and urgency?\n'
+    + '3. **SPL Breakdown** — Walk through the search logic at a high level. What is it looking for and why? Call out any key thresholds or filters.\n'
+    + '4. **False Positive Scenarios** — What benign activity could trigger this? What tuning knobs exist?\n'
+    + '5. **Recommended Response** — What should an analyst do when this fires?\n'
+    + '6. **Related Detections** — What other detections should fire in the same attack scenario?',
+  story: 'You are a senior threat intelligence analyst.\n\n'
+    + '## Analytic Story\n'
+    + '- Name: {name}\n'
+    + '- Category: {category}\n'
+    + '- Detection Count: {detection_count}\n'
+    + '- MITRE Coverage: {mitre_coverage}\n'
+    + '- Data Sources Required: {data_sources}\n\n'
+    + '## Description\n{description}\n\n'
+    + '## Narrative\n{narrative}\n\n'
+    + '## Detections\n{detection_names}\n\n'
+    + 'Provide a structured analysis:\n'
+    + '1. **Threat Overview** — What threat actor, campaign, or attack pattern does this story address? Provide real-world context.\n'
+    + '2. **Attack Chain Mapping** — How do the detections in this story map to stages of an attack? What is the expected sequence?\n'
+    + '3. **Coverage Assessment** — Are there significant gaps in this story\'s coverage? What additional detections would strengthen it?\n'
+    + '4. **Data Source Priorities** — Which data sources are most critical to enable first? What is the minimum viable coverage?\n'
+    + '5. **Response Playbook** — If multiple detections in this story fire together, what incident response actions are recommended?',
+  datasource: 'You are a senior security data engineer.\n\n'
+    + '## Data Source\n'
+    + '- Name: {name}\n'
+    + '- Source: {source}\n'
+    + '- Sourcetype: {sourcetype}\n'
+    + '- Detection Count: {detection_count}\n'
+    + '- MITRE Coverage: {mitre_coverage}\n'
+    + '- Related Stories: {stories}\n\n'
+    + '## Description\n{description}\n\n'
+    + '## Detections Enabled\n{detection_names}\n\n'
+    + 'Provide a structured analysis:\n'
+    + '1. **Onboarding Priority** — How valuable is this data source for detection coverage? What is the ROI of enabling it?\n'
+    + '2. **Log Volume Expectations** — What volume and velocity should teams expect? Any storage or performance considerations?\n'
+    + '3. **Coverage Value** — What gaps in MITRE ATT&CK coverage does this data source fill?\n'
+    + '4. **Configuration Best Practices** — What are the ideal logging settings, filters, or field extractions?\n'
+    + '5. **Common Issues** — What problems do teams typically encounter with this data source?',
+  mitre: 'You are a MITRE ATT&CK expert and purple team lead.\n\n'
+    + '## Technique\n'
+    + '- ID: {technique_id}\n'
+    + '- Name: {technique_name}\n'
+    + '- Tactics: {tactics}\n'
+    + '- Detection Count: {detection_count}\n'
+    + '- Data Sources: {data_sources}\n'
+    + '- Related Stories: {stories}\n\n'
+    + '## Current Detections\n{detection_names}\n\n'
+    + 'Provide a structured analysis:\n'
+    + '1. **Technique Deep Dive** — How is this technique typically used in real-world attacks? What are common variants and sub-techniques?\n'
+    + '2. **Detection Sufficiency** — Are the current detections adequate? What blind spots exist?\n'
+    + '3. **Evasion Methods** — How do adversaries commonly evade detection of this technique?\n'
+    + '4. **Emulation Guidance** — How can a purple team safely test these detections? What tools or frameworks can simulate this technique?\n'
+    + '5. **Hardening Recommendations** — Beyond detection, what preventive controls reduce the risk of this technique succeeding?'
+};
+
+function getAIConfig() {
+  try { return JSON.parse(localStorage.getItem(AI_LS_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveAIConfig(cfg) {
+  localStorage.setItem(AI_LS_KEY, JSON.stringify(cfg));
+}
+function getAIPrompts() {
+  try { return JSON.parse(localStorage.getItem(AI_PROMPTS_KEY) || '{}'); } catch(e) { return {}; }
+}
+function saveAIPrompts(prompts) {
+  localStorage.setItem(AI_PROMPTS_KEY, JSON.stringify(prompts));
+}
+function getPromptTemplate(entityType) {
+  var saved = getAIPrompts();
+  return saved[entityType] || DEFAULT_PROMPTS[entityType] || '';
+}
+function resetPromptToDefault(entityType) {
+  var ta = document.getElementById('ai-prompt-' + entityType);
+  if (ta) ta.value = DEFAULT_PROMPTS[entityType] || '';
+}
+
+// Hydrate template variables
+function hydratePrompt(template, vars) {
+  return template.replace(/\{(\w+)\}/g, function(m, key) {
+    return vars[key] !== undefined ? vars[key] : m;
+  });
+}
+
+// Build context vars for each entity type
+function buildDetectionVars(d) {
+  return {
+    name: d.name || '',
+    type: d.type || '',
+    status: d.status || '',
+    description: d.description || '',
+    search: d.search || '',
+    mitre: (d.mitre_attack_id || []).join(', '),
+    data_sources: (d.data_source || []).join(', '),
+    stories: (d.analytic_story || []).join(', '),
+    cves: (d.cve || []).join(', '),
+    security_domain: d.security_domain || '',
+    asset_type: d.asset_type || '',
+    author: d.author || ''
+  };
+}
+function buildStoryVars(s) {
+  var memberDets = storyIndex[s.name] || [];
+  var mitreCov = {}; var dsCov = {};
+  memberDets.forEach(function(d) {
+    (d.mitre_attack_id || []).forEach(function(m) { mitreCov[m] = true; });
+    (d.data_source || []).forEach(function(ds) { dsCov[ds] = true; });
+  });
+  return {
+    name: s.name || '',
+    description: s.description || '',
+    narrative: s.narrative || '',
+    category: (s.category || []).join(', '),
+    detection_names: memberDets.map(function(d) { return '- ' + d.name + ' (' + d.type + ')'; }).join('\n'),
+    detection_count: String(memberDets.length),
+    mitre_coverage: Object.keys(mitreCov).sort().join(', '),
+    data_sources: Object.keys(dsCov).sort().join(', ')
+  };
+}
+function buildDSVars(ds) {
+  var dets = dsIndex[ds.name] || [];
+  var mitreCov = {}; var storyCov = {};
+  dets.forEach(function(d) {
+    (d.mitre_attack_id || []).forEach(function(m) { mitreCov[m] = true; });
+    (d.analytic_story || []).forEach(function(s) { storyCov[s] = true; });
+  });
+  return {
+    name: ds.name || '',
+    source: ds.source || '',
+    sourcetype: ds.sourcetype || '',
+    description: ds.description || '',
+    detection_names: dets.map(function(d) { return '- ' + d.name + ' (' + d.type + ')'; }).join('\n'),
+    detection_count: String(dets.length),
+    mitre_coverage: Object.keys(mitreCov).sort().join(', '),
+    stories: Object.keys(storyCov).sort().join(', ')
+  };
+}
+function buildMitreVars(technique) {
+  var dets = mitreIndex[technique] || [];
+  var dsCov = {}; var storyCov = {};
+  dets.forEach(function(d) {
+    (d.data_source || []).forEach(function(ds) { dsCov[ds] = true; });
+    (d.analytic_story || []).forEach(function(s) { storyCov[s] = true; });
+  });
+  var mitreTechs = (DATA.mitre && DATA.mitre.techniques) ? DATA.mitre.techniques : {};
+  var techInfo = mitreTechs[technique];
+  var techTactics = techInfo ? (techInfo.tactics || []) : [];
+  var tacticsInfo = (DATA.mitre && DATA.mitre.tactics) ? DATA.mitre.tactics : {};
+  return {
+    technique_id: technique,
+    technique_name: techInfo ? techInfo.name : '',
+    tactics: techTactics.map(function(t) { var i = tacticsInfo[t]; return i ? i.name : t; }).join(', '),
+    detection_names: dets.map(function(d) { return '- ' + d.name + ' (' + d.type + ')'; }).join('\n'),
+    detection_count: String(dets.length),
+    data_sources: Object.keys(dsCov).sort().join(', '),
+    stories: Object.keys(storyCov).sort().join(', ')
+  };
+}
+
+// Per-entity conversation history (session only)
+var aiConversations = {}; // key: entityType+entityId -> [{role, content}]
+
+function getConvKey(entityType, entityId) { return entityType + ':' + entityId; }
+
+// Simple markdown → HTML (handles headers, bold, italic, code, lists, blockquotes)
+function renderMarkdown(text) {
+  return _renderMd(text, false);
+}
+
+// Streaming variant: renders complete lines as markdown, trailing
+// incomplete line as plain text to avoid garbled partial-token rendering
+function renderMarkdownStreaming(text) {
+  return _renderMd(text, true);
+}
+
+function _renderMd(text, streaming) {
+  var lastNl = text.lastIndexOf('\n');
+  var trailingLine = '';
+  if (streaming && lastNl !== -1 && lastNl < text.length - 1) {
+    trailingLine = text.substring(lastNl + 1);
+    text = text.substring(0, lastNl + 1);
+  } else if (streaming && lastNl === -1) {
+    // No complete line yet — show all as plain text
+    return '<p style="color:var(--text-muted);">' + esc(text) + '<span class="ai-cursor">▍</span></p>';
+  }
+  var lines = text.split('\n');
+  var html = '';
+  var inPre = false, inUl = false, inOl = false;
+  lines.forEach(function(line) {
+    // Fenced code blocks
+    if (line.trim().startsWith('```')) {
+      if (inPre) { html += '</code></pre>'; inPre = false; }
+      else { html += '<pre><code>'; inPre = true; }
+      return;
+    }
+    if (inPre) { html += esc(line) + '\n'; return; }
+
+    // Close open lists if not a list line
+    var isUl = /^\s*[-*]\s+/.test(line);
+    var isOl = /^\s*\d+\.\s+/.test(line);
+    if (!isUl && inUl) { html += '</ul>'; inUl = false; }
+    if (!isOl && inOl) { html += '</ol>'; inOl = false; }
+
+    // Headers
+    var hm = line.match(/^(#{1,4})\s+(.+)/);
+    if (hm) { html += '<h' + hm[1].length + '>' + inlineMd(hm[2]) + '</h' + hm[1].length + '>'; return; }
+    // Blockquote
+    if (line.trim().startsWith('> ')) { html += '<blockquote>' + inlineMd(line.trim().substring(2)) + '</blockquote>'; return; }
+    // Unordered list
+    if (isUl) {
+      if (!inUl) { html += '<ul>'; inUl = true; }
+      html += '<li>' + inlineMd(line.replace(/^\s*[-*]\s+/, '')) + '</li>';
+      return;
+    }
+    // Ordered list
+    if (isOl) {
+      if (!inOl) { html += '<ol>'; inOl = true; }
+      html += '<li>' + inlineMd(line.replace(/^\s*\d+\.\s+/, '')) + '</li>';
+      return;
+    }
+    // Empty line
+    if (!line.trim()) { html += '<br>'; return; }
+    // Paragraph
+    html += '<p>' + inlineMd(line) + '</p>';
+  });
+  if (inPre) html += '</code></pre>';
+  if (inUl) html += '</ul>';
+  if (inOl) html += '</ol>';
+  // Append trailing incomplete line as plain text (streaming only)
+  if (streaming && trailingLine) {
+    html += '<p style="color:var(--text-muted);">' + esc(trailingLine) + '<span class="ai-cursor">▍</span></p>';
+  }
+  return html;
+}
+
+function inlineMd(text) {
+  // Escape HTML first
+  text = esc(text);
+  // Bold
+  text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Italic
+  text = text.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  // Inline code
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  return text;
+}
+
+// Streaming fetch to OpenAI-compatible API
+var _currentAIAbort = null;
+
+async function callAI(entityType, entityId, messages, responseEl, onDone) {
+  var cfg = getAIConfig();
+  if (!cfg.endpoint) {
+    responseEl.innerHTML = '<p style="color:#f85149;">⚠ No AI endpoint configured. Click the 🤖 AI button in the header to set up.</p>';
+    return;
+  }
+
+  // Abort any in-flight request
+  if (_currentAIAbort) _currentAIAbort.abort();
+  _currentAIAbort = new AbortController();
+
+  responseEl.innerHTML = '<p style="color:var(--text-muted);">Connecting to ' + esc(cfg.endpoint.split('/')[2] || 'AI') + '…</p>';
+
+  var headers = { 'Content-Type': 'application/json' };
+  if (cfg.apikey) headers['Authorization'] = 'Bearer ' + cfg.apikey;
+  // OpenRouter-specific
+  if (cfg.endpoint.includes('openrouter.ai')) {
+    headers['HTTP-Referer'] = window.location.href;
+    headers['X-Title'] = 'Eagle Eye';
+  }
+
+  var useStreaming = cfg.streaming !== false; // default on
+  var body = {
+    model: cfg.model || 'llama3.2',
+    messages: messages,
+    temperature: parseFloat(cfg.temperature) || 0.3,
+    stream: useStreaming
+  };
+
+  if (!useStreaming) {
+    responseEl.innerHTML = '<p style="color:var(--text-muted);">Waiting for complete response from ' + esc(cfg.endpoint.split('/')[2] || 'AI') + '… <span class="ai-cursor">\u258d</span></p>';
+  }
+
+  try {
+    var resp = await fetch(cfg.endpoint, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(body),
+      signal: _currentAIAbort.signal
+    });
+    if (!resp.ok) {
+      var errText = '';
+      try { errText = await resp.text(); } catch(_) {}
+      responseEl.innerHTML = '<p style="color:#f85149;">⚠ API Error ' + resp.status + ': ' + esc(errText.substring(0, 500)) + '</p>';
+      if (onDone) onDone();
+      return;
+    }
+
+    var fullText = '';
+
+    // ── NON-STREAMING PATH ──
+    if (!useStreaming) {
+      try {
+        var json = await resp.json();
+        if (json.choices && json.choices[0]) {
+          var msg = json.choices[0].message || json.choices[0].delta;
+          if (msg && msg.content) fullText = msg.content;
+        } else if (typeof json.response === 'string') {
+          fullText = json.response;
+        }
+      } catch(e) {
+        var raw = await resp.text();
+        fullText = raw;
+      }
+      responseEl.innerHTML = renderMarkdown(fullText);
+
+    // ── STREAMING PATH ──
+    } else {
+    responseEl.innerHTML = '';
+
+    // Helper: extract content token from a parsed JSON chunk
+    function extractToken(obj) {
+      // OpenAI streaming: choices[0].delta.content
+      if (obj.choices && obj.choices[0]) {
+        var c = obj.choices[0];
+        if (c.delta && c.delta.content) return c.delta.content;
+        if (c.message && c.message.content) return c.message.content;
+      }
+      // Ollama native streaming: response field
+      if (typeof obj.response === 'string') return obj.response;
+      return null;
+    }
+
+    // Helper: try to parse a line and extract a token
+    function tryParseLine(raw) {
+      var str = raw.trim();
+      if (!str || str === '[DONE]' || str === 'data: [DONE]') return null;
+      // Strip SSE "data:" prefix (with or without space)
+      if (str.startsWith('data:')) {
+        str = str.substring(5).trim();
+        if (!str || str === '[DONE]') return null;
+      }
+      // Skip SSE fields that aren't data
+      if (/^(id|event|retry):/.test(str)) return null;
+      // Must look like JSON
+      if (str[0] !== '{') return null;
+      try {
+        return extractToken(JSON.parse(str));
+      } catch(e) {
+        return undefined; // signal: unparseable (might be incomplete)
+      }
+    }
+
+    // Check Content-Type — some providers return JSON even with stream:true
+    var ct = resp.headers.get('content-type') || '';
+
+    if (ct.includes('application/json') && !ct.includes('stream')) {
+      // Non-streaming JSON response (e.g. some Ollama/DMR configs)
+      var json = await resp.json();
+      var tok = extractToken(json);
+      if (tok) fullText = tok;
+      responseEl.innerHTML = renderMarkdown(fullText);
+    } else if (resp.body && typeof resp.body.getReader === 'function') {
+      // Streaming response — robust SSE + NDJSON parser
+      var reader = resp.body.getReader();
+      var decoder = new TextDecoder();
+      var buffer = '';
+      var renderTimer = null;
+      var needsRender = false;
+      var chunkCount = 0;
+      var tokenCount = 0;
+
+      console.log('[Eagle Eye AI] Streaming started, content-type:', ct);
+
+      function scheduleRender() {
+        needsRender = true;
+        if (!renderTimer) {
+          renderTimer = setTimeout(function() {
+            renderTimer = null;
+            if (needsRender) {
+              needsRender = false;
+              responseEl.innerHTML = renderMarkdownStreaming(fullText);
+              responseEl.scrollTop = responseEl.scrollHeight;
+            }
+          }, 120);
+        }
+      }
+
+      while (true) {
+        var chunk = await reader.read();
+        if (chunk.done) break;
+        var decoded = decoder.decode(chunk.value, { stream: true });
+        chunkCount++;
+        if (chunkCount <= 3) {
+          console.log('[Eagle Eye AI] chunk #' + chunkCount + ' (' + decoded.length + ' bytes):', decoded.substring(0, 200));
+        }
+        buffer += decoded;
+
+        // Process all complete lines (terminated by \n or \r\n)
+        var nlIdx;
+        while ((nlIdx = buffer.indexOf('\n')) !== -1) {
+          var line = buffer.substring(0, nlIdx);
+          buffer = buffer.substring(nlIdx + 1);
+          var result = tryParseLine(line);
+          if (result === undefined) {
+            // Unparseable — could be split JSON; log it
+            if (chunkCount <= 5) console.log('[Eagle Eye AI] unparseable line:', line.substring(0, 200));
+            continue;
+          }
+          if (result !== null) {
+            fullText += result;
+            tokenCount++;
+            scheduleRender();
+          }
+        }
+      }
+
+      // Flush decoder and process any remaining buffer
+      var trailing = decoder.decode();
+      if (trailing) buffer += trailing;
+      if (buffer.trim()) {
+        var result = tryParseLine(buffer);
+        if (result && result !== undefined) {
+          fullText += result;
+          tokenCount++;
+        }
+      }
+
+      // Cancel any pending render timer and do final render
+      if (renderTimer) { clearTimeout(renderTimer); renderTimer = null; }
+      responseEl.innerHTML = renderMarkdown(fullText);
+
+      console.log('[Eagle Eye AI] Stream complete:', chunkCount, 'chunks,', tokenCount, 'tokens,', fullText.length, 'chars');
+    } else {
+      // Fallback: read as text
+      var raw = await resp.text();
+      try {
+        var j = JSON.parse(raw);
+        var tok = extractToken(j);
+        if (tok) fullText = tok;
+      } catch(_) { fullText = raw; }
+      responseEl.innerHTML = renderMarkdown(fullText);
+    }
+    } // end streaming else
+
+    // Store in conversation
+    var convKey = getConvKey(entityType, entityId);
+    if (!aiConversations[convKey]) aiConversations[convKey] = messages.slice();
+    if (fullText) {
+      aiConversations[convKey].push({ role: 'assistant', content: fullText });
+    }
+
+  } catch(err) {
+    if (err.name !== 'AbortError') {
+      var errMsg = err.message || String(err);
+      // Provide actionable hints for common errors
+      if (errMsg.includes('Failed to fetch') || errMsg.includes('NetworkError') || errMsg.includes('ERR_CONNECTION_REFUSED')) {
+        errMsg += ' — Is the AI backend running? Check the endpoint in AI settings.';
+      }
+      if (errMsg.includes('CORS') || errMsg.includes('blocked')) {
+        errMsg += ' — If using Docker Model Runner or Ollama, ensure CORS is set to allow requests from this origin.';
+      }
+      responseEl.innerHTML = '<p style="color:#f85149;">⚠ ' + esc(errMsg) + '</p>';
+    }
+  } finally {
+    _currentAIAbort = null;
+    if (onDone) onDone();
+  }
+}
+
+// Build the AI section HTML for a detail panel
+function aiSectionHtml(entityType, entityId) {
+  return '<div class="ai-section" id="ai-section-' + esc(entityType) + '">'
+    + '<div class="ai-section-header">'
+    + '<h3>🤖 AI Analysis</h3>'
+    + '<button class="ai-ask-btn" id="ai-ask-btn-' + esc(entityType) + '" '
+    + 'data-entity-type="' + esc(entityType) + '" data-entity-id="' + esc(entityId) + '">'
+    + 'Ask AI</button>'
+    + '<button class="env-btn" id="ai-preview-btn-' + esc(entityType) + '" '
+    + 'data-entity-type="' + esc(entityType) + '" data-entity-id="' + esc(entityId) + '" '
+    + 'style="margin-left:auto;" title="Preview the prompt that will be sent">Preview Prompt</button>'
+    + '</div>'
+    + '<div class="ai-response" id="ai-response-' + esc(entityType) + '"></div>'
+    + '<div class="ai-followup" id="ai-followup-' + esc(entityType) + '" style="display:none;">'
+    + '<input type="text" placeholder="Ask a follow-up question…" id="ai-followup-input-' + esc(entityType) + '">'
+    + '<button class="ai-ask-btn" id="ai-followup-btn-' + esc(entityType) + '">Send</button>'
+    + '</div>'
+    + '</div>';
+}
+
+// Wire the Ask AI and follow-up buttons for a panel
+function wireAISection(entityType, entityId, buildVarsFn) {
+  var askBtn = document.getElementById('ai-ask-btn-' + entityType);
+  var previewBtn = document.getElementById('ai-preview-btn-' + entityType);
+  var responseEl = document.getElementById('ai-response-' + entityType);
+  var followup = document.getElementById('ai-followup-' + entityType);
+  var followupInput = document.getElementById('ai-followup-input-' + entityType);
+  var followupBtn = document.getElementById('ai-followup-btn-' + entityType);
+  if (!askBtn) return;
+
+  var vars = buildVarsFn();
+  var template = getPromptTemplate(entityType);
+  var systemPrompt = hydratePrompt(template, vars);
+
+  // Restore previous conversation if exists
+  var convKey = getConvKey(entityType, entityId);
+  if (aiConversations[convKey] && aiConversations[convKey].length > 1) {
+    var lastAssistant = '';
+    for (var i = aiConversations[convKey].length - 1; i >= 0; i--) {
+      if (aiConversations[convKey][i].role === 'assistant') { lastAssistant = aiConversations[convKey][i].content; break; }
+    }
+    if (lastAssistant) {
+      responseEl.innerHTML = renderMarkdown(lastAssistant);
+      followup.style.display = 'flex';
+    }
+  }
+
+  // Preview button
+  previewBtn.addEventListener('click', function() {
+    responseEl.innerHTML = '<pre style="white-space:pre-wrap;font-size:12px;color:var(--text-muted);max-height:400px;overflow:auto;border:none;background:transparent;padding:0;">' + esc(systemPrompt) + '</pre>';
+  });
+
+  // Ask button
+  askBtn.addEventListener('click', function() {
+    askBtn.disabled = true;
+    askBtn.classList.add('loading');
+    askBtn.textContent = 'Thinking…';
+    // Reset conversation
+    var messages = [{ role: 'user', content: systemPrompt }];
+    aiConversations[convKey] = messages.slice();
+    callAI(entityType, entityId, messages, responseEl, function() {
+      askBtn.disabled = false;
+      askBtn.classList.remove('loading');
+      askBtn.textContent = 'Ask AI';
+      followup.style.display = 'flex';
+      followupInput.focus();
+    });
+  });
+
+  // Follow-up
+  function sendFollowup() {
+    var q = followupInput.value.trim();
+    if (!q) return;
+    followupInput.value = '';
+    followupBtn.disabled = true;
+    var conv = aiConversations[convKey] || [{ role: 'user', content: systemPrompt }];
+    conv.push({ role: 'user', content: q });
+    aiConversations[convKey] = conv;
+    callAI(entityType, entityId, conv, responseEl, function() {
+      followupBtn.disabled = false;
+      followupInput.focus();
+    });
+  }
+  followupBtn.addEventListener('click', sendFollowup);
+  followupInput.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') sendFollowup();
+  });
+}
+
+// ---- AI Settings Modal ----
+(function initAISettingsModal() {
+  var overlay = document.getElementById('ai-modal-overlay');
+  var openBtn = document.getElementById('ai-settings-btn');
+  var closeBtn = document.getElementById('ai-modal-close');
+  var cancelBtn = document.getElementById('ai-modal-cancel');
+  var saveBtn = document.getElementById('ai-modal-save');
+
+  function openModal() {
+    var cfg = getAIConfig();
+    document.getElementById('ai-endpoint').value = cfg.endpoint || '';
+    document.getElementById('ai-model').value = cfg.model || '';
+    document.getElementById('ai-apikey').value = cfg.apikey || '';
+    document.getElementById('ai-temperature').value = cfg.temperature || '0.3';
+    document.getElementById('ai-streaming').checked = cfg.streaming !== false; // default on
+    // Load prompts
+    ['detection', 'story', 'datasource', 'mitre'].forEach(function(t) {
+      document.getElementById('ai-prompt-' + t).value = getPromptTemplate(t);
+    });
+    overlay.classList.add('visible');
+  }
+  function closeModal() { overlay.classList.remove('visible'); }
+  function saveModal() {
+    var cfg = {
+      endpoint: document.getElementById('ai-endpoint').value.trim(),
+      model: document.getElementById('ai-model').value.trim(),
+      apikey: document.getElementById('ai-apikey').value.trim(),
+      temperature: document.getElementById('ai-temperature').value.trim(),
+      streaming: document.getElementById('ai-streaming').checked
+    };
+    saveAIConfig(cfg);
+    var prompts = {};
+    ['detection', 'story', 'datasource', 'mitre'].forEach(function(t) {
+      var val = document.getElementById('ai-prompt-' + t).value;
+      if (val !== DEFAULT_PROMPTS[t]) prompts[t] = val;
+    });
+    saveAIPrompts(prompts);
+    closeModal();
+    showToast('AI settings saved');
+  }
+
+  openBtn.addEventListener('click', openModal);
+  closeBtn.addEventListener('click', closeModal);
+  cancelBtn.addEventListener('click', closeModal);
+  saveBtn.addEventListener('click', saveModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+
+  // Tab switching
+  document.getElementById('ai-modal-tabs').addEventListener('click', function(e) {
+    var tab = e.target.closest('.ai-modal-tab');
+    if (!tab) return;
+    document.querySelectorAll('.ai-modal-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.ai-modal-panel').forEach(function(p) { p.classList.remove('active'); });
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.panel).classList.add('active');
+  });
+
+  // Variable chip insertion
+  document.querySelectorAll('.var-chips').forEach(function(container) {
+    container.addEventListener('click', function(e) {
+      var chip = e.target.closest('.var-chip');
+      if (!chip) return;
+      var target = document.getElementById(container.dataset.target);
+      if (!target) return;
+      var start = target.selectionStart;
+      var end = target.selectionEnd;
+      var text = target.value;
+      target.value = text.substring(0, start) + chip.textContent + text.substring(end);
+      target.focus();
+      target.selectionStart = target.selectionEnd = start + chip.textContent.length;
+    });
+  });
+})();
 </script>
 </body>
 </html>

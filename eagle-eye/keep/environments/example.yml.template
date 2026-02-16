@@ -1,0 +1,25 @@
+# Eagle Eye — Environment Enablement Sidecar
+# ============================================
+# Copy this file, rename it (e.g. prod-soc.yml), and place it in your
+# environments directory. By default, build.py searches (in priority order):
+#
+#   1. --envs-dir <path>          (CLI argument)
+#   2. EAGLE_EYE_ENVS_DIR=<path>  (environment variable)
+#   3. eagle-eye/keep/environments/*.yml  (in-repo, gitignored)
+#   4. ~/.eagle-eye/envs/         (user home default)
+#
+# Statuses:
+#   backlog  — not yet considered
+#   later    — deprioritized / future sprint
+#   blocked  — cannot enable (missing data source, dependency, etc.)
+#   now      — actively being worked on
+#   done     — enabled and running in this environment
+
+id: example-env
+name: Example Environment
+
+# Map detection ID (UUID from the detection YAML) → enablement status
+detections:
+  # "12adbc34-5678-90ab-cdef-1234567890ab": done
+  # "abcdef01-2345-6789-abcd-ef0123456789": blocked
+  # "fedcba98-7654-3210-fedc-ba9876543210": now
