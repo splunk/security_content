@@ -1,11 +1,11 @@
-name: Windows Execution of Microsoft Management Console File
+name: Windows Execution of Microsoft MSC File In Suspicious Path
 id: ac30858b-7c25-4f0a-a7fa-bef036e49dc3
 version: 1
 date: '2026-02-03'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when a Microsoft Management Console (MMC) process executes an .msc file on a Windows system. While .msc files are legitimate components used for system administration, unexpected execution of these files by non-administrative processes or in unusual contexts can indicate malicious activity, such as living-off-the-land attacks, persistence mechanisms, or automated administrative abuse. This detection monitors process creation events, command-line arguments, and parent process relationships to help distinguish normal administrative usage from potential threats. Alerts should be investigated in the context of the process initiating the .msc file, the target system, and any subsequent network or system activity, as routine administrative tasks may also trigger this behavior.
+description: The following analytic detects when a Microsoft Management Console (MMC) process executes an .msc file in a suspicious path on a Windows system. While .msc files are legitimate components used for system administration, unexpected execution of these files by non-administrative processes or in unusual contexts can indicate malicious activity, such as living-off-the-land attacks, persistence mechanisms, or automated administrative abuse. This detection monitors process creation events, command-line arguments, and parent process relationships to help distinguish normal administrative usage from potential threats. Alerts should be investigated in the context of the process initiating the .msc file, the target system, and any subsequent network or system activity, as routine administrative tasks may also trigger this behavior.
 data_source:
 - Sysmon EventID 1
 - Windows Event Log Security 4688
@@ -17,23 +17,25 @@ search: |
   AND Processes.process = "*.msc*" 
   AND Processes.process IN (
     "*\\PerfLogs\\*",
-    "*\\Users\\Administrator\\Music\\*",
-    "*\\Users\\Default\\*",
-    "*\\Users\\Public\\*",
-    "*\\Windows\\debug\\*",
-    "*\\Windows\\fonts\\*",
-    "*\\Windows\\Media\\*",
-    "*\\Windows\\repair\\*",
-    "*\\Windows\\servicing\\*",
+    "*\\programdata\\*"
     "*Recycle.bin*",
     "*\\Download*",
     "*\\temp\\*",
-    "*\\programdata\\*"
+    "*\\Users\\Administrator\\Music\\*",
+    "*\\Users\\Default\\*",
+    "*\\Users\\Public\\*",
     "*\\Users\\Administrator\\Music\\*",
     "*:\\Windows\\Prefetch\\*", 
     "*:\\Windows\\Cursors\\*", 
     "*:\\Windows\\INF\\*"
+    "*:\\Windows\\debug\\*",
+    "*:\\Windows\\fonts\\*",
+    "*:\\Windows\\Media\\*",
+    "*:\\Windows\\repair\\*",
+    "*:\\Windows\\servicing\\*",
     )
+  AND NOT (Processes.process IN ("*C:\\Windows\\System32\\eventvwr.msc*", "*C:\\Windows\\System32\\certmgr.msc*"))
+
   by Processes.action
   Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
@@ -43,7 +45,7 @@ search: |
   | `drop_dm_object_name(Processes)` 
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
-  | `windows_execution_of_microsoft_management_console_file_filter`
+  | `windows_execution_of_microsoft_msc_file_in_suspicious_path_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
   telemetry from the endpoints where the agent is installed. To implement this search,
@@ -86,7 +88,7 @@ rba:
     type: process
 tags:
   analytic_story:
-  - XML Runner
+  - XML Runner Loader
   asset_type: Endpoint
   mitre_attack_id:
   - T1218.014

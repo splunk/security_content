@@ -85,7 +85,7 @@ tags:
     - Active Directory Lateral Movement
     - Living Off The Land
     - Water Gamayun
-    - XML Runner
+    - XML Runner Loader
   asset_type: Endpoint
   mitre_attack_id:
     - T1021.003

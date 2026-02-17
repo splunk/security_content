@@ -50,7 +50,7 @@ rba:
     type: process_name
 tags:
   analytic_story:
-  - XML Runner
+  - XML Runner Loader
   asset_type: Endpoint
   mitre_attack_id:
   - T1620

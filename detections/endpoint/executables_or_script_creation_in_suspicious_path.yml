@@ -151,7 +151,7 @@ tags:
     - Lokibot
     - Castle RAT
     - SesameOp
-    - XML Runner
+    - XML Runner Loader
   asset_type: Endpoint
   mitre_attack_id:
     - T1036
