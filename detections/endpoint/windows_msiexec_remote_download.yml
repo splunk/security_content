@@ -1,7 +1,7 @@
 name: Windows MSIExec Remote Download
 id: 6aa49ff2-3c92-4586-83e0-d83eb693dfda
-version: 12
-date: '2025-12-16'
+version: 13
+date: '2026-02-09'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -84,6 +84,7 @@ tags:
     - Water Gamayun
     - Cisco Network Visibility Module Analytics
     - StealC Stealer
+    - SolarWinds WHD RCE Post Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1218.007

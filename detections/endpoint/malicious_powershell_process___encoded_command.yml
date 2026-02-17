@@ -1,7 +1,7 @@
 name: Malicious PowerShell Process - Encoded Command
 id: c4db14d9-7909-48b4-a054-aa14d89dbb19
-version: 18
-date: '2025-10-24'
+version: 19
+date: '2026-02-09'
 author: David Dorsey, Michael Haag, Splunk, SirDuckly, GitHub Community
 status: production
 type: Hunting
@@ -48,6 +48,7 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - CISA AA22-320A
   - Hermetic Wiper
   - Sandworm Tools
