@@ -1,7 +1,7 @@
 name: Disable Defender AntiVirus Registry
 id: aa4f695a-3024-11ec-9987-acde48001122
-version: 13
-date: '2025-05-02'
+version: 14
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -58,6 +58,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - Windows Registry Abuse
   - CISA AA24-241A
   - IcedID

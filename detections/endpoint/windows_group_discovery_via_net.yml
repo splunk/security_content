@@ -1,7 +1,7 @@
 name: Windows Group Discovery Via Net
 id: c5c8e0f3-147a-43da-bf04-4cfaec27dc44
-version: 5
-date: '2025-10-24'
+version: 6
+date: '2026-02-09'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Hunting
@@ -45,6 +45,7 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - Windows Discovery Techniques
   - Windows Post-Exploitation
   - Graceful Wipe Out Attack

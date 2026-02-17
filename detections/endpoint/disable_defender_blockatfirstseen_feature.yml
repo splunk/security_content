@@ -1,7 +1,7 @@
 name: Disable Defender BlockAtFirstSeen Feature
 id: 2dd719ac-3021-11ec-97b4-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -56,6 +56,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - Azorult
   - CISA AA23-347A
   - IcedID
