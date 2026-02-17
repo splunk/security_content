@@ -31,6 +31,7 @@ known_false_positives: Known false positives include security research and testi
 references:
   - https://splunkbase.splunk.com/app/8377
   - https://www.tenable.com/blog/mcp-prompt-injection-not-just-for-evil
+  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
 drilldown_searches:
   - name: View the detection results for - "$dest$"
     search: '%original_detection_search% | search dest="$dest$"'

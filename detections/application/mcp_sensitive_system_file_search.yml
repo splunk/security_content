@@ -33,6 +33,7 @@ known_false_positives: Known false positives include legitimate development acti
    refactoring tasks where developers rename or consolidate credential management code across a codebase, and onboarding activities where new developers explore unfamiliar codebases to understand authentication flows.  
 references:
   - https://splunkbase.splunk.com/app/8377
+  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
 tags:
   analytic_story:
     - Suspicious MCP activities

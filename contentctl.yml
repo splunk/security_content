@@ -19,15 +19,6 @@ data_source_TA_validation: false
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
   base_directory_name: external_repos/attack_data
-  helptext: "This repo is set up to use test_data_caches. This can be extremely helpful\
-    \ in validating correct links for test attack_data and speeding up testing.\n\
-    Include the following in your contentctl.yml file to use this cache:\n\ntest_data_caches:\n\
-    - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/\n\
-    \  base_directory_name: external_repos/attack_data\n\nIn order to check out STRT\
-    \ Attack Data, you can use the following command:\nmkdir -p external_repos; curl\
-    \ https://attack-range-attack-data.s3.us-west-2.amazonaws.com/attack_data.tar.zstd\
-    \ | zstd --decompress | tar -x -C external_repos/\nor\necho \"First ensure git-lfs\
-    \ is enabled\"; git clone https://github.com/splunk/attack_data external_repos/attack_data"
 build_path: dist
 mode:
   mode_name: All
