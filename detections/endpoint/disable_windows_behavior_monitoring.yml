@@ -1,7 +1,7 @@
 name: Disable Windows Behavior Monitoring
 id: 79439cae-9200-11eb-a4d3-acde48001122
-version: 18
-date: '2026-01-20'
+version: 19
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -59,6 +59,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - Windows Defense Evasion Tactics
   - CISA AA23-347A
   - Revil Ransomware
