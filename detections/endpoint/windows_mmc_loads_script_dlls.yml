@@ -40,7 +40,7 @@ drilldown_searches:
   earliest_offset: $info_min_time$
   latest_offset: $info_max_time$
 rba:
-  message: Process [ $process_name$ ] loaded [ $ImageLoaded$ ] (jscript.dll or vbscript.dll) to execute script code on [ $dest$ ].
+  message: Process [ $process_name$ ] loaded [ $ImageLoaded$ ] on [ $dest$ ].
   risk_objects:
   - field: dest
     type: system
