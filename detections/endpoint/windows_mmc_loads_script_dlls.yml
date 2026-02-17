@@ -8,7 +8,7 @@ type: Anomaly
 description: The following analytic identifies when a Windows process loads scripting libraries like jscript.dll or vbscript.dll to execute script code on a target system. While these DLLs are legitimate parts of the operating system, their use by unexpected processes or in unusual contexts can indicate malicious activity, such as script-based malware, living-off-the-land techniques, or automated attacks. This detection monitors which processes load these libraries, along with their command-line arguments and parent processes, to help distinguish normal administrative behavior from potential threats. Alerts should be investigated with attention to the process context and any subsequent network or system activity, as legitimate tools like MMC snap-ins may also trigger this behavior under routine administrative tasks.
 data_source:
 - Sysmon EventID 7
-search: '`sysmon` EventCode=7  process_name = mmc.exe ImageLoaded IN ("*\\jscript.dll", "*\\vbscript.dll")  
+search: '`sysmon` EventCode=7  process_name = mmc.exe ImageLoaded IN ("*\\jscript.dll", "*\\vbscript.dll", "*\\jscript9.dll")  
   | fillnull 
   | stats count min(_time) as firstTime max(_time) as lastTime 
   by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
