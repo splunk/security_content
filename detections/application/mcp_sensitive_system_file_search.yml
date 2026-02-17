@@ -36,7 +36,7 @@ references:
   - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
 tags:
   analytic_story:
-    - Suspicious MCP activities
+    - Suspicious MCP Activities
   asset_type: Web Application
   mitre_attack_id:
     - T1552.001
