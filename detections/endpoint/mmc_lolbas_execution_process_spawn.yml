@@ -1,7 +1,7 @@
 name: Mmc LOLBAS Execution Process Spawn
 id: f6601940-4c74-11ec-b9b7-3e22fbd008af
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-03'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -18,10 +18,9 @@ data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
   - CrowdStrike ProcessRollup2
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where (Processes.parent_process_name=mmc.exe)
-  (Processes.process_name IN ("Regsvcs.exe", "Ftp.exe", "OfflineScannerShell.exe",
+search: |
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes 
+  where (Processes.parent_process_name=mmc.exe) (Processes.process_name IN ("Regsvcs.exe", "Ftp.exe", "OfflineScannerShell.exe",
   "Rasautou.exe", "Schtasks.exe", "Xwizard.exe", "Dllhost.exe", "Pnputil.exe", "Atbroker.exe",
   "Pcwrun.exe", "Ttdinject.exe","Mshta.exe", "Bitsadmin.exe", "Certoc.exe", "Ieexec.exe",
   "Microsoft.Workflow.Compiler.exe", "Runscripthelper.exe", "Forfiles.exe", "Msbuild.exe",
@@ -31,14 +30,17 @@ search:
   "Mavinject.exe", "Regasm.exe", "Gpscript.exe", "Rundll32.exe", "Regsvr32.exe", "Msiexec.exe",
   "Wuauclt.exe", "Presentationhost.exe", "Wmic.exe", "Runonce.exe", "Syncappvpublishingserver.exe",
   "Verclsid.exe", "Infdefaultinstall.exe", "Explorer.exe", "Installutil.exe", "Netsh.exe",
-  "Wab.exe", "Dnscmd.exe", "At.exe", "Pcalua.exe", "Msconfig.exe")) by Processes.action
-  Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
+  "Wab.exe", "Dnscmd.exe", "At.exe", "Pcalua.exe", "Msconfig.exe")) 
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
   Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name
   Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid
   Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `mmc_lolbas_execution_process_spawn_filter`'
+  | `drop_dm_object_name(Processes)` 
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | `mmc_lolbas_execution_process_spawn_filter`
 how_to_implement:
   The detection is based on data that originates from Endpoint Detection
   and Response (EDR) agents. These agents are designed to provide security-related
@@ -83,6 +85,7 @@ tags:
     - Active Directory Lateral Movement
     - Living Off The Land
     - Water Gamayun
+    - XML Runner Loader
   asset_type: Endpoint
   mitre_attack_id:
     - T1021.003
