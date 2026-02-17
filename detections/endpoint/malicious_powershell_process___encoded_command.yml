@@ -48,7 +48,7 @@ references:
 - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
   analytic_story:
-  - SolarWinds Active Exploitation
+  - SolarWinds WHD RCE Exploitation
   - CISA AA22-320A
   - Hermetic Wiper
   - Sandworm Tools
@@ -73,6 +73,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  cve:
+  - CVE-2025-40551
+  - CVE-2025-26399
 tests:
 - name: True Positive Test
   attack_data:

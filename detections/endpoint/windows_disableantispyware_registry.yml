@@ -55,7 +55,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - SolarWinds Active Exploitation
+  - SolarWinds WHD RCE Exploitation
   - Azorult
   - Ryuk Ransomware
   - Windows Registry Abuse
@@ -71,6 +71,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  cve:
+  - CVE-2025-40551
+  - CVE-2025-26399
 tests:
 - name: True Positive Test
   attack_data:

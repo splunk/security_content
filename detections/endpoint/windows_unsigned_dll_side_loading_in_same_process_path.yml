@@ -67,7 +67,7 @@ tags:
   - SnappyBee
   - NailaoLocker Ransomware
   - Lokibot
-  - SolarWinds Active Exploitation
+  - SolarWinds WHD RCE Exploitation
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.001
@@ -76,6 +76,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  cve:
+  - CVE-2025-40551
+  - CVE-2025-26399
 tests:
 - name: True Positive Test
   attack_data:

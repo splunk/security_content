@@ -45,7 +45,7 @@ references:
 - https://thedfirreport.com/2023/05/22/icedid-macro-ends-in-nokoyawa-ransomware/
 tags:
   analytic_story:
-  - SolarWinds Active Exploitation
+  - SolarWinds WHD RCE Exploitation
   - Windows Discovery Techniques
   - Windows Post-Exploitation
   - Graceful Wipe Out Attack
@@ -67,6 +67,9 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
+  cve:
+  - CVE-2025-40551
+  - CVE-2025-26399
 tests:
 - name: True Positive Test
   attack_data:
