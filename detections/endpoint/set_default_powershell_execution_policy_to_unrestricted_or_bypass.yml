@@ -62,7 +62,7 @@ rba:
     type: registry_path
 tags:
   analytic_story:
-  - SolarWinds WHD RCE Exploitation
+  - SolarWinds WHD RCE Post Exploitation
   - HAFNIUM Group
   - Hermetic Wiper
   - Credential Dumping

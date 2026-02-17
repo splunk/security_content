@@ -73,7 +73,7 @@ rba:
     type: signature
 tags:
   analytic_story:
-  - SolarWinds WHD RCE Exploitation
+  - SolarWinds WHD RCE Post Exploitation
   - Scheduled Tasks
   - Ransomware
   - Quasar RAT
@@ -89,9 +89,6 @@ tags:
   - Splunk Enterprise Security
   - Splunk Cloud
   security_domain: endpoint
-  cve:
-  - CVE-2025-40551
-  - CVE-2025-26399
 tests:
 - name: True Positive Test
   attack_data:

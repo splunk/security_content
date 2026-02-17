@@ -56,7 +56,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - SolarWinds WHD RCE Exploitation
+  - SolarWinds WHD RCE Post Exploitation
   - Azorult
   - CISA AA23-347A
   - IcedID

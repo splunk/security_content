@@ -30,7 +30,7 @@ references:
 - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
   analytic_story:
-  - SolarWinds WHD RCE Exploitation
+  - SolarWinds WHD RCE Post Exploitation
   - IcedID
   - BlackSuit Ransomware
   - Windows Persistence Techniques

@@ -58,7 +58,7 @@ rba:
   threat_objects: []
 tags:
   analytic_story:
-  - SolarWinds WHD RCE Exploitation
+  - SolarWinds WHD RCE Post Exploitation
   - Windows Registry Abuse
   - CISA AA24-241A
   - IcedID
