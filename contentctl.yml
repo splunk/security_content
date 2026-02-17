@@ -10,20 +10,24 @@ app:
   author_name: Splunk Threat Research Team
   author_email: research@splunk.com
   author_company: Splunk
-verbose: false
-enforce_deprecation_mapping_requirement: false
 enrichments: false
 build_app: true
 build_api: true
-data_source_TA_validation: false
-test_data_caches:
-- base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
-  base_directory_name: external_repos/attack_data
+build_ssa: false
 build_path: dist
-mode:
-  mode_name: All
+test_instance:
+  splunk_app_username: admin
+  instance_address: localhost
+  hec_port: 8088
+  web_ui_port: 8000
+  api_port: 8089
+container_settings:
+  full_image_path: registry.hub.docker.com/splunk/splunk:9.3
+  leave_running: true
+  num_containers: 1
+mode: {}
+splunk_api_username: null
 post_test_behavior: pause_on_failure
-enable_integration_testing: false
 apps:
 - uid: 1621
   title: Splunk_SA_CIM
@@ -236,25 +240,21 @@ apps:
   title: Add-on for VMware ESXi Logs
   appid: Splunk_TA_esxilogs
   version: 4.2.2
-  description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-vmware-esxi-logs_422.tgz
 - uid: 5640
   title: Splunk Add-on for VMware Indexes
   appid: SPLUNK_ADD_ON_FOR_VMWARE_INDEXES
   version: 4.0.3
-  description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-vmware-indexes_403.tgz
 - uid: 1467
   title: Cisco Networks Add-on
   appid: TA-cisco_ios
   version: 2.7.9
-  description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/add-on-for-cisco-network-data_279.tgz
 - uid: 8024
   title: TA-ollama
   appid: ta-ollama
   version: 0.1.5
-  description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-ollama_015.tgz
 - uid: 8377
   title: MCP TA
@@ -262,3 +262,7 @@ apps:
   version: 0.1.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
+githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
+test_data_caches:
+- base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
+  base_directory_name: external_repos/attack_data
