@@ -1,4 +1,4 @@
-name: Windows MMC Loads Script DLLs
+name: Windows MMC Loaded Script Engine DLL
 id: 785bbfb5-d404-42d1-ab9d-45c37a2c75cd
 version: 1
 date: '2026-02-03'
@@ -16,7 +16,7 @@ search: '`sysmon` EventCode=7  process_name = mmc.exe ImageLoaded IN ("*\\jscrip
   service_dll_signature_verified signature signature_id user_id vendor_product 
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`  
-  | `windows_mmc_loads_script_dlls_filter`'
+  | `windows_mmc_loaded_script_engine_dll_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting
   logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
   If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
