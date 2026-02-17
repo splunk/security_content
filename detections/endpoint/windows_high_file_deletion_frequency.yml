@@ -1,7 +1,7 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 10
-date: '2025-09-18'
+version: 11
+date: '2026-02-12'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -80,6 +80,8 @@ tags:
   - Interlock Ransomware
   - NailaoLocker Ransomware
   - APT37 Rustonotto and FadeStealer
+  - DynoWiper
+  - ZOVWiper
   asset_type: Endpoint
   mitre_attack_id:
   - T1485
