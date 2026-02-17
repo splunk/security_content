@@ -17,8 +17,8 @@ search: |
   | where file_extension IN ("exe", "dll", "ps1", "bat", "cmd", "vbs", "js", "sh", "scr", "msi", "hta")
   | eval 
       file_path_lower=lower(file_path),
-      is_system_path=if(like(file_path_lower, "%windows%") OR like(file_path_lower, "%system32%") OR like(file_path_lower, "%program files%") OR like(file_path_lower, "%/usr%") OR like(file_path_lower, "%/bin%") OR like(file_path_lower, "%/etc%"), 1, 0), 
-      is_startup_path=if(like(file_path_lower, "%startup%") OR like(file_path_lower, "%autorun%") OR like(file_path_lower, "%cron%") OR like(file_path_lower, "%launchd%") OR like(file_path_lower, "%systemd%") OR like(file_path_lower, "%init.d%"), 1, 0),
+      is_system_path = if(match(file_path_lower, "(windows|system32|program files|/usr|/bin|/etc)"), 1, 0),
+      is_startup_path = if(match(file_path_lower, "(startup|autorun|cron|launchd|systemd|init\.d)"), 1, 0),
       content_length=len(file_content)
   | stats count min(_time) as firstTime max(_time) as lastTime values(file_path) as file_paths values(file_extension) as extensions max(is_system_path) as targets_system_path max(is_startup_path) as targets_startup_path avg(content_length) as avg_content_size by dest, method
   | eval 
