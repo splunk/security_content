@@ -152,11 +152,8 @@ tags:
     - Lokibot
     - Castle RAT
     - SesameOp
-<<<<<<< dynowiper
     - DynoWiper
-=======
     - XML Runner Loader
->>>>>>> develop
   asset_type: Endpoint
   mitre_attack_id:
     - T1036
