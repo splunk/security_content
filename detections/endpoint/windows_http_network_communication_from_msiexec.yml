@@ -1,7 +1,7 @@
 name: Windows HTTP Network Communication From MSIExec
 id: b0fd38c7-f71a-43a2-870e-f3ca06bcdd99
-version: 7
-date: '2025-09-16'
+version: 8
+date: '2026-02-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -86,6 +86,7 @@ tags:
     - Windows System Binary Proxy Execution MSIExec
     - Water Gamayun
     - Cisco Network Visibility Module Analytics
+    - SolarWinds WHD RCE Post Exploitation
   asset_type: Endpoint
   mitre_attack_id:
     - T1218.007

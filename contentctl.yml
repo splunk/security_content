@@ -256,6 +256,12 @@ apps:
   appid: ta-ollama
   version: 0.1.5
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-ollama_015.tgz
+- uid: 8377
+  title: MCP TA
+  appid: mcp-ta
+  version: 0.1.2
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
