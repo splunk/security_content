@@ -154,7 +154,7 @@ tags:
     - Splunk Enterprise Security
     - Splunk Cloud
   security_domain: endpoint
-  tests:
+tests:
   - name: True Positive Test security log
     attack_data:
       - data:
