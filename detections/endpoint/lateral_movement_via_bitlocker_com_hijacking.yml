@@ -154,16 +154,16 @@ tags:
     - Splunk Enterprise Security
     - Splunk Cloud
   security_domain: endpoint
-tests:
+  tests:
   - name: True Positive Test security log
     attack_data:
-      - data: |
+      - data:
           https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1546.015/bitlocker_com_hijacking/windows-security.log
         source: XmlWinEventLog:security
         sourcetype: XmlWinEventLog
   - name: True Positive Test system log
     attack_data:
-      - data: |
+      - data:
           https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1546.015/bitlocker_com_hijacking/windows-system.log
         source: XmlWinEventLog:system
         sourcetype: XmlWinEventLog
