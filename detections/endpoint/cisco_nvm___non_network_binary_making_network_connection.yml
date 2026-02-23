@@ -1,7 +1,7 @@
 name: Cisco NVM - Non-Network Binary Making Network Connection
 id: c6db35af-8a0e-4b61-88ed-738e66f15715
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2026-02-23'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -16,7 +16,8 @@ search: |
   `cisco_network_visibility_module_flowdata`
   process_name IN (
           "notepad.exe", "write.exe", "mspaint.exe", "calc.exe",
-          "addinutil.exe", "cmstp.exe", "dialer.exe", "eqnedt32.exe", "IMEWDBLD.exe"
+          "win32calc.exe", "addinutil.exe", "cmstp.exe", "dialer.exe",
+          "eqnedt32.exe", "IMEWDBLD.exe"
           )
   NOT dest IN (
           "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",

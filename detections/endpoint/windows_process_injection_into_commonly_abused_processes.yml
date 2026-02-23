@@ -1,7 +1,7 @@
 name: Windows Process Injection into Commonly Abused Processes
 id: 1e1dedc6-f6f3-41a0-9dd7-a1245904fe75
-version: 4
-date: '2025-09-18'
+version: 5
+date: '2026-02-23'
 author: 0xC0FFEEEE, Github Community
 type: Anomaly
 status: production
@@ -18,7 +18,8 @@ description: The following analytic detects process injection into executables t
 search: '`sysmon` EventCode=10 TargetImage IN ("*\\notepad.exe", "*\\wordpad.exe",
   "*\\calc.exe", "*\\mspaint.exe", "*\\lsass.exe", "*\\svchost.exe", "*\\backgroundtaskhost.exe",
   "*\\dllhost.exe", "*\\regsvr32.exe", "*\\searchprotocolhost.exe", "*\\werfault.exe",
-  "*\\wuauclt.exe", "*\\spoolsv.exe", "*\\chrome.exe", "*\\edge.exe", "*\\firefox.exe")
+  "*\\wuauclt.exe", "*\\spoolsv.exe", "*\\chrome.exe", "*\\edge.exe", "*\\firefox.exe",
+  "*\\win32calc.exe", "*\\CalculatorApp.exe")
   NOT (SourceImage IN ("*\\system32\\*","*\\syswow64\\*","*\\Program Files\\*", "*\\Program
   Files (x86)\\*")) GrantedAccess IN ("0x40","0x1fffff", "0x1f3fff") | stats values(user)
   as user, min(_time) as firstTime, max(_time) as lastTime, count by dest user_id
