@@ -1,0 +1,52 @@
+name: MCP Postgres Suspicious Query
+id: 6a168ce8-9a39-4492-9416-a67abdc56c53
+version: 1
+date: '2026-02-05'
+author: Rod Soto
+status: production
+type: Hunting
+description: This detection identifies potentially malicious SQL queries executed through MCP PostgreSQL server connections, monitoring for privilege escalation attempts, credential theft, and schema reconnaissance. These patterns are commonly observed in SQL injection attacks, compromised application credentials, and insider threat scenarios targeting database assets.
+data_source:
+  - MCP Server
+search: |
+  `mcp_server` method=query direction=inbound
+  | eval dest=host
+  | eval query_lower=lower('params.query')
+  | eval suspicious_query='params.query'
+  | eval is_priv_escalation=if(like(query_lower, "%update%users%role%admin%") OR like(query_lower, "%grant%admin%") OR like(query_lower, "%grant%superuser%"), 1, 0)
+  | eval is_credential_theft=if(like(query_lower, "%password%") OR like(query_lower, "%credential%") OR like(query_lower, "%api_key%") OR like(query_lower, "%secret%"), 1, 0)
+  | eval is_recon=if(like(query_lower, "%information_schema%") OR like(query_lower, "%pg_catalog%") OR like(query_lower, "%pg_tables%") OR like(query_lower, "%pg_user%"), 1, 0)
+  | where is_priv_escalation=1 OR is_credential_theft=1 OR is_recon=1
+  | eval attack_type=case(
+      is_priv_escalation=1, "Privilege Escalation",
+      is_credential_theft=1, "Credential Theft",
+      is_recon=1, "Schema Reconnaissance",
+      1=1, "Unknown")
+  | stats count min(_time) as firstTime max(_time) as lastTime values(suspicious_query) as suspicious_queries values(attack_type) as attack_types dc(attack_type) as attack_diversity by dest
+  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(lastTime)`
+  | table dest firstTime lastTime count suspicious_queries attack_types attack_diversity
+  | `mcp_postgres_suspicious_query_filter`
+how_to_implement: Install the MCP Technology Add-on from https://splunkbase.splunk.com/app/8377 and ensure MCP PostgreSQL server logging is enabled and forwarding to the right index with proper params.query field extraction. Schedule the search to run every 5-15 minutes and configure alerting thresholds based on your environment.
+known_false_positives: Legitimate database administrators performing user management tasks, ORM frameworks querying information_schema for schema validation, password reset functionality, and CI/CD pipelines running database migrations.
+references:
+  - https://splunkbase.splunk.com/app/8377
+  - https://www.nodejs-security.com/blog/the-tale-of-the-vulnerable-mcp-database-server
+  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+tags:
+  analytic_story:
+    - Suspicious MCP Activities
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1555
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+    sourcetype: mcp:jsonrpc
+    source: mcp.log

@@ -1,7 +1,7 @@
 name: Windows Unsigned DLL Side-Loading In Same Process Path
 id: 3cf85c02-f9d6-4186-bf3c-e70ee99fbc7f
-version: 16
-date: '2026-01-14'
+version: 17
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 type: TTP
 status: production
@@ -67,6 +67,7 @@ tags:
   - SnappyBee
   - NailaoLocker Ransomware
   - Lokibot
+  - SolarWinds WHD RCE Post Exploitation
   asset_type: Endpoint
   mitre_attack_id:
   - T1574.001
