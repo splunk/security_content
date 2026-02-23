@@ -1,4 +1,9 @@
 detections:
+  - content: Linux apt-get Privilege Escalation
+    removed_in_version: 5.24.0
+    reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
+    replacement_content:
+      - Linux APT Privilege Escalation
   - content: HTTP Suspicious Tool User Agent
     removed_in_version: 5.22.0
     reason: Detection has been renamed for clarity

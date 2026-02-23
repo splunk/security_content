@@ -1,11 +1,11 @@
 name: Linux APT Privilege Escalation
 id: 4d5a05fa-77d9-4fd0-af9c-05704f9f9a88
-version: 9
-date: '2025-05-02'
-author: Gowthamaraj Rajendran, Splunk
+version: 10
+date: '2026-02-10'
+author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the Advanced Package Tool (APT)
+description: The following analytic detects the use of the Advanced Package Tool (APT) or apt-get
   with elevated privileges via sudo on Linux systems. It leverages Endpoint Detection
   and Response (EDR) telemetry to identify processes where APT commands are executed
   with sudo rights. This activity is significant because it indicates a user can run
@@ -15,6 +15,7 @@ description: The following analytic detects the use of the Advanced Package Tool
   security risk.
 data_source:
 - Sysmon for Linux EventID 1
+- Cisco Isovalent Process Exec
 search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
   as lastTime from datamodel=Endpoint.Processes where Processes.process="*apt*" AND
   Processes.process="*APT::Update::Pre-Invoke::*" AND Processes.process="*sudo*" by
@@ -82,3 +83,8 @@ tests:
   - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt/sysmon_linux.log
     source: Syslog:Linux-Sysmon/Operational
     sourcetype: sysmon:linux
+- name: True Positive Test - Cisco Isovalent
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548/apt_get/cisco_isovalent.log
+    source: not_applicable
+    sourcetype: cisco:isovalent:processExec
