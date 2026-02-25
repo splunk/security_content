@@ -5,77 +5,50 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description:
-  The following analytic detects the modification of the Windows registry
-  to disable the Run application in the Start menu. It leverages data from the Endpoint.Registry
-  data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
-  with a value of "0x00000001". This activity is significant because the Run application
-  is a useful shortcut for executing known applications and scripts. If confirmed
-  malicious, this action could hinder system cleaning efforts and make it more difficult
-  to run essential tools, thereby aiding malware persistence.
+description: The following analytic detects the modification of the Windows registry to disable the Run application in the Start menu. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the registry path "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun" with a value of "0x00000001". This activity is significant because the Run application is a useful shortcut for executing known applications and scripts. If confirmed malicious, this action could hinder system cleaning efforts and make it more difficult to run essential tools, thereby aiding malware persistence.
 data_source:
-  - Sysmon EventID 13
-search:
-  '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun"
-  Registry.registry_value_data = "0x00000001") by Registry.action Registry.dest Registry.process_guid
-  Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
-  Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`|
-  where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `disabling_norun_windows_app_filter`'
-how_to_implement:
-  To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path= "*\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\NoRun" Registry.registry_value_data = "0x00000001") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_norun_windows_app_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin may disable this application for non technical user.
 references:
-  - https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
-  - https://blog.malwarebytes.com/detections/pum-optional-norun/
+    - https://any.run/report/ea4ea08407d4ee72e009103a3b77e5a09412b722fdef67315ea63f22011152af/a866d7b1-c236-4f26-a391-5ae32213dfc4#registry
+    - https://blog.malwarebytes.com/detections/pum-optional-norun/
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message:
-    The Windows registry was modified to disable run application in window
-    start menu on $dest$ by $user$.
-  risk_objects:
-    - field: user
-      type: user
-      score: 25
-    - field: dest
-      type: system
-      score: 25
-  threat_objects: []
+    message: The Windows registry was modified to disable run application in window start menu on $dest$ by $user$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 25
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-    - Windows Defense Evasion Tactics
-    - Windows Registry Abuse
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1112
-    - T1562.001
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Defense Evasion Tactics
+        - Windows Registry Abuse
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/win_app_defender_disabling/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

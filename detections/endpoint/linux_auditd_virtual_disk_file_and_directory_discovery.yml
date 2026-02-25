@@ -1,71 +1,61 @@
 name: Linux Auditd Virtual Disk File And Directory Discovery
 id: eec78cef-d4c8-4b35-8f5b-6922102a4a41
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects suspicious discovery of virtual disk files
-  and directories, which may indicate an attacker's attempt to locate and access virtualized
-  storage environments. Virtual disks can contain sensitive data or critical system
-  configurations, and unauthorized discovery attempts could signify preparatory actions
-  for data exfiltration or further compromise. By monitoring for unusual or unauthorized
-  searches for virtual disk files and directories, this analytic helps identify potential
-  reconnaissance activities, enabling security teams to respond promptly and safeguard
-  against unauthorized access and data breaches.
+description: The following analytic detects suspicious discovery of virtual disk files and directories, which may indicate an attacker's attempt to locate and access virtualized storage environments. Virtual disks can contain sensitive data or critical system configurations, and unauthorized discovery attempts could signify preparatory actions for data exfiltration or further compromise. By monitoring for unusual or unauthorized searches for virtual disk files and directories, this analytic helps identify potential reconnaissance activities, enabling security teams to respond promptly and safeguard against unauthorized access and data breaches.
 data_source:
-- Linux Auditd Execve
-search: '`linux_auditd` execve_command IN ("*find*", "*grep*")  AND execve_command IN ("*.vhd*", "*.vhdx*", "*.vmdk*")
-  | rename host as dest 
-  | rename comm as process_name 
-  | rename exe as process 
-  | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest 
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `linux_auditd_virtual_disk_file_and_directory_discovery_filter`'
+    - Linux Auditd Execve
+search: |-
+    `linux_auditd` execve_command IN ("*find*", "*grep*")  AND execve_command IN ("*.vhd*", "*.vhdx*", "*.vmdk*")
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY argc execve_command dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_virtual_disk_file_and_directory_discovery_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
-- https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
-- https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+    - https://www.splunk.com/en_us/blog/security/deep-dive-on-persistence-privilege-escalation-technique-and-detection-in-linux-platform.html
+    - https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A [$execve_command$] event occurred on host - [$dest$] to discover virtual
-    disk files and directories.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: A [$execve_command$] event occurred on host - [$dest$] to discover virtual disk files and directories.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Linux Living Off The Land
-  - Linux Privilege Escalation
-  - Linux Persistence Techniques
-  - Compromised Linux Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1083
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Linux Living Off The Land
+        - Linux Privilege Escalation
+        - Linux Persistence Techniques
+        - Compromised Linux Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1083
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/linux_auditd_find_virtual_disk/auditd_execve_find_vhd.log
-    source: auditd
-    sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1083/linux_auditd_find_virtual_disk/auditd_execve_find_vhd.log
+          source: auditd
+          sourcetype: auditd

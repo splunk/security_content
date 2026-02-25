@@ -1,48 +1,48 @@
 name: Microsoft Intune Manual Device Management
 id: 5ca7ebee-4ee7-4cf2-b3be-0ea26a00d822
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Dean Luxton
 data_source:
-- Azure Monitor Activity
+    - Azure Monitor Activity
 type: Hunting
 status: production
 description: >-
-  Microsoft Intune device management configuration policies, scripts & apps are a all tools administrators can use to remotely manage intune managed devices.
-  Instead of waiting for the devices to poll for changes to polciies, the policies can be manually pushed to expidite delivery. 
-  This may be useful in a pinch, it may also be a sign of an impatient attacker trying to speed up the delivery of their payload. 
-  This detection identifies when a device management configuration policy sync events, on-demand remediation scripts are triggered or when devices are remotely restarted. 
+    Microsoft Intune device management configuration policies, scripts & apps are a all tools administrators can use to remotely manage intune managed devices.
+    Instead of waiting for the devices to poll for changes to polciies, the policies can be manually pushed to expidite delivery.
+    This may be useful in a pinch, it may also be a sign of an impatient attacker trying to speed up the delivery of their payload.
+    This detection identifies when a device management configuration policy sync events, on-demand remediation scripts are triggered or when devices are remotely restarted.
 search: >-
-  `azure_monitor_activity` operationName="*ManagedDevice*" 
-  | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
-  | rex field="operationName" "^(?P<action>\w+)\s"
-  | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
-  | `microsoft_intune_manual_device_management_filter`
+    `azure_monitor_activity` operationName="*ManagedDevice*"
+    | rename identity as user, properties.TargetObjectIds{} as TargetObjectId, properties.TargetDisplayNames{} as TargetDisplayName, properties.Actor.IsDelegatedAdmin as user_isDelegatedAdmin
+    | rex field="operationName" "^(?P<action>\w+)\s"
+    | table _time operationName action user user_type user_isDelegatedAdmin TargetDisplayName TargetObjectId status tenantId correlationId
+    | `microsoft_intune_manual_device_management_filter`
 how_to_implement: >-
-  The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub. 
-  To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub. 
-  Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly. 
-known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection. 
+    The Splunk Add-on for Microsoft Cloud Services add-on is required to ingest In-Tune audit logs via Azure EventHub.
+    To configure this logging, visit Intune > Tenant administration > Diagnostic settings > Add diagnostic settings & send events to the activity audit event hub.
+    Deploy as a risk based alerting rule for quick deployment or perform baselining & tune accordingly.
+known_false_positives: Legitimate adminstrative usage of this functionality will trigger this detection.
 references:
-- https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
-- https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
-- https://posts.specterops.io/maestro-9ed71d38d546
+    - https://posts.specterops.io/death-from-above-lateral-movement-from-azure-to-on-prem-ad-d18cb3959d4d
+    - https://securityintelligence.com/x-force/detecting-intune-lateral-movement/
+    - https://posts.specterops.io/maestro-9ed71d38d546
 tags:
-  analytic_story:
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Tenant
-  mitre_attack_id:
-  - T1021.007
-  - T1072
-  - T1529
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: audit
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Tenant
+    mitre_attack_id:
+        - T1021.007
+        - T1072
+        - T1529
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1072/intune/intune.log
-    sourcetype: azure:monitor:activity
-    source: Azure AD
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1072/intune/intune.log
+          sourcetype: azure:monitor:activity
+          source: Azure AD

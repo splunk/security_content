@@ -6,72 +6,47 @@ author: Mauricio Velazco, Splunk
 status: production
 type: TTP
 data_source:
-- O365 ModifyFolderPermissions
-description: The following analytic detects instances where the inbox folder of an
-  Office 365 mailbox is shared with all users within the tenant. It leverages Office
-  365 management activity events to identify when the 'Inbox' folder permissions are
-  modified to include 'Everyone' with read rights. This activity is significant as
-  it represents a potential security risk, allowing unauthorized access to sensitive
-  emails. If confirmed malicious, this could lead to data breaches, exfiltration of
-  confidential information, and further compromise through spear-phishing or other
-  malicious activities based on the accessed email content.
-search: "`o365_management_activity` Operation=ModifyFolderPermissions Workload=Exchange object=Inbox Item.ParentFolder.MemberUpn=Everyone 
-  | eval isReadRole=if(match('Item.ParentFolder.MemberRights',\"(ReadAny)\"), \"true\", \"false\") 
-  | search isReadRole = \"true\" 
-  | rename UserId as user
-  | fillnull 
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime by signature, user, dest, vendor_account, vendor_product, object, MailboxOwnerUPN, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights, src
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `o365_mailbox_inbox_folder_shared_with_all_users_filter`"
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Administrators might temporarily share a mailbox with all users
-  for legitimate reasons, such as troubleshooting, migrations, or other administrative
-  tasks. Some organizations use shared mailboxes for teams or departments where multiple
-  users need access to the same mailbox. Filter as needed.
+    - O365 ModifyFolderPermissions
+description: The following analytic detects instances where the inbox folder of an Office 365 mailbox is shared with all users within the tenant. It leverages Office 365 management activity events to identify when the 'Inbox' folder permissions are modified to include 'Everyone' with read rights. This activity is significant as it represents a potential security risk, allowing unauthorized access to sensitive emails. If confirmed malicious, this could lead to data breaches, exfiltration of confidential information, and further compromise through spear-phishing or other malicious activities based on the accessed email content.
+search: "`o365_management_activity` Operation=ModifyFolderPermissions Workload=Exchange object=Inbox Item.ParentFolder.MemberUpn=Everyone | eval isReadRole=if(match('Item.ParentFolder.MemberRights',\"(ReadAny)\"), \"true\", \"false\") | search isReadRole = \"true\" | rename UserId as user | fillnull | stats count earliest(_time) as firstTime latest(_time) as lastTime by signature, user, dest, vendor_account, vendor_product, object, MailboxOwnerUPN, Item.ParentFolder.MemberUpn, Item.ParentFolder.MemberRights, src | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_mailbox_inbox_folder_shared_with_all_users_filter`"
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Administrators might temporarily share a mailbox with all users for legitimate reasons, such as troubleshooting, migrations, or other administrative tasks. Some organizations use shared mailboxes for teams or departments where multiple users need access to the same mailbox. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1114/002/
-- https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
-- https://www.blackhillsinfosec.com/abusing-exchange-mailbox-permissions-mailsniper/
-- https://learn.microsoft.com/en-us/purview/audit-mailboxes
-- https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxodlgt/5610c6e6-3268-44e3-adff-8804f5315946
+    - https://attack.mitre.org/techniques/T1114/002/
+    - https://www.mandiant.com/sites/default/files/2022-08/remediation-hardening-strategies-for-m365-defend-against-apt29-white-paper.pdf
+    - https://www.blackhillsinfosec.com/abusing-exchange-mailbox-permissions-mailsniper/
+    - https://learn.microsoft.com/en-us/purview/audit-mailboxes
+    - https://learn.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxodlgt/5610c6e6-3268-44e3-adff-8804f5315946
 drilldown_searches:
-- name: View the detection results for - "$MailboxOwnerUPN$"
-  search: '%original_detection_search% | search  MailboxOwnerUPN = "$MailboxOwnerUPN$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$MailboxOwnerUPN$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$MailboxOwnerUPN$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$MailboxOwnerUPN$"
+      search: '%original_detection_search% | search  MailboxOwnerUPN = "$MailboxOwnerUPN$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$MailboxOwnerUPN$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$MailboxOwnerUPN$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Inbox folder for the $MailboxOwnerUPN$ mailbox was shared with all users.
-  risk_objects:
-  - field: MailboxOwnerUPN
-    type: user
-    score: 56
-  threat_objects: []
+    message: Inbox folder for the $MailboxOwnerUPN$ mailbox was shared with all users.
+    risk_objects:
+        - field: MailboxOwnerUPN
+          type: user
+          score: 56
+    threat_objects: []
 tags:
-  analytic_story:
-  - Office 365 Persistence Mechanisms
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1114.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story:
+        - Office 365 Persistence Mechanisms
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_inbox_shared_with_all_users/o365_inbox_shared_with_all_users.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_inbox_shared_with_all_users/o365_inbox_shared_with_all_users.log
+          source: o365
+          sourcetype: o365:management:activity

@@ -1,87 +1,87 @@
 name: O365 Email Receive and Hard Delete Takeover Behavior
 id: b66aeaa4-586f-428b-8a2b-c4fd3039d8d3
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic identifies when an O365 email recipient receives and then deletes emails related to password or banking/payroll changes within a short period. This behavior may indicate a compromised account where the threat actor is attempting to redirect the victims payroll to an attacker controlled bank account.
-data_source: 
-- Office 365 Universal Audit Log
-- Office 365 Reporting Message Trace
+data_source:
+    - Office 365 Universal Audit Log
+    - Office 365 Reporting Message Trace
 search: |-
-  `o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
-  | eval mailtime = _time
-  | bin _time span=4hr
-  | eval user = lower(RecipientAddress)
-  | eval InternetMessageId = lower(MessageId)
-  | join InternetMessageId, user max=0
-    [
-    | search `o365_management_activity` Workload=Exchange Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")
-    | spath path=AffectedItems{}  output=AffectedItemSplit
-    | fields _time,ClientProcessName,ClientIPAddress,ClientInfoString,UserId,Operation,ResultStatus,MailboxOwnerUPN,AffectedItemSplit,Folder.Path 
-    | mvexpand AffectedItemSplit | spath input=AffectedItemSplit
-    | search Subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") 
-    | eval deltime = _time
+    `o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
+    | eval mailtime = _time
     | bin _time span=4hr
-    | eval InternetMessageId = lower(InternetMessageId), user = lower(UserId), subject = Subject
-    ]
-  | stats values(ClientIPAddress) as src, values(ClientInfoString) as http_user_agent, values(Folder.Path) as file_path, values(Operation) as signature, values(ResultStatus) as result, values(InternetMessageId) as signature_id, count, min(mailtime) as firstTime, max(deltime) as lastTime by user,subject
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `o365_email_receive_and_hard_delete_takeover_behavior_filter`
+    | eval user = lower(RecipientAddress)
+    | eval InternetMessageId = lower(MessageId)
+    | join InternetMessageId, user max=0
+      [
+      | search `o365_management_activity` Workload=Exchange Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")
+      | spath path=AffectedItems{}  output=AffectedItemSplit
+      | fields _time,ClientProcessName,ClientIPAddress,ClientInfoString,UserId,Operation,ResultStatus,MailboxOwnerUPN,AffectedItemSplit,Folder.Path
+      | mvexpand AffectedItemSplit | spath input=AffectedItemSplit
+      | search Subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*")
+      | eval deltime = _time
+      | bin _time span=4hr
+      | eval InternetMessageId = lower(InternetMessageId), user = lower(UserId), subject = Subject
+      ]
+    | stats values(ClientIPAddress) as src, values(ClientInfoString) as http_user_agent, values(Folder.Path) as file_path, values(Operation) as signature, values(ResultStatus) as result, values(InternetMessageId) as signature_id, count, min(mailtime) as firstTime, max(deltime) as lastTime by user,subject
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `o365_email_receive_and_hard_delete_takeover_behavior_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events AND Message Trace events.
 known_false_positives: Possible new user/account onboarding processes.
 references:
-- https://attack.mitre.org/techniques/T1114/
-- https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
-- https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+    - https://attack.mitre.org/techniques/T1114/
+    - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+    - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate Email for $user$ 
-  search: '`o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") AND RecipientAddress = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate Email for $user$
+      search: '`o365_messagetrace` subject IN ("*banking*","*direct deposit*","*pay-to*","*password *","*passcode *","*OTP *","*MFA *","*Account Recovery*") AND RecipientAddress = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The user $user$ received and deleted an email within a short timeframe titled [$subject$] which may contain password or banking information
-  risk_objects:
-  - field: user
-    type: user
-    score: 80
-  threat_objects:
-  - field: subject
-    type: email_subject
-  - field: src
-    type: ip_address
+    message: The user $user$ received and deleted an email within a short timeframe titled [$subject$] which may contain password or banking information
+    risk_objects:
+        - field: user
+          type: user
+          score: 80
+    threat_objects:
+        - field: subject
+          type: email_subject
+        - field: src
+          type: ip_address
 tags:
-  analytic_story: 
-  - Office 365 Account Takeover
-  - Office 365 Collection Techniques
-  - Suspicious Emails
-  - Data Destruction
-  asset_type: O365 Tenant
-  mitre_attack_id: 
-  - T1070.008
-  - T1485
-  - T1114.001
-  product: 
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Office 365 Account Takeover
+        - Office 365 Collection Techniques
+        - Suspicious Emails
+        - Data Destruction
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1070.008
+        - T1485
+        - T1114.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
-    source: o365
-    sourcetype: o365:management:activity
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
-    source: o365_messagetrace
-    sourcetype: o365:reporting:messagetrace
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
+          source: o365
+          sourcetype: o365:management:activity
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_messagetrace_suspect_events.log
+          source: o365_messagetrace
+          sourcetype: o365:reporting:messagetrace

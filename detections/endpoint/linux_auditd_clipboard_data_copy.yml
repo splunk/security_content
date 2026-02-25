@@ -1,69 +1,59 @@
 name: Linux Auditd Clipboard Data Copy
 id: 9ddfe470-c4d0-4e60-8668-7337bd699edd
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the use of the Linux 'xclip' command to
-  copy data from the clipboard. It leverages Linux Auditd telemetry, focusing on process
-  names and command-line arguments related to clipboard operations. This activity
-  is significant because adversaries can exploit clipboard data to capture sensitive
-  information such as passwords or IP addresses. If confirmed malicious, this technique
-  could lead to unauthorized data exfiltration, compromising sensitive information
-  and potentially aiding further attacks within the environment.
+description: The following analytic detects the use of the Linux 'xclip' command to copy data from the clipboard. It leverages Linux Auditd telemetry, focusing on process names and command-line arguments related to clipboard operations. This activity is significant because adversaries can exploit clipboard data to capture sensitive information such as passwords or IP addresses. If confirmed malicious, this technique could lead to unauthorized data exfiltration, compromising sensitive information and potentially aiding further attacks within the environment.
 data_source:
-- Linux Auditd Execve
-search: '`linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" )
-  | rename host as dest
-  | rename comm as process_name 
-  | rename exe as process  
-  | stats count min(_time) as firstTime max(_time) as lastTime by argc execve_command dest
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `linux_auditd_clipboard_data_copy_filter`'
+    - Linux Auditd Execve
+search: |-
+    `linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" )
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY argc execve_command dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_clipboard_data_copy_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: False positives may be present on Linux desktop as it may commonly be used by administrators or end users. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1115/
-- https://linux.die.net/man/1/xclip
+    - https://attack.mitre.org/techniques/T1115/
+    - https://linux.die.net/man/1/xclip
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A [$execve_command$] event occurred on host - [$dest$] to copy data from
-    the clipboard.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 16
-  threat_objects: []
+    message: A [$execve_command$] event occurred on host - [$dest$] to copy data from the clipboard.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 16
+    threat_objects: []
 tags:
-  analytic_story:
-  - Linux Living Off The Land
-  - Compromised Linux Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1115
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Linux Living Off The Land
+        - Compromised Linux Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1115
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1115/linux_auditd_xclip/linux_auditd_xclip2.log
-    source: auditd
-    sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1115/linux_auditd_xclip/linux_auditd_xclip2.log
+          source: auditd
+          sourcetype: auditd

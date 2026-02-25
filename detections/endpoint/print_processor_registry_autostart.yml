@@ -5,75 +5,51 @@ date: '2025-06-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects suspicious modifications or new entries
-  in the Print Processor registry path. It leverages registry activity data from the
-  Endpoint data model to identify changes in the specified registry path. This activity
-  is significant because the Print Processor registry is known to be exploited by
-  APT groups like Turla for persistence and privilege escalation. If confirmed malicious,
-  this could allow an attacker to execute a malicious DLL payload by restarting the
-  spoolsv.exe process, leading to potential control over the compromised machine.
+description: The following analytic detects suspicious modifications or new entries in the Print Processor registry path. It leverages registry activity data from the Endpoint data model to identify changes in the specified registry path. This activity is significant because the Print Processor registry is known to be exploited by APT groups like Turla for persistence and privilege escalation. If confirmed malicious, this could allow an attacker to execute a malicious DLL payload by restarting the spoolsv.exe process, leading to potential control over the compromised machine.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime
-  max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path
-  ="*\\Control\\Print\\Environments\\Windows x64\\Print Processors*" by Registry.action
-  Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
-  Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
-  | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)`
-  | `print_processor_registry_autostart_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting data
-  that records registry activity from your hosts to populate the endpoint data model
-  in the registry node. This is typically populated via endpoint detection-and-response
-  product, such as Carbon Black or endpoint data sources, such as Sysmon. The data
-  used for this search is typically generated via logs that report reads and writes
-  to the registry.
-known_false_positives: possible new printer installation may add driver component
-  on this registry.
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count  min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where Registry.registry_path ="*\\Control\\Print\\Environments\\Windows x64\\Print Processors*" by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `drop_dm_object_name(Registry)` | `print_processor_registry_autostart_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records registry activity from your hosts to populate the endpoint data model in the registry node. This is typically populated via endpoint detection-and-response product, such as Carbon Black or endpoint data sources, such as Sysmon. The data used for this search is typically generated via logs that report reads and writes to the registry.
+known_false_positives: possible new printer installation may add driver component on this registry.
 references:
-- https://attack.mitre.org/techniques/T1547/012/
-- https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
+    - https://attack.mitre.org/techniques/T1547/012/
+    - https://www.welivesecurity.com/2020/05/21/no-game-over-winnti-group/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: modified/added/deleted registry entry $registry_path$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  - field: user
-    type: user
-    score: 80
-  threat_objects: []
+    message: modified/added/deleted registry entry $registry_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 80
+        - field: user
+          type: user
+          score: 80
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - Windows Privilege Escalation
-  - Hermetic Wiper
-  - Windows Persistence Techniques
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1547.012
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - Windows Privilege Escalation
+        - Hermetic Wiper
+        - Windows Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1547.012
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/print_reg/sysmon_print.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
