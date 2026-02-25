@@ -9,20 +9,23 @@ description: The following analytic identifies suspicious PowerShell script exec
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText IN ("*http:*","*https:*")
-      | regex ScriptBlockText="(\"?(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))\"?(?:,
-      | \))?){2,}"
-      | rex max_match=20 field=ScriptBlockText "(?<url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `powershell_script_block_with_url_chain_filter`
+    `powershell`
+    EventCode=4104
+    ScriptBlockText IN ("*http:*","*https:*")
+
+    | regex ScriptBlockText="(\"?(https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))\"?(?:,|\))?){2,}"
+
+    | rex max_match=20 field=ScriptBlockText "(?<url>https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*))"
+
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by dest signature signature_id user_id vendor_product
+           EventID Guid Opcode Name Path ProcessID
+           ScriptBlockId ScriptBlockText
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `powershell_script_block_with_url_chain_filter`'
 how_to_implement: The following analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: No false positives have been identified at this time.
 references:

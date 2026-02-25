@@ -10,19 +10,38 @@ data_source:
     - Windows Event Log Security 4688
     - Sysmon EventID 1
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime values(Processes.process_current_directory) as directory FROM datamodel=Endpoint.Processes
-      WHERE Processes.parent_process_name != "unknown" Processes.process_name IN ("appvlp.exe","bitsadmin.exe","control.exe","cscript.exe","forfiles.exe","ftp.exe","mavinject.exe","mshta.exe","powershell.exe","powershell_ise.exe","pwsh.exe","regini.exe","regscr32.exe","rundll32.exe","sc.exe","wmic.exe","wscript.exe")
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats count min(_time) as firstTime max(_time) as lastTime values(Processes.process_current_directory) as directory
+    from datamodel=Endpoint.Processes where
+    Processes.parent_process_name != "unknown"
+    Processes.process_name IN (
+        "appvlp.exe",
+        "bitsadmin.exe",
+        "control.exe",
+        "cscript.exe",
+        "forfiles.exe",
+        "ftp.exe",
+        "mavinject.exe",
+        "mshta.exe",
+        "powershell_ise.exe",
+        "powershell.exe",
+        "pwsh.exe",
+        "regini.exe",
+        "regscr32.exe",
+        "rundll32.exe",
+        "sc.exe",
+        "wmic.exe",
+        "wscript.exe"
+    )
+
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash
+       Processes.process_id Processes.process_integrity_level Processes.process_name
+       Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
-    | regex process="(\b)\w+(\.\w+)?:\w+(\.\w{2,4})(?!\.)(\b
-    | \s
-    | &)"
+    | regex process="(\b)\w+(\.\w+)?:\w+(\.\w{2,4})(?!\.)(\b|\s|&)"
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_alternate_datastream___process_execution_filter`

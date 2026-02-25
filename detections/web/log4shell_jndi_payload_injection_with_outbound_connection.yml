@@ -9,25 +9,9 @@ description: The following analytic detects Log4Shell JNDI payload injections vi
 data_source: []
 search: |-
     | from datamodel Web.Web
-    | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:
-    | \%3A
-    | \/
-    | \%2F)(?<proto>\w+)(\:\/\/
-    | \%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)"
-    | join affected_host type=inner [
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Network_Traffic.All_Traffic
-      BY All_Traffic.dest
-    | `drop_dm_object_name(All_Traffic)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | rename dest AS affected_host]
+    | rex field=_raw max_match=0 "[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)(?<proto>\w+)(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?(?<affected_host>[a-zA-Z0-9\.\-\_\$]+)" | join affected_host type=inner [| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Network_Traffic.All_Traffic by All_Traffic.dest | `drop_dm_object_name(All_Traffic)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rename dest AS affected_host]
     | fillnull
-    | stats count
-      BY action, category, dest,
-         dest_port, http_content_type, http_method,
-         http_referrer, http_user_agent, site,
-         src, url, url_domain,
-         user
+    | stats count by action, category, dest, dest_port, http_content_type, http_method, http_referrer, http_user_agent, site, src, url, url_domain, user
     | `log4shell_jndi_payload_injection_with_outbound_connection_filter`
 how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
 known_false_positives: If there is a vulnerablility scannner looking for log4shells this will trigger, otherwise likely to have low false positives.

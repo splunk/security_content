@@ -9,24 +9,18 @@ description: The following analytic identifies the execution of malicious PowerS
 data_source:
     - Windows Event Log System 7045
 search: |-
-    `wineventlog_system` EventCode=7045
-      | eval l_ImagePath=lower(ImagePath)
-      | regex l_ImagePath="powershell[.\s]
-      | powershell_ise[.\s]
-      | pwsh[.\s]
-      | psexec[.\s]"
-      | regex l_ImagePath="-nop[rofile\s]+
-      | -w[indowstyle]*\s+hid[den]*
-      | -noe[xit\s]+
-      | -enc[odedcommand\s]+"
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY EventCode ImagePath ServiceName
-           StartType ServiceType AccountName
-           UserID dest
-      | rename UserID as user
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `malicious_powershell_executed_as_a_service_filter`
+    `wineventlog_system`
+    EventCode=7045
+    | eval l_ImagePath=lower(ImagePath)
+    | regex l_ImagePath="powershell[.\s]|powershell_ise[.\s]|pwsh[.\s]|psexec[.\s]"
+    | regex l_ImagePath="-nop[rofile\s]+|-w[indowstyle]*\s+hid[den]*|-noe[xit\s]+|-enc[odedcommand\s]+"
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by EventCode ImagePath ServiceName StartType
+           ServiceType AccountName UserID dest
+    | rename UserID as user
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `malicious_powershell_executed_as_a_service_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Windows System logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 known_false_positives: Creating a hidden powershell service is rare and could key off of those instances.
 references:
