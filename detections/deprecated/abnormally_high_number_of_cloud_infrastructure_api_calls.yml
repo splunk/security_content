@@ -1,9 +1,9 @@
 name: Abnormally High Number Of Cloud Infrastructure API Calls
 id: 0840ddf1-8c89-46ff-b730-c8d6722478c0
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-02-25'
 author: David Dorsey, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic detects a spike in the number of API calls made
   to your cloud infrastructure by a user. It leverages cloud infrastructure logs and

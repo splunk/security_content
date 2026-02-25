@@ -1,9 +1,9 @@
 name: Abnormally High Number Of Cloud Security Group API Calls
 id: d4dfb7f3-7a37-498a-b5df-f19334e871af
-version: 9
-date: '2026-01-14'
+version: 10
+date: '2026-02-25'
 author: David Dorsey, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic detects a spike in the number of API calls made
   to cloud security groups by a user. It leverages data from the Change data model,
