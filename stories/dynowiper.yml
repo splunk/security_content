@@ -1,0 +1,18 @@
+name: DynoWiper
+id: 46eceaa1-8d16-4ebd-848d-d8c1816bb1a0
+version: 1
+status: production
+date: '2026-02-12'
+author: Teoderick Contreras, Splunk
+description: DynoWiper is a newly documented data-wiping malware identified by ESET researchers during a destructive cyber incident targeting an energy company in a critical infrastructure. Designed to overwrite files and force a system reboot, DynoWiper erases data across removable and fixed drives, rendering systems inoperable if unprotected. ESET attributes the malware to the Russia-aligned threat group Sandworm with medium confidence, noting shared tactics and coding patterns with previous destructive wiper families like ZOV. Endpoint defenses successfully blocked execution, highlighting the need for robust detection.
+narrative: In late December 2025, ESET responded to a destructive malware incident involving a previously unseen wiper dubbed DynoWiper deployed within an energy sector environment. Analysis revealed a dedicated file-overwriting payload that systematically targeted drives and rebooted systems to complete destruction. Drawing parallels to prior Sandworm wiper operations such as ZOV. 
+references:
+  - https://www.welivesecurity.com/en/eset-research/dynowiper-update-technical-analysis-attribution/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

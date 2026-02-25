@@ -1,7 +1,7 @@
 name: Set Default PowerShell Execution Policy To Unrestricted or Bypass
 id: c2590137-0b08-4985-9ec5-6ae23d92f63d
-version: 18
-date: '2026-01-30'
+version: 19
+date: '2026-02-09'
 author: Steven Dick, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -62,6 +62,7 @@ rba:
     type: registry_path
 tags:
   analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
   - HAFNIUM Group
   - Hermetic Wiper
   - Credential Dumping
