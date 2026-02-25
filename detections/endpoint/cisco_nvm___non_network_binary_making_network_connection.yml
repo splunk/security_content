@@ -13,38 +13,38 @@ description: |
 data_source:
     - Cisco Network Visibility Module Flow Data
 search: |
-  `cisco_network_visibility_module_flowdata`
-  process_name IN (
-          "notepad.exe", "write.exe", "mspaint.exe", "calc.exe",
-          "win32calc.exe", "addinutil.exe", "cmstp.exe", "dialer.exe",
-          "eqnedt32.exe", "IMEWDBLD.exe"
-          )
-  NOT dest IN (
-          "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-          "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-          "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-          "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-          "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
-          )
-  | stats count min(_time) as firstTime max(_time) as lastTime
-          values(parent_process_arguments) as parent_process_arguments
-          values(process_arguments) as process_arguments
-          values(parent_process_hash) as parent_process_hash
-          values(process_hash) as process_hash
-          values(module_name_list) as module_name_list
-          values(module_hash_list) as module_hash_list
-          values(dest_port) as dest_port
-          values(aliul) as additional_logged_in_users_list
-          values(dest_hostname) as dest_hostname
-          by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | table
-    parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
-    process_integrity_level process_path process_name process_arguments process_hash process_id
-    additional_logged_in_users_list module_name_list module_hash_list
-    src dest_hostname dest dest_port transport firstTime lastTime
-  | `cisco_nvm___non_network_binary_making_network_connection_filter`
+    `cisco_network_visibility_module_flowdata`
+    process_name IN (
+            "notepad.exe", "write.exe", "mspaint.exe", "calc.exe",
+            "win32calc.exe", "addinutil.exe", "cmstp.exe", "dialer.exe",
+            "eqnedt32.exe", "IMEWDBLD.exe"
+            )
+    NOT dest IN (
+            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+            )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+            values(parent_process_arguments) as parent_process_arguments
+            values(process_arguments) as process_arguments
+            values(parent_process_hash) as parent_process_hash
+            values(process_hash) as process_hash
+            values(module_name_list) as module_name_list
+            values(module_hash_list) as module_hash_list
+            values(dest_port) as dest_port
+            values(aliul) as additional_logged_in_users_list
+            values(dest_hostname) as dest_hostname
+            by src dest parent_process_path parent_process_integrity_level process_path process_name process_integrity_level process_id transport
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table
+      parent_process_integrity_level parent_process_path parent_process_arguments parent_process_hash
+      process_integrity_level process_path process_name process_arguments process_hash process_id
+      additional_logged_in_users_list module_name_list module_hash_list
+      src dest_hostname dest dest_port transport firstTime lastTime
+    | `cisco_nvm___non_network_binary_making_network_connection_filter`
 how_to_implement: |
     This search requires Network Visibility Module logs, which includes the flow data sourcetype.
     This search uses an input macro named `cisco_network_visibility_module_flowdata`.

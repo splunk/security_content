@@ -5,40 +5,29 @@ date: '2026-02-23'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description:
-  The following analytic detects the loading of the "WindowsCodecs.dll" by calc.exe from a non-standard location
-  This could be indicative of a potential DLL side-loading technique.
-  This detection leverages Sysmon EventCode 7 to identify the DLL side-loading activity.
-  In previous versions of the "calc.exe" binary, namely on Windows 7, it was vulnerable to DLL side-loading, where an attacker is able to load an arbitrary DLL named "WindowsCodecs.dll".
-  This technique has been observed in Qakbot malware.
-  This activity is significant as it indicates potential malware execution through a trusted process, which can bypass security controls. If confirmed malicious, this could allow attackers to execute arbitrary code, maintain persistence, and escalate privileges within the environment.
+description: The following analytic detects the loading of the "WindowsCodecs.dll" by calc.exe from a non-standard location This could be indicative of a potential DLL side-loading technique. This detection leverages Sysmon EventCode 7 to identify the DLL side-loading activity. In previous versions of the "calc.exe" binary, namely on Windows 7, it was vulnerable to DLL side-loading, where an attacker is able to load an arbitrary DLL named "WindowsCodecs.dll". This technique has been observed in Qakbot malware. This activity is significant as it indicates potential malware execution through a trusted process, which can bypass security controls. If confirmed malicious, this could allow attackers to execute arbitrary code, maintain persistence, and escalate privileges within the environment.
 data_source:
-  - Sysmon EventID 7
+    - Sysmon EventID 7
 search: |
-  '`sysmon`
-  EventCode=7
-  Image="*\\calc.exe"
-  ImageLoaded="*\\WindowsCodecs.dll"
-  NOT Image IN ("*:\\Windows\\System32\\*", "*:\\Windows\\SysWOW64\\*")
-  NOT ImageLoaded IN("*:\\Windows\\System32\\*", "*:\\Windows\\SysWOW64\\*", "*:\\Windows\\WinSXS\\*")
+    '`sysmon`
+    EventCode=7
+    Image="*\\calc.exe"
+    ImageLoaded="*\\WindowsCodecs.dll"
+    NOT Image IN ("*:\\Windows\\System32\\*", "*:\\Windows\\SysWOW64\\*")
+    NOT ImageLoaded IN("*:\\Windows\\System32\\*", "*:\\Windows\\SysWOW64\\*", "*:\\Windows\\WinSXS\\*")
 
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
 
-  by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
-     process_exec process_guid process_hash process_id process_name
-     process_path service_dll_signature_exists service_dll_signature_verified
-     signature signature_id user_id vendor_product
+    by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
+       process_exec process_guid process_hash process_id process_name
+       process_path service_dll_signature_exists service_dll_signature_verified
+       signature signature_id user_id vendor_product
 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_dll_side_loading_in_calc_filter`
-how_to_implement:
-  To successfully implement this search you need to be ingesting information
-  on processes that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem`
-  node. In addition, confirm the latest CIM App 4.20 or higher is installed and the
-  latest TA for the endpoint product.
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_dll_side_loading_in_calc_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on processes that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Processes` and `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: No false positives have been identified at this time.
 references:
     - https://www.bitdefender.com/blog/hotforsecurity/new-qakbot-malware-strain-replaces-windows-calculator-dll-to-infected-pcs/
@@ -52,12 +41,12 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-  message: The [ $image$ ] process loaded the [ $ImageLoaded$ ] DLL from a non-standard location on [ $dest$ ]
-  risk_objects:
-    - field: dest
-      type: system
-      score: 90
-  threat_objects: []
+    message: The [ $image$ ] process loaded the [ $ImageLoaded$ ] DLL from a non-standard location on [ $dest$ ]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 90
+    threat_objects: []
 tags:
     analytic_story:
         - Qakbot
