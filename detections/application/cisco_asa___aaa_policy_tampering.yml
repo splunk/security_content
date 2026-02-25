@@ -1,7 +1,7 @@
 name: Cisco ASA - AAA Policy Tampering
 id: 8f2c4e9a-5d3b-4c7e-9a1f-6e8d5b2c3a9f
 version: 2
-date: '2026-01-28'
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

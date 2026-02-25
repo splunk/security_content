@@ -1,7 +1,7 @@
 name: Cisco NVM - Non-Network Binary Making Network Connection
 id: c6db35af-8a0e-4b61-88ed-738e66f15715
 version: 3
-date: '2026-01-28'
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

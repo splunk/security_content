@@ -1,7 +1,7 @@
 name: Baseline Of Open S3 Bucket Decommissioning
 id: 984e9022-b87b-499a-a260-8d0282c46ea2
-version: 1
-date: '2025-02-12'
+version: 2
+date: '2026-02-25'
 author: Jose Hernandez
 type: Baseline
 status: production

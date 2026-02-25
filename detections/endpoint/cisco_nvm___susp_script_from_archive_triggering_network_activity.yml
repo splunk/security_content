@@ -1,7 +1,7 @@
 name: Cisco NVM - Susp Script From Archive Triggering Network Activity
 id: 8b07c2c9-0cde-4c44-9fa6-59dcf2b25777
 version: 3
-date: '2026-01-28'
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

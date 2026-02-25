@@ -1,7 +1,7 @@
 name: Cisco ASA - Logging Filters Configuration Tampering
 id: b87b48a8-6d1a-4280-9cf1-16a950dbf901
 version: 2
-date: '2026-01-28'
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

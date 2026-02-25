@@ -1,7 +1,7 @@
 name: Cisco ASA - User Privilege Level Change
 id: 5f7d8c3e-9a2b-4d6f-8e1c-3b5a9d7f2c4e
 version: 2
-date: '2026-01-28'
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
