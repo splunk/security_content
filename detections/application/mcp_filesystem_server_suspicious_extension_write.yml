@@ -1,0 +1,63 @@
+name: MCP Filesystem Server Suspicious Extension Write
+id: fc2a024a-18c1-4d31-9480-7f04cf3ff293
+version: 1
+date: '2026-02-05'
+author: Rod Soto
+status: production
+type: Hunting
+description: This detection identifies attempts to create executable or script files through MCP filesystem server connections. Threat actors leveraging LLM-based tools may attempt to write malicious executables, scripts, or batch files to disk for persistence or code execution. The detection prioritizes files written to system directories or startup locations which indicate higher likelihood of malicious intent.
+data_source:
+  - MCP Server
+search: |
+  `mcp_server` method IN ("write_file", "create_file") direction=inbound
+  | spath output=file_path path=params.path
+  | spath output=file_content path=params.content
+  | eval dest=host
+  | eval file_extension=lower(mvindex(split(file_path, "."), -1))
+  | where file_extension IN (
+      "exe", "dll", "ps1", "bat", "cmd", "vbs", "js", "scr", "msi", "hta", "wsf", "wsh", "pif", "com", "cpl",
+      "sh", "bash", "zsh", "ksh", "csh", "tcsh", "fish",
+      "py", "pl", "rb", "php", "lua", "awk",
+      "so", "dylib", "bin", "elf", "run", "AppImage",
+      "deb", "rpm", "pkg", "dmg",
+      "plist", "service", "timer", "socket", "conf"
+      )
+  | eval
+      file_path_lower=lower(file_path),
+      is_system_path = if(match(file_path_lower, "(windows|system32|syswow64|program files|/usr|/bin|/sbin|/lib|/lib64|/etc|/opt)"), 1, 0),
+      is_startup_path = if(match(file_path_lower, "(startup|autorun|cron\.d|crontab|launchd|launchagents|launchdaemons|systemd|init\.d|rc\.d|rc\.local|profile\.d|bashrc|zshrc|bash_profile)"), 1, 0),
+      is_hidden_unix = if(match(file_path, "/\.[^/]+$"), 1, 0),
+      content_length=len(file_content)
+  | stats count min(_time) as firstTime max(_time) as lastTime values(file_path) as file_paths values(file_extension) as extensions max(is_system_path) as targets_system_path max(is_startup_path) as targets_startup_path max(is_hidden_unix) as targets_hidden_file avg(content_length) as avg_content_size by dest, method
+  | eval
+      targets_system_path=if(isnull(targets_system_path), 0, targets_system_path),
+      targets_startup_path=if(isnull(targets_startup_path), 0, targets_startup_path),
+      targets_hidden_file=if(isnull(targets_hidden_file), 0, targets_hidden_file)
+  | sort - targets_startup_path, - targets_system_path, - targets_hidden_file, - count
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | table dest firstTime lastTime count method extensions file_paths targets_system_path targets_startup_path targets_hidden_file avg_content_size
+  | `mcp_filesystem_server_suspicious_extension_write_filter`
+how_to_implement: Install the MCP Technology Add-on from Splunkbase and ensure MCP filesystem server logging is enabled with proper field extraction for params.path and params.content. Schedule the search to run every 5-15 minutes and tune alerting based on whether system or startup paths are targeted.
+known_false_positives: Legitimate developers using LLM assistants to generate scripts or automation tools, DevOps engineers creating deployment scripts, and system administrators generating batch files for maintenance tasks.
+references:
+  - https://splunkbase.splunk.com/app/8377
+  - https://cymulate.com/blog/cve-2025-53109-53110-escaperoute-anthropic/ 
+  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+tags:
+  analytic_story:
+    - Suspicious MCP Activities
+  asset_type: Web Application
+  mitre_attack_id:
+    - T1059
+  product:
+    - Splunk Enterprise
+    - Splunk Enterprise Security
+    - Splunk Cloud
+  security_domain: endpoint
+tests:
+  - name: True Positive Test
+    attack_data:
+      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+        sourcetype: mcp:jsonrpc
+        source: mcp.log 

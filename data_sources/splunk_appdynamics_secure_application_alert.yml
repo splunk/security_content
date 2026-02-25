@@ -9,7 +9,7 @@ sourcetype: appdynamics_security
 supported_TA:
 - name: Splunk Add-on for AppDynamics
   url: https://splunkbase.splunk.com/app/3471
-  version: 3.1.6
+  version: 3.1.8
 fields:
 - SourceType
 - apiServerExternal

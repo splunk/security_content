@@ -1,0 +1,67 @@
+name: Windows MMC Loaded Script Engine DLL
+id: 785bbfb5-d404-42d1-ab9d-45c37a2c75cd
+version: 1
+date: '2026-02-03'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: The following analytic identifies when a Windows process loads scripting libraries like jscript.dll or vbscript.dll to execute script code on a target system. While these DLLs are legitimate parts of the operating system, their use by unexpected processes or in unusual contexts can indicate malicious activity, such as script-based malware, living-off-the-land techniques, or automated attacks. This detection monitors which processes load these libraries, along with their command-line arguments and parent processes, to help distinguish normal administrative behavior from potential threats. Alerts should be investigated with attention to the process context and any subsequent network or system activity, as legitimate tools like MMC snap-ins may also trigger this behavior under routine administrative tasks.
+data_source:
+- Sysmon EventID 7
+search: '`sysmon` EventCode=7  process_name = mmc.exe ImageLoaded IN ("*\\jscript.dll", "*\\vbscript.dll", "*\\jscript9.dll")  
+  | fillnull 
+  | stats count min(_time) as firstTime max(_time) as lastTime 
+  by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
+  process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
+  service_dll_signature_verified signature signature_id user_id vendor_product 
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`  
+  | `windows_mmc_loaded_script_engine_dll_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting
+  logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
+  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+  Also be sure to include those monitored dll to your own sysmon config.
+known_false_positives: built in Windows tools such as Group Policy Management, Task Scheduler, Event Viewer, or custom MMC snap-ins may load vbscript.dll or jscript.dll to support scripted extensions, automation, or legacy management components. Filter as needed.
+references:
+- https://www.securonix.com/blog/analyzing-fluxconsole-using-tax-themed-lures-threat-actors-exploit-windows-management-console-to-deliver-backdoor-payloads/
+- https://research.checkpoint.com/2019/microsoft-management-console-mmc-vulnerabilities/
+drilldown_searches:
+- name: View the detection results for - "$dest$"
+  search: '%original_detection_search% | search  dest = "$dest$"'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+- name: View risk events for the last 7 days for - "$dest$"
+  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
+    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
+    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
+    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
+    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`'
+  earliest_offset: $info_min_time$
+  latest_offset: $info_max_time$
+rba:
+  message: Process [ $process_name$ ] loaded [ $ImageLoaded$ ] on [ $dest$ ].
+  risk_objects:
+  - field: dest
+    type: system
+    score: 20
+  threat_objects:
+  - field: process_name
+    type: process_name
+tags:
+  analytic_story:
+  - XML Runner Loader
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1620
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
+tests:
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1620/mmc_script_modules/loaded_module_mmc.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

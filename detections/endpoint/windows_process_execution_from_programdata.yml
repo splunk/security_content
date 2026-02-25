@@ -1,64 +1,74 @@
 name: Windows Process Execution From ProgramData
 id: 237016fa-d8e6-47b4-80f9-70c4d42c72c0
-version: 6
-date: '2026-01-13'
+version: 7
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
 description: |
-    The following analytic identifies processes running from file paths within
-    the ProgramData directory, a common location abused by adversaries for executing
-    malicious code while evading detection. Threat actors often drop and execute payloads
-    from this directory to bypass security controls, as it typically has write permissions
-    for standard users. While this behavior can indicate malware execution or persistence
-    techniques, it is important to note that some legitimate software, installers, and
-    update mechanisms also run from ProgramData, leading to potential false positives.
-    Security teams should validate detections by correlating with other indicators,
-    such as unusual parent processes, unsigned binaries, or anomalous network activity.
+  The following analytic identifies processes running from file paths within
+  the ProgramData directory, a common location abused by adversaries for executing
+  malicious code while evading detection. Threat actors often drop and execute payloads
+  from this directory to bypass security controls, as it typically has write permissions
+  for standard users. While this behavior can indicate malware execution or persistence
+  techniques, it is important to note that some legitimate software, installers, and
+  update mechanisms also run from ProgramData, leading to potential false positives.
+  Security teams should validate detections by correlating with other indicators,
+  such as unusual parent processes, unsigned binaries, or anomalous network activity.
 data_source:
-    - Sysmon EventID 1
-    - Windows Event Log Security 4688
-    - CrowdStrike ProcessRollup2
+- Sysmon EventID 1
+- Windows Event Log Security 4688
+- CrowdStrike ProcessRollup2
 search: |
-    | tstats `security_content_summariesonly` count values(Processes.process_name)
-    as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where
-
-    Processes.process_path = "*:\\ProgramData\\*"
-
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-    Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-    Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-    Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-    Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-    | `drop_dm_object_name(Processes)`
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_process_execution_from_programdata_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
+  | tstats `security_content_summariesonly` count values(Processes.process_name)
+  as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
+  as lastTime from datamodel=Endpoint.Processes where
+  
+  Processes.process_path = "*:\\ProgramData\\*"
+  
+  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
+  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
+  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+  | `drop_dm_object_name(Processes)`
+  | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)`
+  | `windows_process_execution_from_programdata_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection
+  and Response (EDR) agents. These agents are designed to provide security-related
+  telemetry from the endpoints where the agent is installed. To implement this search,
+  you must ingest logs that contain the process GUID, process name, and parent process.
+  Additionally, you must ingest complete command-line executions. These logs must
+  be processed using the appropriate Splunk Technology Add-ons that are specific to
+  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+  data model. Use the Splunk Common Information Model (CIM) to normalize the field
+  names and speed up the data modeling process.
+known_false_positives: Administrators may allow execution of specific binaries in
+  non-standard paths. Filter as needed.
 references:
-    - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 tags:
-    analytic_story:
-        - StealC Stealer
-        - SnappyBee
-        - XWorm
-        - Salt Typhoon
-        - China-Nexus Threat Activity
-        - APT37 Rustonotto and FadeStealer
-        - GhostRedirector IIS Module and Rungan Backdoor
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1036.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+  analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
+  - StealC Stealer
+  - SnappyBee
+  - XWorm
+  - Salt Typhoon
+  - China-Nexus Threat Activity
+  - APT37 Rustonotto and FadeStealer
+  - GhostRedirector IIS Module and Rungan Backdoor
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1036.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
 tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.005/process_in_programdata/exec_programdata.log
-          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-          sourcetype: XmlWinEventLog
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036.005/process_in_programdata/exec_programdata.log
+    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    sourcetype: XmlWinEventLog

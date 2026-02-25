@@ -1,59 +1,67 @@
 name: WinEvent Windows Task Scheduler Event Action Started
 id: b3632472-310b-11ec-9aab-acde48001122
-version: 11
-date: '2025-12-10'
+version: 12
+date: '2026-02-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the execution of tasks registered in Windows Task Scheduler by monitoring EventID 200 (action run) and 201 (action completed) from the Task Scheduler logs. This detection leverages Task Scheduler logs to identify potentially suspicious or unauthorized task executions. Monitoring these events is significant for a SOC as it helps uncover evasive techniques used for persistence, unauthorized code execution, or other malicious activities. If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or the execution of harmful payloads, posing a significant threat to the environment.
+description: The following analytic detects the execution of tasks registered in Windows
+  Task Scheduler by monitoring EventID 200 (action run) and 201 (action completed)
+  from the Task Scheduler logs. This detection leverages Task Scheduler logs to identify
+  potentially suspicious or unauthorized task executions. Monitoring these events
+  is significant for a SOC as it helps uncover evasive techniques used for persistence,
+  unauthorized code execution, or other malicious activities. If confirmed malicious,
+  this activity could lead to unauthorized access, data exfiltration, or the execution
+  of harmful payloads, posing a significant threat to the environment.
 data_source:
-    - Windows Event Log TaskScheduler 200
-    - Windows Event Log TaskScheduler 201
-search: |-
-    | `wineventlog_task_scheduler` EventCode IN ("200","201")
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY TaskName dvc EventCode
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `winevent_windows_task_scheduler_event_action_started_filter`
-how_to_implement: Task Scheduler logs are required to be collected. Enable logging with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational] and renderXml=false. Note, not translating it in XML may require a proper extraction of specific items in the Message.
-known_false_positives: False positives will be present. Filter based on ActionName paths or specify keywords of interest.
+- Windows Event Log TaskScheduler 200
+- Windows Event Log TaskScheduler 201
+search: '`wineventlog_task_scheduler` EventCode IN ("200","201")  | stats count min(_time)
+  as firstTime max(_time) as lastTime by TaskName dvc EventCode | `security_content_ctime(firstTime)`
+  | `security_content_ctime(lastTime)` | `winevent_windows_task_scheduler_event_action_started_filter`'
+how_to_implement: Task Scheduler logs are required to be collected. Enable logging
+  with inputs.conf by adding a stanza for [WinEventLog://Microsoft-Windows-TaskScheduler/Operational]
+  and renderXml=false. Note, not translating it in XML may require a proper extraction
+  of specific items in the Message.
+known_false_positives: False positives will be present. Filter based on ActionName
+  paths or specify keywords of interest.
 references:
-    - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md
-    - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+- https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1053.005/T1053.005.md
+- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 tags:
-    analytic_story:
-        - IcedID
-        - BlackSuit Ransomware
-        - Windows Persistence Techniques
-        - Prestige Ransomware
-        - Winter Vivern
-        - CISA AA22-257A
-        - Amadey
-        - AsyncRAT
-        - ValleyRAT
-        - SystemBC
-        - Malicious Inno Setup Loader
-        - Scheduled Tasks
-        - Data Destruction
-        - CISA AA24-241A
-        - DarkCrystal RAT
-        - Qakbot
-        - Sandworm Tools
-        - Industroyer2
-        - PlugX
-        - Remcos
-    asset_type: Endpoint
-    mitre_attack_id:
-        - T1053.005
-    product:
-        - Splunk Enterprise
-        - Splunk Enterprise Security
-        - Splunk Cloud
-    security_domain: endpoint
+  analytic_story:
+  - SolarWinds WHD RCE Post Exploitation
+  - IcedID
+  - BlackSuit Ransomware
+  - Windows Persistence Techniques
+  - Prestige Ransomware
+  - Winter Vivern
+  - CISA AA22-257A
+  - Amadey
+  - AsyncRAT
+  - ValleyRAT
+  - SystemBC
+  - Malicious Inno Setup Loader
+  - Scheduled Tasks
+  - Data Destruction
+  - CISA AA24-241A
+  - DarkCrystal RAT
+  - Qakbot
+  - Sandworm Tools
+  - Industroyer2
+  - PlugX
+  - Remcos
+  asset_type: Endpoint
+  mitre_attack_id:
+  - T1053.005
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  security_domain: endpoint
 tests:
-    - name: True Positive Test
-      attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
-          source: XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational
-          sourcetype: XmlWinEventLog
+- name: True Positive Test
+  attack_data:
+  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_windows_task_scheduler_event_action_started/windows-xml.log
+    source: XmlWinEventLog:Microsoft-Windows-TaskScheduler/Operational
+    sourcetype: XmlWinEventLog
