@@ -9,7 +9,7 @@ description: The following analytic detects the initiation of traffic mirroring 
 data_source:
     - Cisco IOS Logs
 search: |-
-    | `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN" mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*")
+    `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN" mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*")
       | stats min(_time) AS firstTime max(_time) AS lastTime count
         BY host facility mnemonic
       | `security_content_ctime(firstTime)`

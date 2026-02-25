@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of a service with a 
 data_source:
     - Windows Event Log System 7045
 search: |-
-    | `wineventlog_system` EventCode=7045 ServiceName IN ("SecurityCenterIBM", "WinCheckDRVs")
+    `wineventlog_system` EventCode=7045 ServiceName IN ("SecurityCenterIBM", "WinCheckDRVs")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Computer EventCode ServiceName
            StartType ServiceType

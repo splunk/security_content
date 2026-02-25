@@ -9,7 +9,7 @@ description: The following analytic detects the use of the `[Adsisearcher]` type
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*")
+    `powershell` (ScriptBlockText = "*[adsisearcher]*" AND ScriptBlockText = "*(objectcategory=group)*" AND ScriptBlockText = "*findAll()*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

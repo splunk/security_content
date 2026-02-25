@@ -9,7 +9,7 @@ data_source:
     - ASL AWS CloudTrail
 description: The following analytic detects when AWS S3 bucket versioning is suspended by a user. It leverages AWS CloudTrail logs to identify `PutBucketVersioning` events with the `VersioningConfiguration.Status` set to `Suspended`. This activity is significant because disabling versioning can prevent recovery of deleted or modified data, which is a common tactic in ransomware attacks. If confirmed malicious, this action could lead to data loss and hinder recovery efforts, severely impacting data integrity and availability.
 search: |-
-    | `amazon_security_lake` api.operation=PutBucketVersioning
+    `amazon_security_lake` api.operation=PutBucketVersioning
       | spath input=api.request.data path=VersioningConfiguration.Status output=Status
       | spath input=api.request.data path=bucketName output=bucketName
       | search Status=Suspended

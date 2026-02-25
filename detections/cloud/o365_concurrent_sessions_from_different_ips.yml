@@ -9,7 +9,7 @@ description: The following analytic identifies user sessions in Office 365 acces
 data_source:
     - O365 UserLoggedIn
 search: |-
-    | `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn
+    `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoggedIn
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime values(src) as src
         BY signature dest user

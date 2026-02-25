@@ -10,7 +10,7 @@ data_source:
     - Windows Event Log Security 4738
 description: The following analytic identifies when the SID of a privileged user is added to the SID History attribute of another user. It leverages Windows Security Event Codes 4742 and 4738, combined with identity lookups, to detect this activity. This behavior is significant as it may indicate an attempt to abuse SID history for unauthorized access across multiple domains. If confirmed malicious, this activity could allow an attacker to escalate privileges or maintain persistent access within the environment, posing a significant security risk.
 search: |-
-    | `wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
+    `wineventlog_security` (EventCode=4742 OR EventCode=4738) NOT SidHistory IN ("%%1793", -)
       | rex field=SidHistory "(^%{
       | ^)(?P<SidHistory>.*?)(}$
       | $)"

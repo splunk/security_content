@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious use of the whoami com
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami"
+    `linux_auditd` type=SYSCALL comm=whoami OR exe= "*/whoami"
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

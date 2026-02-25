@@ -9,7 +9,7 @@ data_source:
     - AWS CloudTrail CreateTask
 description: The following analytic detects the creation of an AWS DataSync task, which could indicate potential data exfiltration. It leverages AWS CloudTrail logs to identify the `CreateTask` event from the DataSync service. This activity is significant because attackers can misuse DataSync to transfer sensitive data from a private AWS location to a public one, leading to data compromise. If confirmed malicious, this could result in unauthorized access to sensitive information, causing severe data breaches and compliance violations.
 search: |-
-    | `cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com"
+    `cloudtrail` eventName = CreateTask eventSource="datasync.amazonaws.com"
       | rename  requestParameters.*  as *
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime

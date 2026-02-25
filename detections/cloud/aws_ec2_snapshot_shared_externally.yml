@@ -9,7 +9,7 @@ description: The following analytic detects when an EC2 snapshot is shared with 
 data_source:
     - AWS CloudTrail ModifySnapshotAttribute
 search: |-
-    | `cloudtrail` eventName=ModifySnapshotAttribute
+    `cloudtrail` eventName=ModifySnapshotAttribute
       | rename requestParameters.createVolumePermission.add.items{}.userId as requested_account_id
       | search requested_account_id != NULL
       | eval match=if(requested_account_id==aws_account_id,"Match","No Match")

@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the 'doas' tool on 
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=doas
+    `linux_auditd` type=SYSCALL comm=doas
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

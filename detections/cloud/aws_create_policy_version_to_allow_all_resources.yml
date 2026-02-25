@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of a new AWS IAM pol
 data_source:
     - AWS CloudTrail CreatePolicyVersion
 search: |-
-    | `cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com errorCode = success
+    `cloudtrail` eventName=CreatePolicyVersion eventSource = iam.amazonaws.com errorCode = success
       | spath input=requestParameters.policyDocument output=key_policy_statements path=Statement{}
       | mvexpand key_policy_statements
       | spath input=key_policy_statements output=key_policy_action_1 path=Action

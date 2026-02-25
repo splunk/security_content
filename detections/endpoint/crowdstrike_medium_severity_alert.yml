@@ -8,7 +8,7 @@ type: Anomaly
 status: production
 description: The following analytic detects a CrowdStrike alert with MEDIUM severity indicates a potential threat that requires prompt attention. This alert level suggests suspicious activity that may compromise security but is not immediately critical. It typically involves detectable but non-imminent risks, such as unusual behavior or attempted policy violations, which should be investigated further and mitigated quickly to prevent escalation of attacks.
 search: |-
-    | `crowdstrike_stream`
+    `crowdstrike_stream`
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY src_ip, src_host, user,

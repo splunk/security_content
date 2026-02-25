@@ -9,7 +9,7 @@ description: The following analytic detects a suspicious Kerberos Ticket Grantin
 data_source:
     - Windows Event Log Security 4768
 search: |-
-    | `wineventlog_security` EventCode=4768 src!="::1" TargetUserName=*$ CertThumbprint!=""
+    `wineventlog_security` EventCode=4768 src!="::1" TargetUserName=*$ CertThumbprint!=""
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, TargetUserName, src,
            action

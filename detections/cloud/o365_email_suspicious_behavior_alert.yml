@@ -9,7 +9,7 @@ description: The following analytic identifies when one of O365 the built-in sec
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name IN ("Suspicious email sending patterns detected","User restricted from sending email","Suspicious Email Forwarding Activity","Email sending limit exceeded")
+    `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name IN ("Suspicious email sending patterns detected","User restricted from sending email","Suspicious Email Forwarding Activity","Email sending limit exceeded")
       | fromjson Data
       | rename Name as signature, AlertId as signature_id, ObjectId as user
       | fillnull

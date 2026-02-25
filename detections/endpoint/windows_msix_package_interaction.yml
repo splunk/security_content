@@ -9,7 +9,7 @@ description: This hunting query detects user interactions with MSIX packages by 
 data_source:
     - Windows Event Log AppXPackaging 171
 search: |-
-    | `wineventlog_appxpackaging` EventCode=171
+    `wineventlog_appxpackaging` EventCode=171
       | stats count min(_time) as firstTime max(_time) as lastTime values(packageFullName) as packageFullName values(user_id) as user_id
         BY host EventCode
       | `security_content_ctime(firstTime)`

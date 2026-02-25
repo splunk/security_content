@@ -8,7 +8,7 @@ type: TTP
 status: production
 description: The following analytic detects CrowdStrike alerts for Medium Identity Risk Severity with a risk score of 55 or higher. These alerts indicate significant vulnerabilities in user identities, such as suspicious behavior or compromised credentials. Promptly investigating and addressing these alerts is crucial to prevent potential security breaches and ensure the integrity and protection of sensitive information and systems.
 search: |-
-    | `crowdstrike_identities` riskScoreSeverity = "MEDIUM" OR riskScore >= 0.55 AND riskScore < 0.70
+    `crowdstrike_identities` riskScoreSeverity = "MEDIUM" OR riskScore >= 0.55 AND riskScore < 0.70
       | rename riskFactors{}.severity as severity, riskFactors{}.type as risk_type, roles{}.type as role_type, accounts{}.domain as domain, accounts{}.dn as dn, accounts{}.samAccountName as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY domain dn primaryDisplayName

@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of a new AWS IAM pol
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=CreatePolicy
+    `amazon_security_lake` api.operation=CreatePolicy
       | spath input=api.request.data
       | spath input=policyDocument
       | regex Statement{}.Action="\*"

@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of WMI permanent eve
 data_source:
     - Sysmon EventID 21
 search: |-
-    | `sysmon` EventCode=21
+    `sysmon` EventCode=21
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest dvc object
            object_attrs object_category object_path

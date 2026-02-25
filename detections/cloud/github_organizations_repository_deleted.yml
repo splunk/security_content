@@ -9,7 +9,7 @@ description: The following analytic identifies when a repository is deleted with
 data_source:
     - GitHub Organizations Audit Logs
 search: |-
-    | `github_organizations` vendor_action=repo.destroy
+    `github_organizations` vendor_action=repo.destroy
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_is_bot,

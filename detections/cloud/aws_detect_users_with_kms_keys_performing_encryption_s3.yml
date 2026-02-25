@@ -9,7 +9,7 @@ description: The following analytic identifies users with KMS keys performing en
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
+    `cloudtrail` eventName=CopyObject requestParameters.x-amz-server-side-encryption="aws:kms"
       | rename requestParameters.bucketName AS bucketName, requestParameters.x-amz-copy-source AS src_file, requestParameters.key AS dest_file
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime

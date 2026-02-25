@@ -9,7 +9,7 @@ description: The following analytic identifies all drivers being loaded on Windo
 data_source:
     - Sysmon EventID 6
 search: |-
-    | `sysmon` EventCode=6
+    `sysmon` EventCode=6
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY ImageLoaded dest dvc
            process_hash process_path signature

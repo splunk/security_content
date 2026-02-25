@@ -9,7 +9,7 @@ data_source:
     - O365
 description: The following analytic detects the assignment of the ApplicationImpersonation role in Office 365 to a user or application. It uses the Office 365 Management Activity API to monitor Azure Active Directory audit logs for role assignment events. This activity is significant because the ApplicationImpersonation role allows impersonation of any user, enabling access to and modification of their mailbox. If confirmed malicious, an attacker could gain unauthorized access to sensitive information, manipulate mailbox data, and perform actions as a legitimate user, posing a severe security risk to the organization.
 search: |-
-    | `o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment" Role=ApplicationImpersonation
+    `o365_management_activity` Workload=Exchange Operation="New-ManagementRoleAssignment" Role=ApplicationImpersonation
       | rename User as target_user
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

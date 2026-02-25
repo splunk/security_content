@@ -9,7 +9,7 @@ data_source:
     - Azure Active Directory
 description: The following analytic detects the assignment of an Azure AD Privileged Identity Management (PIM) role. It leverages Azure Active Directory events to identify when a user is added as an eligible member to a PIM role. This activity is significant because PIM roles grant elevated privileges, and their assignment should be closely monitored to prevent unauthorized access. If confirmed malicious, an attacker could exploit this to gain privileged access, potentially leading to unauthorized actions, data breaches, or further compromise of the environment.
 search: |-
-    | `azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
+    `azure_monitor_aad` operationName="Add eligible member to role in PIM completed*"
       | rename properties.* as *
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

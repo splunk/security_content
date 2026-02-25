@@ -9,7 +9,7 @@ description: The following analytic detects the creation of scheduled tasks desi
 data_source:
     - Windows Event Log Security 4698
 search: |-
-    | `wineventlog_security` EventCode=4698 TaskContent IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*")
+    `wineventlog_security` EventCode=4698 TaskContent IN ("*powershell.exe*", "*wscript.exe*", "*cscript.exe*", "*cmd.exe*", "*sh.exe*", "*ksh.exe*", "*zsh.exe*", "*bash.exe*", "*scrcons.exe*", "*pwsh.exe*")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Computer, TaskName, TaskContent
       | rename Computer as dest

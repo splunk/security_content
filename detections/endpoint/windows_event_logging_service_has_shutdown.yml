@@ -9,7 +9,7 @@ description: The following analytic detects the shutdown of the Windows Event Lo
 data_source:
     - Windows Event Log Security 1100
 search: |-
-    | `wineventlog_security` EventCode=1100
+    `wineventlog_security` EventCode=1100
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action app change_type
            dest dvc name

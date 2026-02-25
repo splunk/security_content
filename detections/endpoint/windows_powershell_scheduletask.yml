@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects potential malicious activities involving PowerShell's task scheduling cmdlets. It leverages PowerShell Script Block Logging (EventCode 4104) to identify unusual or suspicious use of cmdlets like 'New-ScheduledTask' and 'Set-ScheduledTask'. This activity is significant as attackers often use these cmdlets for persistence and remote execution of malicious code. If confirmed malicious, this could allow attackers to maintain access, deliver additional payloads, or execute ransomware, leading to data theft or other severe impacts. Immediate investigation and mitigation are crucial to prevent further compromise.
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
+    `powershell` EventCode=4104 ScriptBlockText IN ("*New-ScheduledTask*", "*New-ScheduledTaskAction*", "*New-ScheduledTaskSettingsSet*", "*New-ScheduledTaskTrigger*", "*Register-ClusteredScheduledTask*", "*Register-ScheduledTask*", "*Set-ClusteredScheduledTask*", "*Set-ScheduledTask*", "*Start-ScheduledTask*", "*Enable-ScheduledTask*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

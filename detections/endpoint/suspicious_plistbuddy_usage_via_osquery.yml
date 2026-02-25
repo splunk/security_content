@@ -9,7 +9,7 @@ description: The following analytic detects the use of the PlistBuddy utility on
 data_source:
     - osquery
 search: |-
-    | `osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*" OR "columns.cmdline"="*true*"
+    `osquery_process` "columns.cmdline"="*LaunchAgents*" OR "columns.cmdline"="*RunAtLoad*" OR "columns.cmdline"="*true*"
       | `suspicious_plistbuddy_usage_via_osquery_filter`
 how_to_implement: OSQuery must be installed and configured to pick up process events (info at https://osquery.io) as well as using the Splunk OSQuery Add-on https://splunkbase.splunk.com/app/4402. Modify the macro and validate fields are correct.
 known_false_positives: Some legitimate applications may use PlistBuddy to create or modify property lists and possibly generate false positives. Review the property list being modified or created to confirm.

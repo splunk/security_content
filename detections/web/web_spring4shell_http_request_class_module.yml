@@ -9,7 +9,7 @@ description: The following analytic detects HTTP requests containing payloads re
 data_source:
     - Splunk Stream HTTP
 search: |-
-    | `stream_http` http_method IN ("POST")
+    `stream_http` http_method IN ("POST")
       | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count
         BY src dest http_method
            http_user_agent uri_path url

@@ -9,7 +9,7 @@ data_source:
     - AWS CloudTrail GetObject
 description: The following analytic identifies anomalous GetObject API activity in AWS, indicating potential data exfiltration attempts. It leverages AWS CloudTrail logs and uses the `anomalydetection` command to detect unusual patterns in the frequency of GetObject API calls by analyzing fields such as "count," "user_type," and "user_arn" within a 10-minute window. This activity is significant as it may indicate unauthorized data access or exfiltration from S3 buckets. If confirmed malicious, attackers could exfiltrate sensitive data, leading to data breaches and compliance violations.
 search: |-
-    | `cloudtrail` eventName=GetObject
+    `cloudtrail` eventName=GetObject
       | bin _time span=10m
       | rename user_name as user
       | stats count values(requestParameters.bucketName) as bucketName

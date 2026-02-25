@@ -18,7 +18,7 @@ description: |
     lateral movement within the environment. Early detection of these policy modifications enables the SOC to investigate and respond
     before attackers can leverage the weakened controls, thereby reducing the risk and impact of a successful attack.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search user_locations_default_action="Allow access without 2FA"
       | rename object as user

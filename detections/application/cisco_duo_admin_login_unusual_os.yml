@@ -9,7 +9,7 @@ type: TTP
 status: production
 description: The following analytic identifies Duo admin login attempts from operating systems that are unusual for your environment, excluding commonly used OS such as Mac OS X. Please adjust to your environment. It works by analyzing Duo activity logs for admin login actions and filtering out logins from expected operating systems. The analytic then aggregates events by browser, version, source IP, location, and OS details to highlight anomalies. Detecting admin logins from unexpected operating systems is critical for a SOC, as it may indicate credential compromise, unauthorized access, or attacker activity using unfamiliar devices. Such behavior can precede privilege escalation, policy changes, or other malicious actions within the Duo environment. Early detection enables rapid investigation and response, reducing the risk of account takeover and minimizing potential damage to organizational security controls.
 search: |-
-    | `cisco_duo_activity` "action.name"=admin_login NOT access_device.os IN ("Mac OS X")
+    `cisco_duo_activity` "action.name"=admin_login NOT access_device.os IN ("Mac OS X")
       | rename actor.name as user access_device.ip.address as src_ip
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY access_device.browser access_device.browser_version src_ip

@@ -9,7 +9,7 @@ description: The following analytic identifies Gsuite emails with suspicious sub
 data_source:
     - G Suite Gmail
 search: |-
-    | `gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta")
+    `gsuite_gmail` num_message_attachments > 0 subject IN ("*dhl*", "* ups *", "*delivery*", "*parcel*", "*label*", "*invoice*", "*postal*", "* fedex *", "* usps *", "* express *", "*shipment*", "*Banking/Tax*","*shipment*", "*new order*") attachment{}.file_extension_type IN ("doc", "docx", "xls", "xlsx", "ppt", "pptx", "pdf", "zip", "rar", "html","htm","hta")
       | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"
       | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
       | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com"

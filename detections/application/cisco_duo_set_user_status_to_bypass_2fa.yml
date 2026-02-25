@@ -17,7 +17,7 @@ description: |
     of such changes enables rapid investigation and response, helping to prevent potential breaches and limit the impact of
     credential-based attacks.
 search: |-
-    | `cisco_duo_activity` action.name=user_update
+    `cisco_duo_activity` action.name=user_update
       | spath input=target.details path=status output=status
       | spath input=old_target.details path=status output=old_status
       | search status=Bypass old_status=Active

@@ -9,7 +9,7 @@ description: The following analytic detects the deletion of CloudWatch log group
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=DeleteLogGroup
+    `amazon_security_lake` api.operation=DeleteLogGroup
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

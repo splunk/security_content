@@ -9,7 +9,7 @@ description: The following analytic detects the addition of a new owner to a Ser
 data_source:
     - Azure Active Directory Add owner to application
 search: |-
-    | `azure_monitor_aad` operationName="Add owner to application"
+    `azure_monitor_aad` operationName="Add owner to application"
       | rename properties.* as *
       | rename initiatedBy.user.userPrincipalName as initiatedBy
       | rename targetResources{}.userPrincipalName as newOwner

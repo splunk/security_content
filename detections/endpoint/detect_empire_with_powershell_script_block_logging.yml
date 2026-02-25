@@ -9,7 +9,7 @@ description: The following analytic detects suspicious PowerShell execution indi
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104  (ScriptBlockText=*system.net.webclient* AND ScriptBlockText=*frombase64string*)
+    `powershell` EventCode=4104  (ScriptBlockText=*system.net.webclient* AND ScriptBlockText=*frombase64string*)
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

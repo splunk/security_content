@@ -9,7 +9,7 @@ description: The following analytic detects suspicious stopping of the `osquery`
 data_source:
     - Linux Auditd Service Stop
 search: |-
-    | `linux_auditd` type=SERVICE_STOP unit IN ("osqueryd")
+    `linux_auditd` type=SERVICE_STOP unit IN ("osqueryd")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type pid comm

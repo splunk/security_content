@@ -9,7 +9,7 @@ description: The following analytic detects when an email submitted to Microsoft
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="Email reported by user as*"
+    `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="Email reported by user as*"
       | fromjson Data
       | rename _raw AS temp etps AS _raw
       | extract pairdelim=";" kvdelim=":"

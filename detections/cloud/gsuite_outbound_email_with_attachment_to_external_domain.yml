@@ -9,7 +9,7 @@ description: The following analytic detects outbound emails with attachments sen
 data_source:
     - G Suite Gmail
 search: |-
-    | `gsuite_gmail` num_message_attachments > 0
+    `gsuite_gmail` num_message_attachments > 0
       | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"
       | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
       | where source_domain="internal_test_email.com" and not dest_domain="internal_test_email.com"

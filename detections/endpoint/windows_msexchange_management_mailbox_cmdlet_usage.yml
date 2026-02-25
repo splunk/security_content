@@ -8,7 +8,7 @@ type: Anomaly
 description: The following analytic identifies suspicious Cmdlet usage in Exchange Management logs, focusing on commands like New-MailboxExportRequest and New-ManagementRoleAssignment. It leverages EventCode 1 and specific Message patterns to detect potential ProxyShell and ProxyNotShell abuse. This activity is significant as it may indicate unauthorized access or manipulation of mailboxes and roles, which are critical for maintaining email security. If confirmed malicious, attackers could export mailbox data, assign new roles, or search mailboxes, leading to data breaches and privilege escalation.
 data_source: []
 search: |-
-    | `msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
+    `msexchange_management` EventCode=1 Message IN ("*New-MailboxExportRequest*", "*New-ManagementRoleAssignment*", "*New-MailboxSearch*", "*Get-Recipient*", "*Search-Mailbox*")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY host Message
       | `security_content_ctime(firstTime)`

@@ -9,7 +9,7 @@ description: The following analytic detects the deletion of AWS Network Access C
 data_source:
     - AWS CloudTrail DeleteNetworkAclEntry
 search: |-
-    | `cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
+    `cloudtrail` eventName=DeleteNetworkAclEntry requestParameters.egress=false
       | fillnull
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime

@@ -10,7 +10,7 @@ data_source:
     - AWS CloudTrail CreateNetworkAclEntry
     - AWS CloudTrail ReplaceNetworkAclEntry
 search: |-
-    | `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
+    `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol=-1
       | append [search `cloudtrail` eventName=CreateNetworkAclEntry OR eventName=ReplaceNetworkAclEntry requestParameters.ruleAction=allow requestParameters.egress=false requestParameters.aclProtocol!=-1
       | eval port_range='requestParameters.portRange.to' - 'requestParameters.portRange.from'
       | where port_range>1024]

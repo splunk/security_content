@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 5136
 description: This detection identifies when an Active Directory Group Policy is deleted using the Group Policy Management Console.
 search: |-
-    | `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=gpLink
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=gpLink
       | eval  ObjectDN=upper(ObjectDN)
       | stats min(_time) as eventTime values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(src_user) as src_user values(dest) as dest
         BY OpCorrelationID ObjectDN SubjectLogonId

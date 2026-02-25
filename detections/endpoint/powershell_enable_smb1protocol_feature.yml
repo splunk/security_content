@@ -9,7 +9,7 @@ description: The following analytic detects the enabling of the SMB1 protocol vi
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*" ScriptBlockText = "*SMB1Protocol*"
+    `powershell` EventCode=4104 ScriptBlockText = "*Enable-WindowsOptionalFeature*" ScriptBlockText = "*SMB1Protocol*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

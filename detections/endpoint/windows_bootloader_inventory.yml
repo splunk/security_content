@@ -8,7 +8,7 @@ type: Hunting
 data_source: []
 description: The following analytic identifies the bootloader paths on Windows endpoints. It leverages a PowerShell Scripted input to capture this data, which is then processed and aggregated using Splunk. Monitoring bootloader paths is significant for a SOC as it helps detect unauthorized modifications that could indicate bootkits or other persistent threats. If confirmed malicious, such activity could allow attackers to maintain persistence, bypass security controls, and potentially control the boot process, leading to full system compromise.
 search: |-
-    | `bootloader_inventory`
+    `bootloader_inventory`
       | stats count min(_time) as firstTime max(_time) as lastTime values(_raw)
         BY host
       | `security_content_ctime(firstTime)`

@@ -8,7 +8,7 @@ type: TTP
 status: production
 description: The following analytic utilizes Windows AppLocker event logs to identify attempts to bypass application restrictions. AppLocker is a feature that allows administrators to specify which applications are permitted to run on a system. This analytic is designed to identify attempts to bypass these restrictions, which could be indicative of an attacker attempting to escalate privileges. The analytic uses EventCodes 8007, 8004, 8022, 8025, 8029, and 8040 to identify these attempts. The analytic will identify the host, full file path, and target user associated with the bypass attempt. These EventCodes are related to block events and focus on 5 attempts or more.
 search: |-
-    | `applocker` EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
+    `applocker` EventCode IN (8007, 8004, 8022, 8025, 8029, 8040)
       | spath input=UserData_Xml
       | rename RuleAndFileData.* as *, Computer as dest, TargetUser AS user
       | stats count AS attempt_count min(_time) as firstTime max(_time) as lastTime

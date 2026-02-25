@@ -9,7 +9,7 @@ description: The following analytic identifies a successful Console Login authen
 data_source:
     - AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName= ConsoleLogin errorCode=success "additionalEventData.MFAUsed"=No
+    `cloudtrail` eventName= ConsoleLogin errorCode=success "additionalEventData.MFAUsed"=No
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

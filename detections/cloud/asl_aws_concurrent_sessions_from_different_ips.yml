@@ -9,7 +9,7 @@ description: The following analytic identifies an AWS IAM account with concurren
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal"
+    `amazon_security_lake` api.operation=DescribeEventAggregates src_endpoint.domain!="AWS Internal"
       | bin span=5m _time
       | stats min(_time) as firstTime max(_time) as lastTime values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region dc(src_endpoint.ip) as distinct_ip_count
         BY _time actor.user.uid

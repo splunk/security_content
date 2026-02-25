@@ -10,7 +10,7 @@ data_source:
     - Windows Event Log Security 5136
     - Windows Event Log Security 5137
 search: |-
-    | `wineventlog_security` ((EventCode=5137  ObjectClass="dnsNode") OR (EventCode=5136 ObjectClass="dnsNode" AttributeLDAPDisplayName="dNSTombstoned" AttributeValue="TRUE"))
+    `wineventlog_security` ((EventCode=5137  ObjectClass="dnsNode") OR (EventCode=5136 ObjectClass="dnsNode" AttributeLDAPDisplayName="dNSTombstoned" AttributeValue="TRUE"))
       | stats min(_time) as firstTime max(_time) as lastTime values(EventCode) as event_codes values(ObjectDN) as dns_record values(SubjectUserName) as user values(Computer) as dest
         BY ObjectGUID
       | where mvcount(event_codes)=2

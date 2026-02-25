@@ -9,7 +9,7 @@ description: The following analytic detects the addition of new printer drivers 
 data_source:
     - Windows Event Log Printservice 316
 search: |-
-    | `printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*"
+    `printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*"
       | stats  count min(_time) as firstTime max(_time) as lastTime
         BY OpCode EventCode ComputerName
            Message

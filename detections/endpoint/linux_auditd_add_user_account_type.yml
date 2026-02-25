@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious add user account type
 data_source:
     - Linux Auditd Add User
 search: |-
-    | `linux_auditd` type=ADD_USER
+    `linux_auditd` type=ADD_USER
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY exe pid dest

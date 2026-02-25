@@ -9,7 +9,7 @@ description: The following analytic detects the wermgr.exe process creating an e
 data_source:
     - Sysmon EventID 11
 search: |-
-    | `sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
+    `sysmon` EventCode=11 process_name = "wermgr.exe" TargetFilename = "*.exe"
       | stats  min(_time) as firstTime max(_time) as lastTime count
         BY action dest file_name
            file_path process_guid process_id

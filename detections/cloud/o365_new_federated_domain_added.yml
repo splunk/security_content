@@ -9,7 +9,7 @@ description: The following analytic identifies the addition of a new federated d
 data_source:
     - O365
 search: |-
-    | `o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
+    `o365_management_activity` Operation IN ("*add*", "*new*") AND Operation="*domain*"
       | eval src="NA"
       | fillnull
       | stats count values(ModifiedProperties{}.NewValue) as new_value

@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of the Get-GPPPassword PowerShell cmdlet, which is used to search for unsecured credentials in Group Policy Preferences (GPP). This detection leverages PowerShell Script Block Logging to identify specific script block text associated with this cmdlet. Monitoring this activity is crucial as it can indicate an attempt to retrieve and decrypt stored credentials from SYSVOL, potentially leading to unauthorized access. If confirmed malicious, this activity could allow an attacker to escalate privileges or move laterally within the network by exploiting exposed credentials.
 search: |-
-    | `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
+    `powershell` EventCode=4104  (ScriptBlockText=Get-GPPPassword OR ScriptBlockText=Get-CachedGPPPassword)
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

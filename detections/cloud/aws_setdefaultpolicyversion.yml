@@ -9,7 +9,7 @@ description: The following analytic detects when a user sets a default policy ve
 data_source:
     - AWS CloudTrail SetDefaultPolicyVersion
 search: |-
-    | `cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com
+    `cloudtrail` eventName=SetDefaultPolicyVersion eventSource = iam.amazonaws.com
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

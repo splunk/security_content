@@ -9,7 +9,7 @@ description: The following analytic detects the use of the `Set-ADAccountControl
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND ScriptBlockText="*DoesNotRequirePreAuth:$true*")
+    `powershell` EventCode=4104 (ScriptBlockText = "*Set-ADAccountControl*" AND ScriptBlockText="*DoesNotRequirePreAuth:$true*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

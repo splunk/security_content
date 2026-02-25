@@ -25,7 +25,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 search: |-
-    | `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-"
+    `wineventlog_security`  EventCode=4625 Logon_Type=2 ProcessName!="-"
       | bucket span=2m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as user values(dest) as dest values(src) as src
         BY _time, ProcessName, SubjectUserName,

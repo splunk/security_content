@@ -9,7 +9,7 @@ description: The following analytic detects the use of the 'dd' command to overw
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd` proctitle = "*dd *" AND proctitle = "*of=*" AND proctitle = "*if=/dev/zero*"
+    `linux_auditd` proctitle = "*dd *" AND proctitle = "*of=*" AND proctitle = "*if=/dev/zero*"
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

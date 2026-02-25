@@ -9,7 +9,7 @@ description: The following analytic identifies when an associate reports a login
 data_source:
     - Okta
 search: |-
-    | `okta` eventType=user.account.report_suspicious_activity_by_enduser
+    `okta` eventType=user.account.report_suspicious_activity_by_enduser
       | stats count min(_time) as firstTime max(_time) as lastTime values(displayMessage)
         BY user dest src
            eventType client.userAgent.rawUserAgent client.userAgent.browser

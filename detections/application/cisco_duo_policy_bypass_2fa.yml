@@ -9,7 +9,7 @@ type: TTP
 status: production
 description: The following analytic detects instances where a Duo policy is created or updated to allow access without two-factor authentication (2FA). It identifies this behavior by searching Duo administrator activity logs for policy changes that set the authentication status to "Allow access without 2FA." By monitoring for these specific actions, the analytic highlights potential attempts to weaken authentication controls, which could be indicative of malicious activity or insider threats. This behavior is critical for a SOC to identify, as bypassing 2FA significantly reduces the security posture of an organization, making it easier for attackers to gain unauthorized access to sensitive systems and data. Detecting and responding to such policy changes promptly helps prevent potential account compromise and mitigates the risk of broader security breaches.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search auth_status="Allow access without 2FA"
       | rename object as user

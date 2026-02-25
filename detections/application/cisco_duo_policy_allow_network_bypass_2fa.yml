@@ -17,7 +17,7 @@ description: |
     change to circumvent 2FA protections, increasing the risk of account takeover and lateral movement within the environment. Prompt detection
     enables SOC analysts to investigate and respond to potentially risky policy modifications before they can be leveraged for malicious purposes.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search networks_allow=*
       | rename object as user

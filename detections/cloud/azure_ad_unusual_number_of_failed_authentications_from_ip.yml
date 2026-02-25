@@ -9,7 +9,7 @@ description: The following analytic identifies a single source IP failing to aut
 data_source:
     - Azure Active Directory
 search: |-
-    | `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+    `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
       | rename properties.* as *
       | bucket span=5m _time
       | stats dc(userPrincipalName) AS unique_accounts values(userPrincipalName) as userPrincipalName values(dest) as dest  values(user) as user

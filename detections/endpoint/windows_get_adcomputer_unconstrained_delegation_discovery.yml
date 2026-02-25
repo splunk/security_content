@@ -9,7 +9,7 @@ description: The following analytic detects the use of the Get-ADComputer cmdlet
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText = "*TrustedForDelegation*")
+    `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADComputer*" AND ScriptBlockText = "*TrustedForDelegation*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

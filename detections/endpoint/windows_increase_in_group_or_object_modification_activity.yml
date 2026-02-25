@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 4663
 description: This analytic detects an increase in modifications to AD groups or objects. Frequent changes to AD groups or objects can indicate potential security risks, such as unauthorized access attempts, impairing defences or establishing persistence. By monitoring AD logs for unusual modification patterns, this detection helps identify suspicious behavior that could compromise the integrity and security of the AD environment.
 search: |-
-    | `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
+    `wineventlog_security` EventCode IN (4670,4727,4731,4734,4735,4764)
       | bucket span=5m _time
       | stats values(object) as object, dc(object) as objectCount, values(src_user_category) as src_user_category, values(dest) as dest, values(dest_category) as dest_category
         BY _time, src_user, signature,

@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic identifies the use of PowerShell's Start-Service or Stop-Service cmdlets on an endpoint. It leverages PowerShell Script Block Logging to detect these commands. This activity is significant because attackers can manipulate services to disable or stop critical functions, causing system instability or disrupting business operations. If confirmed malicious, this behavior could allow attackers to disable security services, evade detection, or disrupt essential services, leading to potential system downtime and compromised security.
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText IN ("*start-service*", "*stop-service*")
+    `powershell` EventCode=4104 ScriptBlockText IN ("*start-service*", "*stop-service*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

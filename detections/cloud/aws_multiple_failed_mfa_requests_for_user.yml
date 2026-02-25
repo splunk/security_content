@@ -9,7 +9,7 @@ description: The following analytic identifies multiple failed multi-factor auth
 data_source:
     - AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName= ConsoleLogin "additionalEventData.MFAUsed"=Yes errorMessage="Failed authentication"
+    `cloudtrail` eventName= ConsoleLogin "additionalEventData.MFAUsed"=Yes errorMessage="Failed authentication"
       | bucket span=5m _time
       | rename user_name as user
       | stats dc(_raw) as mfa_prompts min(_time) as firstTime max(_time) as lastTime values(user_agent) as user_agent values(src) as src values(dest) as dest

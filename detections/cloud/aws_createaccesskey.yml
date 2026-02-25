@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of AWS IAM access ke
 data_source:
     - AWS CloudTrail CreateAccessKey
 search: |-
-    | `cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com errorCode = success
+    `cloudtrail` eventName = CreateAccessKey userAgent !=console.amazonaws.com errorCode = success
       | eval match=if(match(userIdentity.userName,requestParameters.userName),1,0)
       | search match=0
       | rename user_name as user

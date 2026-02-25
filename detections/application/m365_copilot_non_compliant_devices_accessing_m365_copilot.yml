@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: Detects M365 Copilot access from non-compliant or unmanaged devices that violate corporate security policies, indicating potential shadow IT usage, BYOD policy violations, or compromised endpoint access. The detection filters M365 Copilot Graph API events where deviceDetail.isCompliant=false or deviceDetail.isManaged=false, then aggregates by user, operating system, and browser to calculate metrics including event counts, unique IPs and locations, and compliance/management status over time. Users accessing Copilot from non-compliant or unmanaged devices are flagged and sorted by activity volume and geographic spread, enabling security teams to identify unauthorized endpoints that may lack proper security controls, encryption, or MDM enrollment.
 search: |-
-    | `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false
+    `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient") deviceDetail.isCompliant=false OR deviceDetail.isManaged=false
       | eval user = userPrincipalName
       | stats count as events, dc(ipAddress) as unique_ips, values(ipAddress) as ip_addresses, dc(location.city) as unique_cities, values(location.city) as cities, dc(location.countryOrRegion) as unique_countries, values(location.countryOrRegion) as countries, values(deviceDetail.isCompliant) as compliance_status, values(deviceDetail.isManaged) as management_status, min(_time) as first_seen, max(_time) as last_seen
         BY user, deviceDetail.operatingSystem, deviceDetail.browser

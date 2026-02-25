@@ -9,7 +9,7 @@ description: The following analytic identifies IAM users attempting to update or
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode = success  user_type=IAMUser
+    `cloudtrail` eventSource=lambda.amazonaws.com eventName=UpdateFunctionCode*  errorCode = success  user_type=IAMUser
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

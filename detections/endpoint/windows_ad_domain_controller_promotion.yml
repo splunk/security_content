@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 4742
 description: The following analytic identifies a genuine Domain Controller (DC) promotion event by detecting when a computer assigns itself the necessary Service Principal Names (SPNs) to function as a domain controller. It leverages Windows Security Event Code 4742 to monitor existing domain controllers for these changes. This activity is significant as it can help identify rogue DCs added to the network, which could indicate a DCShadow attack. If confirmed malicious, this could allow an attacker to manipulate Active Directory, leading to potential privilege escalation and persistent access within the environment.
 search: |-
-    | `wineventlog_security` EventCode=4742 ServicePrincipalNames IN ("*E3514235-4B06-11D1-AB04-00C04FC2DCD2/*","*GC/*")
+    `wineventlog_security` EventCode=4742 ServicePrincipalNames IN ("*E3514235-4B06-11D1-AB04-00C04FC2DCD2/*","*GC/*")
       | stats min(_time) as _time latest(ServicePrincipalNames) as ServicePrincipalNames,values(signature) as signature, values(src_user) as src_user, values(user) as user
         BY Logon_ID, dvc
       | where src_user=user

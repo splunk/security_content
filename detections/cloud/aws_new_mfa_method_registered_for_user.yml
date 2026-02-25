@@ -9,7 +9,7 @@ description: The following analytic detects the registration of a new Multi-Fact
 data_source:
     - AWS CloudTrail CreateVirtualMFADevice
 search: |-
-    | `cloudtrail` eventName=CreateVirtualMFADevice
+    `cloudtrail` eventName=CreateVirtualMFADevice
       | rename userName as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

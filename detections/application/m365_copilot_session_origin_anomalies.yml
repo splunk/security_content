@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: Detects M365 Copilot users accessing from multiple geographic locations to identify potential account compromise, credential sharing, or impossible travel patterns. The detection aggregates M365 Copilot Graph API events per user, calculating distinct cities and countries accessed, unique IP addresses, and the observation timeframe to compute a locations-per-day metric that measures geographic mobility. Users accessing Copilot from more than one city (cities_count > 1) are flagged and sorted by country and city diversity, surfacing accounts exhibiting anomalous geographic patterns that suggest compromised credentials being used from distributed locations or simultaneous access from impossible travel distances.
 search: |-
-    | `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+    `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
       | eval user = userPrincipalName
       | stats count as events, dc(location.city) as cities_count, values(location.city) as city_list, dc(location.countryOrRegion) as countries_count, values(location.countryOrRegion) as country_list, dc(ipAddress) as ip_count, values(ipAddress) as ip_addresses, min(_time) as first_seen, max(_time) as last_seen
         BY user

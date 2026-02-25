@@ -9,7 +9,7 @@ description: The following analytic detects suspicious file permissions modifica
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` proctitle = "*chattr *" AND proctitle = "* -i*"
+    `linux_auditd` proctitle = "*chattr *" AND proctitle = "* -i*"
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

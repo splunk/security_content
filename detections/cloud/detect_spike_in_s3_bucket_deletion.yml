@@ -9,7 +9,7 @@ description: The following analytic identifies a spike in API activity related t
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=DeleteBucket
+    `cloudtrail` eventName=DeleteBucket [search `cloudtrail` eventName=DeleteBucket
       | spath output=arn path=userIdentity.arn
       | stats count as apiCalls
         BY arn

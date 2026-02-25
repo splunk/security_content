@@ -9,7 +9,7 @@ description: The following analytic detects the use of .NET classes in PowerShel
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*") AND ScriptBlockText="*IO.MemoryStream*"
+    `powershell` EventCode=4104  ScriptBlockText IN ("*system.net.webclient*","*system.net.webrequest*") AND ScriptBlockText="*IO.MemoryStream*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

@@ -9,7 +9,7 @@ description: The following analytic detects suspicious use of the `modprobe` com
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command = "*modprobe*" AND execve_command = "*-r *"
+    `linux_auditd` execve_command = "*modprobe*" AND execve_command = "*-r *"
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

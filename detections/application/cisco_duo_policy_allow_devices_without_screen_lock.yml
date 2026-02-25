@@ -15,7 +15,7 @@ description: |
     unauthorized access. The impact of this attack could include increased risk of credential compromise, data breaches, or lateral movement within the
     environment due to reduced device security requirements.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search require_lock=false
       | rename object as user

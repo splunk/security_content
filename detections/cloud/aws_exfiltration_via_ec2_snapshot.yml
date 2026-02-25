@@ -12,7 +12,7 @@ data_source:
     - AWS CloudTrail DeleteSnapshot
 description: The following analytic detects a series of AWS API calls related to EC2 snapshots within a short time window, indicating potential exfiltration via EC2 Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such as creating, describing, and modifying snapshot attributes. This activity is significant as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots externally. If confirmed malicious, the attacker could gain access to sensitive information stored in the snapshots, leading to data breaches and potential compliance violations.
 search: |-
-    | `cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
+    `cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
       | bin _time span=5m
       | rename user_name as user
       | stats count dc(signature) as distinct_api_calls values(signature) as signature values(dest) as dest values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(user_agent) as user_agent

@@ -9,7 +9,7 @@ description: The following analytic detects multiple failed login attempts in Of
 data_source:
     - O365 UserLoginFailed
 search: |-
-    | `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon
+    `o365_management_activity` Workload=AzureActiveDirectory Operation=UserLoginFailed record_type=AzureActiveDirectoryStsLogon
       | bucket span=5m _time
       | stats dc(_raw) AS failed_attempts values(user) as user values(LogonError) as LogonError values(signature) as signature values(UserAgent) as UserAgent values(dest) as dest values(vendor_account) as vendor_account values(vendor_product) as vendor_product
         BY _time, src_ip

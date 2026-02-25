@@ -9,7 +9,7 @@ description: The following analytic detects accounts experiencing a high number 
 data_source:
     - O365 UserLoginFailed
 search: |-
-    | `o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed
+    `o365_management_activity` Workload=AzureActiveDirectory LogonError=*Sso* Operation=UserLoginFailed
       | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user
         BY src vendor_account vendor_product
            dest signature user_agent

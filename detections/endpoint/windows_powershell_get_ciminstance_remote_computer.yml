@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the use of the Get-CimInstance cmdlet with the -ComputerName parameter, indicating an attempt to retrieve information from a remote computer. It leverages PowerShell Script Block Logging to identify this specific command execution. This activity is significant as it may indicate unauthorized remote access or information gathering by an attacker. If confirmed malicious, this could allow the attacker to collect sensitive data from remote systems, potentially leading to further exploitation or lateral movement within the network.
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText="*get-ciminstance*" AND ScriptBlockText="*computername*"
+    `powershell` EventCode=4104 ScriptBlockText="*get-ciminstance*" AND ScriptBlockText="*computername*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

@@ -9,7 +9,7 @@ description: The following analytic detects suspicious database file and directo
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN("*.db*", "*.sql*", "*.sqlite*", "*.mdb*", "*.accdb*", "*.mdf*", "*.ndf*", "*.ldf*", "*.frm*", "*.myd*", "*.myi*", "*.dbf*", "*.db2*", "*.dbc*", "*.fpt*", "*.ora*")
+    `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN("*.db*", "*.sql*", "*.sqlite*", "*.mdb*", "*.accdb*", "*.mdf*", "*.ndf*", "*.ldf*", "*.frm*", "*.myd*", "*.myi*", "*.dbf*", "*.db2*", "*.dbc*", "*.fpt*", "*.ora*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

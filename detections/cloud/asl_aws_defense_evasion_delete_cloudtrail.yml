@@ -9,7 +9,7 @@ description: The following analytic detects AWS `DeleteTrail` events within Clou
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=DeleteTrail
+    `amazon_security_lake` api.operation=DeleteTrail
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

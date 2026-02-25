@@ -9,7 +9,7 @@ description: The following analytic detects the disablement of security steps in
 data_source:
     - CircleCI
 search: |-
-    | `circleci`
+    `circleci`
       | rename workflows.job_id AS job_id
       | join job_id [
       | search `circleci`

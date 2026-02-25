@@ -17,7 +17,7 @@ description: |
     unauthorized access, data breaches, or further lateral movement within the environment. Monitoring for this action helps maintain strong authentication
     standards and reduces the risk of credential-based attacks.
 search: |-
-    | `cisco_duo_administrator` action=bypass_create
+    `cisco_duo_administrator` action=bypass_create
       | rename object as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action actionlabel description

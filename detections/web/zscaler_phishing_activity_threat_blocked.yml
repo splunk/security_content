@@ -8,7 +8,7 @@ type: Anomaly
 data_source: []
 description: The following analytic identifies potential phishing attempts blocked by Zscaler within a network. It leverages web proxy logs to detect actions tagged as HTML.Phish. The detection method involves analyzing critical data points such as user, threat name, URL, and hostname. This activity is significant for a SOC as it serves as an early warning system for phishing threats, enabling prompt investigation and mitigation. If confirmed malicious, this activity could indicate an attempt to deceive users into divulging sensitive information, potentially leading to data breaches or credential theft.
 search: |-
-    | `zscaler_proxy` action=blocked threatname="HTML.Phish*"
+    `zscaler_proxy` action=blocked threatname="HTML.Phish*"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
            threatname url src

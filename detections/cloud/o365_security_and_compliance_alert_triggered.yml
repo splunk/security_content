@@ -8,7 +8,7 @@ type: TTP
 status: production
 description: The following analytic identifies alerts triggered by the Office 365 Security and Compliance Center, indicating potential threats or policy violations. It leverages data from the `o365_management_activity` dataset, focusing on events where the workload is SecurityComplianceCenter and the operation is AlertTriggered. This activity is significant as it highlights security and compliance issues within the O365 environment, which are crucial for maintaining organizational security. If confirmed malicious, these alerts could indicate attempts to breach security policies, leading to unauthorized access, data exfiltration, or other malicious activities.
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement Operation=AlertTriggered
+    `o365_management_activity` Workload=SecurityComplianceCenter Category=ThreatManagement Operation=AlertTriggered
       | spath input=Data path=f3u output=user
       | spath input=Data path=op output=operation
       | spath input=_raw path=wl

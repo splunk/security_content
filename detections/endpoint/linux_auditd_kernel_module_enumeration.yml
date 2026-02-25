@@ -9,7 +9,7 @@ description: The following analytic identifies the use of the 'kmod' process to 
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=lsmod
+    `linux_auditd` type=SYSCALL comm=lsmod
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

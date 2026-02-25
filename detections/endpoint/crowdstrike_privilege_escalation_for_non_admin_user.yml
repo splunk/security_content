@@ -8,7 +8,7 @@ type: Anomaly
 status: production
 description: The following analytic detects CrowdStrike alerts for privilege escalation attempts by non-admin users. These alerts indicate unauthorized efforts by regular users to gain elevated permissions, posing a significant security risk. Detecting and addressing these attempts promptly helps prevent potential breaches and ensures that user privileges remain properly managed, maintaining the integrity of the organization's security protocols.
 search: |-
-    | `crowdstrike_stream` tag=alert
+    `crowdstrike_stream` tag=alert
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY src_ip, src_host, user,

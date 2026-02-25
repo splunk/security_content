@@ -9,7 +9,7 @@ description: The following analytic identifies excessive AccessDenied events wit
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
+    `cloudtrail` (errorCode = "AccessDenied") user_type=IAMUser (userAgent!=*.amazonaws.com)
       | bucket _time span=1h
       | rename user_name as user
       | stats count as failures min(_time) as firstTime max(_time) as lastTime, dc(signature) as methods, dc(dest) as sources values(signature) as signature values(dest) as dest

@@ -9,7 +9,7 @@ description: The following analytic detects suspicious system network configurat
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm IN ("arp", "ifconfig", "ip", "netstat", "firewall-cmd", "ufw", "iptables", "ss", "route")
+    `linux_auditd` type=SYSCALL comm IN ("arp", "ifconfig", "ip", "netstat", "firewall-cmd", "ufw", "iptables", "ss", "route")
       | bucket _time span=15m
       | rename host as dest
       | stats dc(comm) as unique_commands, values(comm) as comm, values(exe) as exe, values(syscall) as syscall, values(uid) as uid, values(ppid) as ppid, values(pid) as pid, count, min(_time) as firstTime, max(_time) as lastTime

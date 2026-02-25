@@ -9,7 +9,7 @@ description: The following analytic detects when any Microsoft Safe Links alerti
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Name="*a potentially malicious URL*" Operation=AlertEntityGenerated
+    `o365_management_activity` Name="*a potentially malicious URL*" Operation=AlertEntityGenerated
       | fromjson Data
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime values(ObjectId) as url values(od) as desc

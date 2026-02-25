@@ -10,7 +10,7 @@ data_source:
     - AWS CloudTrail CreateKey
     - AWS CloudTrail PutKeyPolicy
 search: |-
-    | `cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy
+    `cloudtrail` eventName=CreateKey OR eventName=PutKeyPolicy
       | spath input=requestParameters.policy output=key_policy_statements path=Statement{}
       | mvexpand key_policy_statements
       | spath input=key_policy_statements output=key_policy_action_1 path=Action

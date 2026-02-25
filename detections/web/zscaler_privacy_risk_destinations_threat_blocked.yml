@@ -8,7 +8,7 @@ type: Anomaly
 data_source: []
 description: The following analytic identifies blocked destinations within a network that are deemed privacy risks by Zscaler. It leverages web proxy logs, focusing on entries marked as "Privacy Risk." Key data points such as device owner, user, URL category, destination URL, and IP are analyzed. This activity is significant for a SOC as it helps monitor and manage privacy risks, ensuring a secure network environment. If confirmed malicious, this activity could indicate attempts to access or exfiltrate sensitive information, posing a significant threat to data privacy and security.
 search: |-
-    | `zscaler_proxy` action=blocked urlclass="Privacy Risk"
+    `zscaler_proxy` action=blocked urlclass="Privacy Risk"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
            urlcategory url src

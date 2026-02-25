@@ -9,7 +9,7 @@ description: The following analytic identifies failed authentication attempts to
 data_source:
     - AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication" additionalEventData.MFAUsed = "Yes"
+    `cloudtrail` eventName= ConsoleLogin errorMessage="Failed authentication" additionalEventData.MFAUsed = "Yes"
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

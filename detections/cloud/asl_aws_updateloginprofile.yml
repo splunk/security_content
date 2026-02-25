@@ -9,7 +9,7 @@ description: The following analytic detects an AWS CloudTrail event where a user
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=UpdateLoginProfile
+    `amazon_security_lake` api.operation=UpdateLoginProfile
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

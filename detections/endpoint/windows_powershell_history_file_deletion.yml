@@ -9,7 +9,7 @@ description: The following analytic detects the usage of PowerShell to delete it
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*Remove-Item*" ScriptBlockText = "*.HistorySavePath"
+    `powershell` EventCode=4104 ScriptBlockText = "*Remove-Item*" ScriptBlockText = "*.HistorySavePath"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

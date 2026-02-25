@@ -9,7 +9,7 @@ description: Detects API reconnaissance and endpoint scanning activity against O
 data_source:
     - Ollama Server
 search: |-
-    | `ollama_server` "[GIN]"
+    `ollama_server` "[GIN]"
       | bin _time span=5m
       | stats count as total_requests, values(dest) as dest, values(http_method) as methods, values(status) as status_codes
         BY _time, src, host

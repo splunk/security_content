@@ -9,7 +9,7 @@ description: The following analytic detects suspicious PowerShell script executi
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*"
+    `powershell` EventCode=4104 ScriptBlockText = "*IO.Compression.*" OR ScriptBlockText = "*IO.StreamReader*" OR ScriptBlockText = "*]::Decompress*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

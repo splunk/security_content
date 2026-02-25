@@ -9,7 +9,7 @@ description: The following analytic identifies when a malicious file is detected
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
+    `o365_management_activity` Workload=ThreatIntelligence Operation=AtpDetection
       | eval dest="NA"
       | eval src="NA"
       | stats values(DetectionMethod) as category values(FileData.FileName) as file_name values(FileData.FilePath) as file_path values(FileData.FileSize) as file_size values(FileData.MalwareFamily) as signature count, min(_time) as firstTime, max(_time) as lastTime

@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 4672
 description: The following analytic detects a user authenticating with special privileges on 30 or more remote endpoints within a 5-minute window. It leverages Event ID 4672 from Windows Security logs to identify this behavior. This activity is significant as it may indicate lateral movement or remote code execution by an adversary. If confirmed malicious, the attacker could gain extensive control over the network, potentially leading to privilege escalation, data exfiltration, or further compromise of the environment. Security teams should adjust detection thresholds based on their specific environment.
 search: |-
-    | `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$"))
+    `wineventlog_security` EventCode=4672 AND NOT(Caller_User_Name IN ("DWM-1","DWM-2","DWM-3","LOCAL SERVICE","NETWORK SERVICE","SYSTEM","*$"))
       | bucket span=5m _time
       | stats dc(Computer) AS unique_targets values(Computer) as dest values(PrivilegeList) as privileges
         BY _time, Caller_User_Name

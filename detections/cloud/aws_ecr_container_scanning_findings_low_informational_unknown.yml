@@ -9,7 +9,7 @@ description: The following analytic identifies low, informational, or unknown se
 data_source:
     - AWS CloudTrail DescribeImageScanFindings
 search: |-
-    | `cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
+    `cloudtrail` eventSource=ecr.amazonaws.com eventName=DescribeImageScanFindings
       | spath path=responseElements.imageScanFindings.findings{} output=findings
       | mvexpand findings
       | spath input=findings

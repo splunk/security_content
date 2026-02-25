@@ -9,7 +9,7 @@ description: The following analytic detects when a user modifies or disables aud
 data_source:
     - GitHub Enterprise Audit Logs
 search: |-
-    | `github_enterprise` action=audit_log_streaming.update
+    `github_enterprise` action=audit_log_streaming.update
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_ip,

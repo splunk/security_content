@@ -9,7 +9,7 @@ description: The following analytic detects when an IIS Module DLL fails to load
 data_source:
     - Windows Event Log Application 2282
 search: |-
-    | `wineventlog_application` EventCode=2282
+    `wineventlog_application` EventCode=2282
       | stats  count min(_time) as firstTime max(_time) as lastTime
         BY EventCode dest Name
            ModuleDll

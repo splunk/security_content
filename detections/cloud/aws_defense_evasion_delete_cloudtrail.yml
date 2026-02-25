@@ -9,7 +9,7 @@ description: The following analytic detects the deletion of AWS CloudTrail logs 
 data_source:
     - AWS CloudTrail DeleteTrail
 search: |-
-    | `cloudtrail` eventName = DeleteTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success
+    `cloudtrail` eventName = DeleteTrail eventSource = cloudtrail.amazonaws.com userAgent !=console.amazonaws.com errorCode = success
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

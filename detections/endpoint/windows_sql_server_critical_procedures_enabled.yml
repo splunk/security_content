@@ -9,7 +9,7 @@ description: This detection identifies when critical SQL Server configuration op
 data_source:
     - Windows Event Log Application 15457
 search: |-
-    | `wineventlog_application` EventCode=15457
+    `wineventlog_application` EventCode=15457
       | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
       | where config_name IN ("Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", "clr strict security")
       | rename host as dest

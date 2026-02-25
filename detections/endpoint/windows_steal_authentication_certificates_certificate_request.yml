@@ -9,7 +9,7 @@ description: The following analytic detects when a new certificate is requested 
 data_source:
     - Windows Event Log Security 4886
 search: |-
-    | `wineventlog_security` EventCode=4886
+    `wineventlog_security` EventCode=4886
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, name, Requester,
            action, Attributes

@@ -9,7 +9,7 @@ description: Detects when a request has more than one of the same header. This i
 data_source:
     - Suricata
 search: |-
-    | `suricata` http.request_headers{}.name="*"
+    `suricata` http.request_headers{}.name="*"
       | rename dest_ip as dest
       | spath path=http.request_headers{}.name output=header_names
       | mvexpand header_names

@@ -9,7 +9,7 @@ description: The following analytic detects an Azure AD account successfully aut
 data_source:
     - Azure Active Directory
 search: |-
-    | `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs
+    `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=SignInLogs
       | rename properties.* as *
       | bucket span=30m _time
       | fillnull

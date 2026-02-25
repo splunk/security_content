@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 4732
 description: The following analytic detects the addition of a new member to the DnsAdmins group in Active Directory by leveraging Event ID 4732. This detection uses security event logs to identify changes to this high-privilege group. Monitoring this activity is crucial because members of the DnsAdmins group can manage the DNS service, often running on Domain Controllers, and potentially execute malicious code with SYSTEM privileges. If confirmed malicious, this activity could allow an attacker to escalate privileges and gain control over critical domain services, posing a significant security risk.
 search: |-
-    | `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins
+    `wineventlog_security` EventCode=4732 TargetUserName=DnsAdmins
       | stats min(_time) as firstTime max(_time) as lastTime values(TargetUserName) as target_users_added values(user) as user
         BY dest src_user
       | `security_content_ctime(firstTime)`

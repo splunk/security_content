@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a Kubernetes NodePor
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` "objectRef.resource"=services verb=create requestObject.spec.type=NodePort
+    `kube_audit` "objectRef.resource"=services verb=create requestObject.spec.type=NodePort
       | fillnull
       | stats count values(user.groups{}) as user_groups
         BY kind objectRef.name objectRef.namespace

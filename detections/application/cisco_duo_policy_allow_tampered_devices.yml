@@ -17,7 +17,7 @@ description: |
     compromised devices. The impact of this attack can include unauthorized access, data breaches, and lateral movement within the environment,
     making prompt detection and response essential to maintaining organizational security.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search allow_rooted_devices=true
       | rename object as user

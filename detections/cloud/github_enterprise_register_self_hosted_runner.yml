@@ -9,7 +9,7 @@ description: The following analytic identifies when a self-hosted runner is crea
 data_source:
     - GitHub Enterprise Audit Logs
 search: |-
-    | `github_enterprise` action=enterprise.register_self_hosted_runner
+    `github_enterprise` action=enterprise.register_self_hosted_runner
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_is_bot,

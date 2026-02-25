@@ -8,7 +8,7 @@ type: Hunting
 description: Detects rare video devices from Zoom logs. Actors performing Remote Employment Fraud (REF) typically use unusual device information compared to a majority of employees. Detecting this activity requires careful analysis, regular review, and a thorough understanding of the audio and video devices commonly used within your environment.
 data_source: []
 search: |-
-    | `zoom_index` camera=* NOT (camera=*iPhone* OR camera="*FaceTime*" OR speaker="*AirPods*" OR camera="*MacBook*" OR microphone="*MacBook Pro Microphone*")
+    `zoom_index` camera=* NOT (camera=*iPhone* OR camera="*FaceTime*" OR speaker="*AirPods*" OR camera="*MacBook*" OR microphone="*MacBook Pro Microphone*")
       | rare camera limit=50
       | `zoom_rare_video_devices_filter`
 how_to_implement: The analytic leverages Zoom logs to be ingested using Splunk Connect for Zoom (https://splunkbase.splunk.com/app/4961)

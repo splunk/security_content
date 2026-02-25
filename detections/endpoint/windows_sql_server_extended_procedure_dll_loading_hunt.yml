@@ -9,7 +9,7 @@ description: This analytic detects when SQL Server loads DLLs to execute extende
 data_source:
     - Windows Event Log Application 8128
 search: |-
-    | `wineventlog_application` EventCode=8128
+    `wineventlog_application` EventCode=8128
       | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
       | rename host as dest
       | eval dll_category=case( dll_name=="xpstar.dll", "Extended Procedures", dll_name=="odsole70.dll", "OLE Automation", dll_name=="xplog70.dll", "Logging Procedures", true(), "Other")

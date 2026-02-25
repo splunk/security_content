@@ -9,7 +9,7 @@ description: The following analytic identifies the modification of the SourceAnc
 data_source:
     - Azure Active Directory Update user
 search: |-
-    | `azure_monitor_aad` operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
+    `azure_monitor_aad` operationName="Update user" properties.targetResources{}.modifiedProperties{}.displayName=SourceAnchor
       | rename properties.* as *
       | rename initiatedBy.user.userPrincipalName as initiatedBy
       | rename targetResources{}.modifiedProperties{}.newValue as modifiedProperties

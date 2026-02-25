@@ -9,7 +9,7 @@ description: The following analytic detects an unusual number of Kerberos Ticket
 data_source:
     - Windows Event Log Security 4768
 search: |-
-    | `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$"
+    `wineventlog_security` EventCode=4768 Status=0x6 TargetUserName!="*$"
       | bucket span=2m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest
         BY _time, src_ip

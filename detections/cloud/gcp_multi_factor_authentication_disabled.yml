@@ -9,7 +9,7 @@ description: The following analytic detects an attempt to disable multi-factor a
 data_source:
     - Google Workspace
 search: |-
-    | `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH
+    `gws_reports_admin` command=UNENROLL_USER_FROM_STRONG_AUTH
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY user, command, actor.email,
            status, id.applicationName, event.name,

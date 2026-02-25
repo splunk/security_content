@@ -9,7 +9,7 @@ description: The following analytic identifies multiple failed multi-factor auth
 data_source:
     - Azure Active Directory Sign-in activity
 search: |-
-    | `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication"
+    `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" properties.status.errorCode=500121 properties.status.additionalDetails!="MFA denied; user declined the authentication"
       | rename properties.* as *
       | bucket span=10m _time
       | rename userAgent as user_agent

@@ -9,7 +9,7 @@ type: Anomaly
 status: production
 description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*"
+    `powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

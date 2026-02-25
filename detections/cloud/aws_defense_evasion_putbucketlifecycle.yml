@@ -9,7 +9,7 @@ description: The following analytic detects `PutBucketLifecycle` events in AWS C
 data_source:
     - AWS CloudTrail PutBucketLifecycle
 search: |-
-    | `cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
+    `cloudtrail` eventName=PutBucketLifecycle user_type=IAMUser errorCode=success
       | spath path=requestParameters{}.LifecycleConfiguration{}.Rule{}.Expiration{}.Days output=expiration_days
       | spath path=requestParameters{}.bucketName output=bucket_name
       | rename user_name as user

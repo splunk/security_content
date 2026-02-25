@@ -9,7 +9,7 @@ description: The following analytic detects the addition of an application role 
 data_source:
     - O365 Add app role assignment grant to user.
 search: |-
-    | `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user."
+    `o365_management_activity` Workload=AzureActiveDirectory Operation="Add app role assignment grant to user."
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

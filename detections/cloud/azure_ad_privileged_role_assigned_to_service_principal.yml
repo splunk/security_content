@@ -9,7 +9,7 @@ description: The following analytic detects the assignment of privileged roles t
 data_source:
     - Azure Active Directory Add member to role
 search: |-
-    | `azure_monitor_aad` operationName="Add member to role"
+    `azure_monitor_aad` operationName="Add member to role"
       | rename properties.* as *
       | search "targetResources{}.type"=ServicePrincipal
       | rename initiatedBy.user.userPrincipalName as initiatedBy

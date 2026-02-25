@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of WMI Event Subscri
 data_source:
     - Sysmon EventID 20
 search: |-
-    | `sysmon` EventID=20
+    `sysmon` EventID=20
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest dvc object
            object_category object_path signature

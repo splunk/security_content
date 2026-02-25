@@ -9,7 +9,7 @@ description: The following analytic identifies the backup of the Active Director
 data_source:
     - Windows Event Log Security 4876
 search: |-
-    | `wineventlog_security` EventCode=4876
+    `wineventlog_security` EventCode=4876
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, name, action,
            Caller_Domain ,Caller_User_Name

@@ -9,7 +9,7 @@ description: The following analytic identifies a local successful authentication
 data_source:
     - Windows Event Log Security 4624
 search: |-
-    | `wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos action=success src=127.0.0.1
+    `wineventlog_security`  EventCode=4624 LogonType=3 AuthenticationPackageName=Kerberos action=success src=127.0.0.1
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action app authentication_method

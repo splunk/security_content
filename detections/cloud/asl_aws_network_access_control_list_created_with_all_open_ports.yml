@@ -9,7 +9,7 @@ description: The following analytic detects the creation of AWS Network Access C
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=CreateNetworkAclEntry OR api.operation=ReplaceNetworkAclEntry status=Success
+    `amazon_security_lake` api.operation=CreateNetworkAclEntry OR api.operation=ReplaceNetworkAclEntry status=Success
       | spath input=api.request.data path=ruleAction output=ruleAction
       | spath input=api.request.data path=egress output=egress
       | spath input=api.request.data path=aclProtocol output=aclProtocol

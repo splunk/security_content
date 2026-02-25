@@ -9,7 +9,7 @@ description: HTTP request smuggling is a technique for interfering with the way 
 data_source:
     - Suricata
 search: |-
-    | `suricata` (http.request_headers{}.name="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*") OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="*Transfer-Encoding*") OR (http.request_headers{}.value="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*") OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="0")
+    `suricata` (http.request_headers{}.name="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*") OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="*Transfer-Encoding*") OR (http.request_headers{}.value="*Content-Length*" http.request_headers{}.name="*Transfer-Encoding*") OR (http.request_headers{}.name="*Content-Length*" http.request_headers{}.value="0")
       | rename dest_ip as dest
       | rex field=_raw "request_headers.:\[(?<headers>.*)\]"
       | stats count min(_time) as firstTime max(_time) as lastTime

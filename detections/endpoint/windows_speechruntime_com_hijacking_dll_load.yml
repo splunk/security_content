@@ -9,7 +9,7 @@ description: SpeechRuntime is vulnerable to an attack that allows a user to run 
 data_source:
     - Sysmon EventID 7
 search: |-
-    | `sysmon` EventCode=7 Image="*SpeechRuntime.exe"
+    `sysmon` EventCode=7 Image="*SpeechRuntime.exe"
       | eval image_loaded_lower = lower(ImageLoaded)
       | search NOT image_loaded_lower="*system32*"
       | fillnull

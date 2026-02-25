@@ -9,7 +9,7 @@ description: The following analytic identifies the creation or modification of I
 data_source:
     - Windows Event Log Application 3000
 search: |-
-    | `wineventlog_application` EventCode=3000
+    `wineventlog_application` EventCode=3000
       | rename param1 AS "Process" param2 AS "Exit_Code"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Process Exit_Code dest

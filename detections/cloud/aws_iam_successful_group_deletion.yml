@@ -9,7 +9,7 @@ description: The following analytic identifies the successful deletion of an IAM
 data_source:
     - AWS CloudTrail DeleteGroup
 search: |-
-    | `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com)
+    `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode=success (userAgent!=*.amazonaws.com)
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

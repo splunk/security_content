@@ -9,7 +9,7 @@ description: The following analytic identifies an excessive number of system eve
 data_source:
     - Windows Event Log System 7040
 search: |-
-    | `wineventlog_system` EventCode=7040 "disabled"
+    `wineventlog_system` EventCode=7040 "disabled"
       | stats count values(EventData_Xml) as MessageList dc(EventData_Xml) as MessageCount min(_time) as firstTime max(_time) as lastTime
         BY Computer EventCode UserID
       | rename Computer as dest

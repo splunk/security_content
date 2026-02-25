@@ -13,7 +13,7 @@ data_source:
     - Windows Event Log Defender 1134
 description: This detection searches for Windows Defender ASR audit events. ASR is a feature of Windows Defender Exploit Guard that prevents actions and apps that are typically used by exploit-seeking malware to infect machines. ASR rules are applied to processes and applications. When a process or application attempts to perform an action that is blocked by an ASR rule, an event is generated. This detection searches for ASR audit events that are generated when a process or application attempts to perform an action that would be blocked by an ASR rule, but is allowed to proceed for auditing purposes.
 search: |-
-    | `ms_defender` EventCode IN (1122, 1125, 1126, 1132, 1134)
+    `ms_defender` EventCode IN (1122, 1125, 1126, 1132, 1134)
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY host, Process_Name, Target_Commandline,
            Path, ID, EventCode

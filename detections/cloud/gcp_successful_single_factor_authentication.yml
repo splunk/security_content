@@ -9,7 +9,7 @@ description: The following analytic identifies a successful single-factor authen
 data_source:
     - Google Workspace
 search: |-
-    | `gws_reports_login` event.name=login_success NOT `gws_login_mfa_methods`
+    `gws_reports_login` event.name=login_success NOT `gws_login_mfa_methods`
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY user, src_ip, login_challenge_method,
            app, event.name, vendor_account,

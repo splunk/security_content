@@ -9,7 +9,7 @@ type: Anomaly
 status: production
 description: The following analytic identifies multiple failed multi-factor authentication (MFA) requests for a single user within an Okta tenant. It triggers when more than 10 MFA attempts fail within 5 minutes, using Okta event logs to detect this pattern. This activity is significant as it may indicate an adversary attempting to bypass MFA by bombarding the user with repeated authentication requests, a technique used by threat actors like Lapsus and APT29. If confirmed malicious, this could lead to unauthorized access, potentially compromising sensitive information and systems.
 search: |-
-    | `okta` eventType=user.authentication.auth_via_mfa outcome.result=FAILURE debugContext.debugData.factor!=PASSWORD_AS_FACTOR
+    `okta` eventType=user.authentication.auth_via_mfa outcome.result=FAILURE debugContext.debugData.factor!=PASSWORD_AS_FACTOR
       | bucket _time span=5m
       | stats count min(_time) as firstTime max(_time) as lastTime values(displayMessage) values(src_ip) as src_ip values(debugContext.debugData.factor) values(dest) as dest
         BY _time src_user

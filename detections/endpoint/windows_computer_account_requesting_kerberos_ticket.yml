@@ -9,7 +9,7 @@ description: The following analytic detects a computer account requesting a Kerb
 data_source:
     - Windows Event Log Security 4768
 search: |-
-    | `wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1"
+    `wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1"
       | stats  count min(_time) as firstTime max(_time) as lastTime
         BY dest, subject, action,
            user, TargetUserName, src_ip

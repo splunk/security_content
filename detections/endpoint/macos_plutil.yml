@@ -9,7 +9,7 @@ description: The following analytic detects the usage of the `plutil` command to
 data_source:
     - osquery
 search: |-
-    | `osquery_macro` name=es_process_events columns.path=/usr/bin/plutil
+    `osquery_macro` name=es_process_events columns.path=/usr/bin/plutil
       | rename columns.* as *
       | stats count  min(_time) as firstTime max(_time) as lastTime
         BY username host cmdline

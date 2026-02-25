@@ -9,7 +9,7 @@ description: This analytic detects successful MSIX/AppX package installations on
 data_source:
     - Windows Event Log AppXDeployment-Server 854
 search: |-
-    | `wineventlog_appxdeploymentserver` EventCode=854
+    `wineventlog_appxdeploymentserver` EventCode=854
       | stats count min(_time) as firstTime max(_time) as lastTime values(Path) as PackagePath
         BY dvc EventCode user_id
       | rename dvc as dest

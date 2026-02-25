@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of open/public S3 bu
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl
+    `cloudtrail` eventSource=s3.amazonaws.com eventName=PutBucketAcl
       | rex field=_raw "(?<json_field>{.+})"
       | spath input=json_field output=grantees path=requestParameters.AccessControlPolicy.AccessControlList.Grant{}
       | search grantees=*

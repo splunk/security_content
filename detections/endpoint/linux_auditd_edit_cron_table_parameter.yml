@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious editing of cron jobs 
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL syscall IN ("rename", "execve") (comm IN ("crontab") OR exe IN ("*/crontab")) success=yes AND NOT (UID IN("daemon"))
+    `linux_auditd` type=SYSCALL syscall IN ("rename", "execve") (comm IN ("crontab") OR exe IN ("*/crontab")) success=yes AND NOT (UID IN("daemon"))
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

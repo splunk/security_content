@@ -9,7 +9,7 @@ description: The following analytic detects the deletion of an IAM policy in AWS
 data_source:
     - AWS CloudTrail DeletePolicy
 search: |-
-    | `cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com)
+    `cloudtrail` eventName=DeletePolicy (userAgent!=*.amazonaws.com)
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

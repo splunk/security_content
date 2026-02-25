@@ -9,7 +9,7 @@ data_source:
     - Azure Active Directory Sign-in activity
 description: The following analytic detects unusual authentication activity in Azure AD, specifically when a single user account has over 8 authentication attempts using 3+ unique application IDs and 5+ unique user agents within a short period. It leverages Azure AD audit logs, focusing on authentication events and using statistical thresholds. This behavior is significant as it may indicate an adversary probing for MFA requirements. If confirmed malicious, it suggests a compromised account, potentially leading to further exploitation, lateral movement, and data exfiltration. Early detection is crucial to prevent substantial harm.
 search: |-
-    | `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" (properties.authenticationRequirement="multiFactorAuthentication" properties.status.additionalDetails="MFA required in Azure AD") OR (properties.authenticationRequirement=singleFactorAuthentication "properties.authenticationDetails{}.succeeded"=true)
+    `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity" (properties.authenticationRequirement="multiFactorAuthentication" properties.status.additionalDetails="MFA required in Azure AD") OR (properties.authenticationRequirement=singleFactorAuthentication "properties.authenticationDetails{}.succeeded"=true)
       | bucket span=5m _time
       | rename properties.* as *
       | rename userAgent as user_agent

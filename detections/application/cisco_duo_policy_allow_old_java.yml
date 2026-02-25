@@ -16,7 +16,7 @@ description: |
     insiders may attempt to weaken security controls by modifying policies to permit insecure software, increasing the risk of compromise. Prompt detection
     enables SOC analysts to respond quickly, revert risky changes, and mitigate potential threats before they are exploited.
 search: |-
-    | `cisco_duo_administrator` action=policy_update OR action=policy_create
+    `cisco_duo_administrator` action=policy_update OR action=policy_create
       | spath input=description
       | search java_remediation="no remediation"
       | rename object as user

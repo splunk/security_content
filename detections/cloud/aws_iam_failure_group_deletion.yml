@@ -9,7 +9,7 @@ description: The following analytic identifies failed attempts to delete AWS IAM
 data_source:
     - AWS CloudTrail DeleteGroup
 search: |-
-    | `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
+    `cloudtrail` eventSource=iam.amazonaws.com eventName=DeleteGroup errorCode IN (NoSuchEntityException,DeleteConflictException, AccessDenied) (userAgent!=*.amazonaws.com)
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

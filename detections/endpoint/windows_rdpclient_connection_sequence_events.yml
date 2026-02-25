@@ -9,7 +9,7 @@ description: This analytic monitors Windows RDP client connection sequence event
 data_source:
     - Windows Event Log Microsoft Windows TerminalServices RDPClient 1024
 search: |-
-    | `wineventlog_rdp` EventCode=1024
+    `wineventlog_rdp` EventCode=1024
       | rename host as dest
       | stats count as "Event Count", min(_time) as firstTime, max(_time) as lastTime, values(Message) as messages
         BY dest, source, LogName,

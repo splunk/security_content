@@ -9,7 +9,7 @@ description: The following analytic identifies the execution of the PowerShell c
 data_source:
     - Powershell Installed IIS Modules
 search: |-
-    | `iis_get_webglobalmodule`
+    `iis_get_webglobalmodule`
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY host name image
       | rename host as dest

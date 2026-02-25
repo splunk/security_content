@@ -9,7 +9,7 @@ description: The following analytic detects the use of PowerView commandlets to 
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-Unconstrained*")
+    `powershell` EventCode=4104 (ScriptBlockText = "*Get-DomainComputer*" OR ScriptBlockText = "*Get-NetComputer*") AND (ScriptBlockText = "*-Unconstrained*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

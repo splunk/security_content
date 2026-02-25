@@ -9,7 +9,7 @@ description: Detects abnormal network activity and connectivity issues in Ollama
 data_source:
     - Ollama Server
 search: |-
-    | `ollama_server` level=WARN (msg="*failed*" OR msg="*dial tcp*" OR msg="*lookup*" OR msg="*no such host*" OR msg="*connection*" OR msg="*network*" OR msg="*timeout*" OR msg="*unreachable*" OR msg="*refused*")
+    `ollama_server` level=WARN (msg="*failed*" OR msg="*dial tcp*" OR msg="*lookup*" OR msg="*no such host*" OR msg="*connection*" OR msg="*network*" OR msg="*timeout*" OR msg="*unreachable*" OR msg="*refused*")
       | eval src=coalesce(src, src_ip, "N/A")
       | stats count as incidents, values(src) as src, values(msg) as warning_messages, latest(_time) as last_incident
         BY host

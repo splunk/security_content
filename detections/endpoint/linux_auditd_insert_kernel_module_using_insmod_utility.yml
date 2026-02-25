@@ -9,7 +9,7 @@ description: The following analytic detects the insertion of a Linux kernel modu
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=insmod
+    `linux_auditd` type=SYSCALL comm=insmod
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

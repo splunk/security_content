@@ -9,7 +9,7 @@ description: The following analytic identifies the creation of a login profile f
 data_source:
     - AWS CloudTrail CreateLoginProfile AND AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName = CreateLoginProfile
+    `cloudtrail` eventName = CreateLoginProfile
       | rename requestParameters.userName as new_login_profile
       | table src_ip eventName new_login_profile userIdentity.userName
       | join new_login_profile src_ip [

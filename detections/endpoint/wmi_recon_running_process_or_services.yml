@@ -9,7 +9,7 @@ description: The following analytic identifies suspicious PowerShell script exec
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*" OR ScriptBlockText="*Win32_Service*")
+    `powershell` EventCode=4104 ScriptBlockText= "*SELECT*" AND (ScriptBlockText="*Win32_Process*" OR ScriptBlockText="*Win32_Service*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

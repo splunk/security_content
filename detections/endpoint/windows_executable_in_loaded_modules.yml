@@ -9,7 +9,7 @@ data_source:
     - Sysmon EventID 7
 description: The following analytic identifies instances where executable files (.exe) are loaded as modules, detected through 'ImageLoaded' events in Sysmon logs. This method leverages Sysmon EventCode 7 to track unusual module loading behavior, which is significant as it deviates from the norm of loading .dll files. This activity is crucial for SOC monitoring because it can indicate the presence of malware like NjRAT, which uses this technique to load malicious modules. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, maintain persistence, and further compromise the host system.
 search: |-
-    | `sysmon` EventCode=7 ImageLoaded != *.dll AND Signed != true
+    `sysmon` EventCode=7 ImageLoaded != *.dll AND Signed != true
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Image ImageLoaded dest

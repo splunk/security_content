@@ -9,7 +9,7 @@ description: The following analytic detects suspicious use of the `rmmod` utilit
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=rmmod
+    `linux_auditd` type=SYSCALL comm=rmmod
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

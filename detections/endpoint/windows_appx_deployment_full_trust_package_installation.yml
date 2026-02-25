@@ -9,7 +9,7 @@ description: The following analytic detects the installation of MSIX/AppX packag
 data_source:
     - Windows Event Log AppXDeployment-Server 400
 search: |-
-    | `wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true"
+    `wineventlog_appxdeploymentserver` EventCode=400 HasFullTrust="true"
       | stats count min(_time) as firstTime max(_time) as lastTime values(PackageFullName) as PackageFullName values(Path) as PackagePath values(PackageSourceUri) as PackageSourceUri values(PackageDisplayName) as PackageDisplayName values(CallingProcess) as CallingProcess values(IsCentennial) as IsCentennial
         BY dvc EventCode HasFullTrust
            user_id

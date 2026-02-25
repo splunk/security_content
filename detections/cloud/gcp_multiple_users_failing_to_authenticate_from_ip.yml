@@ -9,7 +9,7 @@ description: The following analytic detects a single source IP address failing t
 data_source:
     - Google Workspace
 search: |-
-    | `gws_reports_login` event.type = login event.name = login_failure
+    `gws_reports_login` event.type = login event.name = login_failure
       | bucket span=5m _time
       | stats count dc(user) AS unique_accounts values(user) as tried_accounts values(authentication_method) AS authentication_method earliest(_time) as firstTime latest(_time) as lastTime
         BY _time event.name src

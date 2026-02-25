@@ -9,7 +9,7 @@ description: The following analytic detects multiple failed multi-factor authent
 data_source:
     - Google Workspace
 search: |-
-    | `gws_reports_login` event.name=login_failure `gws_login_mfa_methods`
+    `gws_reports_login` event.name=login_failure `gws_login_mfa_methods`
       | bucket span=5m _time
       | stats dc(_raw) AS mfa_prompts values(user) AS user
         BY src_ip, login_challenge_method, _time

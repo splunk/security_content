@@ -9,7 +9,7 @@ description: The following analytic identifies the execution of malicious PowerS
 data_source:
     - Windows Event Log System 7045
 search: |-
-    | `wineventlog_system` EventCode=7045
+    `wineventlog_system` EventCode=7045
       | eval l_ImagePath=lower(ImagePath)
       | regex l_ImagePath="powershell[.\s]
       | powershell_ise[.\s]

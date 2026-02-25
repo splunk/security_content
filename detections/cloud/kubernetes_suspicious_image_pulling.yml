@@ -9,7 +9,7 @@ description: The following analytic detects suspicious image pulling in Kubernet
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` requestObject.message="Pulling image*"
+    `kube_audit` requestObject.message="Pulling image*"
       | search NOT `kube_allowed_images`
       | fillnull
       | stats count

@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a new Automation Run
 data_source:
     - Azure Audit Create or Update an Azure Automation webhook
 search: |-
-    | `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded
+    `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/webhooks/write" status.value=Succeeded
       | dedup object
       | rename claims.ipaddr as src_ip
       | rename caller as user

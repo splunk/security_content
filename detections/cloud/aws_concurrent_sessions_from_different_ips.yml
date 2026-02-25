@@ -9,7 +9,7 @@ description: The following analytic identifies an AWS IAM account with concurren
 data_source:
     - AWS CloudTrail DescribeEventAggregates
 search: |-
-    | `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
+    `cloudtrail` eventName = DescribeEventAggregates src_ip!="AWS Internal"
       | bin span=5m _time
       | rename user_name as user
       | stats min(_time) as firstTime max(_time) as lastTime values(user_agent) as user_agent values(signature) as signature values(src) as src values(dest) as dest dc(src) as distinct_ip_count

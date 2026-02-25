@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the 'shred' command
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd`  proctitle IN ("*shred*")  AND proctitle IN ("*-n*", "*-z*", "*-u*", "*-s*")
+    `linux_auditd`  proctitle IN ("*shred*")  AND proctitle IN ("*-n*", "*-z*", "*-u*", "*-s*")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

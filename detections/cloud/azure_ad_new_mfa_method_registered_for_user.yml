@@ -9,7 +9,7 @@ description: The following analytic detects the registration of a new Multi-Fact
 data_source:
     - Azure Active Directory User registered security info
 search: |-
-    | `azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add
+    `azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add
       | rename properties.* as *
       | rename targetResources{}.* as *
       | rename userAgent as user_agent

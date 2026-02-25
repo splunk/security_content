@@ -9,7 +9,7 @@ description: The following analytic identifies the issuance of a new certificate
 data_source:
     - Windows Event Log Security 4887
 search: |-
-    | `wineventlog_security`  EventCode=4887
+    `wineventlog_security`  EventCode=4887
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, name, Requester,
            action, Attributes, Subject

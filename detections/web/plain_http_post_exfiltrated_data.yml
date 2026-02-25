@@ -9,7 +9,7 @@ description: The following analytic detects potential data exfiltration using pl
 data_source:
     - Splunk Stream HTTP
 search: |-
-    | `stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*")
+    `stream_http` http_method=POST form_data IN ("*wermgr.exe*","*svchost.exe*", "*name=\"proclist\"*","*ipconfig*", "*name=\"sysinfo\"*", "*net view*")
       | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count
         BY src_ip dest_ip http_method
            http_user_agent uri_path url

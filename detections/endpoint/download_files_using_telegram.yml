@@ -9,7 +9,7 @@ description: The following analytic detects suspicious file downloads by the Tel
 data_source:
     - Sysmon EventID 15
 search: |-
-    | `sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
+    `sysmon` EventCode= 15 process_name = "telegram.exe" TargetFilename = "*:Zone.Identifier"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest dvc file_hash
            file_name file_path process_exec

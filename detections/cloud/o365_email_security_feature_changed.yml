@@ -9,7 +9,7 @@ description: The following analytic identifies when specific O365 advanced secur
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") Operation IN ("*AntiPhish*","*SafeLink*","*SafeAttachment*","*Malware*")
+    `o365_management_activity` Workload=Exchange AND Operation IN ("Set-*","Disable-*","New-*","Remove-*") Operation IN ("*AntiPhish*","*SafeLink*","*SafeAttachment*","*Malware*")
       | rename Id as object_id, UserId as user, Operation as signature, ObjectId as object
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

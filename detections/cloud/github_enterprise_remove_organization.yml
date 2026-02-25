@@ -9,7 +9,7 @@ description: The following analytic detects when a user removes an organization 
 data_source:
     - GitHub Enterprise Audit Logs
 search: |-
-    | `github_enterprise` action=business.remove_organization
+    `github_enterprise` action=business.remove_organization
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_is_bot,

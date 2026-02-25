@@ -9,7 +9,7 @@ description: The following analytic detects the execution of PowerShell commands
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*" OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*")
+    `powershell` EventCode=4104 (ScriptBlockText="*Document.Application.ShellExecute*" OR ScriptBlockText="*Document.ActiveView.ExecuteShellCommand*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

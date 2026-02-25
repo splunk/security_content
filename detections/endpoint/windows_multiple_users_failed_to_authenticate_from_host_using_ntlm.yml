@@ -24,7 +24,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 search: |-
-    | `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
+    `wineventlog_security` EventCode=4776 TargetUserName!=*$ Status=0xC000006A
       | bucket span=5m _time
       | stats dc(TargetUserName) AS unique_accounts values(TargetUserName) as tried_accounts values(dest) as dest
         BY _time, Workstation

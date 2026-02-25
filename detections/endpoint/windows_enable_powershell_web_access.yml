@@ -9,7 +9,7 @@ type: TTP
 status: production
 description: The following analytic detects the enabling of PowerShell Web Access via PowerShell commands. It leverages PowerShell script block logging (EventCode 4104) to identify the execution of the `Install-WindowsFeature` cmdlet with the `WindowsPowerShellWebAccess` parameter. This activity is significant because enabling PowerShell Web Access can facilitate remote execution of PowerShell commands, potentially allowing an attacker to gain unauthorized access to systems and networks.
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText IN ("*Install-WindowsFeature*WindowsPowerShellWebAccess*","*Install-PswaWebApplication*","*Add-PswaAuthorizationRule*UserName *ComputerName *")
+    `powershell` EventCode=4104 ScriptBlockText IN ("*Install-WindowsFeature*WindowsPowerShellWebAccess*","*Install-PswaWebApplication*","*Add-PswaAuthorizationRule*UserName *ComputerName *")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

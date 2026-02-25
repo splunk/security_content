@@ -9,7 +9,7 @@ description: The following analytic detects suspicious PowerShell activity via E
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 AND ScriptBlockText IN ("*SELECT*", "*Get-WmiObject*") AND ScriptBlockText IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_ComputerSystem*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*", "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*")
+    `powershell` EventCode=4104 AND ScriptBlockText IN ("*SELECT*", "*Get-WmiObject*") AND ScriptBlockText IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_ComputerSystem*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*", "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

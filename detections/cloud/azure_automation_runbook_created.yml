@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a new Azure Automati
 data_source:
     - Azure Audit Create or Update an Azure Automation Runbook
 search: |-
-    | `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/runbooks/write" object!=AzureAutomationTutorial* status.value=Succeeded
+    `azure_audit` operationName.value="Microsoft.Automation/automationAccounts/runbooks/write" object!=AzureAutomationTutorial* status.value=Succeeded
       | dedup object
       | rename claims.ipaddr as src, subscriptionId as vendor_account, operationName.value as operationName
       | stats count min(_time) as firstTime max(_time) as lastTime

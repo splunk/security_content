@@ -9,7 +9,7 @@ description: The following analytic detects the execution of processes with file
 data_source:
     - Sysmon EventID 1
 search: |-
-    | `sysmon` EventCode=1
+    `sysmon` EventCode=1
       | stats count min(_time) as firstTime max(_time) as lastTime, values(Company) as Company values(Product) as Product
         BY action dest original_file_name
            parent_process parent_process_exec parent_process_guid

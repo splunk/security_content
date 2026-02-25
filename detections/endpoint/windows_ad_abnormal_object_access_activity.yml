@@ -9,7 +9,7 @@ description: The following analytic identifies a statistically significant incre
 data_source:
     - Windows Event Log Security 4662
 search: |-
-    | `wineventlog_security` EventCode=4662
+    `wineventlog_security` EventCode=4662
       | stats min(_time) AS firstTime, max(_time) AS lastTime, dc(ObjectName) AS ObjectName_count, values(ObjectType) AS ObjectType, latest(Computer) AS dest count
         BY SubjectUserName
       | eventstats avg(ObjectName_count) AS average stdev(ObjectName_count) AS standarddev

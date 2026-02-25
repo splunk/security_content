@@ -9,7 +9,7 @@ description: The following analytic detects the import of Windows PowerShell App
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy*" ScriptBlockText="* -XMLPolicy *"
+    `powershell` EventCode=4104 ScriptBlockText="*Import-Module Applocker*" ScriptBlockText="*Set-AppLockerPolicy*" ScriptBlockText="* -XMLPolicy *"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

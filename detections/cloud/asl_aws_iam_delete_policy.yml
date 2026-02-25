@@ -9,7 +9,7 @@ description: The following analytic identifies when a policy is deleted in AWS. 
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=DeletePolicy
+    `amazon_security_lake` api.operation=DeletePolicy
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

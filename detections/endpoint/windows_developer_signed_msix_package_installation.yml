@@ -9,7 +9,7 @@ description: This detection identifies the installation of developer-signed MSIX
 data_source:
     - Windows Event Log AppXDeployment-Server 855
 search: |-
-    | `wineventlog_appxdeploymentserver` EventCode=855 NOT PackageMoniker IN ("*8wekyb3d8bbwe*","*cw5n1h2txyewy*")
+    `wineventlog_appxdeploymentserver` EventCode=855 NOT PackageMoniker IN ("*8wekyb3d8bbwe*","*cw5n1h2txyewy*")
       | stats count min(_time) as firstTime max(_time) as lastTime values(PackageMoniker) as PackageMoniker
         BY dvc EventCode user_id
       | rename dvc as dest

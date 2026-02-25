@@ -9,7 +9,7 @@ description: The following analytic detects the use of `GetProcAddress` in Power
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText=*getprocaddress*
+    `powershell` EventCode=4104 ScriptBlockText=*getprocaddress*
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

@@ -9,7 +9,7 @@ type: TTP
 status: production
 description: The following analytic identifies the assignment of elevated mailbox permissions in an Office 365 environment via the Add-MailboxPermission operation. It leverages logs from the Exchange workload in the o365_management_activity data source, focusing on permissions such as FullAccess, ChangePermission, or ChangeOwner. This activity is significant as it indicates potential unauthorized access or control over mailboxes, which could lead to data exfiltration or privilege escalation. If confirmed malicious, attackers could gain extensive access to sensitive email data and potentially manipulate mailbox settings, posing a severe security risk.
 search: |-
-    | `o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner)
+    `o365_management_activity` Workload=Exchange Operation=Add-MailboxPermission (AccessRights=FullAccess OR AccessRights=ChangePermission OR AccessRights=ChangeOwner)
       | rename Identity AS dest_user
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a DaemonSet in a Kub
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` "objectRef.resource"=daemonsets verb=create
+    `kube_audit` "objectRef.resource"=daemonsets verb=create
       | fillnull
       | stats count values(user.groups{}) as user_groups
         BY kind objectRef.name objectRef.namespace

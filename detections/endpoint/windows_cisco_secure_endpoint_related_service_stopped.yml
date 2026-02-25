@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious termination of known 
 data_source:
     - Windows Event Log System 7036
 search: |-
-    | `wineventlog_system` `normalized_service_binary_field`
+    `wineventlog_system` `normalized_service_binary_field`
       | rename param1 as display_name
       | rename param2 as status
       | search EventCode=7036 display_name IN ("Cisco AMP Orbital", "*Cisco Secure Endpoint*", "*Cisco Security Connector Monitoring*", "CiscoSAM", "CiscoAMPHeurDriver", "CiscoAMPELAMDriver", "CiscoAMPCEFWDriver", "ImmunetNetworkMonitorDriver", "ImmunetProtectDriver", "ImmunetSelfProtectDriver") status IN ("stopped", "arrêté")

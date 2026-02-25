@@ -8,7 +8,7 @@ type: Anomaly
 data_source: []
 description: The following analytic identifies significant legal liability threats blocked by the Zscaler web proxy. It uses web proxy logs to track destinations, device owners, users, URL categories, and actions associated with legal liability. By leveraging statistics on unique fields, it ensures a precise focus on these threats. This activity is significant for SOC as it helps enforce legal compliance and risk management. If confirmed malicious, it could indicate attempts to access legally sensitive or restricted content, potentially leading to legal repercussions and compliance violations.
 search: |-
-    | `zscaler_proxy` urlclass="Legal Liability"
+    `zscaler_proxy` urlclass="Legal Liability"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
            urlcategory url src

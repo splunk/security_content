@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious disable or modify sys
 data_source:
     - Linux Auditd Service Stop
 search: |-
-    | `linux_auditd` type=SERVICE_STOP unit IN ("firewalld", "ufw")
+    `linux_auditd` type=SERVICE_STOP unit IN ("firewalld", "ufw")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type pid comm

@@ -9,7 +9,7 @@ description: The following analytic detects `PutBucketLifecycle` events in AWS C
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=PutBucketLifecycle
+    `amazon_security_lake` api.operation=PutBucketLifecycle
       | spath input=api.request.data path=LifecycleConfiguration.Rule.NoncurrentVersionExpiration.NoncurrentDays output=NoncurrentDays
       | where NoncurrentDays < 3
       | spath input=api.request.data

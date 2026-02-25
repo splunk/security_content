@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious auditd service stop. 
 data_source:
     - Linux Auditd Service Stop
 search: |-
-    | `linux_auditd` type=SERVICE_STOP unit IN ("auditd")
+    `linux_auditd` type=SERVICE_STOP unit IN ("auditd")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type pid comm

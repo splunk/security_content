@@ -9,7 +9,7 @@ description: The following analytic detects a rundll32 process creating executab
 data_source:
     - Sysmon EventID 11
 search: |-
-    | `sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll")
+    `sysmon` EventCode=11 Image="*rundll32.exe" TargetFilename IN ("*.exe", "*.dll")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action dest file_name
            file_path process_guid process_id

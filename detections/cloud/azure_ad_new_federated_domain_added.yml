@@ -9,7 +9,7 @@ description: The following analytic detects the addition of a new federated doma
 data_source:
     - Azure Active Directory Set domain authentication
 search: |-
-    | `azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success
+    `azure_monitor_aad` operationName="Set domain authentication" "properties.result"=success
       | rename properties.* as *
       | rename targetResources{}.displayName as domain
       | rename userAgent as user_agent

@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the PowerShell comm
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*Get-Clipboard*"
+    `powershell` EventCode=4104 ScriptBlockText = "*Get-Clipboard*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

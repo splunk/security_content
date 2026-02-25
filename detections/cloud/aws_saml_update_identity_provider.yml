@@ -9,7 +9,7 @@ description: The following analytic detects updates to the SAML provider in AWS.
 data_source:
     - AWS CloudTrail UpdateSAMLProvider
 search: |-
-    | `cloudtrail` eventName=UpdateSAMLProvider
+    `cloudtrail` eventName=UpdateSAMLProvider
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.sAMLProviderArn) as request_parameters
         BY signature dest user

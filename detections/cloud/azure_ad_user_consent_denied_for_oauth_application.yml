@@ -9,7 +9,7 @@ data_source:
     - Azure Active Directory Sign-in activity
 description: The following analytic identifies instances where a user has denied consent to an OAuth application seeking permissions within the Azure AD environment. This detection leverages Azure AD's audit logs, specifically focusing on user consent actions with error code 65004. Monitoring denied consent actions is significant as it can indicate users recognizing potentially suspicious or untrusted applications. If confirmed malicious, this activity could suggest attempts by unauthorized applications to gain access, potentially leading to data breaches or unauthorized actions within the environment. Understanding these denials helps refine security policies and enhance user awareness.
 search: |-
-    | `azure_monitor_aad` operationName="Sign-in activity" properties.status.errorCode=65004
+    `azure_monitor_aad` operationName="Sign-in activity" properties.status.errorCode=65004
       | rename properties.* as *
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

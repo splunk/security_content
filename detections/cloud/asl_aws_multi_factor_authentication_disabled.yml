@@ -9,7 +9,7 @@ description: The following analytic detects attempts to disable multi-factor aut
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice)
+    `amazon_security_lake` (api.operation=DeleteVirtualMFADevice OR api.operation=DeactivateMFADevice)
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

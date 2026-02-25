@@ -9,7 +9,7 @@ description: The following analytic detects a Kerberos Ticket Granting Ticket (T
 data_source:
     - Windows Event Log Security 4768
 search: |-
-    | `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$
+    `wineventlog_security` EventCode=4768 TicketEncryptionType=0x17 ServiceName!=*$
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY ServiceName src_ip dest
       | `security_content_ctime(firstTime)`

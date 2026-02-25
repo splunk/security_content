@@ -9,7 +9,7 @@ description: This detection helps hunt for changes to SQL Server configuration o
 data_source:
     - Windows Event Log Application 15457
 search: |-
-    | `wineventlog_application` EventCode=15457
+    `wineventlog_application` EventCode=15457
       | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
       | rename host as dest
       | eval change_type=case( old_value="0" AND new_value="1", "enabled", old_value="1" AND new_value="0", "disabled", true(), "modified" )

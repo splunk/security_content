@@ -9,7 +9,7 @@ description: 'The following analytic detects Kerberos service ticket requests us
 data_source:
     - Windows Event Log Security 4769
 search: |-
-    | `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000 OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
+    `wineventlog_security` EventCode=4769 ServiceName="*$" (TicketOptions=0x40810000 OR TicketOptions=0x40800000 OR TicketOptions=0x40810010) TicketEncryptionType=0x17
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, service, service_id,
            TicketEncryptionType, TicketOptions

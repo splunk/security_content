@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 5136
 description: This detection identifies an Active Directory access-control list (ACL) modification event, which applies the minimum required extended rights to perform the DCShadow attack.
 search: |-
-    | `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
+    `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType values(dest) as dest
         BY ObjectClass ObjectDN OpCorrelationID
            src_user SubjectLogonId

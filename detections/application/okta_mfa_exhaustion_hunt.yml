@@ -9,7 +9,7 @@ description: The following analytic detects patterns of successful and failed Ok
 data_source:
     - Okta
 search: |-
-    | `okta` eventType=system.push.send_factor_verify_push OR ((legacyEventType=core.user.factor.attempt_success) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) OR ((legacyEventType=core.user.factor.attempt_fail) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH))
+    `okta` eventType=system.push.send_factor_verify_push OR ((legacyEventType=core.user.factor.attempt_success) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH)) OR ((legacyEventType=core.user.factor.attempt_fail) AND (debugContext.debugData.factor=OKTA_VERIFY_PUSH))
       | stats count(eval(legacyEventType="core.user.factor.attempt_success"))  as successes count(eval(legacyEventType="core.user.factor.attempt_fail")) as failures count(eval(eventType="system.push.send_factor_verify_push")) as pushes
         BY user,_time
       | stats latest(_time) as lasttime earliest(_time) as firsttime sum(successes) as successes sum(failures) as failures sum(pushes) as pushes

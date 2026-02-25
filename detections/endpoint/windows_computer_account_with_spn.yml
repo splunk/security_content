@@ -9,7 +9,7 @@ description: The following analytic detects the addition of Service Principal Na
 data_source:
     - Windows Event Log Security 4741
 search: |-
-    | `wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames IN ("*HOST/*","*RestrictedKrbHost/*")
+    `wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames IN ("*HOST/*","*RestrictedKrbHost/*")
       | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode),values(TargetDomainName),values(PrimaryGroupId), values(OldUacValue), values(NewUacValue),values(SamAccountName),values(DnsHostName),values(ServicePrincipalNames)
         BY dest Logon_ID subject
       | `security_content_ctime(firstTime)`

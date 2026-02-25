@@ -9,7 +9,7 @@ description: The following analytic detects instances where a user has initiated
 data_source:
     - O365
 search: |-
-    | `o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported"
+    `o365_management_activity` Category=ThreatManagement Name="eDiscovery search started or exported"
       | fillnull
       | stats count earliest(_time) as firstTime latest(_time) as lastTime
         BY Source Severity AlertEntityId

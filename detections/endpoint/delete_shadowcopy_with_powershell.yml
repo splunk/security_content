@@ -9,7 +9,7 @@ description: The following analytic detects the use of PowerShell to delete shad
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText = "*Delete*" OR ScriptBlockText = "*Remove*")
+    `powershell` EventCode=4104 ScriptBlockText= "*ShadowCopy*" (ScriptBlockText = "*Delete*" OR ScriptBlockText = "*Remove*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

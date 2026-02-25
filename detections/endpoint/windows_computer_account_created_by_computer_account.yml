@@ -9,7 +9,7 @@ description: The following analytic identifies a computer account creating a new
 data_source:
     - Windows Event Log Security 4741
 search: |-
-    | `wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost*
+    `wineventlog_security` EventCode=4741 user_type=computer SubjectDomainName!="NT AUTHORITY" ServicePrincipalNames=*RestrictedKrbHost*
       | stats  count min(_time) as firstTime max(_time) as lastTime
         BY dest, subject, action
            ,src_user, user, user_type,

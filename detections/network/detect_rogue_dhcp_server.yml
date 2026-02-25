@@ -9,7 +9,7 @@ description: The following analytic identifies the presence of unauthorized DHCP
 data_source:
     - Cisco IOS Logs
 search: |-
-    | `cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT"
+    `cisco_networks` facility="DHCP_SNOOPING" mnemonic="DHCP_SNOOPING_UNTRUSTED_PORT"
       | stats min(_time) AS firstTime max(_time) AS lastTime count values(message_type) AS message_type values(src_mac) AS src_mac
         BY host
       | `security_content_ctime(firstTime)`

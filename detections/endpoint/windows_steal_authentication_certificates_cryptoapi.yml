@@ -9,7 +9,7 @@ description: The following analytic detects the extraction of authentication cer
 data_source:
     - Windows Event Log CAPI2 70
 search: |-
-    | `capi2_operational` EventCode=70
+    `capi2_operational` EventCode=70
       | xmlkv UserData_Xml
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Computer, UserData_Xml

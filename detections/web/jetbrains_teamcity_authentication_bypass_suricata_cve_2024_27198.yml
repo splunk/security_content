@@ -9,7 +9,7 @@ type: TTP
 status: production
 description: The following analytic detects attempts to exploit the CVE-2024-27198 vulnerability in JetBrains TeamCity on-premises servers, which allows attackers to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints. This activity is significant because it can lead to unauthorized administrative access, enabling attackers to gain full control over the TeamCity server, including projects, builds, agents, and artifacts. If confirmed malicious, this could result in severe security breaches and compromise the integrity of the development environment.
 search: |-
-    | `suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST) OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") http.status=200 http_method=POST )
+    `suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST) OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") http.status=200 http_method=POST )
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY src, dest, http.http_user_agent,
            http.url, http.status,http_method

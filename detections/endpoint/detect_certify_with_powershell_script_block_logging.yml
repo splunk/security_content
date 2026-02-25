@@ -9,7 +9,7 @@ description: The following analytic detects the use of the Certify tool via an i
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
+    `powershell` EventCode=4104 (ScriptBlockText IN ("*find *") AND ScriptBlockText IN ("* /vulnerable*","* -vulnerable*","* /enrolleeSuppliesSubject *","* /json /outfile*")) OR (ScriptBlockText IN (,"*auth *","*req *",) AND ScriptBlockText IN ("* -ca *","* -username *","* -u *")) OR (ScriptBlockText IN ("*request *","*download *") AND ScriptBlockText IN ("* /ca:*"))
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

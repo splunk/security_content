@@ -9,7 +9,7 @@ description: The following analytic detects the installation of a Linux kernel m
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm=modprobe
+    `linux_auditd` type=SYSCALL comm=modprobe
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

@@ -9,7 +9,7 @@ description: The following analytic detects suspicious attempts to find SSH priv
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN ("*id_rsa*", "*id_dsa*", "*.key*", "*ssh_key*", "*authorized_keys*")
+    `linux_auditd` execve_command IN ("*find*", "*grep*") AND execve_command IN ("*id_rsa*", "*id_dsa*", "*.key*", "*ssh_key*", "*authorized_keys*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

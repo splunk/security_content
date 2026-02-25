@@ -8,7 +8,7 @@ type: Hunting
 description: The following analytic identifies drivers being loaded across the fleet. It leverages a PowerShell script input deployed to critical systems to capture driver data. This detection is significant as it helps monitor for unauthorized or malicious drivers that could compromise system integrity. If confirmed malicious, such drivers could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment.
 data_source: []
 search: |-
-    | `driverinventory`
+    `driverinventory`
       | stats values(Path) min(_time) as firstTime max(_time) as lastTime count
         BY host DriverType
       | rename host as dest

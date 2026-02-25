@@ -9,7 +9,7 @@ description: The following analytic detects suspicious discovery of virtual disk
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*find*", "*grep*")  AND execve_command IN ("*.vhd*", "*.vhdx*", "*.vmdk*")
+    `linux_auditd` execve_command IN ("*find*", "*grep*")  AND execve_command IN ("*.vhd*", "*.vhdx*", "*.vmdk*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

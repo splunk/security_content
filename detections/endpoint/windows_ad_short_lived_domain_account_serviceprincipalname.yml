@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 5136
 description: The following analytic identifies the addition and quick deletion of a Service Principal Name (SPN) to a domain account within 5 minutes. This detection leverages EventCode 5136 from the Windows Security Event Log, focusing on changes to the servicePrincipalName attribute. This activity is significant as it may indicate an attempt to perform Kerberoasting, a technique used to crack the cleartext password of a domain account offline. If confirmed malicious, this could allow an attacker to gain unauthorized access to sensitive information or escalate privileges within the domain environment.
 search: |-
-    | `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName=servicePrincipalName
       | transaction ObjectDN AttributeValue startswith=(EventCode=5136 OperationType="%%14674") endswith=(EventCode=5136 OperationType="%%14675")
       | eval short_lived=case((duration<300),"TRUE")
       | search short_lived = TRUE

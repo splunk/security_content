@@ -10,7 +10,7 @@ data_source:
     - Windows Event Log Security 4698
     - Windows Event Log Security 4699
 search: |-
-    | `wineventlog_security` EventCode=4698 OR EventCode=4699
+    `wineventlog_security` EventCode=4698 OR EventCode=4699
       | xmlkv Message
       | transaction Task_Name  startswith=(EventCode=4698) endswith=(EventCode=4699)
       | eval short_lived=case((duration<30),"TRUE")

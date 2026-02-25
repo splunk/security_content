@@ -9,7 +9,7 @@ description: The following analytic detects the abnormal termination of the Linu
 data_source:
     - Linux Auditd Daemon Abort
 search: |-
-    | `linux_auditd` type=DAEMON_ABORT
+    `linux_auditd` type=DAEMON_ABORT
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type op res

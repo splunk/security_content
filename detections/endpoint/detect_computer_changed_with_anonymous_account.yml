@@ -10,7 +10,7 @@ data_source:
     - Windows Event Log Security 4624
     - Windows Event Log Security 4742
 search: |-
-    | `wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS LOGON" LogonType=3
+    `wineventlog_security` EventCode=4624 OR EventCode=4742 TargetUserName="ANONYMOUS LOGON" LogonType=3
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action app authentication_method
            dest dvc process

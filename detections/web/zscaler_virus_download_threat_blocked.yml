@@ -8,7 +8,7 @@ type: Anomaly
 data_source: []
 description: The following analytic identifies attempts to download viruses that were blocked by Zscaler within a network. It leverages web proxy logs to detect blocked actions indicative of virus download attempts. Key data points such as device owner, user, URL category, destination URL, and IP are analyzed. This activity is significant as it helps in early detection and remediation of potential virus threats, enhancing network security. If confirmed malicious, this activity could indicate an attempt to compromise the network, potentially leading to data breaches or further malware infections.
 search: |-
-    | `zscaler_proxy` action=blocked threatname!="None" threatclass=Virus
+    `zscaler_proxy` action=blocked threatname!="None" threatclass=Virus
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
            urlcategory url src

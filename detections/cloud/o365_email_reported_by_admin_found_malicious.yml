@@ -9,7 +9,7 @@ description: The following analytic detects when an email manually submitted to 
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission
+    `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminSubmission
       | search RescanVerdict IN (Phish,Malware)
       | rename Id as signature_id, SenderIP as src, Recipients{} as dest_user, P1Sender as src_user
       | fillnull

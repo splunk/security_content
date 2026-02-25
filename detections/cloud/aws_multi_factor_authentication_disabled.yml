@@ -10,7 +10,7 @@ data_source:
     - AWS CloudTrail DeleteVirtualMFADevice
     - AWS CloudTrail DeactivateMFADevice
 search: |-
-    | `cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice)
+    `cloudtrail` (eventName= DeleteVirtualMFADevice OR eventName=DeactivateMFADevice)
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

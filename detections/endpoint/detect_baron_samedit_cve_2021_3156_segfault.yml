@@ -8,7 +8,7 @@ type: TTP
 description: The following analytic identifies a heap-based buffer overflow in sudoedit by detecting Linux logs containing both "sudoedit" and "segfault" terms. This detection leverages Splunk to monitor for more than five occurrences of these terms on a single host within a specified timeframe. This activity is significant because exploiting this vulnerability (CVE-2021-3156) can allow attackers to gain root privileges, leading to potential system compromise, unauthorized access, and data breaches. If confirmed malicious, this could result in elevated privileges and full control over the affected system, posing a severe security risk.
 data_source: []
 search: |-
-    | `linux_hosts` TERM(sudoedit) TERM(segfault)
+    `linux_hosts` TERM(sudoedit) TERM(segfault)
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY host
       | where count > 5

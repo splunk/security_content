@@ -9,7 +9,7 @@ description: The following analytic detects the use of the Linux 'xclip' command
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" )
+    `linux_auditd` execve_command IN ("*xclip*", "*clipboard*") AND execve_command IN ("*-o*", "*-selection *", "*-sel *" )
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

@@ -9,7 +9,7 @@ description: This Splunk query analyzes web access logs to identify and categori
 data_source:
     - Nginx Access
 search: |-
-    | `nginx_access_logs`
+    `nginx_access_logs`
       | eval http_user_agent = lower(http_user_agent)
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`

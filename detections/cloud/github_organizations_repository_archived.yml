@@ -9,7 +9,7 @@ description: The following analytic detects when a repository is archived in Git
 data_source:
     - GitHub Organizations Audit Logs
 search: |-
-    | `github_organizations` vendor_action=repo.archived
+    `github_organizations` vendor_action=repo.archived
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_is_bot,

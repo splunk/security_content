@@ -9,7 +9,7 @@ description: The following analytic identifies a successful single-factor authen
 data_source:
     - Azure Active Directory
 search: |-
-    | `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
+    `azure_monitor_aad` category=SignInLogs properties.authenticationRequirement=singleFactorAuthentication properties.authenticationDetails{}.succeeded=true
       | rename properties.* as *
       | rename userAgent as user_agent
       | fillnull

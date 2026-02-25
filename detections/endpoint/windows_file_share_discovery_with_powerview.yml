@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of the Invoke-ShareFinder PowerShell cmdlet from PowerView. This detection leverages PowerShell Script Block Logging to identify instances where this specific command is executed. Monitoring this activity is crucial as it indicates an attempt to enumerate network file shares, which may contain sensitive information such as backups, scripts, and credentials. If confirmed malicious, this activity could enable an attacker to escalate privileges or move laterally within the network, potentially compromising additional systems and sensitive data.
 search: |-
-    | `powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*)
+    `powershell` EventCode=4104  (ScriptBlockText=Invoke-ShareFinder*)
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

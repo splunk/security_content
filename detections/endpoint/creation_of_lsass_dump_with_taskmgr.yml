@@ -9,7 +9,7 @@ description: The following analytic detects the creation of an lsass.exe process
 data_source:
     - Sysmon EventID 11
 search: |-
-    | `sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp
+    `sysmon` EventID=11 process_name=taskmgr.exe TargetFilename=*lsass*.dmp
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action dest file_name
            file_path process_guid process_id

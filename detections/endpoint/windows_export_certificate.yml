@@ -9,7 +9,7 @@ description: The following analytic detects the export of a certificate from the
 data_source:
     - Windows Event Log CertificateServicesClient 1007
 search: |-
-    | `certificateservices_lifecycle` EventCode=1007
+    `certificateservices_lifecycle` EventCode=1007
       | xmlkv UserData_Xml
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY Computer, SubjectName, UserData_Xml

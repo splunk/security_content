@@ -9,7 +9,7 @@ description: The following analytic detects `StopLogging` events in AWS CloudTra
 data_source:
     - AWS CloudTrail StopLogging
 search: |-
-    | `cloudtrail` eventName = StopLogging eventSource = cloudtrail.amazonaws.com userAgent!=console.amazonaws.com errorCode = success
+    `cloudtrail` eventName = StopLogging eventSource = cloudtrail.amazonaws.com userAgent!=console.amazonaws.com errorCode = success
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

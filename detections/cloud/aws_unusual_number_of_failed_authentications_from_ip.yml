@@ -9,7 +9,7 @@ description: The following analytic identifies a single source IP failing to aut
 data_source:
     - AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName=ConsoleLogin action=failure
+    `cloudtrail` eventName=ConsoleLogin action=failure
       | rename eventName as action, eventSource as dest, userName as user, userAgent as user_agent, sourceIPAddress as src, userIdentity.accountId as vendor_account, awsRegion as vendor_region
       | bucket span=10m _time
       | stats  dc(_raw) AS distinct_attempts values(user_name) as tried_accounts values(action) as action values(dest) as dest values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(vendor_product) as vendor_product values(user_agent) as user_agent

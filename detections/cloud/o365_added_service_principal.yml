@@ -9,7 +9,7 @@ description: The following analytic detects the addition of new service principa
 data_source:
     - O365
 search: |-
-    | `o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created")
+    `o365_management_activity` Workload=AzureActiveDirectory Operation="*Add service principal*" OR (Operation = "*principal*" AND action = "created")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY signature dest user

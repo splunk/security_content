@@ -9,7 +9,7 @@ description: The following analytic detects an Azure AD account with concurrent 
 data_source:
     - Azure Active Directory
 search: |-
-    | `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs action=success
+    `azure_monitor_aad` properties.authenticationDetails{}.succeeded=true category=NonInteractiveUserSignInLogs action=success
       | rename properties.* as *
       | bucket span=5m _time
       | rename userAgent as user_agent

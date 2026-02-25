@@ -9,7 +9,7 @@ description: The following analytic detects suspicious creation of hidden files 
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*touch *", "*mkdir *", "*vim *", "*vi *", "*nano *") AND execve_command IN ("* ./.*", "* .*", "*/.*")
+    `linux_auditd` execve_command IN ("*touch *", "*mkdir *", "*vim *", "*vi *", "*nano *") AND execve_command IN ("* ./.*", "* .*", "*/.*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

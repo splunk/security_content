@@ -9,7 +9,7 @@ description: The following analytic detects the execution of PowerShell commands
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText IN("*Add-AppPackage *", "*Add-AppxPackage *") AND ScriptBlockText IN ("* -AllowUnsigned*")
+    `powershell` EventCode=4104 ScriptBlockText IN("*Add-AppPackage *", "*Add-AppxPackage *") AND ScriptBlockText IN ("* -AllowUnsigned*")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

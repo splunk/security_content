@@ -9,7 +9,7 @@ description: The following analytic detects failed attempts to delete AWS IAM gr
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=DeleteGroup status=Failure http_request.user_agent!=*.amazonaws.com
+    `amazon_security_lake` api.operation=DeleteGroup status=Failure http_request.user_agent!=*.amazonaws.com
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

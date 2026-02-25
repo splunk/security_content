@@ -9,7 +9,7 @@ description: The following analytic detects updates to the SAML provider in AWS.
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=UpdateSAMLProvider
+    `amazon_security_lake` api.operation=UpdateSAMLProvider
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

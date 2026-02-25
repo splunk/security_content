@@ -8,7 +8,7 @@ type: Hunting
 data_source: []
 description: The following analytic identifies potential exploitation attempts on a PaperCut NG server by analyzing its debug log data. It detects unauthorized or suspicious access attempts from public IP addresses and searches for specific URIs associated with known exploits. The detection leverages regex to parse unstructured log data, focusing on admin login activities. This activity is significant as it can indicate an active exploitation attempt on the server. If confirmed malicious, attackers could gain unauthorized access, potentially leading to data breaches or further compromise of the server.
 search: |-
-    | `papercutng` (loginType=Admin OR userName=admin)
+    `papercutng` (loginType=Admin OR userName=admin)
       | eval uri_match=if(match(_raw, "(?i)(\/app\?service=page\/SetupCompleted
       | \/app
       | \/app\?service=page\/PrinterList

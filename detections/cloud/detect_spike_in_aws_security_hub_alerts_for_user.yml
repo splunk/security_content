@@ -9,7 +9,7 @@ description: The following analytic identifies a spike in the number of AWS Secu
 data_source:
     - AWS Security Hub
 search: |-
-    | `aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser
+    `aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser
       | rename findings{}.Resources{}.Id as user
       | bucket span=4h _time
       | stats count AS alerts

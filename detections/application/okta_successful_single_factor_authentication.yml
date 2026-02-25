@@ -9,7 +9,7 @@ type: Anomaly
 status: production
 description: The following analytic identifies successful single-factor authentication events against the Okta Dashboard for accounts without Multi-Factor Authentication (MFA) enabled. It detects this activity by analyzing Okta logs for successful authentication events where "Okta Verify" is not used. This behavior is significant as it may indicate a misconfiguration, policy violation, or potential account takeover. If confirmed malicious, an attacker could gain unauthorized access to the account, potentially leading to data breaches or further exploitation within the environment.
 search: |-
-    | `okta`  action=success src_user_type = User eventType = user.authentication.verify OR eventType = user.authentication.auth_via_mfa
+    `okta`  action=success src_user_type = User eventType = user.authentication.verify OR eventType = user.authentication.auth_via_mfa
       | stats dc(eventType) values(eventType) as eventType values(target{}.displayName) as targets values(debugContext.debugData.url) min(_time) as firstTime max(_time) as lastTime values(authentication_method)
         BY src_ip user action
            dest

@@ -9,7 +9,7 @@ description: The following analytic detects an AWS account successfully authenti
 data_source:
     - AWS CloudTrail ConsoleLogin
 search: |-
-    | `cloudtrail` eventName = ConsoleLogin
+    `cloudtrail` eventName = ConsoleLogin
       | bin span=5m _time
       | rename user_name as user
       | stats  dc(src) as distinct_ip_count values(src) as src values(user_agent) as user_agent values(dest) as dest

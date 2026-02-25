@@ -9,7 +9,7 @@ description: The following analytic detects the deletion of critical AWS Securit
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms")
+    `amazon_security_lake` api.operation IN ("DeleteLogStream","DeleteDetector","DeleteIPSet","DeleteWebACL","DeleteRule","DeleteRuleGroup","DeleteLoggingConfiguration","DeleteAlarms")
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

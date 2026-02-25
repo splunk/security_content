@@ -9,7 +9,7 @@ description: The following analytic detects the execution of a Unix shell comman
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd`  (proctitle = "*rm *" AND proctitle = "*-rf *" AND proctitle = "*--no-preserve-root*")
+    `linux_auditd`  (proctitle = "*rm *" AND proctitle = "*-rf *" AND proctitle = "*--no-preserve-root*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

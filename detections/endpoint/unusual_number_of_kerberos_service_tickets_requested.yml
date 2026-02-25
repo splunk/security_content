@@ -9,7 +9,7 @@ description: The following analytic identifies an unusual number of Kerberos ser
 data_source:
     - Windows Event Log Security 4769
 search: |-
-    | `wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17
+    `wineventlog_security` EventCode=4769 ServiceName!="*$" TicketEncryptionType=0x17
       | bucket span=2m _time
       | stats dc(ServiceName) AS unique_services values(ServiceName) as requested_services values(user_category) as user_category values(src_category) as src_category values(dest) as dest
         BY _time, user, src

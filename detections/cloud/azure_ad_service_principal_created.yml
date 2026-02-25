@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a Service Principal 
 data_source:
     - Azure Active Directory Add service principal
 search: |-
-    | `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
+    `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.user.id=*
       | rename properties.* as *
       | rename targetResources{}.displayName as displayName
       | rename targetResources{}.type as type

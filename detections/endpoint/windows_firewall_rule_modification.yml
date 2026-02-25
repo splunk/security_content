@@ -9,7 +9,7 @@ description: This detection identifies instances where a Windows Firewall rule h
 data_source:
     - Windows Event Log Security 4947
 search: |-
-    | `wineventlog_security` EventCode=4947
+    `wineventlog_security` EventCode=4947
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY RuleName signature subject
            status dest ProcessID

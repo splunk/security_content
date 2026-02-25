@@ -9,7 +9,7 @@ description: The following analytic detects the creation of Kubernetes pods in t
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` objectRef.resource=pods verb=create objectRef.namespace IN ("default", "kube-system", "kube-public")
+    `kube_audit` objectRef.resource=pods verb=create objectRef.namespace IN ("default", "kube-system", "kube-public")
       | fillnull
       | stats count
         BY objectRef.name objectRef.namespace objectRef.resource

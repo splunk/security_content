@@ -9,7 +9,7 @@ description: The following analytic detects the use of the LD_PRELOAD environmen
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command = "*LD_PRELOAD*"
+    `linux_auditd` execve_command = "*LD_PRELOAD*"
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

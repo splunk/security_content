@@ -9,7 +9,7 @@ description: The following analytic detects IPv6 network infrastructure threats 
 data_source:
     - Cisco IOS Logs
 search: |-
-    | `cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
+    `cisco_networks` facility="SISF" mnemonic IN ("IP_THEFT","MAC_THEFT","MAC_AND_IP_THEFT","PAK_DROP")
       | eval src_interface=src_int_prefix_long+src_int_suffix
       | eval dest_interface=dest_int_prefix_long+dest_int_suffix
       | stats min(_time) AS firstTime max(_time) AS lastTime values(src_mac) AS src_mac values(src_vlan) AS src_vlan values(mnemonic) AS mnemonic values(vendor_explanation) AS vendor_explanation values(src_ip) AS src_ip values(dest_ip) AS dest_ip values(dest_interface) AS dest_interface values(action) AS action count

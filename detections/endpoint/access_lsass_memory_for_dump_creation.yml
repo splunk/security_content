@@ -9,7 +9,7 @@ description: The following analytic detects attempts to dump the LSASS process m
 data_source:
     - Sysmon EventID 10
 search: |-
-    | `sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
+    `sysmon` EventCode=10 TargetImage=*lsass.exe CallTrace=*dbgcore.dll* OR CallTrace=*dbghelp.dll*
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY CallTrace EventID GrantedAccess
            Guid Opcode ProcessID

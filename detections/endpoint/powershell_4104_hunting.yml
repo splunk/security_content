@@ -9,7 +9,7 @@ description: The following analytic identifies suspicious PowerShell execution u
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104
+    `powershell` EventCode=4104
       | eval DoIt = if(match(ScriptBlockText,"(?i)(\$doit)"), "4", 0)
       | eval enccom=if(match(ScriptBlockText,"[A-Za-z0-9+\/]{44,}([A-Za-z0-9+\/]{4}
       | [A-Za-z0-9+\/]{3}=

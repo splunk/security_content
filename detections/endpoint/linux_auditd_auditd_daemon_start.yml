@@ -9,7 +9,7 @@ description: The following analytic detects the (re)initialization of the Linux 
 data_source:
     - Linux Auditd Daemon Start
 search: |-
-    | `linux_auditd` type=DAEMON_START
+    `linux_auditd` type=DAEMON_START
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type op res

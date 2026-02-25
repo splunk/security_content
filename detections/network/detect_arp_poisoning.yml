@@ -9,7 +9,7 @@ description: The following analytic detects ARP Poisoning attacks by monitoring 
 data_source:
     - Cisco IOS Logs
 search: |-
-    | `cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="arp-inspection"
+    `cisco_networks` facility="PM" mnemonic="ERR_DISABLE" disable_cause="arp-inspection"
       | eval src_interface=src_int_prefix_long+src_int_suffix
       | stats min(_time) AS firstTime max(_time) AS lastTime count
         BY host src_interface

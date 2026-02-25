@@ -9,7 +9,7 @@ description: The following analytic detects the creation of AWS KMS keys with an
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=PutKeyPolicy OR api.operation=CreateKey
+    `amazon_security_lake` api.operation=PutKeyPolicy OR api.operation=CreateKey
       | spath input=api.request.data path=policy output=policy
       | spath input=policy
       | rename Statement{}.Action as Action, Statement{}.Principal as Principal

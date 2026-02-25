@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the `Get-DomainUser
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*) ScriptBlockText= *-SPN*
+    `powershell` EventCode=4104 (ScriptBlockText =*Get-NetUser* OR ScriptBlockText=*Get-DomainUser*) ScriptBlockText= *-SPN*
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

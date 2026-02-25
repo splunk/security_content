@@ -9,7 +9,7 @@ description: The following analytic identifies instances where Multi-Factor Auth
 data_source:
     - O365 Disable Strong Authentication.
 search: |-
-    | `o365_management_activity` Operation="Disable Strong Authentication."
+    `o365_management_activity` Operation="Disable Strong Authentication."
       | rename UserId as user object as src_user
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

@@ -9,7 +9,7 @@ description: The following analytic detects when classic branch protection rules
 data_source:
     - GitHub Organizations Audit Logs
 search: |-
-    | `github_organizations` vendor_action=protected_branch.destroy
+    `github_organizations` vendor_action=protected_branch.destroy
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor, actor_id, actor_ip,

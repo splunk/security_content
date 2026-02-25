@@ -9,7 +9,7 @@ description: The following analytic detects when the Microsoft Zero-hour Automat
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="*messages containing malicious*"
+    `o365_management_activity` Workload=SecurityComplianceCenter Operation=AlertEntityGenerated Name="*messages containing malicious*"
       | fromjson Data
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime values(zu) as url values(zfn) as file_name values(ms) as subject values(ttr) as result values(tsd) as src_user

@@ -9,7 +9,7 @@ description: The following analytic detects the unexpected termination of the Li
 data_source:
     - Linux Auditd Daemon End
 search: |-
-    | `linux_auditd` type=DAEMON_END
+    `linux_auditd` type=DAEMON_END
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type op res

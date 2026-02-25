@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of a PowerShell script designed to capture screen images on a host. It leverages PowerShell Script Block Logging to identify specific script block text patterns associated with screen capture activities. This behavior is significant as it may indicate an attempt to exfiltrate sensitive information by capturing desktop screenshots. If confirmed malicious, this activity could allow an attacker to gather visual data from the compromised system, potentially leading to data breaches or further exploitation.
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" AND ScriptBlockText = "*.CopyFromScreen*"
+    `powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" AND ScriptBlockText = "*.CopyFromScreen*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

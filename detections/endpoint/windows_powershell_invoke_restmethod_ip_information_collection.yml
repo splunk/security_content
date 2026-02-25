@@ -9,7 +9,7 @@ description: The following analytic detects the use of PowerShell's Invoke-RestM
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 (ScriptBlockText="*Invoke-RestMethod*" AND (ScriptBlockText="*ipinfo.io*" OR ScriptBlockText="*api.ipify.org*"))
+    `powershell` EventCode=4104 (ScriptBlockText="*Invoke-RestMethod*" AND (ScriptBlockText="*ipinfo.io*" OR ScriptBlockText="*api.ipify.org*"))
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id
            user_id vendor_product Guid

@@ -9,7 +9,7 @@ description: The following analytic identifies a spike in the number of AWS Secu
 data_source:
     - AWS Security Hub
 search: |-
-    | `aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance
+    `aws_securityhub_finding` "Resources{}.Type"=AWSEC2Instance
       | bucket span=4h _time
       | stats count AS alerts values(Title) as Title values(Types{}) as Types values(vendor_account) as vendor_account values(vendor_region) as vendor_region values(severity) as severity
         BY _time dest

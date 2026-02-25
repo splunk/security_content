@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 5136
 description: The following analytic detects the addition of permissions required for a DCSync attack, specifically DS-Replication-Get-Changes, DS-Replication-Get-Changes-All, and DS-Replication-Get-Changes-In-Filtered-Set. It leverages EventCode 5136 from the Windows Security Event Log to identify when these permissions are granted. This activity is significant because it indicates potential preparation for a DCSync attack, which can be used to replicate AD objects and exfiltrate sensitive data. If confirmed malicious, an attacker could gain extensive access to Active Directory, leading to severe data breaches and privilege escalation.
 search: |-
-    | `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
+    `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType
         BY ObjectClass ObjectDN OpCorrelationID
            src_user SubjectLogonId

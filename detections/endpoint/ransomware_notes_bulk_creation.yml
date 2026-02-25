@@ -9,7 +9,7 @@ description: The following analytic identifies the bulk creation of ransomware n
 data_source:
     - Sysmon EventID 11
 search: |-
-    | `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta")
+    `sysmon` EventCode=11 file_name IN ("*\.txt","*\.html","*\.hta")
       | bin _time span=10s
       | stats min(_time) as firstTime max(_time) as lastTime dc(TargetFilename) as unique_readme_path_count values(TargetFilename) as list_of_readme_path values(action) as action values(file_access_time) as file_access_time values(file_create_time) as file_create_time values(file_hash) as file_hash values(file_modify_time) as file_modify_time values(file_path) as file_path values(file_acl) as file_acl values(file_size) as file_size values(process_guid) as process_guid values(process_id) as process_id values(user) as user values(vendor_product) as vendor_product
         BY dest file_name

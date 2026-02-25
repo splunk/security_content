@@ -9,7 +9,7 @@ description: The following analytic detects the upload of a new container image 
 data_source:
     - AWS CloudTrail PutImage
 search: |-
-    | `cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users`
+    `cloudtrail` eventSource=ecr.amazonaws.com eventName=PutImage NOT `aws_ecr_users`
       | rename requestParameters.* as *
       | rename repositoryName AS image
       | rename user_name as user

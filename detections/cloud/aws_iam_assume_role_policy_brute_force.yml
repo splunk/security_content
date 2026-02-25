@@ -9,7 +9,7 @@ description: The following analytic detects multiple failed attempts to assume a
 data_source:
     - AWS CloudTrail
 search: |-
-    | `cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure (userAgent!=*.amazonaws.com)
+    `cloudtrail` (errorCode=MalformedPolicyDocumentException) status=failure (userAgent!=*.amazonaws.com)
       | rename user_name as user
       | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.policyName) as policy_name
         BY src, user, vendor_account

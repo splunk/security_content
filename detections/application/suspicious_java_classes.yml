@@ -8,7 +8,7 @@ type: Anomaly
 description: The following analytic identifies suspicious Java classes often used for remote command execution exploits in Java frameworks like Apache Struts. It detects this activity by analyzing HTTP POST requests with specific content patterns using Splunk's `stream_http` data source. This behavior is significant because it may indicate an attempt to exploit vulnerabilities in web applications, potentially leading to unauthorized remote code execution. If confirmed malicious, this activity could allow attackers to execute arbitrary commands on the server, leading to data breaches, system compromise, and further network infiltration.
 data_source: []
 search: |-
-    | `stream_http` http_method=POST http_content_length>1
+    `stream_http` http_method=POST http_content_length>1
       | regex form_data="(?i)java\.lang\.(?:runtime
       | processbuilder)"
       | rename src_ip as src

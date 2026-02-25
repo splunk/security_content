@@ -9,7 +9,7 @@ description: The following analytic detects multiple failed attempts to assume a
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation="AssumeRole" "api.response.error"=AccessDenied
+    `amazon_security_lake` api.operation="AssumeRole" "api.response.error"=AccessDenied
       | bucket _time span=1h
       | stats count as failures min(_time) as firstTime max(_time) as lastTime values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region
         BY _time actor.user.uid

@@ -9,7 +9,7 @@ description: The following analytic detects suspicious data transfer activities 
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command = "*split*" AND execve_command = "*-b *"
+    `linux_auditd` execve_command = "*split*" AND execve_command = "*-b *"
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

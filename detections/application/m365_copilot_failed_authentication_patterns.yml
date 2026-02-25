@@ -7,7 +7,7 @@ status: production
 type: Anomaly
 description: Detects M365 Copilot users with failed authentication attempts, MFA failures, or multi-location access patterns indicating potential credential attacks or account compromise. The detection aggregates M365 Copilot Graph API authentication events per user, calculating metrics like distinct cities/countries accessed, unique IP addresses and browsers, failed login attempts (status containing "fail" or "error"), and MFA failures (error code 50074). Users are flagged when they access Copilot from multiple cities (cities_count > 1), experience any authentication failures (failed_attempts > 0), or encounter MFA errors (mfa_failures > 0), which are indicators of credential stuffing, brute force attacks, or compromised accounts attempting to bypass multi-factor authentication.
 search: |-
-    | `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
+    `m365_copilot_graph_api` (appDisplayName="*Copilot*" OR appDisplayName="M365ChatClient" OR appDisplayName="OfficeAIAppChatCopilot")
       | eval user = userPrincipalName
       | stats count as events, dc(location.city) as cities_count, values(location.city) as city_list, dc(location.countryOrRegion) as countries_count, values(location.countryOrRegion) as country_list, dc(ipAddress) as ip_count, values(ipAddress) as ip_addresses, sum(eval(if(match(status, "(?i)fail
       | error"), 1, 0))) as failed_attempts, sum(eval(if(match(_raw, "50074"), 1, 0))) as mfa_failures, dc(deviceDetail.browser) as browser_count, values(deviceDetail.browser) as browsers_used, min(_time) as first_seen, max(_time) as last_seen by user

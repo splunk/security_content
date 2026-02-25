@@ -9,7 +9,7 @@ description: The following analytic detects suspicious file permission modificat
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd` proctitle="*chmod*" AND proctitle IN ("* 777 *", "* 755 *", "*+*x*", "* 754 *")
+    `linux_auditd` proctitle="*chmod*" AND proctitle IN ("* 777 *", "* 755 *", "*+*x*", "* 754 *")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

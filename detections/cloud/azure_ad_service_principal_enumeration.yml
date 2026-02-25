@@ -11,7 +11,7 @@ description: >-
     This detection leverages azure graph activity logs to identify when graph APIs have been used to identify 10 or more service principals.
     This type of behaviour is associated with tools such as Azure enumberation tools such as AzureHound or ROADtools.
 search: |-
-    | `azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals)
+    `azure_monitor_aad` category IN (MicrosoftGraphActivityLogs) TERM(servicePrincipals)
       | fillnull
       | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/beta\/servicePrincipals\/(?P<servicePrincipalb>.*?)\/"
       | rex field="properties.requestUri" "https\:\/\/graph.microsoft.com\/v1.0\/servicePrincipals\/(?P<servicePrincipalv1>.*?)\/"

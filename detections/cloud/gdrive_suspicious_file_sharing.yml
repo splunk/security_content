@@ -8,7 +8,7 @@ type: Hunting
 description: The following analytic identifies suspicious file-sharing activity on Google Drive, where internal users share documents with more than 50 external recipients. It leverages GSuite Drive logs, focusing on changes in user access and filtering for emails outside the organization's domain. This activity is significant as it may indicate compromised accounts or intentional data exfiltration. If confirmed malicious, this behavior could lead to unauthorized access to sensitive information, data leaks, and potential compliance violations.
 data_source: []
 search: |-
-    | `gsuite_drive` name=change_user_access
+    `gsuite_drive` name=change_user_access
       | rename parameters.* as *
       | search email = "*@yourdomain.com" target_user != "*@yourdomain.com"
       | stats count values(owner) as owner values(target_user) as target values(doc_type) as doc_type values(doc_title) as doc_title dc(target_user) as distinct_target

@@ -9,7 +9,7 @@ description: The following analytic detects anonymous and unauthenticated reques
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
+    `kube_audit` user.username="system:anonymous" user.groups{} IN ("system:unauthenticated")
       | fillnull
       | stats count
         BY objectRef.name objectRef.namespace objectRef.resource

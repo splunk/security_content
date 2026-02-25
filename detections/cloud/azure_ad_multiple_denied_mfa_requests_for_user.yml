@@ -9,7 +9,7 @@ data_source:
     - Azure Active Directory Sign-in activity
 description: The following analytic detects an unusually high number of denied Multi-Factor Authentication (MFA) requests for a single user within a 10-minute window, specifically when more than nine MFA prompts are declined. It leverages Azure Active Directory (Azure AD) sign-in logs, focusing on "Sign-in activity" events with error code 500121 and additional details indicating "MFA denied; user declined the authentication." This behavior is significant as it may indicate a targeted attack or account compromise attempt, with the user actively declining unauthorized access. If confirmed malicious, it could lead to data exfiltration, lateral movement, or further malicious activities.
 search: |-
-    | `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
+    `azure_monitor_aad` category=SignInLogs operationName="Sign-in activity"
       | rename properties.* as *
       | search status.errorCode=500121 status.additionalDetails="MFA denied; user declined the authentication"
       | bucket span=10m _time

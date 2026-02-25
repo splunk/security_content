@@ -9,7 +9,7 @@ description: The following analytic detects the invitation of an external guest 
 data_source:
     - Azure Active Directory Invite external user
 search: |-
-    | `azure_monitor_aad` operationName="Invite external user"
+    `azure_monitor_aad` operationName="Invite external user"
       | rename properties.* as *
       | rename initiatedBy.user.userPrincipalName as initiatedBy
       | rename targetResources{}.type as type

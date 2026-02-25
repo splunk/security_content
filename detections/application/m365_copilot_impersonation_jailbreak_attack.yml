@@ -9,7 +9,7 @@ data_source:
     - M365 Exported eDiscovery Prompts
 description: Detects M365 Copilot impersonation and roleplay jailbreak attempts where users try to manipulate the AI into adopting alternate personas, behaving as unrestricted entities, or impersonating malicious AI systems to bypass safety controls. The detection searches exported eDiscovery prompt logs for roleplay keywords like "pretend you are," "act as," "you are now," "amoral," and "roleplay as" in the Subject_Title field. Prompts are categorized into specific impersonation types (AI_Impersonation, Malicious_AI_Persona, Unrestricted_AI_Persona, etc.) to identify attempts to override the AI's safety guardrails through persona injection attacks.
 search: |-
-    | `m365_exported_ediscovery_prompt_logs`
+    `m365_exported_ediscovery_prompt_logs`
       | search Subject_Title="*Pretend you are*" OR Subject_Title="*act as*" OR Subject_Title="*you are now*" OR Subject_Title="*amoral*" OR Subject_Title="*being*" OR Subject_Title="*roleplay as*" OR Subject_Title="*imagine you are*" OR Subject_Title="*behave like*"
       | eval user = Sender
       | eval impersonation_type=case(match(Subject_Title, "(?i)pretend you are.*AI"), "AI_Impersonation", match(Subject_Title, "(?i)(act as

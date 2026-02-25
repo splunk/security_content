@@ -9,7 +9,7 @@ description: The following analytic detects instances where vbc.exe, the Visual 
 data_source:
     - Sysmon EventID 22
 search: |-
-    | `sysmon` EventCode=22 process_name="vbc.exe"
+    `sysmon` EventCode=22 process_name="vbc.exe"
       | rename dvc as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY answer answer_count dest

@@ -9,7 +9,7 @@ description: The following analytic detects attempts to install unsigned MSIX/Ap
 data_source:
     - Windows Event Log AppXDeployment-Server 855
 search: |-
-    | `wineventlog_appxdeploymentserver` EventCode=603 Flags="8388608"
+    `wineventlog_appxdeploymentserver` EventCode=603 Flags="8388608"
       | stats count min(_time) as firstTime max(_time) as lastTime values(Path) as file_name values(CallingProcess) as CallingProcess
         BY dvc EventCode Flags
            user_id

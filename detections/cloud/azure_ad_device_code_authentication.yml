@@ -9,7 +9,7 @@ data_source:
     - Azure Active Directory
 description: The following analytic identifies Azure Device Code Phishing attacks, which can lead to Azure Account Take-Over (ATO). It leverages Azure AD SignInLogs to detect suspicious authentication requests using the device code authentication protocol. This activity is significant as it indicates potential bypassing of Multi-Factor Authentication (MFA) and Conditional Access Policies (CAPs) through phishing emails. If confirmed malicious, attackers could gain unauthorized access to Azure AD, Exchange mailboxes, and Outlook Web Application (OWA), leading to potential data breaches and unauthorized data access.
 search: |-
-    | `azure_monitor_aad` category=SignInLogs "properties.authenticationProtocol"=deviceCode
+    `azure_monitor_aad` category=SignInLogs "properties.authenticationProtocol"=deviceCode
       | rename properties.* as *
       | rename userAgent as user_agent
       | fillnull

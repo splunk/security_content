@@ -9,7 +9,7 @@ description: The following analytic identifies the loading of four specific Wind
 data_source:
     - Sysmon EventID 7
 search: |-
-    | `sysmon` EventCode=7
+    `sysmon` EventCode=7
       | bin _time span=30s
       | eval BRC4_AnomalyLoadedDll=case(OriginalFileName=="credui.dll", 1, OriginalFileName=="DBGHELP.DLL", 1, OriginalFileName=="SAMCLI.DLL", 1, OriginalFileName=="winhttp.dll", 1, 1=1, 0)
       | eval BRC4_LoadedDllPath=case(match(ImageLoaded, "credui.dll"), 1, match(ImageLoaded, "dbghelp.dll"), 1, match(ImageLoaded, "samcli.dll"), 1, match(ImageLoaded, "winhttp.dll"), 1, 1=1, 0)

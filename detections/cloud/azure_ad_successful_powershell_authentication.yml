@@ -9,7 +9,7 @@ description: The following analytic identifies a successful authentication event
 data_source:
     - Azure Active Directory
 search: |-
-    | `azure_monitor_aad` category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell"
+    `azure_monitor_aad` category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell"
       | rename properties.* as *
       | rename userAgent as user_agent
       | fillnull

@@ -9,7 +9,7 @@ description: The following analytic identifies when a user with sufficient acces
 data_source:
     - Office 365 Universal Audit Log
 search: |-
-    | `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess
+    `o365_management_activity` Workload=SecurityComplianceCenter Operation=AdminMailAccess
       | rename InternetMessageId as signature_id, UserId as src_user
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime

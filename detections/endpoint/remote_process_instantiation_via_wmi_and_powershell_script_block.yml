@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the `Invoke-WmiMeth
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText="*Invoke-WmiMethod*" AND (ScriptBlockText="*-CN*" OR ScriptBlockText="*-ComputerName*") AND ScriptBlockText="*-Class Win32_Process*" AND ScriptBlockText="*-Name create*"
+    `powershell` EventCode=4104 ScriptBlockText="*Invoke-WmiMethod*" AND (ScriptBlockText="*-CN*" OR ScriptBlockText="*-ComputerName*") AND ScriptBlockText="*-Class Win32_Process*" AND ScriptBlockText="*-Name create*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

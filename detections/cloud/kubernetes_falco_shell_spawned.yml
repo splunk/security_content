@@ -9,7 +9,7 @@ description: The following analytic detects instances where a shell is spawned w
 data_source:
     - Kubernetes Falco
 search: |-
-    | `kube_container_falco` "A shell was spawned in a container"
+    `kube_container_falco` "A shell was spawned in a container"
       | fillnull
       | stats count
         BY container_image container_image_tag container_name

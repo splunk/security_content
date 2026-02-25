@@ -9,7 +9,7 @@ description: The following analytic identifies threats detected by Okta ThreatIn
 data_source:
     - Okta
 search: |-
-    | `okta` eventType = security.threat.detected
+    `okta` eventType = security.threat.detected
       | rename client.geographicalContext.country as country, client.geographicalContext.state as state, client.geographicalContext.city as city
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY app src_ip dest

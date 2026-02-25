@@ -9,7 +9,7 @@ description: The following analytic detects the upload of new containers to AWS 
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=PutImage
+    `amazon_security_lake` api.operation=PutImage
       | eval hour=strftime(time/pow(10,3), "%H"), weekday=strftime(time/pow(10,3), "%A")
       | where hour >= 20 OR hour < 8 OR weekday=Saturday OR weekday=Sunday
       | fillnull

@@ -9,7 +9,7 @@ data_source:
     - Windows Event Log Security 5136
 description: 'This detection monitors changes to the following Active Directory attributes: "msDS-AllowedToDelegateTo", "msDS-AllowedToActOnBehalfOfOtherIdentity", "msDS-KeyCredentialLink", "scriptPath", and "msTSInitialProgram".  Modifications to these attributes can indicate potential malicious activity or privilege escalation attempts. Immediate investigation is recommended upon alert.'
 search: |-
-    | `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","scriptPath","msTSInitialProgram") OperationType=%%14674  ```Changes to the attribute "msDS-KeyCredentialLink" are also worth moniroting, however tuning will need to be applied```
+    `wineventlog_security` EventCode=5136 AttributeLDAPDisplayName IN ("msDS-AllowedToDelegateTo","msDS-AllowedToActOnBehalfOfOtherIdentity","scriptPath","msTSInitialProgram") OperationType=%%14674  ```Changes to the attribute "msDS-KeyCredentialLink" are also worth moniroting, however tuning will need to be applied```
       | table _time ObjectClass ObjectDN OpCorrelationID src_user SubjectLogonId DSName AttributeValue AttributeLDAPDisplayName
       | rename SubjectLogonId as TargetLogonId, src_user as initiator, _time as eventTime
       | appendpipe [

@@ -9,7 +9,7 @@ data_source:
     - Windows Active Directory Admon
 description: The following analytic detects modifications to the default Group Policy Objects (GPOs) in an Active Directory environment. It leverages Splunk's Admon to monitor updates to the "Default Domain Policy" and "Default Domain Controllers Policy." This activity is significant because changes to these default GPOs can indicate an adversary with privileged access attempting to gain further control, establish persistence, or deploy malware across multiple hosts. If confirmed malicious, such modifications could lead to widespread policy enforcement changes, unauthorized access, and potential compromise of the entire domain environment.
 search: |-
-    | `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
+    `admon` admonEventType=Update objectCategory="CN=Group-Policy-Container,CN=Schema,CN=Configuration,DC=*" (displayName="Default Domain Policy" OR displayName="Default Domain Controllers Policy")
       | stats min(_time) as firstTime max(_time) as lastTime values(gPCFileSysPath)
         BY dcName, displayName
       | `security_content_ctime(firstTime)`

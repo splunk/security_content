@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the "At" applicatio
 data_source:
     - Linux Auditd Syscall
 search: |-
-    | `linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd") AND NOT (uid IN ("daemon"))
+    `linux_auditd` type=SYSCALL comm IN ("at", "atd") OR exe IN ("/usr/bin/at","/usr/bin/atd") AND NOT (uid IN ("daemon"))
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY comm exe syscall

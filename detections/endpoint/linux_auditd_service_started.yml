@@ -9,7 +9,7 @@ description: The following analytic detects the suspicious service started. This
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*")
+    `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("* start*", "* enable*")
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

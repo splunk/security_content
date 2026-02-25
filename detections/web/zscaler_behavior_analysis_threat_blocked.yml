@@ -8,7 +8,7 @@ type: Anomaly
 data_source: []
 description: The following analytic identifies threats blocked by the Zscaler proxy based on behavior analysis. It leverages web proxy logs to detect entries where actions are blocked and threat names and classes are specified. This detection is significant as it highlights potential malicious activities that were intercepted by Zscaler's behavior analysis, providing early indicators of threats. If confirmed malicious, these blocked threats could indicate attempted breaches or malware infections, helping security teams to understand and mitigate potential risks in their environment.
 search: |-
-    | `zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis"
+    `zscaler_proxy` action=blocked threatname!="None" threatclass="Behavior Analysis"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY action deviceowner user
            threatname url src

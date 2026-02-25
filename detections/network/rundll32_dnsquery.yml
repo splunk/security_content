@@ -9,7 +9,7 @@ description: The following analytic detects a suspicious `rundll32.exe` process 
 data_source:
     - Sysmon EventID 22
 search: |-
-    | `sysmon` EventCode=22 process_name="rundll32.exe"
+    `sysmon` EventCode=22 process_name="rundll32.exe"
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY answer answer_count dvc
            process_exec process_guid process_name

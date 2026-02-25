@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a Kubernetes cron jo
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` verb=create "objectRef.resource"=cronjobs
+    `kube_audit` verb=create "objectRef.resource"=cronjobs
       | fillnull
       | stats count values(user.groups{}) as user_groups
         BY kind objectRef.name objectRef.namespace

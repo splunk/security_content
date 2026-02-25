@@ -9,7 +9,7 @@ description: The following analytic detects the addition of new IIS modules on a
 data_source:
     - Windows IIS 29
 search: |-
-    | `iis_operational_logs` EventCode=29
+    `iis_operational_logs` EventCode=29
       | stats  count min(_time) as firstTime max(_time) as lastTime
         BY OpCode EventCode ComputerName
            Message

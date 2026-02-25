@@ -9,7 +9,7 @@ description: The following analytic identifies a high frequency of process termi
 data_source:
     - Sysmon EventID 5
 search: |-
-    | `sysmon` EventCode=5
+    `sysmon` EventCode=5
       | bin _time span=3s
       | stats values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_id) as process_id values(process_name) as process_name values(process_path) as process_path values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
         BY _time dest EventCode

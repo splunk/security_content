@@ -9,7 +9,7 @@ description: The following analytic detects the execution of the 'setcap' utilit
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command IN ("*setcap *")  AND execve_command IN ("*cap_setuid+ep*", "*cap_setuid=ep*", "*cap_net_bind_service+p*", "*cap_net_raw+ep*", "*cap_dac_read_search+ep*")
+    `linux_auditd` execve_command IN ("*setcap *")  AND execve_command IN ("*cap_setuid+ep*", "*cap_setuid=ep*", "*cap_net_bind_service+p*", "*cap_net_raw+ep*", "*cap_dac_read_search+ep*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

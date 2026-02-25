@@ -9,7 +9,7 @@ description: The following analytic detects suspicious Base64 decode operations 
 data_source:
     - Linux Auditd Execve
 search: |-
-    | `linux_auditd` execve_command = "*base64*" AND execve_command IN ("*-d*", "* --d*")
+    `linux_auditd` execve_command = "*base64*" AND execve_command IN ("*-d*", "* --d*")
       | rename host as dest
       | rename comm as process_name
       | rename exe as process

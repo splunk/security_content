@@ -9,7 +9,7 @@ description: The following analytic detects unauthorized access attempts to Kube
 data_source:
     - Kubernetes Audit
 search: |-
-    | `kube_audit` verb=create responseStatus.reason=Forbidden
+    `kube_audit` verb=create responseStatus.reason=Forbidden
       | fillnull
       | stats count
         BY objectRef.namespace objectRef.resource requestReceivedTimestamp

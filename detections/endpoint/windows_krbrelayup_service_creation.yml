@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a service with the d
 data_source:
     - Windows Event Log System 7045
 search: |-
-    | `wineventlog_system` EventCode=7045 ServiceName IN ("KrbSCM")
+    `wineventlog_system` EventCode=7045 ServiceName IN ("KrbSCM")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest EventCode ImagePath
            ServiceName StartType ServiceType

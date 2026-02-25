@@ -9,7 +9,7 @@ data_source:
     - AWS CloudTrail ModifyImageAttribute
 description: The following analytic detects suspicious modifications to AWS AMI attributes, such as sharing an AMI with another AWS account or making it publicly accessible. It leverages AWS CloudTrail logs to identify these changes by monitoring specific API calls. This activity is significant because adversaries can exploit these modifications to exfiltrate sensitive data stored in AWS resources. If confirmed malicious, this could lead to unauthorized access and potential data breaches, compromising the confidentiality and integrity of organizational information.
 search: |-
-    | `cloudtrail` eventName=ModifyImageAttribute (requestParameters.launchPermission.add.items{}.userId = * OR requestParameters.launchPermission.add.items{}.group = all)
+    `cloudtrail` eventName=ModifyImageAttribute (requestParameters.launchPermission.add.items{}.userId = * OR requestParameters.launchPermission.add.items{}.group = all)
       | rename requestParameters.launchPermission.add.items{}.group as group_added
       | rename requestParameters.launchPermission.add.items{}.userId as accounts_added
       | eval ami_status=if(match(group_added,"all") ,"Public AMI", "Not Public")

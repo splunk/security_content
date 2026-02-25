@@ -9,7 +9,7 @@ description: The following analytic detects the use of the 'chown' command to ch
 data_source:
     - Linux Auditd Proctitle
 search: |-
-    | `linux_auditd` proctitle = "*chown *root*"
+    `linux_auditd` proctitle = "*chown *root*"
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY proctitle dest

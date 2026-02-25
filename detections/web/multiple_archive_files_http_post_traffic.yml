@@ -9,7 +9,7 @@ description: The following analytic detects the high-frequency exfiltration of a
 data_source:
     - Splunk Stream HTTP
 search: |-
-    | `stream_http` http_method=POST
+    `stream_http` http_method=POST
       | eval archive_hdr1=substr(form_data,1,2)
       | eval archive_hdr2 = substr(form_data,1,4)
       | stats values(form_data) as http_request_body min(_time) as firstTime max(_time) as lastTime count

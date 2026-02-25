@@ -8,7 +8,7 @@ type: Anomaly
 status: production
 description: The following analytic detects multiple CrowdStrike LOW severity alerts, indicating a series of minor suspicious activities or policy violations. These alerts are not immediately critical but should be reviewed to prevent potential threats. They often highlight unusual behavior or low-level risks that, if left unchecked, could escalate into more significant security issues. Regular monitoring and analysis of these alerts are essential for maintaining robust security.
 search: |-
-    | `crowdstrike_stream` tag=alert event.SeverityName= LOW
+    `crowdstrike_stream` tag=alert event.SeverityName= LOW
       | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
       | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime
         BY src_ip src_host

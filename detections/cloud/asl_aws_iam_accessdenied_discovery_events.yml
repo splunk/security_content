@@ -9,7 +9,7 @@ description: The following analytic identifies excessive AccessDenied events wit
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.response.error=AccessDenied OR api.response.error=OperationNotPermittedException OR api.response.error=*Unauthorized* actor.user.type=IAMUser
+    `amazon_security_lake` api.response.error=AccessDenied OR api.response.error=OperationNotPermittedException OR api.response.error=*Unauthorized* actor.user.type=IAMUser
       | bucket _time span=1h
       | stats count as failures min(_time) as firstTime max(_time) as lastTime dc(api.operation) as dc_operation, dc(api.service.name) as dc_service values(api.operation) as api.operation values(api.service.name) as api.service.name values(http_request.user_agent) as http_request.user_agent values(src_endpoint.ip) as src_ip values(actor.user.account.uid) as actor.user.account.uid values(cloud.provider) as cloud.provider values(cloud.region) as cloud.region
         BY _time actor.user.uid

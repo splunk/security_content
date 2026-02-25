@@ -9,7 +9,7 @@ description: The following analytic identifies the registration of a new Multi-F
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=CreateVirtualMFADevice
+    `amazon_security_lake` api.operation=CreateVirtualMFADevice
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY actor.user.uid api.operation api.service.name

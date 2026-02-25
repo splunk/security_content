@@ -9,7 +9,7 @@ description: The following analytic detects attempts to stop a service on Linux 
 data_source:
     - Linux Auditd Service Stop
 search: |-
-    | `linux_auditd` type=SERVICE_STOP
+    `linux_auditd` type=SERVICE_STOP
       | rename host as dest
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY type pid comm

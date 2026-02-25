@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a Scheduled Task wit
 data_source:
     - Windows Event Log Security 4698
 search: |-
-    | `wineventlog_security` EventCode=4698
+    `wineventlog_security` EventCode=4698
       | xmlkv Message
       | lookup ut_shannon_lookup word as Task_Name
       | where ut_shannon > 3

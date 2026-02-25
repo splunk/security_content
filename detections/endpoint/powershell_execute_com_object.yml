@@ -9,7 +9,7 @@ description: The following analytic detects the execution of a COM CLSID through
 data_source:
     - Powershell Script Block Logging 4104
 search: |-
-    | `powershell` EventCode=4104 ScriptBlockText = "*CreateInstance([type]::GetTypeFromCLSID*"
+    `powershell` EventCode=4104 ScriptBlockText = "*CreateInstance([type]::GetTypeFromCLSID*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id

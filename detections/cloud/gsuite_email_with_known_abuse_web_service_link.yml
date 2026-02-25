@@ -9,7 +9,7 @@ description: The following analytic detects emails in Gsuite containing links to
 data_source:
     - G Suite Gmail
 search: |-
-    | `gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me")
+    `gsuite_gmail` "link_domain{}" IN ("*pastebin.com*", "*discord*", "*telegram*","t.me")
       | rex field=source.from_header_address "[^@]+@(?<source_domain>[^@]+)"
       | rex field=destination{}.address "[^@]+@(?<dest_domain>[^@]+)"
       | where not source_domain="internal_test_email.com" and dest_domain="internal_test_email.com"

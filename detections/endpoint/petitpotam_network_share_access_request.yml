@@ -9,7 +9,7 @@ description: The following analytic detects network share access requests indica
 data_source:
     - Windows Event Log Security 5145
 search: |-
-    | `wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc
+    `wineventlog_security` SubjectUserName="ANONYMOUS LOGON" EventCode=5145 RelativeTargetName=lsarpc
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest, SubjectUserSid, ShareName,
            src, AccessMask, AccessReason

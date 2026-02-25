@@ -9,7 +9,7 @@ description: The following analytic detects the creation of a remote thread in t
 data_source:
     - Sysmon EventID 8
 search: |-
-    | `sysmon` EventID=8 TargetImage=*lsass.exe
+    `sysmon` EventID=8 TargetImage=*lsass.exe
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY EventID Guid NewThreadId
            ProcessID SecurityID SourceImage

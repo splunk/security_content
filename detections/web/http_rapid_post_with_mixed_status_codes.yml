@@ -9,7 +9,7 @@ description: This detection identifies rapid-fire POST request attacks where an 
 data_source:
     - Nginx Access
 search: |-
-    | `nginx_access_logs` http_method="POST"
+    `nginx_access_logs` http_method="POST"
       | bin _time span=5s
       | rename dest_ip as dest
       | stats count, values(status) as status_codes, values(bytes_out) as bytes_out, values(uri_path) as uris

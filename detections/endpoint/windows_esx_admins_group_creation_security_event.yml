@@ -11,7 +11,7 @@ type: TTP
 status: production
 description: This analytic detects creation, deletion, or modification of the "ESX Admins" group in Active Directory. These events may indicate attempts to exploit the VMware ESXi Active Directory Integration Authentication Bypass vulnerability (CVE-2024-37085).
 search: |-
-    | `wineventlog_security` EventCode IN (4727, 4730, 4737) (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
+    `wineventlog_security` EventCode IN (4727, 4730, 4737) (TargetUserName="ESX Admins" OR TargetUserName="*ESX Admins*")
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY EventCode TargetUserName TargetDomainName
            SubjectUserName SubjectDomainName Computer

@@ -9,7 +9,7 @@ description: The following analytic detects when an EC2 snapshot is shared publi
 data_source:
     - ASL AWS CloudTrail
 search: |-
-    | `amazon_security_lake` api.operation=ModifySnapshotAttribute
+    `amazon_security_lake` api.operation=ModifySnapshotAttribute
       | spath input=api.request.data path=createVolumePermission.add.items{}.group output=group
       | search group=all
       | fillnull

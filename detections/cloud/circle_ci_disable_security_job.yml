@@ -9,7 +9,7 @@ description: The following analytic detects the disabling of security jobs in Ci
 data_source:
     - CircleCI
 search: |-
-    | `circleci`
+    `circleci`
       | rename vcs.committer_name as user vcs.subject as commit_message vcs.url as url workflows.* as *
       | stats values(job_name) as job_names
         BY workflow_id workflow_name user
