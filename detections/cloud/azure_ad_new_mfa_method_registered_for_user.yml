@@ -1,80 +1,68 @@
 name: Azure AD New MFA Method Registered For User
 id: 2628b087-4189-403f-9044-87403f777a1b
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the registration of a new Multi-Factor
-  Authentication (MFA) method for an Azure AD account. It leverages Azure AD AuditLogs
-  to identify when a user registers new security information. This activity is significant
-  because adversaries who gain unauthorized access to an account may add their own
-  MFA method to maintain persistence. If confirmed malicious, this could allow attackers
-  to bypass existing security controls, maintain long-term access, and potentially
-  escalate their privileges within the environment.
+description: The following analytic detects the registration of a new Multi-Factor Authentication (MFA) method for an Azure AD account. It leverages Azure AD AuditLogs to identify when a user registers new security information. This activity is significant because adversaries who gain unauthorized access to an account may add their own MFA method to maintain persistence. If confirmed malicious, this could allow attackers to bypass existing security controls, maintain long-term access, and potentially escalate their privileges within the environment.
 data_source:
-- Azure Active Directory User registered security info
-search: '`azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add 
-  | rename properties.* as * 
-  | rename targetResources{}.* as * 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by action dest user src vendor_account vendor_product user_agent result resultDescription signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_new_mfa_method_registered_for_user_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the AuditLogs log category.
-known_false_positives: Newly onboarded users who are registering an MFA method for
-  the first time will also trigger this detection.
+    - Azure Active Directory User registered security info
+search: |-
+    `azure_monitor_aad` category=AuditLogs operationName="User registered security info" properties.operationType=Add
+      | rename properties.* as *
+      | rename targetResources{}.* as *
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action dest user
+           src vendor_account vendor_product
+           user_agent result resultDescription
+           signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_new_mfa_method_registered_for_user_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+known_false_positives: Newly onboarded users who are registering an MFA method for the first time will also trigger this detection.
 references:
-- https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
-- https://attack.mitre.org/techniques/T1556/
-- https://attack.mitre.org/techniques/T1556/006/
-- https://twitter.com/jhencinski/status/1618660062352007174
+    - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+    - https://attack.mitre.org/techniques/T1556/
+    - https://attack.mitre.org/techniques/T1556/006/
+    - https://twitter.com/jhencinski/status/1618660062352007174
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new MFA method was registered for user $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: A new MFA method was registered for user $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Compromised User Account
-  - Azure Active Directory Account Takeover
-  - Scattered Lapsus$ Hunters
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1556.006
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Compromised User Account
+        - Azure Active Directory Account Takeover
+        - Scattered Lapsus$ Hunters
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1556.006
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_new_mfa_method_registered_for_user/azuread.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1556.006/azure_ad_new_mfa_method_registered_for_user/azuread.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

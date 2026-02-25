@@ -38,52 +38,46 @@ known_false_positives: False positives may be present based on SourceImage paths
   If removing the paths is important, realize svchost and many native binaries inject
   into processes consistently. Restrict or tune as needed.
 references:
-- https://dominicbreuker.com/post/learning_sliver_c2_08_implant_basics/
-- https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors
-- https://redcanary.com/threat-detection-report/techniques/process-injection/
+    - https://dominicbreuker.com/post/learning_sliver_c2_08_implant_basics/
+    - https://www.cybereason.com/blog/sliver-c2-leveraged-by-many-threat-actors
+    - https://redcanary.com/threat-detection-report/techniques/process-injection/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $SourceImage$ injecting into $TargetImage$ was identified
-    on endpoint $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 32
-  threat_objects:
-  - field: SourceImage
-    type: process
-  - field: TargetImage
-    type: process
+    message: An instance of $SourceImage$ injecting into $TargetImage$ was identified on endpoint $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 32
+    threat_objects:
+        - field: SourceImage
+          type: process
+        - field: TargetImage
+          type: process
 tags:
-  analytic_story:
-  - BishopFox Sliver Adversary Emulation Framework
-  - Earth Alux
-  - SAP NetWeaver Exploitation
-  - APT37 Rustonotto and FadeStealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1055.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - BishopFox Sliver Adversary Emulation Framework
+        - Earth Alux
+        - SAP NetWeaver Exploitation
+        - APT37 Rustonotto and FadeStealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/T1055_windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

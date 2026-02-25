@@ -1,81 +1,65 @@
 name: Azure AD Multiple Service Principals Created by SP
 id: 66cb378f-234d-4fe1-bb4c-e7878ff6b017
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 data_source:
-- Azure Active Directory Add service principal
+    - Azure Active Directory Add service principal
 type: Anomaly
 status: production
-description: The following analytic detects when a single service principal in Azure
-  AD creates more than three unique OAuth applications within a 10-minute span. It
-  leverages Azure AD audit logs, specifically monitoring the 'Add service principal'
-  operation initiated by service principals. This behavior is significant as it may
-  indicate an attacker using a compromised or malicious service principal to rapidly
-  establish multiple service principals, potentially staging an attack. If confirmed
-  malicious, this activity could facilitate network infiltration or expansion, allowing
-  the attacker to gain unauthorized access and persist within the environment.
-search: '`azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.app.appId=* 
-  | rename properties.* as * 
-  | bucket span=10m _time 
-  | rename targetResources{}.displayName as displayName 
-  | rename targetResources{}.type as type 
-  | rename initiatedBy.app.displayName as src_user 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(displayName) as unique_apps values(displayName) as displayName values(dest) as dest values(src) as src values(user) as user values(user_agent) as user_agent by src_user vendor_account vendor_product signature
-  | where unique_apps > 3 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_multiple_service_principals_created_by_sp_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the AuditLogs log category.
-known_false_positives: Certain users or applications may create multiple service principals
-  in a short period of time for legitimate purposes. Filter as needed.
+description: The following analytic detects when a single service principal in Azure AD creates more than three unique OAuth applications within a 10-minute span. It leverages Azure AD audit logs, specifically monitoring the 'Add service principal' operation initiated by service principals. This behavior is significant as it may indicate an attacker using a compromised or malicious service principal to rapidly establish multiple service principals, potentially staging an attack. If confirmed malicious, this activity could facilitate network infiltration or expansion, allowing the attacker to gain unauthorized access and persist within the environment.
+search: |-
+    `azure_monitor_aad` operationName="Add service principal" properties.initiatedBy.app.appId=*
+      | rename properties.* as *
+      | bucket span=10m _time
+      | rename targetResources{}.displayName as displayName
+      | rename targetResources{}.type as type
+      | rename initiatedBy.app.displayName as src_user
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime dc(displayName) as unique_apps values(displayName) as displayName values(dest) as dest values(src) as src values(user) as user values(user_agent) as user_agent
+        BY src_user vendor_account vendor_product
+           signature
+      | where unique_apps > 3
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_multiple_service_principals_created_by_sp_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the AuditLogs log category.
+known_false_positives: Certain users or applications may create multiple service principals in a short period of time for legitimate purposes. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1136/003/
-- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+    - https://attack.mitre.org/techniques/T1136/003/
+    - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
 drilldown_searches:
-- name: View the detection results for - "$src_user$"
-  search: '%original_detection_search% | search  src_user = "$src_user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_user$"
+      search: '%original_detection_search% | search  src_user = "$src_user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Multiple OAuth applications were created by $src_user$ in a short period
-    of time
-  risk_objects:
-  - field: src_user
-    type: user
-    score: 42
-  threat_objects: []
+    message: Multiple OAuth applications were created by $src_user$ in a short period of time
+    risk_objects:
+        - field: src_user
+          type: user
+          score: 42
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Persistence
-  - NOBELIUM Group
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1136.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Persistence
+        - NOBELIUM Group
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1136.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_multiple_service_principals_created/azure_ad_multiple_service_principals_created.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.003/azure_ad_multiple_service_principals_created/azure_ad_multiple_service_principals_created.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

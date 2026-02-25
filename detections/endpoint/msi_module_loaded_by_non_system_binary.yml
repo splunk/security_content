@@ -5,48 +5,34 @@ date: '2025-05-02'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
-description: The following analytic detects the loading of `msi.dll` by a binary not
-  located in `system32`, `syswow64`, `winsxs`, or `windows` directories. This is identified
-  using Sysmon EventCode 7, which logs DLL loads, and filters out legitimate system
-  paths. This activity is significant as it may indicate exploitation of CVE-2021-41379
-  or DLL side-loading attacks, both of which can lead to unauthorized system modifications.
-  If confirmed malicious, this could allow an attacker to execute arbitrary code,
-  escalate privileges, or persist within the environment.
+description: The following analytic detects the loading of `msi.dll` by a binary not located in `system32`, `syswow64`, `winsxs`, or `windows` directories. This is identified using Sysmon EventCode 7, which logs DLL loads, and filters out legitimate system paths. This activity is significant as it may indicate exploitation of CVE-2021-41379 or DLL side-loading attacks, both of which can lead to unauthorized system modifications. If confirmed malicious, this could allow an attacker to execute arbitrary code, escalate privileges, or persist within the environment.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*",
-  "*\\winsxs\\*")) | fillnull | stats count min(_time) as firstTime max(_time) as
-  lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
-  process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
-  service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and imageloaded executions from your endpoints. If you
-  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: It is possible some Administrative utilities will load msi.dll
-  outside of normal system paths, filter as needed.
+    - Sysmon EventID 7
+search: '`sysmon` EventCode=7 ImageLoaded="*\\msi.dll" NOT (Image IN ("*\\System32\\*","*\\syswow64\\*","*\\windows\\*", "*\\winsxs\\*")) | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `msi_module_loaded_by_non_system_binary_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and imageloaded executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible some Administrative utilities will load msi.dll outside of normal system paths, filter as needed.
 references:
-- https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
-- https://github.com/AlexandrVIvanov/InstallerFileTakeOver
-- https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
+    - https://attackerkb.com/topics/7LstI2clmF/cve-2021-41379/rapid7-analysis
+    - https://github.com/AlexandrVIvanov/InstallerFileTakeOver
+    - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/msi.dll%20Hijack%20(Methodology).ioc
 tags:
-  analytic_story:
-  - Data Destruction
-  - Hermetic Wiper
-  - Windows Privilege Escalation
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-41379
-  mitre_attack_id:
-  - T1574.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - Hermetic Wiper
+        - Windows Privilege Escalation
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-41379
+    mitre_attack_id:
+        - T1574.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/msi_module_load/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

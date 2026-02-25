@@ -5,85 +5,55 @@ date: '2026-02-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies the execution of the Windows shutdown
-  command via the command line interface. It leverages data from Endpoint Detection
-  and Response (EDR) agents, focusing on process names and command-line arguments.
-  This activity is significant because attackers may use the shutdown command to erase
-  tracks, cause disruption, or ensure changes take effect after installing backdoors.
-  If confirmed malicious, this activity could lead to system downtime, denial of service,
-  or evasion of security tools, impacting the overall security posture of the network.
+description: The following analytic identifies the execution of the Windows shutdown command via the command line interface. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because attackers may use the shutdown command to erase tracks, cause disruption, or ensure changes take effect after installing backdoors. If confirmed malicious, this activity could lead to system downtime, denial of service, or evasion of security tools, impacting the overall security posture of the network.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` values(Processes.process) as process
-  min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-  where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe)
-  Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*") AND Processes.process
-  IN ("* /t*","* -t*","* /f*","* -f*") by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrator may execute this commandline to trigger shutdown
-  or restart the host machine.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name = shutdown.exe OR Processes.original_file_name = shutdown.exe) Processes.process="*shutdown*" AND Processes.process IN("* /s*", "* -s*") AND Processes.process IN ("* /t*","* -t*","* /f*","* -f*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_system_shutdown_commandline_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrator may execute this commandline to trigger shutdown or restart the host machine.
 references:
-- https://attack.mitre.org/techniques/T1529/
-- https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+    - https://attack.mitre.org/techniques/T1529/
+    - https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Process $process_name$ seen to execute shutdown via commandline on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects: []
+    message: Process $process_name$ seen to execute shutdown via commandline on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects: []
 tags:
-  analytic_story:
-  - XWorm
-  - DarkGate Malware
-  - NjRAT
-  - Quasar RAT
-  - Sandworm Tools
-  - DarkCrystal RAT
-  - MoonPeak
-  - Scattered Lapsus$ Hunters
-  - ZOVWiper
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1529
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - XWorm
+        - DarkGate Malware
+        - NjRAT
+        - Quasar RAT
+        - Sandworm Tools
+        - DarkCrystal RAT
+        - MoonPeak
+        - Scattered Lapsus$ Hunters
+        - ZOVWiper
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1529
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/shutdown_commandline/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/dcrat/shutdown_commandline/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

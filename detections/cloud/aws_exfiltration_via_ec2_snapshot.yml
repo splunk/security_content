@@ -1,82 +1,67 @@
 name: AWS Exfiltration via EC2 Snapshot
 id: ac90b339-13fc-4f29-a18c-4abbba1f2171
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 data_source:
-- AWS CloudTrail CreateSnapshot
-- AWS CloudTrail DescribeSnapshotAttribute
-- AWS CloudTrail ModifySnapshotAttribute
-- AWS CloudTrail DeleteSnapshot
-description: The following analytic detects a series of AWS API calls related to EC2
-  snapshots within a short time window, indicating potential exfiltration via EC2
-  Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such
-  as creating, describing, and modifying snapshot attributes. This activity is significant
-  as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots
-  externally. If confirmed malicious, the attacker could gain access to sensitive
-  information stored in the snapshots, leading to data breaches and potential compliance
-  violations.
-search: '`cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
-  |  bin _time span=5m 
-  | rename user_name as user
-  |  stats count dc(signature) as distinct_api_calls values(signature) as signature values(dest) as dest values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(user_agent) as user_agent by _time user src vendor_account vendor_region vendor_product
-  | where distinct_api_calls >= 2 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_exfiltration_via_ec2_snapshot_filter`'
-how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com`
-  from src_ip to remove false positives caused by guard duty. We recommend you adjust
-  the time window as per your environment.
-known_false_positives: It is possible that an AWS admin has legitimately shared a
-  snapshot with an other account for a specific purpose. Please check any recent change
-  requests filed in your organization.
+    - AWS CloudTrail CreateSnapshot
+    - AWS CloudTrail DescribeSnapshotAttribute
+    - AWS CloudTrail ModifySnapshotAttribute
+    - AWS CloudTrail DeleteSnapshot
+description: The following analytic detects a series of AWS API calls related to EC2 snapshots within a short time window, indicating potential exfiltration via EC2 Snapshot modifications. It leverages AWS CloudTrail logs to identify actions such as creating, describing, and modifying snapshot attributes. This activity is significant as it may indicate an attacker attempting to exfiltrate data by sharing EC2 snapshots externally. If confirmed malicious, the attacker could gain access to sensitive information stored in the snapshots, leading to data breaches and potential compliance violations.
+search: |-
+    `cloudtrail` eventName IN ("CreateSnapshot", "DescribeSnapshotAttribute", "ModifySnapshotAttribute", "DeleteSnapshot") src_ip !="guardduty.amazonaws.com"
+      | bin _time span=5m
+      | rename user_name as user
+      | stats count dc(signature) as distinct_api_calls values(signature) as signature values(dest) as dest values(requestParameters.attributeType) as attributeType values(requestParameters.createVolumePermission.add.items{}.userId) as aws_account_id_added values(user_agent) as user_agent
+        BY _time user src
+           vendor_account vendor_region vendor_product
+      | where distinct_api_calls >= 2
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_exfiltration_via_ec2_snapshot_filter`
+how_to_implement: You must install splunk AWS add on and Splunk App for AWS. This search works with AWS CloudTrail logs. We have intentionally removed `guardduty.amazonaws.com` from src_ip to remove false positives caused by guard duty. We recommend you adjust the time window as per your environment.
+known_false_positives: It is possible that an AWS admin has legitimately shared a snapshot with an other account for a specific purpose. Please check any recent change requests filed in your organization.
 references:
-- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
-- https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
-- https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
-- https://stratus-red-team.cloud/attack-techniques/list/
+    - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+    - https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifySnapshotAttribute.html
+    - https://bleemb.medium.com/data-exfiltration-with-native-aws-s3-features-c94ae4d13436
+    - https://stratus-red-team.cloud/attack-techniques/list/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential AWS EC2 Exfiltration detected on account id - $vendor_account$
-    by user $user$ from src_ip $src$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: Potential AWS EC2 Exfiltration detected on account id - $vendor_account$ by user $user$ from src_ip $src$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Suspicious Cloud Instance Activities
-  - Data Exfiltration
-  asset_type: EC2 Snapshot
-  mitre_attack_id:
-  - T1537
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Suspicious Cloud Instance Activities
+        - Data Exfiltration
+    asset_type: EC2 Snapshot
+    mitre_attack_id:
+        - T1537
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/aws_cloudtrail_events.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

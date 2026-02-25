@@ -6,76 +6,72 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects potentially suspicious large outbound data transfers from internal to external networks. It leverages Cisco Secure Firewall Threat Defense logs and calculates the total volume of data exchanged per connection by summing InitiatorBytes and ResponderBytes. Connections exceeding 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if initiated by unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows using a macro (cisco_secure_firewall_inside_to_outside) to abstract environment-specific zone definitions. If confirmed malicious, this behavior may reflect data staging and exfiltration over an encrypted or stealthy transport.
+    The following analytic detects potentially suspicious large outbound data transfers from internal to external networks. It leverages Cisco Secure Firewall Threat Defense logs and calculates the total volume of data exchanged per connection by summing InitiatorBytes and ResponderBytes. Connections exceeding 100 MB are flagged, as these may indicate unauthorized data exfiltration, especially if initiated by unusual users, hosts, or processes. This analytic is scoped to inside-to-outside flows using a macro (cisco_secure_firewall_inside_to_outside) to abstract environment-specific zone definitions. If confirmed malicious, this behavior may reflect data staging and exfiltration over an encrypted or stealthy transport.
 data_source:
-  - Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent `cisco_secure_firewall_inside_to_outside`
-  | eval total_bytes = InitiatorBytes + ResponderBytes
-  | eval total_mb = round(total_bytes / 1024 / 1024, 2)
-  | where total_mb >= 100
-  | eval Exfiltrated = total_mb + " MB"
-  | stats min(_time) as firstTime max(_time) as lastTime
-      Values(url) as url
-      Values(rule) as rule
-      Values(dest_port) as dest_port
-      by src, dest, Exfiltrated, transport, action
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___potential_data_exfiltration_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent `cisco_secure_firewall_inside_to_outside`
+    | eval total_bytes = InitiatorBytes + ResponderBytes
+    | eval total_mb = round(total_bytes / 1024 / 1024, 2)
+    | where total_mb >= 100
+    | eval Exfiltrated = total_mb + " MB"
+    | stats min(_time) as firstTime max(_time) as lastTime
+        Values(url) as url
+        Values(rule) as rule
+        Values(dest_port) as dest_port
+        by src, dest, Exfiltrated, transport, action
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___potential_data_exfiltration_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses two input macros named `cisco_secure_firewall` and `cisco_secure_firewall_inside_to_outside`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definitions
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses two input macros named `cisco_secure_firewall` and `cisco_secure_firewall_inside_to_outside`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definitions
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
 known_false_positives: |
-  Large outbound transfers may occur due to legitimate activities such as cloud backups, file syncing, OS or application updates, or developer build deployments.
-  Backup servers, CI/CD pipelines, and enterprise sync tools (e.g., OneDrive, Dropbox) may exhibit similar patterns.
-  Additional validation using user context, scheduled task windows, or endpoint telemetry is recommended to reduce false positives.
+    Large outbound transfers may occur due to legitimate activities such as cloud backups, file syncing, OS or application updates, or developer build deployments.
+    Backup servers, CI/CD pipelines, and enterprise sync tools (e.g., OneDrive, Dropbox) may exhibit similar patterns.
+    Additional validation using user context, scheduled task windows, or endpoint telemetry is recommended to reduce false positives.
 references:
-  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search  src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential data exfiltration from $src$ to $dest$ with $Exfiltrated$ MB of data exfiltrated"
-  risk_objects:
-    - field: src
-      type: system
-      score: 40
-  threat_objects:
-  - field: url
-    type: url
+    message: Potential data exfiltration from $src$ to $dest$ with $Exfiltrated$ MB of data exfiltrated"
+    risk_objects:
+        - field: src
+          type: system
+          score: 40
+    threat_objects:
+        - field: url
+          type: url
 tags:
-  analytic_story:
-    - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1041 
-    - T1567.002
-    - T1048.003
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1041
+        - T1567.002
+        - T1048.003
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

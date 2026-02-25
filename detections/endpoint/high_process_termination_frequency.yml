@@ -1,82 +1,69 @@
 name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-02-25'
 author: Teoderick Contreras
 status: production
 type: Anomaly
-description: The following analytic identifies a high frequency of process 
-  termination events on a computer within a short period. It leverages Sysmon 
-  EventCode 5 logs to detect instances where 15 or more processes are terminated
-  within a 3-second window. This behavior is significant as it is commonly 
-  associated with ransomware attempting to avoid exceptions during file 
-  encryption. If confirmed malicious, this activity could indicate an active 
-  ransomware attack, potentially leading to widespread file encryption and 
-  significant data loss.
+description: The following analytic identifies a high frequency of process termination events on a computer within a short period. It leverages Sysmon EventCode 5 logs to detect instances where 15 or more processes are terminated within a 3-second window. This behavior is significant as it is commonly associated with ransomware attempting to avoid exceptions during file encryption. If confirmed malicious, this activity could indicate an active ransomware attack, potentially leading to widespread file encryption and significant data loss.
 data_source:
-- Sysmon EventID 5
-search: '`sysmon` EventCode=5 | bin _time span=3s | stats values(process) as process
-  values(process_exec) as process_exec values(process_guid) as process_guid values(process_id)
-  as process_id values(process_name) as process_name values(process_path) as process_path
-  values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
-  by _time dest EventCode ProcessID signature signature_id vendor_product | where
-  count >= 15 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `high_process_termination_frequency_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting logs with the Image (process full path of terminated process) from 
-  your endpoints. If you are using Sysmon, you must have at least version 6.0.4 
-  of the Sysmon TA.
+    - Sysmon EventID 5
+search: |-
+    `sysmon` EventCode=5
+      | bin _time span=3s
+      | stats values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_id) as process_id values(process_name) as process_name values(process_path) as process_path values(user_id) as user_id min(_time) as firstTime max(_time) as lastTime count
+        BY _time dest EventCode
+           ProcessID signature signature_id
+           vendor_product
+      | where count >= 15
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `high_process_termination_frequency_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the Image (process full path of terminated process) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: admin or user tool that can terminate multiple process.
 references:
-- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
-- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+    - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+    - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: High frequency process termination (more than 15 processes within 3s)
-    detected on host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 72
-  threat_objects: []
+    message: High frequency process termination (more than 15 processes within 3s) detected on host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 72
+    threat_objects: []
 tags:
-  analytic_story:
-  - BlackByte Ransomware
-  - Rhysida Ransomware
-  - LockBit Ransomware
-  - Medusa Ransomware
-  - Crypto Stealer
-  - Snake Keylogger
-  - Clop Ransomware
-  - Termite Ransomware
-  - Interlock Ransomware
-  - NailaoLocker Ransomware
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1486
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - BlackByte Ransomware
+        - Rhysida Ransomware
+        - LockBit Ransomware
+        - Medusa Ransomware
+        - Crypto Stealer
+        - Snake Keylogger
+        - Clop Ransomware
+        - Termite Ransomware
+        - Interlock Ransomware
+        - NailaoLocker Ransomware
+        - Hellcat Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1486
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
