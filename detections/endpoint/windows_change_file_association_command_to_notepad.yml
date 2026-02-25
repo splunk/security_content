@@ -1,7 +1,7 @@
 name: Windows Change File Association Command To Notepad
 id: 339155d6-34cb-4788-9d00-e67f190af93a
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

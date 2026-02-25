@@ -1,7 +1,7 @@
 name: Linux Auditd Stop Services
 id: 43bc9281-753b-4743-b4b7-60af84f085f3
-version: 6
-date: '2025-06-10'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

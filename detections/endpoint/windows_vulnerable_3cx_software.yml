@@ -1,7 +1,7 @@
 name: Windows Vulnerable 3CX Software
 id: f2cc1584-46ee-485b-b905-977c067f36de
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 type: TTP
 status: production

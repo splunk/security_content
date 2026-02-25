@@ -1,7 +1,7 @@
 name: Windows MSIX Package Interaction
 id: 1a06689d-814e-4db2-b2c7-5a174f8c2d6d
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

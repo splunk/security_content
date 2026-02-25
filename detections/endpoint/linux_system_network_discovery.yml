@@ -1,7 +1,7 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 7
-date: '2026-01-20'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

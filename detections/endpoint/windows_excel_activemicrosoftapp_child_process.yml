@@ -1,7 +1,7 @@
 name: Windows Excel ActiveMicrosoftApp Child Process
 id: 4dfd6a58-93b2-4012-bb33-038bb63652b3
-version: 1
-date: '2025-08-20'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

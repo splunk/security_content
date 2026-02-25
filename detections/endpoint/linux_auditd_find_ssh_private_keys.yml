@@ -1,7 +1,7 @@
 name: Linux Auditd Find Ssh Private Keys
 id: e2d2bd10-dcd1-4b2f-8a76-0198eab32ba5
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

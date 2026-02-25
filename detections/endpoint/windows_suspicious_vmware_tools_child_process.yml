@@ -1,7 +1,7 @@
 name: Windows Suspicious VMWare Tools Child Process
 id: 1f77661a-0fe3-4b8d-a62c-7dff06906d26
-version: 1
-date: '2025-07-30'
+version: 2
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

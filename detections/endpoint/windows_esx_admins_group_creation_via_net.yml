@@ -1,7 +1,7 @@
 name: Windows ESX Admins Group Creation via Net
 id: 3d7df60b-3332-4667-8090-afe03e08dce0
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

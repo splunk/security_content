@@ -1,7 +1,7 @@
 name: ASL AWS IAM AccessDenied Discovery Events
 id: a4f39755-b1e2-40bb-b2dc-4449c45b0bf2
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

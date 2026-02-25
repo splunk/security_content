@@ -1,7 +1,7 @@
 name: Crowdstrike Medium Severity Alert
 id: 7e80d92a-6ec3-4eb1-a444-1480acfe2d14
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly

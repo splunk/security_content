@@ -1,7 +1,7 @@
 name: Prevent Automatic Repair Mode using Bcdedit
 id: 7742aa92-c9d9-11eb-bbfc-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

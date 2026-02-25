@@ -1,7 +1,7 @@
 name: Email Attachments With Lots Of Spaces
 id: 56e877a6-1455-4479-ada6-0550dc1e22f8
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly

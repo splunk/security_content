@@ -1,7 +1,7 @@
 name: Cisco Configuration Archive Logging Analysis
 id: f52d5c0b-d45d-4304-b300-a4f6a1130dec
-version: 1
-date: '2025-08-21'
+version: 2
+date: '2026-02-25'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: Hunting

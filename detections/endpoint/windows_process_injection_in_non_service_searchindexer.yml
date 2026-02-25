@@ -1,7 +1,7 @@
 name: Windows Process Injection In Non-Service SearchIndexer
 id: d131673f-ede1-47f2-93a1-0108d3e7fafd
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

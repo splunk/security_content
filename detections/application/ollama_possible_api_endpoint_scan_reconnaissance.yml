@@ -1,7 +1,7 @@
 name: Ollama Possible API Endpoint Scan Reconnaissance
 id: ad3f352a-0347-48ee-86b9-670b5025a548
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-02-25'
 author: Rod Soto
 status: experimental
 type: Anomaly

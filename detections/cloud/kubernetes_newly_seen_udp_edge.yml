@@ -1,7 +1,7 @@
 name: Kubernetes newly seen UDP edge
 id: 49b7daca-4e3c-4899-ba15-9a175e056fa9
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

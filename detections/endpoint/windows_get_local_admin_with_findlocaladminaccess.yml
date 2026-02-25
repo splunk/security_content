@@ -1,7 +1,7 @@
 name: Windows Get Local Admin with FindLocalAdminAccess
 id: d2988160-3ce9-4310-b59d-905334920cdd
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Windows RDPClient Connection Sequence Events
 id: 67340df1-3f1d-4470-93c8-9ac7249d11b0
-version: 5
-date: '2025-08-07'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production

@@ -1,7 +1,7 @@
 name: GitHub Enterprise Repository Archived
 id: 8367cb99-bae1-4748-ae3b-0927bb381424
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

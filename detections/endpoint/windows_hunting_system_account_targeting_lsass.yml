@@ -1,7 +1,7 @@
 name: Windows Hunting System Account Targeting Lsass
 id: 1c6abb08-73d1-11ec-9ca0-acde48001122
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

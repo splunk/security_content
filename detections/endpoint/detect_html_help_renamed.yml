@@ -1,7 +1,7 @@
 name: Detect HTML Help Renamed
 id: 62fed254-513b-460e-953d-79771493a9f3
-version: 12
-date: '2025-09-18'
+version: 13
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

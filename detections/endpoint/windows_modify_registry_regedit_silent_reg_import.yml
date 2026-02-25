@@ -1,7 +1,7 @@
 name: Windows Modify Registry Regedit Silent Reg Import
 id: 824dd598-71be-4203-bc3b-024f4cda340e
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

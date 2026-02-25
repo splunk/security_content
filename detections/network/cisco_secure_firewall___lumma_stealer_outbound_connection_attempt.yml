@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Lumma Stealer Outbound Connection Attempt
 id: 66f22f52-fbae-4be7-a263-561dacb63612
-version: 3
-date: '2026-01-21'
+version: 4
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: Anomaly

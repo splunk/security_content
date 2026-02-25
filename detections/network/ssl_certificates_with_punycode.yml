@@ -1,7 +1,7 @@
 name: SSL Certificates with Punycode
 id: 696694df-5706-495a-81f2-79501fa11b90
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: experimental
 type: Hunting

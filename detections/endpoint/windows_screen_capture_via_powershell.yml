@@ -1,7 +1,7 @@
 name: Windows Screen Capture Via Powershell
 id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

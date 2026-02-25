@@ -1,7 +1,7 @@
 name: AWS Detect Users with KMS keys performing encryption S3
 id: 884a5f59-eec7-4f4a-948b-dbde18225fdc
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Rod Soto, Patrick Bareiss Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Active Directory Lateral Movement Identified
 id: 6aa6f9dd-adfe-45a8-8f74-c4c7a0d7d037
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Correlation

@@ -1,7 +1,7 @@
 name: Windows Wmic Network Discovery
 id: cce82b81-c716-4b6c-bac9-33e6a6925cc2
-version: 1
-date: '2025-08-25'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

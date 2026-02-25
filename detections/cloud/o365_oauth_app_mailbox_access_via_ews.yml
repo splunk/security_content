@@ -1,7 +1,7 @@
 name: O365 OAuth App Mailbox Access via EWS
 id: e600cf1a-0bef-4426-b42e-00176d610a4d
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 data_source:

@@ -1,7 +1,7 @@
 name: Windows Defender ASR Audit Events
 id: 0e4d46b1-22bd-4f0e-8337-ca6f60ad4bea
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly

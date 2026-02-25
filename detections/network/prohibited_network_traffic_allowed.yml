@@ -1,7 +1,7 @@
 name: Prohibited Network Traffic Allowed
 id: ce5a0962-849f-4720-a678-753fe6674479
-version: 10
-date: '2026-01-16'
+version: 11
+date: '2026-02-25'
 author: Rico Valdez, Splunk
 status: production
 type: TTP

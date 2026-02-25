@@ -1,7 +1,7 @@
 name: Hunting 3CXDesktopApp Software
 id: 553d0429-1a1c-44bf-b3f5-a8513deb9ee5
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 type: Hunting
 status: production

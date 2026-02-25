@@ -1,7 +1,7 @@
 name: Linux Indicator Removal Clear Cache
 id: e0940505-0b73-4719-84e6-cb94c44a5245
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

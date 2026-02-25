@@ -1,7 +1,7 @@
 name: O365 Service Principal Privilege Escalation
 id: b686d0bd-cca7-44ca-ae07-87f6465131d9
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Dean Luxton
 data_source:
     - O365 Add app role assignment grant to user.

@@ -1,7 +1,7 @@
 name: Windows Linked Policies In ADSI Discovery
 id: 510ea428-4731-4d2f-8829-a28293e427aa
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

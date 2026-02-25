@@ -1,7 +1,7 @@
 name: MacOS - Re-opened Applications
 id: 40bb64f9-f619-4e3d-8732-328d40377c4b
-version: 5
-date: '2025-05-05'
+version: 6
+date: '2026-02-25'
 author: Jamie Windley, Splunk
 status: experimental
 type: TTP

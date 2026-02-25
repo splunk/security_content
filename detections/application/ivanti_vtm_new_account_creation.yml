@@ -1,7 +1,7 @@
 name: Ivanti VTM New Account Creation
 id: b04be6e5-2002-4349-8742-52285635b8f5
-version: 5
-date: '2025-10-14'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source:
     - Ivanti VTM Audit

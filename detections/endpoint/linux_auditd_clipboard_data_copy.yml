@@ -1,7 +1,7 @@
 name: Linux Auditd Clipboard Data Copy
 id: 9ddfe470-c4d0-4e60-8668-7337bd699edd
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Resize ShadowStorage volume
 id: bc760ca6-8336-11eb-bcbb-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras
 status: production
 type: TTP

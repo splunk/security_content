@@ -1,7 +1,7 @@
 name: Kubernetes Previously Unseen Process
 id: c8119b2f-d7f7-40be-940a-1c582870e8e2
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

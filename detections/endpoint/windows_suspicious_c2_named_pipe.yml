@@ -1,7 +1,7 @@
 name: Windows Suspicious C2 Named Pipe
 id: 90599d85-dc2a-4d4c-8c59-9485c3665828
-version: 2
-date: '2026-01-20'
+version: 3
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created In Previously Unused Region
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
-version: 6
-date: '2025-06-10'
+version: 7
+date: '2026-02-25'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly

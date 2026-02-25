@@ -1,7 +1,7 @@
 name: Windows Computer Account Created by Computer Account
 id: 97a8dc5f-8a7c-4fed-9e3e-ec407fd0268a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

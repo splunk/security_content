@@ -1,7 +1,7 @@
 name: Windows Large Number of Computer Service Tickets Requested
 id: 386ad394-c9a7-4b4f-b66f-586252de20f0
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 type: Anomaly
 status: production

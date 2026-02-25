@@ -1,7 +1,7 @@
 name: ConnectWise ScreenConnect Authentication Bypass
 id: d3f7a803-e802-448b-8eb2-e796b223bfff
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source:
     - Suricata

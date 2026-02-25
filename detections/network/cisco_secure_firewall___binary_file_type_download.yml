@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Binary File Type Download
 id: 24b2c2e3-2ff7-4a23-b814-87f8a62028cd
-version: 4
-date: '2026-01-21'
+version: 5
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

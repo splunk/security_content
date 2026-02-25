@@ -1,7 +1,7 @@
 name: Windows User Disabled Via Net
 id: b0359e05-c87b-4354-83d8-aee0d890243f
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Windows Default Rdp File Unhidden
 id: f5c1f64b-db59-4913-991e-3dac8adff288
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

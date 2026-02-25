@@ -1,7 +1,7 @@
 name: Detect DNS Query to Decommissioned S3 Bucket
 id: 2f1c5fd1-4b8a-4f5d-a0e9-7d6a8e2f5e1e
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly

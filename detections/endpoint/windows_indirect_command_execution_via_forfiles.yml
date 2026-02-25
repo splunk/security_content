@@ -1,7 +1,7 @@
 name: Windows Indirect Command Execution Via forfiles
 id: 1fdf31c9-ff4d-4c48-b799-0e8666e08787
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Eric McGinnis, Splunk
 status: production
 type: TTP

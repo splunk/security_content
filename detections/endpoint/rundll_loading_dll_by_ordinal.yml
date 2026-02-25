@@ -1,7 +1,7 @@
 name: RunDLL Loading DLL By Ordinal
 id: 6c135f8d-5e60-454e-80b7-c56eed739833
-version: 12
-date: '2025-05-02'
+version: 13
+date: '2026-02-25'
 author: Michael Haag, David Dorsey, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Windows AD Domain Controller Audit Policy Disabled
 id: fc3ccef1-60a4-4239-bd66-b279511b4d14
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Dean Luxton
 type: TTP
 status: production

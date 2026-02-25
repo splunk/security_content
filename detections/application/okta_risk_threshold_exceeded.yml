@@ -1,7 +1,7 @@
 name: Okta Risk Threshold Exceeded
 id: d8b967dd-657f-4d88-93b5-c588bcd7218c
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Bhavin Patel, Splunk
 status: production
 type: Correlation

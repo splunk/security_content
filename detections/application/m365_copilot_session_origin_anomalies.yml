@@ -1,7 +1,7 @@
 name: M365 Copilot Session Origin Anomalies
 id: 0caf1c1c-0fba-401e-8ec7-f07cfdeee75b
-version: 1
-date: '2025-09-24'
+version: 2
+date: '2026-02-25'
 author: Rod Soto
 status: production
 type: Anomaly

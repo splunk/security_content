@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created With Previously Unseen Instance Type
 id: c6ddbf53-9715-49f3-bb4c-fb2e8a309cda
-version: 6
-date: '2025-06-10'
+version: 7
+date: '2026-02-25'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly

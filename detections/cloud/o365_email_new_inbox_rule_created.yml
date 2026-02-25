@@ -1,7 +1,7 @@
 name: O365 Email New Inbox Rule Created
 id: 449f525a-7b42-47be-96a7-d9724e336c19
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

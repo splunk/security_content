@@ -1,7 +1,7 @@
 name: Windows PowerView Constrained Delegation Discovery
 id: 86dc8176-6e6c-42d6-9684-5444c6557ab3
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

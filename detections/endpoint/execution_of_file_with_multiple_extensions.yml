@@ -1,7 +1,7 @@
 name: Execution of File with Multiple Extensions
 id: b06a555e-dce0-417d-a2eb-28a5d8d66ef7
-version: 13
-date: '2026-01-14'
+version: 14
+date: '2026-02-25'
 author: Rico Valdez, Teoderick Contreras, Splunk
 status: production
 type: TTP

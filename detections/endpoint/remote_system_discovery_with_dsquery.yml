@@ -1,7 +1,7 @@
 name: Remote System Discovery with Dsquery
 id: 9fb562f4-42f8-4139-8e11-a82edf7ed718
-version: 7
-date: '2025-08-27'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly

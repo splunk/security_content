@@ -1,7 +1,7 @@
 name: Windows New Service Security Descriptor Set Via Sc.EXE
 id: cde00c31-042a-4307-bf70-25e471da56e9
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly

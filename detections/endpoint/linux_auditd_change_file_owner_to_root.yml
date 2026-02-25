@@ -1,7 +1,7 @@
 name: Linux Auditd Change File Owner To Root
 id: 7b87c556-0ca4-47e0-b84c-6cd62a0a3e90
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

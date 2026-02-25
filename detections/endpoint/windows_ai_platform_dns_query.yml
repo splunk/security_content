@@ -1,7 +1,7 @@
 name: Windows AI Platform DNS Query
 id: 1ad89d24-c856-4a0e-8fdf-c20c7b9febe1
-version: 2
-date: '2025-12-17'
+version: 3
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: O365 Email Receive and Hard Delete Takeover Behavior
 id: b66aeaa4-586f-428b-8a2b-c4fd3039d8d3
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

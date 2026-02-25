@@ -1,7 +1,7 @@
 name: Windows Computer Account With SPN
 id: 9a3e57e7-33f4-470e-b25d-165baa6e8357
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

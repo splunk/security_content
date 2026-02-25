@@ -1,7 +1,7 @@
 name: Confluence Data Center and Server Privilege Escalation
 id: 115bebac-0976-4f7d-a3ec-d1fb45a39a11
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

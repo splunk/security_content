@@ -1,7 +1,7 @@
 name: O365 Email Suspicious Behavior Alert
 id: 85c7555a-05af-4322-81aa-76b4ddf52baa
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

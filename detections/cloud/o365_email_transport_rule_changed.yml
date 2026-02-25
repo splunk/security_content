@@ -1,7 +1,7 @@
 name: O365 Email Transport Rule Changed
 id: 11ebb7c2-46bd-41c9-81e1-d0b4b34583a2
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

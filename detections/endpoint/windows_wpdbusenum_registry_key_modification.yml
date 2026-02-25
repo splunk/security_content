@@ -1,7 +1,7 @@
 name: Windows WPDBusEnum Registry Key Modification
 id: 52b48e8b-eb6e-48b0-b8f1-73273f6b134e
-version: 4
-date: '2025-09-18'
+version: 5
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

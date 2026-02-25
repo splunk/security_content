@@ -1,7 +1,7 @@
 name: Domain Controller Discovery with Nltest
 id: 41243735-89a7-4c83-bcdd-570aa78f00a1
-version: 9
-date: '2025-12-18'
+version: 10
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Cisco Duo Set User Status to Bypass 2FA
 id: 8728d224-9cd5-4aa7-b75f-f8520a569979
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator

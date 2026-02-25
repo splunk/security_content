@@ -1,7 +1,7 @@
 name: Citrix ADC and Gateway CitrixBleed 2 Memory Disclosure
 id: bef92f3f-7dc8-413a-8989-50581039e250
-version: 1
-date: '2025-01-07'
+version: 2
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly

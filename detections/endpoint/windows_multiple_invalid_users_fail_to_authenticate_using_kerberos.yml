@@ -1,7 +1,7 @@
 name: Windows Multiple Invalid Users Fail To Authenticate Using Kerberos
 id: 001266a6-9d5b-11eb-829b-acde48001122
-date: '2025-05-02'
-version: 8
+date: '2026-02-25'
+version: 9
 type: TTP
 status: production
 author: Mauricio Velazco, Splunk

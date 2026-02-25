@@ -1,7 +1,7 @@
 name: GitHub Enterprise Delete Branch Ruleset
 id: 6169ea23-3719-439f-957a-0ea5174b70e2
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

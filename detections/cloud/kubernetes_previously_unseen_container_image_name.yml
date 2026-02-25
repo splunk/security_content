@@ -1,7 +1,7 @@
 name: Kubernetes Previously Unseen Container Image Name
 id: fea515a4-b1d8-4cd6-80d6-e0d71397b891
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly

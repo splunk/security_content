@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Skip 2FA for Other Countries
 id: ab59d5ee-8694-4832-a332-cefcf66a9057
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator

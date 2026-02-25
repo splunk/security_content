@@ -1,7 +1,7 @@
 name: Windows Rasautou DLL Execution
 id: 6f42b8be-8e96-11ec-ad5a-acde48001122
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: O365 Safe Links Detection
 id: 711d9e8c-2cb0-45cf-8813-5f191ecb9b26
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

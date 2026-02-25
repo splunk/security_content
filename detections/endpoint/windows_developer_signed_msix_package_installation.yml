@@ -1,7 +1,7 @@
 name: Windows Developer-Signed MSIX Package Installation
 id: 2c0427aa-982c-4e97-bc33-bddeda4fd095
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly

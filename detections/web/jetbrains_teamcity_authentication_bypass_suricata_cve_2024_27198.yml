@@ -1,7 +1,7 @@
 name: JetBrains TeamCity Authentication Bypass Suricata CVE-2024-27198
 id: fbcc04c7-8a79-453c-b3a9-c232c423bdd3
-version: 6
-date: '2025-10-14'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source:
     - Suricata

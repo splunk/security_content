@@ -1,7 +1,7 @@
 name: Kubernetes Pod Created in Default Namespace
 id: 3d6b1a81-367b-42d5-a925-6ef90b6b9f1e
-version: 6
-date: '2026-01-14'
+version: 7
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

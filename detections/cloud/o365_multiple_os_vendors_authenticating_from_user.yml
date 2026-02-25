@@ -1,7 +1,7 @@
 name: O365 Multiple OS Vendors Authenticating From User
 id: 3451e58a-9457-4985-a600-b616b0cbfda1
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

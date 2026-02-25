@@ -1,7 +1,7 @@
 name: Powershell Disable Security Monitoring
 id: c148a894-dd93-11eb-bf2a-acde48001122
-version: 11
-date: '2025-07-10'
+version: 12
+date: '2026-02-25'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

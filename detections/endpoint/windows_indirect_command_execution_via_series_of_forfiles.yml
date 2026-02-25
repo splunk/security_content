@@ -1,7 +1,7 @@
 name: Windows Indirect Command Execution Via Series Of Forfiles
 id: bfdaabe7-3db8-48c5-80c1-220f9b8f22be
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

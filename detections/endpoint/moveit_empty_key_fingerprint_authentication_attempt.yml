@@ -1,7 +1,7 @@
 name: MOVEit Empty Key Fingerprint Authentication Attempt
 id: 1a537acc-199f-4713-b5d7-3d98c05ab932
-version: 5
-date: '2025-10-14'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source: []
 type: Hunting

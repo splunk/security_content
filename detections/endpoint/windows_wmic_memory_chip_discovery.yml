@@ -1,7 +1,7 @@
 name: Windows Wmic Memory Chip Discovery
 id: aecaddaa-5885-4e44-a724-1edd5ecbc79f
-version: 1
-date: '2025-08-25'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

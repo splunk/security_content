@@ -1,7 +1,7 @@
 name: Windows Execute Arbitrary Commands with MSDT
 id: e1d5145f-38fe-42b9-a5d5-457796715f97
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-25'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP

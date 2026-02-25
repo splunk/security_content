@@ -1,7 +1,7 @@
 name: Cloud API Calls From Previously Unseen User Roles
 id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly

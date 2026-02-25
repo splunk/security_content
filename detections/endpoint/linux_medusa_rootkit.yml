@@ -1,7 +1,7 @@
 name: Linux Medusa Rootkit
 id: 7add8520-71d5-43aa-b262-ee082b1f0238
-version: 3
-date: '2026-01-20'
+version: 4
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

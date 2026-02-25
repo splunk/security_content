@@ -1,7 +1,7 @@
 name: ASL AWS Network Access Control List Created with All Open Ports
 id: a2625034-c2de-44fc-b45c-7bac9c4a7974
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP

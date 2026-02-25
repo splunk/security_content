@@ -1,7 +1,7 @@
 name: Linux Auditd Setuid Using Setcap Utility
 id: 1474459a-302b-4255-8add-d82f96d14cd9
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

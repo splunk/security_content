@@ -1,7 +1,7 @@
 name: Detect Spike in AWS Security Hub Alerts for EC2 Instance
 id: 2a9b80d3-6340-4345-b5ad-290bf5d0d222
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly

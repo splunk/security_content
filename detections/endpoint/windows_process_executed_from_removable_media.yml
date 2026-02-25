@@ -1,7 +1,7 @@
 name: Windows Process Executed From Removable Media
 id: b483804a-4cc0-49a4-9f00-ac29ba844d08
-version: 6
-date: '2025-09-18'
+version: 7
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

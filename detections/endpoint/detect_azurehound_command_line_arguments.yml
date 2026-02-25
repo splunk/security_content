@@ -1,7 +1,7 @@
 name: Detect AzureHound Command-Line Arguments
 id: 26f02e96-c300-11eb-b611-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

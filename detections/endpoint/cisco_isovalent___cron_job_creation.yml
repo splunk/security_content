@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Cron Job Creation
 id: 94531a31-a041-4777-909f-cd92ed3b71ad
-version: 1
-date: '2026-01-05'
+version: 2
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:

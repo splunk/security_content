@@ -1,7 +1,7 @@
 name: ASL AWS Disable Bucket Versioning
 id: f32598bb-fa5f-4afd-8ab3-0263cc28efbc
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

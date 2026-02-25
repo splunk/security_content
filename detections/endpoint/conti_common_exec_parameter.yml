@@ -1,7 +1,7 @@
 name: Conti Common Exec parameter
 id: 624919bc-c382-11eb-adcc-acde48001122
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Linux Indicator Removal Service File Deletion
 id: 6c077f81-2a83-4537-afbc-0e62e3215d55
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

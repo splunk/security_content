@@ -1,7 +1,7 @@
 name: Azure AD User ImmutableId Attribute Updated
 id: 0c0badad-4536-4a84-a561-5ff760f3c00e
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-02-25'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP

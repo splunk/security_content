@@ -1,7 +1,7 @@
 name: Jscript Execution Using Cscript App
 id: 002f1e24-146e-11ec-a470-acde48001122
-version: 9
-date: '2026-01-14'
+version: 10
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

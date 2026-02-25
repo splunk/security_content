@@ -1,7 +1,7 @@
 name: Windows Increase in Group or Object Modification Activity
 id: 4f9564dd-a204-4f22-b375-4dfca3a68731
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Dean Luxton
 status: production
 type: TTP

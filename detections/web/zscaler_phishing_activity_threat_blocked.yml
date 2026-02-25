@@ -1,7 +1,7 @@
 name: Zscaler Phishing Activity Threat Blocked
 id: 68d3e2c1-e97f-4310-b080-dea180b48aa9
-version: 6
-date: '2025-10-14'
+version: 7
+date: '2026-02-25'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly

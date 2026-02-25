@@ -1,7 +1,7 @@
 name: Suspicious PlistBuddy Usage
 id: c3194009-e0eb-4f84-87a9-4070f8688f00
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP

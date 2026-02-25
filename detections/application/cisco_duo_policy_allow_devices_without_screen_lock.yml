@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Allow Devices Without Screen Lock
 id: 114c616b-c793-465d-a80d-758c9fe8a704
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator

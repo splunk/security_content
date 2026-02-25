@@ -1,7 +1,7 @@
 name: Log4Shell JNDI Payload Injection Attempt
 id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Jose Hernandez
 status: production
 type: Anomaly

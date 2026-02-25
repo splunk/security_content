@@ -1,7 +1,7 @@
 name: Detect Renamed PSExec
 id: 683e6196-b8e8-11eb-9a79-acde48001122
-version: 15
-date: '2025-05-02'
+version: 16
+date: '2026-02-25'
 author: Michael Haag, Splunk, Alex Oberkircher, Github Community
 status: production
 type: Hunting

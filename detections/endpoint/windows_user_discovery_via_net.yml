@@ -1,7 +1,7 @@
 name: Windows User Discovery Via Net
 id: 7742987e-88c1-476b-a626-a869e088ab72
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-25'
 author: Mauricio Velazco, Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting

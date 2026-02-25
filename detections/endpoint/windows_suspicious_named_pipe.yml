@@ -1,7 +1,7 @@
 name: Windows Suspicious Named Pipe
 id: 3a76d52f-a007-4a65-a37d-f313c2c83f31
-version: 1
-date: '2025-12-01'
+version: 2
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

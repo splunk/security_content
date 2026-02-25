@@ -1,7 +1,7 @@
 name: Windows Forest Discovery with GetForestDomain
 id: a14803b2-4bd9-4c08-8b57-c37980edebe8
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Gowthamaraj Rajendran, Mauricio Velazco, Splunk
 status: production
 type: TTP

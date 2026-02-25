@@ -1,7 +1,7 @@
 name: Windows Chromium Process Launched with Logging Disabled
 id: d31de944-4e61-468f-9154-e50690f0e99e
-version: 1
-date: '2026-01-23'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

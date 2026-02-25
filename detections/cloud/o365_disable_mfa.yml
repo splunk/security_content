@@ -1,7 +1,7 @@
 name: O365 Disable MFA
 id: c783dd98-c703-4252-9e8a-f19d9f5c949e
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Rod Soto, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Windows Audit Policy Security Descriptor Tampering via Auditpol
 id: 5628e0b7-73dc-4f1b-b37a-6e68efc2225f
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

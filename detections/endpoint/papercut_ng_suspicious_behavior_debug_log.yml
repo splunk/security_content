@@ -1,7 +1,7 @@
 name: PaperCut NG Suspicious Behavior Debug Log
 id: 395163b8-689b-444b-86c7-9fe9ad624734
-version: 6
-date: '2025-06-10'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

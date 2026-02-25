@@ -1,7 +1,7 @@
 name: Windows ClipBoard Data via Get-ClipBoard
 id: ab73289e-2246-4de0-a14b-67006c72a893
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

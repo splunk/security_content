@@ -1,7 +1,7 @@
 name: O365 Email Access By Security Administrator
 id: c6998a30-fef4-4e89-97ac-3bb0123719b4
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

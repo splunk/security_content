@@ -1,7 +1,7 @@
 name: Windows Computer Account Requesting Kerberos Ticket
 id: fb3b2bb3-75a4-4279-848a-165b42624770
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

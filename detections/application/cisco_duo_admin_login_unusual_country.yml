@@ -1,7 +1,7 @@
 name: Cisco Duo Admin Login Unusual Country
 id: 1bf631d1-44a0-472b-98c4-2975b8b281df
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Activity

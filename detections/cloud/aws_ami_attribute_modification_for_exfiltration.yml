@@ -1,7 +1,7 @@
 name: AWS AMI Attribute Modification for Exfiltration
 id: f2132d74-cf81-4c5e-8799-ab069e67dc9f
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP

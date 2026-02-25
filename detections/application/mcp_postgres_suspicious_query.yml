@@ -1,7 +1,7 @@
 name: MCP Postgres Suspicious Query
 id: 6a168ce8-9a39-4492-9416-a67abdc56c53
-version: 1
-date: '2026-02-05'
+version: 2
+date: '2026-02-25'
 author: Rod Soto
 status: production
 type: Hunting

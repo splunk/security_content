@@ -1,7 +1,7 @@
 name: Linux Auditd Auditd Daemon Start
 id: 6b0cb0ff-9a7e-4475-a687-43827fdb31d6
-version: 1
-date: '2025-06-06'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

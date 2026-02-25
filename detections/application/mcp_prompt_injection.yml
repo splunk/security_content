@@ -1,7 +1,7 @@
 name: MCP Prompt Injection
 id: 49779398-b738-4d64-bb3f-ead6eb97fe53
-version: 1
-date: '2026-02-04'
+version: 2
+date: '2026-02-25'
 author: Rod Soto
 status: production
 type: TTP

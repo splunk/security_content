@@ -1,7 +1,7 @@
 name: Windows Disable Notification Center
 id: 1cd983c8-8fd6-11ec-a09d-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly

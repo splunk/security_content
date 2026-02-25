@@ -1,7 +1,7 @@
 name: Zscaler CryptoMiner Downloaded Threat Blocked
 id: ed76ce37-bab9-4ec0-bf3e-9c6a6cf43365
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly

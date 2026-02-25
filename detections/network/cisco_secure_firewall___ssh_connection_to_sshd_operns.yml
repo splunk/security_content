@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - SSH Connection to sshd_operns
 id: 8a9c1d2e-3f4b-5c6d-7e8f-9a0b1c2d3e4f
-version: 1
-date: '2026-01-06'
+version: 2
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

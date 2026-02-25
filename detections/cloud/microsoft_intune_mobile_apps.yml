@@ -1,7 +1,7 @@
 name: Microsoft Intune Mobile Apps
 id: 98e6b389-2806-4426-a580-8a92cb0d9710
-version: 3
-date: '2025-06-10'
+version: 4
+date: '2026-02-25'
 author: Dean Luxton
 status: experimental
 type: Hunting

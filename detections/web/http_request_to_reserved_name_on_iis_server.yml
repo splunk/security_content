@@ -1,7 +1,7 @@
 name: HTTP Request to Reserved Name on IIS Server
 id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
-version: 1
-date: '2025-10-17'
+version: 2
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

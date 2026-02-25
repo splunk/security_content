@@ -1,7 +1,7 @@
 name: O365 Email Send and Hard Delete Suspicious Behavior
 id: c97b3d72-0a47-46f9-b742-b89f1cc2d551
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

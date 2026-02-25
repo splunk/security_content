@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Allow Network Bypass 2FA
 id: 2593f641-6192-4f3d-b96c-2bd1c706215f
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator

@@ -1,7 +1,7 @@
 name: AWS Bedrock Delete Model Invocation Logging Configuration
 id: 9c5e3d62-f743-11ee-9f6e-acde48001124
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP

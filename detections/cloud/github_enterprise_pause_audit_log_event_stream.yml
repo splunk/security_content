@@ -1,7 +1,7 @@
 name: GitHub Enterprise Pause Audit Log Event Stream
 id: 21083dcb-276d-4ef9-8f7e-2113ca5e8094
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

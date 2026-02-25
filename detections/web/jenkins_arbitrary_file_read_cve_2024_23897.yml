@@ -1,7 +1,7 @@
 name: Jenkins Arbitrary File Read CVE-2024-23897
 id: c641260d-2b48-4eb1-b1e8-2cc5b8b99ab1
-version: 6
-date: '2025-10-14'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Cloud Provisioning Activity From Previously Unseen Region
 id: 5aba1860-9617-4af9-b19d-aecac16fe4f2
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly

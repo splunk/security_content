@@ -1,7 +1,7 @@
 name: GitHub Organizations Repository Deleted
 id: 9ff4ca95-fdae-4eea-9ffa-6d8e1c202a71
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

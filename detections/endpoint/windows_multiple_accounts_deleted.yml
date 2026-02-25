@@ -1,7 +1,7 @@
 name: Windows Multiple Accounts Deleted
 id: 49c0d4d6-c55d-4d3a-b3d5-7709fafed70d
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 data_source:
     - Windows Event Log Security 4726

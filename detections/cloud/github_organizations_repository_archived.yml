@@ -1,7 +1,7 @@
 name: GitHub Organizations Repository Archived
 id: 4f568a0e-896f-4d94-a2f7-fa6d82ab1f77
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

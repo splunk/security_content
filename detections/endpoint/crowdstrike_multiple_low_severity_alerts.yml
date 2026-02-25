@@ -1,7 +1,7 @@
 name: Crowdstrike Multiple LOW Severity Alerts
 id: 5c2c02d8-bee7-4f5c-9dea-e3e1012daddb
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly

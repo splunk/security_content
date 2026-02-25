@@ -1,7 +1,7 @@
 name: Cloud Security Groups Modifications by User
 id: cfe7cca7-2746-4bdf-b712-b01ed819b9de
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 data_source:
     - AWS CloudTrail

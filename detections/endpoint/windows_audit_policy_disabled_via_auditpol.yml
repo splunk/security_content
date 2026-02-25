@@ -1,7 +1,7 @@
 name: Windows Audit Policy Disabled via Auditpol
 id: 14e008e5-6723-4298-b0d4-e95b24e10c18
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

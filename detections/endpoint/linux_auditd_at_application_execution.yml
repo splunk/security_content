@@ -1,7 +1,7 @@
 name: Linux Auditd At Application Execution
 id: 9f306e0a-1c36-469e-8892-968ca12470dd
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

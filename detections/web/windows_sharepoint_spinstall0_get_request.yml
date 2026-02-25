@@ -1,7 +1,7 @@
 name: Windows SharePoint Spinstall0 GET Request
 id: ac490de2-ee39-421c-b61b-1c4005dde427
-version: 1
-date: '2025-07-21'
+version: 2
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

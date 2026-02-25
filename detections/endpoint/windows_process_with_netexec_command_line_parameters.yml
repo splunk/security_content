@@ -1,7 +1,7 @@
 name: Windows Process With NetExec Command Line Parameters
 id: adbff89c-c1f2-4a2e-88a4-b5e645856510
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Steven Dick, Github Community
 status: production
 type: TTP

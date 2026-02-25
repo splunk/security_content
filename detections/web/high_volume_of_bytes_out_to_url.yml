@@ -1,7 +1,7 @@
 name: High Volume of Bytes Out to Url
 id: c8a6b56d-16dd-4e9c-b4bd-527742ead98d
-version: 6
-date: '2025-10-14'
+version: 7
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 data_source:
     - Nginx Access

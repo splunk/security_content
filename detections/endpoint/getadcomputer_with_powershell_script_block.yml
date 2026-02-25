@@ -1,7 +1,7 @@
 name: GetAdComputer with PowerShell Script Block
 id: a9a1da02-8e27-4bf7-a348-f4389c9da487
-version: 9
-date: '2025-06-24'
+version: 10
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: Script Execution via WMI
 id: aa73f80d-d728-4077-b226-81ea0c8be589
-version: 10
-date: '2025-07-29'
+version: 11
+date: '2026-02-25'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP

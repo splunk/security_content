@@ -1,7 +1,7 @@
 name: Windows Office Product Dropped Cab or Inf File
 id: dbdd251e-dd45-4ec9-a555-f5e151391746
-version: 6
-date: '2025-09-18'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

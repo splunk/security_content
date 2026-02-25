@@ -1,7 +1,7 @@
 name: ASL AWS Network Access Control List Deleted
 id: e010ddf5-e9a5-44e5-bdd6-0c919ba8fc8b
-version: 5
-date: '2025-10-14'
+version: 6
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

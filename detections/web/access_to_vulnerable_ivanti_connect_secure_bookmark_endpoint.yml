@@ -1,7 +1,7 @@
 name: Access to Vulnerable Ivanti Connect Secure Bookmark Endpoint
 id: 15838756-f425-43fa-9d88-a7f88063e81a
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

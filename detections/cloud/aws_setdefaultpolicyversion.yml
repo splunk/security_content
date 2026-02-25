@@ -1,7 +1,7 @@
 name: AWS SetDefaultPolicyVersion
 id: 2a9b80d3-6340-4345-11ad-212bf3d0dac4
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP

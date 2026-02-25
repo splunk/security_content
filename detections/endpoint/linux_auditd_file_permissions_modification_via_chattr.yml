@@ -1,7 +1,7 @@
 name: Linux Auditd File Permissions Modification Via Chattr
 id: f2d1110d-b01c-4a58-9975-90a9edeb083a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: AWS Exfiltration via DataSync Task
 id: 05c4b09f-ea28-4c7c-a7aa-a246f665c8a2
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP

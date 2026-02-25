@@ -1,7 +1,7 @@
 name: Windows Audit Policy Cleared via Auditpol
 id: f067f7cf-f41b-4a60-985e-c23e268a13cb
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

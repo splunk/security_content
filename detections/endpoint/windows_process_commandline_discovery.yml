@@ -1,7 +1,7 @@
 name: Windows Process Commandline Discovery
 id: 67d2a52e-a7e2-4a5d-ae44-a21212048bc2
-version: 7
-date: '2025-05-19'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting

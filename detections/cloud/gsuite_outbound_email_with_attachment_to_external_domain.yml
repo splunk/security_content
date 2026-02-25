@@ -1,7 +1,7 @@
 name: Gsuite Outbound Email With Attachment To External Domain
 id: dc4dc3a8-ff54-11eb-8bf7-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Stanislav Miskovic, Splunk
 status: production
 type: Hunting

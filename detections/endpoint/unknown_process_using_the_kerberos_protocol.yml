@@ -1,7 +1,7 @@
 name: Unknown Process Using The Kerberos Protocol
 id: c91a0852-9fbb-11ec-af44-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

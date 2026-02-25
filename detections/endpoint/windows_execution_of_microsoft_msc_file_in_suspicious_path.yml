@@ -1,7 +1,7 @@
 name: Windows Execution of Microsoft MSC File In Suspicious Path
 id: ac30858b-7c25-4f0a-a7fa-bef036e49dc3
-version: 1
-date: '2026-02-03'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Windows AD Domain Controller Promotion
 id: e633a0ef-2a6e-4ed7-b925-5ff999e5d1f0
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Dean Luxton
 type: TTP
 status: production

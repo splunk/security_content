@@ -1,7 +1,7 @@
 name: Windows PUA Named Pipe
 id: 95b11d20-e2c6-46a5-b526-8629f5f0860a
-version: 1
-date: '2025-12-05'
+version: 2
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly

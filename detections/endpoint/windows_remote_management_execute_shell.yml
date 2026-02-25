@@ -1,7 +1,7 @@
 name: Windows Remote Management Execute Shell
 id: 28b80028-851d-4b8d-88a5-375ba115418a
-version: 4
-date: '2025-10-07'
+version: 5
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 1

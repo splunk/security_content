@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - High Volume of Intrusion Events Per Host
 id: 9f2295a0-0dcb-4a5f-b013-8a6f2a3c11f6
-version: 4
-date: '2026-01-21'
+version: 5
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

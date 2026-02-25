@@ -1,7 +1,7 @@
 name: Linux Service Restarted
 id: 084275ba-61b8-11ec-8d64-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

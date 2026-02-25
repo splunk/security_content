@@ -1,9 +1,9 @@
 name: Windows Unusual Count Of Users Failed To Authenticate Using NTLM
 id: 6f6c8fd7-6a6b-4af9-a0e9-57cfc47a58b4
 type: Anomaly
-version: 8
+version: 9
 status: production
-date: '2025-05-02'
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 data_source:
     - Windows Event Log Security 4776

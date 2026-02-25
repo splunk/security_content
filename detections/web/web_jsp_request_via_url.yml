@@ -1,7 +1,7 @@
 name: Web JSP Request via URL
 id: 2850c734-2d44-4431-8139-1a56f6f54c01
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

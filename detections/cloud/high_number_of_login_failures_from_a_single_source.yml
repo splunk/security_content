@@ -1,7 +1,7 @@
 name: High Number of Login Failures from a single source
 id: 7f398cfb-918d-41f4-8db8-2e2474e02222
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-25'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: Anomaly

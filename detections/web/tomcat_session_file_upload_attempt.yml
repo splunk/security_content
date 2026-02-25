@@ -1,7 +1,7 @@
 name: Tomcat Session File Upload Attempt
 id: a1d8f5c3-9b7e-4f2d-8c51-3bca5e672410
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly

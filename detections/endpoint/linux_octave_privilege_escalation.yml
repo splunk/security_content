@@ -1,7 +1,7 @@
 name: Linux Octave Privilege Escalation
 id: 78f7487d-42ce-4f7f-8685-2159b25fb477
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-02-25'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly

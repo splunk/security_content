@@ -1,7 +1,7 @@
 name: Detect AWS Console Login by User from New Country
 id: 67bd3def-c41c-4bf6-837b-ae196b4257c6
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Eric McGinnis Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: AWS S3 Exfiltration Behavior Identified
 id: 85096389-a443-42df-b89d-200efbb1b560
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Correlation

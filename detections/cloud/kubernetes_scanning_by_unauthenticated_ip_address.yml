@@ -1,7 +1,7 @@
 name: Kubernetes Scanning by Unauthenticated IP Address
 id: f9cadf4e-df22-4f4e-a08f-9d3344c2165d
-version: 6
-date: '2026-01-14'
+version: 7
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly

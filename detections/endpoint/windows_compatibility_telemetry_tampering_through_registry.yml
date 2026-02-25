@@ -1,7 +1,7 @@
 name: Windows Compatibility Telemetry Tampering Through Registry
 id: 43834687-cc48-4878-a2fa-f76e4271791f
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

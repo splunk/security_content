@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Allow Old Java
 id: ff56d843-57de-4a87-b726-13b145f6bf96
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator

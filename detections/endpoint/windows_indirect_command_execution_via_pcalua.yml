@@ -1,7 +1,7 @@
 name: Windows Indirect Command Execution Via pcalua
 id: 3428ac18-a410-4823-816c-ce697d26f7a8
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Eric McGinnis, Splunk
 status: production
 type: TTP

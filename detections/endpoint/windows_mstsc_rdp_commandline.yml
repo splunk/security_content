@@ -1,7 +1,7 @@
 name: Windows MSTSC RDP Commandline
 id: 3718549b-867e-4084-b770-790e8dab6ab8
-version: 3
-date: '2025-08-01'
+version: 4
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

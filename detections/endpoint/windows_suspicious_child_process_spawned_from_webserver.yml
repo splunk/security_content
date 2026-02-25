@@ -1,7 +1,7 @@
 name: Windows Suspicious Child Process Spawned From WebServer
 id: 2d4470ef-7158-4b47-b68b-1f7f16382156
-version: 7
-date: '2025-10-24'
+version: 8
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

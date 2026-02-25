@@ -1,8 +1,8 @@
 name: Windows Unusual Count Of Disabled Users Failed Auth Using Kerberos
 id: f65aa026-b811-42ab-b4b9-d9088137648f
-date: '2025-05-02'
+date: '2026-02-25'
 type: Anomaly
-version: 7
+version: 8
 status: production
 author: Mauricio Velazco, Splunk
 data_source:

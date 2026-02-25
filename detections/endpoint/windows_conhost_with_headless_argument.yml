@@ -1,7 +1,7 @@
 name: Windows ConHost with Headless Argument
 id: d5039508-998d-4cfc-8b5e-9dcd679d9a62
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

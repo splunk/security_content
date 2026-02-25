@@ -1,7 +1,7 @@
 name: Linux Change File Owner To Root
 id: c1400ea2-6257-11ec-ad49-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

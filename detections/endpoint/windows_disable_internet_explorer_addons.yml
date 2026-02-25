@@ -1,7 +1,7 @@
 name: Windows Disable Internet Explorer Addons
 id: 65224d8b-b95d-44ec-bb44-408d830c1258
-version: 1
-date: '2025-05-26'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

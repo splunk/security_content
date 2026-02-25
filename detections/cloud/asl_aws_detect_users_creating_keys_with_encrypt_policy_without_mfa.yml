@@ -1,7 +1,7 @@
 name: ASL AWS Detect Users creating keys with encrypt policy without MFA
 id: 16ae9076-d1d5-411c-8fdd-457504b33dac
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Detect Port Security Violation
 id: 2de3d5b8-a4fa-45c5-8540-6d071c194d24
-version: 8
-date: '2025-10-21'
+version: 9
+date: '2026-02-25'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP

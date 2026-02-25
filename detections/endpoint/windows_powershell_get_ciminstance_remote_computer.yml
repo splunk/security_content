@@ -1,7 +1,7 @@
 name: Windows PowerShell Get CIMInstance Remote Computer
 id: d8c972eb-ed84-431a-8869-ca4bd83257d1
-version: 7
-date: '2025-06-24'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production

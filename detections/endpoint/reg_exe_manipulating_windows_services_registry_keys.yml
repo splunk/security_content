@@ -1,7 +1,7 @@
 name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
-version: 12
-date: '2025-05-02'
+version: 13
+date: '2026-02-25'
 author: Rico Valdez, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Linux Possible Access Or Modification Of sshd Config File
 id: 7a85eb24-72da-11ec-ac76-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

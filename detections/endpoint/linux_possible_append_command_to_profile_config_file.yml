@@ -1,7 +1,7 @@
 name: Linux Possible Append Command To Profile Config File
 id: 9c94732a-61af-11ec-91e3-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

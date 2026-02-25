@@ -1,7 +1,7 @@
 name: Cisco Smart Install Port Discovery and Status
 id: ded9f9d7-edb8-48cf-8b72-1b459eee6785
-version: 2
-date: '2025-10-14'
+version: 3
+date: '2026-02-25'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP

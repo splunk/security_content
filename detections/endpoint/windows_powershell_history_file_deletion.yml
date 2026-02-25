@@ -1,7 +1,7 @@
 name: Windows Powershell History File Deletion
 id: f1369394-48e1-4327-bf6d-14377f4b8687
-version: 3
-date: '2025-06-24'
+version: 4
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

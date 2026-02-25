@@ -1,7 +1,7 @@
 name: Windows Certutil Root Certificate Addition
 id: e9926391-ec0c-4bad-8a95-e450dbf6aae4
-version: 2
-date: '2025-10-06'
+version: 3
+date: '2026-02-25'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP

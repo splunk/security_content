@@ -1,7 +1,7 @@
 name: Linux pkexec Privilege Escalation
 id: 03e22c1c-8086-11ec-ac2e-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Windows AD SID History Attribute Modified
 id: 1155e47d-307f-4247-beab-71071e3a458c
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production

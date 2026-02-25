@@ -1,7 +1,7 @@
 name: Linux Auditd Shred Overwrite Command
 id: ce2bde4d-a1d4-4452-8c87-98440e5adfb3
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

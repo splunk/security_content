@@ -1,7 +1,7 @@
 name: Windows Wmic DiskDrive Discovery
 id: 85e88c80-e4ee-4c65-b02e-3c54d94c7a51
-version: 1
-date: '2025-08-25'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

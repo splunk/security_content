@@ -1,7 +1,7 @@
 name: Windows Service Create with Tscon
 id: c13b3d74-6b63-4db5-a841-4206f0370077
-version: 11
-date: '2025-08-01'
+version: 12
+date: '2026-02-25'
 author: Michael Haag, Splunk
 type: TTP
 status: production

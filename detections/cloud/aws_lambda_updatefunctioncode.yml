@@ -1,7 +1,7 @@
 name: AWS Lambda UpdateFunctionCode
 id: 211b80d3-6340-4345-11ad-212bf3d0d111
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Hunting

@@ -1,7 +1,7 @@
 name: O365 ApplicationImpersonation Role Assigned
 id: 49cdce75-f814-4d56-a7a4-c64ec3a481f2
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

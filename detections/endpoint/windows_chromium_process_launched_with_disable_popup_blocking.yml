@@ -1,7 +1,7 @@
 name: Windows Chromium process Launched with Disable Popup Blocking
 id: 95f8acd6-978e-42d6-99c1-85baacdd2b46
-version: 1
-date: '2026-01-23'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: PowerShell - Connect To Internet With Hidden Window
 id: ee18ed37-0802-4268-9435-b3b91aaa18db
-version: 14
-date: '2025-05-02'
+version: 15
+date: '2026-02-25'
 author: David Dorsey, Michael Haag Splunk
 status: production
 type: Hunting

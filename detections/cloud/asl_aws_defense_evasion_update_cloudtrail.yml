@@ -1,7 +1,7 @@
 name: ASL AWS Defense Evasion Update Cloudtrail
 id: f3eb471c-16d0-404d-897c-7653f0a78cba
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP

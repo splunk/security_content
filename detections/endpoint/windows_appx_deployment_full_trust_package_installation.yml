@@ -1,7 +1,7 @@
 name: Windows AppX Deployment Full Trust Package Installation
 id: 8560de46-ea2d-4c69-8ca3-5b78b90f1338
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

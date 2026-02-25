@@ -1,7 +1,7 @@
 name: Windows AD Domain Replication ACL Addition
 id: 8c372853-f459-4995-afdc-280c114d33ab
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-02-25'
 author: Dean Luxton
 type: TTP
 status: production

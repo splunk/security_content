@@ -1,7 +1,7 @@
 name: CrowdStrike Falcon Stream Alerts
 id: cb6af2b3-29ab-441c-8d8d-679811c8b014
-version: 2
-date: '2026-02-06'
+version: 3
+date: '2026-02-25'
 author: Bryan Pluta, Teoderick Contreras, Splunk
 status: production
 type: Anomaly

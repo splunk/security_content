@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Wget or Curl Download
 id: 173a1cb9-1814-4128-a9dc-f29dade89957
-version: 5
-date: '2026-01-21'
+version: 6
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

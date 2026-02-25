@@ -1,7 +1,7 @@
 name: Windows Chromium Browser Launched with Small Window Size
 id: 88103f56-8f5c-411f-a87f-71bee776f140
-version: 1
-date: '2026-01-23'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

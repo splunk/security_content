@@ -1,7 +1,7 @@
 name: Web Spring Cloud Function FunctionRouter
 id: 89dddbad-369a-4f8a-ace2-2439218735bc
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

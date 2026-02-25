@@ -1,7 +1,7 @@
 name: Windows Office Product Spawned Rundll32 With No DLL
 id: f28e787e-69ca-480e-9f98-ab970e6d4bcc
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

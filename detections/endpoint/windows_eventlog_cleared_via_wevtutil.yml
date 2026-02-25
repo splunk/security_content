@@ -1,7 +1,7 @@
 name: Windows Eventlog Cleared Via Wevtutil
 id: fdb829a8-db84-4832-b64b-3e964cd44f01
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

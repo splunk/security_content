@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 16
-date: '2026-01-14'
+version: 17
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP

@@ -1,7 +1,7 @@
 name: Windows Vulnerable Driver Loaded
 id: a2b1f1ef-221f-4187-b2a4-d4b08ec745f4
-version: 7
-date: '2025-06-10'
+version: 8
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting

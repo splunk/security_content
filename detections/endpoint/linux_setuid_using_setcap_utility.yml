@@ -1,7 +1,7 @@
 name: Linux Setuid Using Setcap Utility
 id: 9d96022e-6250-11ec-9a19-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: TOR Traffic
 id: ea688274-9c06-4473-b951-e4cb7a5d7a45
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-02-25'
 author: David Dorsey, Bhavin Patel, Splunk
 status: production
 type: TTP

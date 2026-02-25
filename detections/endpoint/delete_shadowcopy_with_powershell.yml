@@ -1,7 +1,7 @@
 name: Delete ShadowCopy With PowerShell
 id: 5ee2bcd0-b2ff-11eb-bb34-acde48001122
-version: 9
-date: '2026-01-14'
+version: 10
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP

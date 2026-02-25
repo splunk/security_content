@@ -1,7 +1,7 @@
 name: Windows Office Product Spawned MSDT
 id: a3148fad-3734-4b7f-9a71-62f08d39fab1
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP

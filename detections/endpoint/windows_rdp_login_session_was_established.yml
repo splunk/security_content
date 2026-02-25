@@ -1,7 +1,7 @@
 name: Windows RDP Login Session Was Established
 id: 00ca7f9e-88ab-4841-a6c2-83979ab1ed29
-version: 2
-date: '2025-10-14'
+version: 3
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

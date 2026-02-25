@@ -1,7 +1,7 @@
 name: Microsoft SharePoint Server Elevation of Privilege
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859d
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP

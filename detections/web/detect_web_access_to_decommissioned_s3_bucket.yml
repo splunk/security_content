@@ -1,7 +1,7 @@
 name: Detect Web Access to Decommissioned S3 Bucket
 id: 3a1d8f62-5b9c-4e7d-b8f3-9d6a8e2f5e1f
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Jose Hernandez, Splunk
 status: experimental
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Windows Create Local Administrator Account Via Net
 id: 2c568c34-bb57-4b43-9d75-19c605b98e70
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly

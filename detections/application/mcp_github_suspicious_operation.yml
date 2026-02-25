@@ -1,7 +1,7 @@
 name: MCP Github Suspicious Operation
 id: 3348aefd-9ed8-451f-9993-1e9fa04b5530
-version: 1
-date: '2026-02-05'
+version: 2
+date: '2026-02-25'
 author: Rod Soto
 status: production
 type: Hunting

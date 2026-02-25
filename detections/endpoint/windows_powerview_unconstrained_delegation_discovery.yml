@@ -1,7 +1,7 @@
 name: Windows PowerView Unconstrained Delegation Discovery
 id: fbf9e47f-e531-4fea-942d-5c95af7ed4d6
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

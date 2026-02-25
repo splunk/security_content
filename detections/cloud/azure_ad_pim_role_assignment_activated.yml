@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assignment Activated
 id: 952e80d0-e343-439b-83f4-808c3e6fbf2e
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP

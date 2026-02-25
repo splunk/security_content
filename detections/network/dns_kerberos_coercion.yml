@@ -1,7 +1,7 @@
 name: DNS Kerberos Coercion
 id: 8551252d-b5b6-4b6e-8a82-51460aeb29a3
-version: 1
-date: '2025-11-14'
+version: 2
+date: '2026-02-25'
 author: Raven Tait, Splunk
 status: production
 type: TTP

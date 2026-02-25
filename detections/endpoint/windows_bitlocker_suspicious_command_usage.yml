@@ -1,7 +1,7 @@
 name: Windows BitLocker Suspicious Command Usage
 id: d0e6ec70-6e40-41a2-8b93-8d9ff077a746
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: TTP

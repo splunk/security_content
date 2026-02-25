@@ -1,7 +1,7 @@
 name: Cisco Duo Admin Login Unusual Browser
 id: b38932ad-e663-4e90-bfdf-8446ee5b3f34
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Activity

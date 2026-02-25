@@ -1,7 +1,7 @@
 name: O365 Exfiltration via File Download
 id: 06b23921-bfe2-4576-89dd-616f06e129da
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly

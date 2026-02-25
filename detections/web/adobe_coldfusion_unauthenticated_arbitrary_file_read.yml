@@ -1,7 +1,7 @@
 name: Adobe ColdFusion Unauthenticated Arbitrary File Read
 id: 695aceae-21db-4e7f-93ac-a52e39d02b93
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
