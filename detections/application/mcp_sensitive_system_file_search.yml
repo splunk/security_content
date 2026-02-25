@@ -7,47 +7,45 @@ status: production
 type: Hunting
 description: This detection identifies MCP filesystem tool usage attempting to search for files containing sensitive patterns such as passwords, credentials, API keys, secrets, and configuration files. Adversaries and malicious insiders may abuse legitimate MCP filesystem capabilities to conduct reconnaissance and discover sensitive data stores for exfiltration or credential harvesting.
 data_source:
-  - MCP Server
+    - MCP Server
 search: |
-  `mcp_server`
-  (method IN ("read_file", "get_file_contents", "read", "search_files", "find_files", "grep", "search", "list_directory", "read_directory"))
-  (params.path="*.ssh*" OR params.path="*Administrator*" OR params.path="*credentials*" OR params.path="*password*" OR params.path="*.env*" OR params.path="*id_rsa*" OR params.path="*.pem*" OR params.path="*.ppk*" OR params.path="*.key*" OR params.path="*secrets*" OR params.path="*.aws*" OR params.path="*.config*"
-  OR params.pattern="*password*" OR params.pattern="*key*" OR params.pattern="*secret*" OR params.pattern="*credential*" OR params.pattern="*token*" OR params.pattern="*auth*" OR params.pattern="*api_key*" OR params.pattern="*private_key*")
-  | eval dest=host
-  | eval detection_type=case(
-      method IN ("read_file", "get_file_contents", "read"), "PATH_ACCESS",
-      method IN ("search_files", "find_files", "grep", "search"), "PATTERN_SEARCH",
-      method IN ("list_directory", "read_directory"), "DIRECTORY_ENUM",
-      1=1, "UNKNOWN")
-  | eval target_path=coalesce('params.path', 'params.directory', 'params.file')
-  | eval search_pattern=coalesce('params.pattern', 'params.query', 'params.search')
-  | stats count min(_time) as firstTime max(_time) as lastTime values(detection_type) as detection_types values(target_path) as targeted_paths values(search_pattern) as search_patterns values(method) as methods_used by dest, source
-  | eval time_span_seconds=lastTime-firstTime
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | table dest firstTime lastTime count source detection_types methods_used targeted_paths search_patterns time_span_seconds
-  | `mcp_sensitive_system_file_search_filter`
+    `mcp_server`
+    (method IN ("read_file", "get_file_contents", "read", "search_files", "find_files", "grep", "search", "list_directory", "read_directory"))
+    (params.path="*.ssh*" OR params.path="*Administrator*" OR params.path="*credentials*" OR params.path="*password*" OR params.path="*.env*" OR params.path="*id_rsa*" OR params.path="*.pem*" OR params.path="*.ppk*" OR params.path="*.key*" OR params.path="*secrets*" OR params.path="*.aws*" OR params.path="*.config*"
+    OR params.pattern="*password*" OR params.pattern="*key*" OR params.pattern="*secret*" OR params.pattern="*credential*" OR params.pattern="*token*" OR params.pattern="*auth*" OR params.pattern="*api_key*" OR params.pattern="*private_key*")
+    | eval dest=host
+    | eval detection_type=case(
+        method IN ("read_file", "get_file_contents", "read"), "PATH_ACCESS",
+        method IN ("search_files", "find_files", "grep", "search"), "PATTERN_SEARCH",
+        method IN ("list_directory", "read_directory"), "DIRECTORY_ENUM",
+        1=1, "UNKNOWN")
+    | eval target_path=coalesce('params.path', 'params.directory', 'params.file')
+    | eval search_pattern=coalesce('params.pattern', 'params.query', 'params.search')
+    | stats count min(_time) as firstTime max(_time) as lastTime values(detection_type) as detection_types values(target_path) as targeted_paths values(search_pattern) as search_patterns values(method) as methods_used by dest, source
+    | eval time_span_seconds=lastTime-firstTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest firstTime lastTime count source detection_types methods_used targeted_paths search_patterns time_span_seconds
+    | `mcp_sensitive_system_file_search_filter`
 how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk, which ingests logs from MCP-enabled AI coding assistants and agents. Configure the TA to collect events from MCP servers by pointing it to the appropriate log sources (typically JSON-formatted logs from tools like Claude Code, Cursor, or custom MCP implementations). The TA should normalize file search operations into the search_files method with standardized parameter extraction.
-known_false_positives: Known false positives include legitimate development activities where developers search for configuration files, environment variables, or authentication modules as part of normal coding tasks, as well as security audits     
-  involving authorized security reviews or code scanning tools searching for hardcoded secrets. Additionally, documentation lookups for example config files or authentication documentation may trigger this detection, along with
-   refactoring tasks where developers rename or consolidate credential management code across a codebase, and onboarding activities where new developers explore unfamiliar codebases to understand authentication flows.  
+known_false_positives: Known false positives include legitimate development activities where developers search for configuration files, environment variables, or authentication modules as part of normal coding tasks, as well as security audits involving authorized security reviews or code scanning tools searching for hardcoded secrets. Additionally, documentation lookups for example config files or authentication documentation may trigger this detection, along with refactoring tasks where developers rename or consolidate credential management code across a codebase, and onboarding activities where new developers explore unfamiliar codebases to understand authentication flows.
 references:
-  - https://splunkbase.splunk.com/app/8377
-  - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+    - https://splunkbase.splunk.com/app/8377
+    - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
 tags:
-  analytic_story:
-    - Suspicious MCP Activities
-  asset_type: Web Application
-  mitre_attack_id:
-    - T1552.001
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Suspicious MCP Activities
+    asset_type: Web Application
+    mitre_attack_id:
+        - T1552.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
-        sourcetype: mcp:jsonrpc
-        source: mcp.log
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+          sourcetype: mcp:jsonrpc
+          source: mcp.log
