@@ -1,81 +1,66 @@
 name: Azure AD Multiple Users Failing To Authenticate From Ip
 id: 94481a6a-8f59-4c86-957f-55a71e3612a6
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-02-25'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a single source IP failing to authenticate
-  with 30 unique valid users within 5 minutes in Azure Active Directory. It leverages
-  Azure AD SignInLogs with error code 50126, indicating invalid passwords. This behavior
-  is significant as it may indicate a Password Spraying attack, where an adversary
-  attempts to gain initial access or elevate privileges by trying common passwords
-  across many accounts. If confirmed malicious, this activity could lead to unauthorized
-  access, data breaches, or privilege escalation within the Azure AD environment.
+description: The following analytic detects a single source IP failing to authenticate with 30 unique valid users within 5 minutes in Azure Active Directory. It leverages Azure AD SignInLogs with error code 50126, indicating invalid passwords. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges by trying common passwords across many accounts. If confirmed malicious, this activity could lead to unauthorized access, data breaches, or privilege escalation within the Azure AD environment.
 data_source:
-- Azure Active Directory
-search: '`azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false 
-  | rename properties.* as * 
-  | bucket span=5m _time 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime dc(user) as unique_user values(dest) as dest values(user) as user values(user_agent) as user_agent values(vendor_account) as vendor_account values(vendor_product) as vendor_product by src signature
-  | where unique_user > 30 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the Signin log category.
-known_false_positives: A source Ip failing to authenticate with multiple users is
-  not a common for legitimate behavior.
+    - Azure Active Directory
+search: |-
+    `azure_monitor_aad` category=SignInLogs properties.status.errorCode=50126 properties.authenticationDetails{}.succeeded=false
+      | rename properties.* as *
+      | bucket span=5m _time
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime dc(user) as unique_user values(dest) as dest values(user) as user values(user_agent) as user_agent values(vendor_account) as vendor_account values(vendor_product) as vendor_product
+        BY src signature
+      | where unique_user > 30
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_multiple_users_failing_to_authenticate_from_ip_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+known_false_positives: A source Ip failing to authenticate with multiple users is not a common for legitimate behavior.
 references:
-- https://attack.mitre.org/techniques/T1110/003/
-- https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
-- https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
-- https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
+    - https://attack.mitre.org/techniques/T1110/003/
+    - https://docs.microsoft.com/en-us/security/compass/incident-response-playbook-password-spray
+    - https://www.cisa.gov/uscert/ncas/alerts/aa21-008a
+    - https://docs.microsoft.com/azure/active-directory/reports-monitoring/reference-sign-ins-error-codes
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Source Ip $src$ failed to authenticate with 30 users within 5 minutes.
-  risk_objects:
-  - field: user
-    type: user
-    score: 63
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: Source Ip $src$ failed to authenticate with 30 users within 5 minutes.
+    risk_objects:
+        - field: user
+          type: user
+          score: 63
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1110.003
-  - T1110.004
-  - T1586.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1110.003
+        - T1110.004
+        - T1586.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/password_spraying_azuread/azuread_signin.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

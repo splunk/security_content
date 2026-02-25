@@ -56,6 +56,7 @@ Follow these steps to get started with Splunk Security Content.
 1. Clone this repository using `git clone https://github.com/splunk/security_content.git`
 2. Navigate to the repository directory using `cd security_content`
 3. Install contentctl using `pip install contentctl` to install the latest version of contentctl, this is a pre-requisite to validate, build and test the content like the Splunk Threat Research team
+4. Install pre-commit using `pip install pre-commit` then proceed to installing the hooks via `pre-commit install`. this is a pre-requisite to validate and apply the proper formatting.
 
 # Quick Start 🚀
 

@@ -1,84 +1,80 @@
 name: Cisco Secure Firewall - Wget or Curl Download
 id: 173a1cb9-1814-4128-a9dc-f29dade89957
-version: 5
-date: '2026-01-21'
+version: 6
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects outbound connections initiated by command-line tools such as curl or wget. It leverages Cisco Secure Firewall Threat Defense logs and identifies allowed connections (action=Allow) where either the EVE_Process or ClientApplication fields indicate use of these utilities. While curl and wget are legitimate tools commonly used for software updates and scripting, adversaries often abuse them to download payloads, retrieve additional tools, or establish staging infrastructure from compromised systems. If confirmed malicious, this behavior may indicate the download phase of an attack chain or a command-and-control utility retrieval.
+    The following analytic detects outbound connections initiated by command-line tools such as curl or wget. It leverages Cisco Secure Firewall Threat Defense logs and identifies allowed connections (action=Allow) where either the EVE_Process or ClientApplication fields indicate use of these utilities. While curl and wget are legitimate tools commonly used for software updates and scripting, adversaries often abuse them to download payloads, retrieve additional tools, or establish staging infrastructure from compromised systems. If confirmed malicious, this behavior may indicate the download phase of an attack chain or a command-and-control utility retrieval.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") AND
-  ( EVE_Process IN ("*curl*", "*wget*") OR ClientApplication IN ("cURL", "Wget") )
-  | stats count min(_time) as firstTime max(_time) as lastTime
-      Values(rule) as rule
-      Values(url) as url
-      Values(dest_port) as dest_port
-      Values(ClientApplicationVersion) as ClientApplicationVersion
-      Values(src_port) as src_port
-      by src, dest, transport, EVE_Process, ClientApplication, action
-  | table src src_port dest dest_port transport url EVE_Process ClientApplication ClientApplicationVersion rule firstTime lastTime
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `cisco_secure_firewall___wget_or_curl_download_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Trust", "Allow", "allowed") AND
+    ( EVE_Process IN ("*curl*", "*wget*") OR ClientApplication IN ("cURL", "Wget") )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        Values(rule) as rule
+        Values(url) as url
+        Values(dest_port) as dest_port
+        Values(ClientApplicationVersion) as ClientApplicationVersion
+        Values(src_port) as src_port
+        by src, dest, transport, EVE_Process, ClientApplication, action
+    | table src src_port dest dest_port transport url EVE_Process ClientApplication ClientApplicationVersion rule firstTime lastTime
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___wget_or_curl_download_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
 known_false_positives: |
-  Developers, administrators, or automation tools may use `curl` or `wget` for legitimate purposes such as software installation, configuration scripts, or CI/CD tasks.
-  Security tools or health monitoring scripts may also use these utilities to check service availability or download updates.
-  Review the destination `url`, frequency, and process context to validate whether the download activity is authorized.
+    Developers, administrators, or automation tools may use `curl` or `wget` for legitimate purposes such as software installation, configuration scripts, or CI/CD tasks.
+    Security tools or health monitoring scripts may also use these utilities to check service availability or download updates.
+    Review the destination `url`, frequency, and process context to validate whether the download activity is authorized.
 references:
-- https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search  src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The process $EVE_Process$ initiated an allowed connection to download content using a command-line utility ($ClientApplication$) from $url$. This behavior may indicate tool staging or payload retrieval via curl or wget.
-  risk_objects:
-    - field: src
-      type: system
-      score: 25
-  threat_objects:
-  - field: EVE_Process
-    type: process_name
-  - field: url
-    type: url
+    message: The process $EVE_Process$ initiated an allowed connection to download content using a command-line utility ($ClientApplication$) from $url$. This behavior may indicate tool staging or payload retrieval via curl or wget.
+    risk_objects:
+        - field: src
+          type: system
+          score: 25
+    threat_objects:
+        - field: EVE_Process
+          type: process_name
+        - field: url
+          type: url
 tags:
-  analytic_story:
-  - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  mitre_attack_id:
-    - T1053.003
-    - T1059
-    - T1071.001
-    - T1105
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    mitre_attack_id:
+        - T1053.003
+        - T1059
+        - T1071.001
+        - T1105
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

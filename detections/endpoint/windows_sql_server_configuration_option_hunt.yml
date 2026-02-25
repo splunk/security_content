@@ -1,51 +1,47 @@
 name: Windows SQL Server Configuration Option Hunt
 id: 8dc9efd5-805a-460e-889e-bc79e5477af9
-version: 3
-date: '2025-08-27'
+version: 4
+date: '2026-02-25'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: Hunting
 description: This detection helps hunt for changes to SQL Server configuration options that could indicate malicious activity. It monitors for modifications to any SQL Server configuration settings, allowing analysts to identify potentially suspicious changes that may be part of an attack, such as enabling dangerous features or modifying security-relevant settings.
 data_source:
-- Windows Event Log Application 15457
-search: '`wineventlog_application` EventCode=15457 
-    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
-    | rename host as dest
-    | eval change_type=case(
-        old_value="0" AND new_value="1", "enabled",
-        old_value="1" AND new_value="0", "disabled",
-        true(), "modified"
-    )
-    | eval risk_score=case(
-        change_type="enabled", 90,
-        change_type="disabled", 60,
-        true(), 70
-    )
-    | eval risk_message="SQL Server ".config_name." was ".change_type." on host ".dest
-    | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode config_name change_type risk_message risk_score
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)` | `windows_sql_server_configuration_option_hunt_filter`'
+    - Windows Event Log Application 15457
+search: |-
+    `wineventlog_application` EventCode=15457
+      | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
+      | rename host as dest
+      | eval change_type=case( old_value="0" AND new_value="1", "enabled", old_value="1" AND new_value="0", "disabled", true(), "modified" )
+      | eval risk_score=case( change_type="enabled", 90, change_type="disabled", 60, true(), 70 )
+      | eval risk_message="SQL Server ".config_name." was ".change_type." on host ".dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest EventCode config_name
+           change_type risk_message risk_score
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_sql_server_configuration_option_hunt_filter`
 how_to_implement: To successfully implement this detection, you need to be ingesting Windows Application Event Logs from SQL Server instances. The detection specifically looks for EventID 15457 which indicates configuration changes to SQL Server settings. Ensure proper logging is enabled for SQL Server configuration changes and that the logs are being forwarded to your SIEM.
 known_false_positives: Database administrators frequently make legitimate configuration changes for maintenance, performance tuning, and security hardening. To reduce false positives, establish a baseline of normal configuration changes, document approved configuration modifications, implement change control procedures, and maintain an inventory of expected settings.
 references:
-- https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-configuration-options-sql-server
-- https://attack.mitre.org/techniques/T1505/001/
-- https://www.netspi.com/blog/technical/network-penetration-testing/sql-server-persistence-part-1-startup-stored-procedures/
+    - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/server-configuration-options-sql-server
+    - https://attack.mitre.org/techniques/T1505/001/
+    - https://www.netspi.com/blog/technical/network-penetration-testing/sql-server-persistence-part-1-startup-stored-procedures/
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  asset_type: Windows
-  mitre_attack_id:
-  - T1505.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - SQL Server Abuse
+    asset_type: Windows
+    mitre_attack_id:
+        - T1505.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/windows-application.log
-    sourcetype: XmlWinEventLog
-    source: XmlWinEventLog:Application
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/windows-application.log
+          sourcetype: XmlWinEventLog
+          source: XmlWinEventLog:Application

@@ -1,64 +1,64 @@
 name: O365 Email New Inbox Rule Created
 id: 449f525a-7b42-47be-96a7-d9724e336c19
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic identifies the creation of new email inbox rules in an Office 365 environment. It detects events logged under New-InboxRule and Set-InboxRule operations within the o365_management_activity data source, focusing on parameters that may indicate mail forwarding, removal, or obfuscation. Inbox rule creation is a typical end-user activity however attackers also leverage this technique for multiple reasons.
-data_source: 
-- Office 365 Universal Audit Log
+data_source:
+    - Office 365 Universal Audit Log
 search: |-
-  `o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) Parameters{}.Name IN (SoftDeleteMessage,DeleteMessage,ForwardTo,ForwardAsAttachmentTo,RedirectTo,MoveToFolder,CopyToFolder)
-  | eval file_path = mvappend(MoveToFolder,CopyToFolder), recipient=mvappend(ForwardTo, ForwardAsAttachmentTo, RedirectTo), user = lower(UserId), signature = Operation, src = if(match(ClientIP, "^\["), ltrim(mvindex(split(ClientIP, "]:"), 0), "["), mvindex(split(ClientIP,":"),0)), desc = Name, action = 'Parameters{}.Name'
+    `o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) Parameters{}.Name IN (SoftDeleteMessage,DeleteMessage,ForwardTo,ForwardAsAttachmentTo,RedirectTo,MoveToFolder,CopyToFolder)
+    | eval file_path = mvappend(MoveToFolder,CopyToFolder), recipient=mvappend(ForwardTo, ForwardAsAttachmentTo, RedirectTo), user = lower(UserId), signature = Operation, src = if(match(ClientIP, "^\["), ltrim(mvindex(split(ClientIP, "]:"), 0), "["), mvindex(split(ClientIP,":"),0)), desc = Name, action = 'Parameters{}.Name'
 
-  | stats values(action) as action, values(src) as src, values(recipient) as recipient, values(file_path) as file_path, count, min(_time) as firstTime, max(_time) as lastTime by user, signature, desc
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `o365_email_new_inbox_rule_created_filter`
+    | stats values(action) as action, values(src) as src, values(recipient) as recipient, values(file_path) as file_path, count, min(_time) as firstTime, max(_time) as lastTime by user, signature, desc
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `o365_email_new_inbox_rule_created_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Users may create email rules for legitimate purposes. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1114/
-- https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
-- https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+    - https://attack.mitre.org/techniques/T1114/
+    - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+    - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate Inbox Rules for $user$ 
-  search: '`o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) AND UserId = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate Inbox Rules for $user$
+      search: '`o365_management_activity` Workload=Exchange AND (Operation=New-InboxRule OR Operation=Set-InboxRule) AND UserId = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A new email inbox rule was created for $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 10
-  threat_objects:
-  - field: desc
-    type: signature
+    message: A new email inbox rule was created for $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 10
+    threat_objects:
+        - field: desc
+          type: signature
 tags:
-  analytic_story: 
-  - Office 365 Collection Techniques
-  asset_type: O365 Tenant  
-  mitre_attack_id: 
-  - T1114.003
-  - T1564.008
-  product: 
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: audit
+    analytic_story:
+        - Office 365 Collection Techniques
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.003
+        - T1564.008
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
+          source: o365
+          sourcetype: o365:management:activity

@@ -5,65 +5,42 @@ date: '2025-10-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
-description: "The following analytic detects the creation or connection of anonymous
-  pipes for inter-process communication (IPC) within a Windows environment. Anonymous
-  pipes are commonly used by legitimate system processes, services, and applications
-  to transfer data between related processes. However, adversaries frequently abuse
-  anonymous pipes to facilitate stealthy process injection, command-and-control (C2)
-  communication, credential theft, or privilege escalation. This detection monitors
-  for unusual anonymous pipe activity, particularly involving non-system processes,
-  unsigned executables, or unexpected parent-child process relationships. While legitimate
-  use cases exist—such as Windows services, software installers, or security tools—unusual
-  or high-frequency anonymous pipe activity should be investigated for potential malware,
-  persistence mechanisms, or lateral movement techniques."
+description: "The following analytic detects the creation or connection of anonymous pipes for inter-process communication (IPC) within a Windows environment. Anonymous pipes are commonly used by legitimate system processes, services, and applications to transfer data between related processes. However, adversaries frequently abuse anonymous pipes to facilitate stealthy process injection, command-and-control (C2) communication, credential theft, or privilege escalation. This detection monitors for unusual anonymous pipe activity, particularly involving non-system processes, unsigned executables, or unexpected parent-child process relationships. While legitimate use cases exist—such as Windows services, software installers, or security tools—unusual or high-frequency anonymous pipe activity should be investigated for potential malware, persistence mechanisms, or lateral movement techniques."
 data_source:
-- Sysmon EventID 17
-- Sysmon EventID 18
-search: '`sysmon` EventCode IN (17,18) EventType IN ( "CreatePipe", "ConnectPipe")
-  PipeName="*Anonymous Pipe*" NOT( Image IN ("C:\\Program Files*", "C:\\Windows\\system32\\*","C:\\Windows\\syswow64\\*"))
-  | stats  min(_time) as firstTime max(_time) as lastTime count by dest EventCode
-  PipeName ProcessGuid ProcessId Image EventType | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_anonymous_pipe_activity_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting logs with the process name and pipename from your endpoints. If you 
-  are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
-known_false_positives: Automation tool might use anonymous pipe for task 
-  orchestration or process communication.
+    - Sysmon EventID 17
+    - Sysmon EventID 18
+search: '`sysmon` EventCode IN (17,18) EventType IN ( "CreatePipe", "ConnectPipe") PipeName="*Anonymous Pipe*" NOT( Image IN ("C:\\Program Files*", "C:\\Windows\\system32\\*","C:\\Windows\\syswow64\\*")) | stats  min(_time) as firstTime max(_time) as lastTime count by dest EventCode PipeName ProcessGuid ProcessId Image EventType | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_anonymous_pipe_activity_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and pipename from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. .
+known_false_positives: Automation tool might use anonymous pipe for task orchestration or process communication.
 references:
-- https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
+    - https://www.trendmicro.com/en_nl/research/24/k/earth-estries.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 tags:
-  analytic_story:
-  - Salt Typhoon
-  - China-Nexus Threat Activity
-  - SnappyBee
-  - Interlock Rat
-  - Castle RAT
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1559
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Salt Typhoon
+        - China-Nexus Threat Activity
+        - SnappyBee
+        - Interlock Rat
+        - Castle RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1559
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1559/anonymous_pipe/anonymouspipe.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1559/anonymous_pipe/anonymouspipe.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

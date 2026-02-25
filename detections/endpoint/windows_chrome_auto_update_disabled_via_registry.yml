@@ -6,85 +6,79 @@ author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects modifications to Windows registry values that disable Google Chrome auto-updates.
-  Changes to values such as DisableAutoUpdateChecksCheckboxValue = 1, Update{8A69D345-D564-463C-AFF1-A69D9E530F96} = 0, UpdateDefault = 0, and AutoUpdateCheckPeriodMinutes = 0 can prevent Chrome from receiving security updates.
-  This behavior may indicate attempts to bypass update policies, maintain unauthorized extensions, or facilitate malware persistence.
-  Monitoring these registry changes helps identify potential policy violations or malicious activity targeting browser security.
+    The following analytic detects modifications to Windows registry values that disable Google Chrome auto-updates.
+    Changes to values such as DisableAutoUpdateChecksCheckboxValue = 1, Update{8A69D345-D564-463C-AFF1-A69D9E530F96} = 0, UpdateDefault = 0, and AutoUpdateCheckPeriodMinutes = 0 can prevent Chrome from receiving security updates.
+    This behavior may indicate attempts to bypass update policies, maintain unauthorized extensions, or facilitate malware persistence.
+    Monitoring these registry changes helps identify potential policy violations or malicious activity targeting browser security.
 data_source:
-  - Sysmon EventID 13
+    - Sysmon EventID 13
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
 
-  where Registry.registry_path = "*\\Google\\Update*"
-        AND
-        (
-          Registry.registry_value_name = "DisableAutoUpdateChecksCheckboxValue"
-          Registry.registry_value_data = 0x00000001
-        )
-        OR
-        (
-          Registry.registry_value_name  IN (
-            "AutoUpdateCheckPeriodMinutes",
-            "Update{8A69D345-D564-463C-AFF1-A69D9E530F96}",
-            "UpdateDefault"
+    where Registry.registry_path = "*\\Google\\Update*"
+          AND
+          (
+            Registry.registry_value_name = "DisableAutoUpdateChecksCheckboxValue"
+            Registry.registry_value_data = 0x00000001
           )
-          Registry.registry_value_data = 0x00000000
-        )
+          OR
+          (
+            Registry.registry_value_name  IN (
+              "AutoUpdateCheckPeriodMinutes",
+              "Update{8A69D345-D564-463C-AFF1-A69D9E530F96}",
+              "UpdateDefault"
+            )
+            Registry.registry_value_data = 0x00000000
+          )
 
-  by Registry.action Registry.dest Registry.process_guid Registry.process_id
-     Registry.registry_hive Registry.registry_path Registry.registry_key_name
-     Registry.registry_value_data Registry.registry_value_name
-     Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
+    by Registry.action Registry.dest Registry.process_guid Registry.process_id
+       Registry.registry_hive Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_chrome_auto_update_disabled_via_registry_filter`
+    | `drop_dm_object_name(Registry)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_chrome_auto_update_disabled_via_registry_filter`
 how_to_implement: |
-  To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+    To successfully implement this search, you need to be ingesting
+    logs with the registry value name, registry path, and registry value data from your
+    endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
+    Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: |
-  IT administrators intentionally disabling auto-updates in managed environments for testing, compatibility, or deployment purposes.
+    IT administrators intentionally disabling auto-updates in managed environments for testing, compatibility, or deployment purposes.
 references:
-  - https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
+    - https://www.gdatasoftware.com/blog/2025/11/38298-learning-about-browser-hijacking
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Chrome Auto-update in $registry_path$ was disabled on $dest$
-  risk_objects:
-    - field: dest
-      type: system
-      score: 20
-  threat_objects: []
+    message: Chrome Auto-update in $registry_path$ was disabled on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-    - Browser Hijacking
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1185
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Browser Hijacking
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1185
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/disable_chrome_update/disable_chrome_update.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1185/disable_chrome_update/disable_chrome_update.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

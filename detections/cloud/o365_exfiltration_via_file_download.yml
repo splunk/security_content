@@ -1,66 +1,66 @@
 name: O365 Exfiltration via File Download
 id: 06b23921-bfe2-4576-89dd-616f06e129da
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic detects when an excessive number of files are downloaded from o365 by the same user over a short period of time. O365 may bundle these files together as a ZIP file, however each file will have it's own download event. This behavior may indicate an attacker staging data for exfiltration or an insider threat removing organizational data. Additional attention should be taken with any Azure Guest (#EXT#) accounts.
-data_source: 
-- Office 365 Universal Audit Log
+data_source:
+    - Office 365 Universal Audit Log
 search: |-
-  `o365_management_activity` Operation IN ("filedownloaded") 
-  | eval user = replace(mvindex(split(lower(UserId),"#ext#"),0),"_","@"), user_flat = replace(UserId, "[^A-Za-z0-9]","_")
-  | stats values(user) as user, latest(ClientIP) as src values(ZipFileName) as file_name, values(Operation) as signature, values(UserAgent) as http_user_agent, dc(SourceFileName) as count, min(_time) as firstTime, max(_time) as lastTime by Workload,UserId,SiteUrl
-  | rename SiteUrl as file_path,Workload as app
-  | where count > 50
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `o365_exfiltration_via_file_download_filter`
+    `o365_management_activity` Operation IN ("filedownloaded")
+    | eval user = replace(mvindex(split(lower(UserId),"#ext#"),0),"_","@"), user_flat = replace(UserId, "[^A-Za-z0-9]","_")
+    | stats values(user) as user, latest(ClientIP) as src values(ZipFileName) as file_name, values(Operation) as signature, values(UserAgent) as http_user_agent, dc(SourceFileName) as count, min(_time) as firstTime, max(_time) as lastTime by Workload,UserId,SiteUrl
+    | rename SiteUrl as file_path,Workload as app
+    | where count > 50
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `o365_exfiltration_via_file_download_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: It is possible that certain file download scenarios may trigger this alert, specifically OneDrive syncing. Adjust threshold and filtering as needed.
 references:
-- https://attack.mitre.org/techniques/T1567/exfil
-- https://www.varonis.com/blog/sidestepping-detection-while-exfiltrating-sharepoint-data
-- https://thedfirjournal.com/posts/m365-data-exfiltration-rclone/
+    - https://attack.mitre.org/techniques/T1567/exfil
+    - https://www.varonis.com/blog/sidestepping-detection-while-exfiltrating-sharepoint-data
+    - https://thedfirjournal.com/posts/m365-data-exfiltration-rclone/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate file downloads by $user$ 
-  search: '`o365_management_activity` Operation IN ("filedownloaded") UserId="$UserId$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate file downloads by $user$
+      search: '`o365_management_activity` Operation IN ("filedownloaded") UserId="$UserId$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The user $user$ downloaded an excessive number of files [$count$] from $file_path$ using $src$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: The user $user$ downloaded an excessive number of files [$count$] from $file_path$ using $src$
+    risk_objects:
+        - field: user
+          type: user
+          score: 25
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story: 
-  - Data Exfiltration
-  - Office 365 Account Takeover
-  asset_type: O365 Tenant
-  mitre_attack_id: 
-  - T1567
-  - T1530  
-  product: 
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Data Exfiltration
+        - Office 365 Account Takeover
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1567
+        - T1530
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/o365_sus_file_activity/o365_sus_file_activity.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1567/o365_sus_file_activity/o365_sus_file_activity.log
+          source: o365
+          sourcetype: o365:management:activity

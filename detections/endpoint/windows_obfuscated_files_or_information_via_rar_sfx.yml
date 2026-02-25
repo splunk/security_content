@@ -1,71 +1,60 @@
 name: Windows Obfuscated Files or Information via RAR SFX
 id: 4ab6862b-ce88-4223-96c0-f6da2cffb898
-version: 5
-date: '2025-09-16'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon EventID 11
+    - Sysmon EventID 11
 type: Anomaly
 status: production
-description: The following analytic detects the creation of RAR Self-Extracting (SFX)
-  files by monitoring the generation of file related to rar sfx .tmp file creation
-  during sfx installation. This method leverages a heuristic to identify RAR SFX archives
-  based on specific markers that indicate a combination of executable code and compressed
-  RAR data. By tracking such activity, the analytic helps pinpoint potentially unauthorized
-  or suspicious file creation events, which are often associated with malware packaging
-  or data exfiltration. Legitimate usage may include custom installers or compressed
-  file delivery.
-search: '`sysmon` EventCode=11 TargetFilename IN ("*__tmp_rar_sfx_access_check*")
-  | stats count min(_time) as firstTime max(_time) as lastTime by action dest file_name
-  file_path  process_guid process_id user user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_obfuscated_files_or_information_via_rar_sfx_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, TargetFilename, and eventcode 11 executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where rar sfx executable may be used.
-known_false_positives: It can detect a third part utility software tool compiled to
-  rar sfx.
+description: The following analytic detects the creation of RAR Self-Extracting (SFX) files by monitoring the generation of file related to rar sfx .tmp file creation during sfx installation. This method leverages a heuristic to identify RAR SFX archives based on specific markers that indicate a combination of executable code and compressed RAR data. By tracking such activity, the analytic helps pinpoint potentially unauthorized or suspicious file creation events, which are often associated with malware packaging or data exfiltration. Legitimate usage may include custom installers or compressed file delivery.
+search: |-
+    `sysmon` EventCode=11 TargetFilename IN ("*__tmp_rar_sfx_access_check*")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY action dest file_name
+           file_path process_guid process_id
+           user user_id vendor_product
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_obfuscated_files_or_information_via_rar_sfx_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, TargetFilename, and eventcode 11 executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where rar sfx executable may be used.
+known_false_positives: It can detect a third part utility software tool compiled to rar sfx.
 references:
-- https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
+    - https://www.splunk.com/en_us/blog/security/-applocker-rules-as-defense-evasion-complete-analysis.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A process drops [$file_name$] on [$dest$].
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects:
-  - field: file_name
-    type: file_name
+    message: A process drops [$file_name$] on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects:
+        - field: file_name
+          type: file_name
 tags:
-  analytic_story:
-  - Crypto Stealer
-  - APT37 Rustonotto and FadeStealer
-  - GhostRedirector IIS Module and Rungan Backdoor
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1027.013
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Crypto Stealer
+        - APT37 Rustonotto and FadeStealer
+        - GhostRedirector IIS Module and Rungan Backdoor
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1027.013
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.013/rar_sfx_execution/rar_sfx.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.013/rar_sfx_execution/rar_sfx.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,29 +1,26 @@
 name: Zoom Rare Audio Devices
 id: 9fdbf709-4c46-4819-9fb6-98b2d72059ed
-version: 1
-date: '2025-06-02'
+version: 2
+date: '2026-02-25'
 author: Marissa Bower, Raven Tait
 status: experimental
 type: Hunting
-description: Detects rare audio devices from Zoom logs. Actors performing Remote Employment 
-  Fraud (REF) typically use unusual device information compared to a majority of employees.
-  Detecting this activity requires careful analysis, regular review, and a thorough 
-  understanding of the audio and video devices commonly used within your environment. 
+description: Detects rare audio devices from Zoom logs. Actors performing Remote Employment Fraud (REF) typically use unusual device information compared to a majority of employees. Detecting this activity requires careful analysis, regular review, and a thorough understanding of the audio and video devices commonly used within your environment.
 data_source: []
-search: '`zoom_index` speaker=* NOT (camera=*iPhone* OR camera="*FaceTime*" 
-  OR speaker="*AirPods*" OR camera="*MacBook*" OR microphone="*MacBook Pro Microphone*") 
-  | rare speaker limit=50 | `zoom_rare_audio_devices_filter`'
-how_to_implement: The analytic leverages Zoom logs to be ingested using
-  Splunk Connect for Zoom (https://splunkbase.splunk.com/app/4961)
+search: |-
+    `zoom_index` speaker=* NOT (camera=*iPhone* OR camera="*FaceTime*" OR speaker="*AirPods*" OR camera="*MacBook*" OR microphone="*MacBook Pro Microphone*")
+      | rare speaker limit=50
+      | `zoom_rare_audio_devices_filter`
+how_to_implement: The analytic leverages Zoom logs to be ingested using Splunk Connect for Zoom (https://splunkbase.splunk.com/app/4961)
 known_false_positives: This is a hunting query meant to identify rare audio devices.
 tags:
-  analytic_story:
-  - Remote Employment Fraud
-  asset_type: Identity
-  mitre_attack_id:
-  - T1123
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Remote Employment Fraud
+    asset_type: Identity
+    mitre_attack_id:
+        - T1123
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity

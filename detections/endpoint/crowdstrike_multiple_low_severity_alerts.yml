@@ -1,69 +1,55 @@
 name: Crowdstrike Multiple LOW Severity Alerts
 id: 5c2c02d8-bee7-4f5c-9dea-e3e1012daddb
-version: 5
-date: '2026-01-14'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly
 status: production
-description: The following analytic detects multiple CrowdStrike LOW severity alerts,
-  indicating a series of minor suspicious activities or policy violations. These alerts
-  are not immediately critical but should be reviewed to prevent potential threats.
-  They often highlight unusual behavior or low-level risks that, if left unchecked,
-  could escalate into more significant security issues. Regular monitoring and analysis
-  of these alerts are essential for maintaining robust security.
-search: '`crowdstrike_stream` tag=alert event.SeverityName= LOW | rename event.EndpointIp
-  as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription
-  as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts,
-  event.SeverityName as severity | stats dc(type) as type_count, values(user) as users,
-  values(description) as descriptions, values(type) as types, values(severity) count
-  min(_time) as firstTime max(_time) as lastTime by src_ip src_host | where type_count
-  >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `crowdstrike_multiple_low_severity_alerts_filter`'
-how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming
-  API. Set up an API client, authenticate with your CrowdStrike credentials, and subscribe
-  to the "CrowdStrike:Event:Streams:JSON" event stream. Process and store the JSON
-  logs as needed, integrating them into your logging or SIEM system for monitoring
-  and analysis.
+description: The following analytic detects multiple CrowdStrike LOW severity alerts, indicating a series of minor suspicious activities or policy violations. These alerts are not immediately critical but should be reviewed to prevent potential threats. They often highlight unusual behavior or low-level risks that, if left unchecked, could escalate into more significant security issues. Regular monitoring and analysis of these alerts are essential for maintaining robust security.
+search: |-
+    `crowdstrike_stream` tag=alert event.SeverityName= LOW
+      | rename event.EndpointIp as src_ip, event.EndpointName as src_host, event.UserName as user, event.IncidentDescription as description, event.IncidentType as type, event.NumbersOfAlerts as count_alerts, event.SeverityName as severity
+      | stats dc(type) as type_count, values(user) as users, values(description) as descriptions, values(type) as types, values(severity) count min(_time) as firstTime max(_time) as lastTime
+        BY src_ip src_host
+      | where type_count >= 3
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `crowdstrike_multiple_low_severity_alerts_filter`
+how_to_implement: To implement CrowdStrike stream JSON logs, use the Falcon Streaming API. Set up an API client, authenticate with your CrowdStrike credentials, and subscribe to the "CrowdStrike:Event:Streams:JSON" event stream. Process and store the JSON logs as needed, integrating them into your logging or SIEM system for monitoring and analysis.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
+    - https://www.crowdstrike.com/wp-content/uploads/2022/12/CrowdStrike-Falcon-Event-Streams-Add-on-Guide-v3.pdf
 drilldown_searches:
-- name: View the detection results for - "$src_host$"
-  search: '%original_detection_search% | search  src_host = "$src_host$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_host$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_host$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_host$"
+      search: '%original_detection_search% | search  src_host = "$src_host$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_host$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_host$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Several LOW severity alerts found in $src_host$
-  risk_objects:
-  - field: src_host
-    type: system
-    score: 49
-  threat_objects: []
+    message: Several LOW severity alerts found in $src_host$
+    risk_objects:
+        - field: src_host
+          type: system
+          score: 49
+    threat_objects: []
 tags:
-  analytic_story:
-  - Compromised Windows Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1110
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1110
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/multiple_low_alert/crowdstrike_multiple_low_cleaned.log
-    sourcetype: CrowdStrike:Event:Streams:JSON
-    source: CrowdStrike:Event:Streams
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/crowdstrike_stream/multiple_low_alert/crowdstrike_multiple_low_cleaned.log
+          sourcetype: CrowdStrike:Event:Streams:JSON
+          source: CrowdStrike:Event:Streams

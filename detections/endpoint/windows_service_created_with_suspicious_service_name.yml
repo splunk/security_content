@@ -1,76 +1,76 @@
 name: Windows Service Created with Suspicious Service Name
 id: 35eb6d19-a497-400c-93c5-645562804b11
-version: 4
-date: '2025-12-04'
+version: 5
+date: '2026-02-25'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects the creation of a Windows Service with a known suspicious or malicious name using Windows Event ID 7045. It leverages logs from the `wineventlog_system` to identify these services installations. This activity is significant as adversaries, including those deploying Clop ransomware, often create malicious services for lateral movement, remote code execution, persistence, and execution. If confirmed malicious, this could allow attackers to maintain persistence, execute arbitrary code, and potentially escalate privileges, posing a severe threat to the environment. 
-data_source: 
-- Windows Event Log System 7045
+description: The following analytic detects the creation of a Windows Service with a known suspicious or malicious name using Windows Event ID 7045. It leverages logs from the `wineventlog_system` to identify these services installations. This activity is significant as adversaries, including those deploying Clop ransomware, often create malicious services for lateral movement, remote code execution, persistence, and execution. If confirmed malicious, this could allow attackers to maintain persistence, execute arbitrary code, and potentially escalate privileges, posing a severe threat to the environment.
+data_source:
+    - Windows Event Log System 7045
 search: |-
-  `wineventlog_system` EventCode=7045 
-  | stats values(ImagePath) as process, count, min(_time) as firstTime, max(_time) as lastTime values(EventCode) as signature by Computer, ServiceName, StartType, ServiceType, UserID
-  | eval process_name = replace(mvindex(split(process,"\\"),-1), "\"", "")
-  | rename Computer as dest, ServiceName as object_name, ServiceType as object_type, UserID as user_id
-  | lookup windows_suspicious_services service_name as object_name
-  | where isnotnull(tool_name)
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `windows_service_created_with_suspicious_service_name_filter`
+    `wineventlog_system` EventCode=7045
+    | stats values(ImagePath) as process, count, min(_time) as firstTime, max(_time) as lastTime values(EventCode) as signature by Computer, ServiceName, StartType, ServiceType, UserID
+    | eval process_name = replace(mvindex(split(process,"\\"),-1), "\"", "")
+    | rename Computer as dest, ServiceName as object_name, ServiceType as object_type, UserID as user_id
+    | lookup windows_suspicious_services service_name as object_name
+    | where isnotnull(tool_name)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_service_created_with_suspicious_service_name_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the Service name, Service File Name Service Start type, and Service Type from your endpoints.
 known_false_positives: Legitimate applications may install services with uncommon services paths.
 references:
-- https://attack.mitre.org/techniques/T1569/002/
-- https://github.com/BishopFox/sliver/blob/71f94928bf36c1557ea5fbeffa161b71116f56b2/client/command/exec/psexec.go#LL61C5-L61C16
-- https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
-- https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_windows_services_names_list.csv
+    - https://attack.mitre.org/techniques/T1569/002/
+    - https://github.com/BishopFox/sliver/blob/71f94928bf36c1557ea5fbeffa161b71116f56b2/client/command/exec/psexec.go#LL61C5-L61C16
+    - https://www.microsoft.com/en-us/security/blog/2022/08/24/looking-for-the-sliver-lining-hunting-for-emerging-command-and-control-frameworks/
+    - https://github.com/mthcht/awesome-lists/blob/main/Lists/suspicious_windows_services_names_list.csv
 drilldown_searches:
-- name: View the detection results for - "$dest$""
-  search: '%original_detection_search% | search dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate service events on $dest$ 
-  search: '`wineventlog_system` EventCode=7045 ServiceName = "$object_name$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$""
+      search: '%original_detection_search% | search dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate service events on $dest$
+      search: '`wineventlog_system` EventCode=7045 ServiceName = "$object_name$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A known malicious service name $object_name$ was created using $process$ on $dest$, this may indicate the presence of [$tool_name$]
-  risk_objects: 
-  - field: dest
-    type: system
-    score: 75
-  threat_objects: 
-  - field: process
-    type: process
-  - field: object_name
-    type: signature
+    message: A known malicious service name $object_name$ was created using $process$ on $dest$, this may indicate the presence of [$tool_name$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 75
+    threat_objects:
+        - field: process
+          type: process
+        - field: object_name
+          type: signature
 tags:
-  analytic_story: 
-  - Active Directory Lateral Movement
-  - Brute Ratel C4
-  - CISA AA23-347A
-  - Clop Ransomware
-  - Flax Typhoon
-  - PlugX
-  - Qakbot
-  - Snake Malware
-  - Tuoni
-  asset_type: Endpoint
-  mitre_attack_id: 
-  - T1569.002
-  product: 
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Lateral Movement
+        - Brute Ratel C4
+        - CISA AA23-347A
+        - Clop Ransomware
+        - Flax Typhoon
+        - PlugX
+        - Qakbot
+        - Snake Malware
+        - Tuoni
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1569.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/sliver_windows-system.log
-    source: XmlWinEventLog:System
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1055/sliver/sliver_windows-system.log
+          source: XmlWinEventLog:System
+          sourcetype: XmlWinEventLog

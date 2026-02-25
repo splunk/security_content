@@ -1,50 +1,48 @@
 name: Excessive DNS Failures
 id: 104658f4-afdc-499e-9719-17243f9826f1
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-25'
 author: bowesmana, Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies excessive DNS query failures by counting
-  DNS responses that do not indicate success, triggering when there are more than
-  50 occurrences. It leverages the Network_Resolution data model, focusing on DNS
-  reply codes that signify errors. This activity is significant because a high number
-  of DNS failures can indicate potential network misconfigurations, DNS poisoning
-  attempts, or malware communication issues. If confirmed malicious, this activity
-  could lead to disrupted network services, hindered communication, or data exfiltration
-  attempts by attackers.
+description: The following analytic identifies excessive DNS query failures by counting DNS responses that do not indicate success, triggering when there are more than 50 occurrences. It leverages the Network_Resolution data model, focusing on DNS reply codes that signify errors. This activity is significant because a high number of DNS failures can indicate potential network misconfigurations, DNS poisoning attempts, or malware communication issues. If confirmed malicious, this activity could lead to disrupted network services, hindered communication, or data exfiltration attempts by attackers.
 data_source: []
-search: '| tstats `security_content_summariesonly` count from datamodel=Network_Resolution
-  where nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown"
-  NOT "DNS.query"="*.arpa" "DNS.query"="*.*" by "DNS.src" "DNS.query" "DNS.reply_code"
-  | `drop_dm_object_name("DNS")` | lookup cim_corporate_web_domain_lookup domain as
-  query OUTPUT domain | where isnull(domain) | lookup update=true alexa_lookup_by_str
-  domain as query OUTPUT rank | where isnull(rank) | eventstats max(count) as mc by
-  src reply_code | eval mode_query=if(count=mc, query, null()) | stats sum(count)
-  as count values(mode_query) as query values(mc) as max_query_count by src reply_code
-  | where count>50 | `get_asset(src)` | `excessive_dns_failures_filter`'
-how_to_implement: To successfully implement this search you must ensure that DNS data
-  is populating the Network_Resolution data model.
-known_false_positives: It is possible legitimate traffic can trigger this rule. Please
-  investigate as appropriate. The threshold for generating an event can also be customized
-  to better suit your environment.
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Network_Resolution
+      WHERE nodename=DNS "DNS.reply_code"!="No Error" "DNS.reply_code"!="NoError" DNS.reply_code!="unknown" NOT "DNS.query"="*.arpa" "DNS.query"="*.*"
+      BY "DNS.src" "DNS.query" "DNS.reply_code"
+    | `drop_dm_object_name("DNS")`
+    | lookup cim_corporate_web_domain_lookup domain as query OUTPUT domain
+    | where isnull(domain)
+    | lookup update=true alexa_lookup_by_str domain as query OUTPUT rank
+    | where isnull(rank)
+    | eventstats max(count) as mc
+      BY src reply_code
+    | eval mode_query=if(count=mc, query, null())
+    | stats sum(count) as count values(mode_query) as query values(mc) as max_query_count
+      BY src reply_code
+    | where count>50
+    | `get_asset(src)`
+    | `excessive_dns_failures_filter`
+how_to_implement: To successfully implement this search you must ensure that DNS data is populating the Network_Resolution data model.
+known_false_positives: It is possible legitimate traffic can trigger this rule. Please investigate as appropriate. The threshold for generating an event can also be customized to better suit your environment.
 references: []
 rba:
-  message: Excessive DNS failures detected on $src$
-  risk_objects:
-  - field: src
-    type: system
-    score: 25
-  threat_objects: []
+    message: Excessive DNS failures detected on $src$
+    risk_objects:
+        - field: src
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Suspicious DNS Traffic
-  - Command And Control
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1071.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Suspicious DNS Traffic
+        - Command And Control
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1071.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network

@@ -1,78 +1,65 @@
 name: O365 Multiple Mailboxes Accessed via API
 id: 7cd853e9-d370-412f-965d-a2bcff2a2908
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 data_source:
-- O365 MailItemsAccessed
+    - O365 MailItemsAccessed
 type: TTP
 status: production
-description: The following analytic detects when a high number of Office 365 Exchange
-  mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) within
-  a short timeframe. It leverages 'MailItemsAccessed' operations in Exchange, using
-  AppId and regex to identify API interactions. This activity is significant as it
-  may indicate unauthorized mass email access, potentially signaling data exfiltration
-  or account compromise. If confirmed malicious, attackers could gain access to sensitive
-  information, leading to data breaches and further exploitation of compromised accounts.
-  The threshold is set to flag over five unique mailboxes accessed within 10 minutes,
-  but should be tailored to your environment.
-search: '`o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* ClientAppId=* 
-  | bucket span=10m _time 
-  | eval matchRegex=if(match(ClientInfoString,"^Client=WebServices;ExchangeWebServices"), 1, 0) 
-  | search (AppId="00000003-0000-0000-c000-000000000000" OR matchRegex=1) 
-  | fillnull 
-  | stats values(ClientIPAddress) as src dc(user) as unique_mailboxes values(user) as user by _time ClientAppId ClientInfoString vendor_account vendor_product dest signature
-  | where unique_mailboxes > 5 
-  | `o365_multiple_mailboxes_accessed_via_api_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Legitimate applications may access multiple mailboxes via an
-  API. You can filter by the ClientAppId or the CLientIpAddress fields.
+description: The following analytic detects when a high number of Office 365 Exchange mailboxes are accessed via API (Microsoft Graph API or Exchange Web Services) within a short timeframe. It leverages 'MailItemsAccessed' operations in Exchange, using AppId and regex to identify API interactions. This activity is significant as it may indicate unauthorized mass email access, potentially signaling data exfiltration or account compromise. If confirmed malicious, attackers could gain access to sensitive information, leading to data breaches and further exploitation of compromised accounts. The threshold is set to flag over five unique mailboxes accessed within 10 minutes, but should be tailored to your environment.
+search: |-
+    `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* ClientAppId=*
+      | bucket span=10m _time
+      | eval matchRegex=if(match(ClientInfoString,"^Client=WebServices;ExchangeWebServices"), 1, 0)
+      | search (AppId="00000003-0000-0000-c000-000000000000" OR matchRegex=1)
+      | fillnull
+      | stats values(ClientIPAddress) as src dc(user) as unique_mailboxes values(user) as user
+        BY _time ClientAppId ClientInfoString
+           vendor_account vendor_product dest
+           signature
+      | where unique_mailboxes > 5
+      | `o365_multiple_mailboxes_accessed_via_api_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Legitimate applications may access multiple mailboxes via an API. You can filter by the ClientAppId or the CLientIpAddress fields.
 references:
-- https://attack.mitre.org/techniques/T1114/002/
-- https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
-- https://learn.microsoft.com/en-us/graph/permissions-reference
-- https://attack.mitre.org/techniques/T1114/002/
-- https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
-- https://learn.microsoft.com/en-us/exchange/client-developer/exchange-web-services/ews-applications-and-the-exchange-architecture
+    - https://attack.mitre.org/techniques/T1114/002/
+    - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+    - https://learn.microsoft.com/en-us/graph/permissions-reference
+    - https://attack.mitre.org/techniques/T1114/002/
+    - https://www.microsoft.com/en-us/security/blog/2024/01/25/midnight-blizzard-guidance-for-responders-on-nation-state-attack/
+    - https://learn.microsoft.com/en-us/exchange/client-developer/exchange-web-services/ews-applications-and-the-exchange-architecture
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An Oauth application identified with id $ClientAppId$ accessed multiple
-    mailboxes in a short period of time via an API.
-  risk_objects:
-  - field: user
-    type: user
-    score: 42
-  threat_objects: []
+    message: An Oauth application identified with id $ClientAppId$ accessed multiple mailboxes in a short period of time via an API.
+    risk_objects:
+        - field: user
+          type: user
+          score: 42
+    threat_objects: []
 tags:
-  analytic_story:
-  - Office 365 Collection Techniques
-  - NOBELIUM Group
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1114.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Office 365 Collection Techniques
+        - NOBELIUM Group
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_multiple_mailboxes_accessed_via_api/o365_multiple_mailboxes_accessed_via_api.log
+          source: o365
+          sourcetype: o365:management:activity

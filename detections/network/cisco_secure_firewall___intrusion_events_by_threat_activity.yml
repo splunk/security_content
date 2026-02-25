@@ -6,98 +6,94 @@ author: Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events.
-  It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures
-  associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a
-  lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques.
-  When multiple signatures associated with the same threat actor are triggered within the time window, and the count of
-  unique signatures matches or exceeds the expected number of signatures for that threat technique, an alert is generated.
-  This helps identify potential coordinated threat activity in your network environment by correlating related intrusion
-  events that occur in close temporal proximity.
+    This analytic detects intrusion events from known threat activity using Cisco Secure Firewall Intrusion Events.
+    It leverages Cisco Secure Firewall Threat Defense IntrusionEvent logs to identify cases where one or multiple Snort signatures
+    associated with a known threat or threat actor activity have been triggered within a one-hour time window. The detection uses a
+    lookup table (cisco_snort_ids_to_threat_mapping) to map Snort signature IDs to known threat actors and their techniques.
+    When multiple signatures associated with the same threat actor are triggered within the time window, and the count of
+    unique signatures matches or exceeds the expected number of signatures for that threat technique, an alert is generated.
+    This helps identify potential coordinated threat activity in your network environment by correlating related intrusion
+    events that occur in close temporal proximity.
 
-  Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
+    Currently, this detection will alert on the following threat actors or malware families as defined in the cisco_snort_ids_to_threat_mapping lookup:
 
-  * AgentTesla
-  * Amadey
-  * ArcaneDoor
-  * AsyncRAT
-  * CastleRAT
-  * Chafer
-  * DCRAT
-  * LokiBot
-  * Lumma Stealer
-  * Nobelium
-  * Quasar
-  * Remcos
-  * Snake
-  * Static Tundra
-  * Xworm
+    * AgentTesla
+    * Amadey
+    * ArcaneDoor
+    * AsyncRAT
+    * CastleRAT
+    * Chafer
+    * DCRAT
+    * LokiBot
+    * Lumma Stealer
+    * Nobelium
+    * Quasar
+    * Remcos
+    * Snake
+    * Static Tundra
+    * Xworm
 
-  To add or update threat actors, update the cisco_snort_ids_to_threat_mapping.csv lookup file with new or modified threat names and associated Snort signature IDs.
+    To add or update threat actors, update the cisco_snort_ids_to_threat_mapping.csv lookup file with new or modified threat names and associated Snort signature IDs.
 data_source:
-  - Cisco Secure Firewall Threat Defense Intrusion Event
+    - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
-  `cisco_secure_firewall` EventType=IntrusionEvent
-  | stats count AS total_alerts, dc(signature_id) AS sig_count, values(SnortRuleGroups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest signature_id
-  | lookup cisco_snort_ids_to_threat_mapping signature_id OUTPUT threat, category, message
-  | where isnotnull(threat)
-  | bin _time span=1d
-  | stats count AS Total_Alerts, dc(signature_id) AS sig_count, values(signature_id) AS signature_id, values(category) AS category, values(message) AS message, values(snort_rule_groups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest threat
-  | lookup threat_snort_count threat OUTPUT description, distinct_count_snort_ids
-  | table _time, dest, src, threat, category, message, description, signature_id, signature, snort_rule_groups, sig_count, distinct_count_snort_ids, connection_id, rule, dest_port, transport, app
-  | where sig_count >= distinct_count_snort_ids
-  | `cisco_secure_firewall___intrusion_events_by_threat_activity_filter`
+    `cisco_secure_firewall` EventType=IntrusionEvent
+    | stats count AS total_alerts, dc(signature_id) AS sig_count, values(SnortRuleGroups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest signature_id
+    | lookup cisco_snort_ids_to_threat_mapping signature_id OUTPUT threat, category, message
+    | where isnotnull(threat)
+    | bin _time span=1d
+    | stats count AS Total_Alerts, dc(signature_id) AS sig_count, values(signature_id) AS signature_id, values(category) AS category, values(message) AS message, values(snort_rule_groups) AS snort_rule_groups, values(connection_id) AS connection_id, values(rule) AS rule, values(dest_port) AS dest_port, values(transport) AS transport, values(app) AS app, values(signature) AS signature, values(src) AS src BY _time dest threat
+    | lookup threat_snort_count threat OUTPUT description, distinct_count_snort_ids
+    | table _time, dest, src, threat, category, message, description, signature_id, signature, snort_rule_groups, sig_count, distinct_count_snort_ids, connection_id, rule, dest_port, transport, app
+    | where sig_count >= distinct_count_snort_ids
+    | `cisco_secure_firewall___intrusion_events_by_threat_activity_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The intrusion access policy must also be configured. This detection is based on the cisco_snort_ids_to_threat_mapping.csv mapping file - please update the lookup file with the latest Snort IDs to Threat Actors if you would like to modify the distinct count of Snort IDs needed to trigger the detection or if you would like to add new Snort IDs to Threat Actors.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The intrusion access policy must also be configured. This detection is based on the cisco_snort_ids_to_threat_mapping.csv mapping file - please update the lookup file with the latest Snort IDs to Threat Actors if you would like to modify the distinct count of Snort IDs needed to trigger the detection or if you would like to add new Snort IDs to Threat Actors.
 known_false_positives: False positives may occur due to legitimate security testing or research activities.
 references:
-  - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
-  - https://blog.talosintelligence.com/static-tundra/
+    - https://www.cisco.com/c/en/us/products/security/firewalls/index.html
+    - https://blog.talosintelligence.com/static-tundra/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$""
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$""
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential $threat$ activity detected on $dest$ originating from $src$.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 50
-  threat_objects:
-    - field: signature
-      type: signature
+    message: Potential $threat$ activity detected on $dest$ originating from $src$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: signature
+          type: signature
 tags:
-  analytic_story:
-    - Cisco Secure Firewall Threat Defense Analytics
-    - ArcaneDoor
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1041
-    - T1573.002
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+        - ArcaneDoor
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1041
+        - T1573.002
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/lumma_stealer/lumma_stealer_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer
