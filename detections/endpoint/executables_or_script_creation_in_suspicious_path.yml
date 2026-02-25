@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 22
-date: '2026-01-20'
+version: 23
+date: '2026-02-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,6 +44,7 @@ search: |
       "*\\Windows\\repair\\*",
       "*\\Windows\\servicing\\*",
       "*Recycle.bin*",
+      "*:\\inetpub\\*"
     )
 
     by Filesystem.action Filesystem.dest Filesystem.file_access_time
@@ -144,6 +145,8 @@ tags:
         - Lokibot
         - Castle RAT
         - SesameOp
+        - DynoWiper
+        - XML Runner Loader
     asset_type: Endpoint
     mitre_attack_id:
         - T1036

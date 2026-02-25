@@ -1,7 +1,7 @@
 name: Windows DLL Module Loaded in Temp Dir
 id: c2998141-235a-4e31-83cf-46afb5208a87
-version: 3
-date: '2026-01-14'
+version: 4
+date: '2026-02-09'
 author: Teoderick Contreras, Splunk
 status: production
 type: Hunting
@@ -16,6 +16,7 @@ references:
     - https://blog.sekoia.io/interlock-ransomware-evolving-under-the-radar/
 tags:
     analytic_story:
+        - SolarWinds WHD RCE Post Exploitation
         - Interlock Rat
         - Lokibot
     asset_type: Endpoint

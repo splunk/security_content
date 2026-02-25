@@ -1,7 +1,7 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
-version: 17
-date: '2025-11-20'
+version: 18
+date: '2026-02-09'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -36,6 +36,7 @@ rba:
     threat_objects: []
 tags:
     analytic_story:
+        - SolarWinds WHD RCE Post Exploitation
         - XWorm
         - Medusa Ransomware
         - CISA AA23-347A

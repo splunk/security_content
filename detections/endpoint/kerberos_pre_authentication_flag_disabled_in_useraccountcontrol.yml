@@ -1,7 +1,7 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-02'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -9,9 +9,11 @@ description: The following analytic detects when the Kerberos Pre-Authentication
 data_source:
     - Windows Event Log Security 4738
 search: >
-    `wineventlog_security` EventCode=4738 MSADChangedAttributes="*\'Don\'t Require Preauth\'
-    - Enabled*" |rename Account_Name as user | table EventCode, user, dest, Security_ID,
-    MSADChangedAttributes | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`
+    `wineventlog_security` EventCode=4738 UserAccountControl="*%%2096*"
+    | rename TargetUserName as user, SubjectUserName as actor | stats count earliest(_time) as firstTime latest(_time) as lastTime by actor, user, dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `kerberos_pre_authentication_flag_disabled_in_useraccountcontrol_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `User Account Management` within `Account Management` needs to be enabled.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -49,6 +51,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-security.log
-          source: WinEventLog:Security
-          sourcetype: WinEventLog
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1558.004/powershell/windows-security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
