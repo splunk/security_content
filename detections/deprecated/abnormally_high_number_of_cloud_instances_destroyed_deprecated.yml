@@ -1,9 +1,9 @@
 name: Abnormally High Number Of Cloud Instances Destroyed
 id: ef629fc9-1583-4590-b62a-f2247fbf7bbf
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: David Dorsey, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies an abnormally high number of cloud
   instances being destroyed within a 4-hour period. It leverages cloud infrastructure

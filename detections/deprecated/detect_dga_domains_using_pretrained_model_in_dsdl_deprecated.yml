@@ -1,9 +1,9 @@
 name: Detect DGA domains using pretrained model in DSDL
 id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies Domain Generation Algorithm (DGA) generated
   domains using a pre-trained deep learning model. It leverages the Network Resolution

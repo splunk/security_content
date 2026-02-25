@@ -1,9 +1,9 @@
 name: Unusually Long Command Line - MLTK
 id: 57edaefa-a73b-45e5-bbae-f39c1473f941
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Rico Valdez, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies unusually long command lines executed
   on hosts, which may indicate malicious activity. It leverages the Machine Learning
