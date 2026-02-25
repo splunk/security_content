@@ -1,0 +1,9 @@
+<nav search_view="search" color="#65A637">
+  <view name="escu_summary" default="true"/>
+  <view name="feedback"/>
+  <view name="search"/>
+  <collection label="Dashboards">
+    <view source="unclassified" match="__"/>
+  </collection>
+  <a href="https://help.splunk.com/en/splunk-enterprise-security-8/security-content-update">Docs</a>
+</nav>
