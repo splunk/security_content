@@ -28,7 +28,7 @@ jobs:
 
       - name: Install Python dependencies
         run: |
-          pip3 install boto3
+          pip3 install boto3 PyYAML
 
       - name: Run Python Splunk TA checker
         env:
