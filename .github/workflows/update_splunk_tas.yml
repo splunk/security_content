@@ -1,4 +1,4 @@
-name: Splunk TA Update
+name: Splunk TA Update Apps
 
 on:
   workflow_dispatch:  # Manually trigger the workflow
