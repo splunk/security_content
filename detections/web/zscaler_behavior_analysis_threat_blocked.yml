@@ -1,7 +1,7 @@
 name: Zscaler Behavior Analysis Threat Blocked
 id: 289ad59f-8939-4331-b805-f2bd51d36fb8
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -34,10 +34,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 8
+          score: 20
         - field: user
           type: user
-          score: 8
+          score: 20
     threat_objects:
         - field: url
           type: url

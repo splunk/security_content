@@ -1,7 +1,7 @@
 name: Detect Excessive Account Lockouts From Endpoint
 id: c026e3dd-7e18-4abb-8f41-929e836efe74
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-02-26'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -34,10 +34,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 36
+          score: 20
         - field: dest
           type: system
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

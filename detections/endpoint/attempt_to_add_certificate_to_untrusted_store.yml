@@ -1,7 +1,7 @@
 name: Attempt To Add Certificate To Untrusted Store
 id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
-version: 17
-date: '2026-02-25'
+version: 18
+date: '2026-02-26'
 author: Patrick Bareiss, Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -48,10 +48,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 35
+          score: 20
         - field: dest
           type: system
-          score: 35
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

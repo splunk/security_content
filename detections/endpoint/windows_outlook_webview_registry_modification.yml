@@ -1,7 +1,7 @@
 name: Windows Outlook WebView Registry Modification
 id: 6e1ad5d4-d9af-496a-96ec-f31c11cd09f2
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 data_source:
     - Sysmon EventID 13
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

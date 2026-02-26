@@ -1,7 +1,7 @@
 name: Linux c89 Privilege Escalation
 id: 54c95f4d-3e5d-44be-9521-ea19ba62f7a8
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

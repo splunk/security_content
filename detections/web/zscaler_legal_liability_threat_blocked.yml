@@ -1,7 +1,7 @@
 name: Zscaler Legal Liability Threat Blocked
 id: bbf55ebf-c416-4f62-94d9-4064f2a28014
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -35,10 +35,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 16
+          score: 20
         - field: user
           type: user
-          score: 16
+          score: 20
     threat_objects:
         - field: url
           type: url

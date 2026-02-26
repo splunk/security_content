@@ -1,7 +1,7 @@
 name: Windows Service Stop Win Updates
 id: 0dc25c24-6fcf-456f-b08b-dd55a183e4de
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

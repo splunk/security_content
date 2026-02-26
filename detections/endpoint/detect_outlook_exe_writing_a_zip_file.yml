@@ -1,7 +1,7 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 15
-date: '2026-01-23'
+version: 16
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -98,10 +98,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: file_name
           type: file_name

@@ -1,7 +1,7 @@
 name: Windows Browser Process Launched with Unusual Flags
 id: 841e2abc-0442-4e7f-b445-b22680632a08
-version: 1
-date: '2025-10-31'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 15
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

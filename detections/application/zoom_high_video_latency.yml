@@ -1,7 +1,7 @@
 name: Zoom High Video Latency
 id: 6ad6b548-adfa-452c-aa77-9ff94877e832
-version: 1
-date: '2025-06-02'
+version: 2
+date: '2026-02-26'
 author: Marissa Bower, Raven Tait
 status: experimental
 type: Anomaly
@@ -24,7 +24,7 @@ rba:
     risk_objects:
         - field: email
           type: user
-          score: 39
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

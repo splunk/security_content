@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Traffic
 id: 885ea672-07ee-475a-879e-60d28aa5dd42
-version: 12
-date: '2026-01-19'
+version: 13
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -55,10 +55,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 25
+          score: 20
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects:
         - field: signature
           type: signature

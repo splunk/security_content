@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates Certificate Request
 id: 747d7800-2eaa-422d-b994-04d8bb9e06d0
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 8
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

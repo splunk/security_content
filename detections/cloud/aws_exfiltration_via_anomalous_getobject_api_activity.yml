@@ -1,7 +1,7 @@
 name: AWS Exfiltration via Anomalous GetObject API Activity
 id: e4384bbf-5835-4831-8d85-694de6ad2cc6
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

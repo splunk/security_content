@@ -1,7 +1,7 @@
 name: Windows Wmic Systeminfo Discovery
 id: 97937ece-cb13-4dbc-9684-c0dc3afd400a
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 3
+          score: 20
         - field: dest
           type: system
-          score: 3
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

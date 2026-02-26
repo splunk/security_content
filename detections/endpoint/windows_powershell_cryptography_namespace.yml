@@ -1,7 +1,7 @@
 name: Windows Powershell Cryptography Namespace
 id: f8b482f4-6d62-49fa-a905-dfa15698317b
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -38,10 +38,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
         - field: user_id
           type: user
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

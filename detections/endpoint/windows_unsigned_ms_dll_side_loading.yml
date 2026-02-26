@@ -1,7 +1,7 @@
 name: Windows Unsigned MS DLL Side-Loading
 id: 8d9e0e06-ba71-4dc5-be16-c1a46d58728c
-version: 13
-date: '2026-01-13'
+version: 14
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 7
@@ -57,7 +57,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 9
+          score: 20
     threat_objects:
         - field: Image
           type: file_name

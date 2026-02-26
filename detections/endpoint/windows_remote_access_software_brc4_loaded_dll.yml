@@ -1,7 +1,7 @@
 name: Windows Remote Access Software BRC4 Loaded Dll
 id: 73cf5dcb-cf36-4167-8bbe-384fe5384d05
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 9
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

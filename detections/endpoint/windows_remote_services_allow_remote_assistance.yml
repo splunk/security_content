@@ -1,7 +1,7 @@
 name: Windows Remote Services Allow Remote Assistance
 id: 9bce3a97-bc97-4e89-a1aa-ead151c82fbb
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

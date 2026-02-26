@@ -1,7 +1,7 @@
 name: M365 Copilot Application Usage Pattern Anomalies
 id: e3308b0c-d1a1-40d5-9486-4500f0d34731
-version: 1
-date: '2025-09-24'
+version: 2
+date: '2026-02-26'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -50,7 +50,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

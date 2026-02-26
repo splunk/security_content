@@ -1,7 +1,7 @@
 name: Windows TOR Client Execution
 id: f164bc6f-ecbe-45e0-aaa6-f5c4d8c84b9a
-version: 1
-date: '2026-02-02'
+version: 2
+date: '2026-02-26'
 author: Vignesh Subramanian, Splunk
 status: production
 type: Anomaly
@@ -66,10 +66,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
         - field: user
           type: user
-          score: 40
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

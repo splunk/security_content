@@ -1,7 +1,7 @@
 name: Protocol or Port Mismatch
 id: 54dc1265-2f74-4b6d-b30d-49eb506a31b3
-version: 9
-date: '2026-01-29'
+version: 10
+date: '2026-02-26'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
@@ -60,7 +60,7 @@ rba:
     risk_objects:
         - field: src_ip
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: dest_ip
           type: ip_address

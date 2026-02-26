@@ -1,7 +1,7 @@
 name: Linux Ruby Privilege Escalation
 id: 097b28b5-7004-4d40-a715-7e390501788b
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

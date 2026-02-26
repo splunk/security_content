@@ -1,7 +1,7 @@
 name: Windows Known GraphicalProton Loaded Modules
 id: bf471c94-0324-4b19-a113-d02749b969bc
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

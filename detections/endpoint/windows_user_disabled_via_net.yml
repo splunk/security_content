@@ -1,7 +1,7 @@
 name: Windows User Disabled Via Net
 id: b0359e05-c87b-4354-83d8-aee0d890243f
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 42
+          score: 20
         - field: dest
           type: system
-          score: 42
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

@@ -1,7 +1,7 @@
 name: Linux Auditd Edit Cron Table Parameter
 id: f4bb7321-7e64-4d1e-b1aa-21f8b019a91f
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Excessive distinct processes from Windows Temp
 id: 23587b6a-c479-11eb-b671-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-26'
 author: Michael Hart, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

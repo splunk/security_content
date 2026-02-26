@@ -1,7 +1,7 @@
 name: Windows Unusual SysWOW64 Process Run System32 Executable
 id: e4602172-db86-4315-86df-da66fb40bcde
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: process_path
           type: process_name

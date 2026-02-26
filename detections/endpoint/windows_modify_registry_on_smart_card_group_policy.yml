@@ -1,7 +1,7 @@
 name: Windows Modify Registry on Smart Card Group Policy
 id: 1522145a-8e86-4f83-89a8-baf62a8f489d
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 13
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Windows Known Abused DLL Created
 id: ea91651a-772a-4b02-ac3d-985b364a5f07
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
         - field: user
           type: user
-          score: 10
+          score: 20
     threat_objects:
         - field: file_name
           type: file_name

@@ -1,7 +1,7 @@
 name: Kubernetes Falco Shell Spawned
 id: d2feef92-d54a-4a19-8306-b47c6ceba5b2
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

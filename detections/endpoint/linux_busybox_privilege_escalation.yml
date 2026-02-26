@@ -1,7 +1,7 @@
 name: Linux Busybox Privilege Escalation
 id: 387c4e78-f4a4-413d-ad44-e9f7bc4642c9
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

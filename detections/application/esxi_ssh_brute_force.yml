@@ -1,7 +1,7 @@
 name: ESXi SSH Brute Force
 id: 68fe4efa-bbbb-44ee-9f09-d07d2f0f346b
-version: 2
-date: '2025-10-14'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

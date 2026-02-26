@@ -1,7 +1,7 @@
 name: Windows Chrome Auto-Update Disabled via Registry
 id: 619eac6c-0f03-4699-ae29-5f337877bcf9
-version: 1
-date: '2026-01-12'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

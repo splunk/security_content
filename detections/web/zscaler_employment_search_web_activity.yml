@@ -1,7 +1,7 @@
 name: Zscaler Employment Search Web Activity
 id: 5456bdef-d765-4565-8e1f-61ca027bc50e
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -34,10 +34,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 4
+          score: 20
         - field: user
           type: user
-          score: 4
+          score: 20
     threat_objects:
         - field: url
           type: url

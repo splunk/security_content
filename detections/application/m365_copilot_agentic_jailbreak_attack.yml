@@ -1,7 +1,7 @@
 name: M365 Copilot Agentic Jailbreak Attack
 id: e5c7b380-19da-42e9-9e53-0af4cd27aee3
-version: 1
-date: '2025-09-25'
+version: 2
+date: '2026-02-26'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

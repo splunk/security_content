@@ -1,7 +1,7 @@
 name: Windows File Collection Via Copy Utilities
 id: dbdd556d-9da8-4c42-9980-8a3ffe25a758
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -65,10 +65,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 5
+          score: 20
         - field: dest
           type: system
-          score: 5
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

@@ -1,7 +1,7 @@
 name: Linux Make Privilege Escalation
 id: 80b22836-5091-4944-80ee-f733ac443f4f
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly

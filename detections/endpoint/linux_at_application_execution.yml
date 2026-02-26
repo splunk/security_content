@@ -1,7 +1,7 @@
 name: Linux At Application Execution
 id: bf0a378e-5f3c-11ec-a6de-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 9
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

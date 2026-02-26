@@ -1,7 +1,7 @@
 name: Windows USBSTOR Registry Key Modification
 id: a345980a-417d-4ed3-9fb4-cac30c9405a0
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -48,7 +48,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects:
         - field: object_name
           type: registry_value_name

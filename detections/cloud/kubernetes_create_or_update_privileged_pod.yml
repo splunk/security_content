@@ -1,7 +1,7 @@
 name: Kubernetes Create or Update Privileged Pod
 id: 3c6bd734-334d-4818-ae7c-5234313fc5da
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects:
         - field: src_ip
           type: ip_address

@@ -1,7 +1,7 @@
 name: CrushFTP Max Simultaneous Users From IP
 id: 75dfd9f4-ca64-45d0-9422-4bde6d26a59e
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: src_ip
           type: system
-          score: 45
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

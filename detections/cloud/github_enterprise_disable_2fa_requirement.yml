@@ -1,7 +1,7 @@
 name: GitHub Enterprise Disable 2FA Requirement
 id: 5a773226-ebd7-480c-a819-fccacfeddcd9
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects:
         - field: user_agent
           type: http_user_agent

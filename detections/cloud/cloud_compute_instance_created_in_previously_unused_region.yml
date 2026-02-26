@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created In Previously Unused Region
 id: fa4089e2-50e3-40f7-8469-d2cc1564ca59
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -38,10 +38,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 42
+          score: 20
         - field: user
           type: user
-          score: 42
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

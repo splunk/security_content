@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - SSH Connection to Non-Standard Port
 id: 9b0c2d3e-4f5a-6b7c-8d9e-0f1a2b3c4d5e
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -60,7 +60,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

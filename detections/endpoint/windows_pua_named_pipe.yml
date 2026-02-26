@@ -1,7 +1,7 @@
 name: Windows PUA Named Pipe
 id: 95b11d20-e2c6-46a5-b526-8629f5f0860a
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -66,7 +66,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

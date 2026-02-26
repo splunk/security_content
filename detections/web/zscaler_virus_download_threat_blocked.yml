@@ -1,7 +1,7 @@
 name: Zscaler Virus Download threat blocked
 id: aa19e627-d448-4a31-85cd-82068dec5691
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -34,10 +34,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 40
+          score: 20
         - field: user
           type: user
-          score: 40
+          score: 20
     threat_objects:
         - field: url
           type: url

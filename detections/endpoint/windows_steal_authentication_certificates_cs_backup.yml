@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates CS Backup
 id: a2f4cc7f-6503-4078-b206-f83a29f408a7
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

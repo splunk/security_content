@@ -1,7 +1,7 @@
 name: O365 Email Suspicious Search Behavior
 id: 3b6e1d36-6916-4eec-a7d5-bc98953ba595
-version: 3
-date: '2026-01-14'
+version: 4
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 35
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

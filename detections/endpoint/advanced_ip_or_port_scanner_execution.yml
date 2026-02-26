@@ -1,7 +1,7 @@
 name: Advanced IP or Port Scanner Execution
 id: 9a4e50c7-5b62-4d52-93b4-f2b61332e9a5
-version: 1
-date: '2025-10-13'
+version: 2
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -71,10 +71,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 20
         - field: dest
           type: system
-          score: 64
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

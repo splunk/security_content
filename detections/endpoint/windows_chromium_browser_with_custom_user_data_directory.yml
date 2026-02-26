@@ -1,7 +1,7 @@
 name: Windows Chromium Browser with Custom User Data Directory
 id: 4f546cf4-15aa-4368-80f7-940e92bc551e
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -49,7 +49,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

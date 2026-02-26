@@ -1,7 +1,7 @@
 name: Linux Auditd File Permission Modification Via Chmod
 id: 5f1d2ea7-eec0-4790-8b24-6875312ad492
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: "Teoderick Contreras, Splunk, Ivar Nygård"
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

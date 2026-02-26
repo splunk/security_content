@@ -1,7 +1,7 @@
 name: Processes launching netsh
 id: b89919ed-fe5f-492c-b139-95dbb162040e
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Michael Haag, Josef Kuepker, Splunk
 status: production
 type: Anomaly
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 14
+          score: 20
         - field: user
           type: user
-          score: 14
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

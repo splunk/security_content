@@ -1,7 +1,7 @@
 name: MacOS AMOS Stealer - Virtual Machine Check Activity
 id: 4e41ad21-9761-426d-8aa1-083712ff9f30
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk, Alex Karkins
 status: production
 type: Anomaly
@@ -50,10 +50,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 20
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

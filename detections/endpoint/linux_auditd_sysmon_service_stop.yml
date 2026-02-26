@@ -1,7 +1,7 @@
 name: Linux Auditd Sysmon Service Stop
 id: 20901256-633a-40de-8753-7b88811a460f
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -35,7 +35,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

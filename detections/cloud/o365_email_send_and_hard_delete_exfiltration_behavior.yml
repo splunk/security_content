@@ -1,7 +1,7 @@
 name: O365 Email Send and Hard Delete Exfiltration Behavior
 id: dd7798cf-c4f5-4114-ad0f-beacd9a33708
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -55,10 +55,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 20
         - field: recipient
           type: user
-          score: 40
+          score: 20
     threat_objects:
         - field: subject
           type: email_subject

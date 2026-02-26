@@ -1,7 +1,7 @@
 name: Ollama Possible Memory Exhaustion Resource Abuse
 id: ca96297f-e82e-4749-8cc9-d1ab555abb57
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-02-26'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

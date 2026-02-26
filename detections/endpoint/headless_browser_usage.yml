@@ -1,7 +1,7 @@
 name: Headless Browser Usage
 id: 869ba261-c272-47d7-affe-5c0aa85c93d6
-version: 7
-date: '2026-01-29'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,10 +32,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
         - field: user
           type: user
-          score: 30
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

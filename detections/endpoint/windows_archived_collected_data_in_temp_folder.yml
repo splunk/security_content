@@ -1,7 +1,7 @@
 name: Windows Archived Collected Data In TEMP Folder
 id: cb56a1ea-e0b1-46d5-913f-e024cba40cbe
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

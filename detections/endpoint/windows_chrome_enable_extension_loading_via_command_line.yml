@@ -1,7 +1,7 @@
 name: Windows Chrome Enable Extension Loading via Command-Line
 id: da355155-1d23-48f9-bf95-e534ae273ab0
-version: 1
-date: '2026-01-12'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

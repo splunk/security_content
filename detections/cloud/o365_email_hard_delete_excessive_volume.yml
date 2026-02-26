@@ -1,7 +1,7 @@
 name: O365 Email Hard Delete Excessive Volume
 id: c7fe0949-348a-41ce-8f17-a09a7fe5fd7d
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

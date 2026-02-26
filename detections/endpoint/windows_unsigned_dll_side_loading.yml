@@ -1,7 +1,7 @@
 name: Windows Unsigned DLL Side-Loading
 id: 5a83ce44-8e0f-4786-a775-8249a525c879
-version: 12
-date: '2026-02-09'
+version: 13
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

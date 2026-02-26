@@ -1,7 +1,7 @@
 name: Ngrok Reverse Proxy on Network
 id: 5790a766-53b8-40d3-a696-3547b978fcf0
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

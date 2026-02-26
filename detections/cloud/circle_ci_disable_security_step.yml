@@ -1,7 +1,7 @@
 name: Circle CI Disable Security Step
 id: 72cb9de9-e98b-4ac9-80b2-5331bba6ea97
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: experimental
 type: Anomaly
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 72
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

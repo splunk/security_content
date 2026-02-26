@@ -1,7 +1,7 @@
 name: Windows Firewall Rule Added
 id: efc25501-4e75-4075-8cc5-ac80f2847d80
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

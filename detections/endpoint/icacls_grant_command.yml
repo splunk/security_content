@@ -1,7 +1,7 @@
 name: ICACLS Grant Command
 id: b1b1e316-accc-11eb-a9b4-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -59,10 +59,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

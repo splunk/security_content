@@ -1,7 +1,7 @@
 name: Cisco NVM - Suspicious Network Connection From Process With No Args
 id: 54fa06c5-96a2-4406-a4a7-44d93ddbd173
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -76,7 +76,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

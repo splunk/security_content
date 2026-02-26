@@ -1,7 +1,7 @@
 name: Suspicious Copy on System32
 id: ce633e56-25b2-11ec-9e76-acde48001122
-version: 13
-date: '2026-02-25'
+version: 14
+date: '2026-02-26'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -80,10 +80,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 20
         - field: user
           type: user
-          score: 63
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

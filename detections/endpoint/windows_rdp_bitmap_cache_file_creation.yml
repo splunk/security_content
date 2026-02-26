@@ -1,7 +1,7 @@
 name: Windows RDP Bitmap Cache File Creation
 id: 5f8671b6-07a7-425d-b3da-c39a53f2a6ae
-version: 1
-date: '2025-07-30'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

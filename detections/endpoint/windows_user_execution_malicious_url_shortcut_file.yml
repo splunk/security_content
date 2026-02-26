@@ -1,7 +1,7 @@
 name: Windows User Execution Malicious URL Shortcut File
 id: 5c7ee6ad-baf4-44fb-b2f0-0cfeddf82dbc
-version: 10
-date: '2025-09-18'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 50
+          score: 20
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Windows Executable Masquerading as Benign File Types
 id: 0470c8e7-dd8d-420f-8302-073e8a2b66f0
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: Image
           type: process

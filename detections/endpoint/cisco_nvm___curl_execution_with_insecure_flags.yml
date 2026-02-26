@@ -1,7 +1,7 @@
 name: Cisco NVM - Curl Execution With Insecure Flags
 id: cc695238-3117-4e60-aa83-4beac2a42c69
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -71,7 +71,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

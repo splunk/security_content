@@ -1,7 +1,7 @@
 name: Potential System Network Configuration Discovery Activity
 id: 3f0b95e3-3195-46ac-bea3-84fb59e7fac5
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -67,10 +67,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 32
+          score: 20
         - field: dest
           type: system
-          score: 32
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

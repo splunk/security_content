@@ -1,7 +1,7 @@
 name: Windows Sensitive Group Discovery With Net
 id: d9eb7cda-5622-4722-bc88-7f2442f4b5af
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 21
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

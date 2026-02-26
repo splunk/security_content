@@ -1,7 +1,7 @@
 name: Linux APT Privilege Escalation
 id: 4d5a05fa-77d9-4fd0-af9c-05704f9f9a88
-version: 10
-date: '2026-02-10'
+version: 11
+date: '2026-02-26'
 author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

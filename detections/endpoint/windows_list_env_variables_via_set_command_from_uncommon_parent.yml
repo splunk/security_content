@@ -1,7 +1,7 @@
 name: Windows List ENV Variables Via SET Command From Uncommon Parent
 id: aec157f4-8783-4584-aca6-754c4dc7fba9
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

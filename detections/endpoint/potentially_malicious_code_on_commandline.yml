@@ -1,7 +1,7 @@
 name: Potentially malicious code on commandline
 id: 9c53c446-757e-11ec-871d-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Michael Hart, Splunk
 status: production
 type: Anomaly
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 12
+          score: 20
         - field: user
           type: user
-          score: 12
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

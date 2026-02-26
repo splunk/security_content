@@ -1,7 +1,7 @@
 name: Excessive Usage Of Cacls App
 id: 0bdf6092-af17-11eb-939a-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -76,7 +76,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

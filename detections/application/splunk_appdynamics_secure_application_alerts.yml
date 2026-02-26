@@ -1,7 +1,7 @@
 name: Splunk AppDynamics Secure Application Alerts
 id: d1a45d84-8dd1-4b31-8854-62b0b1d5da0b
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Ryan Long, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -61,7 +61,7 @@ rba:
     risk_objects:
         - field: app_name
           type: other
-          score: 10
+          score: 20
     threat_objects:
         - field: src_ip
           type: ip_address

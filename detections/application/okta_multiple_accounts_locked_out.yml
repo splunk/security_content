@@ -1,7 +1,7 @@
 name: Okta Multiple Accounts Locked Out
 id: a511426e-184f-4de6-8711-cfd2af29d1e1
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Mauricio Velazco, Splunk
 data_source:
     - Okta
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

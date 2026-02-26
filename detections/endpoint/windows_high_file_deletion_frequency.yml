@@ -1,7 +1,7 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 11
-date: '2026-02-12'
+version: 12
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 72
+          score: 20
         - field: dest
           type: system
-          score: 72
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

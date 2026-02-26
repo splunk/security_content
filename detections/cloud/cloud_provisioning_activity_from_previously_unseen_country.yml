@@ -1,7 +1,7 @@
 name: Cloud Provisioning Activity From Previously Unseen Country
 id: 94994255-3acf-4213-9b3f-0494df03bb31
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Rico Valdez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: object
           type: system
-          score: 42
+          score: 20
         - field: user
           type: user
-          score: 42
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

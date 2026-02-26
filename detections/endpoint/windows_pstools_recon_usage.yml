@@ -1,7 +1,7 @@
 name: Windows PsTools Recon Usage
 id: 9a5f4b3e-1d2b-4c6f-9a8e-3b7d2f5c1a6e
-version: 3
-date: '2025-11-19'
+version: 4
+date: '2026-02-26'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
@@ -95,10 +95,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

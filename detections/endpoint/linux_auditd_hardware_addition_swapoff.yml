@@ -1,7 +1,7 @@
 name: Linux Auditd Hardware Addition Swapoff
 id: 5728bb16-1a0b-4b66-bce2-0074ac839770
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

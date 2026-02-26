@@ -1,7 +1,7 @@
 name: Linux Account Manipulation Of SSH Config and Keys
 id: 73a56508-1cf5-4df7-b8d9-5737fbdc27d2
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

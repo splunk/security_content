@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - High EVE Threat Confidence
 id: 8c15183e-2e70-4db4-86c3-88f8d9129b66
-version: 4
-date: '2026-01-21'
+version: 5
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly

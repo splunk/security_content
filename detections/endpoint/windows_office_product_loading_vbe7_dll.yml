@@ -1,7 +1,7 @@
 name: Windows Office Product Loading VBE7 DLL
 id: 7cfec906-2697-43f7-898b-83634a051d9a
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -32,7 +32,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 35
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

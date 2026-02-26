@@ -1,7 +1,7 @@
 name: Windows Non Discord App Access Discord LevelDB
 id: 1166360c-d495-45ac-87a6-8948aac1fa07
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Windows Event Log Security 4663
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 9
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

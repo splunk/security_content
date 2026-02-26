@@ -1,7 +1,7 @@
 name: Windows Bypass UAC via Pkgmgr Tool
 id: cce58e2c-988a-4319-9390-0daa9eefa3cd
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 9
+          score: 20
         - field: dest
           type: system
-          score: 9
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

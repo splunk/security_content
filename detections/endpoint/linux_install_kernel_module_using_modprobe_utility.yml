@@ -1,7 +1,7 @@
 name: Linux Install Kernel Module Using Modprobe Utility
 id: 387b278a-6326-11ec-aa2c-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

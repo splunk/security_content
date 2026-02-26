@@ -1,7 +1,7 @@
 name: Linux SSH Authorized Keys Modification
 id: f5ab595e-28e5-4327-8077-5008ba97c850
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 15
+          score: 20
         - field: dest
           type: system
-          score: 15
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

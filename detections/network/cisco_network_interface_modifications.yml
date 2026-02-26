@@ -1,7 +1,7 @@
 name: Cisco Network Interface Modifications
 id: 61ae09c2-079e-44b1-8be0-74e35c5a679e
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 55
+          score: 20
         - field: user
           type: user
-          score: 45
+          score: 20
     threat_objects:
         - field: command
           type: command

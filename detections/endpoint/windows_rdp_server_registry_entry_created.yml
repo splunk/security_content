@@ -1,7 +1,7 @@
 name: Windows RDP Server Registry Entry Created
 id: 61f10919-c360-4e56-9cda-f1f34500cfda
-version: 1
-date: '2025-07-30'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

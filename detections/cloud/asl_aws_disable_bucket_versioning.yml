@@ -1,7 +1,7 @@
 name: ASL AWS Disable Bucket Versioning
 id: f32598bb-fa5f-4afd-8ab3-0263cc28efbc
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

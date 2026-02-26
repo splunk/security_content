@@ -1,7 +1,7 @@
 name: Windows RunMRU Registry Key or Value Deleted
 id: e651795f-b2c9-4a84-a18a-b901018a3bfa
-version: 1
-date: '2025-11-20'
+version: 2
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

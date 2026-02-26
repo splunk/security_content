@@ -1,7 +1,7 @@
 name: Windows Modify Registry Disable RDP
 id: 11ed764f-eb9c-4be7-bdad-2209b9d33ee1
-version: 7
-date: '2025-08-01'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 13
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Windows Process With NamedPipe CommandLine
 id: e64399d4-94a8-11ec-a9da-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
