@@ -1,7 +1,7 @@
 name: Windows Suspicious React or Next.js Child Process
 id: baa80bc8-7c9c-4395-b458-b69feb92830a
 version: 2
-date: '2026-02-23'
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -58,68 +58,42 @@ search: |
             "wsl.exe",
             "wt.exe"
           )
-          AND
+          OR
           (
-            Processes.process_name IN (
-              "bash.exe",
-              "bitsadmin.exe",
-              "calc.exe",
-              "certutil.exe",
-              "cscript.exe",
-              "curl.exe",
-              "ftp.exe",
-              "ipconfig.exe",
-              "mshta.exe",
-              "netstat.exe",
-              "OpenConsole.exe",
-              "powershell.exe",
-              "pwsh.exe",
-              "regsvr32.exe",
-              "rundll32.exe",
-              "sh.exe",
-              "tftp.exe",
-              "wget.exe",
-              "wmic.exe",
-              "wscript.exe",
-              "wsl.exe",
-              "wt.exe"
-            )
-            OR
-            (
-              Processes.process_name = "cmd.exe"
-              AND NOT Processes.process = "*/d /s /c *"
-            )
-            OR
-            (
-              Processes.process_name = "cmd.exe"
-              Processes.process = "*/d /s /c *"
-              AND NOT (
-                Processes.process = "*git config --local --get remote.origin.url*"
-                OR
-                (
-                  Processes.process = "*netstat -ano | findstr /C:*"
-                  Processes.process = "* | findstr LISTENING*"
-                )
-                OR
-                (
-                  Processes.parent_process = "*--experimental-https*"
-                  Processes.process = "*\\mkcert\\*"
-                  Processes.process IN ("* -CAROOT*", "* -install *")
-                )
+            Processes.process_name = "cmd.exe"
+            AND NOT Processes.process = "*/d /s /c *"
+          )
+          OR
+          (
+            Processes.process_name = "cmd.exe"
+            Processes.process = "*/d /s /c *"
+            AND NOT (
+              Processes.process = "*git config --local --get remote.origin.url*"
+              OR
+              (
+                Processes.process = "*netstat -ano | findstr /C:*"
+                Processes.process = "* | findstr LISTENING*"
+              )
+              OR
+              (
+                Processes.parent_process = "*--experimental-https*"
+                Processes.process = "*\\mkcert\\*"
+                Processes.process IN ("* -CAROOT*", "* -install *")
               )
             )
           )
-      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-         Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-         Processes.parent_process_name Processes.parent_process_path Processes.process
-         Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-         Processes.process_integrity_level Processes.process_name Processes.process_path
-         Processes.user Processes.user_id Processes.vendor_product
+        )
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
 
-      | `drop_dm_object_name(Processes)`
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_suspicious_react_or_next_js_child_process_filter`
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_suspicious_react_or_next_js_child_process_filter`
 how_to_implement: |
     The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
     These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.

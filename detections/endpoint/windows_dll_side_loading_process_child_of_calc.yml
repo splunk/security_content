@@ -11,10 +11,13 @@ data_source:
     - CrowdStrike ProcessRollup2
 description: The following analytic identifies suspicious child processes spawned by calc.exe, indicative of a potential DLL side-loading technique. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process GUIDs, names, and parent processes. In previous versions of the "calc.exe" binary, namely on Windows 7, it was vulnerable to DLL side-loading, where an attacker is able to load an arbitrary DLL named "WindowsCodecs.dll". This activity was observed in Qakbot malware, back in 2022. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, maintain persistence, and escalate privileges, posing a severe threat to the environment.
 search: |
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-    as lastTime from datamodel=Endpoint.Processes where
-    Processes.parent_process_name = "calc.exe"
-    Processes.process_name != "win32calc.exe"
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Endpoint.Processes where
+        Processes.parent_process_name = "calc.exe"
+        Processes.process_name != "win32calc.exe"
+
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
        Processes.parent_process_name Processes.parent_process_path Processes.process
@@ -47,7 +50,7 @@ rba:
           score: 81
     threat_objects:
         - field: process_name
-          type: process
+          type: process_name
 tags:
     analytic_story:
         - Qakbot
