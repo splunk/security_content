@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan NMAP Top 20
 id: 3141a041-4f57-4277-9faa-9305ca1f8e5b
-version: 9
-date: '2026-01-29'
+version: 10
+date: '2026-02-26'
 author: Dean Luxton
 status: production
 type: TTP

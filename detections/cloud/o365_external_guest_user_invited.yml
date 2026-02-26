@@ -1,7 +1,7 @@
 name: O365 External Guest User Invited
 id: 8c6d52ec-d5f2-4b2f-8ba1-f32c047a71fa
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
         - field: src_user
           type: user
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

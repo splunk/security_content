@@ -1,7 +1,7 @@
 name: Confluence Pre-Auth RCE via OGNL Injection CVE-2023-22527
 id: f56936c0-ae6f-4eeb-91ff-ecc1448c6105
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

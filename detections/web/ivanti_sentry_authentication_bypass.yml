@@ -1,7 +1,7 @@
 name: Ivanti Sentry Authentication Bypass
 id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 45
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

@@ -1,7 +1,7 @@
 name: SilentCleanup UAC Bypass
 id: 56d7cfcc-da63-11eb-92d4-acde48001122
-version: 11
-date: '2026-01-14'
+version: 12
+date: '2026-02-26'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

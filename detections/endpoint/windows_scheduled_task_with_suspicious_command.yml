@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Command
 id: 1f44c126-c26a-4dd3-83bb-0f9a0f03ecc3
-version: 6
-date: '2026-02-09'
+version: 7
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -36,10 +36,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
         - field: user
           type: user
-          score: 70
+          score: 50
     threat_objects:
         - field: Command
           type: signature

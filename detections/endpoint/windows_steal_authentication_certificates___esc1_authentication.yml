@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates - ESC1 Authentication
 id: f0306acf-a6ab-437a-bbc6-8628f8d5c97e
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,16 +30,16 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 90
+          score: 50
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: src_user
           type: user
-          score: 90
+          score: 50
         - field: user
           type: user
-          score: 90
+          score: 50
     threat_objects:
         - field: ssl_hash
           type: tls_hash

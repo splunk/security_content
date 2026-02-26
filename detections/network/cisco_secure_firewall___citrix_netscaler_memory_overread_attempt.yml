@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Citrix NetScaler Memory Overread Attempt
 id: 93db24a0-fd21-45d7-9daf-84afd5a8cca2
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, Talos NTDR
 status: production
 type: TTP
@@ -67,7 +67,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 85
+          score: 50
     threat_objects:
         - field: src
           type: system

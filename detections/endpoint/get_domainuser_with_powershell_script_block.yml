@@ -1,7 +1,7 @@
 name: Get DomainUser with PowerShell Script Block
 id: 61994268-04f4-11ec-865c-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -38,10 +38,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
         - field: user_id
           type: user
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

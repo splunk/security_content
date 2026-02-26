@@ -1,7 +1,7 @@
 name: Detect Windows DNS SIGRed via Zeek
 id: c5c622e4-d073-11ea-87d0-0242ac130003
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: flow_id
           type: other
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

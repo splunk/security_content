@@ -1,7 +1,7 @@
 name: Windows Service Create SliverC2
 id: 89dad3ee-57ec-43dc-9044-131c4edd663f
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

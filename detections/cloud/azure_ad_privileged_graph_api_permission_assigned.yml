@@ -1,7 +1,7 @@
 name: Azure AD Privileged Graph API Permission Assigned
 id: 5521f8c5-1aa3-473c-9eb7-853701924a06
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

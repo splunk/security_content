@@ -1,7 +1,7 @@
 name: ServicePrincipalNames Discovery with PowerShell
 id: 13243068-2d38-11ec-8908-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -51,10 +51,10 @@ rba:
     risk_objects:
         - field: user_id
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

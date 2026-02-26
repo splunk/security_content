@@ -1,7 +1,7 @@
 name: ASL AWS UpdateLoginProfile
 id: 5b3f63a3-865b-4637-9941-f98bd1a50c0d
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

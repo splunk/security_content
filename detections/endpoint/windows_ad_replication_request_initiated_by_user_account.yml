@@ -1,7 +1,7 @@
 name: Windows AD Replication Request Initiated by User Account
 id: 51307514-1236-49f6-8686-d46d93cc2821
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Dean Luxton
 type: TTP
 status: production
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 100
+          score: 50
         - field: src_ip
           type: system
-          score: 100
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

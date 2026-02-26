@@ -1,7 +1,7 @@
 name: Windows AD add Self to Group
 id: 065f2701-b7ea-42f5-9ec4-fbc2261165f9
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Dean Luxton
 status: production
 type: TTP

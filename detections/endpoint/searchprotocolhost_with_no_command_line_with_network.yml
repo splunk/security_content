@@ -1,7 +1,7 @@
 name: SearchProtocolHost with no Command Line with Network
 id: b690df8c-a145-11eb-a38b-acde48001122
-version: 12
-date: '2026-01-01'
+version: 13
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,7 +62,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

@@ -1,7 +1,7 @@
 name: Wermgr Process Create Executable File
 id: ab3bcce0-a105-11eb-973c-acde48001122
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

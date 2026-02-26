@@ -1,7 +1,7 @@
 name: Windows DotNet Binary in Non Standard Path
 id: fddf3b56-7933-11ec-98a6-acde48001122
-version: 11
-date: '2026-01-19'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -78,10 +78,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

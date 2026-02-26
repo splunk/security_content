@@ -1,7 +1,7 @@
 name: WMI Temporary Event Subscription
 id: 38cbd42c-1098-41bb-99cf-9d6d2b296d83
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

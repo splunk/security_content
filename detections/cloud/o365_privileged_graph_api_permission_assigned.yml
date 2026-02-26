@@ -1,7 +1,7 @@
 name: O365 Privileged Graph API Permission Assigned
 id: 868f3131-d5e1-4bf1-af5b-9b0fbaaaedbb
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

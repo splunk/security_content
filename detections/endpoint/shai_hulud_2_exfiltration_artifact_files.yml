@@ -1,7 +1,7 @@
 name: Shai-Hulud 2 Exfiltration Artifact Files
 id: 9e7d3c0f-4a5b-6c8d-1e2f-3a4b5c6d7e8f
-version: 1
-date: '2025-11-25'
+version: 2
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,11 +62,11 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 35
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name
-          score: 25
+          score: 50
 tags:
     analytic_story:
         - NPM Supply Chain Compromise

@@ -1,7 +1,7 @@
 name: Linux Telnet Authentication Bypass
 id: 6e0913d4-5461-487c-9dce-6d22ef2c0f03
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 56
+          score: 50
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects:
         - field: parent_process
           type: parent_process

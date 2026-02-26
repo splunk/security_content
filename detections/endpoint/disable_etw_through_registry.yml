@@ -1,7 +1,7 @@
 name: Disable ETW Through Registry
 id: f0eacfa4-d33f-11eb-8f9d-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

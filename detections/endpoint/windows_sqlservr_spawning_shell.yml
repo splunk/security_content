@@ -1,7 +1,7 @@
 name: Windows Sqlservr Spawning Shell
 id: d33aac9f-030c-4830-8701-0c2dd75bb6cb
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: user
           type: user
-          score: 90
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

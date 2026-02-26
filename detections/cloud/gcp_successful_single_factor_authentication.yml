@@ -1,7 +1,7 @@
 name: GCP Successful Single-Factor Authentication
 id: 40e17d88-87da-414e-b253-8dc1e4f9555b
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 45
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

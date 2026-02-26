@@ -1,7 +1,7 @@
 name: ESXi Sensitive Files Accessed
 id: 6fa0073d-6ca0-4f93-913d-fb420c9de15b
-version: 2
-date: '2025-08-06'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

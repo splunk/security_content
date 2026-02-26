@@ -1,7 +1,7 @@
 name: Samsam Test File Write
 id: 493a879d-519d-428f-8f57-a06a0fdc107e
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -26,10 +26,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 12
+          score: 50
         - field: user
           type: user
-          score: 12
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

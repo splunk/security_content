@@ -1,7 +1,7 @@
 name: Windows Office Product Spawned Control
 id: 081c485d-ac8d-4bee-ad4c-525772fead4d
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -48,7 +48,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

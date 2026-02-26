@@ -1,7 +1,7 @@
 name: Windows Impair Defense Change Win Defender Quick Scan Interval
 id: 783f0798-f679-4c17-b3b3-187febf0b9b8
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

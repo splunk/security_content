@@ -1,7 +1,7 @@
 name: Windows Outlook Dialogs Disabled from Unusual Process
 id: 94e3ba29-6245-4f25-8d47-d5b6b34c40ac
-version: 1
-date: '2025-09-08'
+version: 2
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 44
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

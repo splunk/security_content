@@ -1,7 +1,7 @@
 name: Suspicious GPUpdate no Command Line Arguments
 id: f308490a-473a-40ef-ae64-dd7a6eba284a
-version: 10
-date: '2025-12-15'
+version: 11
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

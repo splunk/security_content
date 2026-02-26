@@ -1,7 +1,7 @@
 name: Windows Command Shell DCRat ForkBomb Payload
 id: 2bb1a362-7aa8-444a-92ed-1987e8da83e1
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: F5 TMUI Authentication Bypass
 id: 88bf127c-613e-4579-99e4-c4d4b02f3840
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

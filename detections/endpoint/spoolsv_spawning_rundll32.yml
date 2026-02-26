@@ -1,7 +1,7 @@
 name: Spoolsv Spawning Rundll32
 id: 15d905f6-da6b-11eb-ab82-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

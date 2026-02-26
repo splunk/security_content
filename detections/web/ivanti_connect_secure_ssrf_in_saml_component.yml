@@ -1,7 +1,7 @@
 name: Ivanti Connect Secure SSRF in SAML Component
 id: 8e6ca490-7af3-4299-9a24-39fb69759925
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

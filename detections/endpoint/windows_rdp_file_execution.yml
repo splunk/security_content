@@ -1,7 +1,7 @@
 name: Windows RDP File Execution
 id: 0b6b12b9-8ba9-48fe-b3b8-b4e3e1cd22b4
-version: 6
-date: '2025-08-07'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 42
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

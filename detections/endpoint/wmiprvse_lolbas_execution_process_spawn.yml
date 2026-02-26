@@ -1,7 +1,7 @@
 name: Wmiprvse LOLBAS Execution Process Spawn
 id: b7e11721-08b1-4d8b-9628-813bb2380514
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -47,7 +47,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

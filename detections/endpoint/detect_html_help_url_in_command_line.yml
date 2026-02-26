@@ -1,7 +1,7 @@
 name: Detect HTML Help URL in Command Line
 id: 8c5835b9-39d9-438b-817c-95f14c69a31e
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -48,10 +48,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 90
+          score: 50
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

@@ -1,7 +1,7 @@
 name: Disabling Remote User Account Control
 id: bbc644bc-37df-4e1a-9c88-ec9a53e2038c
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-26'
 author: David Dorsey, Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -26,10 +26,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 42
+          score: 50
         - field: dest
           type: system
-          score: 42
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Azure AD Successful PowerShell Authentication
 id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

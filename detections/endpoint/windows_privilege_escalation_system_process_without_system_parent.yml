@@ -1,7 +1,7 @@
 name: Windows Privilege Escalation System Process Without System Parent
 id: 5a5351cd-ba7e-499e-ad82-2ce160ffa637
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
         - field: src_user
           type: user
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

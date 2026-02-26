@@ -1,7 +1,7 @@
 name: Microsoft Defender Incident Alerts
 id: 13435b55-afd8-46d4-9045-7d5457f430a5
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Bryan Pluta, Bhavin Patel, Splunk, lyonheart14, Github Community
 status: production
 type: TTP
@@ -39,10 +39,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
         - field: user
           type: user
-          score: 81
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

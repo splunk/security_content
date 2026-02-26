@@ -1,7 +1,7 @@
 name: O365 External Identity Policy Changed
 id: 29af1725-7a72-4d2d-8a18-e697e79a62d3
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 75
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

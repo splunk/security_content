@@ -1,7 +1,7 @@
 name: Windows Vulnerable Driver Installed
 id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Dean Luxton
 status: production
 type: TTP

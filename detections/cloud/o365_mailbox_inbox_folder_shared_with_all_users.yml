@@ -1,7 +1,7 @@
 name: O365 Mailbox Inbox Folder Shared with All Users
 id: 21421896-a692-4594-9888-5faeb8a53106
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: MailboxOwnerUPN
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

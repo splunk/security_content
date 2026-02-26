@@ -1,7 +1,7 @@
 name: Linux System Reboot Via System Request Key
 id: e1912b58-ed9c-422c-bbb0-2dbc70398345
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: ESXi VM Discovery
 id: 5643cdc9-a0be-4123-860b-f13da0bf4fcb
-version: 2
-date: '2025-08-06'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,10 +25,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 50
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

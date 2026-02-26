@@ -1,7 +1,7 @@
 name: DLLHost with no Command Line Arguments with Network
 id: f1c07594-a141-11eb-8407-acde48001122
-version: 14
-date: '2026-01-01'
+version: 15
+date: '2026-02-26'
 author: Steven Dick, Michael Haag, Splunk
 status: production
 type: TTP
@@ -87,10 +87,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: process

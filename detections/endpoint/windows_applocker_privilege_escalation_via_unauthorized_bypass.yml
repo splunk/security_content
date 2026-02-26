@@ -1,7 +1,7 @@
 name: Windows AppLocker Privilege Escalation via Unauthorized Bypass
 id: bca48629-7fa2-40d3-9e5d-807564504e28
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 data_source: []
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Linux Suspicious React or Next.js Child Process
 id: cda04e9c-1950-43ab-87d6-e333a3d7f107
-version: 1
-date: '2025-12-05'
+version: 2
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -130,10 +130,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 70
+          score: 50
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: process

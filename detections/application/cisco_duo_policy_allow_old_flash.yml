@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Allow Old Flash
 id: f36c0d3f-d57f-4b88-a5d4-0a4c9a0752f6
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

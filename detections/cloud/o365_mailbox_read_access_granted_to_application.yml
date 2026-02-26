@@ -1,7 +1,7 @@
 name: O365 Mailbox Read Access Granted to Application
 id: 27ab61c5-f08a-438a-b4d3-325e666490b3
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 45
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

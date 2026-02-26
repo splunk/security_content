@@ -1,7 +1,7 @@
 name: Cisco Smart Install Oversized Packet Detection
 id: 3b8d2b4f-4e1e-4a9e-9b43-8a7a3a9c7e21
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2026-02-26'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -50,7 +50,7 @@ rba:
     risk_objects:
         - field: dest_ip
           type: system
-          score: 45
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

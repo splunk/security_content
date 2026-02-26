@@ -1,7 +1,7 @@
 name: Domain Group Discovery with Adsisearcher
 id: 089c862f-5f83-49b5-b1c8-7e4ff66560c7
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 18
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

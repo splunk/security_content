@@ -1,7 +1,7 @@
 name: Allow Operation with Consent Admin
 id: 7de17d7a-c9d8-11eb-a812-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

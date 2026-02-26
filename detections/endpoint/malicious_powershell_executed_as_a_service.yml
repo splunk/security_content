@@ -1,7 +1,7 @@
 name: Malicious Powershell Executed As A Service
 id: 8e204dfd-cae0-4ea8-a61d-e972a1ff2ff8
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Ryan Becwar
 status: production
 type: TTP
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
         - field: user
           type: user
-          score: 72
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

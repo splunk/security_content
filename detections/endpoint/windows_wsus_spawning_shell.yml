@@ -1,7 +1,7 @@
 name: Windows WSUS Spawning Shell
 id: 76ea28ac-6f10-43fd-b5fe-340022ad0fd3
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -48,10 +48,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: user
           type: user
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

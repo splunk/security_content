@@ -1,7 +1,7 @@
 name: Fortinet Appliance Auth bypass
 id: a83122f2-fa09-4868-a230-544dbc54bc1c
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

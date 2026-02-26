@@ -1,7 +1,7 @@
 name: Remote Process Instantiation via WinRM and Winrs
 id: 0dd296a2-4338-11ec-ba02-3e22fbd008af
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -48,7 +48,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

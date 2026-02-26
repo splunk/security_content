@@ -1,7 +1,7 @@
 name: Suspicious wevtutil Usage
 id: 2827c0fd-e1be-4868-ae25-59d28e0f9d4f
-version: 16
-date: '2026-02-25'
+version: 17
+date: '2026-02-26'
 author: David Dorsey, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 28
+          score: 50
         - field: user
           type: user
-          score: 28
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

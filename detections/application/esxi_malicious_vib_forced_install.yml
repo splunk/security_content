@@ -1,7 +1,7 @@
 name: ESXi Malicious VIB Forced Install
 id: 5d4d2cd2-7b65-4474-97cf-e9b203bcd770
-version: 2
-date: '2025-08-06'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

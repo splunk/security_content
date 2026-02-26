@@ -1,7 +1,7 @@
 name: GCP Multi-Factor Authentication Disabled
 id: b9bc5513-6fc1-4821-85a3-e1d81e451c83
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -37,10 +37,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 45
+          score: 50
         - field: actor.email
           type: user
-          score: 45
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

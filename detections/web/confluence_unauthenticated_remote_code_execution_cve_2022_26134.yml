@@ -1,7 +1,7 @@
 name: Confluence Unauthenticated Remote Code Execution CVE-2022-26134
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859c
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

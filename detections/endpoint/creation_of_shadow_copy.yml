@@ -1,7 +1,7 @@
 name: Creation of Shadow Copy
 id: eb120f5f-b879-4a63-97c1-93352b5df844
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 81
+          score: 50
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

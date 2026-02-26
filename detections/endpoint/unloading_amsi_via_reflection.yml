@@ -1,7 +1,7 @@
 name: Unloading AMSI via Reflection
 id: a21e3484-c94d-11eb-b55b-acde48001122
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

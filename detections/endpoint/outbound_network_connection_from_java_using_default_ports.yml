@@ -1,7 +1,7 @@
 name: Outbound Network Connection from Java Using Default Ports
 id: d2c14d28-5c47-11ec-9892-acde48001122
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Mauricio Velazco, Lou Stella, Splunk
 status: production
 type: TTP
@@ -68,7 +68,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

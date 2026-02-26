@@ -1,7 +1,7 @@
 name: Spoolsv Writing a DLL
 id: d5bf5cf2-da71-11eb-92c2-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-02-26'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

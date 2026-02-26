@@ -1,7 +1,7 @@
 name: Windows Service Creation on Remote Endpoint
 id: e0eea4fa-4274-11ec-882b-3e22fbd008af
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

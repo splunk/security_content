@@ -1,7 +1,7 @@
 name: Windows SnappyBee Create Test Registry
 id: 80402396-d78a-4c6e-ade5-7697ea670adf
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,10 +27,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
         - field: user
           type: user
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

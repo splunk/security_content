@@ -1,7 +1,7 @@
 name: Windows Security Account Manager Stopped
 id: 69c12d59-d951-431e-ab77-ec426b8d65e6
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Rod Soto, Jose Hernandez, Splunk
 status: production
 type: TTP
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
         - field: user
           type: user
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

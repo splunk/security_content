@@ -1,7 +1,7 @@
 name: Email files written outside of the Outlook directory
 id: 8d52cf03-ba25-4101-aa78-07994aed4f74
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -33,7 +33,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

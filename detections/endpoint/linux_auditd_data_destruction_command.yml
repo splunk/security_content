@@ -1,7 +1,7 @@
 name: Linux Auditd Data Destruction Command
 id: 4da5ce1a-f71b-4e71-bb73-c0a3c73f3c3c
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

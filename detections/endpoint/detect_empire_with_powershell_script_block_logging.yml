@@ -1,7 +1,7 @@
 name: Detect Empire with PowerShell Script Block Logging
 id: bc1dc6b8-c954-11eb-bade-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: user_id
           type: user
-          score: 81
+          score: 50
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

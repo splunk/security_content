@@ -1,7 +1,7 @@
 name: GCP Authentication Failed During MFA Challenge
 id: 345f7e1d-a3fe-4158-abd8-e630f9878323
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,7 +32,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

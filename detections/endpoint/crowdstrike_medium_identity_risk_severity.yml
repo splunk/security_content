@@ -1,7 +1,7 @@
 name: Crowdstrike Medium Identity Risk Severity
 id: c23b425c-9024-4bd7-b526-c18a4a51d93e
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: TTP
@@ -35,7 +35,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

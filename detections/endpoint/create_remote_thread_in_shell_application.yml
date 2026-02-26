@@ -1,7 +1,7 @@
 name: Create Remote Thread In Shell Application
 id: 10399c1e-f51e-11eb-b920-acde48001122
-version: 9
-date: '2026-01-14'
+version: 10
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

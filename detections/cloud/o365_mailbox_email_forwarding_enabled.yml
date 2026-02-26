@@ -1,7 +1,7 @@
 name: O365 Mailbox Email Forwarding Enabled
 id: 0b6bc75c-05d1-4101-9fc3-97e706168f24
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Patrick Bareiss, Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 42
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

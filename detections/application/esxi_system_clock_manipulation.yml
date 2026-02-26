@@ -1,7 +1,7 @@
 name: ESXi System Clock Manipulation
 id: 910df401-b215-4675-88c5-2ad7b06d82a5
-version: 1
-date: '2025-05-19'
+version: 2
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP

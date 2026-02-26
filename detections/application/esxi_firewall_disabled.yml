@@ -1,7 +1,7 @@
 name: ESXi Firewall Disabled
 id: e321804c-8eb5-42f2-a843-36b289a6c6b2
-version: 2
-date: '2025-08-06'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 65
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

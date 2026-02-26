@@ -1,7 +1,7 @@
 name: Windows Excessive Service Stop Attempt
 id: 8f3a614f-6b98-4f7d-82dd-d0df38452a8b
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

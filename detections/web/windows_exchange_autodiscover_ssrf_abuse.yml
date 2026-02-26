@@ -1,7 +1,7 @@
 name: Windows Exchange Autodiscover SSRF Abuse
 id: d436f9e7-0ee7-4a47-864b-6dea2c4e2752
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Nathaniel Stearns, Splunk
 status: production
 type: TTP
@@ -55,7 +55,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

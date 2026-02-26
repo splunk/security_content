@@ -1,7 +1,7 @@
 name: Detect Regasm with Network Connection
 id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

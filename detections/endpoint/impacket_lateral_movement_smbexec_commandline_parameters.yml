@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement smbexec CommandLine Parameters
 id: bb3c1bac-6bdf-4aa0-8dc9-068b8b712a76
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

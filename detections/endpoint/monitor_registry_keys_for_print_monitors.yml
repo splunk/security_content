@@ -1,7 +1,7 @@
 name: Monitor Registry Keys for Print Monitors
 id: f5f6af30-7ba7-4295-bfe9-07de87c01bbc
-version: 12
-date: '2025-05-02'
+version: 13
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk, Steven Dick, Bhavin Patel
 status: production
 type: TTP
@@ -26,7 +26,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

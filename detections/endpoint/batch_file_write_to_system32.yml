@@ -1,7 +1,7 @@
 name: Batch File Write to System32
 id: 503d17cb-9eab-4cf8-a20e-01d5c6987ae3
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-02-26'
 author: Steven Dick, Michael Haag, Rico Valdez, Splunk
 status: production
 type: TTP
@@ -26,10 +26,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 63
+          score: 50
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

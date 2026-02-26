@@ -1,7 +1,7 @@
 name: Detect New Open S3 Buckets over AWS CLI
 id: 39c61d09-8b30-4154-922b-2d0a694ecc22
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

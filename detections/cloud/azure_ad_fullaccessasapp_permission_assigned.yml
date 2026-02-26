@@ -1,7 +1,7 @@
 name: Azure AD FullAccessAsApp Permission Assigned
 id: ae286126-f2ad-421c-b240-4ea83bd1c43a
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

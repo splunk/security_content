@@ -1,7 +1,7 @@
 name: Cisco Duo Bypass Code Generation
 id: 446e81ff-ce06-4925-9c7d-4073f9b5abf5
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

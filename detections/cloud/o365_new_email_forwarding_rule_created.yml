@@ -1,7 +1,7 @@
 name: O365 New Email Forwarding Rule Created
 id: 68469fd0-1315-44ba-b7e4-e92847bb76d6
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 data_source: []
 type: TTP
@@ -26,7 +26,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 42
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

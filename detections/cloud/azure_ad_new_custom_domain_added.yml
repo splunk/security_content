@@ -1,7 +1,7 @@
 name: Azure AD New Custom Domain Added
 id: 30c47f45-dd6a-4720-9963-0bca6c8686ef
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

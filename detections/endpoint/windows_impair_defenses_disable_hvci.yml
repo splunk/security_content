@@ -1,7 +1,7 @@
 name: Windows Impair Defenses Disable HVCI
 id: b061dfcc-f0aa-42cc-a6d4-a87f172acb79
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

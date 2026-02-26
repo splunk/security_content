@@ -1,7 +1,7 @@
 name: Executable File Written in Administrative SMB Share
 id: f63c34fe-a435-11eb-935a-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

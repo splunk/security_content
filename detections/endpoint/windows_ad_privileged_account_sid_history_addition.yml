@@ -1,7 +1,7 @@
 name: Windows AD Privileged Account SID History Addition
 id: 6b521149-b91c-43aa-ba97-c2cac59ec830
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Dean Luxton
 type: TTP
 status: production
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

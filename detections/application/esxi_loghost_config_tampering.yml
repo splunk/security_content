@@ -1,7 +1,7 @@
 name: ESXi Loghost Config Tampering
 id: 64bc2fa3-c493-44b4-8e94-3e5dbf71377e
-version: 1
-date: '2025-05-13'
+version: 2
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

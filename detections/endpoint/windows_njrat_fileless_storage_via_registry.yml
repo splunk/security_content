@@ -1,7 +1,7 @@
 name: Windows Njrat Fileless Storage via Registry
 id: a5fffbbd-271f-4980-94ed-4fbf17f0af1c
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

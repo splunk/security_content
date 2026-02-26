@@ -1,7 +1,7 @@
 name: GetDomainComputer with PowerShell
 id: ed550c19-712e-43f6-bd19-6f58f61b3a5e
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 24
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

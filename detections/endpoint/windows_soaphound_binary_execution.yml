@@ -1,7 +1,7 @@
 name: Windows SOAPHound Binary Execution
 id: 8e53f839-e127-4d6d-a54d-a2f67044a57f
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process

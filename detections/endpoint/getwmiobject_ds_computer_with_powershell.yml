@@ -1,7 +1,7 @@
 name: GetWmiObject Ds Computer with PowerShell
 id: 7141122c-3bc2-4aaa-ab3b-7a85a0bbefc3
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 21
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

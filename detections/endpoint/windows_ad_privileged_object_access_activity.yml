@@ -1,7 +1,7 @@
 name: Windows AD Privileged Object Access Activity
 id: dc2f58bc-8cd2-4e51-962a-694b963acde0
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

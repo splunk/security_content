@@ -1,7 +1,7 @@
 name: O365 Advanced Audit Disabled
 id: 49862dd4-9cb2-4c48-a542-8c8a588d9361
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 32
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

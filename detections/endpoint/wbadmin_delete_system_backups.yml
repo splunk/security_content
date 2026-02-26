@@ -1,7 +1,7 @@
 name: WBAdmin Delete System Backups
 id: cd5aed7e-5cea-11eb-ae93-0242ac130002
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -51,7 +51,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 15
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

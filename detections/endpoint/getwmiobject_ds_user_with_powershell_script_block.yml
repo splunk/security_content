@@ -1,7 +1,7 @@
 name: GetWmiObject DS User with PowerShell Script Block
 id: fabd364e-04f3-11ec-b34b-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-02-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
         - field: user_id
           type: user
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

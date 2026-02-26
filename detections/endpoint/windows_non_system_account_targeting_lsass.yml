@@ -1,7 +1,7 @@
 name: Windows Non-System Account Targeting Lsass
 id: b1ce9a72-73cf-11ec-981b-acde48001122
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,10 +31,10 @@ rba:
     risk_objects:
         - field: user_id
           type: user
-          score: 64
+          score: 50
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: parent_process_path
           type: process

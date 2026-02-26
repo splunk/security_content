@@ -1,7 +1,7 @@
 name: AWS Exfiltration via Batch Service
 id: 04455dd3-ced7-480f-b8e6-5469b99e98e2
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: other
-          score: 64
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

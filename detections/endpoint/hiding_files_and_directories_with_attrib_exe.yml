@@ -1,7 +1,7 @@
 name: Hiding Files And Directories With Attrib exe
 id: 6e5a3ae4-90a3-462d-9aa6-0119f638c0f1
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 72
+          score: 50
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

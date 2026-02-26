@@ -1,7 +1,7 @@
 name: AWS Exfiltration via EC2 Snapshot
 id: ac90b339-13fc-4f29-a18c-4abbba1f2171
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

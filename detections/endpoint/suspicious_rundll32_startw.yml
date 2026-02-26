@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 35
+          score: 50
         - field: user
           type: user
-          score: 35
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: ASL AWS SAML Update identity provider
 id: 635c26cc-0fd1-4098-8ec9-824bf9544b11
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

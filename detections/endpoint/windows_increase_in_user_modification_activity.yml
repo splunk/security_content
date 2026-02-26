@@ -1,7 +1,7 @@
 name: Windows Increase in User Modification Activity
 id: 0995fca1-f346-432f-b0bf-a66d14e6b428
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-02-26'
 author: Dean Luxton
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 8
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

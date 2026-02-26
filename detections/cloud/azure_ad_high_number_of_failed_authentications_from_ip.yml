@@ -1,7 +1,7 @@
 name: Azure AD High Number Of Failed Authentications From Ip
 id: e5ab41bf-745d-4f72-a393-2611151afd8e
-version: 11
-date: '2025-12-01'
+version: 12
+date: '2026-02-26'
 author: Mauricio Velazco, Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 35
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

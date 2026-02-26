@@ -1,7 +1,7 @@
 name: Rubeus Kerberos Ticket Exports Through Winlogon Access
 id: 5ed8c50a-8869-11ec-876f-acde48001122
-version: 11
-date: '2026-02-12'
+version: 12
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 50
     threat_objects:
         - field: TargetImage
           type: process

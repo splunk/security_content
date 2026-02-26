@@ -1,7 +1,7 @@
 name: AWS UpdateLoginProfile
 id: 2a9b80d3-6a40-4115-11ad-212bf3d0d111
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

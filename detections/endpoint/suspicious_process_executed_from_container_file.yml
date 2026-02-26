@@ -1,7 +1,7 @@
 name: Suspicious Process Executed From Container File
 id: d8120352-3b62-411c-8cb6-7b47584dd5e8
-version: 8
-date: '2025-09-16'
+version: 9
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -31,10 +31,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 16
+          score: 50
         - field: user
           type: user
-          score: 16
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

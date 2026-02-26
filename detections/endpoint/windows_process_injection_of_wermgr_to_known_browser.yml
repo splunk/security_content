@@ -1,7 +1,7 @@
 name: Windows Process Injection Of Wermgr to Known Browser
 id: aec755a5-3a2c-4be0-ab34-6540e68644e9
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

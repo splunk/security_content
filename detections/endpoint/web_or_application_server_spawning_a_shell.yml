@@ -1,7 +1,7 @@
 name: Web or Application Server Spawning a Shell
 id: 8fdb41ad-091c-4d7a-af1d-9123fe94b539
-version: 2
-date: '2025-10-16'
+version: 3
+date: '2026-02-26'
 author: Michael Haag, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -73,7 +73,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

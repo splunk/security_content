@@ -1,7 +1,7 @@
 name: Detect Regsvcs Spawning a Process
 id: bc477b57-5c21-4ab6-9c33-668772e7f114
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

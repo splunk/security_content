@@ -1,7 +1,7 @@
 name: Cisco TFTP Server Configuration for Data Exfiltration
 id: 1abce487-f480-4d5f-a551-01de0bece0bd
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
         - field: user
           type: user
-          score: 40
+          score: 50
     threat_objects:
         - field: command
           type: command

@@ -1,7 +1,7 @@
 name: Windows PowerShell FakeCAPTCHA Clipboard Execution
 id: d81d4d3d-76b5-4f21-ab51-b17d5164c106
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -66,7 +66,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: process
           type: process

@@ -1,7 +1,7 @@
 name: Windows Shell Process from CrushFTP
 id: 459628e3-1b00-4e9b-9e5b-7da8961aea35
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -47,7 +47,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 65
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

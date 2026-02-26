@@ -1,7 +1,7 @@
 name: Web Servers Executing Suspicious Processes
 id: ec3b7601-689a-4463-94e0-c9f45638efb9
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: David Dorsey, Splunk
 status: experimental
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

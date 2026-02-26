@@ -1,7 +1,7 @@
 name: Modification Of Wallpaper
 id: accb0712-c381-11eb-8e5b-acde48001122
-version: 8
-date: '2026-01-12'
+version: 9
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

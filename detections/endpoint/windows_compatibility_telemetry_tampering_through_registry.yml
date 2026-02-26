@@ -1,7 +1,7 @@
 name: Windows Compatibility Telemetry Tampering Through Registry
 id: 43834687-cc48-4878-a2fa-f76e4271791f
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -49,10 +49,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
         - field: user
           type: user
-          score: 70
+          score: 50
     threat_objects:
         - field: process
           type: process

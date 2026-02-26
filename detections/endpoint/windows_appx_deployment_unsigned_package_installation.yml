@@ -1,7 +1,7 @@
 name: Windows AppX Deployment Unsigned Package Installation
 id: 9b5e7c14-f8d2-4a3b-b1a7-e5c9f2a8d123
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 65
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

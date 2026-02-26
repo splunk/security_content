@@ -1,7 +1,7 @@
 name: Windows Advanced Installer MSIX with AI_STUBS Execution
 id: 56b2e58c-5909-49a3-998e-1f4815186ec2
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,7 +33,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: process_path
           type: file_path

@@ -1,7 +1,7 @@
 name: Kubernetes Nginx Ingress RFI
 id: fc5531ae-62fd-4de6-9c36-b4afdae8ca95
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

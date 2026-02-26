@@ -1,7 +1,7 @@
 name: Windows Suspicious React or Next.js Child Process
 id: baa80bc8-7c9c-4395-b458-b69feb92830a
-version: 1
-date: '2025-12-05'
+version: 2
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -121,10 +121,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 70
+          score: 50
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: process

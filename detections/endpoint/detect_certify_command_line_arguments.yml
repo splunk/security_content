@@ -1,7 +1,7 @@
 name: Detect Certify Command Line Arguments
 id: e6d2dc61-a8b9-4b03-906c-da0ca75d71b8
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

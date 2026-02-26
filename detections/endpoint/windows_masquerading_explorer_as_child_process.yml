@@ -1,7 +1,7 @@
 name: Windows Masquerading Explorer As Child Process
 id: 61490da9-52a1-4855-a0c5-28233c88c481
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

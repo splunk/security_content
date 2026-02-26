@@ -1,7 +1,7 @@
 name: O365 Add App Role Assignment Grant User
 id: b2c81cc6-6040-11eb-ae93-0242ac130002
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Rod Soto, Splunk
 status: production
 type: TTP
@@ -36,10 +36,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 18
+          score: 50
         - field: dest
           type: system
-          score: 18
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

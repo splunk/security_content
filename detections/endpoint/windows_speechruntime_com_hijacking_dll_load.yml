@@ -1,7 +1,7 @@
 name: Windows SpeechRuntime COM Hijacking DLL Load
 id: bd35738c-e93a-4e4f-be24-f6a3680b950a
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 55
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: BITS Job Persistence
 id: e97a5ffe-90bf-11eb-928a-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -45,10 +45,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 56
+          score: 50
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

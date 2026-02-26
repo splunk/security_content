@@ -1,7 +1,7 @@
 name: Impacket Lateral Movement WMIExec Commandline Parameters
 id: d6e464e4-5c6a-474e-82d2-aed616a3a492
-version: 9
-date: '2026-01-20'
+version: 10
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

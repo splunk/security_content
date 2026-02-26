@@ -1,7 +1,7 @@
 name: Registry Keys for Creating SHIM Databases
 id: f5f6af30-7aa7-4295-bfe9-07fe87c01bbb
-version: 14
-date: '2025-05-02'
+version: 15
+date: '2026-02-26'
 author: Patrick Bareiss, Teoderick Contreras, Splunk, Steven Dick, Bhavin Patel
 status: production
 type: TTP
@@ -26,10 +26,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
         - field: user
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Process Execution via WMI
 id: 24869767-8579-485d-9a4f-d9ddfd8f0cac
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-02-26'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

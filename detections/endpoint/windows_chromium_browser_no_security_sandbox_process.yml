@@ -1,7 +1,7 @@
 name: Windows Chromium Browser No Security Sandbox Process
 id: 314cb263-7eeb-4d45-b693-bb21699c73d2
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -48,7 +48,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

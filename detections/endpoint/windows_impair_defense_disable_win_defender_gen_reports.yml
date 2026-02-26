@@ -1,7 +1,7 @@
 name: Windows Impair Defense Disable Win Defender Gen reports
 id: 93f114f6-cb1e-419b-ac3f-9e11a3045e70
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

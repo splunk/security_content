@@ -1,7 +1,7 @@
 name: MCP Prompt Injection
 id: 49779398-b738-4d64-bb3f-ead6eb97fe53
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Rod Soto
 status: production
 type: TTP
@@ -36,11 +36,11 @@ drilldown_searches:
       latest_offset: $info_max_time$
 rba:
     message: 'A prompt injection attempt was detected on $dest$ via MCP server. An attacker attempted to override AI instructions using phrases like IGNORE PREVIOUS INSTRUCTIONS or SYSTEM PROMPT OVERRIDE. This technique (AML.T0051) attempts to manipulate the LLM into bypassing security controls or executing unauthorized actions. Payload detected: $injection_payload$'
-    risk_score: 80
+    risk_score: 50
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

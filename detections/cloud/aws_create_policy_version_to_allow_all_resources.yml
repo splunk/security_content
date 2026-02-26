@@ -1,7 +1,7 @@
 name: AWS Create Policy Version to allow all resources
 id: 2a9b80d3-6340-4345-b5ad-212bf3d0dac4
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

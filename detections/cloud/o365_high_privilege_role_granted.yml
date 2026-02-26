@@ -1,7 +1,7 @@
 name: O365 High Privilege Role Granted
 id: e78a1037-4548-4072-bb1b-ad99ae416426
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

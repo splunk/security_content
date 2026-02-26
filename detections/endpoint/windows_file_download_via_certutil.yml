@@ -1,7 +1,7 @@
 name: Windows File Download Via CertUtil
 id: 7fac8d40-e370-45ea-a4a3-031bbcc18b02
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-02-26'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: TTP
@@ -54,10 +54,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 90
+          score: 50
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Name
 id: 9e9ab4e3-c9d0-4967-a197-6d755e8a7e6e
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
         - field: user
           type: user
-          score: 70
+          score: 50
     threat_objects:
         - field: Command
           type: signature

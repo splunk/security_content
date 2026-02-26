@@ -1,7 +1,7 @@
 name: Powershell Creating Thread Mutex
 id: 637557ec-ca08-11eb-bd0a-acde48001122
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
         - field: user_id
           type: user
-          score: 40
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

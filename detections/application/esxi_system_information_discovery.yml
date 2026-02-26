@@ -1,7 +1,7 @@
 name: ESXi System Information Discovery
 id: b4d4217a-6673-4fb6-837d-07a522bdf9f7
-version: 1
-date: '2025-05-14'
+version: 2
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,10 +25,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 50
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

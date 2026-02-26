@@ -1,7 +1,7 @@
 name: Time Provider Persistence Registry
 id: 5ba382c4-2105-11ec-8d8f-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
         - field: user
           type: user
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

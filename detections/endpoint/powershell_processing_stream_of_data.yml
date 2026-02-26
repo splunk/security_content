@@ -1,7 +1,7 @@
 name: Powershell Processing Stream Of Data
 id: 0d718b52-c9f1-11eb-bc61-acde48001122
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
         - field: user_id
           type: user
-          score: 40
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

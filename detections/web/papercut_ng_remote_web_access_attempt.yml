@@ -1,7 +1,7 @@
 name: PaperCut NG Remote Web Access Attempt
 id: 9fcb214a-dc42-4ce7-a650-f1d2cab16a6a
-version: 6
-date: '2026-01-23'
+version: 7
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP

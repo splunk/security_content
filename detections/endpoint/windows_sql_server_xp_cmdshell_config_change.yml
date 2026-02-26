@@ -1,7 +1,7 @@
 name: Windows SQL Server xp_cmdshell Config Change
 id: 5eb76fe2-a869-4865-8c4c-8cff424b18b1
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: config_name
           type: other
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

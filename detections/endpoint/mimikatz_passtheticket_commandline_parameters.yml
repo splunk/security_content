@@ -1,7 +1,7 @@
 name: Mimikatz PassTheTicket CommandLine Parameters
 id: 13bbd574-83ac-11ec-99d4-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -47,10 +47,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 36
+          score: 50
         - field: dest
           type: system
-          score: 36
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

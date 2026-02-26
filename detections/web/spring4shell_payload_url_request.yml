@@ -1,7 +1,7 @@
 name: Spring4Shell Payload URL Request
 id: 9d44d649-7d67-4559-95c1-8022ff49420b
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

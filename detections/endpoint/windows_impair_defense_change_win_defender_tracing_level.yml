@@ -1,7 +1,7 @@
 name: Windows Impair Defense Change Win Defender Tracing Level
 id: fe9391cd-952a-4c64-8f56-727cb0d4f2d4
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

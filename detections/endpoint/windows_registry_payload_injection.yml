@@ -1,7 +1,7 @@
 name: Windows Registry Payload Injection
 id: c6b2d80f-179a-41a1-b95e-ce5601d7427a
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

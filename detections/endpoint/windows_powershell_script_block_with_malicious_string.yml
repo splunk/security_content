@@ -1,7 +1,7 @@
 name: Windows PowerShell Script Block With Malicious String
 id: 0f09cedd-10f1-4b9f-bdea-7a8b06ea575d
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-26'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: signature_id
           type: signature

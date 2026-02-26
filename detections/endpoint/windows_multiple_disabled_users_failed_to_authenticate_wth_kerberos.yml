@@ -1,7 +1,7 @@
 name: Windows Multiple Disabled Users Failed To Authenticate Wth Kerberos
 id: 98f22d82-9d62-11eb-9fcf-acde48001122
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-02-26'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -33,7 +33,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects:
         - field: IpAddress
           type: ip_address

@@ -1,7 +1,7 @@
 name: ESXi VM Exported via Remote Tool
 id: 2e155547-aaac-49d3-b0ef-ceabc31fd364
-version: 1
-date: '2025-05-15'
+version: 2
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP

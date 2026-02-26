@@ -1,7 +1,7 @@
 name: Cisco Duo Admin Login Unusual Os
 id: c4824cc6-d644-458e-a39a-67cd67da75e3
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Activity
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects:
         - field: access_device.browser
           type: http_user_agent

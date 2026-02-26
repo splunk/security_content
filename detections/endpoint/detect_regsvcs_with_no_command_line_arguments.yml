@@ -1,7 +1,7 @@
 name: Detect Regsvcs with No Command Line Arguments
 id: 6b74d578-a02e-4e94-a0d1-39440d0bf254
-version: 12
-date: '2025-12-15'
+version: 13
+date: '2026-02-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

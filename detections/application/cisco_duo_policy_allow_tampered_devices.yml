@@ -1,7 +1,7 @@
 name: Cisco Duo Policy Allow Tampered Devices
 id: 6b813efd-8859-406f-b677-719458387fac
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-02-26'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

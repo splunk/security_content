@@ -1,12 +1,12 @@
 name: Windows Multiple Invalid Users Failed To Authenticate Using NTLM
 id: 57ad5a64-9df7-11eb-a290-acde48001122
 type: TTP
-version: 10
+version: 11
 author: Mauricio Velazco, Splunk
 status: production
 data_source:
     - Windows Event Log Security 4776
-date: '2026-02-25'
+date: '2026-02-26'
 description: The following analytic detects a single source endpoint failing to authenticate with 30 unique invalid users using the NTLM protocol. It leverages EventCode 4776 from Domain Controller logs, focusing on error code 0xC0000064, which indicates non-existent usernames. This behavior is significant as it may indicate a Password Spraying attack, where an adversary attempts to gain initial access or elevate privileges. If confirmed malicious, this activity could lead to unauthorized access, privilege escalation, and potential compromise of sensitive information within the Active Directory environment.
 how_to_implement: To successfully implement this search, you need to be ingesting Domain Controller events. The Advanced Security Audit policy setting `Audit Credential Validation' within `Account Logon` needs to be enabled.
 known_false_positives: A host failing to authenticate with multiple invalid domain users is not a common behavior for legitimate systems. Possible false positive scenarios include but are not limited to vulnerability scanners and missconfigured systems. If this detection triggers on a host other than a Domain Controller, the behavior could represent a password spraying attack against the host's local accounts.
@@ -35,7 +35,7 @@ rba:
     risk_objects:
         - field: Workstation
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

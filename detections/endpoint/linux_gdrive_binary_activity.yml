@@ -1,7 +1,7 @@
 name: Linux Gdrive Binary Activity
 id: a42f8029-5472-4c33-8943-bb17bb07466a
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-02-26'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

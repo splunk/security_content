@@ -1,7 +1,7 @@
 name: M365 Copilot Information Extraction Jailbreak Attack
 id: c0ee37bb-ed43-4632-8e38-060fba80b0b2
-version: 1
-date: '2025-09-25'
+version: 2
+date: '2026-02-26'
 author: Rod Soto
 status: experimental
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

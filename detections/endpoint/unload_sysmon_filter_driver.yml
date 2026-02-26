@@ -1,7 +1,7 @@
 name: Unload Sysmon Filter Driver
 id: e5928ff3-23eb-4d8b-b8a4-dcbc844fdfbe
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-02-26'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -47,7 +47,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 45
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
