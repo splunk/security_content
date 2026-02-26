@@ -1,80 +1,71 @@
 name: Windows SQL Server Critical Procedures Enabled
 id: d0434864-b043-41e3-8c08-30e53605e9cb
-version: 3
-date: '2025-08-27'
+version: 4
+date: '2026-02-25'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
 description: This detection identifies when critical SQL Server configuration options are modified, including "Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", and "clr strict security". These features can be abused by attackers for various malicious purposes - Ad Hoc Distributed Queries enables Active Directory reconnaissance through ADSI provider, external scripts and Ole Automation allow execution of arbitrary code, and CLR features can be used to run custom assemblies. Enabling these features could indicate attempts to gain code execution or perform reconnaissance through SQL Server.
 data_source:
-- Windows Event Log Application 15457
-search: '`wineventlog_application` EventCode=15457 
-  | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
-  | where config_name IN ("Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", "clr strict security")
-  | rename host as dest
-  | eval change_type=case(
-      old_value="0" AND new_value="1", "enabled",
-      old_value="1" AND new_value="0", "disabled",
-      true(), "modified"
-  )
-  | eval risk_score=case(
-      change_type="enabled", 90,
-      change_type="disabled", 60,
-      true(), 70
-  )
-  | eval risk_message="SQL Server critical procedure ".config_name." was ".change_type." on host ".dest.", which may indicate attempts to gain code execution or perform reconnaissance"
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode config_name change_type risk_message risk_score
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_sql_server_critical_procedures_enabled_filter`'
+    - Windows Event Log Application 15457
+search: |-
+    `wineventlog_application` EventCode=15457
+      | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
+      | where config_name IN ("Ad Hoc Distributed Queries", "external scripts enabled", "Ole Automation Procedures", "clr enabled", "clr strict security")
+      | rename host as dest
+      | eval change_type=case( old_value="0" AND new_value="1", "enabled", old_value="1" AND new_value="0", "disabled", true(), "modified" )
+      | eval risk_score=case( change_type="enabled", 90, change_type="disabled", 60, true(), 70 )
+      | eval risk_message="SQL Server critical procedure ".config_name." was ".change_type." on host ".dest.", which may indicate attempts to gain code execution or perform reconnaissance"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest EventCode config_name
+           change_type risk_message risk_score
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_sql_server_critical_procedures_enabled_filter`
 how_to_implement: To successfully implement this detection, you need to be ingesting Windows Application Event Logs from SQL Server instances where SQL Server is installed. The detection specifically looks for EventID 15457 which indicates configuration changes to SQL Server features. Ensure proper logging is enabled for SQL Server configuration changes and that the logs are being forwarded to your SIEM.
 known_false_positives: Database administrators may legitimately enable these features for valid business purposes such as cross-database queries, custom CLR assemblies, automation scripts, or application requirements. To reduce false positives, document when these features are required, monitor for unauthorized changes, create change control procedures for configuration modifications, and consider alerting on the enabled state rather than configuration changes if preferred.
 references:
-- https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/ad-hoc-distributed-queries-server-configuration-option
-- https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/external-scripts-enabled-server-configuration-option
-- https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/ole-automation-procedures-server-configuration-option
-- https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/clr-enabled-server-configuration-option
-- https://www.netspi.com/blog/technical/network-penetration-testing/enumerating-domain-accounts-via-sql-server-using-adsi/
-- https://attack.mitre.org/techniques/T1505/001/
-- https://www.netspi.com/blog/technical-blog/adversary-simulation/attacking-sql-server-clr-assemblies/
+    - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/ad-hoc-distributed-queries-server-configuration-option
+    - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/external-scripts-enabled-server-configuration-option
+    - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/ole-automation-procedures-server-configuration-option
+    - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/clr-enabled-server-configuration-option
+    - https://www.netspi.com/blog/technical/network-penetration-testing/enumerating-domain-accounts-via-sql-server-using-adsi/
+    - https://attack.mitre.org/techniques/T1505/001/
+    - https://www.netspi.com/blog/technical-blog/adversary-simulation/attacking-sql-server-clr-assemblies/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  - field: config_name
-    type: other
-    score: 90
-  threat_objects: []
+    message: SQL Server critical procedure "$config_name$" was $change_type$ on host $dest$, which could indicate an attempt to gain code execution or perform reconnaissance
+    risk_objects:
+        - field: dest
+          type: system
+          score: 90
+        - field: config_name
+          type: other
+          score: 90
+    threat_objects: []
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  asset_type: Windows
-  mitre_attack_id:
-  - T1505.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
+    analytic_story:
+        - SQL Server Abuse
+    asset_type: Windows
+    mitre_attack_id:
+        - T1505.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/adhocdq_windows_application.log
-    sourcetype: XmlWinEventLog
-    source: XmlWinEventLog:Application
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/adhocdq_windows_application.log
+          sourcetype: XmlWinEventLog
+          source: XmlWinEventLog:Application

@@ -1,52 +1,40 @@
 name: Detect Traffic Mirroring
 id: 42b3b753-5925-49c5-9742-36fa40a73990
-version: 8
-date: '2025-10-21'
+version: 9
+date: '2026-02-25'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
-description: The following analytic detects the initiation of traffic mirroring sessions
-  on Cisco network devices. It leverages logs with specific mnemonics and facilities
-  related to traffic mirroring, such as "ETH_SPAN_SESSION_UP" and "PKTCAP_START."
-  This activity is significant because adversaries may use traffic mirroring to exfiltrate
-  data by duplicating and forwarding network traffic to an external destination. If
-  confirmed malicious, this could allow attackers to capture sensitive information,
-  monitor network communications, and potentially compromise the integrity and confidentiality
-  of the network.
+description: The following analytic detects the initiation of traffic mirroring sessions on Cisco network devices. It leverages logs with specific mnemonics and facilities related to traffic mirroring, such as "ETH_SPAN_SESSION_UP" and "PKTCAP_START." This activity is significant because adversaries may use traffic mirroring to exfiltrate data by duplicating and forwarding network traffic to an external destination. If confirmed malicious, this could allow attackers to capture sensitive information, monitor network communications, and potentially compromise the integrity and confidentiality of the network.
 data_source:
-  - Cisco IOS Logs
-search: '`cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN"
-  mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD"
-  command="monitor session*") | stats min(_time) AS firstTime max(_time) AS lastTime
-  count BY host facility mnemonic | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)`
-  | `detect_traffic_mirroring_filter`'
-how_to_implement: This search uses a standard SPL query on logs from Cisco Network
-  devices. The network devices must log with a severity level of minimum "5 - notification".
-  The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467)
-  is used to parse the logs from the Cisco network devices and that the devices have
-  been configured according to the documentation of the Cisco Networks Add-on. Also
-  note that an attacker may disable logging from the device prior to enabling traffic
-  mirroring.
-known_false_positives: This search will return false positives for any legitimate
-  traffic captures by network administrators.
+    - Cisco IOS Logs
+search: |-
+    `cisco_networks` (facility="MIRROR" mnemonic="ETH_SPAN_SESSION_UP") OR (facility="SPAN" mnemonic="SESSION_UP") OR (facility="SPAN" mnemonic="PKTCAP_START") OR (mnemonic="CFGLOG_LOGGEDCMD" command="monitor session*")
+      | stats min(_time) AS firstTime max(_time) AS lastTime count
+        BY host facility mnemonic
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `detect_traffic_mirroring_filter`
+how_to_implement: This search uses a standard SPL query on logs from Cisco Network devices. The network devices must log with a severity level of minimum "5 - notification". The search also requires that the Cisco Networks Add-on for Splunk (https://splunkbase.splunk.com/app/1467) is used to parse the logs from the Cisco network devices and that the devices have been configured according to the documentation of the Cisco Networks Add-on. Also note that an attacker may disable logging from the device prior to enabling traffic mirroring.
+known_false_positives: This search will return false positives for any legitimate traffic captures by network administrators.
 references: []
 rba:
-  message: Traffic Mirroring Session observed on $host$
-  risk_objects:
-  - field: host
-    type: system
-    score: 25
-  threat_objects: []
+    message: Traffic Mirroring Session observed on $host$
+    risk_objects:
+        - field: host
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - Router and Infrastructure Security
-  asset_type: Infrastructure
-  mitre_attack_id:
-  - T1020.001
-  - T1200
-  - T1498
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Router and Infrastructure Security
+    asset_type: Infrastructure
+    mitre_attack_id:
+        - T1020.001
+        - T1200
+        - T1498
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network

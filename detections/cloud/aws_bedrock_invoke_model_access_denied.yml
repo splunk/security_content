@@ -1,65 +1,59 @@
 name: AWS Bedrock Invoke Model Access Denied
 id: c53a8e62-f741-11ee-9f6e-acde48001122
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 description: The following analytic identifies access denied error when attempting to invoke AWS Bedrock models. It leverages AWS CloudTrail logs to detect when a user or service receives an AccessDenied error when calling the InvokeModel API. This activity is significant as it may indicate an adversary attempting to access Bedrock models with insufficient permissions after compromising credentials. If confirmed malicious, this could suggest reconnaissance activities or privilege escalation attempts targeting generative AI resources, potentially leading to data exfiltration or manipulation of model outputs.
 data_source:
-- AWS CloudTrail
+    - AWS CloudTrail
 search: >-
-  `cloudtrail` eventSource=bedrock.amazonaws.com eventName=InvokeModel errorCode=AccessDenied 
-  | rename user_name as user 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.modelId) as modelIds by src user user_agent vendor_account vendor_product dest signature vendor_region result result_id
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `aws_bedrock_invoke_model_access_denied_filter`
+    `cloudtrail` eventSource=bedrock.amazonaws.com eventName=InvokeModel errorCode=AccessDenied
+    | rename user_name as user
+    | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.modelId) as modelIds by src user user_agent vendor_account vendor_product dest signature vendor_region result result_id
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_bedrock_invoke_model_access_denied_filter`
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS CloudTrail logs with Bedrock service events enabled. You must install and configure the AWS App for Splunk (version 6.0.0 or later) and Splunk Add-on for AWS (version 5.1.0 or later) to collect CloudTrail logs from AWS.
 known_false_positives: Legitimate users may encounter access denied errors during permission testing, role transitions, or when service permissions are being reconfigured. Access denials may also happen when automated processes are using outdated credentials or when new Bedrock features are being explored.
 references:
-- https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListFoundationModels.html
-- https://trustoncloud.com/blog/exposing-the-weakness-how-we-identified-a-flaw-in-bedrocks-foundation-model-access-control/
-- https://attack.mitre.org/techniques/T1595/
+    - https://docs.aws.amazon.com/bedrock/latest/APIReference/API_ListFoundationModels.html
+    - https://trustoncloud.com/blog/exposing-the-weakness-how-we-identified-a-flaw-in-bedrocks-foundation-model-access-control/
+    - https://attack.mitre.org/techniques/T1595/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ access denied when attempting to invoke AWS Bedrock models from $src$
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ access denied when attempting to invoke AWS Bedrock models from $src$
+    risk_objects:
+        - field: user
+          type: user
+          score: 64
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - AWS Bedrock Security
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1078
-  - T1550
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - AWS Bedrock Security
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1078
+        - T1550
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/aws_invoke_model_access_denied/cloudtrail.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1087.004/aws_invoke_model_access_denied/cloudtrail.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

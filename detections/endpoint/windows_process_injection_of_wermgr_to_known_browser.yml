@@ -5,68 +5,45 @@ date: '2026-01-14'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic identifies the suspicious remote thread execution
-  of the wermgr.exe process into known browsers such as firefox.exe, chrome.exe, and
-  others. It leverages Sysmon EventCode 8 logs to detect this behavior by monitoring
-  SourceImage and TargetImage fields. This activity is significant because it is indicative
-  of Qakbot malware, which injects malicious code into legitimate processes to steal
-  information. If confirmed malicious, this activity could allow attackers to execute
-  arbitrary code, escalate privileges, and exfiltrate sensitive data from the compromised
-  host.
+description: The following analytic identifies the suspicious remote thread execution of the wermgr.exe process into known browsers such as firefox.exe, chrome.exe, and others. It leverages Sysmon EventCode 8 logs to detect this behavior by monitoring SourceImage and TargetImage fields. This activity is significant because it is indicative of Qakbot malware, which injects malicious code into legitimate processes to steal information. If confirmed malicious, this activity could allow attackers to execute arbitrary code, escalate privileges, and exfiltrate sensitive data from the compromised host.
 data_source:
-- Sysmon EventID 8
-search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\firefox.exe",
-  "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time)
-  as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID
-  SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule
-  TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid
-  parent_process_id parent_process_name parent_process_path process_exec process_guid
-  process_id process_name process_path signature signature_id user_id vendor_product
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_of_wermgr_to_known_browser_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the SourceImage, TargetImage, and EventCode executions from your endpoints
-  related to create remote thread or injecting codes. If you are using Sysmon, you
-  must have at least version 6.0.4 of the Sysmon TA.
+    - Sysmon EventID 8
+search: '`sysmon` EventCode=8 SourceImage = "*\\wermgr.exe" TargetImage IN ("*\\firefox.exe", "*\\chrome.exe", "*\\iexplore.exe","*\\microsoftedgecp.exe") | stats count min(_time) as firstTime max(_time) as lastTime by EventID Guid NewThreadId ProcessID SecurityID SourceImage SourceProcessGuid SourceProcessId StartAddress StartFunction StartModule TargetImage TargetProcessGuid TargetProcessId UserID dest parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_of_wermgr_to_known_browser_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the SourceImage, TargetImage, and EventCode executions from your endpoints related to create remote thread or injecting codes. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://news.sophos.com/en-us/2022/03/10/qakbot-decoded/
-- https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
+    - https://news.sophos.com/en-us/2022/03/10/qakbot-decoded/
+    - https://www.trellix.com/en-us/about/newsroom/stories/research/demystifying-qbot-malware.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: wermgr.exe process $SourceImage$ create a remote thread to a browser process
-    $TargetImage$ in host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects: []
+    message: wermgr.exe process $SourceImage$ create a remote thread to a browser process $TargetImage$ in host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects: []
 tags:
-  analytic_story:
-  - Qakbot
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1055.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Qakbot
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/remote_thread/sysmon_wermgr_remote.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

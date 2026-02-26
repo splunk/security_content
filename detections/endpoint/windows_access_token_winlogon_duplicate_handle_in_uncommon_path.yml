@@ -5,75 +5,48 @@ date: '2025-08-20'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a process attempting to duplicate 
-  the handle of winlogon.exe from an uncommon or public source path. This is 
-  identified using Sysmon EventCode 10, focusing on processes targeting 
-  winlogon.exe with specific access rights and excluding common system paths. 
-  This activity is significant because it may indicate an adversary trying to 
-  escalate privileges by leveraging the high-privilege tokens associated with 
-  winlogon.exe. If confirmed malicious, this could allow the attacker to gain 
-  elevated access, potentially leading to full system compromise and persistent 
-  control over the affected host.
+description: The following analytic detects a process attempting to duplicate the handle of winlogon.exe from an uncommon or public source path. This is identified using Sysmon EventCode 10, focusing on processes targeting winlogon.exe with specific access rights and excluding common system paths. This activity is significant because it may indicate an adversary trying to escalate privileges by leveraging the high-privilege tokens associated with winlogon.exe. If confirmed malicious, this could allow the attacker to gain elevated access, potentially leading to full system compromise and persistent control over the affected host.
 data_source:
-- Sysmon EventID 10
-search: '`sysmon` EventCode=10  TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*")
-  AND GrantedAccess = 0x1040 AND NOT (SourceImage IN("C:\\Windows\\*", "C:\\Program
-  File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time) as
-  lastTime by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage
-  SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId
-  UserID dest granted_access parent_process_exec parent_process_guid parent_process_id
-  parent_process_name parent_process_path process_exec process_guid process_id process_name
-  process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_access_token_winlogon_duplicate_handle_in_uncommon_path_filter`'
-how_to_implement: To successfully implement this search, you must be ingesting 
-  data that records process activity from your hosts to populate the endpoint 
-  data model in the processes node. If you are using Sysmon, you must have at 
-  least version 6.0.4 of the Sysmon TA.
-known_false_positives: It is possible legitimate applications will request 
-  access to winlogon, filter as needed.
+    - Sysmon EventID 10
+search: '`sysmon` EventCode=10  TargetImage IN("*\\system32\\winlogon.exe*", "*\\SysWOW64\\winlogon.exe*") AND GrantedAccess = 0x1040 AND NOT (SourceImage IN("C:\\Windows\\*", "C:\\Program File*", "%systemroot%\\*")) | stats count min(_time) as firstTime max(_time) as lastTime by CallTrace EventID GrantedAccess Guid Opcode ProcessID SecurityID SourceImage SourceProcessGUID SourceProcessId TargetImage TargetProcessGUID TargetProcessId UserID dest granted_access parent_process_exec parent_process_guid parent_process_id parent_process_name parent_process_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_access_token_winlogon_duplicate_handle_in_uncommon_path_filter`'
+how_to_implement: To successfully implement this search, you must be ingesting data that records process activity from your hosts to populate the endpoint data model in the processes node. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: It is possible legitimate applications will request access to winlogon, filter as needed.
 references:
-- https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
-- https://attack.mitre.org/techniques/T1134/001/
+    - https://docs.microsoft.com/en-us/windows/win32/api/handleapi/nf-handleapi-duplicatehandle
+    - https://attack.mitre.org/techniques/T1134/001/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A process $SourceImage$ is duplicating the handle token of 
-    winlogon.exe on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects:
-  - field: SourceImage
-    type: process_name
+    message: A process $SourceImage$ is duplicating the handle token of winlogon.exe on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects:
+        - field: SourceImage
+          type: process_name
 tags:
-  analytic_story:
-  - Brute Ratel C4
-  - PathWiper
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1134.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Brute Ratel C4
+        - PathWiper
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1134.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/brute_ratel/brute_duplicate_token/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,71 +1,61 @@
 name: Windows DNS Query Request by Telegram Bot API
 id: 86f66f44-94d9-412d-a71d-5d8ed0fef72e
-version: 5
-date: '2025-08-22'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source:
-- Sysmon EventID 22
+    - Sysmon EventID 22
 type: Anomaly
 status: production
-description: The following analytic detects the execution of a DNS query by a 
-  process to the associated Telegram API domain, which could indicate access via
-  a Telegram bot commonly used by malware for command and control (C2) 
-  communications. By monitoring DNS queries related to Telegram's 
-  infrastructure, the detection identifies potential attempts to establish 
-  covert communication channels between a compromised system and external 
-  malicious actors. This behavior is often observed in cyberattacks where 
-  Telegram bots are used to receive commands or exfiltrate data, making it a key
-  indicator of suspicious or malicious activity within a network.
-search: '`sysmon` EventCode=22  query = "api.telegram.org" process_name != "telegram.exe"
-  | stats count min(_time) as firstTime max(_time) as lastTime by answer answer_count
-  dvc process_exec process_guid process_name query query_count reply_code_id signature
-  signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_dns_query_request_by_telegram_bot_api_filter`'
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting logs with the process name and eventcode = 22 dnsquery executions 
-  from your endpoints. If you are using Sysmon, you must have at least version 
-  6.0.4 of the Sysmon TA.
+description: The following analytic detects the execution of a DNS query by a process to the associated Telegram API domain, which could indicate access via a Telegram bot commonly used by malware for command and control (C2) communications. By monitoring DNS queries related to Telegram's infrastructure, the detection identifies potential attempts to establish covert communication channels between a compromised system and external malicious actors. This behavior is often observed in cyberattacks where Telegram bots are used to receive commands or exfiltrate data, making it a key indicator of suspicious or malicious activity within a network.
+search: |-
+    `sysmon` EventCode=22  query = "api.telegram.org" process_name != "telegram.exe"
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY answer answer_count dvc
+           process_exec process_guid process_name
+           query query_count reply_code_id
+           signature signature_id src
+           user_id vendor_product QueryName
+           QueryResults QueryStatus
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_dns_query_request_by_telegram_bot_api_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
 known_false_positives: a third part automation using telegram API.
 references:
-- https://www.splunk.com/en_us/blog/security/threat-advisory-telegram-crypto-botnet-strt-ta01.html
+    - https://www.splunk.com/en_us/blog/security/threat-advisory-telegram-crypto-botnet-strt-ta01.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: DNS query by a telegram bot [$query$] on [$dvc$].
-  risk_objects:
-  - field: dvc
-    type: system
-    score: 36
-  threat_objects: []
+    message: DNS query by a telegram bot [$query$] on [$dvc$].
+    risk_objects:
+        - field: dvc
+          type: system
+          score: 36
+    threat_objects: []
 tags:
-  analytic_story:
-  - Crypto Stealer
-  - 0bj3ctivity Stealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1071.004
-  - T1102.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Crypto Stealer
+        - 0bj3ctivity Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1071.004
+        - T1102.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102.002/telegram_api_dns/telegram_dns.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1102.002/telegram_api_dns/telegram_dns.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

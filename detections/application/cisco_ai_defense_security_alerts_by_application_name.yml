@@ -1,80 +1,76 @@
 name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: The search surfaces alerts from the Cisco AI Defense product for potential attacks against the AI models running in your environment. This analytic identifies security events within Cisco AI Defense by examining event messages, actions, and policy names. It focuses on connections and applications associated with specific guardrail entities and ruleset types. By aggregating and analyzing these elements, the search helps detect potential policy violations and security threats, enabling proactive defense measures and ensuring network integrity.
 data_source:
-- Cisco AI Defense Alerts
+    - Cisco AI Defense Alerts
 search: |-
-  `cisco_ai_defense` 
-    | rename genai_application.application_name as application_name 
-    | rename connection.connection_name as connection_name 
-    ```Aggregating data by model name, connection name, application name, application ID, and user ID```
-    | stats count 
-        values(user_id) as user_id
-        values(event_message_type) as event_message_type
-        values(event_action) as event_action
-        values(policy.policy_name) as policy_name 
-        values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name) as guardrail_entity_name 
-        values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type) as guardrail_ruleset_type 
-        by model.model_name connection_name application_name application_id 
-    ```Evaluating severity based on policy name and guardrail ruleset type```
-    | eval severity=case(
-        policy_name IN ("AI Runtime Latency Testing - Prompt Injection"), "critical",
-        policy_name IN ("AI Runtime Latency Testing - Code Detection"), "high", 
-        guardrail_ruleset_type IN ("Toxicity"), "medium",
-        true(), "low"
-    ) 
-    ```Calculating risk score based on severity level```
-    | eval risk_score=case(
-        severity="critical", 100,
-        severity="high", 75,
-        severity="medium", 50,
-        severity="low", 25
-    )
-    | table model.model_name, user_id, event_action, application_id, application_name, severity, risk_score, policy_name, connection_name, guardrail_ruleset_type, guardrail_entity_name 
-    | `cisco_ai_defense_security_alerts_by_application_name_filter`
+    `cisco_ai_defense`
+      | rename genai_application.application_name as application_name
+      | rename connection.connection_name as connection_name
+      ```Aggregating data by model name, connection name, application name, application ID, and user ID```
+      | stats count
+          values(user_id) as user_id
+          values(event_message_type) as event_message_type
+          values(event_action) as event_action
+          values(policy.policy_name) as policy_name
+          values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_entity.guardrail_entity_name) as guardrail_entity_name
+          values(event_policy_guardrail_assocs{}.policy_guardrail_assoc.guardrail_avail_ruleset.guardrail_ruleset_type) as guardrail_ruleset_type
+          by model.model_name connection_name application_name application_id
+      ```Evaluating severity based on policy name and guardrail ruleset type```
+      | eval severity=case(
+          policy_name IN ("AI Runtime Latency Testing - Prompt Injection"), "critical",
+          policy_name IN ("AI Runtime Latency Testing - Code Detection"), "high",
+          guardrail_ruleset_type IN ("Toxicity"), "medium",
+          true(), "low"
+      )
+      ```Calculating risk score based on severity level```
+      | eval risk_score=case(
+          severity="critical", 100,
+          severity="high", 75,
+          severity="medium", 50,
+          severity="low", 25
+      )
+      | table model.model_name, user_id, event_action, application_id, application_name, severity, risk_score, policy_name, connection_name, guardrail_ruleset_type, guardrail_entity_name
+      | `cisco_ai_defense_security_alerts_by_application_name_filter`
 how_to_implement: To enable this detection, you need to ingest alerts from the Cisco AI Defense product. This can be done by using this app from splunkbase - Cisco Security Cloud and ingest alerts into the cisco:ai:defense sourcetype.
 known_false_positives: False positives may vary based on Cisco AI Defense configuration; monitor and filter out the alerts that are not relevant to your environment.
 references:
-- https://www.robustintelligence.com/blog-posts/prompt-injection-attack-on-gpt-4
-- https://docs.aws.amazon.com/prescriptive-guidance/latest/llm-prompt-engineering-best-practices/common-attacks.html
+    - https://www.robustintelligence.com/blog-posts/prompt-injection-attack-on-gpt-4
+    - https://docs.aws.amazon.com/prescriptive-guidance/latest/llm-prompt-engineering-best-practices/common-attacks.html
 drilldown_searches:
-- name: View the detection results for - "$application_name$"
-  search: '%original_detection_search% | search  application_name = "$application_name$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$application_name$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$application_name$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$application_name$"
+      search: '%original_detection_search% | search  application_name = "$application_name$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$application_name$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$application_name$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Cisco AI Defense Security Alert has been action - [$event_action$] for the application name - [$application_name$]
-  risk_objects:
-  - field: application_name
-    type: other
-    score: 10
-  threat_objects: []
+    message: Cisco AI Defense Security Alert has been action - [$event_action$] for the application name - [$application_name$]
+    risk_objects:
+        - field: application_name
+          type: other
+          score: 10
+    threat_objects: []
 tags:
     analytic_story:
-    - Critical Alerts
+        - Critical Alerts
     asset_type: Web Application
     product:
-    - Splunk Enterprise 
-    - Splunk Enterprise Security
-    - Splunk Cloud
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
     security_domain: endpoint
     manual_test: We are dynamically creating the risk_score field based on the severity of the alert in the SPL and that supersedes the risk score set in the detection.
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
-      source: cisco_ai_defense
-      sourcetype: cisco:ai:defense
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/cisco_ai_defense_alerts/cisco_ai_defense_alerts.json
+          source: cisco_ai_defense
+          sourcetype: cisco:ai:defense

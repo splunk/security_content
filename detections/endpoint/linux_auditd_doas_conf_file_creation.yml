@@ -6,105 +6,99 @@ author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-  The following analytic detects the creation of the doas.conf file on a Linux host.
-  This file is used by the doas utility to allow standard users to perform tasks as root, similar to sudo.
-  The detection leverages Linux Auditd data, focusing on the creation of the doas.conf file.
-  This activity is significant because it can indicate an attempt to gain elevated privileges, potentially by an adversary. If confirmed malicious, this could allow an attacker to execute commands with root commands with root privileges, leading to full system compromise.
+    The following analytic detects the creation of the doas.conf file on a Linux host.
+    This file is used by the doas utility to allow standard users to perform tasks as root, similar to sudo.
+    The detection leverages Linux Auditd data, focusing on the creation of the doas.conf file.
+    This activity is significant because it can indicate an attempt to gain elevated privileges, potentially by an adversary. If confirmed malicious, this could allow an attacker to execute commands with root commands with root privileges, leading to full system compromise.
 data_source:
-  - Linux Auditd Path
-  - Linux Auditd Cwd
+    - Linux Auditd Path
+    - Linux Auditd Cwd
 search: |
-  `linux_auditd`
-  (
-    (type=PATH nametype="CREATE")
-    OR
-    type=CWD
-  )
-  | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
+    `linux_auditd`
+    (
+      (type=PATH nametype="CREATE")
+      OR
+      type=CWD
+    )
+    | rex "msg=audit\([^)]*:(?<audit_id>\d+)\)"
 
-  | stats
-    values(type) as types
-    values(name) as names
-    values(nametype) as nametype
-    values(cwd) as cwd_list
-    values(_time) as event_times
-    by audit_id host
+    | stats
+      values(type) as types
+      values(name) as names
+      values(nametype) as nametype
+      values(cwd) as cwd_list
+      values(_time) as event_times
+      by audit_id host
 
-  | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
-  | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
-  | eval matched_paths = mvfilter(match(candidate_paths, "/etc/doas.conf.*"))
-  | eval match_count = mvcount(matched_paths)
-  | eval reconstructed_path = mvindex(matched_paths, 0)
-  | eval e_time = mvindex(event_times, 0)
-  | where match_count > 0
-  | rename host as dest
+    | eval current_working_directory = coalesce(mvindex(cwd_list, 0), "N/A")
+    | eval candidate_paths = mvmap(names, if(match(names, "^/"), names, current_working_directory + "/" + names))
+    | eval matched_paths = mvfilter(match(candidate_paths, "/etc/doas.conf.*"))
+    | eval match_count = mvcount(matched_paths)
+    | eval reconstructed_path = mvindex(matched_paths, 0)
+    | eval e_time = mvindex(event_times, 0)
+    | where match_count > 0
+    | rename host as dest
 
-  | stats count min(e_time) as firstTime max(e_time) as lastTime
-    values(nametype) as nametype
-    by current_working_directory
-       reconstructed_path
-       match_count
-       dest
-       audit_id
+    | stats count min(e_time) as firstTime max(e_time) as lastTime
+      values(nametype) as nametype
+      by current_working_directory
+         reconstructed_path
+         match_count
+         dest
+         audit_id
 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | table nametype current_working_directory reconstructed_path dest audit_id match_count firstTime lastTime
-  | `linux_auditd_doas_conf_file_creation_filter`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table nametype current_working_directory reconstructed_path dest audit_id match_count firstTime lastTime
+    | `linux_auditd_doas_conf_file_creation_filter`
 how_to_implement: |
-  To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration.
-  This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
+    To implement this detection, the process begins by ingesting auditd
+    data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
+    executions and process details on Unix/Linux systems. These logs should be ingested
+    and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
+    which is essential for correctly parsing and categorizing the data. The next step
+    involves normalizing the field names  to match the field names set by the Splunk
+    Common Information Model (CIM) to ensure consistency across different data sources
+    and enhance the efficiency of data modeling and make sure the type=CWD record type is activate in your auditd configuration.
+    This approach enables effective monitoring and detection of linux endpoints where auditd is deployed.
 known_false_positives: |
-  Administrator or network operator can execute this command.
-  Please update the filter macros to remove false positives.
+    Administrator or network operator can execute this command.
+    Please update the filter macros to remove false positives.
 references:
-  - https://wiki.gentoo.org/wiki/Doas
-  - https://www.makeuseof.com/how-to-install-and-use-doas/
+    - https://wiki.gentoo.org/wiki/Doas
+    - https://www.makeuseof.com/how-to-install-and-use-doas/
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A $reconstructed_path$ file was created on host - [$dest$]
-  risk_objects:
-    - field: dest
-      type: system
-      score: 64
-  threat_objects: []
+    message: A $reconstructed_path$ file was created on host - [$dest$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 64
+    threat_objects: []
 tags:
-  analytic_story:
-    - Linux Privilege Escalation
-    - Linux Persistence Techniques
-    - Compromised Linux Host
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1548.003
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Linux Privilege Escalation
+        - Linux Persistence Techniques
+        - Compromised Linux Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1548.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data:
-        https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/auditd_path_cwd_doas_conf/path_doas.log
-      source: auditd
-      sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1548.003/auditd_path_cwd_doas_conf/path_doas.log
+          source: auditd
+          sourcetype: auditd

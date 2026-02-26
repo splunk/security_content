@@ -1,0 +1,12 @@
+formatter:
+    type: basic
+    indent: 4
+    include_document_start: false
+    line_ending: lf
+    retain_line_breaks: false
+    scan_folded_as_literal: true
+    indentless_arrays: false
+    pad_line_comments: 1
+    eof_newline: true
+    max_line_length: 0
+    trim_trailing_whitespace: true

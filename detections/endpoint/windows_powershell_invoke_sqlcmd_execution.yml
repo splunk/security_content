@@ -7,125 +7,38 @@ status: production
 type: Hunting
 description: This detection identifies potentially suspicious usage of Invoke-Sqlcmd PowerShell cmdlet, which can be used for database operations and potential data exfiltration. The detection looks for suspicious parameter combinations and query patterns that may indicate unauthorized database access, data theft, or malicious database operations. Threat actors may prefer using PowerShell Invoke-Sqlcmd over sqlcmd.exe as it provides a more flexible programmatic interface and can better evade detection.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText="*invoke-sqlcmd*"
-    | eval script_lower=lower(ScriptBlockText)
-    | eval 
-        has_query=case(
-            match(script_lower, "(?i)-query\\s+"), 1,
-            match(script_lower, "(?i)-q\\s+"), 1,
-            true(), 0
-        ),
-        has_input_file=case(
-            match(script_lower, "(?i)-inputfile\\s+"), 1,
-            match(script_lower, "(?i)-i\\s+"), 1,
-            true(), 0
-        ),
-        has_url_input=case(
-            match(script_lower, "(?i)-inputfile\\s+https?://"), 1,
-            match(script_lower, "(?i)-i\\s+https?://"), 1,
-            match(script_lower, "(?i)-inputfile\\s+ftp://"), 1,
-            match(script_lower, "(?i)-i\\s+ftp://"), 1,
-            true(), 0
-        ),
-        has_admin_conn=case(
-            match(script_lower, "(?i)-dedicatedadministratorconnection"), 1,
-            true(), 0
-        ),
-        has_suspicious_auth=case(
-            match(script_lower, "(?i)-username\\s+sa\\b"), 1,
-            match(script_lower, "(?i)-u\\s+sa\\b"), 1,
-            match(script_lower, "(?i)-username\\s+admin\\b"), 1,
-            match(script_lower, "(?i)-u\\s+admin\\b"), 1,
-            true(), 0
-        ),
-        has_suspicious_query=case(
-            match(script_lower, "(?i)(xp_cmdshell|sp_oacreate|sp_execute_external|openrowset|bulk\\s+insert)"), 1,
-            match(script_lower, "(?i)(master\\.\\.\\.sysdatabases|msdb\\.\\.\\.backuphistory|sysadmin|securityadmin)"), 1,
-            match(script_lower, "(?i)(select.*from.*sys\\.|select.*password|dump\\s+database)"), 1,
-            match(script_lower, "(?i)(sp_addextendedproc|sp_makewebtask|sp_addsrvrolemember)"), 1,
-            match(script_lower, "(?i)(sp_configure.*show\\s+advanced|reconfigure|enable_xp_cmdshell)"), 1,
-            match(script_lower, "(?i)(exec.*master\\.dbo\\.|exec.*msdb\\.dbo\\.)"), 1,
-            match(script_lower, "(?i)(sp_password|sp_control_dbmasterkey_password|sp_dropextendedproc)"), 1,
-            match(script_lower, "(?i)(powershell|cmd\\.exe|rundll32|regsvr32|certutil)"), 1,
-            true(), 0
-        ),
-        has_data_exfil=case(
-            match(script_lower, "(?i)-outputas\\s+(dataset|datatables)"), 1,
-            match(script_lower, "(?i)-as\\s+(dataset|datatables)"), 1,
-            match(script_lower, "(?i)(for\\s+xml|for\\s+json)"), 1,
-            match(script_lower, "(?i)(select.*into.*from|select.*into.*outfile)"), 1,
-            true(), 0
-        ),
-        has_cert_bypass=case(
-            match(script_lower, "(?i)-trustservercertificate"), 1,
-            true(), 0
-        )
+    - Powershell Script Block Logging 4104
+search: '`powershell` EventCode=4104 ScriptBlockText="*invoke-sqlcmd*" | eval script_lower=lower(ScriptBlockText) | eval has_query=case( match(script_lower, "(?i)-query\\s+"), 1, match(script_lower, "(?i)-q\\s+"), 1, true(), 0 ), has_input_file=case( match(script_lower, "(?i)-inputfile\\s+"), 1, match(script_lower, "(?i)-i\\s+"), 1, true(), 0 ), has_url_input=case( match(script_lower, "(?i)-inputfile\\s+https?://"), 1, match(script_lower, "(?i)-i\\s+https?://"), 1, match(script_lower, "(?i)-inputfile\\s+ftp://"), 1, match(script_lower, "(?i)-i\\s+ftp://"), 1, true(), 0 ), has_admin_conn=case( match(script_lower, "(?i)-dedicatedadministratorconnection"), 1, true(), 0 ), has_suspicious_auth=case( match(script_lower, "(?i)-username\\s+sa\\b"), 1, match(script_lower, "(?i)-u\\s+sa\\b"), 1, match(script_lower, "(?i)-username\\s+admin\\b"), 1, match(script_lower, "(?i)-u\\s+admin\\b"), 1, true(), 0 ), has_suspicious_query=case( match(script_lower, "(?i)(xp_cmdshell|sp_oacreate|sp_execute_external|openrowset|bulk\\s+insert)"), 1, match(script_lower, "(?i)(master\\.\\.\\.sysdatabases|msdb\\.\\.\\.backuphistory|sysadmin|securityadmin)"), 1, match(script_lower, "(?i)(select.*from.*sys\\.|select.*password|dump\\s+database)"), 1, match(script_lower, "(?i)(sp_addextendedproc|sp_makewebtask|sp_addsrvrolemember)"), 1, match(script_lower, "(?i)(sp_configure.*show\\s+advanced|reconfigure|enable_xp_cmdshell)"), 1, match(script_lower, "(?i)(exec.*master\\.dbo\\.|exec.*msdb\\.dbo\\.)"), 1, match(script_lower, "(?i)(sp_password|sp_control_dbmasterkey_password|sp_dropextendedproc)"), 1, match(script_lower, "(?i)(powershell|cmd\\.exe|rundll32|regsvr32|certutil)"), 1, true(), 0 ), has_data_exfil=case( match(script_lower, "(?i)-outputas\\s+(dataset|datatables)"), 1, match(script_lower, "(?i)-as\\s+(dataset|datatables)"), 1, match(script_lower, "(?i)(for\\s+xml|for\\s+json)"), 1, match(script_lower, "(?i)(select.*into.*from|select.*into.*outfile)"), 1, true(), 0 ), has_cert_bypass=case( match(script_lower, "(?i)-trustservercertificate"), 1, true(), 0 )
 
-    | eval risk_score=0
-    | eval risk_score=case(
-        has_suspicious_query=1 AND has_data_exfil=1, risk_score + 90,
-        has_url_input=1, risk_score + 80,
-        has_suspicious_query=1, risk_score + 60,
-        has_data_exfil=1, risk_score + 60,
-        has_admin_conn=1, risk_score + 50,
-        has_suspicious_auth=1, risk_score + 40,
-        has_cert_bypass=1, risk_score + 20,
-        true(), risk_score
-    )
+    | eval risk_score=0 | eval risk_score=case( has_suspicious_query=1 AND has_data_exfil=1, risk_score + 90, has_url_input=1, risk_score + 80, has_suspicious_query=1, risk_score + 60, has_data_exfil=1, risk_score + 60, has_admin_conn=1, risk_score + 50, has_suspicious_auth=1, risk_score + 40, has_cert_bypass=1, risk_score + 20, true(), risk_score )
 
-    | eval command_type=case(
-        match(script_lower, "xp_cmdshell"), "xp_cmdshell abuse",
-        match(script_lower, "https?://"), "Remote file execution",
-        match(script_lower, "sys\\.server_principals"), "System enumeration",
-        match(script_lower, "fn_my_permissions"), "Permission enumeration",
-        match(script_lower, "username\\s+sa\\b"), "SA account usage",
-        match(script_lower, "show\\s+advanced\\s+options"), "Configuration change attempt",
-        match(script_lower, "select.*from\\s+customers"), "Large data export",
-        match(script_lower, "select.*password"), "Sensitive data query",
-        match(script_lower, "sp_configure.*xp_cmdshell"), "Enable xp_cmdshell",
-        1=1, "General database access"
-    )
+    | eval command_type=case( match(script_lower, "xp_cmdshell"), "xp_cmdshell abuse", match(script_lower, "https?://"), "Remote file execution", match(script_lower, "sys\\.server_principals"), "System enumeration", match(script_lower, "fn_my_permissions"), "Permission enumeration", match(script_lower, "username\\s+sa\\b"), "SA account usage", match(script_lower, "show\\s+advanced\\s+options"), "Configuration change attempt", match(script_lower, "select.*from\\s+customers"), "Large data export", match(script_lower, "select.*password"), "Sensitive data query", match(script_lower, "sp_configure.*xp_cmdshell"), "Enable xp_cmdshell", 1=1, "General database access" )
 
-    | eval risk_factors=mvappend(
-        if(has_suspicious_query=1 AND has_data_exfil=1, "High-risk query with data extraction: ".command_type, null()),
-        if(has_url_input=1, "Remote file input detected in command", null()),
-        if(has_suspicious_query=1, "Suspicious SQL query pattern: ".command_type, null()),
-        if(has_data_exfil=1, "Potential data exfiltration using ".command_type, null()),
-        if(has_admin_conn=1, "Administrative database connection", null()),
-        if(has_suspicious_auth=1, "Suspicious authentication method used", null()),
-        if(has_cert_bypass=1, "Certificate validation bypassed", null())
-    )
-    | eval risk_message="PowerShell Invoke-Sqlcmd execution with risk factors: ".mvjoin(risk_factors, ", ")
+    | eval risk_factors=mvappend( if(has_suspicious_query=1 AND has_data_exfil=1, "High-risk query with data extraction: ".command_type, null()), if(has_url_input=1, "Remote file input detected in command", null()), if(has_suspicious_query=1, "Suspicious SQL query pattern: ".command_type, null()), if(has_data_exfil=1, "Potential data exfiltration using ".command_type, null()), if(has_admin_conn=1, "Administrative database connection", null()), if(has_suspicious_auth=1, "Suspicious authentication method used", null()), if(has_cert_bypass=1, "Certificate validation bypassed", null()) ) | eval risk_message="PowerShell Invoke-Sqlcmd execution with risk factors: ".mvjoin(risk_factors, ", ")
 
-    | where risk_score >= 30
-    | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText UserID Computer risk_message risk_score command_type
-    | rename Computer as dest, UserID as user
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_powershell_invoke_sqlcmd_execution_filter`'
+    | where risk_score >= 30 | stats count min(_time) as firstTime max(_time) as lastTime by EventCode ScriptBlockText UserID Computer risk_message risk_score command_type | rename Computer as dest, UserID as user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_invoke_sqlcmd_execution_filter`'
 how_to_implement: To successfully implement this detection, you need to be ingesting PowerShell logs with Script Block Logging and Module Logging enabled. The detection looks for Invoke-Sqlcmd usage in PowerShell scripts and evaluates the parameters and queries for suspicious patterns. Configure your PowerShell logging to capture script block execution and ensure the logs are mapped to the PowerShell node of the Endpoint data model. The analytic will need to be tuned based on organization specific data. Currently, set to hunting to allow for tuning. Invoke-Sqlcmd is a legitimate tool for database management and scripting tasks within enterprise environments.
 known_false_positives: Database administrators and developers frequently use Invoke-Sqlcmd as a legitimate tool for various database management tasks. This includes running automated database maintenance scripts, performing ETL (Extract, Transform, Load) processes, executing data migration jobs, implementing database deployment and configuration scripts, and running monitoring and reporting tasks. To effectively manage false positives in your environment, consider implementing several mitigation strategies. First, establish a whitelist of known administrator and service accounts that regularly perform these operations. Second, create exceptions for approved script paths where legitimate database operations typically occur. Additionally, it's important to baseline your environment's normal PowerShell database interaction patterns and implement monitoring for any deviations from these established patterns. Finally, consider adjusting the risk score thresholds based on your specific environment and security requirements to achieve an optimal balance between security and operational efficiency.
 references:
-- https://learn.microsoft.com/en-us/powershell/module/sqlserver/invoke-sqlcmd
-- https://attack.mitre.org/techniques/T1059.001/
-- https://attack.mitre.org/techniques/T1059.003/
+    - https://learn.microsoft.com/en-us/powershell/module/sqlserver/invoke-sqlcmd
+    - https://attack.mitre.org/techniques/T1059.001/
+    - https://attack.mitre.org/techniques/T1059.003/
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  - GhostRedirector IIS Module and Rungan Backdoor
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.001
-  - T1059.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - SQL Server Abuse
+        - GhostRedirector IIS Module and Rungan Backdoor
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.001
+        - T1059.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/atomic_red_team/invokesqlcmd_powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/atomic_red_team/invokesqlcmd_powershell.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

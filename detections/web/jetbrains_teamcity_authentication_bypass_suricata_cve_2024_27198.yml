@@ -1,79 +1,63 @@
 name: JetBrains TeamCity Authentication Bypass Suricata CVE-2024-27198
 id: fbcc04c7-8a79-453c-b3a9-c232c423bdd3
-version: 6
-date: '2025-10-14'
+version: 7
+date: '2026-02-25'
 author: Michael Haag, Splunk
 data_source:
-- Suricata
+    - Suricata
 type: TTP
 status: production
-description: The following analytic detects attempts to exploit the CVE-2024-27198
-  vulnerability in JetBrains TeamCity on-premises servers, which allows attackers
-  to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to
-  identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens`
-  endpoints. This activity is significant because it can lead to unauthorized administrative
-  access, enabling attackers to gain full control over the TeamCity server, including
-  projects, builds, agents, and artifacts. If confirmed malicious, this could result
-  in severe security breaches and compromise the integrity of the development environment.
-search: '`suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST)
-  OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*")
-  http.status=200 http_method=POST ) | stats count min(_time) as firstTime max(_time)
-  as lastTime by src, dest, http.http_user_agent, http.url, http.status,http_method
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`| `jetbrains_teamcity_authentication_bypass_suricata_cve_2024_27198_filter`'
-how_to_implement: The following detection relies on the Suricata TA and ensuring it
-  is properly configured to monitor HTTP traffic. Modify the query for your environment
-  and log sources as needed.
-known_false_positives: False positives are not expected, as this detection is based
-  on the presence of specific URI paths and HTTP methods that are indicative of the
-  CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based
-  on organization log sources.
+description: The following analytic detects attempts to exploit the CVE-2024-27198 vulnerability in JetBrains TeamCity on-premises servers, which allows attackers to bypass authentication mechanisms. It leverages Suricata HTTP traffic logs to identify suspicious POST requests to the `/app/rest/users` and `/app/rest/users/id:1/tokens` endpoints. This activity is significant because it can lead to unauthorized administrative access, enabling attackers to gain full control over the TeamCity server, including projects, builds, agents, and artifacts. If confirmed malicious, this could result in severe security breaches and compromise the integrity of the development environment.
+search: |-
+    `suricata` ((http.url="*?jsp=*" AND http.url="*;.jsp*") http.status=200 http_method=POST) OR (http.url IN ("*jsp=/app/rest/users;.jsp","*?jsp=/app/rest/users;.jsp","*?jsp=.*/app/rest/users/id:*/tokens;*") http.status=200 http_method=POST )
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY src, dest, http.http_user_agent,
+           http.url, http.status,http_method
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `jetbrains_teamcity_authentication_bypass_suricata_cve_2024_27198_filter`
+how_to_implement: The following detection relies on the Suricata TA and ensuring it is properly configured to monitor HTTP traffic. Modify the query for your environment and log sources as needed.
+known_false_positives: False positives are not expected, as this detection is based on the presence of specific URI paths and HTTP methods that are indicative of the CVE-2024-27198 vulnerability exploitation. Monitor, filter and tune as needed based on organization log sources.
 references:
-- https://github.com/projectdiscovery/nuclei-templates/pull/9279/files
-- https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
-- https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
-- https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
+    - https://github.com/projectdiscovery/nuclei-templates/pull/9279/files
+    - https://www.rapid7.com/blog/post/2024/03/04/etr-cve-2024-27198-and-cve-2024-27199-jetbrains-teamcity-multiple-authentication-bypass-vulnerabilities-fixed/
+    - https://blog.jetbrains.com/teamcity/2024/03/teamcity-2023-11-4-is-out/
+    - https://blog.jetbrains.com/teamcity/2024/03/additional-critical-security-issues-affecting-teamcity-on-premises-cve-2024-27198-and-cve-2024-27199-update-to-2023-11-4-now/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Possible JetBrains TeamCity Authentication Bypass Attempt against $dest$
-    from $src$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 81
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: Possible JetBrains TeamCity Authentication Bypass Attempt against $dest$ from $src$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 81
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - JetBrains TeamCity Vulnerabilities
-  - Hellcat Ransomware
-  asset_type: Web Server
-  mitre_attack_id:
-  - T1190
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  cve:
-  - CVE-2024-27198
+    analytic_story:
+        - JetBrains TeamCity Vulnerabilities
+        - Hellcat Ransomware
+    asset_type: Web Server
+    mitre_attack_id:
+        - T1190
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2024-27198
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
-    sourcetype: suricata
-    source: suricata
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
+          sourcetype: suricata
+          source: suricata

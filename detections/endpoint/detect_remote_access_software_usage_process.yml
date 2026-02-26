@@ -1,129 +1,95 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 13
-date: '2026-01-20'
+version: 14
+date: '2026-02-25'
 author: Steven Dick, Sebastian Wurl, Splunk Community
 status: production
 type: Anomaly
-description: The following analytic detects the execution of known remote access
-  software within the environment. It leverages data from Endpoint Detection and
-  Response (EDR) agents, focusing on process names and parent processes mapped 
-  to the Endpoint data model. We then compare with with a list of known remote 
-  access software shipped as a lookup file - remote_access_software. This 
-  activity is significant as adversaries often use remote access tools like 
-  AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access. If
-  confirmed malicious, this could allow attackers to control systems remotely, 
-  exfiltrate data, or deploy additional malware, posing a severe threat to the 
-  organization's security.
+description: The following analytic detects the execution of known remote access software within the environment. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes mapped to the Endpoint data model. We then compare with with a list of known remote access software shipped as a lookup file - remote_access_software. This activity is significant as adversaries often use remote access tools like AnyDesk, GoToMyPC, LogMeIn, and TeamViewer to maintain unauthorized access. If confirmed malicious, this could allow attackers to control systems remotely, exfiltrate data, or deploy additional malware, posing a severe threat to the organization's security.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.parent_process) as parent_process 
-    from datamodel=Endpoint.Processes 
-    where 
-    [| inputlookup remote_access_software where isutility=TRUE
-    | rename remote_utility AS Processes.process_name 
-    | fields Processes.process_name] 
-    AND Processes.dest!="unknown" 
-    AND Processes.user!="unknown" 
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `drop_dm_object_name(Processes)` 
-  | lookup remote_access_software remote_utility AS process_name OUTPUT isutility description AS signature comment_reference AS desc category
-  | search isutility = TRUE
-  | `remote_access_software_usage_exceptions`
-  | `detect_remote_access_software_usage_process_filter`
-how_to_implement: The detection is based on data that originates from Endpoint 
-  Detection and Response (EDR) agents. These agents are designed to provide 
-  security-related telemetry from the endpoints where the agent is installed. To
-  implement this search, you must ingest logs that contain the process GUID, 
-  process name, and parent process. Additionally, you must ingest complete 
-  command-line executions. These logs must be processed using the appropriate 
-  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
-  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
-  Splunk Common Information Model (CIM) to normalize the field names and speed 
-  up the data modeling process. The "exceptions" macro leverages both an Assets 
-  and Identities lookup, as well as a KVStore collection called 
-  "remote_software_exceptions" that lets you track and maintain device- based 
-  exceptions for this set of detections.
-known_false_positives: It is possible that legitimate remote access software is 
-  used within the environment. Ensure that the lookup is reviewed and updated 
-  with any additional remote access software that is used within the 
-  environment. Known false positives can be added to the 
-  remote_access_software_usage_exception.csv lookup to globally suppress these 
-  situations across all remote access content
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.parent_process) as parent_process
+      from datamodel=Endpoint.Processes
+      where
+      [| inputlookup remote_access_software where isutility=TRUE
+      | rename remote_utility AS Processes.process_name
+      | fields Processes.process_name]
+      AND Processes.dest!="unknown"
+      AND Processes.user!="unknown"
+      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `drop_dm_object_name(Processes)`
+    | lookup remote_access_software remote_utility AS process_name OUTPUT isutility description AS signature comment_reference AS desc category
+    | search isutility = TRUE
+    | `remote_access_software_usage_exceptions`
+    | `detect_remote_access_software_usage_process_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device- based exceptions for this set of detections.
+known_false_positives: It is possible that legitimate remote access software is used within the environment. Ensure that the lookup is reviewed and updated with any additional remote access software that is used within the environment. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
-- https://attack.mitre.org/techniques/T1219/
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
-- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://attack.mitre.org/techniques/T1219/
+    - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+    - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate processes on $dest$
-  search: '| from datamodel:Endpoint.Processes| search dest=$dest$ process_name=$process_name$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate processes on $dest$
+      search: '| from datamodel:Endpoint.Processes| search dest=$dest$ process_name=$process_name$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A process for a known remote access software $process_name$ was 
-    identified on $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: process_name
-    type: process_name
-  - field: signature
-    type: signature
+    message: A process for a known remote access software $process_name$ was identified on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+        - field: user
+          type: user
+          score: 25
+    threat_objects:
+        - field: process_name
+          type: process_name
+        - field: signature
+          type: signature
 tags:
-  analytic_story:
-  - Insider Threat
-  - Command And Control
-  - Ransomware
-  - Gozi Malware
-  - CISA AA24-241A
-  - Remote Monitoring and Management Software
-  - Cactus Ransomware
-  - Seashell Blizzard
-  - Scattered Spider
-  - Interlock Ransomware
-  - GhostRedirector IIS Module and Rungan Backdoor
-  - Scattered Lapsus$ Hunters
-  - Storm-0501 Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1219
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  manual_test: This detection uses A&I lookups from Enterprise Security.
+    analytic_story:
+        - Insider Threat
+        - Command And Control
+        - Ransomware
+        - Gozi Malware
+        - CISA AA24-241A
+        - Remote Monitoring and Management Software
+        - Cactus Ransomware
+        - Seashell Blizzard
+        - Scattered Spider
+        - Interlock Ransomware
+        - GhostRedirector IIS Module and Rungan Backdoor
+        - Scattered Lapsus$ Hunters
+        - Storm-0501 Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

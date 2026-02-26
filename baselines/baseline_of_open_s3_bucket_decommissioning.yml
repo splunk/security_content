@@ -1,7 +1,7 @@
 name: Baseline Of Open S3 Bucket Decommissioning
 id: 984e9022-b87b-499a-a260-8d0282c46ea2
-version: 1
-date: '2025-02-12'
+version: 2
+date: '2026-02-25'
 author: Jose Hernandez
 type: Baseline
 status: production
@@ -37,7 +37,7 @@ search: '`cloudtrail` eventSource="s3.amazonaws.com"  (eventName=DeleteBucket OR
 | eval policy_details = if(isPublicPolicy==1, "Policy: Principal=" . mvjoin(principals, ", ") . " Effect=" . mvjoin(effects, ", ") . " Action=" . mvjoin(actions, ", "), "No Public Policy")
 | eval website_details = if(isWebsite==1, "Static Website Enabled", "No Website Hosting")
 | table bucketName, hosts, firstEvent, lastEvent, events, policy_details, website_details, accountIds, userARNs, awsRegions
-| outputlookup append=true decommissioned_buckets | `baseline_of_open_s3_bucket_decommissioning_filter`'
+| outputlookup append=true decommissioned_buckets'
 how_to_implement: To implement this baseline, you need to have AWS CloudTrail logs being ingested into Splunk with the AWS Add-on properly configured. The search looks for S3 bucket events related to bucket policies, website hosting configuration, and bucket deletion. The results are stored in a lookup KVStore named decommissioned_buckets which tracks the history of deleted buckets that were previously exposed to the public.
 known_false_positives: Some buckets may be intentionally made public for legitimate business purposes before being decommissioned. Review the policy_details and website_details fields to understand the nature of the public access that was configured.
 references:

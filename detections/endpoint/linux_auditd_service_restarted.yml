@@ -1,82 +1,62 @@
 name: Linux Auditd Service Restarted
 id: 8eb3e858-18d3-44a4-a514-52cfa39f154a
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the restarting or re-enabling of services
-  on Linux systems using the `systemctl` or `service` commands. It leverages data
-  from Linux Auditd, focusing on process and command-line execution logs. This activity
-  is significant as adversaries may use it to maintain persistence or execute unauthorized
-  actions. If confirmed malicious, this behavior could lead to repeated execution
-  of malicious payloads, unauthorized access, or data destruction. Security analysts
-  should investigate these events to mitigate risks and prevent further compromise.
+description: The following analytic detects the restarting or re-enabling of services on Linux systems using the `systemctl` or `service` commands. It leverages data from Linux Auditd, focusing on process and command-line execution logs. This activity is significant as adversaries may use it to maintain persistence or execute unauthorized actions. If confirmed malicious, this behavior could lead to repeated execution of malicious payloads, unauthorized access, or data destruction. Security analysts should investigate these events to mitigate risks and prevent further compromise.
 data_source:
-- Linux Auditd Proctitle
-search: '`linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("*restart*", "*reenable*", "*reload*")
-  | rename host as dest  
-  | stats count min(_time) as firstTime max(_time) as lastTime by  proctitle  dest 
-  | `security_content_ctime(firstTime)`
-  |`security_content_ctime(lastTime)`
-  | `linux_auditd_service_restarted_filter`'
-how_to_implement: To implement this detection, the process begins by ingesting auditd
-  data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line
-  executions and process details on Unix/Linux systems. These logs should be ingested
-  and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833),
-  which is essential for correctly parsing and categorizing the data. The next step
-  involves normalizing the field names  to match the field names set by the Splunk
-  Common Information Model (CIM) to ensure consistency across different data sources
-  and enhance the efficiency of data modeling. This approach enables effective monitoring
-  and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can use this commandline
-  for automation purposes. Please update the filter macros to remove false positives.
+    - Linux Auditd Proctitle
+search: |-
+    `linux_auditd`  proctitle IN ("*systemctl *", "*service *") AND proctitle IN ("*restart*", "*reenable*", "*reload*")
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_service_restarted_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: Administrator or network operator can use this commandline for automation purposes. Please update the filter macros to remove false positives.
 references:
-- https://attack.mitre.org/techniques/T1543/003/
+    - https://attack.mitre.org/techniques/T1543/003/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A [$proctitle$] event occurred on host - [$dest$] to restart or re-enable
-    a service.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: A [$proctitle$] event occurred on host - [$dest$] to restart or re-enable a service.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - AwfulShred
-  - Scheduled Tasks
-  - Linux Privilege Escalation
-  - Data Destruction
-  - Linux Persistence Techniques
-  - Linux Living Off The Land
-  - Gomir
-  - Compromised Linux Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1053.006
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - AwfulShred
+        - Scheduled Tasks
+        - Linux Privilege Escalation
+        - Data Destruction
+        - Linux Persistence Techniques
+        - Linux Living Off The Land
+        - Gomir
+        - Compromised Linux Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053.006
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/linux_services_restart/auditd_proctitle_service_restart.log
-    source: auditd
-    sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.006/linux_services_restart/auditd_proctitle_service_restart.log
+          source: auditd
+          sourcetype: auditd
