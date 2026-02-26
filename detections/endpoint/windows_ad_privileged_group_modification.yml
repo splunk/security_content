@@ -1,71 +1,63 @@
 name: Windows AD Privileged Group Modification
 id: 187bf937-c436-4c65-bbcb-7539ffe02da1
-version: 7 
-date: '2026-01-14'
+version: 8
+date: '2026-02-25'
 author: Dean Luxton
 status: production
 type: TTP
 data_source:
-- Windows Event Log Security 4728
+    - Windows Event Log Security 4728
 description: |
-  This detection identifies when users are added to privileged Active Directory
-  groups by leveraging the Windows Security Event Code 4728 along with a lookup
-  of privileged AD groups provided by Splunk Enterprise Security.
-  Attackers often add user accounts to privileged AD groups to escalate privileges
-  or maintain persistence within an Active Directory environment.
-  Monitoring for modifications to privileged groups can help identify potential security breaches
-  and unauthorized access attempts.
-search: '`wineventlog_security` EventCode IN (4728) | stats min(_time) as _time dc(user)
-  as usercount, values(user) as user values(user_category) as user_category values(src_user_category)
-  as src_user_category values(dvc) as dvc by signature, Group_Name,src_user dest | lookup
-  admon_groups_def  cn as Group_Name OUTPUT category | where category="privileged"
-  | `windows_ad_privileged_group_modification_filter`'
-how_to_implement: This analytic requires eventCode 4728 to be ingested along with
-  the admon_groups_def lookup being configured to include a list of AD groups along
-  with a category to identify privileged groups. See splunkbase app listed in the
-  references for further details.
+    This detection identifies when users are added to privileged Active Directory
+    groups by leveraging the Windows Security Event Code 4728 along with a lookup
+    of privileged AD groups provided by Splunk Enterprise Security.
+    Attackers often add user accounts to privileged AD groups to escalate privileges
+    or maintain persistence within an Active Directory environment.
+    Monitoring for modifications to privileged groups can help identify potential security breaches
+    and unauthorized access attempts.
+search: |-
+    `wineventlog_security` EventCode IN (4728)
+      | stats min(_time) as _time dc(user) as usercount, values(user) as user values(user_category) as user_category values(src_user_category) as src_user_category values(dvc) as dvc
+        BY signature, Group_Name,src_user dest
+      | lookup admon_groups_def  cn as Group_Name OUTPUT category
+      | where category="privileged"
+      | `windows_ad_privileged_group_modification_filter`
+how_to_implement: This analytic requires eventCode 4728 to be ingested along with the admon_groups_def lookup being configured to include a list of AD groups along with a category to identify privileged groups. See splunkbase app listed in the references for further details.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://splunkbase.splunk.com/app/6853
+    - https://splunkbase.splunk.com/app/6853
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $user$ was added to privileged AD Group $Group_Name$ by $src_user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 50
-  threat_objects: []
+    message: $user$ was added to privileged AD Group $Group_Name$ by $src_user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Active Directory Privilege Escalation
-  - Sneaky Active Directory Persistence Tricks
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1098
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
-  manual_test: This search uses a lookup provided by Enterprise Security and needs
-    to be manually tested.
+    analytic_story:
+        - Active Directory Privilege Escalation
+        - Sneaky Active Directory Persistence Tricks
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1098
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
+    manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/account_manipulation/xml-windows-security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

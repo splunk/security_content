@@ -1,70 +1,60 @@
 name: AWS High Number Of Failed Authentications For User
 id: e3236f49-daf3-4b70-b808-9290912ac64d
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an AWS account experiencing more than
-  20 failed authentication attempts within a 5-minute window. It leverages AWS CloudTrail
-  logs to identify multiple failed ConsoleLogin events. This behavior is significant
-  as it may indicate a brute force attack targeting the account. If confirmed malicious,
-  the attacker could potentially gain unauthorized access, leading to data breaches
-  or further exploitation of the AWS environment. Security teams should consider adjusting
-  the threshold based on their specific environment to reduce false positives.
+description: The following analytic detects an AWS account experiencing more than 20 failed authentication attempts within a 5-minute window. It leverages AWS CloudTrail logs to identify multiple failed ConsoleLogin events. This behavior is significant as it may indicate a brute force attack targeting the account. If confirmed malicious, the attacker could potentially gain unauthorized access, leading to data breaches or further exploitation of the AWS environment. Security teams should consider adjusting the threshold based on their specific environment to reduce false positives.
 data_source:
-- AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName=ConsoleLogin action=failure 
-  | bucket span=10m _time
-  | rename user_name as user
-  | stats dc(_raw) AS failed_attempts values(src) as src values(user_agent) as user_agent by _time, user, signature, dest, vendor_account vendor_region, vendor_product
-  | where failed_attempts > 20 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `aws_high_number_of_failed_authentications_for_user_filter`'
-how_to_implement: You must install Splunk AWS Add on and Splunk App for AWS. This
-  search works with AWS CloudTrail logs.
-known_false_positives: A user with more than 20 failed authentication attempts in
-  the span of 5 minutes may also be triggered by a broken application.
+    - AWS CloudTrail ConsoleLogin
+search: |-
+    `cloudtrail` eventName=ConsoleLogin action=failure
+      | bucket span=10m _time
+      | rename user_name as user
+      | stats dc(_raw) AS failed_attempts values(src) as src values(user_agent) as user_agent
+        BY _time, user, signature,
+           dest, vendor_account vendor_region,
+           vendor_product
+      | where failed_attempts > 20
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_high_number_of_failed_authentications_for_user_filter`
+how_to_implement: You must install Splunk AWS Add on and Splunk App for AWS. This search works with AWS CloudTrail logs.
+known_false_positives: A user with more than 20 failed authentication attempts in the span of 5 minutes may also be triggered by a broken application.
 references:
-- https://www.trendmicro.com/cloudoneconformity/knowledge-base/aws/IAM/password-policy.html
+    - https://www.trendmicro.com/cloudoneconformity/knowledge-base/aws/IAM/password-policy.html
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ failed to authenticate more than 20 times in the span
-    of 5 minutes for AWS Account $vendor_account$
-  risk_objects:
-  - field: user
-    type: user
-    score: 35
-  threat_objects: []
+    message: User $user$ failed to authenticate more than 20 times in the span of 5 minutes for AWS Account $vendor_account$
+    risk_objects:
+        - field: user
+          type: user
+          score: 35
+    threat_objects: []
 tags:
-  analytic_story:
-  - Compromised User Account
-  - AWS Identity and Access Management Account Takeover
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1201
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Compromised User Account
+        - AWS Identity and Access Management Account Takeover
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1201
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.003/aws_multiple_login_fail_per_user/cloudtrail.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

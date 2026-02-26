@@ -5,96 +5,81 @@ date: '2026-01-29'
 author: Rico Valdez, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies network traffic where the higher layer
-  protocol does not match the expected port, such as non-HTTP traffic on TCP port
-  80. It leverages data from network traffic inspection technologies like Bro or Palo
-  Alto Networks firewalls. This activity is significant because it may indicate attempts
-  to bypass firewall restrictions or conceal malicious communications. If confirmed
-  malicious, this behavior could allow attackers to evade detection, maintain persistence,
-  or exfiltrate data through commonly allowed ports, posing a significant threat to
-  network security.
+description: The following analytic identifies network traffic where the higher layer protocol does not match the expected port, such as non-HTTP traffic on TCP port 80. It leverages data from network traffic inspection technologies like Bro or Palo Alto Networks firewalls. This activity is significant because it may indicate attempts to bypass firewall restrictions or conceal malicious communications. If confirmed malicious, this behavior could allow attackers to evade detection, maintain persistence, or exfiltrate data through commonly allowed ports, posing a significant threat to network security.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  | tstats `security_content_summariesonly`
-    count min(_time) as firstTime
-          max(_time) as lastTime
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
 
-  from datamodel=Network_Traffic where
+    from datamodel=Network_Traffic where
 
-  (
-    All_Traffic.app=dns
-    NOT All_Traffic.dest_port IN (53)
-  )
-  OR
-  (
-    All_Traffic.app IN (web-browsing, http)
-    NOT All_Traffic.dest_port IN (80, 8000, 8080)
-  )
-  OR
-  (
-    All_Traffic.app=ssl
-    NOT All_Traffic.dest_port IN (443, 465, 993, 8443)
-  )
-  OR
-  (
-    All_Traffic.app=smtp
-    NOT All_Traffic.dest_port IN (25, 587, 2525)
-  )
+    (
+      All_Traffic.app=dns
+      NOT All_Traffic.dest_port IN (53)
+    )
+    OR
+    (
+      All_Traffic.app IN (web-browsing, http)
+      NOT All_Traffic.dest_port IN (80, 8000, 8080)
+    )
+    OR
+    (
+      All_Traffic.app=ssl
+      NOT All_Traffic.dest_port IN (443, 465, 993, 8443)
+    )
+    OR
+    (
+      All_Traffic.app=smtp
+      NOT All_Traffic.dest_port IN (25, 587, 2525)
+    )
 
-  by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.app,
-     All_Traffic.dest_port All_Traffic.transport
-     All_Traffic.action All_Traffic.rule
+    by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.app,
+       All_Traffic.dest_port All_Traffic.transport
+       All_Traffic.action All_Traffic.rule
 
-  |`security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `drop_dm_object_name("All_Traffic")`
-  | `protocol_or_port_mismatch_filter`
-how_to_implement: Running this search properly requires a technology that can inspect
-  network traffic and identify common protocols. Technologies such as Zeek, Cisco Secure Firewall or Palo
-  Alto Networks firewalls are examples that will identify protocols via inspection,
-  and not just assume a specific protocol based on the transport protocol and ports.
+    |`security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `drop_dm_object_name("All_Traffic")`
+    | `protocol_or_port_mismatch_filter`
+how_to_implement: Running this search properly requires a technology that can inspect network traffic and identify common protocols. Technologies such as Zeek, Cisco Secure Firewall or Palo Alto Networks firewalls are examples that will identify protocols via inspection, and not just assume a specific protocol based on the transport protocol and ports.
 known_false_positives: Some false positive could occur with some applications that change their default communication port for an added layer of obscurity.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_ip$"
+      search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_ip$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Port or Protocol Traffic Mismatch
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 25
-  threat_objects:
-  - field: dest_ip
-    type: ip_address
+    message: Port or Protocol Traffic Mismatch
+    risk_objects:
+        - field: src_ip
+          type: system
+          score: 25
+    threat_objects:
+        - field: dest_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Prohibited Traffic Allowed or Protocol Mismatch
-  - Command And Control
-  - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1048.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Prohibited Traffic Allowed or Protocol Mismatch
+        - Command And Control
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1048.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: Cisco Secure Firewall True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: Cisco Secure Firewall True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

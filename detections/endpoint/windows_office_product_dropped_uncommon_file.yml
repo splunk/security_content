@@ -1,87 +1,80 @@
 name: Windows Office Product Dropped Uncommon File
 id: 7ac0fced-9eae-4381-a748-90dcd1aa9393
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-02-25'
 author: Teoderick Contreras, Michael Haag, Splunk, TheLawsOfChaos, Github
 status: production
 type: Anomaly
-description: The following analytic detects Microsoft Office applications dropping
-  or creating executables or scripts on a Windows OS. It leverages process creation
-  and file system events from the Endpoint data model to identify Office applications
-  like Word or Excel generating files with extensions such as ".exe", ".dll", or ".ps1".
-  This behavior is significant as it is often associated with spear-phishing attacks
-  where malicious files are dropped to compromise the host. If confirmed malicious,
-  this activity could lead to code execution, privilege escalation, or persistent
-  access, posing a severe threat to the environment.
+description: The following analytic detects Microsoft Office applications dropping or creating executables or scripts on a Windows OS. It leverages process creation and file system events from the Endpoint data model to identify Office applications like Word or Excel generating files with extensions such as ".exe", ".dll", or ".ps1". This behavior is significant as it is often associated with spear-phishing attacks where malicious files are dropped to compromise the host. If confirmed malicious, this activity could lead to code execution, privilege escalation, or persistent access, posing a severe threat to the environment.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 11
-search: '| tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-  where `process_office_products` by _time span=1h Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
-  | join process_guid, _time [| tstats `security_content_summariesonly` count min(_time)
-  as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_name
-  IN ("*.dll", "*.exe", "*.js", "*.pif", "*.ps1", "*.scr", "*.vbe", "*.vbs") by _time
-  span=1h Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
-  Filesystem.file_path | `drop_dm_object_name(Filesystem)` | fields _time dest file_create_time
-  file_name file_path process_name process_path process process_guid] | dedup file_create_time
-  | table dest, process_name, process, file_create_time, file_name, file_path, process_guid
-  | `windows_office_product_dropped_uncommon_file_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+    - Sysmon EventID 1 AND Sysmon EventID 11
+search: |-
+    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
+      WHERE `process_office_products`
+      BY _time span=1h Processes.action
+         Processes.dest Processes.original_file_name Processes.parent_process
+         Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+         Processes.parent_process_name Processes.parent_process_path Processes.process
+         Processes.process_exec Processes.process_guid Processes.process_hash
+         Processes.process_id Processes.process_integrity_level Processes.process_name
+         Processes.process_path Processes.user Processes.user_id
+         Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | join process_guid, _time [
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.file_name IN ("*.dll", "*.exe", "*.js", "*.pif", "*.ps1", "*.scr", "*.vbe", "*.vbs")
+      BY _time span=1h Filesystem.dest
+         Filesystem.file_create_time Filesystem.file_name Filesystem.process_guid
+         Filesystem.file_path
+    | `drop_dm_object_name(Filesystem)`
+    | fields _time dest file_create_time file_name file_path process_name process_path process process_guid]
+    | dedup file_create_time
+    | table dest, process_name, process, file_create_time, file_name, file_path, process_guid
+    | `windows_office_product_dropped_uncommon_file_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: office macro for automation may do this behavior
 references:
-- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
-- https://attack.mitre.org/groups/G0046/
-- https://www.joesandbox.com/analysis/702680/0/html
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+    - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+    - https://attack.mitre.org/groups/G0046/
+    - https://www.joesandbox.com/analysis/702680/0/html
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: process $process_name$ drops a file $file_name$ in host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: process $process_name$ drops a file $file_name$ in host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 64
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - CVE-2023-21716 Word RTF Heap Corruption
-  - Warzone RAT
-  - FIN7
-  - Compromised Windows Host
-  - AgentTesla
-  - PlugX
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - CVE-2023-21716 Word RTF Heap Corruption
+        - Warzone RAT
+        - FIN7
+        - Compromised Windows Host
+        - AgentTesla
+        - PlugX
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_macro_js_1/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -5,57 +5,39 @@ date: '2025-06-03'
 author: Marissa Bower, Raven Tait
 status: experimental
 type: TTP
-description: Remote Employment Fraud (REF) actors will often use virtual private networks (VPNs) to conceal their 
-  true physical location. Threat actors mask their originating IP address and instead appear to be situated in 
-  any location where the VPN service has a node.
+description: Remote Employment Fraud (REF) actors will often use virtual private networks (VPNs) to conceal their true physical location. Threat actors mask their originating IP address and instead appear to be situated in any location where the VPN service has a node.
 data_source:
-- Okta
-search: '`okta` debugContext.debugData.tunnels IN (*Astrill*,*Azire*,*CyberGhost*,*Express*VPN,*HideMe*,
-  *IPVanish*,*Mullvad*,*Nord*VPN*,*OVPN*,*PIA*VPN*,*Proton*VPN*,*Pure*VPN*,*Slick*VPN*,*Surf*Easy*,
-  *SurfShark*,*Star*VPN*,*TorGuard*,*TorProxy*,*Tiger*VPN*,*TunnelBear*,*Unblock*VPN*,*Warp*VPN*,*WarpSpeed*,
-  *VPNReactor*,*VPN*Shield*,*VPN*Super*VPN*,*ZenMate*) ```listing of commonly used known VPN providers. Add or remove whatever is appropriate for your environment```
-  | eval user=coalesce(''actor.alternateId'',user), user=mvindex(split(user, "@"), 0) 
-  | rename targetUserAlternateId as user client.* as * request.* as * ipChain{}.* as * geographicalContext.* as * debugContext.* as * debugData.* as * 
-  | eval status=case(match(_raw, "FAILURE"), "failure", !match(_raw, "FAILURE"), "success") 
-  | stats count values(status) as status max(published) as UTC min(_time) as firsttime max(_time) as lasttime values(target_data) as target_data values(displayMessage) as displayMessage values(eventType) as eventType values(city) as city values(country) as country values(action) as action values(src_ip) as src_ip values(outcome.*) as * values(user) as user by tunnels,_time,host sourcetype index 
-  | fillnull value="N/A" 
-  | convert ctime(*ttime) 
-  | `okta_non_standard_vpn_usage_filter`'
-how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the
-  Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
+    - Okta
+search: '`okta` debugContext.debugData.tunnels IN (*Astrill*,*Azire*,*CyberGhost*,*Express*VPN,*HideMe*, *IPVanish*,*Mullvad*,*Nord*VPN*,*OVPN*,*PIA*VPN*,*Proton*VPN*,*Pure*VPN*,*Slick*VPN*,*Surf*Easy*, *SurfShark*,*Star*VPN*,*TorGuard*,*TorProxy*,*Tiger*VPN*,*TunnelBear*,*Unblock*VPN*,*Warp*VPN*,*WarpSpeed*, *VPNReactor*,*VPN*Shield*,*VPN*Super*VPN*,*ZenMate*) ```listing of commonly used known VPN providers. Add or remove whatever is appropriate for your environment``` | eval user=coalesce(''actor.alternateId'',user), user=mvindex(split(user, "@"), 0) | rename targetUserAlternateId as user client.* as * request.* as * ipChain{}.* as * geographicalContext.* as * debugContext.* as * debugData.* as * | eval status=case(match(_raw, "FAILURE"), "failure", !match(_raw, "FAILURE"), "success") | stats count values(status) as status max(published) as UTC min(_time) as firsttime max(_time) as lasttime values(target_data) as target_data values(displayMessage) as displayMessage values(eventType) as eventType values(city) as city values(country) as country values(action) as action values(src_ip) as src_ip values(outcome.*) as * values(user) as user by tunnels,_time,host sourcetype index | fillnull value="N/A" | convert ctime(*ttime) | `okta_non_standard_vpn_usage_filter`'
+how_to_implement: The analytic leverages Okta OktaIm2 logs to be ingested using the Splunk Add-on for Okta Identity Cloud (https://splunkbase.splunk.com/app/6553).
 known_false_positives: Limited to no expected false positives once a baseline of common VPN software has been completed.
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  actor.alternateId = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  actor.alternateId = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Uncommon VPN software used by $user$ to connect to Okta.
-  risk_objects:
-  - field: user
-    type: user
-    score: 50
-  threat_objects: []
+    message: Uncommon VPN software used by $user$ to connect to Okta.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Remote Employment Fraud
-  - Suspicious Okta Activity
-  asset_type: Identity
-  mitre_attack_id:
-  - T1078
-  - T1572
-  - T1090
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Remote Employment Fraud
+        - Suspicious Okta Activity
+    asset_type: Identity
+    mitre_attack_id:
+        - T1078
+        - T1572
+        - T1090
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity

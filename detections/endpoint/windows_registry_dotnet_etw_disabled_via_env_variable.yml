@@ -5,76 +5,50 @@ date: '2025-05-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
-description: The following analytic detects a registry modification that disables
-  the ETW for the .NET Framework. It leverages data from the Endpoint.Registry data
-  model, specifically monitoring changes to the COMPlus_ETWEnabled registry value
-  under the "Environment" registry key path for both user (HKCU\Environment) and machine
-  (HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment) scopes. This
-  activity is significant because disabling ETW can allow attackers to evade Endpoint
-  Detection and Response (EDR) tools and hide their execution from audit logs. If
-  confirmed malicious, this action could enable attackers to operate undetected, potentially
-  leading to further compromise and persistent access within the environment.
+description: The following analytic detects a registry modification that disables the ETW for the .NET Framework. It leverages data from the Endpoint.Registry data model, specifically monitoring changes to the COMPlus_ETWEnabled registry value under the "Environment" registry key path for both user (HKCU\Environment) and machine (HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment) scopes. This activity is significant because disabling ETW can allow attackers to evade Endpoint Detection and Response (EDR) tools and hide their execution from audit logs. If confirmed malicious, this action could enable attackers to operate undetected, potentially leading to further compromise and persistent access within the environment.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Environment*"
-  Registry.registry_value_name="COMPlus_ETWEnabled" (Registry.registry_value_data=0x000000000
-  OR Registry.registry_value_data=0) by Registry.action Registry.dest Registry.process_guid
-  Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name
-  Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type
-  Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`
-  | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_registry_dotnet_etw_disabled_via_env_variable_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
-known_false_positives: Setting the "COMPlus_ETWEnabled" value as a global environment
-  variable either in user or machine scope should only happens during debugging use
-  cases, hence the false positives rate should be very minimal.
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Environment*" Registry.registry_value_name="COMPlus_ETWEnabled" (Registry.registry_value_data=0x000000000 OR Registry.registry_value_data=0) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_registry_dotnet_etw_disabled_via_env_variable_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
+known_false_positives: Setting the "COMPlus_ETWEnabled" value as a global environment variable either in user or machine scope should only happens during debugging use cases, hence the false positives rate should be very minimal.
 references:
-- https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
-- https://blog.xpnsec.com/hiding-your-dotnet-complus-etwenabled/
-- https://attack.mitre.org/techniques/T1562/006/
+    - https://gist.github.com/Cyb3rWard0g/a4a115fd3ab518a0e593525a379adee3
+    - https://blog.xpnsec.com/hiding-your-dotnet-complus-etwenabled/
+    - https://attack.mitre.org/techniques/T1562/006/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Modified registry entry $registry_path$ in $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  - field: user
-    type: user
-    score: 90
-  threat_objects: []
+    message: Modified registry entry $registry_path$ in $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 90
+        - field: user
+          type: user
+          score: 90
+    threat_objects: []
 tags:
-  analytic_story:
-  - Windows Registry Abuse
-  - Windows Defense Evasion Tactics
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.006
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Registry Abuse
+        - Windows Defense Evasion Tactics
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.006
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.006/dotnet_etw_bypass/dotnet_etw_bypass.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.006/dotnet_etw_bypass/dotnet_etw_bypass.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

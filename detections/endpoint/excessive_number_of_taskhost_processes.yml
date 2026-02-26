@@ -1,104 +1,67 @@
 name: Excessive number of taskhost processes
 id: f443dac2-c7cf-11eb-ab51-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-02-25'
 author: Michael Hart
 status: production
 type: Anomaly
-description:
-  The following analytic identifies an excessive number of taskhost.exe
-  and taskhostex.exe processes running within a short time frame. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process names and
-  their counts. This behavior is significant as it is commonly associated with post-exploitation
-  tools like Meterpreter and Koadic, which use multiple instances of these processes
-  for actions such as discovery and lateral movement. If confirmed malicious, this
-  activity could indicate an ongoing attack, allowing attackers to execute code, escalate
-  privileges, or move laterally within the network.
+description: The following analytic identifies an excessive number of taskhost.exe and taskhostex.exe processes running within a short time frame. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and their counts. This behavior is significant as it is commonly associated with post-exploitation tools like Meterpreter and Koadic, which use multiple instances of these processes for actions such as discovery and lateral movement. If confirmed malicious, this activity could indicate an ongoing attack, allowing attackers to execute code, escalate privileges, or move laterally within the network.
 data_source:
-  - Sysmon EventID 1
-  - Windows Event Log Security 4688
-  - CrowdStrike ProcessRollup2
-search:
-  '| tstats `security_content_summariesonly` values(Processes.action) as action
-  values(Processes.original_file_name) as original_file_name values(Processes.parent_process)
-  as parent_process values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid)
-  as parent_process_guid values(Processes.parent_process_id) as parent_process_id
-  values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path)
-  as parent_process_path values(Processes.process) as process values(Processes.process_exec)
-  as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash)
-  as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level)
-  as process_integrity_level values(Processes.user) as user values(Processes.process_path)
-  as process_path values(Processes.user_id) as user_id values(Processes.vendor_product)
-  as vendor_product min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-  WHERE Processes.process_name = "taskhost.exe" OR Processes.process_name = "taskhostex.exe"
-  BY Processes.dest Processes.process_name _time span=1h | `drop_dm_object_name(Processes)`
-  | eval pid_count=mvcount(process_id) | eval taskhost_count_=if(process_name == "taskhost.exe",
-  pid_count, 0) | eval taskhostex_count_=if(process_name == "taskhostex.exe", pid_count,
-  0) | stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_) as taskhostex_count
-  values(action) as action values(original_file_name) as original_file_name values(parent_process)
-  as parent_process values(parent_process_exec) as parent_process_exec values(parent_process_guid)
-  as parent_process_guid values(parent_process_id) as parent_process_id values(parent_process_name)
-  as parent_process_name values(parent_process_path) as parent_process_path values(process)
-  as process values(process_exec) as process_exec values(process_guid) as process_guid
-  values(process_hash) as process_hash values(process_id) as process_id values(process_integrity_level)
-  as process_integrity_level values(user) as user values(process_path) as process_path
-  values(user_id) as user_id values(vendor_product) as vendor_product values(process_name)
-  as process_name by _time, dest, firstTime, lastTime | where taskhost_count >
-  10 or taskhostex_count > 10 | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `excessive_number_of_taskhost_processes_filter`'
-how_to_implement:
-  The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives:
-  Administrators, administrative actions or certain applications
-  may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` values(Processes.action) as action values(Processes.original_file_name) as original_file_name values(Processes.parent_process) as parent_process values(Processes.parent_process_exec) as parent_process_exec values(Processes.parent_process_guid) as parent_process_guid values(Processes.parent_process_id) as parent_process_id values(Processes.parent_process_name) as parent_process_name values(Processes.parent_process_path) as parent_process_path values(Processes.process) as process values(Processes.process_exec) as process_exec values(Processes.process_guid) as process_guid values(Processes.process_hash) as process_hash values(Processes.process_id) as process_id values(Processes.process_integrity_level) as process_integrity_level values(Processes.user) as user values(Processes.process_path) as process_path values(Processes.user_id) as user_id values(Processes.vendor_product) as vendor_product min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.process_name = "taskhost.exe"
+        OR
+        Processes.process_name = "taskhostex.exe"
+      BY Processes.dest Processes.process_name _time
+         span=1h
+    | `drop_dm_object_name(Processes)`
+    | eval pid_count=mvcount(process_id)
+    | eval taskhost_count_=if(process_name == "taskhost.exe", pid_count, 0)
+    | eval taskhostex_count_=if(process_name == "taskhostex.exe", pid_count, 0)
+    | stats sum(taskhost_count_) as taskhost_count, sum(taskhostex_count_) as taskhostex_count values(action) as action values(original_file_name) as original_file_name values(parent_process) as parent_process values(parent_process_exec) as parent_process_exec values(parent_process_guid) as parent_process_guid values(parent_process_id) as parent_process_id values(parent_process_name) as parent_process_name values(parent_process_path) as parent_process_path values(process) as process values(process_exec) as process_exec values(process_guid) as process_guid values(process_hash) as process_hash values(process_id) as process_id values(process_integrity_level) as process_integrity_level values(user) as user values(process_path) as process_path values(user_id) as user_id values(vendor_product) as vendor_product values(process_name) as process_name
+      BY _time, dest, firstTime,
+         lastTime
+    | where taskhost_count > 10 or taskhostex_count > 10
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `excessive_number_of_taskhost_processes_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators, administrative actions or certain applications may run many instances of taskhost and taskhostex concurrently.  Filter as needed.
 references:
-  - https://attack.mitre.org/software/S0250/
+    - https://attack.mitre.org/software/S0250/
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message:
-    An excessive amount of taskhost.exe and taskhostex.exe was executed on
-    $dest$ indicative of suspicious behavior.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 56
-  threat_objects: []
+    message: An excessive amount of taskhost.exe and taskhostex.exe was executed on $dest$ indicative of suspicious behavior.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 56
+    threat_objects: []
 tags:
-  analytic_story:
-    - Meterpreter
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1059
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Meterpreter
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
-        source: XmlWinEventLog:Security
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/excessive_distinct_processes_from_windows_temp/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

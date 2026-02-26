@@ -1,59 +1,65 @@
 name: ASL AWS EC2 Snapshot Shared Externally
 id: 00af8f7f-e004-446b-9bba-2732f717ae27
-version: 3
-date: '2025-05-02'
+version: 4
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
 description: The following analytic detects when an EC2 snapshot is shared publicly by analyzing AWS CloudTrail events. This detection method leverages CloudTrail logs to identify modifications in snapshot permissions, specifically when the snapshot is shared outside the originating AWS account. This activity is significant as it may indicate an attempt to exfiltrate sensitive data stored in the snapshot. If confirmed malicious, an attacker could gain unauthorized access to the snapshot's data, potentially leading to data breaches or further exploitation of the compromised information.
-data_source: 
-- ASL AWS CloudTrail
-search: '`amazon_security_lake` api.operation=ModifySnapshotAttribute 
-  | spath input=api.request.data path=createVolumePermission.add.items{}.group output=group 
-  | search group=all 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by actor.user.uid api.operation api.service.name http_request.user_agent src_endpoint.ip actor.user.account.uid cloud.provider cloud.region api.request.data 
-  | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region 
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `asl_aws_ec2_snapshot_shared_externally_filter`'
+data_source:
+    - ASL AWS CloudTrail
+search: |-
+    `amazon_security_lake` api.operation=ModifySnapshotAttribute
+      | spath input=api.request.data path=createVolumePermission.add.items{}.group output=group
+      | search group=all
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor.user.uid api.operation api.service.name
+           http_request.user_agent src_endpoint.ip actor.user.account.uid
+           cloud.provider cloud.region api.request.data
+      | rename actor.user.uid as user api.operation as action api.service.name as dest http_request.user_agent as user_agent src_endpoint.ip as src actor.user.account.uid as vendor_account cloud.provider as vendor_product cloud.region as vendor_region
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `asl_aws_ec2_snapshot_shared_externally_filter`
 how_to_implement: The detection is based on Amazon Security Lake events from Amazon Web Services (AWS), which is a centralized data lake that provides security-related data from AWS services. To use this detection, you must ingest CloudTrail logs from Amazon Security Lake into Splunk. To run this search, ensure that you ingest events using the latest version of Splunk Add-on for Amazon Web Services (https://splunkbase.splunk.com/app/1876) or the Federated Analytics App.
 known_false_positives: It is possible that an AWS admin has legitimately shared a snapshot with others for  a specific purpose.
 references:
-- https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
-- https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/
-- https://hackingthe.cloud/aws/enumeration/loot_public_ebs_snapshots/
+    - https://labs.nettitude.com/blog/how-to-exfiltrate-aws-ec2-data/
+    - https://stratus-red-team.cloud/attack-techniques/AWS/aws.exfiltration.ec2-share-ebs-snapshot/
+    - https://hackingthe.cloud/aws/enumeration/loot_public_ebs_snapshots/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: AWS EC2 snapshot from user $user$ is shared publicly
-  risk_objects:
-  - field: user
-    type: user
-    score: 48
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: AWS EC2 snapshot from user $user$ is shared publicly
+    risk_objects:
+        - field: user
+          type: user
+          score: 48
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Suspicious Cloud Instance Activities
-  - Data Exfiltration
-  asset_type: EC2 Snapshot
-  mitre_attack_id:
-  - T1537
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Suspicious Cloud Instance Activities
+        - Data Exfiltration
+    asset_type: EC2 Snapshot
+    mitre_attack_id:
+        - T1537
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/asl_ocsf_cloudtrail.json
-    sourcetype: aws:asl
-    source: aws_asl
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1537/aws_snapshot_exfil/asl_ocsf_cloudtrail.json
+          sourcetype: aws:asl
+          source: aws_asl

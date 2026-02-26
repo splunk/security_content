@@ -1,76 +1,64 @@
 name: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser
 id: 114c6bfe-9406-11ec-bcce-acde48001122
-version: 11
-date: '2025-07-28'
+version: 12
+date: '2026-02-25'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of the `Get-ADUser` 
-  PowerShell cmdlet with parameters indicating a search for domain accounts with
-  Kerberos Pre-Authentication disabled. It leverages PowerShell Script Block 
-  Logging (EventCode=4104) to identify this specific activity. This behavior is 
-  significant because discovering accounts with Kerberos Pre-Authentication 
-  disabled can allow adversaries to perform offline password cracking. If 
-  confirmed malicious, this activity could lead to unauthorized access to user 
-  accounts, potentially compromising sensitive information and escalating 
-  privileges within the network.
+description: The following analytic detects the execution of the `Get-ADUser` PowerShell cmdlet with parameters indicating a search for domain accounts with Kerberos Pre-Authentication disabled. It leverages PowerShell Script Block Logging (EventCode=4104) to identify this specific activity. This behavior is significant because discovering accounts with Kerberos Pre-Authentication disabled can allow adversaries to perform offline password cracking. If confirmed malicious, this activity could lead to unauthorized access to user accounts, potentially compromising sensitive information and escalating privileges within the network.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
-  signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
-  ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`'
-how_to_implement: To successfully implement this analytic, you will need to 
-  enable PowerShell Script Block Logging on some or all endpoints. Additional 
-  setup here 
-  https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
-known_false_positives: Administrators or power users may use search for accounts
-  with Kerberos Pre Authentication disabled for legitimate purposes.
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104 (ScriptBlockText = "*Get-ADUser*" AND ScriptBlockText="*4194304*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `disabled_kerberos_pre_authentication_discovery_with_get_aduser_filter`
+how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
+known_false_positives: Administrators or power users may use search for accounts with Kerberos Pre Authentication disabled for legitimate purposes.
 references:
-- https://attack.mitre.org/techniques/T1558/004/
-- https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
-- https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
+    - https://attack.mitre.org/techniques/T1558/004/
+    - https://m0chan.github.io/2019/07/31/How-To-Attack-Kerberos-101.html
+    - https://stealthbits.com/blog/cracking-active-directory-passwords-with-as-rep-roasting/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from 
-    $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 54
-  threat_objects: []
+    message: Disabled Kerberos Pre-Authentication Discovery With Get-ADUser from $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 54
+    threat_objects: []
 tags:
-  analytic_story:
-  - CISA AA23-347A
-  - Active Directory Kerberos Attacks
-  - BlackSuit Ransomware
-  - Interlock Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1558.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - CISA AA23-347A
+        - Active Directory Kerberos Attacks
+        - BlackSuit Ransomware
+        - Interlock Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1558.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/getaduser/get-aduser-powershell.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

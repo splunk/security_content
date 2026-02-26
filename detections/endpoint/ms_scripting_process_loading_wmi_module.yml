@@ -5,67 +5,45 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the loading of WMI modules by Microsoft
-  scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode
-  7 to identify instances where these scripting engines load specific WMI-related
-  DLLs. This activity is significant because it can indicate the presence of malware,
-  such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering
-  host information to send to a C2 server. If confirmed malicious, this behavior could
-  allow attackers to collect sensitive system information and maintain persistence
-  within the environment.
+description: The following analytic detects the loading of WMI modules by Microsoft scripting processes like wscript.exe or cscript.exe. It leverages Sysmon EventCode 7 to identify instances where these scripting engines load specific WMI-related DLLs. This activity is significant because it can indicate the presence of malware, such as the FIN7 implant, which uses JavaScript to execute WMI queries for gathering host information to send to a C2 server. If confirmed malicious, this behavior could allow attackers to collect sensitive system information and maintain persistence within the environment.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
-  IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" ,
-  "*\\wmiutils.dll", "*\\wbemcomn.dll") | fillnull | stats count min(_time) as firstTime
-  max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name
-  process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists
-  service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_wmi_module_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: automation scripting language may used by network operator
-  to do ldap query.
+    - Sysmon EventID 7
+search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\fastprox.dll", "*\\wbemdisp.dll", "*\\wbemprox.dll", "*\\wbemsvc.dll" , "*\\wmiutils.dll", "*\\wbemcomn.dll") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_wmi_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: automation scripting language may used by network operator to do ldap query.
 references:
-- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
-- https://attack.mitre.org/groups/G0046/
+    - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+    - https://attack.mitre.org/groups/G0046/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $process_name$ loading wmi modules $ImageLoaded$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 9
-  threat_objects: []
+    message: $process_name$ loading wmi modules $ImageLoaded$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 9
+    threat_objects: []
 tags:
-  analytic_story:
-  - FIN7
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.007
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - FIN7
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.007
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,67 +1,64 @@
 name: GitHub Enterprise Register Self Hosted Runner
 id: b27685a2-8826-4123-ab78-2d9d0d419ed0
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-02-25'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies when a self-hosted runner is created in GitHub Enterprise. 
-  The detection monitors GitHub Enterprise audit logs for actions related to creating new self-hosted runners at the organization or enterprise level. 
-  his behavior warrants monitoring because self-hosted runners execute workflow jobs on customer-controlled infrastructure, which could be exploited by attackers to 
-  execute malicious code, access sensitive data, or pivot to other systems. While self-hosted runners are a legitimate feature, their creation should be carefully 
-  controlled as compromised runners pose significant security risks. The impact includes potential remote code execution, data exfiltration, and lateral movement 
-  within the environment if a runner is compromised. SOC teams should investigate unexpected runner creation events to verify they are authorized and properly secured, 
-  especially if created by unfamiliar users or in unusual contexts.
+description: The following analytic identifies when a self-hosted runner is created in GitHub Enterprise. The detection monitors GitHub Enterprise audit logs for actions related to creating new self-hosted runners at the organization or enterprise level. his behavior warrants monitoring because self-hosted runners execute workflow jobs on customer-controlled infrastructure, which could be exploited by attackers to execute malicious code, access sensitive data, or pivot to other systems. While self-hosted runners are a legitimate feature, their creation should be carefully controlled as compromised runners pose significant security risks. The impact includes potential remote code execution, data exfiltration, and lateral movement within the environment if a runner is compromised. SOC teams should investigate unexpected runner creation events to verify they are authorized and properly secured, especially if created by unfamiliar users or in unusual contexts.
 data_source:
-- GitHub Enterprise Audit Logs
-search: '`github_enterprise` action=enterprise.register_self_hosted_runner
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_is_bot, actor_location.country_code, business, business_id, user_agent, action
-  | eval user=actor
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `github_enterprise_register_self_hosted_runner_filter`'
+    - GitHub Enterprise Audit Logs
+search: |-
+    `github_enterprise` action=enterprise.register_self_hosted_runner
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_is_bot,
+           actor_location.country_code, business, business_id,
+           user_agent, action
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_enterprise_register_self_hosted_runner_filter`
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
-- https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk
+    - https://www.wiz.io/blog/shai-hulud-2-0-ongoing-supply-chain-attack
+    - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+    - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $user$ created a self-hosted runner in GitHub Enterprise
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    message: $user$ created a self-hosted runner in GitHub Enterprise
+    risk_objects:
+        - field: user
+          type: user
+          score: 25
+    threat_objects:
+        - field: user_agent
+          type: http_user_agent
 tags:
-  analytic_story:
-  - GitHub Malicious Activity
-  - NPM Supply Chain Compromise
-  asset_type: GitHub
-  mitre_attack_id:
-  - T1562.001
-  - T1195
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - GitHub Malicious Activity
+        - NPM Supply Chain Compromise
+    asset_type: GitHub
+    mitre_attack_id:
+        - T1562.001
+        - T1195
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/github_created_self_hosted_runner/github.json
-    source: http:github
-    sourcetype: httpevent
-
-
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/github_created_self_hosted_runner/github.json
+          source: http:github
+          sourcetype: httpevent

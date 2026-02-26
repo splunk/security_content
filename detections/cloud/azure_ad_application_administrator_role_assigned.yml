@@ -1,77 +1,65 @@
 name: Azure AD Application Administrator Role Assigned
 id: eac4de87-7a56-4538-a21b-277897af6d8d
-version: 11
-date: '2025-10-14'
+version: 12
+date: '2026-02-25'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
 data_source:
-- Azure Active Directory Add member to role
-description: The following analytic identifies the assignment of the Application Administrator
-  role to an Azure AD user. It leverages Azure Active Directory events, specifically
-  monitoring the "Add member to role" operation. This activity is significant because
-  users in this role can manage all aspects of enterprise applications, including
-  credentials, which can be used to impersonate application identities. If confirmed
-  malicious, an attacker could escalate privileges, manage application settings, and
-  potentially access sensitive resources by impersonating application identities,
-  posing a significant security risk to the Azure AD tenant.
-search: '`azure_monitor_aad`  operationName="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="*Application Administrator*" 
-  | rename properties.* as * | rename initiatedBy.user.userPrincipalName as initiatedBy, userAgent as user_agent
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product initiatedBy user_agent signature
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_application_administrator_role_assigned_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment.
-  This analytic was written to be used with the azure:monitor:aad sourcetype leveraging
-  the Auditlog log category
-known_false_positives: Administrators may legitimately assign the Application Administrator
-  role to a user. Filter as needed.
+    - Azure Active Directory Add member to role
+description: The following analytic identifies the assignment of the Application Administrator role to an Azure AD user. It leverages Azure Active Directory events, specifically monitoring the "Add member to role" operation. This activity is significant because users in this role can manage all aspects of enterprise applications, including credentials, which can be used to impersonate application identities. If confirmed malicious, an attacker could escalate privileges, manage application settings, and potentially access sensitive resources by impersonating application identities, posing a significant security risk to the Azure AD tenant.
+search: |-
+    `azure_monitor_aad`  operationName="Add member to role"  "properties.targetResources{}.modifiedProperties{}.newValue"="*Application Administrator*"
+      | rename properties.* as *
+      | rename initiatedBy.user.userPrincipalName as initiatedBy, userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product initiatedBy
+           user_agent signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_application_administrator_role_assigned_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase(https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Auditlog log category
+known_false_positives: Administrators may legitimately assign the Application Administrator role to a user. Filter as needed.
 references:
-- https://dirkjanm.io/azure-ad-privilege-escalation-application-admin/
-- https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
-- https://docs.microsoft.com/en-us/azure/active-directory/roles/concept-understand-roles
-- https://attack.mitre.org/techniques/T1098/003/
-- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#application-administrator
+    - https://dirkjanm.io/azure-ad-privilege-escalation-application-admin/
+    - https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+    - https://docs.microsoft.com/en-us/azure/active-directory/roles/concept-understand-roles
+    - https://attack.mitre.org/techniques/T1098/003/
+    - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference#application-administrator
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The privileged Azure AD role Application Administrator was assigned for
-    User $user$ initiated by $initiatedBy$
-  risk_objects:
-  - field: user
-    type: user
-    score: 35
-  threat_objects: []
+    message: The privileged Azure AD role Application Administrator was assigned for User $user$ initiated by $initiatedBy$
+    risk_objects:
+        - field: user
+          type: user
+          score: 35
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Privilege Escalation
-  - Scattered Lapsus$ Hunters
-  asset_type: Azure Active Directory
-  atomic_guid: []
-  mitre_attack_id:
-  - T1098.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Azure Active Directory Privilege Escalation
+        - Scattered Lapsus$ Hunters
+    asset_type: Azure Active Directory
+    atomic_guid: []
+    mitre_attack_id:
+        - T1098.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098.003/azure_ad_assign_privileged_role/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad
