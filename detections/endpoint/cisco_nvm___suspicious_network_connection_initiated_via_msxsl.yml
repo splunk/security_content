@@ -1,7 +1,7 @@
 name: Cisco NVM - Suspicious Network Connection Initiated via MsXsl
 id: 1cbcf75f-0e45-4f29-8c1b-7fcd7e55cc55
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -83,6 +83,7 @@ tags:
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
+        - Splunk Cloud
     security_domain: endpoint
 tests:
     - name: True Positive Test - Cisco NVM

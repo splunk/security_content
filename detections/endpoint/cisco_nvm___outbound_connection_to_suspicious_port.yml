@@ -1,7 +1,7 @@
 name: Cisco NVM - Outbound Connection to Suspicious Port
 id: fc32a8d5-bc79-4437-b48f-4646ab7bed9d
-version: 2
-date: '2025-09-09'
+version: 3
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -83,6 +83,7 @@ tags:
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
+        - Splunk Cloud
     security_domain: endpoint
 tests:
     - name: True Positive Test - Cisco NVM
