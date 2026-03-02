@@ -68,6 +68,7 @@ how_to_implement: |
 known_false_positives: |
     No false positives have been identified at this time.
 references:
+    - https://github.com/nasbench/Misc-Research/blob/main/LOLBINs/Curl.md
     - https://attack.mitre.org/techniques/T1027/
     - https://attack.mitre.org/techniques/T1105/
     - https://curl.se/docs/manpage.html
