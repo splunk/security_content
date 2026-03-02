@@ -1,94 +1,85 @@
 name: Windows Potential AppDomainManager Hijack Artifacts Creation
 id: be19b369-fd0c-42be-ae97-c10b6c01638f
-version: 1
-date: '2025-12-10'
+version: 2
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the creation of an .exe file along with its corresponding .exe.config and a .dll in the same directory, which is a common pattern indicative of potential AppDomain hijacking or CLR code injection attempts. This behavior may signal that a malicious actor is attempting to load a rogue assembly into a legitimate application's AppDomain, allowing code execution under the context of a trusted process.
 data_source:
-- Sysmon EventID 11
+    - Sysmon EventID 11
 search: |
-  | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime from datamodel=Endpoint.Filesystem
-  where Filesystem.file_name IN ("*.exe", "*.exe.config", "*.dll") AND Filesystem.file_path IN
-    ("*\\windows\\fonts\\*", "*\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*","*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "*\\Windows\\repair\\*", "*\\PerfLogs\\*")
-  AND Filesystem.action = "created"
-  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
-  | `drop_dm_object_name("Filesystem")`
-  | stats values(file_name) AS file_name
-          values(file_path) AS file_path
-          values(user) AS user
-          min(firstTime) AS firstTime max(lastTime) AS lastTime
-          BY dest process_guid
-  | eval exe_present = if(mvcount(mvfilter(match(file_name, "\.exe$"))) > 0, 1, 0)
-  | eval config_present = if(mvcount(mvfilter(match(file_name, "\.exe\.config$"))) > 0, 1, 0)
-  | eval dll_present = if(mvcount(mvfilter(match(file_name, "\.dll$"))) > 0, 1, 0)
+    | tstats `security_content_summariesonly` count min(_time) AS firstTime max(_time) AS lastTime from datamodel=Endpoint.Filesystem
+    where Filesystem.file_name IN ("*.exe", "*.exe.config", "*.dll") AND Filesystem.file_path IN
+      ("*\\windows\\fonts\\*", "*\\temp\\*", "*\\users\\public\\*", "*\\windows\\debug\\*","*\\Users\\Administrator\\Music\\*", "*\\Windows\\servicing\\*", "*\\Users\\Default\\*", "*Recycle.bin*", "*\\Windows\\Media\\*", "*\\Windows\\repair\\*", "*\\PerfLogs\\*")
+    AND Filesystem.action = "created"
+    by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name("Filesystem")`
+    | stats values(file_name) AS file_name
+            values(file_path) AS file_path
+            values(user) AS user
+            min(firstTime) AS firstTime max(lastTime) AS lastTime
+            BY dest process_guid
+    | eval exe_present = if(mvcount(mvfilter(match(file_name, "\.exe$"))) > 0, 1, 0)
+    | eval config_present = if(mvcount(mvfilter(match(file_name, "\.exe\.config$"))) > 0, 1, 0)
+    | eval dll_present = if(mvcount(mvfilter(match(file_name, "\.dll$"))) > 0, 1, 0)
 
-  | eval exe_files = mvfilter(match(file_name, "\.exe$") AND NOT match(file_name, "\.exe\.config$"))
-  | eval config_files = mvfilter(match(file_name, "\.exe\.config$"))
-  | eval exe_base_names = mvmap(exe_files, replace(exe_files, "\.exe$", ""))
-  | eval config_base_names = mvmap(config_files, replace(config_files, "\.exe\.config$", ""))
-    
-  | mvexpand exe_base_names
-  | mvexpand config_base_names
+    | eval exe_files = mvfilter(match(file_name, "\.exe$") AND NOT match(file_name, "\.exe\.config$"))
+    | eval config_files = mvfilter(match(file_name, "\.exe\.config$"))
+    | eval exe_base_names = mvmap(exe_files, replace(exe_files, "\.exe$", ""))
+    | eval config_base_names = mvmap(config_files, replace(config_files, "\.exe\.config$", ""))
 
-  | eval file_count = mvcount(file_name)
-  
-  | where file_count >= 3 AND exe_present = 1 AND config_present = 1 AND dll_present = 1 AND exe_base_names = config_base_names
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_potential_appdomainmanager_hijack_artifacts_creation_filter`
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+    | mvexpand exe_base_names
+    | mvexpand config_base_names
+
+    | eval file_count = mvcount(file_name)
+
+    | where file_count >= 3 AND exe_present = 1 AND config_present = 1 AND dll_present = 1 AND exe_base_names = config_base_names
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_potential_appdomainmanager_hijack_artifacts_creation_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Filesystem` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: This detection may still produce false positives, so additional filtering is recommended. To validate potential alerts, verify that the executable’s original file name matches its current file name, and also review the associated .config file to confirm which DLLs are expected to load during execution. This helps distinguish legitimate activity from suspicious behavior.
 references:
-- https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
-- https://attack.mitre.org/techniques/T1574/014/ 
-- https://gist.github.com/djhohnstein/afb93a114b848e16facf0b98cd7cb57b
-- https://www.scworld.com/brief/appdomain-manager-injection-exploited-for-cobalt-strike-beacon-delivery
-- https://jp.security.ntt/insights_resources/tech_blog/appdomainmanager-injection-en/
+    - https://www.microsoft.com/en-us/security/blog/2025/11/03/sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control/
+    - https://attack.mitre.org/techniques/T1574/014/
+    - https://gist.github.com/djhohnstein/afb93a114b848e16facf0b98cd7cb57b
+    - https://www.scworld.com/brief/appdomain-manager-injection-exploited-for-cobalt-strike-beacon-delivery
+    - https://jp.security.ntt/insights_resources/tech_blog/appdomainmanager-injection-en/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential Windows AppDomainManager hijack artifact files created on [$dest$]
-  risk_objects:
-  - field: dest
-    type: system
-    score: 20
-  threat_objects: 
-  - field: file_name
-    type: file_name
-  - field: file_path
-    type: file_path
+    message: Potential Windows AppDomainManager hijack artifact files created on [$dest$]
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: file_name
+          type: file_name
+        - field: file_path
+          type: file_path
 tags:
-  analytic_story:
-  - SesameOp
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1574.014
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - SesameOp
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1574.014
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.014/appdomain_hijack_artifacts/appdomain_hijack.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.014/appdomain_hijack_artifacts/appdomain_hijack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

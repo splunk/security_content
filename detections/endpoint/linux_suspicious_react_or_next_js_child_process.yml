@@ -6,166 +6,156 @@ author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-  This analytic detects Linux processes such as sh, bash, and common Linux LOLBINs being spawned by React or Next.js application servers.
-  In the context of CVE-2025-55182 / React2Shell / CVE-2025-66478 for Next.js, successful exploitation can lead to arbitrary JavaScript execution on the server, which in turn is commonly used to invoke Node's child_process APIs (for example child_process.execSync) to run OS-level commands.
-  Public proof-of-concept payloads and observed in-the-wild exploit traffic show patterns where the vulnerable React Server Components handler triggers process.mainModule.require('child_process').execSync() to execute binaries such as ping, curl, or arbitrary shells on the underlying host.
-  This detection focuses on suspicious child processes where a Next/React server process spawns an uncommon process.
-  Such activity might be a strong indicator of exploitation of the aforementioned vulnerability.
+    This analytic detects Linux processes such as sh, bash, and common Linux LOLBINs being spawned by React or Next.js application servers.
+    In the context of CVE-2025-55182 / React2Shell / CVE-2025-66478 for Next.js, successful exploitation can lead to arbitrary JavaScript execution on the server, which in turn is commonly used to invoke Node's child_process APIs (for example child_process.execSync) to run OS-level commands.
+    Public proof-of-concept payloads and observed in-the-wild exploit traffic show patterns where the vulnerable React Server Components handler triggers process.mainModule.require('child_process').execSync() to execute binaries such as ping, curl, or arbitrary shells on the underlying host.
+    This detection focuses on suspicious child processes where a Next/React server process spawns an uncommon process.
+    Such activity might be a strong indicator of exploitation of the aforementioned vulnerability.
 data_source:
-  - Sysmon for Linux EventID 1
+    - Sysmon for Linux EventID 1
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    from datamodel=Endpoint.Processes
-    where
-      Processes.parent_process_name = "node"
-      Processes.parent_process IN (
-        "*--experimental-https*",
-        "*--experimental-next-config-strip-types*",
-        "*/node_modules/next*",
-        "*next dev*",
-        "*next start*",
-        "*node_modules/.bin*",
-        "*react-scripts start*",
-        "*start-server.js*"
-      )
-      AND (
-        Processes.process_name IN (
-          "awk",
-          "gawk",
-          "ifconfig",
-          "lua",
-          "nc",
-          "ncat",
-          "netcat",
-          "openssl",
-          "perl",
-          "php",
-          "python",
-          "python2",
-          "python3",
-          "ruby",
-          "socat",
-          "telnet"
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+      from datamodel=Endpoint.Processes
+      where
+        Processes.parent_process_name = "node"
+        Processes.parent_process IN (
+          "*--experimental-https*",
+          "*--experimental-next-config-strip-types*",
+          "*/node_modules/next*",
+          "*next dev*",
+          "*next start*",
+          "*node_modules/.bin*",
+          "*react-scripts start*",
+          "*start-server.js*"
         )
-        OR (
-          Processes.process_name IN ("curl", "wget")
-          Processes.process = "*|*"
-        )
-        OR (
+        AND (
           Processes.process_name IN (
-            "bash",
-            "dash",
-            "sh"
+            "awk",
+            "gawk",
+            "ifconfig",
+            "lua",
+            "nc",
+            "ncat",
+            "netcat",
+            "openssl",
+            "perl",
+            "php",
+            "python",
+            "python2",
+            "python3",
+            "ruby",
+            "socat",
+            "telnet"
           )
-          NOT Processes.process = "*-c*"
+          OR (
+            Processes.process_name IN ("curl", "wget")
+            Processes.process = "*|*"
+          )
+          OR (
+            Processes.process_name IN (
+              "bash",
+              "dash",
+              "sh"
+            )
+            NOT Processes.process = "*-c*"
+          )
+          OR (
+            Processes.process_name IN (
+              "bash",
+              "dash",
+              "ksh",
+              "sh",
+              "zsh"
+            )
+            Processes.process IN (
+              "*/dev/tcp/*",
+              "*/dev/udp/*",
+              "*0>&1*",
+              "*curl*",
+              "*exec *>&*",
+              "*fsockopen*",
+              "*ifconfig*",
+              "*mkfifo*",
+              "*nc *",
+              "*ncat*",
+              "*netcat*",
+              "*proc_open*",
+              "*s_client*",
+              "*socat*",
+              "*socket*",
+              "*subprocess*",
+              "*TCPSocket*",
+              "*wget*"
+            )
+          )
         )
-        OR (
-          Processes.process_name IN (
-            "bash",
-            "dash",
-            "ksh",
-            "sh",
-            "zsh"
-          )
-          Processes.process IN (
-            "*/dev/tcp/*",
-            "*/dev/udp/*",
-            "*0>&1*",
-            "*curl*",
-            "*exec *>&*",
-            "*fsockopen*",
-            "*ifconfig*",
-            "*mkfifo*",
-            "*nc *",
-            "*ncat*",
-            "*netcat*",
-            "*proc_open*",
-            "*s_client*",
-            "*socat*",
-            "*socket*",
-            "*subprocess*",
-            "*TCPSocket*",
-            "*wget*"
-          )
-        )
-      )
 
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-     Processes.parent_process_name Processes.parent_process_path Processes.process
-     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-     Processes.process_integrity_level Processes.process_name Processes.process_path
-     Processes.user Processes.user_id Processes.vendor_product
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `linux_suspicious_react_or_next_js_child_process_filter`
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `linux_suspicious_react_or_next_js_child_process_filter`
 how_to_implement: |
-  The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
-  These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
-  To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions.
-  These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model.
-  Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents.
+    These agents are designed to provide security-related telemetry from the endpoints where the agent is installed.
+    To implement this search, you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions.
+    These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model.
+    Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |
-  Rare false positives might show up from child processes such as sh. Apply additional filters as needed.
+    Rare false positives might show up from child processes such as sh. Apply additional filters as needed.
 references:
-  - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
-  - https://nextjs.org/blog/CVE-2025-66478
-  - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
-  - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
-  - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
+    - https://react.dev/blog/2025/12/03/critical-security-vulnerability-in-react-server-components
+    - https://nextjs.org/blog/CVE-2025-66478
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-55182
+    - https://gist.github.com/maple3142/48bc9393f45e068cf8c90ab865c0f5f3
+    - https://www.wiz.io/blog/critical-vulnerability-in-react-cve-2025-55182
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message:
-    A Node-based server process ($parent_process_name$) on Linux spawned the
-    child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may
-    indicate remote code execution via React Server Components (CVE-2025-55182 /
-    React2Shell) or abuse of a similar Node.js RCE vector.
-  risk_objects:
-    - field: user
-      type: user
-      score: 70
-    - field: dest
-      type: system
-      score: 70
-  threat_objects:
-    - field: parent_process_name
-      type: process
-    - field: process_name
-      type: process
-    - field: process
-      type: process
+    message: A Node-based server process ($parent_process_name$) on Linux spawned the child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may indicate remote code execution via React Server Components (CVE-2025-55182 / React2Shell) or abuse of a similar Node.js RCE vector.
+    risk_objects:
+        - field: user
+          type: user
+          score: 70
+        - field: dest
+          type: system
+          score: 70
+    threat_objects:
+        - field: parent_process_name
+          type: process
+        - field: process_name
+          type: process
+        - field: process
+          type: process
 tags:
-  analytic_story:
-    - React2Shell
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1190
-    - T1059.004
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - React2Shell
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1190
+        - T1059.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/react2shell/react2shell_linux.log
-        source: Syslog:Linux-Sysmon/Operational
-        sourcetype: sysmon:linux
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/emerging_threats/react2shell/react2shell_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux

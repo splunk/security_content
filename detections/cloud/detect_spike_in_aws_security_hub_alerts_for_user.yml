@@ -1,44 +1,42 @@
 name: Detect Spike in AWS Security Hub Alerts for User
 id: 2a9b80d3-6220-4345-b5ad-290bf5d0d222
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-02-25'
 author: Bhavin Patel, Splunk
 status: experimental
 type: Anomaly
-description: The following analytic identifies a spike in the number of AWS Security
-  Hub alerts for an AWS IAM User within a 4-hour interval. It leverages AWS Security
-  Hub findings data, calculating the average and standard deviation of alerts to detect
-  significant deviations. This activity is significant as a sudden increase in alerts
-  for a specific user may indicate suspicious behavior or a potential security incident.
-  If confirmed malicious, this could signify an ongoing attack, unauthorized access,
-  or misuse of IAM credentials, potentially leading to data breaches or further exploitation.
+description: The following analytic identifies a spike in the number of AWS Security Hub alerts for an AWS IAM User within a 4-hour interval. It leverages AWS Security Hub findings data, calculating the average and standard deviation of alerts to detect significant deviations. This activity is significant as a sudden increase in alerts for a specific user may indicate suspicious behavior or a potential security incident. If confirmed malicious, this could signify an ongoing attack, unauthorized access, or misuse of IAM credentials, potentially leading to data breaches or further exploitation.
 data_source:
-- AWS Security Hub
-search: '`aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser | rename
-  findings{}.Resources{}.Id as user | bucket span=4h _time | stats count AS alerts
-  by _time user | eventstats avg(alerts) as total_launched_avg, stdev(alerts) as total_launched_stdev
-  | eval threshold_value = 2 | eval isOutlier=if(alerts > total_launched_avg+(total_launched_stdev
-  * threshold_value), 1, 0) | search isOutlier=1 | table _time user alerts |`detect_spike_in_aws_security_hub_alerts_for_user_filter`'
-how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later)
-  and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security
-  Hub inputs. The threshold_value should be tuned to your environment and schedule
-  these searches according to the bucket span interval.
+    - AWS Security Hub
+search: |-
+    `aws_securityhub_finding` "findings{}.Resources{}.Type"= AwsIamUser
+      | rename findings{}.Resources{}.Id as user
+      | bucket span=4h _time
+      | stats count AS alerts
+        BY _time user
+      | eventstats avg(alerts) as total_launched_avg, stdev(alerts) as total_launched_stdev
+      | eval threshold_value = 2
+      | eval isOutlier=if(alerts > total_launched_avg+(total_launched_stdev * threshold_value), 1, 0)
+      | search isOutlier=1
+      | table _time user alerts
+      | `detect_spike_in_aws_security_hub_alerts_for_user_filter`
+how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or later) and Splunk Add-on for AWS (version 4.4.0 or later), then configure your Security Hub inputs. The threshold_value should be tuned to your environment and schedule these searches according to the bucket span interval.
 known_false_positives: No false positives have been identified at this time.
 references: []
 rba:
-  message: Spike in AWS Security Hub alerts for user - $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects: []
+    message: Spike in AWS Security Hub alerts for user - $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 25
+    threat_objects: []
 tags:
-  analytic_story:
-  - AWS Security Hub Alerts
-  - Critical Alerts
-  asset_type: AWS Instance
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - AWS Security Hub Alerts
+        - Critical Alerts
+    asset_type: AWS Instance
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network

@@ -13,7 +13,7 @@ sourcetype: cisco:isovalent:processConnect
 supported_TA:
 - name: Cisco Security Cloud
   url: https://splunkbase.splunk.com/app/7404
-  version: 3.6.1
+  version: 3.6.2
 fields:
 - _time
 - app

@@ -1,66 +1,60 @@
 name: Windows Powershell Logoff User via Quser
 id: 6d70780d-4cfe-4820-bafd-1b43941986b5
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 data_source:
-- Powershell Script Block Logging 4104
+    - Powershell Script Block Logging 4104
 type: Anomaly
 status: production
-description: "The following analytic detects the process of logging off a user through\
-  \ the use of the quser and logoff commands. By monitoring for these commands, the\
-  \ analytic identifies actions where a user session is forcibly terminated, which\
-  \ could be part of an administrative task or a potentially unauthorized access attempt.\
-  \ This detection helps identify potential misuse or malicious activity where a user\u2019\
-  s access is revoked without proper authorization, providing insight into potential\
-  \ security incidents involving account management or session manipulation."
-search: '`powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*" | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest signature signature_id
-  user_id vendor_product EventID Guid Opcode Name Path ProcessID ScriptBlockId ScriptBlockText
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_powershell_logoff_user_via_quser_filter`'
-how_to_implement: The following Hunting analytic requires PowerShell operational logs
-  to be imported. Modify the powershell macro as needed to match the sourcetype or
-  add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
+description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
+search: |-
+    `powershell` EventCode=4104 ScriptBlockText = "*quser*logoff*"
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_powershell_logoff_user_via_quser_filter`
+how_to_implement: The following Hunting analytic requires PowerShell operational logs to be imported. Modify the powershell macro as needed to match the sourcetype or add index. This analytic is specific to 4104, or PowerShell Script Block Logging.
 known_false_positives: Administrators or power users may use this command.
 references:
-- https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
+    - https://devblogs.microsoft.com/scripting/automating-quser-through-powershell/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Powershell process having commandline [$ScriptBlockText$] used to logoff
-    user on [$dest$].
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects: []
+    message: Powershell process having commandline [$ScriptBlockText$] used to logoff user on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 49
+    threat_objects: []
 tags:
-  analytic_story:
-  - Crypto Stealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.001
-  - T1531
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Crypto Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.001
+        - T1531
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1531/log_off_user/pwh_quser_logoff.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1531/log_off_user/pwh_quser_logoff.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

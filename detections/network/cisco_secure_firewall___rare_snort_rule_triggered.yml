@@ -1,57 +1,57 @@
 name: Cisco Secure Firewall - Rare Snort Rule Triggered
 id: e20313d2-7d63-4fcf-b2d9-d6e12c6c7bd7
-version: 4
-date: '2026-01-21'
+version: 5
+date: '2026-02-25'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Hunting
 description: |
-  This analytic identifies Snort signatures that have triggered only once in the past 7 days across all Cisco Secure Firewall IntrusionEvent logs. While these rules typically do not trigger in day-to-day network activity, their sudden appearance may indicate early-stage compromise, previously unseen malware, or reconnaissance activity against less commonly exposed services. Investigating these outliers can provide valuable insight into new or low-noise adversary behaviors.
+    This analytic identifies Snort signatures that have triggered only once in the past 7 days across all Cisco Secure Firewall IntrusionEvent logs. While these rules typically do not trigger in day-to-day network activity, their sudden appearance may indicate early-stage compromise, previously unseen malware, or reconnaissance activity against less commonly exposed services. Investigating these outliers can provide valuable insight into new or low-noise adversary behaviors.
 data_source:
-  - Cisco Secure Firewall Threat Defense Intrusion Event
+    - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
-  `cisco_secure_firewall` EventType=IntrusionEvent earliest=-7d
-  | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime 
-          values(signature) as signature 
-          values(src) as src 
-          values(dest) as dest 
-          values(dest_port) as dest_port
-          values(transport) as transport
-          values(app) as app 
-          values(rule) as rule 
-          by signature_id class_desc MitreAttackGroups InlineResult InlineResultReason
-  | where TriggerCount = 1
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___rare_snort_rule_triggered_filter`
+    `cisco_secure_firewall` EventType=IntrusionEvent earliest=-7d
+    | stats dc(_time) as TriggerCount min(_time) as firstTime max(_time) as lastTime
+            values(signature) as signature
+            values(src) as src
+            values(dest) as dest
+            values(dest_port) as dest_port
+            values(transport) as transport
+            values(app) as app
+            values(rule) as rule
+            by signature_id class_desc MitreAttackGroups InlineResult InlineResultReason
+    | where TriggerCount = 1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___rare_snort_rule_triggered_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The intrusion access policy must also be configured.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The intrusion access policy must also be configured.
 known_false_positives: False positives may occur with certain rare activity. Apply additional filters where required.
 references:
-  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 tags:
-  analytic_story: 
-    - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1598
-    - T1583.006
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
-  manual_test: This detection is a hunting search that has the fixed time range of 7 days baked into the search. Hence based on the time range of the data in the logs, the detection may or may not return results with TriggerCount = 1 in testing.
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1598
+        - T1583.006
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
+    manual_test: This detection is a hunting search that has the fixed time range of 7 days baked into the search. Hence based on the time range of the data in the logs, the detection may or may not return results with TriggerCount = 1 in testing.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

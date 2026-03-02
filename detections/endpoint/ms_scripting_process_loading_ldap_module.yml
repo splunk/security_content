@@ -5,66 +5,45 @@ date: '2025-05-02'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of MS scripting processes
-  (wscript.exe or cscript.exe) loading LDAP-related modules (Wldap32.dll, adsldp.dll,
-  adsldpc.dll). It leverages Sysmon EventCode 7 to identify these specific DLL loads.
-  This activity is significant as it may indicate an attempt to query LDAP for host
-  information, a behavior observed in FIN7 implants. If confirmed malicious, this
-  could allow attackers to gather detailed Active Directory information, potentially
-  leading to further exploitation or data exfiltration.
+description: The following analytic detects the execution of MS scripting processes (wscript.exe or cscript.exe) loading LDAP-related modules (Wldap32.dll, adsldp.dll, adsldpc.dll). It leverages Sysmon EventCode 7 to identify these specific DLL loads. This activity is significant as it may indicate an attempt to query LDAP for host information, a behavior observed in FIN7 implants. If confirmed malicious, this could allow attackers to gather detailed Active Directory information, potentially leading to further exploitation or data exfiltration.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded
-  IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") | fillnull | stats count
-  min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file
-  loaded_file_path original_file_name process_exec process_guid process_hash process_id
-  process_name process_path service_dll_signature_exists service_dll_signature_verified
-  signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_ldap_module_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name, parent process, and command-line executions from your
-  endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the
-  Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
-known_false_positives: automation scripting language may used by network operator
-  to do ldap query.
+    - Sysmon EventID 7
+search: '`sysmon` EventCode =7 Image IN ("*\\wscript.exe", "*\\cscript.exe") ImageLoaded IN ("*\\Wldap32.dll", "*\\adsldp.dll", "*\\adsldpc.dll") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `ms_scripting_process_loading_ldap_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name, parent process, and command-line executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
+known_false_positives: automation scripting language may used by network operator to do ldap query.
 references:
-- https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
-- https://attack.mitre.org/groups/G0046/
+    - https://www.mandiant.com/resources/fin7-pursuing-an-enigmatic-and-evasive-global-criminal-operation
+    - https://attack.mitre.org/groups/G0046/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $process_name$ loading ldap modules $ImageLoaded$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 9
-  threat_objects: []
+    message: $process_name$ loading ldap modules $ImageLoaded$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 9
+    threat_objects: []
 tags:
-  analytic_story:
-  - FIN7
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.007
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - FIN7
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.007
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/fin7/fin7_js_2/sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

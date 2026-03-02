@@ -6,61 +6,52 @@ author: Michael Haag, Splunk
 status: production
 type: Hunting
 description: |
-  The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems.
-  It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution details such as process name, parent process, and command-line arguments.
-  This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance.
-  If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further system compromise.
-  Note that this search does not use a where clause to filter out known benign paths, as NirSoft utilities can be executed from various locations. This might hinder performance in environments with high data volumes.
-  Apply additional filtering as necessary to enhance this.
+    The following analytic identifies the execution of commonly used NirSoft utilities on Windows systems.
+    It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution details such as process name, parent process, and command-line arguments.
+    This activity is significant for a SOC because NirSoft utilities, while legitimate, can be used by adversaries for malicious purposes like credential theft or system reconnaissance.
+    If confirmed malicious, this activity could lead to unauthorized access, data exfiltration, or further system compromise.
+    Note that this search does not use a where clause to filter out known benign paths, as NirSoft utilities can be executed from various locations. This might hinder performance in environments with high data volumes.
+    Apply additional filtering as necessary to enhance this.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Processes
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-     Processes.parent_process_name Processes.parent_process_path Processes.process
-     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-     Processes.process_integrity_level Processes.process_name Processes.process_path
-     Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name("Processes")`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | lookup update=true is_nirsoft_software filename as process_name OUTPUT nirsoftFile
-  | search nirsoftFile=true
-  | `windows_nirsoft_utilities_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: False positives may be present. Filtering may be required before
-  setting to alert.
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
+    as lastTime FROM datamodel=Endpoint.Processes
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path
+       Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name("Processes")`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | lookup update=true is_nirsoft_software filename as process_name OUTPUT nirsoftFile
+    | search nirsoftFile=true
+    | `windows_nirsoft_utilities_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: False positives may be present. Filtering may be required before setting to alert.
 references:
-- https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
-- http://www.nirsoft.net/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://www.cisa.gov/uscert/ncas/alerts/TA18-201A
+    - http://www.nirsoft.net/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 tags:
-  analytic_story:
-  - Data Destruction
-  - WhisperGate
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1588.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - WhisperGate
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1588.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1588.002/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

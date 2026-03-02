@@ -1,71 +1,61 @@
 name: Linux File Creation In Profile Directory
 id: 46ba0082-61af-11ec-9826-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-02-25'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the creation of files in the /etc/profile.d
-  directory on Linux systems. It leverages filesystem data to identify new files in
-  this directory, which is often used by adversaries for persistence by executing
-  scripts upon system boot. This activity is significant as it may indicate an attempt
-  to maintain long-term access to the compromised host. If confirmed malicious, this
-  could allow attackers to execute arbitrary code with elevated privileges each time
-  the system boots, potentially leading to further compromise and data exfiltration.
+description: The following analytic detects the creation of files in the /etc/profile.d directory on Linux systems. It leverages filesystem data to identify new files in this directory, which is often used by adversaries for persistence by executing scripts upon system boot. This activity is significant as it may indicate an attempt to maintain long-term access to the compromised host. If confirmed malicious, this could allow attackers to execute arbitrary code with elevated privileges each time the system boots, potentially leading to further compromise and data exfiltration.
 data_source:
-- Sysmon for Linux EventID 11
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*/etc/profile.d/*")
-  by Filesystem.action Filesystem.dest Filesystem.file_access_time Filesystem.file_create_time
-  Filesystem.file_hash Filesystem.file_modify_time Filesystem.file_name Filesystem.file_path
-  Filesystem.file_acl Filesystem.file_size Filesystem.process_guid Filesystem.process_id
-  Filesystem.user Filesystem.vendor_product | `drop_dm_object_name(Filesystem)` |
-  `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `linux_file_creation_in_profile_directory_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the file name, file path, and process_guid executions from your endpoints.
-  If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
-known_false_positives: Administrator or network operator can create file in profile.d
-  folders for automation purposes. Please update the filter macros to remove false
-  positives.
+    - Sysmon for Linux EventID 11
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Filesystem
+      WHERE Filesystem.file_path IN ("*/etc/profile.d/*")
+      BY Filesystem.action Filesystem.dest Filesystem.file_access_time
+         Filesystem.file_create_time Filesystem.file_hash Filesystem.file_modify_time
+         Filesystem.file_name Filesystem.file_path Filesystem.file_acl
+         Filesystem.file_size Filesystem.process_guid Filesystem.process_id
+         Filesystem.user Filesystem.vendor_product
+    | `drop_dm_object_name(Filesystem)`
+    | `security_content_ctime(lastTime)`
+    | `security_content_ctime(firstTime)`
+    | `linux_file_creation_in_profile_directory_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the file name, file path, and process_guid executions from your endpoints. If you are using Sysmon, you can use the Add-on for Linux Sysmon from Splunkbase.
+known_false_positives: Administrator or network operator can create file in profile.d folders for automation purposes. Please update the filter macros to remove false positives.
 references:
-- https://attack.mitre.org/techniques/T1546/004/
-- https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
+    - https://attack.mitre.org/techniques/T1546/004/
+    - https://www.intezer.com/blog/research/kaiji-new-chinese-linux-malware-turning-to-golang/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A file $file_name$ is created in $file_path$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 56
-  threat_objects: []
+    message: A file $file_name$ is created in $file_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 56
+    threat_objects: []
 tags:
-  analytic_story:
-  - Linux Privilege Escalation
-  - Linux Persistence Techniques
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1546.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Linux Privilege Escalation
+        - Linux Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1546.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
-    source: Syslog:Linux-Sysmon/Operational
-    sourcetype: sysmon:linux
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1546.004/linux_init_profile/sysmon_linux.log
+          source: Syslog:Linux-Sysmon/Operational
+          sourcetype: sysmon:linux
