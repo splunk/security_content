@@ -3,7 +3,7 @@ id: 0fe052a5-07b8-48e7-9fc8-d6a3957eb914
 version: 1
 date: '2026-03-02'
 author: Nasreddine Bencherchali, Splunk
-status: experimental
+status: production
 type: Anomaly
 description: |
     This analytic identifies low-frequency Cisco SD-WAN control peering activity from control-connection-state-change events where "new-state:up".
@@ -76,7 +76,6 @@ tags:
         - Cisco Catalyst SD-WAN Analytics
     asset_type: Network
     mitre_attack_id:
-        - TA0001
         - T1190
     product:
         - Splunk Enterprise

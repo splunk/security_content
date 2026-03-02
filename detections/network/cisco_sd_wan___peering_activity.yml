@@ -59,7 +59,6 @@ tags:
         - Cisco Catalyst SD-WAN Analytics
     asset_type: Network
     mitre_attack_id:
-        - TA0001
         - T1190
     product:
         - Splunk Enterprise
