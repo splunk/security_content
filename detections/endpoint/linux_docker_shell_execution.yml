@@ -21,11 +21,17 @@ search: |-
     Processes.process="* exec *"
     Processes.process IN (
       "* /bin/bash *",
+      "* /bin/dash *",
       "* /bin/sh *",
-      "* /bin/zsh *"
+      "* /bin/zsh *",
       "* bash *",
+      "* bash",
+      "* dash *",
+      "* dash",
       "* sh *",
+      "* sh",
       "* zsh *",
+      "* zsh"
     )
     by Processes.action Processes.dest Processes.original_file_name
        Processes.parent_process Processes.parent_process_exec
