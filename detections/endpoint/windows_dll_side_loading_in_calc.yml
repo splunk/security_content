@@ -42,7 +42,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: The [ $image$ ] process loaded the [ $ImageLoaded$ ] DLL from a non-standard location on [ $dest$ ]
+    message: The [ $Image$ ] process loaded the [ $ImageLoaded$ ] DLL from a non-standard location on [ $dest$ ]
     risk_objects:
         - field: dest
           type: system
