@@ -43,7 +43,6 @@ rba:
     threat_objects:
         - field: src
           type: system
-          score: 10
 tags:
     analytic_story:
         - Suspicious Ollama Activities
