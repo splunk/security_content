@@ -13,7 +13,8 @@ description: |
     planned changes), and whether the `public-ip` is an expected source for control peering in the environment.
     Treat `peer-type:vmanage` events with higher scrutiny, especially when peer or source IP values are previously
     unseen.
-data_source: []
+data_source:
+    - Cisco SD-WAN NTCE 1000001
 search: |-
     `cisco_sd_wan_syslog`
     TERM("*control-connection-state-change*")

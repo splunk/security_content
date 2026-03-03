@@ -18,7 +18,8 @@ description: |
     Findings might indicate the potential exploitation of CVE-2026-20127.
 
     Note that the threshold setting is set to "3", but its highly recommended that this should be adapted to the environment before deploying this search.
-data_source: []
+data_source:
+    - Cisco SD-WAN NTCE 1000001
 search: |
     `cisco_sd_wan_syslog`
     TERM("*control-connection-state-change*")
