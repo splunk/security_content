@@ -2,7 +2,7 @@ name: Linux Docker Root Directory Mount
 id: aa049566-f76a-43b9-908c-3c27e079fd43
 version: 1
 date: '2026-02-03'
-author: Emil Elsetrønning
+author: Gowthamaraj Rajendran, Splunk, Emil Elsetrønning
 status: production
 type: TTP
 description: |
@@ -11,7 +11,7 @@ data_source:
 - Sysmon for Linux EventID 1
 search: |
   | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes 
+  as lastTime from datamodel=Endpoint.Processes
   where Processes.process_name=docker* Processes.process IN ("* -v *", "* --volume *") Processes.process="* /:/*"
   by Processes.action
   Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec
@@ -20,7 +20,7 @@ search: |
   Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name
   Processes.process_path Processes.user Processes.user_id Processes.vendor_product
   | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
+  | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
   | `linux_docker_root_directory_mount_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection
