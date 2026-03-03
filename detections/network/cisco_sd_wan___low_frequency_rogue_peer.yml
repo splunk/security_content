@@ -1,0 +1,102 @@
+name: Cisco SD-WAN - Low Frequency Rogue Peer
+id: 0fe052a5-07b8-48e7-9fc8-d6a3957eb914
+version: 1
+date: '2026-03-02'
+author: Nasreddine Bencherchali, Splunk
+status: production
+type: Anomaly
+description: |
+    This analytic identifies low-frequency Cisco SD-WAN control peering activity from control-connection-state-change events where "new-state:up".
+
+    It extracts "peer-type" and "peer-system-ip", groups events by these two fields, and counts how often each combination appears within the selected time window.
+
+    Combinations whose count is less than or equal to the defined threshold (currently <=3 occurrences in the search window) are flagged as rare.
+
+    Analysts should prioritize peer identities that are rarely observed in the environment, particularly those involving unexpected peer-type roles or unfamiliar peer-system-ip values.
+    Rare control-plane peers may indicate misconfiguration, unauthorized SD-WAN components, infrastructure drift, or potentially malicious control-plane connection attempts.
+
+    Findings might indicate the potential exploitation of CVE-2026-20127.
+
+    Note that the threshold setting is set to "3", but its highly recommended that this should be adapted to the environment before deploying this search.
+data_source:
+    - Cisco SD-WAN NTCE 1000001
+search: |
+    `cisco_sd_wan_syslog`
+    TERM("*control-connection-state-change*")
+    TERM("*new-state:up*")
+    TERM("*peer-system-ip:*")
+    TERM("*public-ip:*")
+    | rex field=_raw "^(?<event_timestamp>(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?|[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\.\d{1,6})?(?:Z|[+-][0-9]{2}:[0-9]{2})))\s*:?"
+    | rex field=_raw "^(?:[A-Z][a-z]{2}\s+\d{1,2}\s+\d{2}:\d{2}:\d{2}(?:\.\d{3})?\s*:?\s+)(?<prefix_host>[^\s:]+)\s+\S+(?:\[\d+\])?:\s+%"
+    | eval dest=coalesce(prefix_host, legacy_host, device_name, host)
+    | rex field=_raw "new-state:(?<new_state>\S+)"
+    | rex field=_raw "peer-type:(?<peer_type>\S+)"
+    | rex field=_raw "peer-system-ip:(?<peer_system_ip>\S+)"
+    | rex field=_raw "public-ip:(?<public_ip>\S+)"
+    | rex field=_raw "public-port:(?<public_port>\d+)"
+
+    | where isnotnull(peer_type) AND isnotnull(peer_system_ip)
+
+    | stats count
+            values(dest) as dest
+            values(public_ip) as public_ips
+            values(public_port) as public_ports
+      by peer_type peer_system_ip
+    | where count <= 3
+    | sort 0 count asc
+    | table dest peer_type peer_system_ip public_ips
+            public_ports count
+    | `cisco_sd_wan___low_frequency_rogue_peer_filter`
+how_to_implement: |
+    This analytic requires Cisco SD-WAN/vSmart logs in Splunk and assumes control peering status
+    messages are searchable via the `cisco_sd_wan_syslog` macro. Update that macro with your environment-specific index and sourcetype settings.
+    Build a known-good baseline (lookup or macro conditions) for expected `peer-system-ip`, `public-ip`, and `peer-type` relationships, then tune the `cisco_sd_wan_rogue_peer_outlier_filter` macro to suppress approved peers and transport sources.
+    The threshold (`<=3`) is a starting point and should be adjusted for your environment size and log
+    volume.
+    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html to start ingesting these logs.
+known_false_positives: |
+    New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
+    Path changes can create rare peer/public-IP combinations.
+    Validate outliers against change records and known SD-WAN inventory before escalating.
+references:
+    - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
+    - https://blog.talosintelligence.com/uat-8616-sd-wan/
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html
+    - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
+    - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: The SD-WAN device $dest$ established a rare control connection to peer-system-ip $peer_system_ip$ with peer-type $peer_type$ (observed $count$ times).
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - Cisco Catalyst SD-WAN Analytics
+    asset_type: Network
+    mitre_attack_id:
+        - T1190
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2026-20127
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog.log
+          source: /var/log/vsyslog
+          sourcetype: cisco:sdwan:syslog
