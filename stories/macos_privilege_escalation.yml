@@ -1,0 +1,17 @@
+name: MacOS Privilege Escalation
+id: 67f1ebd1-7a3c-4e9b-bb74-9656425db3c4
+version: 1
+status: production
+date: '2026-02-26'
+author: Raven Tait, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

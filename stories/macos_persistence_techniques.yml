@@ -1,0 +1,17 @@
+name: MacOS Persistence Techniques
+id: 3fc4619d-4a13-45f8-95a2-51056e221a1c
+version: 1
+status: production
+date: '2026-02-26'
+author: Raven Tait, Splunk
+description: UPDATE_DESCRIPTION
+narrative: UPDATE_NARRATIVE
+references: []
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

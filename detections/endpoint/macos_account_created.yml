@@ -1,0 +1,51 @@
+name: MacOS Account Created
+id: 491004ae-694f-453e-b1e0-fc1e65daeea1
+version: 1
+date: '2026-02-26'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: The following analytic detects the creation of a new local user account on a MacOS system. It leverages osquery logs to identify this activity. Monitoring the creation of local accounts is crucial for a SOC as it can indicate unauthorized access or lateral movement within the network. If confirmed malicious, this activity could allow an attacker to establish persistence, escalate privileges, or gain unauthorized access to sensitive systems and data.
+data_source:
+    - osquery
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process IN ("*sysadminctl","*createhomedir*","*dseditgroup*") OR (Processes.process = "*dscl*" AND Processes.process IN ("*-create*","*-passwd*")) by Processes.dest Processes.original_file_name Processes.parent_process_id Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_current_directory Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `macos_account_created_filter`'
+how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: Creating new accounts after initial endpoint management should be rare in most environments.
+references:
+    - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: New local account created on $dest$ by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 18
+        - field: dest
+          type: system
+          score: 18
+    threat_objects: []
+tags:
+    analytic_story:
+        - MacOS Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1136
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136/osquery_account_creation/osquery.log
+          source: osquery
+          sourcetype: osquery:results

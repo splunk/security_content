@@ -1,0 +1,51 @@
+name: MacOS LoginHook Persistence
+id: a04832e7-9d1d-49b1-a684-e31bcd775c77
+version: 1
+date: '2026-02-27'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: Identifies attempts to configure a macOS LoginHook via the defaults utility. LoginHooks enable automatic execution of a script or program upon user login and have historically been abused for persistence. Creation or modification of this setting may indicate an attempt to establish startup execution outside standard LaunchAgent mechanisms.
+data_source:
+    - osquery
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*defaults *" AND Processes.process = "*write*" AND Processes.process = "*loginwindow*" AND Processes.process = "*loginhook*" by Processes.dest Processes.original_file_name Processes.parent_process_id Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_current_directory Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `macos_loginhook_persistence_filter`'
+how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery. Also the [TA-OSquery](https://github.com/d1vious/TA-osquery) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: This method is possibly still used by legacy enterprise management scripts. Update filter macro to remove false positives.
+references:
+    - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: Loginhook created on $dest$ by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 75
+        - field: dest
+          type: system
+          score: 75
+    threat_objects: []
+tags:
+    analytic_story:
+        - MacOS Post-Exploitation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1037.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1037.002/osquery_logon_scripts/osquery.log
+          source: osquery
+          sourcetype: osquery:results
