@@ -119,21 +119,21 @@ apps:
 - uid: 5234
   title: Splunk Add-on for Stream Wire Data
   appid: SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA
-  version: 8.1.3
+  version: 8.1.6
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_813.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_816.tgz
 - uid: 2757
   title: Palo Alto Networks Add-on for Splunk
   appid: PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK
   version: 8.1.3
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_813.tgz
-- uid: 1809
-  title: Splunk App for Stream
-  appid: splunk_app_stream
-  version: 8.1.6
-  description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-app-for-stream_816.tgz
+# - uid: 1809
+#   title: Splunk App for Stream
+#   appid: splunk_app_stream
+#   version: 8.1.6
+#   description: description of app
+#   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-app-for-stream_816.tgz
 - uid: 3865
   title: Zscaler Technical Add-On for Splunk
   appid: Zscaler_CIM

@@ -14,8 +14,8 @@ mitre_components:
 source: stream:http
 sourcetype: stream:http
 supported_TA:
-- name: Splunk App for Stream
-  url: https://splunkbase.splunk.com/app/1809
+- name: Splunk Add-on for Stream Wire Data
+  url: https://splunkbase.splunk.com/app/5234
   version: 8.1.6
 fields:
 - _time
