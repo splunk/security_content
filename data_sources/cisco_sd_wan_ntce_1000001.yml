@@ -1,0 +1,13 @@
+name: Cisco SD-WAN NTCE 1000001
+id: 350c4a45-24df-4339-ba57-8b8c09f2865f
+version: 1
+date: '2026-03-03'
+author: Nasreddine Bencherchali, Splunk
+description: Data source object for Cisco SD-WAN Notification Event 1000001
+source: /var/log/vsyslog
+sourcetype: cisco:sdwan:syslog
+supported_TA: []
+fields:
+    - _time
+    - _raw
+example_log: 'Feb 20 22:03:33 vSmart-01 VDAEMON_0[2571]: %Viptela-vSmart-VDAEMON_0-5-NTCE-1000001: control-connection-state-change new-state:up peer-type:vmanage peer-system-ip:1.1.1.10 public-ip:192.168.3.20 public-port:12345 domain-id:1 site-id:1005'
