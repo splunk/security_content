@@ -14,6 +14,6 @@ mitre_components:
 source: stream:tcp
 sourcetype: stream:tcp
 supported_TA:
-- name: Splunk Stream
+- name: Splunk App for Stream
   url: https://splunkbase.splunk.com/app/1809
   version: 8.1.6
