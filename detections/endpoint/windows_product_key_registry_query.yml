@@ -8,7 +8,7 @@ type: Anomaly
 description: This Analytics detects the execution of a process attempting to access the registry for product key recovery purposes. This behavior is significant as it indicates potential malware activity or attempts to bypass security measures or data exfiltration.
 data_source:
     - Windows Event Log Security 4663
-search: '`wineventlog_security` EventCode=4663 object_file_path="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SoftwareProtectionPlatform" by object_file_name object_file_path process_name process_path process_id EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_product_key_registry_query_filter`'
+search: '`wineventlog_security` EventCode=4663 object_file_path="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SoftwareProtectionPlatform" | stats count min(_time) as firstTime max(_time) as lastTime by object_file_name object_file_path process_name process_path process_id EventCode dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_product_key_registry_query_filter`'
 how_to_implement: To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
 known_false_positives: Administrator may access this registry for product key recovery purposes.
 references:
