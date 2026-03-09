@@ -53,7 +53,7 @@ rba:
           type: process_path
 tags:
     analytic_story:
-        - BlankGrabber Ransomware
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1047

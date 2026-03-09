@@ -8,7 +8,7 @@ type: Anomaly
 description: This Analytics detects DNS queries to public file sharing domains, such as api.anonfiles.com and api.gofile.io. These services allow users to anonymously upload and distribute files, which can be abused by threat actors for data exfiltration, malware staging, or command-and-control communications. Monitoring DNS requests to these domains helps identify potentially unauthorized data transfers or suspicious outbound activity. While legitimate use may exist, such queries originating from servers, restricted systems, or non-browser processes should be investigated to determine whether sensitive data is being staged or transmitted externally.
 data_source:
     - Sysmon EventID 22
-search: '`sysmon` EventCode=22  QueryName IN ("*api.anonfiles.com", "*api.gofile.io") | eval answer=coalesce(answer,"none") | eval answer_count=coalesce(answer_count,0) | stats  min(_time) as firstTime max(_time) as lastTime count BY answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dns_lookup_to_public_file_sharing_domain_filter`'
+search: '`sysmon` EventCode=22  QueryName IN ("*api.anonfiles.com", "*api.gofile.io") | eval answer=coalesce(answer,"none") | eval answer_count=coalesce(answer_count,0) | stats  min(_time) as firstTime max(_time) as lastTime count BY answer answer_count dvc process_exec process_guid process_name query query_count reply_code_id signature signature_id src user_id vendor_product QueryName QueryResults QueryStatus dest | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_dns_lookup_to_public_file_sharing_domain_filter`'
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and eventcode = 22 dnsquery executions from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Tune and filter known instances where renamed rundll32.exe may be used.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -23,7 +23,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A process [$process_name$] made a DNS query for [$QueryName$] from host [$dest$].
+    message: A process [$process_name$] made a DNS query for [$QueryName$] from host [$dvc$].
     risk_objects:
         - field: dest
           type: system
@@ -33,7 +33,7 @@ rba:
           type: process_name
 tags:
     analytic_story:
-        - Lokibot
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1071.004
