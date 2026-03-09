@@ -23,7 +23,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: a [$process_name$] attempting to access the registry on [$dest$] by [$user$] .
+    message: a [$process_name$] attempting to access the registry on [$dest$].
     risk_objects:
         - field: dest
           type: system

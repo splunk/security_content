@@ -49,8 +49,6 @@ rba:
           type: parent_process_name
         - field: process_name
           type: process_name
-        - field: process_path
-          type: process_path
 tags:
     analytic_story:
         - BlankGrabber Stealer
