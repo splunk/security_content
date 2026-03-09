@@ -13,7 +13,7 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
       as lastTime from datamodel=Endpoint.Processes
-      where Processes.parent_process_path NOT IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*:\\Program Files\\*", "*:\\Program Files (x86)\\*")
+      where (NOT (Processes.parent_process_path  IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*:\\Program Files\\*", "*:\\Program Files (x86)\\*")) OR Processes.parent_process_name IN("cmd.exe", "powershell*", "pwsh*")) AND
       Processes.process_name = "wmic.exe" OR Processes.original_file_name = "wmic.exe"
       AND Processes.process IN ("*Win32_Bios*", "*Win32_OperatingSystem*", "*Win32_Processor*", "*Win32_PnPEntity*", "*Win32_ShadowCopy*", "*Win32_DiskDrive*",
       "*Win32_PhysicalMemory*", "*Win32_BaseBoard*", "*Win32_DisplayConfiguration*", "*win32_VideoController*", "*win32_shortcutfile*", "*csproduct*")
