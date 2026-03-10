@@ -1,7 +1,7 @@
 name: ESXi Account Modified
 id: b5e3b024-a7bb-4019-8975-46cf54485e78
-version: 1
-date: '2025-07-01'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

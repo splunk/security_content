@@ -1,7 +1,7 @@
 name: O365 SharePoint Suspicious Search Behavior
 id: 6ca919db-52f3-4c95-a4e9-7b189e8a043d
-version: 4
-date: '2026-01-14'
+version: 5
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 35
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

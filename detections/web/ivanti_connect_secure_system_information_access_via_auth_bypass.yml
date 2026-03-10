@@ -1,7 +1,7 @@
 name: Ivanti Connect Secure System Information Access via Auth Bypass
 id: d51c13dd-a232-4c83-a2bb-72ab36233c5d
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 20
     threat_objects: []
 tags:
     cve:

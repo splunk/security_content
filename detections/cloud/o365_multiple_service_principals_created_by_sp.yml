@@ -1,7 +1,7 @@
 name: O365 Multiple Service Principals Created by SP
 id: ef4c3f20-d1ad-4ad1-a3f4-d5f391c005fe
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 data_source:
     - O365 Add service principal.
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 42
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

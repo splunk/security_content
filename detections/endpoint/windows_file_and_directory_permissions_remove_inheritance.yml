@@ -1,7 +1,7 @@
 name: Windows File and Directory Permissions Remove Inheritance
 id: 9b62da2c-e442-474f-83ca-fac4dabab1b3
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 1
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

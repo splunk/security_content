@@ -1,7 +1,7 @@
 name: Windows ConsoleHost History File Deletion
 id: a203040e-f8fd-49bb-8424-d2fabf277322
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

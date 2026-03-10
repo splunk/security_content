@@ -1,7 +1,7 @@
 name: Ollama Suspicious Prompt Injection Jailbreak
 id: aac5df6f-9151-4da6-bdb2-5691aa6e376f
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 70
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

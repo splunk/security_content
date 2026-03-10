@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Shell Execution
 id: 12345678-abcd-1234-ef00-1234567890ab
-version: 1
-date: '2026-01-05'
+version: 2
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: node_name
           type: system
-          score: 49
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

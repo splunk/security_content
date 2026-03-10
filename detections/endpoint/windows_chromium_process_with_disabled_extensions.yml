@@ -1,7 +1,7 @@
 name: Windows Chromium Process with Disabled Extensions
 id: ce245717-779b-483b-bc52-fc7a94729973
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

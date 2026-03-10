@@ -1,7 +1,7 @@
 name: Windows Disable Windows Group Policy Features Through Registry
 id: 63a449ae-9f04-11ec-945e-acde48001122
-version: 12
-date: '2025-05-02'
+version: 13
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

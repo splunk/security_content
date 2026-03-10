@@ -1,7 +1,7 @@
 name: Linux GNU Awk Privilege Escalation
 id: 0dcf43b9-50d8-42a6-acd9-d1c9201fe6ae
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

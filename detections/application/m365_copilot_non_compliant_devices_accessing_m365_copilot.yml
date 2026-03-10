@@ -1,7 +1,7 @@
 name: M365 Copilot Non Compliant Devices Accessing M365 Copilot
 id: e26bc52d-9cbc-4743-9745-e8781d935042
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

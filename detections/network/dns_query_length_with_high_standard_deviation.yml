@@ -1,7 +1,7 @@
 name: DNS Query Length With High Standard Deviation
 id: 1a67f15a-f4ff-4170-84e9-08cf6f75d6f5
-version: 13
-date: '2026-02-25'
+version: 14
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: query
           type: url
