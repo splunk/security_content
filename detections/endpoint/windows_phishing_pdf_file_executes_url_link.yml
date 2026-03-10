@@ -1,6 +1,6 @@
 name: Windows Phishing PDF File Executes URL Link
 id: 2fa9dec8-9d8e-46d3-96c1-202c06f0e6e1
-version: 9
+version: 10
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -48,6 +48,7 @@ tags:
     analytic_story:
         - Spearphishing Attachments
         - Snake Keylogger
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1566.001

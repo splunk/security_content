@@ -1,6 +1,6 @@
 name: Windows Office Product Spawned Uncommon Process
 id: 55d8741c-fa32-4692-8109-410304961eb8
-version: 7
+version: 8
 date: '2026-03-10'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
@@ -110,6 +110,7 @@ tags:
         - Trickbot
         - Warzone RAT
         - APT37 Rustonotto and FadeStealer
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1566.001

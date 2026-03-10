@@ -1,6 +1,6 @@
 name: Windows Office Product Loading VBE7 DLL
 id: 7cfec906-2697-43f7-898b-83634a051d9a
-version: 5
+version: 6
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -46,6 +46,7 @@ tags:
         - Remcos
         - PlugX
         - NjRAT
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1566.001

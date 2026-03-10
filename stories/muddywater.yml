@@ -1,0 +1,22 @@
+name: MuddyWater
+id: 6e912210-02ec-488a-aafb-06e7d531886a
+version: 1
+date: '2026-03-10'
+author: Teoderick Contreras, Splunk
+status: production
+description: MuddyWater is an Iranian-linked APT group (also tracked as MERCURY, Static Kitten) attributed to Iran's Ministry of Intelligence and Security. It has been active since at least 2017 and uses script-based malware (PowerShell, VBScript, JavaScript), malicious documents (PDF, Word, Excel), living-off-the-land binaries, and RATs such as SloughRAT. Campaigns employ obfuscation, anti-sandbox techniques, and have leveraged Log4j exploits against SysAid Server. Targets include government, military, and private sector organizations across the Middle East, Turkey, South Asia, and elsewhere. Detection focuses on document-based initial access, script execution patterns, and post-exploitation behavior consistent with Talos and industry reporting.
+narrative: MuddyWater operates as a conglomerate of sub-groups with regionally focused campaigns rather than a single monolithic actor. The group conducts espionage, intellectual property theft, and at times ransomware or destructive operations. Recent activity includes the BlackWater campaign with new anti-detection methods and canary tokens to track infections and evade sandboxes. Initial access has shifted from phishing documents to exploitation of vulnerable internet-facing services (e.g., SysAid). Analysts should correlate document lures, script-based payloads, and RAT indicators with geographic and sector targeting to distinguish MuddyWater from other Iranian or regional threat activity.
+references:
+- https://blog.talosintelligence.com/talos-developing-situation-in-the-middle-east/
+- https://blog.talosintelligence.com/iranian-supergroup-muddywater
+- https://blog.talosintelligence.com/recent-muddywater-associated-blackwater
+- https://blog.talosintelligence.com/iranian-apt-muddywater-targets-turkey/
+- https://unit42.paloaltonetworks.com/unit42-muddying-the-water-targeted-attacks-in-the-middle-east/
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
