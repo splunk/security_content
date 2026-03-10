@@ -1,7 +1,7 @@
 name: ETW Registry Disabled
 id: 8ed523ac-276b-11ec-ac39-acde48001122
-version: 14
-date: '2026-01-14'
+version: 15
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: user
           type: user
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

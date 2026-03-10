@@ -1,7 +1,7 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 10
-date: '2026-01-29'
+version: 11
+date: '2026-03-10'
 author: Dean Luxton, Splunk
 status: production
 type: TTP
@@ -69,7 +69,7 @@ rba:
     risk_objects:
         - field: src_ip
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: dest_ip
           type: ip_address

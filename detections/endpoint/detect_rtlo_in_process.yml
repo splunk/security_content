@@ -1,7 +1,7 @@
 name: Detect RTLO In Process
 id: 22ac27b4-7189-4a4f-9375-b9017c9620d7
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -31,10 +31,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 50
         - field: dest
           type: system
-          score: 40
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

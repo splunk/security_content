@@ -1,7 +1,7 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 16
-date: '2026-02-25'
+version: 17
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Windows AD Domain Replication ACL Addition
 id: 8c372853-f459-4995-afdc-280c114d33ab
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Dean Luxton
 type: TTP
 status: production
@@ -54,10 +54,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: src_user
           type: user
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

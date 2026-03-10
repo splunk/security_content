@@ -1,7 +1,7 @@
 name: ESXi User Granted Admin Role
 id: b0c64d6e-cfdf-441a-b6ce-d956e202563e
-version: 1
-date: '2025-05-15'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,10 +25,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
         - field: target_user
           type: user
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

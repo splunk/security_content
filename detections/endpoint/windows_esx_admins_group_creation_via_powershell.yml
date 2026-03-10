@@ -1,7 +1,7 @@
 name: Windows ESX Admins Group Creation via PowerShell
 id: f48a5557-be06-4b96-b8e8-be563e387620
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 data_source:
     - Powershell Script Block Logging 4104
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: user_id
           type: user
-          score: 56
+          score: 50
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

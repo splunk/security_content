@@ -1,7 +1,7 @@
 name: Azure AD New MFA Method Registered
 id: 0488e814-eb81-42c3-9f1f-b2244973e3a3
-version: 9
-date: '2025-10-14'
+version: 10
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

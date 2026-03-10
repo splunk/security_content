@@ -1,7 +1,7 @@
 name: Print Spooler Failed to Load a Plug-in
 id: 1adc9548-da7c-11eb-8f13-acde48001122
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: ComputerName
           type: system
-          score: 72
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

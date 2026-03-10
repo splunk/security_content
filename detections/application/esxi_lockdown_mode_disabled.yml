@@ -1,7 +1,7 @@
 name: ESXi Lockdown Mode Disabled
 id: 07c0d28a-9a9b-409f-8d4b-65355bd19ead
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 55
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: MS Exchange Mailbox Replication service writing Active Server Pages
 id: 985f322c-57a5-11ec-b9ac-acde48001122
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -18,10 +18,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 81
+          score: 50
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

@@ -1,7 +1,7 @@
 name: Linux DD File Overwrite
 id: 9b6aae5e-8d85-11ec-b2ae-acde48001122
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

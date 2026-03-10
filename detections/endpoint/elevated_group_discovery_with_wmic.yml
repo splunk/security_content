@@ -1,7 +1,7 @@
 name: Elevated Group Discovery With Wmic
 id: 3f6bbf22-093e-4cb4-9641-83f47b8444b6
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 21
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

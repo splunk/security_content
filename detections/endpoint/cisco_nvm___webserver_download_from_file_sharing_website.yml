@@ -1,7 +1,7 @@
 name: Cisco NVM - Webserver Download From File Sharing Website
 id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -66,7 +66,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 40
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

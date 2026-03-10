@@ -1,7 +1,7 @@
 name: Suspicious DLLHost no Command Line Arguments
 id: ff61e98c-0337-4593-a78f-72a676c56f26
-version: 11
-date: '2025-12-15'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

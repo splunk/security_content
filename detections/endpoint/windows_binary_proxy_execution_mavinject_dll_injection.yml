@@ -1,7 +1,7 @@
 name: Windows Binary Proxy Execution Mavinject DLL Injection
 id: ccf4b61b-1b26-4f2e-a089-f2009c569c57
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

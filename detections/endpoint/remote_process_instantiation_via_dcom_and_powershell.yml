@@ -1,7 +1,7 @@
 name: Remote Process Instantiation via DCOM and PowerShell
 id: d4f42098-4680-11ec-ad07-3e22fbd008af
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

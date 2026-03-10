@@ -1,7 +1,7 @@
 name: Windows PowerShell Script From WindowsApps Directory
 id: 8c3d1f2e-7b4a-45e3-9d8f-6a2e4c9b1234
-version: 1
-date: '2025-08-05'
+version: 2
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 55
+          score: 50
     threat_objects:
         - field: process
           type: command

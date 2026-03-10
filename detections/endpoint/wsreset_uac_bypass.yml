@@ -1,7 +1,7 @@
 name: WSReset UAC Bypass
 id: 8b5901bc-da63-11eb-be43-acde48001122
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
