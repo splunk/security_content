@@ -1,7 +1,7 @@
 name: Detect IPv6 Network Infrastructure Threats
 id: c3be767e-7959-44c5-8976-0e9c12a91ad2
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-03-10'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

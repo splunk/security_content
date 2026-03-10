@@ -1,7 +1,7 @@
 name: Rubeus Command Line Parameters
 id: cca37478-8377-11ec-b59a-acde48001122
-version: 10
-date: '2026-02-12'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -32,10 +32,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 36
+          score: 50
         - field: dest
           type: system
-          score: 36
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

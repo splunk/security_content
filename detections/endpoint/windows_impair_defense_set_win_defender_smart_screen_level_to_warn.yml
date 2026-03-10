@@ -1,7 +1,7 @@
 name: Windows Impair Defense Set Win Defender Smart Screen Level To Warn
 id: cc2a3425-2703-47e7-818f-3dca1b0bc56f
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

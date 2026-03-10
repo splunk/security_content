@@ -1,7 +1,7 @@
 name: Cisco Duo Bulk Policy Deletion
 id: 983be012-e408-4cb0-b87f-6756bb5f7047
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-03-10'
 author: Patrick Bareiss, Splunk
 data_source:
     - Cisco Duo Administrator
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

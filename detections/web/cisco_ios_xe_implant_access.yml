@@ -1,7 +1,7 @@
 name: Cisco IOS XE Implant Access
 id: 07c36cda-6567-43c3-bc1a-89dff61e2cd9
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

@@ -1,7 +1,7 @@
 name: Spoolsv Writing a DLL - Sysmon
 id: 347fd388-da87-11eb-836d-acde48001122
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

@@ -1,7 +1,7 @@
 name: Hide User Account From Sign-In Screen
 id: 834ba832-ad89-11eb-937d-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
@@ -27,10 +27,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 72
+          score: 50
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects:
         - field: registry_value_name
           type: registry_value_name

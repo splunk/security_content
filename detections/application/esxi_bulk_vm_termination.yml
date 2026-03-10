@@ -1,7 +1,7 @@
 name: ESXi Bulk VM Termination
 id: cfe094b4-0737-4a33-9d63-e0562ce2b883
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
