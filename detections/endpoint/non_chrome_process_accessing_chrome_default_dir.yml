@@ -1,6 +1,6 @@
 name: Non Chrome Process Accessing Chrome Default Dir
 id: 81263de4-160a-11ec-944f-acde48001122
-version: 15
+version: 16
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -48,6 +48,7 @@ tags:
         - Snake Keylogger
         - China-Nexus Threat Activity
         - Lokibot
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1555.003

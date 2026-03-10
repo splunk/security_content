@@ -1,6 +1,6 @@
 name: Disable Defender Submit Samples Consent Feature
 id: 73922ff8-3022-11ec-bf5e-acde48001122
-version: 12
+version: 13
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
@@ -38,6 +38,7 @@ tags:
         - CISA AA23-347A
         - IcedID
         - Windows Registry Abuse
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

@@ -1,6 +1,6 @@
 name: Malicious PowerShell Process - Execution Policy Bypass
 id: 9be56c82-b1cc-4318-87eb-d138afaaca39
-version: 18
+version: 19
 date: '2026-03-10'
 author: Rico Valdez, Mauricio Velazco, Splunk
 status: production
@@ -58,6 +58,7 @@ tags:
         - DarkCrystal RAT
         - 0bj3ctivity Stealer
         - APT37 Rustonotto and FadeStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.001

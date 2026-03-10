@@ -1,6 +1,6 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: 13
+version: 14
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -47,6 +47,7 @@ tags:
         - Interlock Ransomware
         - APT37 Rustonotto and FadeStealer
         - PromptFlux
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1547.001

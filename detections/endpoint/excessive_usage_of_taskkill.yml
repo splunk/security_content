@@ -1,6 +1,6 @@
 name: Excessive Usage Of Taskkill
 id: fe5bca48-accb-11eb-a67c-acde48001122
-version: 11
+version: 12
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -52,6 +52,7 @@ tags:
         - CISA AA22-264A
         - XMRig
         - Crypto Stealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

@@ -1,6 +1,6 @@
 name: Windows Time Based Evasion
 id: 34502357-deb1-499a-8261-ffe144abf561
-version: 11
+version: 12
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -48,6 +48,7 @@ rba:
 tags:
     analytic_story:
         - NjRAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1497.003

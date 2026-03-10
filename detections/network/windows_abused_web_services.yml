@@ -1,6 +1,6 @@
 name: Windows Abused Web Services
 id: 01f0aef4-8591-4daa-a53d-0ed49823b681
-version: 10
+version: 11
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -47,6 +47,7 @@ tags:
         - NjRAT
         - CISA AA24-241A
         - Malicious Inno Setup Loader
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1102

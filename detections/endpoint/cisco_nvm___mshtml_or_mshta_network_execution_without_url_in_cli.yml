@@ -1,6 +1,6 @@
 name: Cisco NVM - MSHTML or MSHTA Network Execution Without URL in CLI
 id: f2a9df84-9b01-4a21-9e3a-7aa1a217f69e
-version: 4
+version: 5
 date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
@@ -83,6 +83,7 @@ rba:
 tags:
     analytic_story:
         - Cisco Network Visibility Module Analytics
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.005

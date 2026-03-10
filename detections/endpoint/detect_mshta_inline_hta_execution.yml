@@ -1,6 +1,6 @@
 name: Detect mshta inline hta execution
 id: a0873b32-5b68-11eb-ae93-0242ac130002
-version: 20
+version: 21
 date: '2026-03-10'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
@@ -66,6 +66,7 @@ tags:
         - Suspicious MSHTA Activity
         - XWorm
         - APT37 Rustonotto and FadeStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.005

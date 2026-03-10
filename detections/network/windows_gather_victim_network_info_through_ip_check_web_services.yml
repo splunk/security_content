@@ -1,6 +1,6 @@
 name: Windows Gather Victim Network Info Through Ip Check Web Services
 id: 70f7c952-0758-46d6-9148-d8969c4481d1
-version: 17
+version: 18
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -55,6 +55,7 @@ tags:
         - Quasar RAT
         - 0bj3ctivity Stealer
         - Castle RAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1590.005

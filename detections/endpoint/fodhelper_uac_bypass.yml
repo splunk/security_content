@@ -1,6 +1,6 @@
 name: FodHelper UAC Bypass
 id: 909f8fd8-7ac8-11eb-a1f3-acde48001122
-version: 13
+version: 14
 date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
@@ -58,6 +58,7 @@ tags:
         - ValleyRAT
         - Compromised Windows Host
         - Windows Defense Evasion Tactics
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1112

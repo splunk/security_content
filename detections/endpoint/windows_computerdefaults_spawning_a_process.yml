@@ -1,6 +1,6 @@
 name: Windows ComputerDefaults Spawning a Process
 id: 697eb4c0-1008-4c3c-b5ae-7bd9b39adbd6
-version: 4
+version: 5
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -47,6 +47,7 @@ rba:
 tags:
     analytic_story:
         - Castle RAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1548.002

@@ -1,6 +1,6 @@
 name: Windows Non Discord App Access Discord LevelDB
 id: 1166360c-d495-45ac-87a6-8948aac1fa07
-version: 8
+version: 9
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
@@ -34,6 +34,7 @@ tags:
         - StealC Stealer
         - Snake Keylogger
         - PXA Stealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1012

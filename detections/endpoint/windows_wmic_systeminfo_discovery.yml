@@ -1,6 +1,6 @@
 name: Windows Wmic Systeminfo Discovery
 id: 97937ece-cb13-4dbc-9684-c0dc3afd400a
-version: 3
+version: 4
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -54,6 +54,7 @@ rba:
 tags:
     analytic_story:
         - LAMEHUG
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1082

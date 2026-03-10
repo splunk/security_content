@@ -1,6 +1,6 @@
 name: Windows Disable or Stop Browser Process
 id: 220d34b7-b6c7-45fe-8dbb-c35cdd9fe6d5
-version: 9
+version: 11
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
@@ -52,6 +52,7 @@ tags:
         - Scattered Lapsus$ Hunters
         - Hellcat Ransomware
         - Castle RAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

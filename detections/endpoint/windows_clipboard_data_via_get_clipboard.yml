@@ -1,6 +1,6 @@
 name: Windows ClipBoard Data via Get-ClipBoard
 id: ab73289e-2246-4de0-a14b-67006c72a893
-version: 9
+version: 11
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -49,6 +49,7 @@ tags:
     analytic_story:
         - Windows Post-Exploitation
         - Prestige Ransomware
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1115

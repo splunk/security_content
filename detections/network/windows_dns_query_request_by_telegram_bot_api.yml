@@ -1,6 +1,6 @@
 name: Windows DNS Query Request by Telegram Bot API
 id: 86f66f44-94d9-412d-a71d-5d8ed0fef72e
-version: 7
+version: 8
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
@@ -44,6 +44,7 @@ tags:
     analytic_story:
         - Crypto Stealer
         - 0bj3ctivity Stealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1071.004

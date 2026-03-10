@@ -1,6 +1,6 @@
 name: Windows Screen Capture Via Powershell
 id: 5e0b1936-8f99-4399-8ee2-9edc5b32e170
-version: 12
+version: 13
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
@@ -9,7 +9,7 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of a PowerShell script designed to capture screen images on a host. It leverages PowerShell Script Block Logging to identify specific script block text patterns associated with screen capture activities. This behavior is significant as it may indicate an attempt to exfiltrate sensitive information by capturing desktop screenshots. If confirmed malicious, this activity could allow an attacker to gather visual data from the compromised system, potentially leading to data breaches or further exploitation.
 search: |-
-    `powershell` EventCode=4104 ScriptBlockText = "*[Drawing.Graphics]::FromImage(*" AND ScriptBlockText = "*New-Object Drawing.Bitmap*" AND ScriptBlockText = "*.CopyFromScreen*"
+      `powershell` EventCode=4104 ScriptBlockText IN ("*[Drawing.Graphics]::FromImage*", "*Drawing.Bitmap*, "*Graphics.FromImage*") AND ScriptBlockText = "*.CopyFromScreen*"
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
         BY dest signature signature_id
@@ -46,6 +46,7 @@ tags:
         - APT37 Rustonotto and FadeStealer
         - Winter Vivern
         - Water Gamayun
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1113
