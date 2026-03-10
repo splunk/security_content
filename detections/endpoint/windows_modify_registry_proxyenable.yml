@@ -1,7 +1,7 @@
 name: Windows Modify Registry ProxyEnable
 id: b27f20bd-ef20-41d1-a1e9-25dedd5bf2f5
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

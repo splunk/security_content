@@ -1,7 +1,7 @@
 name: Suspicious Scheduled Task from Public Directory
 id: 7feb7972-7ac3-11eb-bac8-acde48001122
-version: 18
-date: '2026-02-09'
+version: 19
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -29,10 +29,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 35
+          score: 20
         - field: user
           type: user
-          score: 35
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

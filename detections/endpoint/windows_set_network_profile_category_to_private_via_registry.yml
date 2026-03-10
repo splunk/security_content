@@ -1,7 +1,7 @@
 name: Windows Set Network Profile Category to Private via Registry
 id: b11bb510-97e1-4b7a-b673-887ab228c280
-version: 1
-date: '2025-10-07'
+version: 2
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

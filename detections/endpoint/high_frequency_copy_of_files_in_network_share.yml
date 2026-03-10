@@ -1,7 +1,7 @@
 name: High Frequency Copy Of Files In Network Share
 id: 40925f12-4709-11ec-bb43-acde48001122
-version: 7
-date: '2025-10-14'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 9
+          score: 20
     threat_objects:
         - field: src_ip
           type: ip_address

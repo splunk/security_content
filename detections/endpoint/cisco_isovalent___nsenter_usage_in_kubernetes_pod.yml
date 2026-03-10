@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Nsenter Usage in Kubernetes Pod
 id: cd07120d-4265-481a-ba0f-3b91fbc5a02f
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: pod_name
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

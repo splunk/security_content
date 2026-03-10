@@ -1,7 +1,7 @@
 name: Unusually Long Command Line
 id: c77162d3-f93c-45cc-80c8-22f6a4264e7f
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: experimental
 type: Anomaly
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 42
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

@@ -1,7 +1,7 @@
 name: Windows Cisco Secure Endpoint Related Service Stopped
 id: df74f45f-01c8-4fd6-bcb8-f6a9ea58307a
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 20
     threat_objects:
         - field: display_name
           type: service

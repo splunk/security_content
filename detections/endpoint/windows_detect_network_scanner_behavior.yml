@@ -1,7 +1,7 @@
 name: Windows Detect Network Scanner Behavior
 id: 78e678d2-bf64-4fe6-aa52-2f7b11dddee7
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -27,10 +27,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 25
+          score: 20
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

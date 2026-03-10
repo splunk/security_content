@@ -1,7 +1,7 @@
 name: Zscaler Potentially Abused File Download
 id: b0c21379-f4ba-4bac-a958-897e260f964a
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Gowthamaraj Rajendran, Rod Soto, Splunk
 status: production
 type: Anomaly
@@ -34,10 +34,10 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 8
+          score: 20
         - field: user
           type: user
-          score: 8
+          score: 20
     threat_objects:
         - field: url
           type: url

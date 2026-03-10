@@ -1,7 +1,7 @@
 name: Cisco IOS Suspicious Privileged Account Creation
 id: 63e3aff9-45d7-4d41-bcdb-9da561fb4533
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -45,10 +45,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
         - field: user
           type: user
-          score: 50
+          score: 20
     threat_objects:
         - field: command
           type: command

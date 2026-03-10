@@ -1,7 +1,7 @@
 name: Windows Gather Victim Host Information Camera
 id: e4df4676-ea41-4397-b160-3ee0140dc332
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 42
+          score: 20
         - field: user_id
           type: user
-          score: 42
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

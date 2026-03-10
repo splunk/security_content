@@ -1,7 +1,7 @@
 name: Detect Remote Access Software Usage Process
 id: ffd5e001-2e34-48f4-97a2-26dc4bb08178
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-03-10'
 author: Steven Dick, Sebastian Wurl, Splunk Community
 status: production
 type: Anomaly
@@ -51,10 +51,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

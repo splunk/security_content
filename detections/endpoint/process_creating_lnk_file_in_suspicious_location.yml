@@ -1,7 +1,7 @@
 name: Process Creating LNK file in Suspicious Location
 id: 5d814af1-1041-47b5-a9ac-d754e82e9a26
-version: 14
-date: '2026-01-23'
+version: 15
+date: '2026-03-10'
 author: Jose Hernandez, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -76,10 +76,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
         - field: user
           type: user
-          score: 30
+          score: 20
     threat_objects:
         - field: file_name
           type: file_name

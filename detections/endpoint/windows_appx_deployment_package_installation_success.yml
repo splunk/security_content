@@ -1,7 +1,7 @@
 name: Windows AppX Deployment Package Installation Success
 id: 1234abcd-5678-90ef-1234-56789abcdef0
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects:
         - field: PackagePath
           type: file_path

@@ -1,7 +1,7 @@
 name: Windows Unusual FileZilla XML Config Access
 id: 47dc0426-cbe4-4253-8b86-1a983c3f9951
-version: 1
-date: '2025-07-16'
+version: 2
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

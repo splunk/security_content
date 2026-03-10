@@ -1,7 +1,7 @@
 name: Kubernetes Unauthorized Access
 id: 9b5f1832-e8b9-453f-93df-07a3d6a72a45
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects:
         - field: src_ip
           type: ip_address

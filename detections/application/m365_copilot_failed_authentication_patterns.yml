@@ -1,7 +1,7 @@
 name: M365 Copilot Failed Authentication Patterns
 id: 0ae94cdd-021a-4a62-a96d-9cec90b61530
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Rod Soto
 status: production
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

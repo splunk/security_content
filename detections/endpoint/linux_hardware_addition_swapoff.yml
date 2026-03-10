@@ -1,7 +1,7 @@
 name: Linux Hardware Addition SwapOff
 id: c1eea697-99ed-44c2-9b70-d8935464c499
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -39,10 +39,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 20
         - field: user
           type: user
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

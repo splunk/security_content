@@ -1,7 +1,7 @@
 name: Disabling Firewall with Netsh
 id: 6860a62c-9203-11eb-9e05-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
