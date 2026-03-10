@@ -1,7 +1,7 @@
 name: Detect New Login Attempts to Routers
 id: bce3ed7c-9b1f-42a0-abdf-d8b123a34836
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: experimental
 type: TTP
@@ -25,10 +25,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

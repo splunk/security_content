@@ -1,7 +1,7 @@
 name: Windows Compatibility Telemetry Suspicious Child Process
 id: 56fe46ca-ffef-46fe-8f0e-5cd4b7b4cc0c
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -50,7 +50,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: process_name
           type: process

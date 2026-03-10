@@ -1,7 +1,7 @@
 name: Kubernetes AWS detect suspicious kubectl calls
 id: 042a3d32-8318-4763-9679-09db2644a8f2
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Rod Soto, Patrick Bareiss, Splunk
 status: experimental
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

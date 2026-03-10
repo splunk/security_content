@@ -1,7 +1,7 @@
 name: Windows Wmic CPU Discovery
 id: 6fc46cae-a8c0-4296-b07a-8e52d4322587
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 3
+          score: 20
         - field: dest
           type: system
-          score: 3
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

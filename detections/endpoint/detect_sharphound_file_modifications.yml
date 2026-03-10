@@ -1,7 +1,7 @@
 name: Detect SharpHound File Modifications
 id: 42b4b438-beed-11eb-ba1d-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -42,10 +42,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 24
+          score: 50
         - field: user
           type: user
-          score: 24
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

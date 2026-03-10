@@ -1,7 +1,7 @@
 name: Windows LOLBAS Executed As Renamed File
 id: fd496996-7d9e-4894-8d40-bb85b6192dc6
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
         - field: user
           type: user
-          score: 40
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

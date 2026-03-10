@@ -1,7 +1,7 @@
 name: ESXi External Root Login Activity
 id: 218bf991-6c63-4c26-a682-6ac1a53ad8f8
-version: 1
-date: '2025-05-13'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -25,10 +25,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 45
+          score: 20
         - field: SrcIpAddr
           type: system
-          score: 45
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

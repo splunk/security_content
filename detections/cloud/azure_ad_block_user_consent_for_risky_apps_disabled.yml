@@ -1,7 +1,7 @@
 name: Azure AD Block User Consent For Risky Apps Disabled
 id: 875de3d7-09bc-4916-8c0a-0929f4ced3d8
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

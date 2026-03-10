@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Non Allowlisted Image Use
 id: 9f2b7b1d-6c2f-4f2d-9a8b-8a1d7c5f2e11
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -50,7 +50,7 @@ rba:
     risk_objects:
         - field: pod_name
           type: system
-          score: 45
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

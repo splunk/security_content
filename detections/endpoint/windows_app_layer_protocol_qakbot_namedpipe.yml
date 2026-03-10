@@ -1,7 +1,7 @@
 name: Windows App Layer Protocol Qakbot NamedPipe
 id: 63a2c15e-9448-43c5-a4a8-9852266aaada
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

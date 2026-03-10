@@ -1,7 +1,7 @@
 name: Creation of lsass Dump with Taskmgr
 id: b2fbe95a-9c62-4c12-8a29-24b97e84c0cd
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: CrushFTP Server Side Template Injection
 id: ccf6b7a3-bd39-4bc9-a949-143a8d640dbc
-version: 5
-date: '2025-10-14'
+version: 6
+date: '2026-03-10'
 author: Michael Haag, Splunk
 data_source:
     - CrushFTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

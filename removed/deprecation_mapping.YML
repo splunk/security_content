@@ -1,4 +1,10 @@
 detections:
+  - content: Linux Docker Privilege Escalation
+    removed_in_version: 5.26.0
+    reason: Detection has been deprecated in favor of two scoped detections that aims to reduce overhead and ease management
+    replacement_content:
+      - Linux Docker Root Directory Mount
+      - Linux Docker Shell Execution
   - content: Linux apt-get Privilege Escalation
     removed_in_version: 5.24.0
     reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.

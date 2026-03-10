@@ -1,7 +1,7 @@
 name: Azure AD Service Principal Privilege Escalation
 id: 29eb39d3-2bc8-49cc-99b3-35593191a588
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-03-10'
 author: Dean Luxton
 data_source:
     - Azure Active Directory Add app role assignment to service principal
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: servicePrincipal
           type: user
-          score: 100
+          score: 50
     threat_objects:
         - field: user_agent
           type: http_user_agent

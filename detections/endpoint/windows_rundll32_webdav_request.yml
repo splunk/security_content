@@ -1,7 +1,7 @@
 name: Windows Rundll32 WebDAV Request
 id: 320099b7-7eb1-4153-a2b4-decb53267de2
-version: 8
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -33,10 +33,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
         - field: dest
           type: system
-          score: 48
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

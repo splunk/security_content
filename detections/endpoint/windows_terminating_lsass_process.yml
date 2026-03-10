@@ -1,7 +1,7 @@
 name: Windows Terminating Lsass Process
 id: 7ab3c319-a4e7-4211-9e8c-40a049d0dba6
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 20
     threat_objects:
         - field: TargetImage
           type: process

@@ -1,7 +1,7 @@
 name: Windows Network Share Interaction Via Net
 id: e51fbdb0-0be0-474f-92ea-d289f71a695e
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-03-10'
 author: Dean Luxton
 status: production
 type: Anomaly

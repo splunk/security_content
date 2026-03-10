@@ -1,7 +1,7 @@
 name: O365 FullAccessAsApp Permission Assigned
 id: 01a510b3-a6ac-4d50-8812-7e8a3cde3d79
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 48
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

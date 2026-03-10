@@ -1,7 +1,7 @@
 name: Linux Auditd Unload Module Via Modprobe
 id: 90964d6a-4b5f-409a-85bd-95e261e03fe9
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

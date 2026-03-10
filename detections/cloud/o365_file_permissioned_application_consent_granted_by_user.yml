@@ -1,7 +1,7 @@
 name: O365 File Permissioned Application Consent Granted by User
 id: 6c382336-22b8-4023-9b80-1689e799f21f
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

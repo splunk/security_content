@@ -1,7 +1,7 @@
 name: Windows Impair Defense Define Win Defender Threat Action
 id: 7215831c-8252-4ae3-8d43-db588e82f952
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

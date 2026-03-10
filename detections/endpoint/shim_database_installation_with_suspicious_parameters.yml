@@ -1,7 +1,7 @@
 name: Shim Database Installation With Suspicious Parameters
 id: 404620de-46d8-48b6-90cc-8a8d7b0876a3
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
         - field: user
           type: user
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

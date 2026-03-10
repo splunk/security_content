@@ -1,7 +1,7 @@
 name: Remcos client registry install entry
 id: f2a1615a-1d63-11ec-97d2-acde48001122
-version: 11
-date: '2026-01-14'
+version: 12
+date: '2026-03-10'
 author: Steven Dick, Bhavin Patel, Rod Soto, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

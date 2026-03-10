@@ -1,7 +1,7 @@
 name: PetitPotam Suspicious Kerberos TGT Request
 id: e3ef244e-0a67-11ec-abf2-acde48001122
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -35,7 +35,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

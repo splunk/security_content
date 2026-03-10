@@ -1,7 +1,7 @@
 name: Azure AD Multiple Service Principals Created by SP
 id: 66cb378f-234d-4fe1-bb4c-e7878ff6b017
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 data_source:
     - Azure Active Directory Add service principal
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 42
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

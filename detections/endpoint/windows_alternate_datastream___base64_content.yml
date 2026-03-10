@@ -1,7 +1,7 @@
 name: Windows Alternate DataStream - Base64 Content
 id: 683f48de-982f-4a7e-9aac-9cec550da498
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name
