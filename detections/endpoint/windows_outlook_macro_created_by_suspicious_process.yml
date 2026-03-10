@@ -1,7 +1,7 @@
 name: Windows Outlook Macro Created by Suspicious Process
 id: 3ec347e3-a94a-4a8b-a918-8306ea403182
-version: 1
-date: '2025-09-09'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 70
+          score: 50
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

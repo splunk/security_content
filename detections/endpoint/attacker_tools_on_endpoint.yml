@@ -1,7 +1,7 @@
 name: Attacker Tools On Endpoint
 id: a51bfe1a-94f0-48cc-b4e4-16a110145893
-version: 14
-date: '2026-02-25'
+version: 15
+date: '2026-03-10'
 author: Bhavin Patel, Splunk, sventec, Github Community
 status: production
 type: TTP
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

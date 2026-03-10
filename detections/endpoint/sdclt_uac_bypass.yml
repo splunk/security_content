@@ -1,7 +1,7 @@
 name: Sdclt UAC Bypass
 id: d71efbf6-da63-11eb-8c6e-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

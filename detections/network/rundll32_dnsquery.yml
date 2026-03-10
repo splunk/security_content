@@ -1,7 +1,7 @@
 name: Rundll32 DNSQuery
 id: f1483f5e-ee29-11eb-9d23-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dvc
           type: system
-          score: 56
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

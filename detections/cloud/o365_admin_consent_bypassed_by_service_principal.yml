@@ -1,7 +1,7 @@
 name: O365 Admin Consent Bypassed by Service Principal
 id: 8a1b22eb-50ce-4e26-a691-97ff52349569
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 data_source:
     - O365 Add app role assignment to service principal.
@@ -32,7 +32,7 @@ rba:
     risk_objects:
         - field: dest_user
           type: user
-          score: 54
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

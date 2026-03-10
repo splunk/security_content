@@ -1,7 +1,7 @@
 name: Kubernetes Scanner Image Pulling
 id: 4890cd6b-0112-4974-a272-c5c153aee551
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 81
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Screensaver Event Trigger Execution
 id: 58cea3ec-1f6d-11ec-8560-acde48001122
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
         - field: user
           type: user
-          score: 72
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: O365 Cross-Tenant Access Change
 id: 7c0fa490-12b0-4d0b-b9f5-e101d1e0e06f
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

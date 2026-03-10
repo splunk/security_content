@@ -1,7 +1,7 @@
 name: Windows Autostart Execution LSASS Driver Registry Modification
 id: 57fb8656-141e-4d8a-9f51-62cff4ecb82a
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Linux Magic SysRq Key Abuse
 id: 22c03600-f84a-47fa-abaa-ffbe3e72c782
-version: 2
-date: '2025-11-27'
+version: 3
+date: '2026-03-10'
 author: Milad Cheraghi
 status: production
 type: TTP
@@ -75,7 +75,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

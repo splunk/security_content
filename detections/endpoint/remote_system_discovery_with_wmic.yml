@@ -1,7 +1,7 @@
 name: Remote System Discovery with Wmic
 id: d82eced3-b1dc-42ab-859e-a2fc98827359
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 15
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

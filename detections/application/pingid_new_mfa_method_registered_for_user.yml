@@ -1,7 +1,7 @@
 name: PingID New MFA Method Registered For User
 id: 892dfeaf-461d-4a78-aac8-b07e185c9bce
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 10
+          score: 50
         - field: src
           type: system
-          score: 10
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
