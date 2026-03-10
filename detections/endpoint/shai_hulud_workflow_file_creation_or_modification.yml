@@ -81,7 +81,6 @@ rba:
     threat_objects:
         - field: file_path
           type: file_path
-          score: 50
 tags:
     analytic_story:
         - NPM Supply Chain Compromise

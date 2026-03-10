@@ -31,7 +31,7 @@ jobs:
           cp response_templates/merged_response_templates/* dist/api/response_templates/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: response-templates
           path: |

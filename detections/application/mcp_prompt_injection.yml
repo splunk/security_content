@@ -36,7 +36,6 @@ drilldown_searches:
       latest_offset: $info_max_time$
 rba:
     message: 'A prompt injection attempt was detected on $dest$ via MCP server. An attacker attempted to override AI instructions using phrases like IGNORE PREVIOUS INSTRUCTIONS or SYSTEM PROMPT OVERRIDE. This technique (AML.T0051) attempts to manipulate the LLM into bypassing security controls or executing unauthorized actions. Payload detected: $injection_payload$'
-    risk_score: 50
     risk_objects:
         - field: dest
           type: system
