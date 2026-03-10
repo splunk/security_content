@@ -9,17 +9,17 @@ data_source:
     - Powershell Script Block Logging 4104
 description: The following analytic detects the execution of a PowerShell script designed to capture screen images on a host. It leverages PowerShell Script Block Logging to identify specific script block text patterns associated with screen capture activities. This behavior is significant as it may indicate an attempt to exfiltrate sensitive information by capturing desktop screenshots. If confirmed malicious, this activity could allow an attacker to gather visual data from the compromised system, potentially leading to data breaches or further exploitation.
 search: |-
-      `powershell` EventCode=4104 ScriptBlockText IN ("*[Drawing.Graphics]::FromImage*", "*Drawing.Bitmap*, "*Graphics.FromImage*") AND ScriptBlockText = "*.CopyFromScreen*"
-      | fillnull
-      | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest signature signature_id
-           user_id vendor_product EventID
-           Guid Opcode Name
-           Path ProcessID ScriptBlockId
-           ScriptBlockText
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
-      | `windows_screen_capture_via_powershell_filter`
+    `powershell` EventCode=4104 ScriptBlockText IN ("*[Drawing.Graphics]::FromImage*", "*Drawing.Bitmap*, "*Graphics.FromImage*") AND ScriptBlockText = "*.CopyFromScreen*"
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      BY dest signature signature_id
+         user_id vendor_product EventID
+         Guid Opcode Name
+         Path ProcessID ScriptBlockId
+         ScriptBlockText
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_screen_capture_via_powershell_filter`
 how_to_implement: To successfully implement this analytic, you will need to enable PowerShell Script Block Logging on some or all endpoints. Additional setup here https://help.splunk.com/en/security-offerings/splunk-user-behavior-analytics/get-data-in/5.4.1/add-other-data-to-splunk-uba/configure-powershell-logging-to-see-powershell-anomalies-in-splunk-uba.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -46,7 +46,7 @@ tags:
         - APT37 Rustonotto and FadeStealer
         - Winter Vivern
         - Water Gamayun
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1113

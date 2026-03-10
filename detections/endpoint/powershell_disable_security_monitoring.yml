@@ -112,7 +112,7 @@ tags:
         - Ransomware
         - Revil Ransomware
         - CISA AA24-241A
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

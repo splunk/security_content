@@ -34,7 +34,7 @@ tags:
     analytic_story:
         - Windows Defense Evasion Tactics
         - Windows Registry Abuse
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

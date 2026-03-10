@@ -45,7 +45,7 @@ tags:
         - Cactus Ransomware
         - Braodo Stealer
         - RedLine Stealer
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.005

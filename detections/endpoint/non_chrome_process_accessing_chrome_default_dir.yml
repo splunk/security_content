@@ -48,7 +48,7 @@ tags:
         - Snake Keylogger
         - China-Nexus Threat Activity
         - Lokibot
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1555.003

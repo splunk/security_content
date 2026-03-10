@@ -55,7 +55,7 @@ tags:
         - Quasar RAT
         - 0bj3ctivity Stealer
         - Castle RAT
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1590.005

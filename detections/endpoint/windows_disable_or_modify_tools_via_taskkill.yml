@@ -51,7 +51,7 @@ tags:
         - PXA Stealer
         - NjRAT
         - Crypto Stealer
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

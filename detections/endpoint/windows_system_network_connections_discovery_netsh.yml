@@ -51,7 +51,7 @@ tags:
         - Windows Post-Exploitation
         - Prestige Ransomware
         - Snake Keylogger
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1049

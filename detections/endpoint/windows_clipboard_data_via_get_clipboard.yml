@@ -49,7 +49,7 @@ tags:
     analytic_story:
         - Windows Post-Exploitation
         - Prestige Ransomware
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1115

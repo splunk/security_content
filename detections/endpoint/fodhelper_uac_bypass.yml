@@ -58,7 +58,7 @@ tags:
         - ValleyRAT
         - Compromised Windows Host
         - Windows Defense Evasion Tactics
-        - BlankGrabber Stealer
+        - BlankGrabberStealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1112
