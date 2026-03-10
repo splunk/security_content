@@ -94,7 +94,7 @@ tags:
     analytic_story:
         - APT37 Rustonotto and FadeStealer
         - Cisco Network Visibility Module Analytics
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1197

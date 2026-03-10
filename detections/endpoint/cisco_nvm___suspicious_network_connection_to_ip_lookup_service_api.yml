@@ -88,7 +88,7 @@ tags:
     analytic_story:
         - Cisco Network Visibility Module Analytics
         - Castle RAT
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1590.005

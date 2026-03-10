@@ -38,7 +38,7 @@ tags:
         - CISA AA23-347A
         - IcedID
         - Windows Registry Abuse
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001

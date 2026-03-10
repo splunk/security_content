@@ -34,7 +34,7 @@ tags:
         - StealC Stealer
         - Snake Keylogger
         - PXA Stealer
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1012

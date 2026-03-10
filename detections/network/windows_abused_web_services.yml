@@ -47,7 +47,7 @@ tags:
         - NjRAT
         - CISA AA24-241A
         - Malicious Inno Setup Loader
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1102

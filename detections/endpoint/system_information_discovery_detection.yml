@@ -45,7 +45,7 @@ tags:
         - Interlock Ransomware
         - LAMEHUG
         - NetSupport RMM Tool Abuse
-        - BlankGrabberStealer
+        - BlankGrabber Stealer
     asset_type: Windows
     mitre_attack_id:
         - T1082
