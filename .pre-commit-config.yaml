@@ -16,7 +16,7 @@ repos:
       - id: yamlfmt
         name: yamlfmt (detections only)
         description: Format YAML files in detections/ with yamlfmt
-        entry: python .pre-commit-hooks/yamlfmt-hook.py
+        entry: python3 .pre-commit-hooks/yamlfmt-hook.py
         language: system
         files: ^detections/.*\.(yml|yaml)$
         pass_filenames: true
