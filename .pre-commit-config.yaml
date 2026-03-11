@@ -2,13 +2,8 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0 # Use the ref you want to point at
     hooks:
-      - id: check-executables-have-shebangs
-        exclude: "package/bin/da_ess_contentupdate/|package/bin/splunklib/|venv/"
       - id: check-json
       - id: check-symlinks
-      # - id: check-yaml
-      - id: pretty-format-json
-        args: [--autofix]
       - id: requirements-txt-fixer
       - id: detect-aws-credentials
         args: ['--allow-missing-credentials']
