@@ -1,0 +1,13 @@
+name: Cisco SD-WAN Service Proxy Access Logs
+id: 350c5a45-24df-4339-ba57-8b8c09f2865f
+version: 1
+date: '2026-03-09'
+author: Nasreddine Bencherchali, Splunk
+description: Data source object for Cisco SD-WAN Service Proxy Access Logs
+source: /var/log/nms/containers/service-proxy/serviceproxy-access.log
+sourcetype: cisco:sdwan:access
+supported_TA: []
+fields:
+    - _time
+    - _raw
+example_log: '[2026-03-04T18:28:05.057Z] "GET /reports/data/opt/data/containers/config/data-collection-agent/.dca HTTP/1.1" 200 - 0 32 4 - "172.16.1.1" "python-requests/2.31.0" "feffbfff-7224-43e0-9115-cadf13d2fefa" "172.16.0.1:8443" "127.0.0.1:8080"'
