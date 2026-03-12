@@ -76,6 +76,7 @@ tags:
         - Lokibot
         - ValleyRAT
         - Castle RAT
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1547.001

@@ -39,6 +39,7 @@ tags:
         - Spearphishing Attachments
         - Microsoft MSHTML Remote Code Execution CVE-2021-40444
         - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
+        - MuddyWater
     asset_type: Endpoint
     cve:
         - CVE-2021-40444
