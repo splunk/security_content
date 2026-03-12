@@ -6,72 +6,72 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: |
-  Identifies the creation of a Windows service named "BluetoothService" with a binary path in user-writable directories, particularly %AppData%\Bluetooth. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers created a service named "BluetoothService" pointing to a malicious binary (renamed Bitdefender Submission Wizard) in a hidden AppData directory.
-  While legitimate Bluetooth services exist in Windows, they are system services with binaries in System32. Any BluetoothService created with a binary path in user directories (AppData, Temp, Downloads) is highly suspicious and indicates potential malware persistence.
+    Identifies the creation of a Windows service named "BluetoothService" with a binary path in user-writable directories, particularly %AppData%\Bluetooth. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers created a service named "BluetoothService" pointing to a malicious binary (renamed Bitdefender Submission Wizard) in a hidden AppData directory.
+    While legitimate Bluetooth services exist in Windows, they are system services with binaries in System32. Any BluetoothService created with a binary path in user directories (AppData, Temp, Downloads) is highly suspicious and indicates potential malware persistence.
 data_source:
-  - Windows Event Log System 7045
+    - Windows Event Log System 7045
 search: |
-  `wineventlog_system` EventCode=7045
-  ServiceName IN ("BluetoothService", "Bluetooth Service")
-  ImagePath IN ("*\\AppData\\*", "*\\Users\\*\\Bluetooth\\*", "*\\Temp\\*", "*\\ProgramData\\*")
-  NOT ImagePath IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*\\Program Files*")
-  | stats count min(_time) as firstTime max(_time) as lastTime
-    by Computer, ServiceName, ImagePath, ServiceType, StartType, UserID
-  | rename Computer as dest, UserID as user_id
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_bluetoothservice_persistence_filter`
+    `wineventlog_system` EventCode=7045
+    ServiceName IN ("BluetoothService", "Bluetooth Service")
+    ImagePath IN ("*\\AppData\\*", "*\\Users\\*\\Bluetooth\\*", "*\\Temp\\*", "*\\ProgramData\\*")
+    NOT ImagePath IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*\\Program Files*")
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by Computer, ServiceName, ImagePath, ServiceType, StartType, UserID
+    | rename Computer as dest, UserID as user_id
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_bluetoothservice_persistence_filter`
 how_to_implement: |
-  To successfully implement this search, you need to be ingesting Windows System Event Logs (Event ID 7045) from your Windows endpoints. Event ID 7045 logs service installation events and includes the service name, binary path, service type, and start type.
+    To successfully implement this search, you need to be ingesting Windows System Event Logs (Event ID 7045) from your Windows endpoints. Event ID 7045 logs service installation events and includes the service name, binary path, service type, and start type.
 
-  Ensure Windows Event Log forwarding is configured to send System logs to Splunk, or use a Windows Event Log collection agent. The Splunk Add-on for Microsoft Windows is required to properly parse these events.
+    Ensure Windows Event Log forwarding is configured to send System logs to Splunk, or use a Windows Event Log collection agent. The Splunk Add-on for Microsoft Windows is required to properly parse these events.
 known_false_positives: |
-  Legitimate Bluetooth services in Windows are system services located in System32. Any BluetoothService created outside of system directories is highly suspicious. However, false positives may occur if:
+    Legitimate Bluetooth services in Windows are system services located in System32. Any BluetoothService created outside of system directories is highly suspicious. However, false positives may occur if:
 
-  1. Third-party Bluetooth software installs services in Program Files (excluded by this detection)
-  2. Development or testing environments create test services
-  
-  The detection specifically targets user-writable directories (AppData, Temp) which are strong indicators of malicious activity. Allowlist known-good third-party Bluetooth software installation paths if needed.
+    1. Third-party Bluetooth software installs services in Program Files (excluded by this detection)
+    2. Development or testing environments create test services
+
+    The detection specifically targets user-writable directories (AppData, Temp) which are strong indicators of malicious activity. Allowlist known-good third-party Bluetooth software installation paths if needed.
 references:
-  - https://attack.mitre.org/techniques/T1543/003/
-  - https://attack.mitre.org/techniques/T1036/
-  - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
+    - https://attack.mitre.org/techniques/T1543/003/
+    - https://attack.mitre.org/techniques/T1036/
+    - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious BluetoothService created on $dest$ with binary path $ImagePath$ in user-writable directory, indicating potential malware persistence
-  risk_objects:
-    - field: dest
-      type: system
-      score: 75
-  threat_objects:
-    - field: ServiceName
-      type: service
-    - field: ImagePath
-      type: file_path
+    message: Suspicious BluetoothService created on $dest$ with binary path $ImagePath$ in user-writable directory, indicating potential malware persistence
+    risk_objects:
+        - field: dest
+          type: system
+          score: 75
+    threat_objects:
+        - field: ServiceName
+          type: service
+        - field: ImagePath
+          type: file_path
 tags:
-  analytic_story:
-    - Lotus Blossom Chrysalis Backdoor
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1543.003
-    - T1036
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - Lotus Blossom Chrysalis Backdoor
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543.003
+        - T1036
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lotus_blossom_chrysalis/windows-system.log
-        sourcetype: XmlWinEventLog:System
-        source: XmlWinEventLog:System
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/lotus_blossom_chrysalis/windows-system.log
+          sourcetype: XmlWinEventLog:System
+          source: XmlWinEventLog:System

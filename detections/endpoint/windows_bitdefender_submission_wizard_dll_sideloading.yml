@@ -6,64 +6,64 @@ author: Michael Haag, Splunk
 status: production
 type: TTP
 description: |
-  Detects execution of rundll32 loading log.dll, as used in the Lotus Blossom Chrysalis backdoor campaign. Attackers placed a malicious log.dll in %AppData%\Bluetooth and invoked it via rundll32.exe log.dll,LogInit to decrypt and execute shellcode. The legitimate Bitdefender Submission Wizard (BDSubmit.exe, bdsw.exe) also uses log.dll; this detection focuses on the process-creation pattern (rundll32 with log.dll in command line) which is easier to deploy and test with EventID 1 and the Endpoint data model.
+    Detects execution of rundll32 loading log.dll, as used in the Lotus Blossom Chrysalis backdoor campaign. Attackers placed a malicious log.dll in %AppData%\Bluetooth and invoked it via rundll32.exe log.dll,LogInit to decrypt and execute shellcode. The legitimate Bitdefender Submission Wizard (BDSubmit.exe, bdsw.exe) also uses log.dll; this detection focuses on the process-creation pattern (rundll32 with log.dll in command line) which is easier to deploy and test with EventID 1 and the Endpoint data model.
 data_source:
-  - Sysmon EventID 1
+    - Sysmon EventID 1
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    from datamodel=Endpoint.Processes
-    where `process_rundll32` AND Processes.process=*log.dll*
-    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_bitdefender_submission_wizard_dll_sideloading_filter`
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+      from datamodel=Endpoint.Processes
+      where `process_rundll32` AND Processes.process=*log.dll*
+      by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_bitdefender_submission_wizard_dll_sideloading_filter`
 how_to_implement: |
-  Ingest process creation logs (Sysmon EventID 1 or equivalent) and map them to the Endpoint.Processes data model. Ensure command-line arguments are captured so that "log.dll" appears in the process field. The Splunk Add-on for Microsoft Sysmon and CIM are required.
+    Ingest process creation logs (Sysmon EventID 1 or equivalent) and map them to the Endpoint.Processes data model. Ensure command-line arguments are captured so that "log.dll" appears in the process field. The Splunk Add-on for Microsoft Sysmon and CIM are required.
 known_false_positives: |
-  Legitimate use of rundll32 to load log.dll from trusted locations may trigger this. Allowlist known paths or parent processes as needed.
+    Legitimate use of rundll32 to load log.dll from trusted locations may trigger this. Allowlist known paths or parent processes as needed.
 references:
-  - https://attack.mitre.org/techniques/T1574/002/
-  - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
-  - https://attack.mitre.org/groups/G0065/
+    - https://attack.mitre.org/techniques/T1574/002/
+    - https://www.rapid7.com/blog/post/tr-chrysalis-backdoor-dive-into-lotus-blossoms-toolkit/
+    - https://attack.mitre.org/groups/G0065/
 drilldown_searches:
-  - name: View the detection results for - "$dest$" and "$user$"
-    search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$" and "$user$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Rundll32 loaded log.dll on $dest$ by user $user$, indicating potential Lotus Blossom-style DLL abuse
-  risk_objects:
-    - field: dest
-      type: system
-      score: 85
-    - field: user
-      type: user
-      score: 85
-  threat_objects:
-    - field: process_name
-      type: process_name
-    - field: process
-      type: command
+    message: Rundll32 loaded log.dll on $dest$ by user $user$, indicating potential Lotus Blossom-style DLL abuse
+    risk_objects:
+        - field: dest
+          type: system
+          score: 85
+        - field: user
+          type: user
+          score: 85
+    threat_objects:
+        - field: process_name
+          type: process_name
+        - field: process
+          type: command
 tags:
-  analytic_story:
-    - Lotus Blossom Chrysalis Backdoor
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1574
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - Lotus Blossom Chrysalis Backdoor
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1574
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/lotus_blossom_chrysalis/windows-sysmon.log
-        sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-        source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/lotus_blossom_chrysalis/windows-sysmon.log
+          sourcetype: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
