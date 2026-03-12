@@ -1,9 +1,9 @@
 name: Linux apt-get Privilege Escalation
 id: d870ce3b-e796-402f-b2af-cab4da1223f2
-version: 10
-date: '2025-11-18'
+version: 11
+date: '2026-02-10'
 author: Gowthamaraj Rajendran, Bhavin Patel, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: The following analytic detects the execution of the 'apt-get' command
   with elevated privileges using 'sudo' on a Linux system. It leverages data from
