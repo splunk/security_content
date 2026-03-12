@@ -17,6 +17,7 @@ search: |
   | `drop_dm_object_name(Processes)`
   | `security_content_ctime(firstTime)`
   | `security_content_ctime(lastTime)`
+  | `windows_bitdefender_submission_wizard_dll_sideloading_filter`
 how_to_implement: |
   Ingest process creation logs (Sysmon EventID 1 or equivalent) and map them to the Endpoint.Processes data model. Ensure command-line arguments are captured so that "log.dll" appears in the process field. The Splunk Add-on for Microsoft Sysmon and CIM are required.
 known_false_positives: |

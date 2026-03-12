@@ -20,6 +20,7 @@ search: |
   | rename Computer as dest, UserID as user_id
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
+  | `windows_bluetoothservice_persistence_filter`
 how_to_implement: |
   To successfully implement this search, you need to be ingesting Windows System Event Logs (Event ID 7045) from your Windows endpoints. Event ID 7045 logs service installation events and includes the service name, binary path, service type, and start type.
   
