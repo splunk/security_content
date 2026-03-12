@@ -1,7 +1,7 @@
 name: System Information Discovery Detection
 id: 8e99f89e-ae58-4ebc-bf52-ae0b1a277e72
-version: 14
-date: '2026-03-10'
+version: 15
+date: '2026-03-12'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -45,6 +45,7 @@ tags:
         - Interlock Ransomware
         - LAMEHUG
         - NetSupport RMM Tool Abuse
+        - Lotus Blossom Chrysalis Backdoor
     asset_type: Windows
     mitre_attack_id:
         - T1082
