@@ -1,77 +1,63 @@
 name: Cloud API Calls From Previously Unseen User Roles
 id: 2181ad1f-1e73-4d0c-9780-e8880482a08f
-version: 7
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects cloud API calls executed by user roles
-  that have not previously run these commands. It leverages the Change data model
-  in Splunk to identify commands executed by users with the user_type of AssumedRole
-  and a status of success. This activity is significant because new commands from
-  different user roles can indicate potential malicious activity or unauthorized actions.
-  If confirmed malicious, this behavior could lead to unauthorized access, data breaches,
-  or other damaging outcomes by exploiting new or unmonitored commands within the
-  cloud environment.
+description: The following analytic detects cloud API calls executed by user roles that have not previously run these commands. It leverages the Change data model in Splunk to identify commands executed by users with the user_type of AssumedRole and a status of success. This activity is significant because new commands from different user roles can indicate potential malicious activity or unauthorized actions. If confirmed malicious, this behavior could lead to unauthorized access, data breaches, or other damaging outcomes by exploiting new or unmonitored commands within the cloud environment.
 data_source:
-- AWS CloudTrail
-search: '| tstats earliest(_time) as firstTime, latest(_time) as lastTime from datamodel=Change
-  where All_Changes.user_type=AssumedRole AND All_Changes.status=success by All_Changes.user,
-  All_Changes.command All_Changes.object | `drop_dm_object_name("All_Changes")` |
-  lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command
-  OUTPUT firstTimeSeen, enough_data | eventstats max(enough_data) as enough_data |
-  where enough_data=1 | eval firstTimeSeenUserApiCall=min(firstTimeSeen) | where isnull(firstTimeSeenUserApiCall)
-  OR firstTimeSeenUserApiCall > relative_time(now(),"-24h@h") | table firstTime, user,
-  object, command |`security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`|
-  `cloud_api_calls_from_previously_unseen_user_roles_filter`'
-how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud
-  provider.  You should run the baseline search `Previously Seen Cloud API Calls Per
-  User Role - Initial` to build the initial table of user roles, commands, and times.
-  You must also enable the second baseline search `Previously Seen Cloud API Calls
-  Per User Role - Update` to keep this table up to date and to age out old data. You
-  can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window`
-  macro. You can also provide additional filtering for this search by customizing
-  the `cloud_api_calls_from_previously_unseen_user_roles_filter`
+    - AWS CloudTrail
+search: |-
+    | tstats earliest(_time) as firstTime, latest(_time) as lastTime FROM datamodel=Change
+      WHERE All_Changes.user_type=AssumedRole
+        AND
+        All_Changes.status=success
+      BY All_Changes.user, All_Changes.command All_Changes.object
+    | `drop_dm_object_name("All_Changes")`
+    | lookup previously_seen_cloud_api_calls_per_user_role user as user, command as command OUTPUT firstTimeSeen, enough_data
+    | eventstats max(enough_data) as enough_data
+    | where enough_data=1
+    | eval firstTimeSeenUserApiCall=min(firstTimeSeen)
+    | where isnull(firstTimeSeenUserApiCall) OR firstTimeSeenUserApiCall > relative_time(now(),"-24h@h")
+    | table firstTime, user, object, command
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cloud_api_calls_from_previously_unseen_user_roles_filter`
+how_to_implement: You must be ingesting your cloud infrastructure logs from your cloud provider.  You should run the baseline search `Previously Seen Cloud API Calls Per User Role - Initial` to build the initial table of user roles, commands, and times. You must also enable the second baseline search `Previously Seen Cloud API Calls Per User Role - Update` to keep this table up to date and to age out old data. You can adjust the time window for this search by updating the `cloud_api_calls_from_previously_unseen_user_roles_activity_window` macro. You can also provide additional filtering for this search by customizing the `cloud_api_calls_from_previously_unseen_user_roles_filter`
 known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ of type AssumedRole attempting to execute new API calls $command$
-    that have not been seen before
-  risk_objects:
-  - field: user
-    type: user
-    score: 36
-  threat_objects: []
+    message: User $user$ of type AssumedRole attempting to execute new API calls $command$ that have not been seen before
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Suspicious Cloud User Activities
-  asset_type: AWS Instance
-  mitre_attack_id:
-  - T1078
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
-  manual_test: This search needs the baseline `Previously Seen Cloud API Calls Per User Role - Initial` to be run first.
+    analytic_story:
+        - Suspicious Cloud User Activities
+    asset_type: AWS Instance
+    mitre_attack_id:
+        - T1078
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
+    manual_test: This search needs the baseline `Previously Seen Cloud API Calls Per User Role - Initial` to be run first.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

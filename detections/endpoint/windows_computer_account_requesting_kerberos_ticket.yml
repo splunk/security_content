@@ -1,69 +1,56 @@
 name: Windows Computer Account Requesting Kerberos Ticket
 id: fb3b2bb3-75a4-4279-848a-165b42624770
-version: 6
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects a computer account requesting a Kerberos
-  ticket, which is unusual as typically user accounts request these tickets. This
-  detection leverages Windows Security Event Logs, specifically EventCode 4768, to
-  identify instances where the TargetUserName ends with a dollar sign ($), indicating
-  a computer account. This activity is significant because it may indicate the use
-  of tools like KrbUpRelay or other Kerberos-based attacks. If confirmed malicious,
-  this could allow attackers to impersonate computer accounts, potentially leading
-  to unauthorized access and lateral movement within the network.
+description: The following analytic detects a computer account requesting a Kerberos ticket, which is unusual as typically user accounts request these tickets. This detection leverages Windows Security Event Logs, specifically EventCode 4768, to identify instances where the TargetUserName ends with a dollar sign ($), indicating a computer account. This activity is significant because it may indicate the use of tools like KrbUpRelay or other Kerberos-based attacks. If confirmed malicious, this could allow attackers to impersonate computer accounts, potentially leading to unauthorized access and lateral movement within the network.
 data_source:
-- Windows Event Log Security 4768
-search: '`wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1"
-  | stats  count min(_time) as firstTime max(_time) as lastTime by dest, subject,
-  action, user, TargetUserName, src_ip | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_computer_account_requesting_kerberos_ticket_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also
-  required.
-known_false_positives: It is possible false positives will be present based on third
-  party applications. Filtering may be needed.
+    - Windows Event Log Security 4768
+search: |-
+    `wineventlog_security`  EventCode=4768 TargetUserName="*$"  src_ip!="::1"
+      | stats  count min(_time) as firstTime max(_time) as lastTime
+        BY dest, subject, action,
+           user, TargetUserName, src_ip
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_computer_account_requesting_kerberos_ticket_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4768 EventCode enabled. The Windows TA is also required.
+known_false_positives: It is possible false positives will be present based on third party applications. Filtering may be needed.
 references:
-- https://github.com/Dec0ne/KrbRelayUp
+    - https://github.com/Dec0ne/KrbRelayUp
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative
-    of Kerberos relay attack.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 35
-  threat_objects: []
+    message: A Computer Account requested a Kerberos ticket on $dest$, possibly indicative of Kerberos relay attack.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Active Directory Kerberos Attacks
-  - Local Privilege Escalation With KrbRelayUp
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1558
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Active Directory Kerberos Attacks
+        - Local Privilege Escalation With KrbRelayUp
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1558
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_requesting_kerberos_ticket/windows-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_requesting_kerberos_ticket/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -1,73 +1,57 @@
 name: Windows Computer Account With SPN
 id: 9a3e57e7-33f4-470e-b25d-165baa6e8357
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of Service Principal Names
-  (SPNs) HOST and RestrictedKrbHost to a computer account, indicative of KrbRelayUp
-  behavior. This detection leverages Windows Security Event Logs, specifically EventCode
-  4741, to identify changes in SPNs. This activity is significant as it is commonly
-  associated with Kerberos-based attacks, which can be used to escalate privileges
-  or perform lateral movement within a network. If confirmed malicious, this behavior
-  could allow an attacker to impersonate services, potentially leading to unauthorized
-  access to sensitive resources.
+description: The following analytic detects the addition of Service Principal Names (SPNs) HOST and RestrictedKrbHost to a computer account, indicative of KrbRelayUp behavior. This detection leverages Windows Security Event Logs, specifically EventCode 4741, to identify changes in SPNs. This activity is significant as it is commonly associated with Kerberos-based attacks, which can be used to escalate privileges or perform lateral movement within a network. If confirmed malicious, this behavior could allow an attacker to impersonate services, potentially leading to unauthorized access to sensitive resources.
 data_source:
-- Windows Event Log Security 4741
-search: '`wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames
-  IN ("*HOST/*","*RestrictedKrbHost/*") | stats count min(_time) as firstTime max(_time)
-  as lastTime values(EventCode),values(TargetDomainName),values(PrimaryGroupId), values(OldUacValue),
-  values(NewUacValue),values(SamAccountName),values(DnsHostName),values(ServicePrincipalNames)
-  by dest Logon_ID subject | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_computer_account_with_spn_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4741 EventCode enabled. The Windows TA is also
-  required.
-known_false_positives: It is possible third party applications may add these SPNs
-  to Computer Accounts, filtering may be needed.
+    - Windows Event Log Security 4741
+search: |-
+    `wineventlog_security` EventCode=4741 NewUacValue="0x80" ServicePrincipalNames IN ("*HOST/*","*RestrictedKrbHost/*")
+      | stats count min(_time) as firstTime max(_time) as lastTime values(EventCode),values(TargetDomainName),values(PrimaryGroupId), values(OldUacValue), values(NewUacValue),values(SamAccountName),values(DnsHostName),values(ServicePrincipalNames)
+        BY dest Logon_ID subject
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_computer_account_with_spn_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4741 EventCode enabled. The Windows TA is also required.
+known_false_positives: It is possible third party applications may add these SPNs to Computer Accounts, filtering may be needed.
 references:
-- https://www.trustedsec.com/blog/an-attack-path-mapping-approach-to-cves-2021-42287-and-2021-42278
-- https://github.com/Dec0ne/KrbRelayUp
+    - https://www.trustedsec.com/blog/an-attack-path-mapping-approach-to-cves-2021-42287-and-2021-42278
+    - https://github.com/Dec0ne/KrbRelayUp
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A Computer Account was created with SPNs related to Kerberos on $dest$,
-    possibly indicative of Kerberos relay attack.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  threat_objects: []
+    message: A Computer Account was created with SPNs related to Kerberos on $dest$, possibly indicative of Kerberos relay attack.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Local Privilege Escalation With KrbRelayUp
-  - Active Directory Kerberos Attacks
-  - Compromised Windows Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1558
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Local Privilege Escalation With KrbRelayUp
+        - Active Directory Kerberos Attacks
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1558
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_with_spn/windows-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558/windows_computer_account_with_spn/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

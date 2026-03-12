@@ -1,80 +1,76 @@
 name: Cisco Secure Firewall - Repeated Blocked Connections
 id: 1f57f10e-1dc5-47ea-852c-2e85b2503d79
-version: 5
-date: '2026-01-21'
+version: 7
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects repeated blocked connection attempts from the same initiator to the same responder within a short time window. It leverages Cisco Secure Firewall Threat Defense logs and identifies connections where the action is set to Block, and the number of occurrences reaches or exceeds a threshold of ten within a one-minute span. This pattern may indicate a misconfigured application, unauthorized access attempts, or early stages of a brute-force or scanning operation. If confirmed malicious, this behavior may represent an attacker probing the network, attempting lateral movement, or testing firewall rules for weaknesses.
+    The following analytic detects repeated blocked connection attempts from the same initiator to the same responder within a short time window. It leverages Cisco Secure Firewall Threat Defense logs and identifies connections where the action is set to Block, and the number of occurrences reaches or exceeds a threshold of ten within a one-minute span. This pattern may indicate a misconfigured application, unauthorized access attempts, or early stages of a brute-force or scanning operation. If confirmed malicious, this behavior may represent an attacker probing the network, attempting lateral movement, or testing firewall rules for weaknesses.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
-  | bin _time span=1m 
-  | stats count min(_time) as firstTime max(_time) as lastTime
-      Values(dest_port) as dest_port
-      Values(url) as url
-      by src, dest, transport, rule, action
-  | where count >= 10
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___repeated_blocked_connections_filter`
+    `cisco_secure_firewall` EventType=ConnectionEvent action IN ("Block with reset", "Block", "blocked")
+    | bin _time span=1m
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        Values(dest_port) as dest_port
+        Values(url) as url
+        by src, dest, transport, rule, action
+    | where count >= 10
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___repeated_blocked_connections_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The access policy must also enable logging.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the ConnectionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The access policy must also enable logging.
 known_false_positives: |
-  Misconfigured applications or automated scripts may generate repeated blocked traffic, particularly if attempting to reach decommissioned or restricted resources.
-  Vulnerability scanners or penetration testing tools running in authorized environments may trigger this alert.
-  Tuning may be required to exclude known internal tools or scanner IPs from detection.
+    Misconfigured applications or automated scripts may generate repeated blocked traffic, particularly if attempting to reach decommissioned or restricted resources.
+    Vulnerability scanners or penetration testing tools running in authorized environments may trigger this alert.
+    Tuning may be required to exclude known internal tools or scanner IPs from detection.
 references:
-  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search  src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Repeated blocked connections detected from $src$ to $dest$ according to the configured firewall rule $rule$
-  risk_objects:
-    - field: src
-      type: system
-      score: 25
-  threat_objects:
-  - field: url
-    type: url
+    message: Repeated blocked connections detected from $src$ to $dest$ according to the configured firewall rule $rule$
+    risk_objects:
+        - field: src
+          type: system
+          score: 20
+    threat_objects:
+        - field: url
+          type: url
 tags:
-  analytic_story: 
-    - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1018
-    - T1046
-    - T1110
-    - T1203
-    - T1595.002
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1018
+        - T1046
+        - T1110
+        - T1203
+        - T1595.002
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

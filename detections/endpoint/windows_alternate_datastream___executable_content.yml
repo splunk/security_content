@@ -1,73 +1,54 @@
 name: Windows Alternate DataStream - Executable Content
 id: a258bf2a-34fd-4986-8086-78f506e00206
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the writing of data with an IMPHASH value
-  to an Alternate Data Stream (ADS) in the NTFS file system. It leverages Sysmon Event
-  ID 15 and regex to identify files with a Portable Executable (PE) structure. This
-  activity is significant as it may indicate a threat actor staging malicious code
-  in hidden areas for persistence or future execution. If confirmed malicious, this
-  could allow attackers to execute hidden code, maintain persistence, or escalate
-  privileges within the environment.
+description: The following analytic detects the writing of data with an IMPHASH value to an Alternate Data Stream (ADS) in the NTFS file system. It leverages Sysmon Event ID 15 and regex to identify files with a Portable Executable (PE) structure. This activity is significant as it may indicate a threat actor staging malicious code in hidden areas for persistence or future execution. If confirmed malicious, this could allow attackers to execute hidden code, maintain persistence, or escalate privileges within the environment.
 data_source:
-- Sysmon EventID 15
-search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$"
-  | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path
-  = TargetFilename, file_hash = coalesce(SHA256,SHA1,MD5,Hash) | stats count min(_time)
-  as firstTime max(_time) as lastTime by dest dvc file_hash file_name file_path process_exec
-  process_guid process_id process_name process_path signature signature_id user_id
-  vendor_product Contents Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_alternate_datastream___executable_content_filter`'
-how_to_implement: Target environment must ingest Sysmon data, specifically Event ID
-  15, and import hashing/imphash must be enabled within Sysmon.
+    - Sysmon EventID 15
+search: '`sysmon` EventCode=15 IMPHASH!=00000000000000000000000000000000 | regex TargetFilename="(?<!\/)\b\w+(\.\w+)?:\w+(\.\w+)?$" | eval file_name = replace(TargetFilename,"(.*\\\)",""), process = Image , file_path = TargetFilename, file_hash = coalesce(SHA256,SHA1,MD5,Hash) | stats count min(_time) as firstTime max(_time) as lastTime by dest dvc file_hash file_name file_path process_exec process_guid process_id process_name process_path signature signature_id user_id vendor_product Contents Image | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_alternate_datastream___executable_content_filter`'
+how_to_implement: Target environment must ingest Sysmon data, specifically Event ID 15, and import hashing/imphash must be enabled within Sysmon.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://car.mitre.org/analytics/CAR-2020-08-001/
-- https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams
-- https://twitter.com/0xrawsec/status/1002478725605273600?s=21
+    - https://car.mitre.org/analytics/CAR-2020-08-001/
+    - https://blogs.juniper.net/en-us/threat-research/bitpaymer-ransomware-hides-behind-windows-alternate-data-streams
+    - https://twitter.com/0xrawsec/status/1002478725605273600?s=21
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Base64 content written to an NTFS alternate data stream in $dest$, see
-    command field for details.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: file_name
-    type: file_name
-  - field: file_hash
-    type: file_hash
+    message: Base64 content written to an NTFS alternate data stream in $dest$, see command field for details.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: file_name
+          type: file_name
+        - field: file_hash
+          type: file_hash
 tags:
-  analytic_story:
-  - Windows Defense Evasion Tactics
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1564.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Defense Evasion Tactics
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1564.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.004/ads_abuse/ads_abuse_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

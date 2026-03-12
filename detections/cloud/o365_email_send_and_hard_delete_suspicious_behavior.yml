@@ -1,73 +1,73 @@
 name: O365 Email Send and Hard Delete Suspicious Behavior
 id: c97b3d72-0a47-46f9-b742-b89f1cc2d551
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: Anomaly
 description: The following analytic identifies when an O365 email account sends and then hard deletes email with within a short period (within 1 hour). This behavior may indicate a compromised account where the threat actor is attempting to remove forensic artifacts or evidence of activity. Threat actors often use this technique to prevent defenders and victims from knowing the account has been compromised. --- Some account owner legitimate behaviors can trigger this alert, however these actions may not be aligned with organizational expectations / best practice behaviors.
-data_source: 
-- Office 365 Universal Audit Log
+data_source:
+    - Office 365 Universal Audit Log
 search: |-
-  `o365_management_activity` Workload=Exchange (Operation IN ("Send*")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions"))
-  | eval user = lower(UserId), sender = lower(CASE(isnotnull(SendAsUserSmtp),SendAsUserSmtp,isnotnull(SendOnBehalfOfUserSmtp),SendOnBehalfOfUserSmtp,true(),MailboxOwnerUPN)), subject = trim(CASE(Operation IN ("Send","SendAs","SendOnBehalf"),'Item.Subject',Operation IN ("SoftDelete","HardDelete"),'AffectedItems{}.Subject')), -time = _time,file_name = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),split('Item.Attachments',"; "),Operation IN ("SoftDelete","HardDelete"),split('AffectedItems{}.Attachments',"; ")), file_size = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),round(tonumber('Item.SizeInBytes')/1024/1024,2),true(),round(tonumber(replace(file_name, "(.+)\s\((\d+)(b\)$)", "\2"))/1024/1024,2))
-  | eval sendtime = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),_time)
-  | eval deltime = CASE(Operation IN ("SoftDelete","HardDelete"),_time)
-  | stats values(sender) as sender, values(ClientIPAddress) as src, values(ClientInfoString) as http_user_agent, values(Operation) as signature, values(file_name) as file_name, sum(file_size) as file_size, values(Folder.Path) as file_path, min(sendtime) as firstTime, max(deltime) as lastTime, dc(Operation) as opcount, count by subject,user
-  | eval timediff = tonumber(lastTime) - tonumber(firstTime)
-  | where opcount > 1 AND firstTime < lastTime  AND timediff < 3600
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `o365_email_send_and_hard_delete_suspicious_behavior_filter`
+    `o365_management_activity` Workload=Exchange (Operation IN ("Send*")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions"))
+    | eval user = lower(UserId), sender = lower(CASE(isnotnull(SendAsUserSmtp),SendAsUserSmtp,isnotnull(SendOnBehalfOfUserSmtp),SendOnBehalfOfUserSmtp,true(),MailboxOwnerUPN)), subject = trim(CASE(Operation IN ("Send","SendAs","SendOnBehalf"),'Item.Subject',Operation IN ("SoftDelete","HardDelete"),'AffectedItems{}.Subject')), -time = _time,file_name = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),split('Item.Attachments',"; "),Operation IN ("SoftDelete","HardDelete"),split('AffectedItems{}.Attachments',"; ")), file_size = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),round(tonumber('Item.SizeInBytes')/1024/1024,2),true(),round(tonumber(replace(file_name, "(.+)\s\((\d+)(b\)$)", "\2"))/1024/1024,2))
+    | eval sendtime = CASE(Operation IN ("Send","SendAs","SendOnBehalf"),_time)
+    | eval deltime = CASE(Operation IN ("SoftDelete","HardDelete"),_time)
+    | stats values(sender) as sender, values(ClientIPAddress) as src, values(ClientInfoString) as http_user_agent, values(Operation) as signature, values(file_name) as file_name, sum(file_size) as file_size, values(Folder.Path) as file_path, min(sendtime) as firstTime, max(deltime) as lastTime, dc(Operation) as opcount, count by subject,user
+    | eval timediff = tonumber(lastTime) - tonumber(firstTime)
+    | where opcount > 1 AND firstTime < lastTime  AND timediff < 3600
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `o365_email_send_and_hard_delete_suspicious_behavior_filter`
 how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
 known_false_positives: Users that habitually/proactively cleaning the recoverable items folder may trigger this alert.
 references:
-- https://attack.mitre.org/techniques/T1114/
-- https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
-- https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
+    - https://attack.mitre.org/techniques/T1114/
+    - https://www.hhs.gov/sites/default/files/help-desk-social-engineering-sector-alert-tlpclear.pdf
+    - https://intelligence.abnormalsecurity.com/attack-library/threat-actor-convincingly-impersonates-employee-requesting-direct-deposit-update-in-likely-ai-generated-attack
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search [CHANGEME_FIELD] = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate Email for $user$ 
-  search: '`o365_management_activity` Workload=Exchange (Operation IN ("Send*")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")) AND UserId = "$user$" AND "$subject$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search [CHANGEME_FIELD] = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate Email for $user$
+      search: '`o365_management_activity` Workload=Exchange (Operation IN ("Send*")) OR (Operation IN ("HardDelete") AND Folder.Path IN ("\\Sent Items","\\Recoverable Items\\Deletions")) AND UserId = "$user$" AND "$subject$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The user $user$ sent and hard deleted an email within a short timeframe
-  risk_objects:
-  - field: user
-    type: user
-    score: 20
-  threat_objects:
-  - field: src
-    type: ip_address
-  - field: subject
-    type: email_subject
+    message: The user $user$ sent and hard deleted an email within a short timeframe
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: src
+          type: ip_address
+        - field: subject
+          type: email_subject
 tags:
-  analytic_story: 
-  - Office 365 Account Takeover
-  - Office 365 Collection Techniques
-  - Suspicious Emails
-  - Data Destruction
-  asset_type: O365 Tenant
-  mitre_attack_id: 
-  - T1114.001
-  - T1070.008
-  - T1485
-  product: 
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Office 365 Account Takeover
+        - Office 365 Collection Techniques
+        - Suspicious Emails
+        - Data Destruction
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.001
+        - T1070.008
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
-    source: o365
-    sourcetype: o365:management:activity
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114/o365_suspect_email_actions/o365_exchange_suspect_events.log
+          source: o365
+          sourcetype: o365:management:activity

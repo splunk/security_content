@@ -1,75 +1,76 @@
 name: Tomcat Session Deserialization Attempt
 id: e28b4fd4-8f5a-41cd-8222-2f1ccca53ef1
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 description: This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the second stage of the attack. This phase occurs when an attacker attempts to trigger deserialization of a previously uploaded malicious session file by sending a GET request with a specially crafted JSESSIONID cookie. These requests typically have specific characteristics, including a JSESSIONID cookie with a leading dot that matches a previously uploaded filename, and typically result in a HTTP 500 error when the exploitation succeeds.
 data_source:
--  Nginx Access
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web 
-  where Web.http_method=GET AND Web.cookie="*JSESSIONID=.*" AND Web.status=500 
-  by Web.src, Web.dest, Web.http_user_agent, Web.uri_path, Web.cookie, Web.status 
-  | `drop_dm_object_name("Web")` 
-  | where match(cookie, "^JSESSIONID=\.") 
-  | rex field=cookie "JSESSIONID=\.(?<cookie_path>[^;]+)" 
-  | eval severity="High" 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `tomcat_session_deserialization_attempt_filter`'
+    - Nginx Access
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.http_method=GET
+        AND
+        Web.cookie="*JSESSIONID=.*"
+        AND
+        Web.status=500
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.uri_path, Web.cookie, Web.status
+    | `drop_dm_object_name("Web")`
+    | where match(cookie, "^JSESSIONID=\.")
+    | rex field=cookie "JSESSIONID=\.(?<cookie_path>[^;]+)"
+    | eval severity="High"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `tomcat_session_deserialization_attempt_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs from your web servers, proxies, or WAFs that process web traffic to Tomcat instances. The data must be mapped to the Web datamodel in the Web node. Ensure your web servers are logging requests that include HTTP methods, status codes, URI paths, and cookie information. Particularly important is capturing the JSESSIONID cookie values. The detection specifically looks for GET requests with a JSESSIONID cookie that starts with a dot (.) and results in a 500 status code, which is characteristic of successful deserialization attempts.
 known_false_positives: Limited false positives should occur as this pattern is highly specific to CVE-2025-24813 exploitation. However, legitimate application errors that use similar cookie patterns and result in 500 status codes might trigger false positives. Review the JSESSIONID cookie format and the associated request context to confirm exploitation attempts.
 references:
-- https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
-- https://nvd.nist.gov/vuln/detail/CVE-2025-24813
-- https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
-- https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
-- https://gist.github.com/MHaggis/e106367f6649fbb09ab27e7b4a01cf73
+    - https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-24813
+    - https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
+    - https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
+    - https://gist.github.com/MHaggis/e106367f6649fbb09ab27e7b4a01cf73
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
-    starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View suspicious JSESSIONID cookies
-  search: '| from datamodel Web.Web | search http_method=GET AND cookie="*JSESSIONID=.*" src=$src$ | table src dest http_method uri_path http_user_agent status'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View suspicious JSESSIONID cookies
+      search: '| from datamodel Web.Web | search http_method=GET AND cookie="*JSESSIONID=.*" src=$src$ | table src dest http_method uri_path http_user_agent status'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A Tomcat session deserialization attempt has been detected from IP $src$ targeting $dest$ with a suspicious JSESSIONID cookie. This could indicate exploitation of CVE-2025-24813.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: A Tomcat session deserialization attempt has been detected from IP $src$ targeting $dest$ with a suspicious JSESSIONID cookie. This could indicate exploitation of CVE-2025-24813.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Apache Tomcat Session Deserialization Attacks
-  asset_type: Web Application
-  mitre_attack_id:
-  - T1190
-  - T1505.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  cve:
-  - CVE-2025-24813
+    analytic_story:
+        - Apache Tomcat Session Deserialization Attacks
+    asset_type: Web Application
+    mitre_attack_id:
+        - T1190
+        - T1505.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2025-24813
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/tomcat/tomcat_nginx_access.log
-    sourcetype: nginx:plus:kv
-    source: nginx
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/tomcat/tomcat_nginx_access.log
+          sourcetype: nginx:plus:kv
+          source: nginx

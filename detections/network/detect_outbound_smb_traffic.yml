@@ -1,100 +1,80 @@
 name: Detect Outbound SMB Traffic
 id: 1bed7774-304a-4e8f-9d72-d80e45ff492b
-version: 12
-date: '2025-06-10'
+version: 14
+date: '2026-03-10'
 author: Bhavin Patel, Stuart Hopkins, Patrick Bareiss
 status: production
 type: TTP
-description: The following analytic detects outbound SMB (Server Message Block) connections
-  from internal hosts to external servers. It identifies this activity by monitoring
-  network traffic for SMB requests directed towards the Internet, which are unusual
-  for standard operations. This detection is significant for a SOC as it can indicate
-  an attacker's attempt to retrieve credential hashes through compromised servers,
-  a key step in lateral movement and privilege escalation. If confirmed malicious,
-  this activity could lead to unauthorized access to sensitive data and potential
-  full system compromise.
+description: The following analytic detects outbound SMB (Server Message Block) connections from internal hosts to external servers. It identifies this activity by monitoring network traffic for SMB requests directed towards the Internet, which are unusual for standard operations. This detection is significant for a SOC as it can indicate an attacker's attempt to retrieve credential hashes through compromised servers, a key step in lateral movement and privilege escalation. If confirmed malicious, this activity could lead to unauthorized access to sensitive data and potential full system compromise.
 data_source:
-- Cisco Secure Firewall Threat Defense Connection Event
+    - Cisco Secure Firewall Threat Defense Connection Event
 search: |
-  | tstats `security_content_summariesonly` 
-  earliest(_time) as start_time 
-  latest(_time) as end_time 
-  values(All_Traffic.action) as action 
-  values(All_Traffic.app) as app
-  values(sourcetype) as sourcetype count 
-  from datamodel=Network_Traffic where
-    All_Traffic.action IN ("allowed", "allow") AND
-    (All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app="smb")
-  AND All_Traffic.src_ip IN (
-    "10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"
-  ) 
-  AND NOT All_Traffic.dest_ip IN (
-  "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10", 
-  "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32", 
-  "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24", 
-  "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24", 
-  "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
-  )
-  by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
-  All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
-  All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
-  All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.rule 
-  | `drop_dm_object_name("All_Traffic")`  
-  | `security_content_ctime(start_time)`  
-  | `security_content_ctime(end_time)` 
-  | iplocation dest_ip 
-  | `detect_outbound_smb_traffic_filter`
-how_to_implement: This search requires you to be ingesting your network traffic
-  and populating the Network_Traffic data model.
-known_false_positives: It is likely that the outbound Server Message Block (SMB) traffic
-  is legitimate, if the company's internal networks are not well-defined in the Assets
-  and Identity Framework. Categorize the internal CIDR blocks as `internal` in the
-  lookup file to avoid creating findings for traffic destined to those CIDR blocks.
-  Any other network connection that is going out to the Internet should be investigated
-  and blocked. Best practices suggest preventing external communications of all SMB
-  versions and related protocols at the network boundary.
+    | tstats `security_content_summariesonly`
+    earliest(_time) as start_time
+    latest(_time) as end_time
+    values(All_Traffic.action) as action
+    values(All_Traffic.app) as app
+    values(sourcetype) as sourcetype count
+    from datamodel=Network_Traffic where
+      All_Traffic.action IN ("allowed", "allow") AND
+      (All_Traffic.dest_port=139 OR All_Traffic.dest_port=445 OR All_Traffic.app="smb")
+    AND All_Traffic.src_ip IN (
+      "10.0.0.0/8","172.16.0.0/12","192.168.0.0/16"
+    )
+    AND NOT All_Traffic.dest_ip IN (
+    "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+    "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+    "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+    "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+    "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+    )
+    by All_Traffic.action All_Traffic.app All_Traffic.bytes All_Traffic.bytes_in All_Traffic.bytes_out
+    All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc All_Traffic.protocol
+    All_Traffic.protocol_version All_Traffic.src All_Traffic.src_ip All_Traffic.src_port
+    All_Traffic.transport All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
+    | `drop_dm_object_name("All_Traffic")`
+    | `security_content_ctime(start_time)`
+    | `security_content_ctime(end_time)`
+    | iplocation dest_ip
+    | `detect_outbound_smb_traffic_filter`
+how_to_implement: This search requires you to be ingesting your network traffic and populating the Network_Traffic data model.
+known_false_positives: It is likely that the outbound Server Message Block (SMB) traffic is legitimate, if the company's internal networks are not well-defined in the Assets and Identity Framework. Categorize the internal CIDR blocks as `internal` in the lookup file to avoid creating findings for traffic destined to those CIDR blocks. Any other network connection that is going out to the Internet should be investigated and blocked. Best practices suggest preventing external communications of all SMB versions and related protocols at the network boundary.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An outbound SMB connection from $src_ip$ in your infrastructure connecting
-    to dest ip $dest_ip$
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 25
-  threat_objects:
-  - field: dest_ip
-    type: ip_address
+    message: An outbound SMB connection from $src_ip$ in your infrastructure connecting to dest ip $dest_ip$
+    risk_objects:
+        - field: src_ip
+          type: system
+          score: 50
+    threat_objects:
+        - field: dest_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Hidden Cobra Malware
-  - DHS Report TA18-074A
-  - NOBELIUM Group
-  - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1071.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Hidden Cobra Malware
+        - DHS Report TA18-074A
+        - NOBELIUM Group
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1071.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: Cisco Secure Firewall True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: Cisco Secure Firewall True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

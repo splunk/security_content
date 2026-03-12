@@ -1,97 +1,93 @@
 name: Cisco Secure Firewall - High Priority Intrusion Classification
 id: ec99bb81-c31b-4837-8c7d-1b32aa70b337
-version: 3
-date: '2026-01-21'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
 description: |
-  This analytic identifies high-severity intrusion events based on the classification assigned to Snort rules within Cisco Secure Firewall logs.
-  It leverages Cisco Secure Firewall Threat Defense logs and focuses on events classified as:
-  
-  - A Network Trojan was Detected
-  - Successful Administrator Privilege Gain
-  - Successful User Privilege Gain
-  - Attempt to Login By a Default Username and Password
-  - Known malware command and control traffic
-  - Known malicious file or file based exploit
-  - Known client side exploit attempt
-  - Large Scale Information Leak"
+    This analytic identifies high-severity intrusion events based on the classification assigned to Snort rules within Cisco Secure Firewall logs.
+    It leverages Cisco Secure Firewall Threat Defense logs and focuses on events classified as:
 
-  These classifications typically represent significant threats such as remote code execution, credential theft, lateral movement, or malware communication. Detection of these classifications should be prioritized for immediate investigation.
+    - A Network Trojan was Detected
+    - Successful Administrator Privilege Gain
+    - Successful User Privilege Gain
+    - Attempt to Login By a Default Username and Password
+    - Known malware command and control traffic
+    - Known malicious file or file based exploit
+    - Known client side exploit attempt
+    - Large Scale Information Leak"
+
+    These classifications typically represent significant threats such as remote code execution, credential theft, lateral movement, or malware communication. Detection of these classifications should be prioritized for immediate investigation.
 data_source:
-  - Cisco Secure Firewall Threat Defense Intrusion Event
+    - Cisco Secure Firewall Threat Defense Intrusion Event
 search: |
-  `cisco_secure_firewall` EventType=IntrusionEvent 
-          class_desc IN ("A Network Trojan was Detected", "Successful Administrator Privilege Gain", "Successful User Privilege Gain", "Attempt to Login By a Default Username and Password", "Known malware command and control traffic", "Known malicious file or file based exploit", "Known client side exploit attempt", "Large Scale Information Leak")
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime
-          values(signature_id) as signature_id 
-          values(MitreAttackGroups) as MitreAttackGroups 
-          values(InlineResult) as InlineResult 
-          values(InlineResultReason) as InlineResultReason 
-          values(dest_port) as dest_port 
-          values(rule) as rule 
-          values(transport) as transport 
-          values(app) as app
-          by src, dest, signature, class_desc
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `cisco_secure_firewall___high_priority_intrusion_classification_filter`
+    `cisco_secure_firewall` EventType=IntrusionEvent
+            class_desc IN ("A Network Trojan was Detected", "Successful Administrator Privilege Gain", "Successful User Privilege Gain", "Attempt to Login By a Default Username and Password", "Known malware command and control traffic", "Known malicious file or file based exploit", "Known client side exploit attempt", "Large Scale Information Leak")
+    | fillnull
+    | stats count min(_time) as firstTime max(_time) as lastTime
+            values(signature_id) as signature_id
+            values(MitreAttackGroups) as MitreAttackGroups
+            values(InlineResult) as InlineResult
+            values(InlineResultReason) as InlineResultReason
+            values(dest_port) as dest_port
+            values(rule) as rule
+            values(transport) as transport
+            values(app) as app
+            by src, dest, signature, class_desc
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `cisco_secure_firewall___high_priority_intrusion_classification_filter`
 how_to_implement: |
-  This search requires Cisco Secure Firewall Threat Defense Logs, which
-  includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
-  We strongly recommend that you specify your environment-specific configurations
-  (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
-  with configurations for your Splunk environment. The search also uses a post-filter
-  macro designed to filter out known false positives.
-  The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
-  The intrusion access policy must also be configured.
+    This search requires Cisco Secure Firewall Threat Defense Logs, which
+    includes the IntrusionEvent EventType. This search uses an input macro named `cisco_secure_firewall`.
+    We strongly recommend that you specify your environment-specific configurations
+    (index, source, sourcetype, etc.) for Cisco Secure Firewall Threat Defense logs. Replace the macro definition
+    with configurations for your Splunk environment. The search also uses a post-filter
+    macro designed to filter out known false positives.
+    The logs are to be ingested using the Splunk Add-on for Cisco Security Cloud (https://splunkbase.splunk.com/app/7404).
+    The intrusion access policy must also be configured.
 known_false_positives: Some intrusion events that are linked to these classifications might be noisy in certain environments. Apply a combination of filters for specific snort IDs and other indicators.
 references:
-  - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
+    - https://www.cisco.com/c/en/us/td/docs/security/firepower/741/api/FQE/secure_firewall_estreamer_fqe_guide_740.pdf
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$src$"
-  search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time)
-    as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message)
-    as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$src$"
+      search: '%original_detection_search% | search  dest = "$dest$" and src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A high priority intrusion event with classification ($class_desc$) was detected from $src$ to $dest$, indicating potential suspicious activity.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 25
-  threat_objects:
-    - field: signature
-      type: signature
-    - field: src
-      type: ip_address
+    message: A high priority intrusion event with classification ($class_desc$) was detected from $src$ to $dest$, indicating potential suspicious activity.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: signature
+          type: signature
+        - field: src
+          type: ip_address
 tags:
-  analytic_story: 
-    - Cisco Secure Firewall Threat Defense Analytics
-  asset_type: Network
-  security_domain: network
-  mitre_attack_id:
-    - T1203
-    - T1003
-    - T1071
-    - T1190
-    - T1078
-  product:
-    - Splunk Enterprise
-    - Splunk Cloud
-    - Splunk Enterprise Security
+    analytic_story:
+        - Cisco Secure Firewall Threat Defense Analytics
+    asset_type: Network
+    security_domain: network
+    mitre_attack_id:
+        - T1203
+        - T1003
+        - T1071
+        - T1190
+        - T1078
+    product:
+        - Splunk Enterprise
+        - Splunk Cloud
+        - Splunk Enterprise Security
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/intrusion_event/intrusion_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

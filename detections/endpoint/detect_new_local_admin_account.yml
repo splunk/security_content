@@ -1,104 +1,84 @@
 name: Detect New Local Admin account
 id: b25f6f62-0712-43c1-b203-083231ffd97d
-version: 9
-date: '2025-10-23'
+version: 11
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of new accounts elevated
-  to local administrators. It uses Windows event logs, specifically EventCode 4720
-  (user account creation) and EventCode 4732 (user added to Administrators group).
-  This activity is significant as it indicates potential unauthorized privilege escalation,
-  which is critical for SOC monitoring. If confirmed malicious, this could allow attackers
-  to gain administrative access, leading to unauthorized data access, system modifications,
-  and disruption of services. Immediate investigation is required to mitigate risks
-  and prevent further unauthorized actions.
+description: The following analytic detects the creation of new accounts elevated to local administrators. It uses Windows event logs, specifically EventCode 4720 (user account creation) and EventCode 4732 (user added to Administrators group). This activity is significant as it indicates potential unauthorized privilege escalation, which is critical for SOC monitoring. If confirmed malicious, this could allow attackers to gain administrative access, leading to unauthorized data access, system modifications, and disruption of services. Immediate investigation is required to mitigate risks and prevent further unauthorized actions.
 data_source:
-- Windows Event Log Security 4732
-- Windows Event Log Security 4720
+    - Windows Event Log Security 4732
+    - Windows Event Log Security 4720
 search: |
-  `wineventlog_security`
-  (
-    EventCode=4720 
-    OR
+    `wineventlog_security`
     (
-      EventCode=4732
-      AND
+      EventCode=4720
+      OR
       (
-        Group_Name=Administrators
-        OR
-        TargetUserName=Administrators
+        EventCode=4732
+        AND
+        (
+          Group_Name=Administrators
+          OR
+          TargetUserName=Administrators
+        )
       )
     )
-  )
-  | transaction user dest connected=false maxspan=180m
-  | stats count min(_time) as firstTime 
-                max(_time) as lastTime 
-                dc(EventCode) as distinct_eventcodes 
-    by src_user user dest
-  | where distinct_eventcodes > 1
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `detect_new_local_admin_account_filter`
-how_to_implement: You must be ingesting Windows event logs using the Splunk Windows
-  TA and collecting event code 4720 and 4732
-known_false_positives: The activity may be legitimate. For this reason, it's best
-  to verify the account with an administrator and ask whether there was a valid service
-  request for the account creation. If your local administrator group name is not
-  "Administrators", this search may generate an excessive number of false positives
+    | transaction user dest connected=false maxspan=180m
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+                  dc(EventCode) as distinct_eventcodes
+      by src_user user dest
+    | where distinct_eventcodes > 1
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `detect_new_local_admin_account_filter`
+how_to_implement: You must be ingesting Windows event logs using the Splunk Windows TA and collecting event code 4720 and 4732
+known_false_positives: The activity may be legitimate. For this reason, it's best to verify the account with an administrator and ask whether there was a valid service request for the account creation. If your local administrator group name is not "Administrators", this search may generate an excessive number of false positives
 references: []
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A $user$ on $dest$ was added recently. Identify if this was legitimate
-    behavior or not.
-  risk_objects:
-  - field: user
-    type: user
-    score: 42
-  - field: dest
-    type: system
-    score: 42
-  threat_objects: []
+    message: A $user$ on $dest$ was added recently. Identify if this was legitimate behavior or not.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - DHS Report TA18-074A
-  - HAFNIUM Group
-  - CISA AA22-257A
-  - CISA AA24-241A
-  - Scattered Lapsus$ Hunters
-  asset_type: Windows
-  mitre_attack_id:
-  - T1136.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: access
+    analytic_story:
+        - DHS Report TA18-074A
+        - HAFNIUM Group
+        - CISA AA22-257A
+        - CISA AA24-241A
+        - Scattered Lapsus$ Hunters
+    asset_type: Windows
+    mitre_attack_id:
+        - T1136.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: access
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
-    source: WinEventLog:Security
-    sourcetype: WinEventLog
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
-    source: WinEventLog:System
-    sourcetype: WinEventLog
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-security.log
+          source: WinEventLog:Security
+          sourcetype: WinEventLog
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-system.log
+          source: WinEventLog:System
+          sourcetype: WinEventLog
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1136.001/atomic_red_team/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

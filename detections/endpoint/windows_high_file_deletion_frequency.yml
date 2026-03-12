@@ -1,97 +1,69 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 10
-date: '2025-09-18'
+version: 12
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
-description: The following analytic identifies a high frequency of file 
-  deletions by monitoring Sysmon EventCodes 23 and 26 for specific file 
-  extensions. This detection leverages Sysmon logs to track deleted target 
-  filenames, process names, and process IDs. Such activity is significant as it 
-  often indicates ransomware behavior, where files are encrypted and the 
-  originals are deleted. If confirmed malicious, this activity could lead to 
-  extensive data loss and operational disruption, as ransomware can render 
-  critical files inaccessible, demanding a ransom for their recovery.
+description: The following analytic identifies a high frequency of file deletions by monitoring Sysmon EventCodes 23 and 26 for specific file extensions. This detection leverages Sysmon logs to track deleted target filenames, process names, and process IDs. Such activity is significant as it often indicates ransomware behavior, where files are encrypted and the originals are deleted. If confirmed malicious, this activity could lead to extensive data loss and operational disruption, as ransomware can render critical files inaccessible, demanding a ransom for their recovery.
 data_source:
-- Sysmon EventID 23
-- Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif",
-  "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt",
-  "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs",
-  "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT
-  TargetFilename IN ("*\\INetCache\\Content.Outlook\\*") | stats count min(_time)
-  as firstTime, max(_time) as lastTime values(file_path) as file_path values(file_hash)
-  as file_hash values(file_name) as file_name values(file_modify_time) as file_modify_time
-  values(process_name) as process_name values(process_path) as process_path values(process_guid)
-  as process_guid values(process_id) as process_id values(process_exec) as process_exec
-  by action dest dvc signature signature_id user user_id vendor_product | where count
-  >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_high_file_deletion_frequency_filter`'
-how_to_implement: To successfully implement this search, you need to ingest logs
-  that include the deleted target file name, process name, and process ID from 
-  your endpoints. If you are using Sysmon, ensure you have at least version 2.0 
-  of the Sysmon TA installed.
-known_false_positives: Users may delete a large number of pictures or files in a
-  folder, which could trigger this detection. Additionally, heavy usage of 
-  PowerBI and Outlook may also result in false positives.
+    - Sysmon EventID 23
+    - Sysmon EventID 26
+search: '`sysmon` EventCode IN ("23","26") TargetFilename IN ("*.cmd", "*.ini","*.gif", "*.jpg", "*.jpeg", "*.db", "*.ps1", "*.doc", "*.docx", "*.xls", "*.xlsx", "*.ppt", "*.pptx", "*.bmp","*.zip", "*.rar", "*.7z", "*.chm", "*.png", "*.log", "*.vbs", "*.js", "*.vhd", "*.bak", "*.wbcat", "*.bkf" , "*.backup*", "*.dsk", "*.win") NOT TargetFilename IN ("*\\INetCache\\Content.Outlook\\*") | stats count min(_time) as firstTime, max(_time) as lastTime values(file_path) as file_path values(file_hash) as file_hash values(file_name) as file_name values(file_modify_time) as file_modify_time values(process_name) as process_name values(process_path) as process_path values(process_guid) as process_guid values(process_id) as process_id values(process_exec) as process_exec by action dest dvc signature signature_id user user_id vendor_product | where count >=100 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_high_file_deletion_frequency_filter`'
+how_to_implement: To successfully implement this search, you need to ingest logs that include the deleted target file name, process name, and process ID from your endpoints. If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: Users may delete a large number of pictures or files in a folder, which could trigger this detection. Additionally, heavy usage of PowerBI and Outlook may also result in false positives.
 references:
-- https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
-- https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://www.mandiant.com/resources/fin11-email-campaigns-precursor-for-ransomware-data-theft
+    - https://blog.virustotal.com/2020/11/keep-your-friends-close-keep-ransomware.html
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Elevated file deletion rate observed from process [$process_name$] on
-    machine $dest$
-  risk_objects:
-  - field: user
-    type: user
-    score: 72
-  - field: dest
-    type: system
-    score: 72
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: Elevated file deletion rate observed from process [$process_name$] on machine $dest$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Sandworm Tools
-  - Handala Wiper
-  - Data Destruction
-  - WhisperGate
-  - Swift Slicer
-  - Medusa Ransomware
-  - DarkCrystal RAT
-  - Black Basta Ransomware
-  - Clop Ransomware
-  - Interlock Ransomware
-  - NailaoLocker Ransomware
-  - APT37 Rustonotto and FadeStealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Sandworm Tools
+        - Handala Wiper
+        - Data Destruction
+        - WhisperGate
+        - Swift Slicer
+        - Medusa Ransomware
+        - DarkCrystal RAT
+        - Black Basta Ransomware
+        - Clop Ransomware
+        - Interlock Ransomware
+        - NailaoLocker Ransomware
+        - APT37 Rustonotto and FadeStealer
+        - DynoWiper
+        - ZOVWiper
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/clop/clop_a/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,65 +1,51 @@
 name: Windows ConsoleHost History File Deletion
 id: a203040e-f8fd-49bb-8424-d2fabf277322
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the deletion of the ConsoleHost_history.txt file, which stores command history for PowerShell sessions. Attackers may attempt to remove this file to cover their tracks and evade detection during post-exploitation activities. This detection focuses on file deletion commands executed via PowerShell, Command Prompt, or scripting languages that specifically target ConsoleHost_history.txt, typically located at %APPDATA%\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt. Identifying such activity can help uncover potential anti-forensic behavior and suspicious administrative actions.
 data_source:
-- Sysmon EventID 23
-- Sysmon EventID 26
-search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" 
-  | stats count min(_time) as firstTime, max(_time) as lastTime 
-  by action dest dvc file_path file_hash file_name file_modify_time process_name process_exec process_id process_path user_id vendor_product process_guid signature signature_id user
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `windows_consolehost_history_file_deletion_filter`'
-how_to_implement: To successfully implement this search, you need to ingest logs that
-  include the deleted target file name, process name, and process ID from your endpoints.
-  If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
-known_false_positives: An administrator may delete the ConsoleHost history file on a specific machine, 
-  potentially triggering this detection. However, this action is uncommon for regular users who are 
-  not accustomed to using the PowerShell command line
+    - Sysmon EventID 23
+    - Sysmon EventID 26
+search: '`sysmon` EventCode IN ("23","26") TargetFilename = "*\\Microsoft\\Windows\\PowerShell\\PSReadline\\ConsoleHost_history.txt" | stats count min(_time) as firstTime, max(_time) as lastTime by action dest dvc file_path file_hash file_name file_modify_time process_name process_exec process_id process_path user_id vendor_product process_guid signature signature_id user | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_consolehost_history_file_deletion_filter`'
+how_to_implement: To successfully implement this search, you need to ingest logs that include the deleted target file name, process name, and process ID from your endpoints. If you are using Sysmon, ensure you have at least version 2.0 of the Sysmon TA installed.
+known_false_positives: An administrator may delete the ConsoleHost history file on a specific machine, potentially triggering this detection. However, this action is uncommon for regular users who are not accustomed to using the PowerShell command line
 references:
-- https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-071a
 drilldown_searches:
-- name: View the detection results for - "$user_id$" and "$dest$"
-  search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user_id$" and "$dest$"
+      search: '%original_detection_search% | search  user_id = "$user_id$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user_id$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user_id$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: a process $process_name$ delete ConsoleHost_History.txt on $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: a process $process_name$ delete ConsoleHost_History.txt on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Medusa Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1070.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Medusa Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1070.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.003/ConsoleHost_History_deletion/delete_pwh_history_file.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.003/ConsoleHost_History_deletion/delete_pwh_history_file.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

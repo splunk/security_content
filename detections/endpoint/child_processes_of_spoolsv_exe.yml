@@ -1,67 +1,56 @@
 name: Child Processes of Spoolsv exe
 id: aa0c4aeb-5b18-41c4-8c07-f1442d7599df
-version: 8
-date: '2025-05-02'
+version: 10
+date: '2026-03-10'
 author: Rico Valdez, Splunk
 status: experimental
 type: TTP
-description: The following analytic identifies child processes spawned by spoolsv.exe,
-  the Print Spooler service in Windows, which typically runs with SYSTEM privileges.
-  This detection leverages data from Endpoint Detection and Response (EDR) agents,
-  focusing on process and parent process relationships. Monitoring this activity is
-  crucial as it can indicate exploitation attempts, such as those associated with
-  CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers
-  could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate
-  privileges, and potentially compromise the entire system.
+description: The following analytic identifies child processes spawned by spoolsv.exe, the Print Spooler service in Windows, which typically runs with SYSTEM privileges. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process relationships. Monitoring this activity is crucial as it can indicate exploitation attempts, such as those associated with CVE-2018-8440, which can lead to privilege escalation. If confirmed malicious, attackers could gain SYSTEM-level access, allowing them to execute arbitrary code, escalate privileges, and potentially compromise the entire system.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count values(Processes.process_name)
-  as process_name values(Processes.process) as process min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name=spoolsv.exe
-  AND Processes.process_name!=regsvr32.exe by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `child_processes_of_spoolsv_exe_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Some legitimate printer-related processes may show up as children
-  of spoolsv.exe. You should confirm that any activity as legitimate and may be added
-  as exclusions in the search.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count values(Processes.process_name) as process_name values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.parent_process_name=spoolsv.exe
+        AND
+        Processes.process_name!=regsvr32.exe
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `child_processes_of_spoolsv_exe_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate printer-related processes may show up as children of spoolsv.exe. You should confirm that any activity as legitimate and may be added as exclusions in the search.
 references: []
 rba:
-  message: Potentially suspicious child processes of spoolsv.exe on $dest$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  - field: dest
-    type: system
-    score: 25
-  threat_objects: []
+    message: Potentially suspicious child processes of spoolsv.exe on $dest$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - Hermetic Wiper
-  - Windows Privilege Escalation
-  asset_type: Endpoint
-  cve:
-  - CVE-2018-8440
-  mitre_attack_id:
-  - T1068
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - Hermetic Wiper
+        - Windows Privilege Escalation
+    asset_type: Endpoint
+    cve:
+        - CVE-2018-8440
+    mitre_attack_id:
+        - T1068
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint

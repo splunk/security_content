@@ -1,72 +1,63 @@
 name: AWS Multiple Failed MFA Requests For User
 id: 1fece617-e614-4329-9e61-3ba228c0f353
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Bhavin Patel
 status: production
 type: Anomaly
-description: The following analytic identifies multiple failed multi-factor authentication
-  (MFA) requests to an AWS Console for a single user. It leverages AWS CloudTrail
-  logs, specifically the `additionalEventData` field, to detect more than 10 failed
-  MFA prompts within 5 minutes. This activity is significant as it may indicate an
-  adversary attempting to bypass MFA by bombarding the user with repeated authentication
-  requests. If confirmed malicious, this could lead to unauthorized access to the
-  AWS environment, potentially compromising sensitive data and resources.
+description: The following analytic identifies multiple failed multi-factor authentication (MFA) requests to an AWS Console for a single user. It leverages AWS CloudTrail logs, specifically the `additionalEventData` field, to detect more than 10 failed MFA prompts within 5 minutes. This activity is significant as it may indicate an adversary attempting to bypass MFA by bombarding the user with repeated authentication requests. If confirmed malicious, this could lead to unauthorized access to the AWS environment, potentially compromising sensitive data and resources.
 data_source:
-- AWS CloudTrail ConsoleLogin
-search: '`cloudtrail` eventName= ConsoleLogin "additionalEventData.MFAUsed"=Yes errorMessage="Failed authentication" 
-  | bucket span=5m _time 
-  | rename user_name as user
-  | stats dc(_raw) as mfa_prompts min(_time) as firstTime max(_time) as lastTime values(user_agent) as user_agent values(src) as src values(dest) as dest by _time user signature vendor_account vendor_region vendor_product errorMessage 
-  | where mfa_prompts > 10
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `aws_multiple_failed_mfa_requests_for_user_filter`'
-how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search
-  requires AWS CloudTrail logs.
-known_false_positives: Multiple Failed MFA requests may also be a sign of authentication
-  or application issues. Filter as needed.
+    - AWS CloudTrail ConsoleLogin
+search: |-
+    `cloudtrail` eventName= ConsoleLogin "additionalEventData.MFAUsed"=Yes errorMessage="Failed authentication"
+      | bucket span=5m _time
+      | rename user_name as user
+      | stats dc(_raw) as mfa_prompts min(_time) as firstTime max(_time) as lastTime values(user_agent) as user_agent values(src) as src values(dest) as dest
+        BY _time user signature
+           vendor_account vendor_region vendor_product
+           errorMessage
+      | where mfa_prompts > 10
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `aws_multiple_failed_mfa_requests_for_user_filter`
+how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS CloudTrail logs.
+known_false_positives: Multiple Failed MFA requests may also be a sign of authentication or application issues. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1621/
-- https://aws.amazon.com/what-is/mfa/
+    - https://attack.mitre.org/techniques/T1621/
+    - https://aws.amazon.com/what-is/mfa/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ is seen to have high number of MFA prompt failures within
-    a short period of time.
-  risk_objects:
-  - field: user
-    type: user
-    score: 64
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ is seen to have high number of MFA prompt failures within a short period of time.
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - AWS Identity and Access Management Account Takeover
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1586.003
-  - T1621
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - AWS Identity and Access Management Account Takeover
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1586.003
+        - T1621
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_failed_mfa/cloudtrail.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/aws_failed_mfa/cloudtrail.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

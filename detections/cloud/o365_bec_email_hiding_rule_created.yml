@@ -1,64 +1,60 @@
 name: O365 BEC Email Hiding Rule Created
 id: 603ebac2-f157-4df7-a6ac-34e8d0350f86
-version: 4
-date: '2025-07-23'
+version: 6
+date: '2026-03-10'
 author: '0xC0FFEEEE, Github Community'
 type: TTP
 status: production
-description: This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers.
-  This may indicate that an attacker has gained access to the account.
+description: This analytic detects mailbox rule creation, a common technique used in Business Email Compromise. It uses a scoring mechanism to identify a combination of attributes often featured in mailbox rules created by attackers. This may indicate that an attacker has gained access to the account.
 search: |-
-  `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
-  | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | lookup ut_shannon_lookup word as Name 
-  | eval entropy_score=if(ut_shannon<=2, 1, 0) 
-  | eval len_score=if(len(Name)<=3, 1,0) 
-  | eval read_score=if(MarkAsRead="True", 1, 0) 
-  | eval folder_score=if(match(MoveToFolder, "^(RSS|Conversation History|Archive)"), 1, 0) 
-  | eval suspicious_score=entropy_score+len_score+read_score+folder_score 
-  | where suspicious_score>2 
-  | `o365_bec_email_hiding_rule_created_filter`
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events. You also need to have the Splunk TA URL 
-  Toolbox (https://splunkbase.splunk.com/app/2734/) installed.
-known_false_positives: Short rule names may trigger false positives. Adjust
-  the entropy and length thresholds as needed.
+    `o365_management_activity` Workload=Exchange Operation IN ("New-InboxRule", "Set-InboxRule")
+    | stats min(_time) as firstTime, max(_time) as lastTime, values(Operation) as Operation, latest(Name) as Name, latest(MarkAsRead) as MarkAsRead, latest(MoveToFolder) as MoveToFolder by object_id user
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | lookup ut_shannon_lookup word as Name
+    | eval entropy_score=if(ut_shannon<=2, 1, 0)
+    | eval len_score=if(len(Name)<=3, 1,0)
+    | eval read_score=if(MarkAsRead="True", 1, 0)
+    | eval folder_score=if(match(MoveToFolder, "^(RSS|Conversation History|Archive)"), 1, 0)
+    | eval suspicious_score=entropy_score+len_score+read_score+folder_score
+    | where suspicious_score>2
+    | `o365_bec_email_hiding_rule_created_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events. You also need to have the Splunk TA URL Toolbox (https://splunkbase.splunk.com/app/2734/) installed.
+known_false_positives: Short rule names may trigger false positives. Adjust the entropy and length thresholds as needed.
 references:
-- https://attack.mitre.org/techniques/T1564/008/
+    - https://attack.mitre.org/techniques/T1564/008/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for $user$
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for $user$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" starthoursago=168 endhoursago=1 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential BEC mailbox rule - $Name$ was created by user - $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: Name
-    type: signature
+    message: Potential BEC mailbox rule - $Name$ was created by user - $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects:
+        - field: Name
+          type: signature
 tags:
-  analytic_story:
-  - Office 365 Account Takeover
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1564.008
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: audit
+    analytic_story:
+        - Office 365 Account Takeover
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1564.008
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: audit
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.008/o365/o365_suspicious_mailbox_rule.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.008/o365/o365_suspicious_mailbox_rule.log
+          sourcetype: o365:management:activity
+          source: o365

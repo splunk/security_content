@@ -1,49 +1,45 @@
 name: Windows SQL Server Extended Procedure DLL Loading Hunt
 id: 182ba99f-2dde-4cdb-8e5c-e3b1e251cb10
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-02-25'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
 description: This analytic detects when SQL Server loads DLLs to execute extended stored procedures. This is particularly important for security monitoring as it indicates the first-time use or version changes of potentially dangerous procedures like xp_cmdshell, sp_OACreate, and others. While this is a legitimate operation, adversaries may abuse these procedures for execution, discovery, or privilege escalation.
 data_source:
-- Windows Event Log Application 8128
-search: '`wineventlog_application` EventCode=8128
-  | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
-  | rename host as dest
-  | eval dll_category=case(
-      dll_name=="xpstar.dll", "Extended Procedures",
-      dll_name=="odsole70.dll", "OLE Automation",
-      dll_name=="xplog70.dll", "Logging Procedures",
-      true(), "Other")
-  | stats 
-      count as execution_count,
-      values(procedure_name) as procedures_used,
-      latest(_time) as last_seen
-      by dest dll_name dll_category dll_version
-  | sort - execution_count | `windows_sql_server_extended_procedure_dll_loading_hunt_filter`'
+    - Windows Event Log Application 8128
+search: |-
+    `wineventlog_application` EventCode=8128
+      | rex field=EventData_Xml "<Data>(?<dll_name>[^<]+)</Data><Data>(?<dll_version>[^<]+)</Data><Data>(?<procedure_name>[^<]+)</Data>"
+      | rename host as dest
+      | eval dll_category=case( dll_name=="xpstar.dll", "Extended Procedures", dll_name=="odsole70.dll", "OLE Automation", dll_name=="xplog70.dll", "Logging Procedures", true(), "Other")
+      | stats count as execution_count, values(procedure_name) as procedures_used, latest(_time) as last_seen
+        BY dest dll_name dll_category
+           dll_version
+      | sort - execution_count
+      | `windows_sql_server_extended_procedure_dll_loading_hunt_filter`
 how_to_implement: To successfully implement this detection, ensure Windows Event Log collection is enabled and collecting from the Application channel. SQL Server must be configured to log to the Windows Application log (enabled by default). The Splunk Windows TA is also required.
 known_false_positives: Legitimate administrative activity and normal database operations may trigger this detection. Common false positives include initial database startup and configuration, patch deployment and version updates, regular administrative tasks using extended stored procedures, and application servers that legitimately use OLE automation.
 references:
-- https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/general-extended-stored-procedures-transact-sql
-- https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms175543(v=sql.105)
-- https://learn.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/using-extended-stored-procedures
+    - https://learn.microsoft.com/en-us/sql/relational-databases/system-stored-procedures/general-extended-stored-procedures-transact-sql
+    - https://learn.microsoft.com/en-us/previous-versions/sql/sql-server-2008-r2/ms175543(v=sql.105)
+    - https://learn.microsoft.com/en-us/sql/relational-databases/extended-stored-procedures-programming/using-extended-stored-procedures
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  asset_type: Windows
-  mitre_attack_id:
-  - T1505.001
-  - T1059.009
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - SQL Server Abuse
+    asset_type: Windows
+    mitre_attack_id:
+        - T1505.001
+        - T1059.009
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/dllprocedureload_windows-application.log
-    sourcetype: XmlWinEventLog
-    source: XmlWinEventLog:Application
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/dllprocedureload_windows-application.log
+          sourcetype: XmlWinEventLog
+          source: XmlWinEventLog:Application

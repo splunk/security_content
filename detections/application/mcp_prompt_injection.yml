@@ -1,0 +1,60 @@
+name: MCP Prompt Injection
+id: 49779398-b738-4d64-bb3f-ead6eb97fe53
+version: 3
+date: '2026-03-10'
+author: Rod Soto
+status: production
+type: TTP
+description: This detection identifies potential prompt injection attempts within MCP (Model Context Protocol) communications by monitoring for known malicious phrases and patterns commonly used to manipulate AI assistants. Prompt injection is a critical vulnerability where adversaries embed hidden instructions in content processed by AI tools, attempting to override system prompts, bypass security controls, or hijack the AI's behavior. The search monitors JSON-RPC traffic for phrases such as "IGNORE PREVIOUS INSTRUCTIONS," "SYSTEM PROMPT OVERRIDE," and "ignore all security" which indicate attempts to subvert the AI's intended behavior and potentially execute unauthorized actions through the MCP toolchain.
+data_source:
+    - MCP Server
+search: |
+    `mcp_server` direction=inbound ( "IGNORE PREVIOUS INSTRUCTIONS" OR "AI_INSTRUCTION" OR "SYSTEM PROMPT OVERRIDE" OR "[SYSTEM]:" OR "ignore all security" OR "New directive" OR "ignore security policies" )
+    | eval dest=host
+    | eval injection_payload=coalesce('params.content_preview', 'params.result_preview')
+    | eval target_path='params.path'
+    | eval sql_query='params.query'
+    | stats count min(_time) as firstTime max(_time) as lastTime values(method) as method values(target_path) as target_path values(sql_query) as sql_query values(injection_payload) as injection_payload by dest, source
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | table dest firstTime lastTime count source method target_path sql_query injection_payload
+    | `mcp_prompt_injection_filter`
+how_to_implement: This detection requires the MCP Technology Add-on (TA) for Splunk configured to ingest JSON-RPC formatted logs from MCP-enabled AI assistants and agents into the appropiate index with sourcetype mcp:jsonrpc. Ensure the TA parses multivalue fields including params.content_preview, params.result_preview, params.path, and params.query to capture tool inputs and outputs where injection payloads may appear. The macro mcp_prompt_injection_filter should be created to allow environment-specific tuning and whitelisting of known benign patterns.
+known_false_positives: Known false positives include security research and testing activities where red teams or developers intentionally test prompt injection defenses, as well as educational content where documentation, tutorials, or training materials discussing prompt injection techniques are legitimately processed by the AI assistant. Additionally, security tool development involving code reviews or development of prompt injection detection mechanisms may contain these patterns, and quoted references in conversations where users discuss or report prompt injection attempts they encountered elsewhere could trigger this detection.
+references:
+    - https://splunkbase.splunk.com/app/8377
+    - https://www.tenable.com/blog/mcp-prompt-injection-not-just-for-evil
+    - https://www.splunk.com/en_us/blog/security/securing-ai-agents-model-context-protocol.html
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search dest="$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$dest$" starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: 'A prompt injection attempt was detected on $dest$ via MCP server. An attacker attempted to override AI instructions using phrases like IGNORE PREVIOUS INSTRUCTIONS or SYSTEM PROMPT OVERRIDE. This technique (AML.T0051) attempts to manipulate the LLM into bypassing security controls or executing unauthorized actions. Payload detected: $injection_payload$'
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Suspicious MCP Activities
+    asset_type: Web Application
+    mitre_attack_id:
+        - T1059
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/mcp/mcp.log
+          sourcetype: mcp:jsonrpc
+          source: mcp.log

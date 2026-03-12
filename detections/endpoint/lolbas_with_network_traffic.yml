@@ -1,162 +1,144 @@
 name: LOLBAS With Network Traffic
 id: 2820f032-19eb-497e-8642-25b04a880359
-version: 14
-date: '2025-11-20'
+version: 16
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic identifies the use of Living Off the Land Binaries
-  and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic
-  data model to detect when native Windows binaries, often abused by adversaries,
-  initiate network connections. This activity is significant as LOLBAS are frequently
-  used to download malicious payloads, enabling lateral movement, command-and-control,
-  or data exfiltration. If confirmed malicious, this behavior could allow attackers
-  to execute arbitrary code, escalate privileges, or maintain persistence within the
-  environment, posing a severe threat to organizational security.
+description: The following analytic identifies the use of Living Off the Land Binaries and Scripts (LOLBAS) with network traffic. It leverages data from the Network Traffic data model to detect when native Windows binaries, often abused by adversaries, initiate network connections. This activity is significant as LOLBAS are frequently used to download malicious payloads, enabling lateral movement, command-and-control, or data exfiltration. If confirmed malicious, this behavior could allow attackers to execute arbitrary code, escalate privileges, or maintain persistence within the environment, posing a severe threat to organizational security.
 data_source:
-- Sysmon EventID 3
+    - Sysmon EventID 3
 search: |
-  | tstats `security_content_summariesonly` 
-    count min(_time) as firstTime 
-          max(_time) as lastTime
-  from datamodel=Network_Traffic.All_Traffic where
-  All_Traffic.app IN (
-      "*\\At.exe",
-      "*\\Atbroker.exe",
-      "*\\Bash.exe",
-      "*\\Bitsadmin.exe",
-      "*\\Certoc.exe",
-      "*\\certutil.exe",
-      "*\\cmd.exe",
-      "*\\Cmstp.exe",
-      "*\\cscript.exe",
-      "*\\Diskshadow.exe",
-      "*\\Dnscmd.exe",
-      "*\\Extexport.exe",
-      "*\\Forfiles.exe",
-      "*\\Ftp.exe",
-      "*\\Gpscript.exe",
-      "*\\Hh.exe",
-      "*\\Ie4uinit.exe",
-      "*\\Ieexec.exe",
-      "*\\Infdefaultinstall.exe",
-      "*\\Installutil.exe",
-      "*\\makecab.exe",
-      "*\\Mavinject.exe",
-      "*\\Microsoft.Workflow.Compiler.exe",
-      "*\\Msbuild.exe",
-      "*\\Msconfig.exe",
-      "*\\Msdt.exe",
-      "*\\Mshta.exe",
-      "*\\Msiexec.exe",
-      "*\\Netsh.exe",
-      "*\\notepad.exe",
-      "*\\Odbcconf.exe",
-      "*\\OfflineScannerShell.exe",
-      "*\\Pcalua.exe",
-      "*\\Pcwrun.exe",
-      "*\\Pnputil.exe",
-      "*\\powershell_ise.exe",
-      "*\\powershell.exe",
-      "*\\Presentationhost.exe",
-      "*\\pwsh.exe",
-      "*\\Rasautou.exe",
-      "*\\Regasm.exe",
-      "*\\Register-cimprovider.exe",
-      "*\\Regsvcs.exe",
-      "*\\Regsvr32.exe",
-      "*\\Runonce.exe",
-      "*\\Runscripthelper.exe",
-      "*\\Schtasks.exe",
-      "*\\Scriptrunner.exe",
-      "*\\SettingSyncHost.exe",
-      "*\\Stordiag.exe",
-      "*\\Syncappvpublishingserver.exe",
-      "*\\Ttdinject.exe",
-      "*\\Tttracer.exe",
-      "*\\Verclsid.exe",
-      "*\\Wab.exe",
-      "*\\Wmic.exe",
-      "*\\WorkFolders.exe",
-      "*\\Wuauclt.exe",
-      "*\\Xwizard.exe"
-      )
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+    from datamodel=Network_Traffic.All_Traffic where
+    All_Traffic.app IN (
+        "*\\At.exe",
+        "*\\Atbroker.exe",
+        "*\\Bash.exe",
+        "*\\Bitsadmin.exe",
+        "*\\Certoc.exe",
+        "*\\certutil.exe",
+        "*\\cmd.exe",
+        "*\\Cmstp.exe",
+        "*\\cscript.exe",
+        "*\\Diskshadow.exe",
+        "*\\Dnscmd.exe",
+        "*\\Extexport.exe",
+        "*\\Forfiles.exe",
+        "*\\Ftp.exe",
+        "*\\Gpscript.exe",
+        "*\\Hh.exe",
+        "*\\Ie4uinit.exe",
+        "*\\Ieexec.exe",
+        "*\\Infdefaultinstall.exe",
+        "*\\Installutil.exe",
+        "*\\makecab.exe",
+        "*\\Mavinject.exe",
+        "*\\Microsoft.Workflow.Compiler.exe",
+        "*\\Msbuild.exe",
+        "*\\Msconfig.exe",
+        "*\\Msdt.exe",
+        "*\\Mshta.exe",
+        "*\\Msiexec.exe",
+        "*\\Netsh.exe",
+        "*\\notepad.exe",
+        "*\\Odbcconf.exe",
+        "*\\OfflineScannerShell.exe",
+        "*\\Pcalua.exe",
+        "*\\Pcwrun.exe",
+        "*\\Pnputil.exe",
+        "*\\powershell_ise.exe",
+        "*\\powershell.exe",
+        "*\\Presentationhost.exe",
+        "*\\pwsh.exe",
+        "*\\Rasautou.exe",
+        "*\\Regasm.exe",
+        "*\\Register-cimprovider.exe",
+        "*\\Regsvcs.exe",
+        "*\\Regsvr32.exe",
+        "*\\Runonce.exe",
+        "*\\Runscripthelper.exe",
+        "*\\Schtasks.exe",
+        "*\\Scriptrunner.exe",
+        "*\\SettingSyncHost.exe",
+        "*\\Stordiag.exe",
+        "*\\Syncappvpublishingserver.exe",
+        "*\\Ttdinject.exe",
+        "*\\Tttracer.exe",
+        "*\\Verclsid.exe",
+        "*\\Wab.exe",
+        "*\\Wmic.exe",
+        "*\\WorkFolders.exe",
+        "*\\Wuauclt.exe",
+        "*\\Xwizard.exe"
+        )
 
-  NOT All_Traffic IN (
-          "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-          "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-          "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-          "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-          "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
-          )
+    NOT All_Traffic.dest_ip IN (
+            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
+            )
 
-  by All_Traffic.action All_Traffic.app All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port 
-     All_Traffic.direction All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
-     All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user 
-     All_Traffic.vendor_product
+    by All_Traffic.action All_Traffic.app All_Traffic.dest All_Traffic.dest_ip All_Traffic.dest_port
+       All_Traffic.direction All_Traffic.dvc All_Traffic.protocol All_Traffic.protocol_version
+       All_Traffic.src All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport All_Traffic.user
+       All_Traffic.vendor_product
 
-  | `drop_dm_object_name(All_Traffic)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | rex field=app ".*\\\(?<process_name>.*)$"
-  | `lolbas_with_network_traffic_filter`
-how_to_implement: To successfully implement this detection you must ingest events
-  into the Network traffic data model that contain the source, destination, and communicating
-  process in the app field. Relevant processes must also be ingested in the Endpoint
-  data model with matching process_id field. Sysmon EID1 and EID3 are good examples
-  of this type this data type.
-known_false_positives: Legitimate usage of internal automation or scripting, especially
-  powershell.exe or pwsh.exe, internal to internal or logon scripts. It may be necessary
-  to omit internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1")
+    | `drop_dm_object_name(All_Traffic)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | rex field=app ".*\\\(?<process_name>.*)$"
+    | `lolbas_with_network_traffic_filter`
+how_to_implement: To successfully implement this detection you must ingest events into the Network traffic data model that contain the source, destination, and communicating process in the app field. Relevant processes must also be ingested in the Endpoint data model with matching process_id field. Sysmon EID1 and EID3 are good examples of this type this data type.
+known_false_positives: Legitimate usage of internal automation or scripting, especially powershell.exe or pwsh.exe, internal to internal or logon scripts. It may be necessary to omit internal IP ranges if extremely noisy. ie NOT dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16","170.98.0.0/16","0:0:0:0:0:0:0:1")
 references:
-- https://lolbas-project.github.io/#
-- https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
+    - https://lolbas-project.github.io/#
+    - https://www.sans.org/presentations/lolbin-detection-methods-seven-common-attacks-revealed/
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search  src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search  src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The LOLBAS $process_name$ on device $src$ was seen communicating with $dest$.
-  risk_objects:
-  - field: src
-    type: system
-    score: 25
-  threat_objects:
-  - field: dest_ip
-    type: ip_address
+    message: The LOLBAS $process_name$ on device $src$ was seen communicating with $dest$.
+    risk_objects:
+        - field: src
+          type: system
+          score: 50
+    threat_objects:
+        - field: dest_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Fake CAPTCHA Campaigns
-  - Living Off The Land
-  - Malicious Inno Setup Loader
-  - Water Gamayun
-  - APT37 Rustonotto and FadeStealer
-  - GhostRedirector IIS Module and Rungan Backdoor
-  - Hellcat Ransomware
-  - NetSupport RMM Tool Abuse
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1105
-  - T1567
-  - T1218
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Fake CAPTCHA Campaigns
+        - Living Off The Land
+        - Malicious Inno Setup Loader
+        - Water Gamayun
+        - APT37 Rustonotto and FadeStealer
+        - GhostRedirector IIS Module and Rungan Backdoor
+        - Hellcat Ransomware
+        - NetSupport RMM Tool Abuse
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1105
+        - T1567
+        - T1218
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1218/lolbas_with_network_traffic/lolbas_with_network_traffic.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

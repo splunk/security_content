@@ -1,74 +1,61 @@
 name: Log4Shell JNDI Payload Injection Attempt
 id: c184f12e-5c90-11ec-bf1f-497c9a704a72
-version: 5
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Jose Hernandez
 status: production
 type: Anomaly
-description: The following analytic identifies attempts to inject Log4Shell JNDI payloads
-  via web calls. It leverages the Web datamodel and uses regex to detect patterns
-  like `${jndi:ldap://` in raw web event data, including HTTP headers. This activity
-  is significant because it targets vulnerabilities in Java web applications using
-  Log4j, such as Apache Struts and Solr. If confirmed malicious, this could allow
-  attackers to execute arbitrary code, potentially leading to full system compromise.
-  Immediate investigation is required to determine if the attempt was successful and
-  to mitigate any potential exploitation.
+description: The following analytic identifies attempts to inject Log4Shell JNDI payloads via web calls. It leverages the Web datamodel and uses regex to detect patterns like `${jndi:ldap://` in raw web event data, including HTTP headers. This activity is significant because it targets vulnerabilities in Java web applications using Log4j, such as Apache Struts and Solr. If confirmed malicious, this could allow attackers to execute arbitrary code, potentially leading to full system compromise. Immediate investigation is required to determine if the attempt was successful and to mitigate any potential exploitation.
 data_source:
-- Nginx Access
-search: '| from datamodel Web.Web | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
-  | fillnull | stats count by action, category, dest, dest_port, http_content_type,
-  http_method, http_referrer, http_user_agent, site, src, url, url_domain, user |
-  `log4shell_jndi_payload_injection_attempt_filter`'
-how_to_implement: This detection requires the Web datamodel to be populated from a
-  supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
-known_false_positives: If there is a vulnerablility scannner looking for log4shells
-  this will trigger, otherwise likely to have low false positives.
+    - Nginx Access
+search: |-
+    | from datamodel Web.Web
+    | regex _raw="[jJnNdDiI]{4}(\:|\%3A|\/|\%2F)\w+(\:\/\/|\%3A\%2F\%2F)(\$\{.*?\}(\.)?)?"
+    | fillnull
+    | stats count by action, category, dest, dest_port, http_content_type, http_method, http_referrer, http_user_agent, site, src, url, url_domain, user
+    | `log4shell_jndi_payload_injection_attempt_filter`
+how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache or Splunk for Nginx.
+known_false_positives: If there is a vulnerablility scannner looking for log4shells this will trigger, otherwise likely to have low false positives.
 references:
-- https://www.lunasec.io/docs/blog/log4j-zero-day/
+    - https://www.lunasec.io/docs/blog/log4j-zero-day/
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$dest$"
-  search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: CVE-2021-44228 Log4Shell triggered for host $dest$
-  risk_objects:
-  - field: user
-    type: user
-    score: 15
-  - field: dest
-    type: system
-    score: 15
-  threat_objects: []
+    message: CVE-2021-44228 Log4Shell triggered for host $dest$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Log4Shell CVE-2021-44228
-  - CISA AA22-257A
-  - CISA AA22-320A
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-44228
-  mitre_attack_id:
-  - T1190
-  - T1133
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Log4Shell CVE-2021-44228
+        - CISA AA22-257A
+        - CISA AA22-320A
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-44228
+    mitre_attack_id:
+        - T1190
+        - T1133
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
-    source: nginx
-    sourcetype: nginx:plus:kv
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/log4j_proxy_logs/log4j_proxy_logs.log
+          source: nginx
+          sourcetype: nginx:plus:kv

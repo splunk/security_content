@@ -1,71 +1,62 @@
 name: Mailsniper Invoke functions
 id: a36972c8-b894-11eb-9f78-acde48001122
-version: 9
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of known MailSniper PowerShell
-  functions on a machine. It leverages PowerShell logs (EventCode 4104) to identify
-  specific script block text associated with MailSniper activities. This behavior
-  is significant as MailSniper is often used by attackers to harvest sensitive emails
-  from compromised Exchange servers. If confirmed malicious, this activity could lead
-  to unauthorized access to sensitive email data, credential theft, and further compromise
-  of the email infrastructure.
+description: The following analytic detects the execution of known MailSniper PowerShell functions on a machine. It leverages PowerShell logs (EventCode 4104) to identify specific script block text associated with MailSniper activities. This behavior is significant as MailSniper is often used by attackers to harvest sensitive emails from compromised Exchange servers. If confirmed malicious, this activity could lead to unauthorized access to sensitive email data, credential theft, and further compromise of the email infrastructure.
 data_source:
-- Powershell Script Block Logging 4104
-search: '`powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*",
-  "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*",
-  "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*",
-  "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest
-  signature signature_id user_id vendor_product EventID Guid Opcode Name Path ProcessID
-  ScriptBlockId ScriptBlockText | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `mailsniper_invoke_functions_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the powershell logs  from your endpoints. make sure you enable needed
-  registry to monitor this event.
+    - Powershell Script Block Logging 4104
+search: |-
+    `powershell` EventCode=4104 ScriptBlockText IN ("*Invoke-GlobalO365MailSearch*", "*Invoke-GlobalMailSearch*", "*Invoke-SelfSearch*", "*Invoke-PasswordSprayOWA*", "*Invoke-PasswordSprayEWS*","*Invoke-DomainHarvestOWA*", "*Invoke-UsernameHarvestOWA*","*Invoke-OpenInboxFinder*","*Invoke-InjectGEventAPI*","*Invoke-InjectGEvent*","*Invoke-SearchGmail*", "*Invoke-MonitorCredSniper*", "*Invoke-AddGmailRule*","*Invoke-PasswordSprayEAS*","*Invoke-UsernameHarvestEAS*")
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest signature signature_id
+           user_id vendor_product EventID
+           Guid Opcode Name
+           Path ProcessID ScriptBlockId
+           ScriptBlockText
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `mailsniper_invoke_functions_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the powershell logs  from your endpoints. make sure you enable needed registry to monitor this event.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
+    - https://www.blackhillsinfosec.com/introducing-mailsniper-a-tool-for-searching-every-users-email-for-sensitive-data/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user_id$"
-  search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user_id$"
+      search: '%original_detection_search% | search  dest = "$dest$" user_id = "$user_id$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user_id$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential mailsniper.ps1 functions executed on dest $dest$ by user $user_id$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 72
-  - field: user_id
-    type: user
-    score: 72
-  threat_objects: []
+    message: Potential mailsniper.ps1 functions executed on dest $dest$ by user $user_id$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: user_id
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Exfiltration
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1114.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Exfiltration
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1114.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
-    source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.001/powershell_script_block_logging/sbl_xml.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

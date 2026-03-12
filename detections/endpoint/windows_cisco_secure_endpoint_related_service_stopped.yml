@@ -1,60 +1,65 @@
 name: Windows Cisco Secure Endpoint Related Service Stopped
 id: df74f45f-01c8-4fd6-bcb8-f6a9ea58307a
-version: 3
-date: '2025-10-14'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
 description: The following analytic detects the suspicious termination of known services commonly targeted by ransomware before file encryption. It leverages Windows System Event Logs (EventCode 7036) to identify when critical services such as Volume Shadow Copy, backup, and antivirus services are stopped. This activity is significant because ransomware often disables these services to avoid errors and ensure successful file encryption. If confirmed malicious, this behavior could lead to widespread data encryption, rendering files inaccessible and potentially causing significant operational disruption and data loss.
 data_source:
-- Windows Event Log System 7036
-search: '`wineventlog_system` `normalized_service_binary_field` | rename param1 as display_name | rename param2 as status | search EventCode=7036 display_name IN ("Cisco AMP Orbital", "*Cisco Secure Endpoint*", "*Cisco Security Connector Monitoring*", "CiscoSAM", "CiscoAMPHeurDriver", "CiscoAMPELAMDriver", "CiscoAMPCEFWDriver", "ImmunetNetworkMonitorDriver", "ImmunetProtectDriver", "ImmunetSelfProtectDriver") status IN ("stopped", "arrêté") | stats count min(_time) as firstTime max(_time) as lastTime by EventCode display_name normalized_service_name status dest | `security_content_ctime(lastTime)` | `security_content_ctime(firstTime)` | `windows_cisco_secure_endpoint_related_service_stopped_filter`'
+    - Windows Event Log System 7036
+search: |-
+    `wineventlog_system` `normalized_service_binary_field`
+      | rename param1 as display_name
+      | rename param2 as status
+      | search EventCode=7036 display_name IN ("Cisco AMP Orbital", "*Cisco Secure Endpoint*", "*Cisco Security Connector Monitoring*", "CiscoSAM", "CiscoAMPHeurDriver", "CiscoAMPELAMDriver", "CiscoAMPCEFWDriver", "ImmunetNetworkMonitorDriver", "ImmunetProtectDriver", "ImmunetSelfProtectDriver") status IN ("stopped", "arrêté")
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY EventCode display_name normalized_service_name
+           status dest
+      | `security_content_ctime(lastTime)`
+      | `security_content_ctime(firstTime)`
+      | `windows_cisco_secure_endpoint_related_service_stopped_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs with the 7036 EventCode ScManager in System audit Logs from your endpoints.
 known_false_positives: Administrator or troubleshooting activities may trigger this alert. Investigate the process performing this action to determine if its a legitimate activity.
 references:
-- https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
-- https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
-- https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
-- https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
+    - https://krebsonsecurity.com/2021/05/a-closer-look-at-the-darkside-ransomware-gang/
+    - https://www.mcafee.com/blogs/other-blogs/mcafee-labs/mcafee-atr-analyzes-sodinokibi-aka-revil-ransomware-as-a-service-what-the-code-tells-us/
+    - https://news.sophos.com/en-us/2020/04/24/lockbit-ransomware-borrows-tricks-to-keep-up-with-revil-and-maze/
+    - https://blogs.vmware.com/security/2022/10/lockbit-3-0-also-known-as-lockbit-black.html
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Cisco Secure Endpoint Service $display_name$ stopped on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 60
-  threat_objects:
-  - field: display_name
-    type: service
+    message: Cisco Secure Endpoint Service $display_name$ stopped on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: display_name
+          type: service
 tags:
-  analytic_story:
-  - Security Solution Tampering
-  - Scattered Lapsus$ Hunters
-  - Hellcat Ransomware
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1490
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Security Solution Tampering
+        - Scattered Lapsus$ Hunters
+        - Hellcat Ransomware
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1490
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/cisco_secure_endpoint_tampering/service_stop.log
-    source: XmlWinEventLog:System
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/cisco_secure_endpoint_tampering/service_stop.log
+          source: XmlWinEventLog:System
+          sourcetype: XmlWinEventLog

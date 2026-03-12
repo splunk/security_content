@@ -1,66 +1,63 @@
 name: GitHub Enterprise Disable Audit Log Event Stream
 id: 7bc111cc-7f1b-4be7-99fa-50cf8d2e7564
-version: 4
-date: '2026-01-14'
+version: 6
+date: '2026-03-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects when a user disables audit log event streaming in GitHub Enterprise. 
-  The detection monitors GitHub Enterprise audit logs for configuration changes that disable the audit log streaming functionality, 
-  which is used to send audit events to security monitoring platforms. This behavior could indicate an attacker attempting to prevent 
-  their malicious activities from being logged and detected by disabling the audit trail. For a SOC, identifying the disabling of 
-  audit logging is critical as it may be a precursor to other attacks where adversaries want to operate undetected. The impact could 
-  be severe as organizations lose visibility into user actions, configuration changes, and security events within their 
-  GitHub Enterprise environment, potentially allowing attackers to perform malicious activities without detection. 
-  This creates a significant blind spot in security monitoring and incident response capabilities.
+description: The following analytic detects when a user disables audit log event streaming in GitHub Enterprise. The detection monitors GitHub Enterprise audit logs for configuration changes that disable the audit log streaming functionality, which is used to send audit events to security monitoring platforms. This behavior could indicate an attacker attempting to prevent their malicious activities from being logged and detected by disabling the audit trail. For a SOC, identifying the disabling of audit logging is critical as it may be a precursor to other attacks where adversaries want to operate undetected. The impact could be severe as organizations lose visibility into user actions, configuration changes, and security events within their GitHub Enterprise environment, potentially allowing attackers to perform malicious activities without detection. This creates a significant blind spot in security monitoring and incident response capabilities.
 data_source:
-- GitHub Enterprise Audit Logs
-search: '`github_enterprise` action=audit_log_streaming.destroy
-  | fillnull
-  | stats count min(_time) as firstTime max(_time) as lastTime by actor, actor_id, actor_ip, actor_is_bot, actor_location.country_code, business, business_id, user_agent, action
-  | eval user=actor
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` 
-  | `github_enterprise_disable_audit_log_event_stream_filter`'
+    - GitHub Enterprise Audit Logs
+search: |-
+    `github_enterprise` action=audit_log_streaming.destroy
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY actor, actor_id, actor_ip,
+           actor_is_bot, actor_location.country_code, business,
+           business_id, user_agent, action
+      | eval user=actor
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `github_enterprise_disable_audit_log_event_stream_filter`
 how_to_implement: You must ingest GitHub Enterprise logs using Audit log streaming as described in this documentation https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk using a Splunk HTTP Event Collector.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
-- https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk
+    - https://www.googlecloudcommunity.com/gc/Community-Blog/Monitoring-for-Suspicious-GitHub-Activity-with-Google-Security/ba-p/763610
+    - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise#setting-up-streaming-to-splunk
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Audit log event streaming is disabled by $user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: user_agent
-    type: http_user_agent
+    message: Audit log event streaming is disabled by $user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: user_agent
+          type: http_user_agent
 tags:
-  analytic_story:
-  - GitHub Malicious Activity
-  - NPM Supply Chain Compromise
-  asset_type: GitHub
-  mitre_attack_id:
-  - T1562.008
-  - T1195
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - GitHub Malicious Activity
+        - NPM Supply Chain Compromise
+    asset_type: GitHub
+    mitre_attack_id:
+        - T1562.008
+        - T1195
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/github_audit_log_stream_disabled/github.json
-    source: http:github
-    sourcetype: httpevent
-
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.008/github_audit_log_stream_disabled/github.json
+          source: http:github
+          sourcetype: httpevent

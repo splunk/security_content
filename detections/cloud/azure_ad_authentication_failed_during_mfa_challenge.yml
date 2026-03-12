@@ -1,86 +1,55 @@
 name: Azure AD Authentication Failed During MFA Challenge
 id: e62c9c2e-bf51-4719-906c-3074618fcc1c
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk, 0xC0FFEEEE
 status: production
 type: TTP
-description: The following analytic identifies failed authentication attempts against
-  an Azure AD tenant during the Multi-Factor Authentication (MFA) challenge, specifically
-  flagged by error code 500121. It leverages Azure AD SignInLogs to detect these events.
-  This activity is significant as it may indicate an adversary attempting to authenticate
-  using compromised credentials on an account with MFA enabled. If confirmed malicious,
-  this could suggest an ongoing effort to bypass MFA protections, potentially leading
-  to unauthorized access and further compromise of the affected account.
+description: The following analytic identifies failed authentication attempts against an Azure AD tenant during the Multi-Factor Authentication (MFA) challenge, specifically flagged by error code 500121. It leverages Azure AD SignInLogs to detect these events. This activity is significant as it may indicate an adversary attempting to authenticate using compromised credentials on an account with MFA enabled. If confirmed malicious, this could suggest an ongoing effort to bypass MFA protections, potentially leading to unauthorized access and further compromise of the affected account.
 data_source:
-- Azure Active Directory
-search: "`azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121 
-  | rename properties.* as *, authenticationDetails{}.* as * 
-  | eval time=strptime(authenticationStepDateTime,\"%Y-%m-%dT%H:%M:%S\") 
-  | eval auth_detail=mvzip(strftime(time, \"%Y-%m-%dT%H:%M:%S\"),authenticationStepResultDetail,\" - \"), auth_msg=mvappend('status.additionalDetails',
-      authenticationStepResultDetail)   
-  | eval auth_method=mvmap(authenticationMethod, if(isnull(mvfind('mfaDetail.authMethod',authenticationMethod)), authenticationMethod, null())) 
-  | search NOT auth_msg=\"MFA successfully completed\" 
-  | rename userAgent as user_agent
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product auth_method auth_msg user_agent signature
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`"
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the SignInLogs log category.
-known_false_positives: "False positives have been minimized by removing attempts that
-  result in 'MFA successfully completed messages', which were found to be generated
-  when a user opts to use a different MFA method than the default.\nFurther reductions
-  in finding events can be achieved through filtering 'MFA denied; duplicate authentication
-  attempt' messages within the auth_msg field, as they could arguably be considered
-  as false positives."
+    - Azure Active Directory
+search: "`azure_monitor_aad` category=SignInLogs properties.status.errorCode=500121 | rename properties.* as *, authenticationDetails{}.* as * | eval time=strptime(authenticationStepDateTime,\"%Y-%m-%dT%H:%M:%S\") | eval auth_detail=mvzip(strftime(time, \"%Y-%m-%dT%H:%M:%S\"),authenticationStepResultDetail,\" - \"), auth_msg=mvappend('status.additionalDetails', authenticationStepResultDetail) | eval auth_method=mvmap(authenticationMethod, if(isnull(mvfind('mfaDetail.authMethod',authenticationMethod)), authenticationMethod, null())) | search NOT auth_msg=\"MFA successfully completed\" | rename userAgent as user_agent | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product auth_method auth_msg user_agent signature | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `azure_ad_authentication_failed_during_mfa_challenge_filter`"
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the SignInLogs log category.
+known_false_positives: "False positives have been minimized by removing attempts that result in 'MFA successfully completed messages', which were found to be generated when a user opts to use a different MFA method than the default.\nFurther reductions in finding events can be achieved through filtering 'MFA denied; duplicate authentication attempt' messages within the auth_msg field, as they could arguably be considered as false positives."
 references:
-- https://attack.mitre.org/techniques/T1621/
-- https://attack.mitre.org/techniques/T1078/004/
-- https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
-- https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-in-log-activity-details
+    - https://attack.mitre.org/techniques/T1621/
+    - https://attack.mitre.org/techniques/T1078/004/
+    - https://docs.microsoft.com/en-us/azure/active-directory/authentication/concept-mfa-howitworks
+    - https://learn.microsoft.com/en-us/entra/identity/monitoring-health/concept-sign-in-log-activity-details
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ failed to pass MFA challenge
-  risk_objects:
-  - field: user
-    type: user
-    score: 54
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ failed to pass MFA challenge
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1078.004
-  - T1586.003
-  - T1621
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1078.004
+        - T1586.003
+        - T1621
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1621/azuread/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

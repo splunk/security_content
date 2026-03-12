@@ -1,106 +1,71 @@
 name: Detect Remote Access Software Usage Registry
 id: 33804986-25dd-43cf-bb6b-dc14956c7cbc
-version: 10
-date: '2025-10-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: Anomaly
-description: The following analytic detects when a known remote access software is
-  added to common persistence locations on a device within the environment. Adversaries
-  use these utilities to retain remote access capabilities to the environment. Utilities
-  in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review
-  the lookup for the entire list and add any others.
+description: The following analytic detects when a known remote access software is added to common persistence locations on a device within the environment. Adversaries use these utilities to retain remote access capabilities to the environment. Utilities in the lookup include AnyDesk, GoToMyPC, LogMeIn, TeamViewer and much more. Review the lookup for the entire list and add any others.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` latest(Registry.process_guid) as
-  process_guid  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
-  where (Registry.registry_path="*\\Microsoft\\Windows\\CurrentVersion\\Run*" OR (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services\\*"
-  AND Registry.registry_value_name="ImagePath")) by Registry.action Registry.dest
-  Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path
-  Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name
-  Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
-  | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | rex field=registry_value_data "(\")?.+\\\(?<file_name_1>[^\"=]+\.[^\" ]{1,5})(\")?"
-  | rex field=registry_value_data "(?<file_name_2>[^\.]+\.[^\" ]{1,5}$)" | eval file_name
-  = coalesce(file_name_1,file_name_2) | lookup remote_access_software remote_utility
-  AS file_name OUTPUT isutility, description as signature, comment_reference as desc,
-  category | search isutility = TRUE | `remote_access_software_usage_exceptions` |
-  `detect_remote_access_software_usage_registry_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the file path, file name, and the user that created
-  the file. These logs must be processed using the appropriate Splunk Technology Add-ons
-  that are specific to the EDR product. The logs must also be mapped to the `Registry`
-  node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM)
-  to normalize the field names and speed up the data modeling process. The "exceptions"
-  macro leverages both an Assets and Identities lookup, as well as a KVStore collection
-  called "remote_software_exceptions" that lets you track and maintain device-based
-  exceptions for this set of detections.
-known_false_positives: Known or approved applications used by the organization or
-  usage of built-in functions. Known false positives can be added to the remote_access_software_usage_exception.csv
-  lookup to globally suppress these situations across all remote access content
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` latest(Registry.process_guid) as process_guid  count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry where (Registry.registry_path="*\\Microsoft\\Windows\\CurrentVersion\\Run*" OR (Registry.registry_path="*\\SYSTEM\\CurrentControlSet\\Services\\*" AND Registry.registry_value_name="ImagePath")) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | rex field=registry_value_data "(\")?.+\\\(?<file_name_1>[^\"=]+\.[^\" ]{1,5})(\")?" | rex field=registry_value_data "(?<file_name_2>[^\.]+\.[^\" ]{1,5}$)" | eval file_name = coalesce(file_name_1,file_name_2) | lookup remote_access_software remote_utility AS file_name OUTPUT isutility, description as signature, comment_reference as desc, category | search isutility = TRUE | `remote_access_software_usage_exceptions` | `detect_remote_access_software_usage_registry_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the file path, file name, and the user that created the file. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Registry` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process. The "exceptions" macro leverages both an Assets and Identities lookup, as well as a KVStore collection called "remote_software_exceptions" that lets you track and maintain device-based exceptions for this set of detections.
+known_false_positives: Known or approved applications used by the organization or usage of built-in functions. Known false positives can be added to the remote_access_software_usage_exception.csv lookup to globally suppress these situations across all remote access content
 references:
-- https://attack.mitre.org/techniques/T1219/
-- https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
-- https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
+    - https://attack.mitre.org/techniques/T1219/
+    - https://thedfirreport.com/2022/08/08/bumblebee-roasts-its-way-to-domain-admin/
+    - https://thedfirreport.com/2022/11/28/emotet-strikes-again-lnk-file-leads-to-domain-wide-ransomware/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: Investigate registry changes on $dest$
-  search: '| from datamodel:Endpoint.Registry| search dest=$dest$ registry_path=$registry_path$'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: Investigate registry changes on $dest$
+      search: '| from datamodel:Endpoint.Registry| search dest=$dest$ registry_path=$registry_path$'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A process for a known remote access software [$signature$] was detected
-    on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 25
-  - field: user
-    type: user
-    score: 25
-  threat_objects:
-  - field: registry_path
-    type: registry_path
-  - field: signature
-    type: signature
+    message: A process for a known remote access software [$signature$] was detected on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+        - field: user
+          type: user
+          score: 20
+    threat_objects:
+        - field: registry_path
+          type: registry_path
+        - field: signature
+          type: signature
 tags:
-  analytic_story:
-  - Insider Threat
-  - Command And Control
-  - Ransomware
-  - Gozi Malware
-  - CISA AA24-241A
-  - Remote Monitoring and Management Software
-  - Seashell Blizzard
-  - Cactus Ransomware
-  - Scattered Spider
-  - Scattered Lapsus$ Hunters
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1219
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  manual_test: This detection uses A&I lookups from Enterprise Security.
+    analytic_story:
+        - Insider Threat
+        - Command And Control
+        - Ransomware
+        - Gozi Malware
+        - CISA AA24-241A
+        - Remote Monitoring and Management Software
+        - Seashell Blizzard
+        - Cactus Ransomware
+        - Scattered Spider
+        - Scattered Lapsus$ Hunters
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    manual_test: This detection uses A&I lookups from Enterprise Security.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/screenconnect/screenconnect_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

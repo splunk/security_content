@@ -1,74 +1,77 @@
 name: Tomcat Session File Upload Attempt
 id: a1d8f5c3-9b7e-4f2d-8c51-3bca5e672410
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 description: This detection identifies potential exploitation of CVE-2025-24813 in Apache Tomcat through the initial stage of the attack. This first phase occurs when an attacker attempts to upload a malicious serialized Java object with a .session file extension via an HTTP PUT request. When successful, these uploads typically result in HTTP status codes 201 (Created) or 409 (Conflict) and create the foundation for subsequent deserialization attacks by placing malicious content in a location where Tomcat's session management can access it.
 data_source:
-- Nginx Access
-search: '| tstats count min(_time) as firstTime max(_time) as lastTime from datamodel=Web 
-  where Web.http_method=PUT AND Web.uri_path="*.session" AND (Web.status=201 OR Web.status=409) 
-  by Web.src, Web.dest, Web.http_user_agent, Web.uri_path, Web.status 
-  | `drop_dm_object_name("Web")` 
-  | rex field=uri_path "/(?<filename>[^/]+)\.session$" 
-  | eval severity="High" 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `tomcat_session_file_upload_attempt_filter`'
+    - Nginx Access
+search: |-
+    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
+      WHERE Web.http_method=PUT
+        AND
+        Web.uri_path="*.session"
+        AND
+        (Web.status=201
+        OR
+        Web.status=409)
+      BY Web.src, Web.dest, Web.http_user_agent,
+         Web.uri_path, Web.status
+    | `drop_dm_object_name("Web")`
+    | rex field=uri_path "/(?<filename>[^/]+)\.session$"
+    | eval severity="High"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `tomcat_session_file_upload_attempt_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting logs from your web servers, proxies, or WAFs that process web traffic to Tomcat instances. The data must be mapped to the Web datamodel in the Web node. Ensure your web servers are logging HTTP PUT requests, including status codes and URI paths. This detection specifically looks for PUT requests targeting files with a .session extension that result in HTTP status codes 201 or 409, which indicate successful creation of files - a pattern consistent with the first stage of CVE-2025-24813 exploitation.
 known_false_positives: Some legitimate applications might use PUT requests to create .session files, especially in custom implementations that leverage Tomcat's session persistence mechanism. Verify if the detected activity is part of a normal application flow or if it correlates with other suspicious behavior, such as subsequent GET requests with manipulated JSESSIONID cookies.
 references:
-- https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
-- https://nvd.nist.gov/vuln/detail/CVE-2025-24813
-- https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
-- https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
-- https://gist.github.com/MHaggis/e106367f6649fbb09ab27e7b4a01cf73
+    - https://lists.apache.org/thread/j5fkjv2k477os90nczf2v9l61fb0kkgq
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-24813
+    - https://github.com/vulhub/vulhub/tree/master/tomcat/CVE-2025-24813
+    - https://www.rapid7.com/db/vulnerabilities/apache-tomcat-cve-2025-24813/
+    - https://gist.github.com/MHaggis/e106367f6649fbb09ab27e7b4a01cf73
 drilldown_searches:
-- name: View the detection results for - "$src$"
-  search: '%original_detection_search% | search src = "$src$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$")
-    starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View all PUT requests to .session files
-  search: '| from datamodel Web.Web | search http_method = PUT uri_path="*.session" src=$src$ | table src dest http_method uri_path http_user_agent status'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src$"
+      search: '%original_detection_search% | search src = "$src$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View all PUT requests to .session files
+      search: '| from datamodel Web.Web | search http_method = PUT uri_path="*.session" src=$src$ | table src dest http_method uri_path http_user_agent status'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A Tomcat session file upload attempt has been detected from IP $src$ targeting $dest$ with a suspicious .session file. This could indicate the first stage of CVE-2025-24813 exploitation.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 70
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: A Tomcat session file upload attempt has been detected from IP $src$ targeting $dest$ with a suspicious .session file. This could indicate the first stage of CVE-2025-24813 exploitation.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Apache Tomcat Session Deserialization Attacks
-  asset_type: Web Application
-  mitre_attack_id:
-  - T1190
-  - T1505.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  cve:
-  - CVE-2025-24813
+    analytic_story:
+        - Apache Tomcat Session Deserialization Attacks
+    asset_type: Web Application
+    mitre_attack_id:
+        - T1190
+        - T1505.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2025-24813
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/tomcat/tomcat_nginx_access.log
-    sourcetype: nginx:plus:kv
-    source: nginx
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/tomcat/tomcat_nginx_access.log
+          sourcetype: nginx:plus:kv
+          source: nginx

@@ -1,76 +1,53 @@
 name: Disabling Defender Services
 id: 911eacdc-317f-11ec-ad30-acde48001122
-version: 11
-date: '2025-05-02'
+version: 12
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: TTP
-description: The following analytic detects the disabling of Windows Defender services
-  by monitoring registry modifications. It leverages registry event data to identify
-  changes to specific registry paths associated with Defender services, where the
-  'Start' value is set to '0x00000004'. This activity is significant because disabling
-  Defender services can indicate an attempt by an adversary to evade detection and
-  maintain persistence on the endpoint. If confirmed malicious, this action could
-  allow attackers to execute further malicious activities undetected, leading to potential
-  data breaches or system compromise.
+description: The following analytic detects the disabling of Windows Defender services by monitoring registry modifications. It leverages registry event data to identify changes to specific registry paths associated with Defender services, where the 'Start' value is set to '0x00000004'. This activity is significant because disabling Defender services can indicate an attempt by an adversary to evade detection and maintain persistence on the endpoint. If confirmed malicious, this action could allow attackers to execute further malicious activities undetected, leading to potential data breaches or system compromise.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*"
-  AND (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*",
-  "*SecurityHealthService*")) AND Registry.registry_value_name = Start Registry.registry_value_data
-  = 0x00000004) by Registry.action Registry.dest Registry.process_guid Registry.process_id
-  Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data
-  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user
-  Registry.vendor_product | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data)
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_defender_services_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE (Registry.registry_path = "*\\System\\CurrentControlSet\\Services\\*" AND (Registry.registry_path IN("*WdBoot*", "*WdFilter*", "*WdNisDrv*", "*WdNisSvc*","*WinDefend*", "*SecurityHealthService*")) AND Registry.registry_value_name = Start Registry.registry_value_data = 0x00000004) by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)`| where isnotnull(registry_value_data) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `disabling_defender_services_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: admin or user may choose to disable windows defender product
 references:
-- https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
+    - https://thedfirreport.com/2021/10/18/icedid-to-xinglocker-ransomware-in-24-hours/
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: modified/added/deleted registry entry $registry_path$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  - field: user
-    type: user
-    score: 49
-  threat_objects: []
+    message: modified/added/deleted registry entry $registry_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - IcedID
-  - Windows Registry Abuse
-  - RedLine Stealer
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - IcedID
+        - Windows Registry Abuse
+        - RedLine Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/disable_av/sysmon2.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

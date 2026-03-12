@@ -1,137 +1,131 @@
 name: Detect Outlook exe writing a zip file
 id: a51bfe1a-94f0-4822-b1e4-16ae10145893
-version: 15
-date: '2026-01-23'
+version: 16
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic identifies the execution of `outlook.exe` writing a `.zip` file to the disk.
-  It leverages data from the Endpoint data model, specifically monitoring process and filesystem activities.
-  This behavior can be significant as it may indicate the use of Outlook to deliver malicious payloads or exfiltrate data via compressed files.
-  If confirmed malicious, this activity could lead to unauthorized data access, data exfiltration, or the delivery of malware, potentially compromising the security of the affected system and network.
+    The following analytic identifies the execution of `outlook.exe` writing a `.zip` file to the disk.
+    It leverages data from the Endpoint data model, specifically monitoring process and filesystem activities.
+    This behavior can be significant as it may indicate the use of Outlook to deliver malicious payloads or exfiltrate data via compressed files.
+    If confirmed malicious, this activity could lead to unauthorized data access, data exfiltration, or the delivery of malware, potentially compromising the security of the affected system and network.
 data_source:
-- Sysmon EventID 1 AND Sysmon EventID 11
+    - Sysmon EventID 1 AND Sysmon EventID 11
 search: |
-  | tstats `security_content_summariesonly`
-    min(_time) as firstTime
-    max(_time) as lastTime
+    | tstats `security_content_summariesonly`
+      min(_time) as firstTime
+      max(_time) as lastTime
 
-  FROM datamodel=Endpoint.Processes where
+    FROM datamodel=Endpoint.Processes where
 
-  Processes.process_name=outlook.exe
+    Processes.process_name=outlook.exe
 
-  by _time span=5m
-    Processes.action Processes.dest Processes.original_file_name
-    Processes.parent_process Processes.parent_process_exec
-    Processes.parent_process_guid Processes.parent_process_id
-    Processes.parent_process_name Processes.parent_process_path
-    Processes.process Processes.process_exec Processes.process_guid
-    Processes.process_hash Processes.process_id Processes.process_integrity_level
-    Processes.process_name Processes.process_path
-    Processes.user Processes.user_id Processes.vendor_product
+    by _time span=5m
+      Processes.action Processes.dest Processes.original_file_name
+      Processes.parent_process Processes.parent_process_exec
+      Processes.parent_process_guid Processes.parent_process_id
+      Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid
+      Processes.process_hash Processes.process_id Processes.process_integrity_level
+      Processes.process_name Processes.process_path
+      Processes.user Processes.user_id Processes.vendor_product
 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
 
-  | rename process_guid as malicious_id
-  | rename parent_process_id as outlook_id
+    | rename process_guid as malicious_id
+    | rename parent_process_id as outlook_id
 
-  | join malicious_id type=inner
-    [
-      | tstats `security_content_summariesonly`
-        count values(Filesystem.file_path) as file_path
-              values(Filesystem.file_name) as file_name
-        FROM datamodel=Endpoint.Filesystem where
+    | join malicious_id type=inner
+      [
+        | tstats `security_content_summariesonly`
+          count values(Filesystem.file_path) as file_path
+                values(Filesystem.file_name) as file_name
+          FROM datamodel=Endpoint.Filesystem where
 
-        Filesystem.file_path=*.zip
-        Filesystem.file_path IN ("*:\\Users*", "*\\AppData\\Local\\Temp*")
-        Filesystem.action=created
+          Filesystem.file_path=*.zip
+          Filesystem.file_path IN ("*:\\Users*", "*\\AppData\\Local\\Temp*")
+          Filesystem.action=created
 
-        by _time span=5m
-           Filesystem.process_guid Filesystem.process_id
-           Filesystem.file_hash Filesystem.dest Filesystem.dvc
-           Filesystem.signature Filesystem.signature_id
+          by _time span=5m
+             Filesystem.process_guid Filesystem.process_id
+             Filesystem.file_hash Filesystem.dest Filesystem.dvc
+             Filesystem.signature Filesystem.signature_id
 
-      | `drop_dm_object_name(Filesystem)`
-      | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`
+        | `drop_dm_object_name(Filesystem)`
+        | `security_content_ctime(firstTime)`
+        | `security_content_ctime(lastTime)`
 
-      | rename process_guid as malicious_id
+        | rename process_guid as malicious_id
 
-      | fields malicious_id outlook_id dest
-               file_path file_name
-               file_hash count file_id
-    ]
-  | table firstTime lastTime user malicious_id outlook_id
-          process_name parent_process_name file_name file_path
-          dest action original_file_name parent_process
-          parent_process_name parent_process_exec parent_process_guid
-          parent_process_id parent_process_path process_exec
-          process_guid process_hash process_id process_integrity_level
-          process_name process_path user user_id vendor_product
+        | fields malicious_id outlook_id dest
+                 file_path file_name
+                 file_hash count file_id
+      ]
+    | table firstTime lastTime user malicious_id outlook_id
+            process_name parent_process_name file_name file_path
+            dest action original_file_name parent_process
+            parent_process_name parent_process_exec parent_process_guid
+            parent_process_id parent_process_path process_exec
+            process_guid process_hash process_id process_integrity_level
+            process_name process_path user user_id vendor_product
 
-  | where file_name != ""
-  | `detect_outlook_exe_writing_a_zip_file_filter`
+    | where file_name != ""
+    | `detect_outlook_exe_writing_a_zip_file_filter`
 how_to_implement: |
-  You must be ingesting data that records filesystem and process activity
-  from your hosts to populate the Endpoint data model. This is typically populated
-  via endpoint detection-and-response product, such as Carbon Black, or endpoint data
-  sources, such as Sysmon.
-known_false_positives: It is not uncommon for outlook to write legitimate zip files
-  to the disk.
+    You must be ingesting data that records filesystem and process activity
+    from your hosts to populate the Endpoint data model. This is typically populated
+    via endpoint detection-and-response product, such as Carbon Black, or endpoint data
+    sources, such as Sysmon.
+known_false_positives: It is not uncommon for outlook to write legitimate zip files to the disk.
 references:
-  - https://www.paubox.com/news/hackers-exploit-corrupted-zip-and-office-files-to-bypass-email-security
-  - https://docs.datadoghq.com/security/default_rules/def-000-14w/
-  - https://theweborion.com/blog/zip-files/
+    - https://www.paubox.com/news/hackers-exploit-corrupted-zip-and-office-files-to-bypass-email-security
+    - https://docs.datadoghq.com/security/default_rules/def-000-14w/
+    - https://theweborion.com/blog/zip-files/
 drilldown_searches:
-  - name: View the detection results for - "$user$" and "$dest$"
-    search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-      "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-      as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-      Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-      as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-      by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: ZIP file - [$file_name$] located in [$file_path$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
-  risk_objects:
-    - field: user
-      type: user
-      score: 25
-    - field: dest
-      type: system
-      score: 25
-  threat_objects:
-    - field: file_name
-      type: file_name
-    - field: file_path
-      type: file_path
+    message: ZIP file - [$file_name$] located in [$file_path$] written by outlook.exe on destination host - [$dest$] by user - [$user$]
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: file_name
+          type: file_name
+        - field: file_path
+          type: file_path
 tags:
-  analytic_story:
-    - Amadey
-    - APT37 Rustonotto and FadeStealer
-    - Meduza Stealer
-    - PXA Stealer
-    - Remcos
-    - Spearphishing Attachments
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1566.001
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Amadey
+        - APT37 Rustonotto and FadeStealer
+        - Meduza Stealer
+        - PXA Stealer
+        - Remcos
+        - Spearphishing Attachments
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/outlook_writing_zip/outlook_writing_zip.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/outlook_writing_zip/outlook_writing_zip.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

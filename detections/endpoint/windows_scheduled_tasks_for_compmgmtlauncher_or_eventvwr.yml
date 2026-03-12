@@ -1,73 +1,50 @@
 name: Windows Scheduled Tasks for CompMgmtLauncher or Eventvwr
 id: feb43b86-8c38-46cd-865e-20ce8a96c26c
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
-  - Windows Event Log Security 4698
+    - Windows Event Log Security 4698
 type: TTP
 status: production
-description:
-  The following analytic detects the creation or modification of Windows
-  Scheduled Tasks related to CompMgmtLauncher or Eventvwr. These legitimate system
-  utilities, used for launching the Computer Management Console and Event Viewer,
-  can be abused by attackers to execute malicious payloads under the guise of normal
-  system processes. By leveraging these tasks, adversaries can establish persistence
-  or elevate privileges without raising suspicion. This detection helps security analysts
-  identify unusual or unauthorized scheduled tasks involving these executables, allowing
-  for timely investigation and remediation of potential threats.
-search:
-  '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*"
-  OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*"
-  OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*"
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest action EventData_Xml
-  TaskContent TaskName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_scheduled_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
-how_to_implement:
-  To successfully implement this search, you need to be ingesting
-  Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well
-  as the URL ToolBox application are also required.
+description: The following analytic detects the creation or modification of Windows Scheduled Tasks related to CompMgmtLauncher or Eventvwr. These legitimate system utilities, used for launching the Computer Management Console and Event Viewer, can be abused by attackers to execute malicious payloads under the guise of normal system processes. By leveraging these tasks, adversaries can establish persistence or elevate privileges without raising suspicion. This detection helps security analysts identify unusual or unauthorized scheduled tasks involving these executables, allowing for timely investigation and remediation of potential threats.
+search: '`wineventlog_security` EventCode=4698 TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\CompMgmtLauncher.exe&lt;/Command&gt;*" OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\zh-CN\\eventvwr.msc&lt;/Command&gt;*" OR TaskContent = "*&lt;Command&gt;C:\\Windows\\System32\\eventvwr.msc&lt;/Command&gt;*" | stats count min(_time) as firstTime max(_time) as lastTime by dest action EventData_Xml TaskContent TaskName | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_scheduled_tasks_for_compmgmtlauncher_or_eventvwr_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA as well as the URL ToolBox application are also required.
 known_false_positives: No false positives have been identified at this time.
 references:
-  - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
-  - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
+    - https://www.proofpoint.com/us/blog/threat-insight/chinese-malware-appears-earnest-across-cybercrime-threat-landscape
+    - https://www.fortinet.com/blog/threat-research/valleyrat-campaign-targeting-chinese-speakers
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search:
-      '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A schedule task created for CompMgmtLauncher or Eventvwr on [$dest$].
-  risk_objects:
-    - field: dest
-      type: system
-      score: 64
-  threat_objects: []
+    message: A schedule task created for CompMgmtLauncher or Eventvwr on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-    - ValleyRAT
-    - Water Gamayun
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1053
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - ValleyRAT
+        - Water Gamayun
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-      - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/valleyrat_schedtask/valleyrat_schedtask.log
-        source: XmlWinEventLog:Security
-        sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053/valleyrat_schedtask/valleyrat_schedtask.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

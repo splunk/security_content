@@ -1,101 +1,68 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: 7
-date: '2025-12-10'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies processes running from %temp% 
-  directory file paths. It leverages data from Endpoint Detection and Response 
-  (EDR) agents, focusing on specific process paths within the Endpoint data 
-  model. This activity is significant because adversaries often use 
-  unconventional file paths to execute malicious code without requiring 
-  administrative privileges. If confirmed malicious, this behavior could 
-  indicate an attempt to bypass security controls, leading to unauthorized 
-  software execution, potential system compromise, and further malicious 
-  activities within the environment.
+description: The following analytic identifies processes running from %temp% directory file paths. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on specific process paths within the Endpoint data model. This activity is significant because adversaries often use unconventional file paths to execute malicious code without requiring administrative privileges. If confirmed malicious, this behavior could indicate an attempt to bypass security controls, leading to unauthorized software execution, potential system compromise, and further malicious activities within the environment.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.process_path IN("*\\temp\\*")
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-  Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-  Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
-  Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level
-  Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `windows_process_execution_in_temp_dir_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint 
-  Detection and Response (EDR) agents. These agents are designed to provide 
-  security-related telemetry from the endpoints where the agent is installed. To
-  implement this search, you must ingest logs that contain the process GUID, 
-  process name, and parent process. Additionally, you must ingest complete 
-  command-line executions. These logs must be processed using the appropriate 
-  Splunk Technology Add-ons that are specific to the EDR product. The logs must 
-  also be mapped to the `Processes` node of the `Endpoint` data model. Use the 
-  Splunk Common Information Model (CIM) to normalize the field names and speed 
-  up the data modeling process.
-known_false_positives: Administrators may allow execution of specific binaries 
-  in non-standard paths. Filter as needed.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_path IN("*\\temp\\*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_execution_in_temp_dir_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Administrators may allow execution of specific binaries in non-standard paths. Filter as needed.
 references:
-- https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
-- https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
-- https://twitter.com/pr0xylife/status/1590394227758104576
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
-- https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
+    - https://www.trendmicro.com/vinfo/hk/threat-encyclopedia/malware/trojan.ps1.powtran.a/
+    - https://www.microsoft.com/security/blog/2022/01/15/destructive-malware-targeting-ukrainian-organizations/
+    - https://twitter.com/pr0xylife/status/1590394227758104576
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.asyncrat
+    - https://www.microsoft.com/en-us/security/blog/2023/05/24/volt-typhoon-targets-us-critical-infrastructure-with-living-off-the-land-techniques/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious process $process_name$ running from temp directory- 
-    $process_path$ on host- $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 30
-  threat_objects:
-  - field: process_path
-    type: process_name
+    message: Suspicious process $process_name$ running from temp directory- $process_path$ on host- $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_path
+          type: process_name
 tags:
-  analytic_story:
-  - AgentTesla
-  - XWorm
-  - NjRAT
-  - Remcos
-  - Ryuk Ransomware
-  - Ransomware
-  - Qakbot
-  - Trickbot
-  - PathWiper
-  - PromptLock
-  - Lokibot
-  - SesameOp
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1543
-  - T1036.005
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - AgentTesla
+        - XWorm
+        - NjRAT
+        - Remcos
+        - Ryuk Ransomware
+        - Ransomware
+        - Qakbot
+        - Trickbot
+        - PathWiper
+        - PromptLock
+        - Lokibot
+        - SesameOp
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1543
+        - T1036.005
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/process_temp_path/process_temp_path.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1036/process_temp_path/process_temp_path.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

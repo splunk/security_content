@@ -1,95 +1,86 @@
 name: Windows Registry Delete Task SD
 id: ffeb7893-ff06-446f-815b-33ca73224e92
-version: 9
-date: '2026-01-23'
+version: 10
+date: '2026-03-10'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic detects a process attempting to delete a scheduled task's Security Descriptor (SD) from the registry path of that task.
-  It leverages the Endpoint.Registry data model to identify registry actions performed by the SYSTEM user, specifically targeting deletions of the SD value.
-  This activity is significant as it may indicate an attempt to remove evidence of a scheduled task for defense evasion.
-  If confirmed malicious, it suggests an attacker with privileged access trying to hide their tracks, potentially compromising system integrity and security.
+    The following analytic detects a process attempting to delete a scheduled task's Security Descriptor (SD) from the registry path of that task.
+    It leverages the Endpoint.Registry data model to identify registry actions performed by the SYSTEM user, specifically targeting deletions of the SD value.
+    This activity is significant as it may indicate an attempt to remove evidence of a scheduled task for defense evasion.
+    If confirmed malicious, it suggests an attacker with privileged access trying to hide their tracks, potentially compromising system integrity and security.
 data_source:
-  - Sysmon EventID 12
+    - Sysmon EventID 12
 search: |
-  | tstats `security_content_summariesonly`
-    count min(_time) as firstTime
-          max(_time) as lastTime
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
 
-  FROM datamodel=Endpoint.Registry where
+    FROM datamodel=Endpoint.Registry where
 
-  Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*")
-  Registry.user="SYSTEM"
-  (
-    Registry.registry_value_name="SD"
-    OR
-    Registry.registry_key_name="SD"
-  )
-  Registry.action=deleted
+    Registry.registry_path IN ("*\\Schedule\\TaskCache\\Tree\\*")
+    Registry.user="SYSTEM"
+    (
+      Registry.registry_value_name="SD"
+      OR
+      Registry.registry_key_name="SD"
+    )
+    Registry.action=deleted
 
-  by Registry.action Registry.dest Registry.process_guid
-     Registry.process_id Registry.registry_hive
-     Registry.registry_path Registry.registry_key_name
-     Registry.registry_value_data Registry.registry_value_name
-     Registry.registry_value_type Registry.status Registry.user
-     Registry.vendor_product
+    by Registry.action Registry.dest Registry.process_guid
+       Registry.process_id Registry.registry_hive
+       Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status Registry.user
+       Registry.vendor_product
 
-  | `drop_dm_object_name(Registry)`
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)`
-  | `windows_registry_delete_task_sd_filter`
-how_to_implement: To successfully implement this search you need to be ingesting information
-  on process that include the name of the process responsible for the changes from
-  your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition,
-  confirm the latest CIM App 4.20 or higher is installed and the latest TA for the
-  endpoint product.
+    | `drop_dm_object_name(Registry)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_registry_delete_task_sd_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
 known_false_positives: |
-  False positives should be limited as the activity is not common to delete ONLY the SD from the registry.
+    False positives should be limited as the activity is not common to delete ONLY the SD from the registry.
 references:
-  - https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
-  - https://gist.github.com/MHaggis/5f7fd6745915166fc6da863d685e2728
-  - https://gist.github.com/MHaggis/b246e2fae6213e762a6e694cabaf0c17
+    - https://www.microsoft.com/security/blog/2022/04/12/tarrask-malware-uses-scheduled-tasks-for-defense-evasion/
+    - https://gist.github.com/MHaggis/5f7fd6745915166fc6da863d685e2728
+    - https://gist.github.com/MHaggis/b246e2fae6213e762a6e694cabaf0c17
 drilldown_searches:
-  - name: View the detection results for - "$dest$"
-    search: '%original_detection_search% | search  dest = "$dest$"'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
-  - name: View risk events for the last 7 days for - "$dest$"
-    search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-      starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-      values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-      as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-      as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-      | `security_content_ctime(lastTime)`'
-    earliest_offset: $info_min_time$
-    latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A scheduled task security descriptor $registry_path$ was deleted from the registry on $dest$.
-  risk_objects:
-    - field: dest
-      type: system
-      score: 40
-  threat_objects:
-    - field: registry_path
-      type: registry_path
+    message: A scheduled task security descriptor $registry_path$ was deleted from the registry on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: registry_path
+          type: registry_path
 tags:
-  analytic_story:
-    - Windows Registry Abuse
-    - Windows Persistence Techniques
-    - Scheduled Tasks
-  asset_type: Endpoint
-  mitre_attack_id:
-    - T1053.005
-    - T1562
-  product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Registry Abuse
+        - Windows Persistence Techniques
+        - Scheduled Tasks
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053.005
+        - T1562
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
-      source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-      sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/taskschedule/sd_delete_windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,80 +1,66 @@
 name: Windows Process Injection Wermgr Child Process
 id: 360ae6b0-38b5-4328-9e2b-bc9436cddb17
-version: 7
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic identifies a suspicious instance of wermgr.exe
-  spawning a child process unrelated to error or fault handling. This detection leverages
-  data from Endpoint Detection and Response (EDR) agents, focusing on process relationships
-  and command-line executions. This activity is significant as it can indicate Qakbot
-  malware, which injects malicious code into wermgr.exe to evade detection and execute
-  malicious actions. If confirmed malicious, this behavior could allow an attacker
-  to conduct reconnaissance, execute arbitrary code, and persist within the network,
-  posing a severe security risk.
+description: The following analytic identifies a suspicious instance of wermgr.exe spawning a child process unrelated to error or fault handling. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process relationships and command-line executions. This activity is significant as it can indicate Qakbot malware, which injects malicious code into wermgr.exe to evade detection and execute malicious actions. If confirmed malicious, this behavior could allow an attacker to conduct reconnaissance, execute arbitrary code, and persist within the network, posing a severe security risk.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime from datamodel=Endpoint.Processes where Processes.parent_process_name
-  = "wermgr.exe" AND NOT (Processes.process_name IN ("WerFaultSecure.exe", "wermgr.exe",
-  "WerFault.exe")) by Processes.action Processes.dest Processes.original_file_name
-  Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-  Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-  Processes.process Processes.process_exec Processes.process_guid Processes.process_hash
-  Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path
-  Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_process_injection_wermgr_child_process_filter`'
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.parent_process_name = "wermgr.exe"
+        AND
+        NOT (Processes.process_name IN ("WerFaultSecure.exe", "wermgr.exe", "WerFault.exe"))
+      BY Processes.action Processes.dest Processes.original_file_name
+         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+         Processes.process Processes.process_exec Processes.process_guid
+         Processes.process_hash Processes.process_id Processes.process_integrity_level
+         Processes.process_name Processes.process_path Processes.user
+         Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_process_injection_wermgr_child_process_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
+    - https://twitter.com/pr0xylife/status/1585612370441031680?s=46&t=Dc3CJi4AnM-8rNoacLbScg
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: wermgr parent process has a child process $process_name$ on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 56
-  threat_objects: []
+    message: wermgr parent process has a child process $process_name$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Qakbot
-  - Windows Error Reporting Service Elevation of Privilege Vulnerability
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1055
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Qakbot
+        - Windows Error Reporting Service Elevation of Privilege Vulnerability
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1055
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr/sysmon_wermgr.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/qakbot/qbot_wermgr/sysmon_wermgr.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

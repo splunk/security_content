@@ -37,7 +37,7 @@ jobs:
           cp -r dist/*.tar.gz artifacts/
 
       - name: store_artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: content-latest
           path: |

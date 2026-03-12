@@ -1,80 +1,57 @@
 name: Windows Office Product Loaded MSHTML Module
 id: 4cc015c9-687c-40d2-adcc-46350f66e10c
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-03-10'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the loading of the mshtml.dll module into
-  an Office product, which is indicative of CVE-2021-40444 exploitation. It leverages
-  Sysmon EventID 7 to monitor image loads by specific Office processes. This activity
-  is significant because it can indicate an attempt to exploit a vulnerability in
-  the MSHTML component via a malicious document. If confirmed malicious, this could
-  allow an attacker to execute arbitrary code, potentially leading to system compromise,
-  data exfiltration, or further network penetration.
+description: The following analytic detects the loading of the mshtml.dll module into an Office product, which is indicative of CVE-2021-40444 exploitation. It leverages Sysmon EventID 7 to monitor image loads by specific Office processes. This activity is significant because it can indicate an attempt to exploit a vulnerability in the MSHTML component via a malicious document. If confirmed malicious, this could allow an attacker to execute arbitrary code, potentially leading to system compromise, data exfiltration, or further network penetration.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventID=7 process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe",
-  "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe",
-  "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe", "wordpad.exe", "wordview.exe")
-  loaded_file_path IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll")
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image
-  ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid
-  process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified
-  signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_office_product_loaded_mshtml_module_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process names and image loads from your endpoints. If you are using
-  Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-known_false_positives: Limited false positives will be present, however, tune as necessary.
-  Some applications may legitimately load mshtml.dll.
+    - Sysmon EventID 7
+search: '`sysmon` EventID=7 process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe", "wordpad.exe", "wordview.exe") loaded_file_path IN ("*\\mshtml.dll", "*\\Microsoft.mshtml.dll","*\\IE.Interop.MSHTML.dll","*\\MshtmlDac.dll","*\\MshtmlDed.dll","*\\MshtmlDer.dll") | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_office_product_loaded_mshtml_module_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process names and image loads from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
+known_false_positives: Limited false positives will be present, however, tune as necessary. Some applications may legitimately load mshtml.dll.
 references:
-- https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
-- https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
-- https://strontic.github.io/xcyclopedia/index-dll
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+    - https://app.any.run/tasks/36c14029-9df8-439c-bba0-45f2643b0c70/
+    - https://msrc.microsoft.com/update-guide/vulnerability/CVE-2021-40444
+    - https://strontic.github.io/xcyclopedia/index-dll
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An instance of $process_name$ was identified on endpoint $dest$ loading
-    mshtml.dll.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: An instance of $process_name$ was identified on endpoint $dest$ loading mshtml.dll.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Spearphishing Attachments
-  - Microsoft MSHTML Remote Code Execution CVE-2021-40444
-  - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-40444
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Spearphishing Attachments
+        - Microsoft MSHTML Remote Code Execution CVE-2021-40444
+        - CVE-2023-36884 Office and Windows HTML RCE Vulnerability
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-40444
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/macro/windows-sysmon_mshtml.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

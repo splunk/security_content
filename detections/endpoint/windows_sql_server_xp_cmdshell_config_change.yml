@@ -1,32 +1,27 @@
 name: Windows SQL Server xp_cmdshell Config Change
 id: 5eb76fe2-a869-4865-8c4c-8cff424b18b1
-version: 6
-date: '2025-09-16'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk, sidoyle from Splunk Community
 status: production
 type: TTP
 description: This detection identifies when the xp_cmdshell configuration is modified in SQL Server. The xp_cmdshell extended stored procedure allows execution of operating system commands and programs from SQL Server, making it a high-risk feature commonly abused by attackers for privilege escalation and lateral movement.
 data_source:
-- Windows Event Log Application 15457
-search: '`wineventlog_application` EventCode=15457 
-    | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
-    | rename host as dest
-    | where config_name="xp_cmdshell"
-    | eval change_type=case(
-        old_value="0" AND new_value="1", "enabled",
-        old_value="1" AND new_value="0", "disabled",
-        true(), "modified"
-    )
-    | eval risk_score=case(
-        change_type="enabled", 90,
-        change_type="disabled", 60,
-        true(), 70
-    )
-    | eval risk_message="SQL Server xp_cmdshell was ".change_type." on host ".dest
-    | stats count min(_time) as firstTime max(_time) as lastTime by dest EventCode config_name change_type risk_message risk_score
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`
-    | `windows_sql_server_xp_cmdshell_config_change_filter`'
+    - Windows Event Log Application 15457
+search: |-
+    `wineventlog_application` EventCode=15457
+      | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>"
+      | rename host as dest
+      | where config_name="xp_cmdshell"
+      | eval change_type=case( old_value="0" AND new_value="1", "enabled", old_value="1" AND new_value="0", "disabled", true(), "modified" )
+      | eval risk_score=case( change_type="enabled", 90, change_type="disabled", 60, true(), 70 )
+      | eval risk_message="SQL Server xp_cmdshell was ".change_type." on host ".dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest EventCode config_name
+           change_type risk_message risk_score
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `windows_sql_server_xp_cmdshell_config_change_filter`
 how_to_implement: To successfully implement this detection, you need to be ingesting Windows Application Event Logs from SQL Server instances where SQL Server is installed. The detection specifically looks for EventID 15457 which indicates configuration changes to extended stored procedures.
 known_false_positives: Database administrators may legitimately enable xp_cmdshell for maintenance tasks, such as database maintenance scripts requiring OS-level operations, legacy applications, or automated system management tasks; however, this feature should generally remain disabled in production environments due to security risks. To reduce false positives, document when xp_cmdshell is required, monitor for unauthorized changes, create change control procedures for xp_cmdshell modifications, and consider alerting on the enabled state rather than configuration changes if preferred.
 references:
@@ -34,50 +29,45 @@ references:
     - https://attack.mitre.org/techniques/T1505/003/
     - https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/xp-cmdshell-server-configuration-option
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View all SQL Server configuration changes on this host in the last 7 days
-  search: '`wineventlog_application` EventCode=15457 host="$dest$" | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>" | stats count values(config_name) as "Changed Settings" values(new_value) as "New Values" by _time dest'
-  earliest_offset: -7d
-  latest_offset: now
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View all SQL Server configuration changes on this host in the last 7 days
+      search: '`wineventlog_application` EventCode=15457 host="$dest$" | rex field=EventData_Xml "<Data>(?<config_name>[^<]+)</Data><Data>(?<old_value>[^<]+)</Data><Data>(?<new_value>[^<]+)</Data>" | stats count values(config_name) as "Changed Settings" values(new_value) as "New Values" by _time dest'
+      earliest_offset: -7d
+      latest_offset: now
 rba:
-  message: SQL Server xp_cmdshell configuration was $change_type$ on host $dest$, which could indicate an attempt to gain operating system command execution capabilities
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  - field: config_name
-    type: other
-    score: 90
-  threat_objects: []
+    message: SQL Server xp_cmdshell configuration was $change_type$ on host $dest$, which could indicate an attempt to gain operating system command execution capabilities
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: config_name
+          type: other
+          score: 50
+    threat_objects: []
 tags:
     analytic_story:
-    - SQL Server Abuse
-    - Seashell Blizzard
-    - GhostRedirector IIS Module and Rungan Backdoor
+        - SQL Server Abuse
+        - Seashell Blizzard
+        - GhostRedirector IIS Module and Rungan Backdoor
     asset_type: Windows
     mitre_attack_id:
-    - T1505.001
+        - T1505.001
     product:
-    - Splunk Enterprise
-    - Splunk Enterprise Security
-    - Splunk Cloud
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
     security_domain: endpoint
-    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing. 
+    manual_test: The risk message is dynamically generated in the SPL and it needs to be manually tested for integration testing.
 tests:
-  - name: True Positive Test
-    attack_data:
-    - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/windows-application.log
-      source: XmlWinEventLog:Application
-      sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1505.001/simulation/windows-application.log
+          source: XmlWinEventLog:Application
+          sourcetype: XmlWinEventLog

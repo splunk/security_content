@@ -1,63 +1,57 @@
 name: AWS Bedrock Delete Knowledge Base
 id: 8b4e3d62-f743-11ee-9f6e-acde48001123
-version: 2
-date: '2025-05-02'
+version: 4
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
 description: The following analytic identifies attempts to delete AWS Bedrock Knowledge Bases, which are resources that store and manage domain-specific information for AI models. It monitors AWS CloudTrail logs for DeleteKnowledgeBase API calls. This activity could indicate an adversary attempting to remove knowledge bases after compromising credentials, potentially to disrupt business operations or remove traces of data access. Deleting knowledge bases could impact model performance, remove critical business context, or be part of a larger attack to degrade AI capabilities. If confirmed malicious, this could represent a deliberate attempt to cause service disruption or data loss.
 data_source:
-- AWS CloudTrail DeleteKnowledgeBase
+    - AWS CloudTrail DeleteKnowledgeBase
 search: >-
-  `cloudtrail` eventSource=bedrock.amazonaws.com eventName=DeleteKnowledgeBase 
-  | rename user_name as user 
-  | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.knowledgeBaseId) as knowledgeBaseIds by src user user_agent vendor_account vendor_product dest signature vendor_region 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `aws_bedrock_delete_knowledge_base_filter`
+    `cloudtrail` eventSource=bedrock.amazonaws.com eventName=DeleteKnowledgeBase
+    | rename user_name as user
+    | stats count min(_time) as firstTime max(_time) as lastTime values(requestParameters.knowledgeBaseId) as knowledgeBaseIds by src user user_agent vendor_account vendor_product dest signature vendor_region
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `aws_bedrock_delete_knowledge_base_filter`
 how_to_implement: The Splunk AWS Add-on is required to utilize this data. The search requires AWS CloudTrail logs with Bedrock service events enabled. You must install and configure the AWS App for Splunk (version 6.0.0 or later) and Splunk Add-on for AWS (version 5.1.0 or later) to collect CloudTrail logs from AWS. Ensure the CloudTrail is capturing Bedrock Knowledge Base management events.
 known_false_positives: Legitimate administrators may delete Knowledge Bases as part of normal operations, such as when replacing outdated knowledge bases, removing test resources, or consolidating information. Consider implementing an allowlist for expected administrators who regularly manage Knowledge Base configurations.
 references:
-- https://www.sumologic.com/blog/defenders-guide-to-aws-bedrock/
-- https://attack.mitre.org/techniques/T1562/
+    - https://www.sumologic.com/blog/defenders-guide-to-aws-bedrock/
+    - https://attack.mitre.org/techniques/T1562/
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: User $user$ deleted AWS Bedrock Knowledge Base $knowledgeBaseIds$ from $src$
-  risk_objects:
-  - field: user
-    type: user
-    score: 70
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: User $user$ deleted AWS Bedrock Knowledge Base $knowledgeBaseIds$ from $src$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - AWS Bedrock Security
-  asset_type: AWS Account
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - AWS Bedrock Security
+    asset_type: AWS Account
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/aws_delete_knowledge_base/cloudtrail.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail 
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/aws_delete_knowledge_base/cloudtrail.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

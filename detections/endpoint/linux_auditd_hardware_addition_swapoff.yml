@@ -1,68 +1,58 @@
 name: Linux Auditd Hardware Addition Swapoff
 id: 5728bb16-1a0b-4b66-bce2-0074ac839770
-version: 6
-date: '2025-10-14'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects the execution of the "swapoff" command,
-  which disables the swapping of paging devices on a Linux system. It leverages data
-  from Endpoint Detection and Response (EDR) agents, focusing on process execution
-  logs. This activity is significant because disabling swap can be a tactic used by
-  malware, such as Awfulshred, to evade detection and hinder forensic analysis. If
-  confirmed malicious, this action could allow an attacker to manipulate system memory
-  management, potentially leading to data corruption, system instability, or evasion
-  of memory-based detection mechanisms.
+description: The following analytic detects the execution of the "swapoff" command, which disables the swapping of paging devices on a Linux system. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs. This activity is significant because disabling swap can be a tactic used by malware, such as Awfulshred, to evade detection and hinder forensic analysis. If confirmed malicious, this action could allow an attacker to manipulate system memory management, potentially leading to data corruption, system instability, or evasion of memory-based detection mechanisms.
 data_source:
-- Linux Auditd Execve
-search: '`linux_auditd` proctitle = "*swapoff*" AND proctitle = "*-a*"
-  | rename host as dest 
-  | stats count min(_time) as firstTime max(_time) as lastTime by proctitle dest 
-  | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`
-  | `linux_auditd_hardware_addition_swapoff_filter`'
+    - Linux Auditd Execve
+search: |-
+    `linux_auditd` proctitle = "*swapoff*" AND proctitle = "*-a*"
+      | rename host as dest
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_hardware_addition_swapoff_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: administrator may disable swapping of devices in a linux host. Filter is needed.
 references:
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A [$proctitle$] event occurred on host - [$dest$] to disable the swapping
-    of paging devices on a Linux system.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 36
-  threat_objects: []
+    message: A [$proctitle$] event occurred on host - [$dest$] to disable the swapping of paging devices on a Linux system.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - AwfulShred
-  - Compromised Linux Host
-  - Scattered Lapsus$ Hunters
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1200
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - AwfulShred
+        - Compromised Linux Host
+        - Scattered Lapsus$ Hunters
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1200
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/linux_auditd_swapoff/linux_auditd_swapoff2.log
-    source: auditd
-    sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1200/linux_auditd_swapoff/linux_auditd_swapoff2.log
+          source: auditd
+          sourcetype: auditd

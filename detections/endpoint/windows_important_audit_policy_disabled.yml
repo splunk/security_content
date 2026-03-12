@@ -1,61 +1,62 @@
 name: Windows Important Audit Policy Disabled
 id: 1bf500e5-1226-41d9-af5d-ed1f577929f2
-version: 3
-date: '2026-01-14'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 type: TTP
 status: production
 data_source:
-- Windows Event Log Security 4719
+    - Windows Event Log Security 4719
 description: The following analytic detects the disabling of important audit policies. It leverages EventCode 4719 from Windows Security Event Logs to identify changes where success or failure auditing is removed. This activity is significant as it suggests an attacker may have gained access to the domain controller and is attempting to evade detection by tampering with audit policies. If confirmed malicious, this could lead to severe consequences, including data theft, privilege escalation, and full network compromise. Immediate investigation is required to determine the source and intent of the change.
-search: '`wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448, %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure removed")) `important_audit_policy_subcategory_guids` | replace "%%8448" with "Success removed", "%%8450" with "Failure removed", "%%8448, %%8450" with "Success removed, Failure removed" in AuditPolicyChanges | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes), SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID) | rename ClientProcessId as process_id | stats min(_time) as _time values(host) as dest by AuditPolicyChanges SubcategoryGuid, process_id | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory |  `windows_important_audit_policy_disabled_filter`'
+search: |-
+    `wineventlog_security` EventCode=4719 (AuditPolicyChanges IN ("%%8448","%%8450","%%8448, %%8450") OR Changes IN ("Failure removed","Success removed","Success removed, Failure removed")) `important_audit_policy_subcategory_guids`
+      | replace "%%8448" with "Success removed", "%%8450" with "Failure removed", "%%8448, %%8450" with "Success removed, Failure removed" in AuditPolicyChanges
+      | eval AuditPolicyChanges=coalesce(AuditPolicyChanges,Changes), SubcategoryGuid=coalesce(SubcategoryGuid,Subcategory_GUID)
+      | rename ClientProcessId as process_id
+      | stats min(_time) as _time values(host) as dest
+        BY AuditPolicyChanges SubcategoryGuid, process_id
+      | lookup advanced_audit_policy_guids GUID as SubcategoryGuid OUTPUT Category SubCategory
+      | `windows_important_audit_policy_disabled_filter`
 how_to_implement: To implement the following query, enable the audit policy sub category "Audit Audit Policy Change", and, ensure you are ingesting EventCode `4719` from your endpoints via the appropriate Splunk Add-on for Microsoft Windows. Update the macro definition with the an accurate list of Audit sub categories that you consider important for your environment.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4719
+    - https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4719
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Important audit policy "$SubCategory$" of category "$Category$" was disabled on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 60
-  threat_objects: []
+    message: Important audit policy "$SubCategory$" of category "$Category$" was disabled on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Windows Audit Policy Tampering
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1562.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested
+    analytic_story:
+        - Windows Audit Policy Tampering
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    manual_test: This search uses a lookup provided by Enterprise Security and needs to be manually tested
 tests:
-- name: True Positive Test - Security 1
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_gpo/windows-security-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
-- name: True Positive Test - Security 2
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_security.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test - Security 1
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/disable_gpo/windows-security-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+    - name: True Positive Test - Security 2
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_security.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -1,112 +1,100 @@
 name: Internal Vertical Port Scan
 id: 40d2dc41-9bbf-421a-a34b-8611271a6770
-version: 10
-date: '2026-01-29'
+version: 11
+date: '2026-03-10'
 author: Dean Luxton, Splunk
-status: production 
+status: production
 type: TTP
 data_source:
-- AWS CloudWatchLogs VPCflow
-- Cisco Secure Firewall Threat Defense Connection Event
-description: This analytic detects instances where an internal host attempts to communicate
-  with over 500 ports on a single destination IP address. It includes filtering criteria
-  to exclude applications performing scans over ephemeral port ranges, focusing on
-  potential reconnaissance or scanning activities. Monitoring network traffic logs
-  allows for timely detection and response to such behavior, enhancing network security
-  by identifying and mitigating potential threats promptly.
+    - AWS CloudWatchLogs VPCflow
+    - Cisco Secure Firewall Threat Defense Connection Event
+description: This analytic detects instances where an internal host attempts to communicate with over 500 ports on a single destination IP address. It includes filtering criteria to exclude applications performing scans over ephemeral port ranges, focusing on potential reconnaissance or scanning activities. Monitoring network traffic logs allows for timely detection and response to such behavior, enhancing network security by identifying and mitigating potential threats promptly.
 search: |
-  | tstats `security_content_summariesonly`
-    count min(_time) as firstTime
-          max(_time) as lastTime
-          values(All_Traffic.action) as action
-          values(All_Traffic.src_category) as src_category
-          values(All_Traffic.dest_zone) as dest_zone
-          values(All_Traffic.src_zone) as src_zone
-  
-  from datamodel=Network_Traffic where
-  
-  All_Traffic.src_ip IN (
-    "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
-    "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
-    "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
-    "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
-    "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
-  )
-  
-  by span=1s _time
-     All_Traffic.src_ip All_Traffic.dest_port
-     All_Traffic.dest_ip All_Traffic.transport
-     All_Traffic.rule
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+            values(All_Traffic.action) as action
+            values(All_Traffic.src_category) as src_category
+            values(All_Traffic.dest_zone) as dest_zone
+            values(All_Traffic.src_zone) as src_zone
 
-  | `drop_dm_object_name("All_Traffic")`
-  | eval gtime=_time
-  | bin span=1h gtime
+    from datamodel=Network_Traffic where
 
-  | stats min(_time) as _time
-          values(action) as action
-          dc(eval(if(dest_port<1024 AND transport="tcp",dest_port,null))) as privilegedDestTcpPortCount
-          dc(eval(if(transport="tcp",dest_port,null))) as totalDestTcpPortCount
-          dc(eval(if(dest_port<1024 AND transport="udp",dest_port,null))) as privilegedDestUdpPortCount
-          dc(eval(if(transport="udp",dest_port,null))) as totalDestUdpPortCount
-          values(src_category) as src_category
-          values(dest_zone) as dest_zone
-          values(src_zone) as src_zone
-    by src_ip dest_ip transport gtime
-  | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount,
-         privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount
-  | where (totalDestPortCount>=500 AND privilegedDestPortCount>=20)
-  | fields - gtime
-  | `internal_vertical_port_scan_filter`
-how_to_implement: To properly run this search, Splunk needs to ingest data from networking
-  telemetry sources such as firewalls, NetFlow, or host-based networking events. Ensure
-  that the Network_Traffic data model is populated to enable this search effectively.
+    All_Traffic.src_ip IN (
+      "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+      "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+      "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+      "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+      "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4"
+    )
+
+    by span=1s _time
+       All_Traffic.src_ip All_Traffic.dest_port
+       All_Traffic.dest_ip All_Traffic.transport
+       All_Traffic.rule
+
+    | `drop_dm_object_name("All_Traffic")`
+    | eval gtime=_time
+    | bin span=1h gtime
+
+    | stats min(_time) as _time
+            values(action) as action
+            dc(eval(if(dest_port<1024 AND transport="tcp",dest_port,null))) as privilegedDestTcpPortCount
+            dc(eval(if(transport="tcp",dest_port,null))) as totalDestTcpPortCount
+            dc(eval(if(dest_port<1024 AND transport="udp",dest_port,null))) as privilegedDestUdpPortCount
+            dc(eval(if(transport="udp",dest_port,null))) as totalDestUdpPortCount
+            values(src_category) as src_category
+            values(dest_zone) as dest_zone
+            values(src_zone) as src_zone
+      by src_ip dest_ip transport gtime
+    | eval totalDestPortCount=totalDestUdpPortCount+totalDestTcpPortCount,
+           privilegedDestPortCount=privilegedDestTcpPortCount+privilegedDestUdpPortCount
+    | where (totalDestPortCount>=500 AND privilegedDestPortCount>=20)
+    | fields - gtime
+    | `internal_vertical_port_scan_filter`
+how_to_implement: To properly run this search, Splunk needs to ingest data from networking telemetry sources such as firewalls, NetFlow, or host-based networking events. Ensure that the Network_Traffic data model is populated to enable this search effectively.
 known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search  src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_ip$"
+      search: '%original_detection_search% | search  src_ip = "$src_ip$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_ip$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: $src_ip$ has scanned $totalDestPortCount$ ports on $dest_ip$
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 60
-  threat_objects:
-  - field: dest_ip
-    type: ip_address
+    message: $src_ip$ has scanned $totalDestPortCount$ ports on $dest_ip$
+    risk_objects:
+        - field: src_ip
+          type: system
+          score: 50
+    threat_objects:
+        - field: dest_ip
+          type: ip_address
 tags:
-  analytic_story:
-  - Network Discovery
-  - Cisco Secure Firewall Threat Defense Analytics
-  - China-Nexus Threat Activity
-  - Scattered Lapsus$ Hunters
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1046
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
+    analytic_story:
+        - Network Discovery
+        - Cisco Secure Firewall Threat Defense Analytics
+        - China-Nexus Threat Activity
+        - Scattered Lapsus$ Hunters
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1046
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
 tests:
-- name: AWS CloudWatch True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/vertical.log
-    source: aws:cloudwatchlogs:vpcflow
-    sourcetype: aws:cloudwatchlogs:vpcflow
-- name: Cisco Secure Firewall True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
-    source: not_applicable
-    sourcetype: cisco:sfw:estreamer
+    - name: AWS CloudWatch True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1046/nmap/vertical.log
+          source: aws:cloudwatchlogs:vpcflow
+          sourcetype: aws:cloudwatchlogs:vpcflow
+    - name: Cisco Secure Firewall True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
+          source: not_applicable
+          sourcetype: cisco:sfw:estreamer

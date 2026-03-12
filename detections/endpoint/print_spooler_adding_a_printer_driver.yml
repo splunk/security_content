@@ -1,72 +1,62 @@
 name: Print Spooler Adding A Printer Driver
 id: 313681a2-da8e-11eb-adad-acde48001122
-version: 8
-date: '2026-01-14'
+version: 10
+date: '2026-03-10'
 author: Mauricio Velazco, Michael Haag, Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the addition of new printer drivers by
-  monitoring Windows PrintService operational logs, specifically EventCode 316. This
-  detection leverages log data to identify messages indicating the addition or update
-  of printer drivers, such as "kernelbase.dll" and "UNIDRV.DLL." This activity is
-  significant as it may indicate exploitation attempts related to vulnerabilities
-  like CVE-2021-34527 (PrintNightmare). If confirmed malicious, attackers could gain
-  code execution or escalate privileges, potentially compromising the affected system.
-  Immediate isolation and investigation of the endpoint are recommended.
+description: The following analytic detects the addition of new printer drivers by monitoring Windows PrintService operational logs, specifically EventCode 316. This detection leverages log data to identify messages indicating the addition or update of printer drivers, such as "kernelbase.dll" and "UNIDRV.DLL." This activity is significant as it may indicate exploitation attempts related to vulnerabilities like CVE-2021-34527 (PrintNightmare). If confirmed malicious, attackers could gain code execution or escalate privileges, potentially compromising the affected system. Immediate isolation and investigation of the endpoint are recommended.
 data_source:
-- Windows Event Log Printservice 316
-search: '`printservice` EventCode=316 category = "Adding a printer driver" Message
-  = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*" | stats  count
-  min(_time) as firstTime max(_time) as lastTime by OpCode EventCode ComputerName
-  Message | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`
-  | `print_spooler_adding_a_printer_driver_filter`'
-how_to_implement: You will need to ensure PrintService Admin and Operational logs
-  are being logged to Splunk from critical or all systems.
+    - Windows Event Log Printservice 316
+search: |-
+    `printservice` EventCode=316 category = "Adding a printer driver" Message = "*kernelbase.dll,*" Message = "*UNIDRV.DLL,*" Message = "*.DLL.*"
+      | stats  count min(_time) as firstTime max(_time) as lastTime
+        BY OpCode EventCode ComputerName
+           Message
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `print_spooler_adding_a_printer_driver_filter`
+how_to_implement: You will need to ensure PrintService Admin and Operational logs are being logged to Splunk from critical or all systems.
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://twitter.com/MalwareJake/status/1410421445608476679?s=20
-- https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
-- https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
-- https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
+    - https://twitter.com/MalwareJake/status/1410421445608476679?s=20
+    - https://www.truesec.com/hub/blog/fix-for-printnightmare-cve-2021-1675-exploit-to-keep-your-print-servers-running-while-a-patch-is-not-available
+    - https://www.truesec.com/hub/blog/exploitable-critical-rce-vulnerability-allows-regular-users-to-fully-compromise-active-directory-printnightmare-cve-2021-1675
+    - https://www.reddit.com/r/msp/comments/ob6y02/critical_vulnerability_printnightmare_exposes
 drilldown_searches:
-- name: View the detection results for - "$ComputerName$"
-  search: '%original_detection_search% | search  ComputerName = "$ComputerName$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$ComputerName$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$ComputerName$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$ComputerName$"
+      search: '%original_detection_search% | search  ComputerName = "$ComputerName$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$ComputerName$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$ComputerName$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Suspicious print driver was loaded on endpoint $ComputerName$.
-  risk_objects:
-  - field: ComputerName
-    type: system
-    score: 72
-  threat_objects: []
+    message: Suspicious print driver was loaded on endpoint $ComputerName$.
+    risk_objects:
+        - field: ComputerName
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - PrintNightmare CVE-2021-34527
-  - Black Basta Ransomware
-  asset_type: Endpoint
-  cve:
-  - CVE-2021-34527
-  - CVE-2021-1675
-  mitre_attack_id:
-  - T1547.012
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - PrintNightmare CVE-2021-34527
+        - Black Basta Ransomware
+    asset_type: Endpoint
+    cve:
+        - CVE-2021-34527
+        - CVE-2021-1675
+    mitre_attack_id:
+        - T1547.012
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
-    source: WinEventLog:Microsoft-Windows-PrintService/Operational
-    sourcetype: WinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1547.012/printnightmare/windows-printservice_operational.log
+          source: WinEventLog:Microsoft-Windows-PrintService/Operational
+          sourcetype: WinEventLog

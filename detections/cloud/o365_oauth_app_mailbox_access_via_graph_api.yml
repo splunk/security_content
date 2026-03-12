@@ -1,71 +1,60 @@
 name: O365 OAuth App Mailbox Access via Graph API
 id: 9db0d5b0-4058-4cb7-baaf-77d8143539a2
-version: 7
-date: '2025-05-02'
+version: 9
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 data_source:
-- O365 MailItemsAccessed
+    - O365 MailItemsAccessed
 type: TTP
-description: The following analytic detects when emails are accessed in Office 365
-  Exchange via the Microsoft Graph API using the client ID '00000003-0000-0000-c000-000000000000'.
-  It leverages the 'MailItemsAccessed' operation within the Exchange workload, focusing
-  on OAuth-authenticated applications. This activity is significant as unauthorized
-  access to emails can lead to data breaches and information theft. If confirmed malicious,
-  attackers could exfiltrate sensitive information, compromise user accounts, and
-  further infiltrate the organization's network.
-search: '`o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* AppId=00000003-0000-0000-c000-000000000000 
-  | fillnull 
-  | stats count earliest(_time) as firstTime latest(_time) as lastTime values(ClientIPAddress) as src by user ClientAppId OperationCount AppId vendor_account vendor_product dest signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `o365_oauth_app_mailbox_access_via_graph_api_filter`'
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: OAuth applications may access mailboxes for legitimate purposes,
-  you can use the ClientAppId to add trusted applications to an allow list.
+description: The following analytic detects when emails are accessed in Office 365 Exchange via the Microsoft Graph API using the client ID '00000003-0000-0000-c000-000000000000'. It leverages the 'MailItemsAccessed' operation within the Exchange workload, focusing on OAuth-authenticated applications. This activity is significant as unauthorized access to emails can lead to data breaches and information theft. If confirmed malicious, attackers could exfiltrate sensitive information, compromise user accounts, and further infiltrate the organization's network.
+search: |-
+    `o365_management_activity` Workload=Exchange Operation=MailItemsAccessed AppId=* AppId=00000003-0000-0000-c000-000000000000
+      | fillnull
+      | stats count earliest(_time) as firstTime latest(_time) as lastTime values(ClientIPAddress) as src
+        BY user ClientAppId OperationCount
+           AppId vendor_account vendor_product
+           dest signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `o365_oauth_app_mailbox_access_via_graph_api_filter`
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: OAuth applications may access mailboxes for legitimate purposes, you can use the ClientAppId to add trusted applications to an allow list.
 references:
-- https://attack.mitre.org/techniques/T1114/002/
-- https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
-- https://learn.microsoft.com/en-us/graph/permissions-reference
+    - https://attack.mitre.org/techniques/T1114/002/
+    - https://learn.microsoft.com/en-us/troubleshoot/azure/active-directory/verify-first-party-apps-sign-in
+    - https://learn.microsoft.com/en-us/graph/permissions-reference
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An OAuth application identified with id $ClientAppId$ accesed mailboxes
-    through the Graph API.
-  risk_objects:
-  - field: user
-    type: user
-    score: 42
-  threat_objects: []
+    message: An OAuth application identified with id $ClientAppId$ accesed mailboxes through the Graph API.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Office 365 Collection Techniques
-  - NOBELIUM Group
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1114.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: threat
+    analytic_story:
+        - Office 365 Collection Techniques
+        - NOBELIUM Group
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1114.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: threat
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_oauth_app_graph_mailbox_access/o365_oauth_app_graph_mailbox_access.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1114.002/o365_oauth_app_graph_mailbox_access/o365_oauth_app_graph_mailbox_access.log
+          sourcetype: o365:management:activity
+          source: o365

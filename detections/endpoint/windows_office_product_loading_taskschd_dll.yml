@@ -1,75 +1,50 @@
 name: Windows Office Product Loading Taskschd DLL
 id: d7297cfa-1f04-4714-bfbe-3679e0666959
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects an Office document creating a scheduled
-  task, either through a macro VBA API or by loading `taskschd.dll`. This detection
-  leverages Sysmon EventCode 7 to identify when Office applications load the `taskschd.dll`
-  file. This activity is significant as it is a common technique used by malicious
-  macro malware to establish persistence or initiate beaconing. If confirmed malicious,
-  this could allow an attacker to maintain persistence, execute arbitrary commands,
-  or schedule future malicious activities, posing a significant threat to the environment.
+description: The following analytic detects an Office document creating a scheduled task, either through a macro VBA API or by loading `taskschd.dll`. This detection leverages Sysmon EventCode 7 to identify when Office applications load the `taskschd.dll` file. This activity is significant as it is a common technique used by malicious macro malware to establish persistence or initiate beaconing. If confirmed malicious, this could allow an attacker to maintain persistence, execute arbitrary commands, or schedule future malicious activities, posing a significant threat to the environment.
 data_source:
-- Sysmon EventID 7
-search: '`sysmon` EventCode=7 process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe",
-  "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe",
-  "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe") loaded_file_path = "*\\taskschd.dll"
-  | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image
-  ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid
-  process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified
-  signature signature_id user_id vendor_product | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_office_product_loading_taskschd_dll_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints.
-  If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA.
-  Also be sure to include those monitored dll to your own sysmon config.
-known_false_positives: False positives may occur if legitimate office documents are
-  creating scheduled tasks. Ensure to investigate the scheduled task and the command
-  to be executed. If the task is benign, add the task name to the exclusion list.
-  Some applications may legitimately load taskschd.dll.
+    - Sysmon EventID 7
+search: '`sysmon` EventCode=7 process_name IN ("EQNEDT32.exe", "excel.exe", "Graph.exe", "msaccess.exe", "mspub.exe", "onenote.exe", "onenoteim.exe", "onenotem.exe", "outlook.exe", "powerpnt.exe", "visio.exe", "winproj.exe", "winword.exe") loaded_file_path = "*\\taskschd.dll" | fillnull | stats count min(_time) as firstTime max(_time) as lastTime by Image ImageLoaded dest loaded_file loaded_file_path original_file_name process_exec process_guid process_hash process_id process_name process_path service_dll_signature_exists service_dll_signature_verified signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_office_product_loading_taskschd_dll_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the process name and ImageLoaded (Like sysmon EventCode 7) from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA. Also be sure to include those monitored dll to your own sysmon config.
+known_false_positives: False positives may occur if legitimate office documents are creating scheduled tasks. Ensure to investigate the scheduled task and the command to be executed. If the task is benign, add the task name to the exclusion list. Some applications may legitimately load taskschd.dll.
 references:
-- https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
-- https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
+    - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+    - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/trojanized-onenote-document-leads-to-formbook-malware/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An Office document was identified creating a scheduled task on $dest$.
-    Investigate further.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 49
-  threat_objects: []
+    message: An Office document was identified creating a scheduled task on $dest$. Investigate further.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Spearphishing Attachments
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1566.001
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Spearphishing Attachments
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1566.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1566.001/datasets/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

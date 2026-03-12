@@ -1,147 +1,125 @@
 name: Single Letter Process On Endpoint
 id: a4214f0b-e01c-41bc-8cc4-d2b71e3056b4
-version: 11
-date: '2025-12-29'
+version: 12
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: TTP
-description: The following analytic detects processes with names consisting of a single
-  letter, which is often indicative of malware or an attacker attempting to evade
-  detection. This detection leverages data from Endpoint Detection and Response (EDR)
-  agents, focusing on process names and command-line executions. This activity is
-  significant because attackers use such techniques to obscure their presence and
-  carry out malicious activities like data theft or ransomware attacks. If confirmed
-  malicious, this behavior could lead to unauthorized access, data exfiltration, or
-  system compromise. Immediate investigation is required to determine the legitimacy
-  of the process.
+description: The following analytic detects processes with names consisting of a single letter, which is often indicative of malware or an attacker attempting to evade detection. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line executions. This activity is significant because attackers use such techniques to obscure their presence and carry out malicious activities like data theft or ransomware attacks. If confirmed malicious, this behavior could lead to unauthorized access, data exfiltration, or system compromise. Immediate investigation is required to determine the legitimacy of the process.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
-  | tstats `security_content_summariesonly`
-    count min(_time) as firstTime
-          max(_time) as lastTime
-    from datamodel=Endpoint.Processes where
-    Processes.process_name IN (
-      "_.exe",
-      "-.exe",
-      ",.exe",
-      ";.exe",
-      "!.exe",
-      "'.exe"
-      "(.exe",
-      "(.exe",
-      ").exe",
-      ").exe",
-      "@.exe",
-      "&.exe",
-      "#.exe",
-      "%.exe",
-      "`.exe",
-      "^.exe",
-      "+.exe",
-      "=.exe",
-      "~.exe",
-      "$.exe",
-      "0.exe",
-      "1.exe",
-      "2.exe",
-      "3.exe",
-      "4.exe",
-      "5.exe",
-      "6.exe",
-      "7.exe",
-      "8.exe",
-      "9.exe",
-      "a.exe",
-      "b.exe",
-      "c.exe",
-      "d.exe",
-      "e.exe",
-      "f.exe",
-      "g.exe",
-      "h.exe",
-      "i.exe",
-      "j.exe",
-      "k.exe",
-      "l.exe",
-      "m.exe",
-      "N.exe",
-      "o.exe",
-      "p.exe",
-      "q.exe",
-      "r.exe",
-      "s.exe",
-      "t.exe",
-      "u.exe",
-      "v.exe",
-      "w.exe",
-      "x.exe",
-      "y.exe",
-      "z.exe",
-    )
-  by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
-     Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
-     Processes.parent_process_name Processes.parent_process_path Processes.process
-     Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
-     Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user
-     Processes.user_id Processes.vendor_product
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(lastTime)`
-  | `security_content_ctime(firstTime)`
-  | `single_letter_process_on_endpoint_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Single-letter executables are not always malicious. Investigate
-  this activity with your normal incident-response process.
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+      from datamodel=Endpoint.Processes where
+      Processes.process_name IN (
+        "_.exe",
+        "-.exe",
+        ",.exe",
+        ";.exe",
+        "!.exe",
+        "'.exe"
+        "(.exe",
+        "(.exe",
+        ").exe",
+        ").exe",
+        "@.exe",
+        "&.exe",
+        "#.exe",
+        "%.exe",
+        "`.exe",
+        "^.exe",
+        "+.exe",
+        "=.exe",
+        "~.exe",
+        "$.exe",
+        "0.exe",
+        "1.exe",
+        "2.exe",
+        "3.exe",
+        "4.exe",
+        "5.exe",
+        "6.exe",
+        "7.exe",
+        "8.exe",
+        "9.exe",
+        "a.exe",
+        "b.exe",
+        "c.exe",
+        "d.exe",
+        "e.exe",
+        "f.exe",
+        "g.exe",
+        "h.exe",
+        "i.exe",
+        "j.exe",
+        "k.exe",
+        "l.exe",
+        "m.exe",
+        "N.exe",
+        "o.exe",
+        "p.exe",
+        "q.exe",
+        "r.exe",
+        "s.exe",
+        "t.exe",
+        "u.exe",
+        "v.exe",
+        "w.exe",
+        "x.exe",
+        "y.exe",
+        "z.exe",
+      )
+    by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
+       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path Processes.process
+       Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id
+       Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(lastTime)`
+    | `security_content_ctime(firstTime)`
+    | `single_letter_process_on_endpoint_filter`
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Single-letter executables are not always malicious. Investigate this activity with your normal incident-response process.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A suspicious process $process_name$ with single letter on host $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 63
-  - field: user
-    type: user
-    score: 63
-  threat_objects: []
+    message: A suspicious process $process_name$ with single letter on host $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+        - field: user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - DHS Report TA18-074A
-  - Compromised Windows Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1204.002
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - DHS Report TA18-074A
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1204.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1204.002/single_letter_exe/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

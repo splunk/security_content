@@ -1,75 +1,68 @@
 name: Abnormally High Number Of Cloud Security Group API Calls
 id: d4dfb7f3-7a37-498a-b5df-f19334e871af
-version: 9
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects a spike in the number of API calls made
-  to cloud security groups by a user. It leverages data from the Change data model,
-  focusing on successful firewall-related changes. This activity is significant because
-  an abnormal increase in security group API calls can indicate potential malicious
-  activity, such as unauthorized access or configuration changes. If confirmed malicious,
-  this could allow an attacker to manipulate security group settings, potentially
-  exposing sensitive resources or disrupting network security controls.
+description: The following analytic detects a spike in the number of API calls made to cloud security groups by a user. It leverages data from the Change data model, focusing on successful firewall-related changes. This activity is significant because an abnormal increase in security group API calls can indicate potential malicious activity, such as unauthorized access or configuration changes. If confirmed malicious, this could allow an attacker to manipulate security group settings, potentially exposing sensitive resources or disrupting network security controls.
 data_source:
-- AWS CloudTrail
-search: '| tstats count as security_group_api_calls values(All_Changes.command) as
-  command from datamodel=Change where All_Changes.object_category=firewall AND All_Changes.status=success
-  by All_Changes.user _time span=1h | `drop_dm_object_name("All_Changes")` | eval
-  HourOfDay=strftime(_time, "%H") | eval HourOfDay=floor(HourOfDay/4)*4 | eval DayOfWeek=strftime(_time,
-  "%w") | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1) | join user HourOfDay
-  isWeekend [ summary cloud_excessive_security_group_api_calls_v1] | where cardinality
-  >=16 | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005 | rename
-  "IsOutlier(security_group_api_calls)" as isOutlier | where isOutlier=1 | eval expected_upper_threshold
-  = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0) | where security_group_api_calls
-  > expected_upper_threshold | eval distance_from_threshold = security_group_api_calls
-  - expected_upper_threshold | table _time, user, command, security_group_api_calls,
-  expected_upper_threshold, distance_from_threshold | `abnormally_high_number_of_cloud_security_group_api_calls_filter`'
-how_to_implement: You must be ingesting your cloud infrastructure logs. You also must
-  run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to
-  create the probability density function model.
+    - AWS CloudTrail
+search: |-
+    | tstats count as security_group_api_calls values(All_Changes.command) as command FROM datamodel=Change
+      WHERE All_Changes.object_category=firewall
+        AND
+        All_Changes.status=success
+      BY All_Changes.user _time span=1h
+    | `drop_dm_object_name("All_Changes")`
+    | eval HourOfDay=strftime(_time, "%H")
+    | eval HourOfDay=floor(HourOfDay/4)*4
+    | eval DayOfWeek=strftime(_time, "%w")
+    | eval isWeekend=if(DayOfWeek >= 1 AND DayOfWeek <= 5, 0, 1)
+    | join user HourOfDay isWeekend [ summary cloud_excessive_security_group_api_calls_v1]
+    | where cardinality >=16
+    | apply cloud_excessive_security_group_api_calls_v1 threshold=0.005
+    | rename "IsOutlier(security_group_api_calls)" as isOutlier
+    | where isOutlier=1
+    | eval expected_upper_threshold = mvindex(split(mvindex(BoundaryRanges, -1), ":"), 0)
+    | where security_group_api_calls > expected_upper_threshold
+    | eval distance_from_threshold = security_group_api_calls - expected_upper_threshold
+    | table _time, user, command, security_group_api_calls, expected_upper_threshold, distance_from_threshold
+    | `abnormally_high_number_of_cloud_security_group_api_calls_filter`
+how_to_implement: You must be ingesting your cloud infrastructure logs. You also must run the baseline search `Baseline Of Cloud Security Group API Calls Per User` to create the probability density function model.
 known_false_positives: No false positives have been identified at this time.
 references: []
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: user $user$ has made $api_calls$ api calls related to security groups,
-    violating the dynamic threshold of $expected_upper_threshold$ with the following
-    command $command$.
-  risk_objects:
-  - field: user
-    type: user
-    score: 15
-  threat_objects: []
+    message: user $user$ has made $api_calls$ api calls related to security groups, violating the dynamic threshold of $expected_upper_threshold$ with the following command $command$.
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Suspicious Cloud User Activities
-  asset_type: AWS Instance
-  mitre_attack_id:
-  - T1078.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  manual_test: This search needs the baseline `Baseline Of Cloud Security Group API Calls Per User` to be run first.
+    analytic_story:
+        - Suspicious Cloud User Activities
+    asset_type: AWS Instance
+    mitre_attack_id:
+        - T1078.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    manual_test: This search needs the baseline `Baseline Of Cloud Security Group API Calls Per User` to be run first.
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
-    sourcetype: aws:cloudtrail
-    source: aws_cloudtrail
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/suspicious_behaviour/abnormally_high_cloud_instances_launched/cloudtrail_behavioural_detections.json
+          sourcetype: aws:cloudtrail
+          source: aws_cloudtrail

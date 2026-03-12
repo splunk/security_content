@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.22.0
+  version: 5.24.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -44,9 +44,9 @@ apps:
 - uid: 7404
   title: Cisco Security Cloud
   appid: CiscoSecurityCloud
-  version: 3.6.1
+  version: 3.6.2
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_361.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-security-cloud_362.tgz
 - uid: 6652
   title: Add-on for Linux Sysmon
   appid: Splunk_TA_linux_sysmon
@@ -119,9 +119,9 @@ apps:
 - uid: 5234
   title: Splunk Add-on for Stream Wire Data
   appid: SPLUNK_ADD_ON_FOR_STREAM_WIRE_DATA
-  version: 8.1.3
+  version: 8.1.6
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_813.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_816.tgz
 - uid: 2757
   title: Palo Alto Networks Add-on for Splunk
   appid: PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK
@@ -221,10 +221,10 @@ apps:
 - uid: 3471
   title: Splunk Add-on for AppDynamics
   appid: Splunk_TA_AppDynamics
-  version: 3.1.7
+  version: 3.1.9
   description: The Splunk Add-on for AppDynamics enables you to easily configure data
     inputs to pull data from AppDynamics' REST APIs
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_317.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/cisco-splunk-add-on-for-appdynamics_319.tgz
 - uid: 4221
   title: Cisco NVM Add-on for Splunk
   appid: TA-Cisco-NVM
@@ -256,6 +256,12 @@ apps:
   appid: ta-ollama
   version: 0.1.5
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-ollama_015.tgz
+- uid: 8377
+  title: MCP TA
+  appid: mcp-ta
+  version: 0.1.2
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/

@@ -7,167 +7,17 @@ status: production
 type: Hunting
 description: This detection identifies potentially suspicious usage of sqlcmd.exe, focusing on command patterns that may indicate data exfiltration, reconnaissance, or malicious database operations. The detection looks for both short-form (-X) and long-form (--flag) suspicious parameter combinations, which have been observed in APT campaigns targeting high-value organizations. For example, threat actors like CL-STA-0048 have been known to abuse sqlcmd.exe for data theft and exfiltration from compromised MSSQL servers. The detection monitors for suspicious authentication attempts, output redirection, and potentially malicious query patterns that could indicate unauthorized database access or data theft.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-    from datamodel=Endpoint.Processes 
-    where (Processes.process_name=sqlcmd.exe OR Processes.original_file_name=sqlcmd.exe)
-    by Processes.dest Processes.user Processes.parent_process_name Processes.process_name 
-    Processes.process Processes.process_id Processes.parent_process_id
-    | `drop_dm_object_name(Processes)`
-    | eval process_lower=lower(process)
-    | eval 
-        is_help_check=case(
-            match(process, "(?i)-[?]"), 1,
-            match(process_lower, "(?i)--help"), 1,
-            match(process_lower, "(?i)--version"), 1,
-            true(), 0
-        ),
-        has_parameters=if(match(process, "-[A-Za-z]"), 1, 0),
-        has_query=case(
-            match(process, "-[Qq]\\s+"), 1,
-            match(process_lower, "--query\\s+"), 1,
-            match(process_lower, "--initial-query\\s+"), 1,
-            true(), 0
-        ),
-        has_output=case(
-            match(process, "-[oO]\\s+"), 1,
-            match(process_lower, "--output-file\\s+"), 1,
-            true(), 0
-        ),
-        has_input=case(
-            match(process, "-[iI]\\s+"), 1,
-            match(process_lower, "--input-file\\s+"), 1,
-            true(), 0
-        ),
-        has_url_input=case(
-            match(process, "-[iI]\\s+https?://"), 1,
-            match(process_lower, "--input-file\\s+https?://"), 1,
-            match(process, "-[iI]\\s+ftp://"), 1,
-            match(process_lower, "--input-file\\s+ftp://"), 1,
-            true(), 0
-        ),
-        has_admin_conn=case(
-            match(process, "-A"), 1,
-            match(process_lower, "--dedicated-admin-connection"), 1,
-            true(), 0
-        ),
-        has_suspicious_auth=case(
-            match(process, "-U\\s+sa\\b"), 1,
-            match(process_lower, "--user-name\\s+sa\\b"), 1,
-            match(process, "-U\\s+admin\\b"), 1,
-            match(process_lower, "--user-name\\s+admin\\b"), 1,
-            match(process, "-E\\b"), 1,
-            match(process_lower, "--use-trusted-connection"), 1,
-            true(), 0
-        ),
-        has_local_server=case(
-            match(process, "-S\\s+127\\.0\\.0\\.1"), 1,
-            match(process_lower, "--server\\s+127\\.0\\.0\\.1"), 1,
-            match(process, "-S\\s+localhost"), 1,
-            match(process_lower, "--server\\s+localhost"), 1,
-            true(), 0
-        ),
-        has_suspicious_output=case(
-            match(process_lower, "-o\\s+.*\\.(txt|csv|dat)"), 1,
-            match(process_lower, "--output-file\\s+.*\\.(txt|csv|dat)"), 1,
-            true(), 0
-        ),
-        has_cert_bypass=case(
-            match(process, "-C"), 1,
-            match(process_lower, "--trust-server-certificate"), 1,
-            true(), 0
-        ),
-        has_suspicious_query=case(
-            match(process_lower, "(xp_cmdshell|sp_oacreate|sp_execute_external|openrowset|bulk\\s+insert)"), 1,
-            match(process_lower, "(master\\.\\.\\.sysdatabases|msdb\\.\\.\\.backuphistory|sysadmin|securityadmin)"), 1,
-            match(process_lower, "(select.*from.*sys\\.|select.*password|dump\\s+database)"), 1,
-            match(process_lower, "(sp_addextendedproc|sp_makewebtask|sp_addsrvrolemember)"), 1,
-            match(process_lower, "(sp_configure.*show\\s+advanced|reconfigure|enable_xp_cmdshell)"), 1,
-            match(process_lower, "(exec.*master\\.dbo\\.|exec.*msdb\\.dbo\\.)"), 1,
-            match(process_lower, "(sp_password|sp_control_dbmasterkey_password|sp_dropextendedproc)"), 1,
-            match(process_lower, "(powershell|cmd\\.exe|rundll32|regsvr32|certutil)"), 1,
-            true(), 0
-        ),
-        has_suspicious_path=case(
-            match(process_lower, "(\\\\temp\\\\|\\\\windows\\\\|\\\\public\\\\|\\\\users\\\\public\\\\|\\\\programdata\\\\)"), 1,
-            match(process_lower, "(\\\\desktop\\\\.*\\.(zip|rar|7z|tar|gz))"), 1,
-            match(process_lower, "(\\\\downloads\\\\.*\\.(dat|bin|tmp))"), 1,
-            match(process_lower, "(\\\\appdata\\\\local\\\\temp\\\\|\\\\windows\\\\tasks\\\\)"), 1,
-            match(process_lower, "(\\\\recycler\\\\|\\\\system32\\\\|\\\\system volume information\\\\)"), 1,
-            match(process_lower, "(\\.vbs|\\.ps1|\\.bat|\\.cmd|\\.exe)$"), 1,
-            true(), 0
-        ),
-        has_suspicious_combo=case(
-            match(process, "-E") AND match(process_lower, "(?i)xp_cmdshell"), 1,
-            match(process, "-Q") AND match(process_lower, "(?i)exec\\s+master"), 1,
-            has_local_server=1 AND has_suspicious_query=1, 1,
-            true(), 0
-        ),
-        has_obfuscation=case(
-            match(process_lower, "(char\\(|convert\\(|cast\\(|declare\\s+@)"), 1,
-            match(process_lower, "(exec\\s+\\(|exec\\s+@|;\\s*exec)"), 1,
-            match(process, "\\^|\\%|\\+\\+|\\-\\-"), 1,
-            len(process) > 500, 1,
-            true(), 0
-        ),
-        has_data_exfil=case(
-            match(process_lower, "(for\\s+xml|for\\s+json)"), 1,
-            match(process_lower, "(bulk\\s+insert.*from)"), 1,
-            match(process_lower, "(bcp.*queryout|bcp.*out)"), 1,
-            match(process_lower, "(select.*into.*from|select.*into.*outfile)"), 1,
-            true(), 0
-        )
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process_name=sqlcmd.exe OR Processes.original_file_name=sqlcmd.exe) by Processes.dest Processes.user Processes.parent_process_name Processes.process_name Processes.process Processes.process_id Processes.parent_process_id | `drop_dm_object_name(Processes)` | eval process_lower=lower(process) | eval is_help_check=case( match(process, "(?i)-[?]"), 1, match(process_lower, "(?i)--help"), 1, match(process_lower, "(?i)--version"), 1, true(), 0 ), has_parameters=if(match(process, "-[A-Za-z]"), 1, 0), has_query=case( match(process, "-[Qq]\\s+"), 1, match(process_lower, "--query\\s+"), 1, match(process_lower, "--initial-query\\s+"), 1, true(), 0 ), has_output=case( match(process, "-[oO]\\s+"), 1, match(process_lower, "--output-file\\s+"), 1, true(), 0 ), has_input=case( match(process, "-[iI]\\s+"), 1, match(process_lower, "--input-file\\s+"), 1, true(), 0 ), has_url_input=case( match(process, "-[iI]\\s+https?://"), 1, match(process_lower, "--input-file\\s+https?://"), 1, match(process, "-[iI]\\s+ftp://"), 1, match(process_lower, "--input-file\\s+ftp://"), 1, true(), 0 ), has_admin_conn=case( match(process, "-A"), 1, match(process_lower, "--dedicated-admin-connection"), 1, true(), 0 ), has_suspicious_auth=case( match(process, "-U\\s+sa\\b"), 1, match(process_lower, "--user-name\\s+sa\\b"), 1, match(process, "-U\\s+admin\\b"), 1, match(process_lower, "--user-name\\s+admin\\b"), 1, match(process, "-E\\b"), 1, match(process_lower, "--use-trusted-connection"), 1, true(), 0 ), has_local_server=case( match(process, "-S\\s+127\\.0\\.0\\.1"), 1, match(process_lower, "--server\\s+127\\.0\\.0\\.1"), 1, match(process, "-S\\s+localhost"), 1, match(process_lower, "--server\\s+localhost"), 1, true(), 0 ), has_suspicious_output=case( match(process_lower, "-o\\s+.*\\.(txt|csv|dat)"), 1, match(process_lower, "--output-file\\s+.*\\.(txt|csv|dat)"), 1, true(), 0 ), has_cert_bypass=case( match(process, "-C"), 1, match(process_lower, "--trust-server-certificate"), 1, true(), 0 ), has_suspicious_query=case( match(process_lower, "(xp_cmdshell|sp_oacreate|sp_execute_external|openrowset|bulk\\s+insert)"), 1, match(process_lower, "(master\\.\\.\\.sysdatabases|msdb\\.\\.\\.backuphistory|sysadmin|securityadmin)"), 1, match(process_lower, "(select.*from.*sys\\.|select.*password|dump\\s+database)"), 1, match(process_lower, "(sp_addextendedproc|sp_makewebtask|sp_addsrvrolemember)"), 1, match(process_lower, "(sp_configure.*show\\s+advanced|reconfigure|enable_xp_cmdshell)"), 1, match(process_lower, "(exec.*master\\.dbo\\.|exec.*msdb\\.dbo\\.)"), 1, match(process_lower, "(sp_password|sp_control_dbmasterkey_password|sp_dropextendedproc)"), 1, match(process_lower, "(powershell|cmd\\.exe|rundll32|regsvr32|certutil)"), 1, true(), 0 ), has_suspicious_path=case( match(process_lower, "(\\\\temp\\\\|\\\\windows\\\\|\\\\public\\\\|\\\\users\\\\public\\\\|\\\\programdata\\\\)"), 1, match(process_lower, "(\\\\desktop\\\\.*\\.(zip|rar|7z|tar|gz))"), 1, match(process_lower, "(\\\\downloads\\\\.*\\.(dat|bin|tmp))"), 1, match(process_lower, "(\\\\appdata\\\\local\\\\temp\\\\|\\\\windows\\\\tasks\\\\)"), 1, match(process_lower, "(\\\\recycler\\\\|\\\\system32\\\\|\\\\system volume information\\\\)"), 1, match(process_lower, "(\\.vbs|\\.ps1|\\.bat|\\.cmd|\\.exe)$"), 1, true(), 0 ), has_suspicious_combo=case( match(process, "-E") AND match(process_lower, "(?i)xp_cmdshell"), 1, match(process, "-Q") AND match(process_lower, "(?i)exec\\s+master"), 1, has_local_server=1 AND has_suspicious_query=1, 1, true(), 0 ), has_obfuscation=case( match(process_lower, "(char\\(|convert\\(|cast\\(|declare\\s+@)"), 1, match(process_lower, "(exec\\s+\\(|exec\\s+@|;\\s*exec)"), 1, match(process, "\\^|\\%|\\+\\+|\\-\\-"), 1, len(process) > 500, 1, true(), 0 ), has_data_exfil=case( match(process_lower, "(for\\s+xml|for\\s+json)"), 1, match(process_lower, "(bulk\\s+insert.*from)"), 1, match(process_lower, "(bcp.*queryout|bcp.*out)"), 1, match(process_lower, "(select.*into.*from|select.*into.*outfile)"), 1, true(), 0 )
 
-    | eval risk_score=0
-    | eval risk_score=case(
-        is_help_check=1, 0,
-        has_parameters=0, 0,
-        has_suspicious_combo=1, risk_score + 90,
-        has_suspicious_query=1, risk_score + 60,
-        has_suspicious_path=1, risk_score + 40,
-        has_url_input=1 AND has_output=1, risk_score + 80,
-        has_query=1 AND has_output=1, risk_score + 30,
-        has_query=1 AND has_suspicious_output=1, risk_score + 40,
-        has_admin_conn=1, risk_score + 50,
-        has_suspicious_auth=1, risk_score + 40,
-        has_local_server=1 AND has_query=1, risk_score + 30,
-        has_cert_bypass=1, risk_score + 20,
-        has_obfuscation=1, risk_score + 70,
-        has_data_exfil=1, risk_score + 60,
-        true(), risk_score
-    )
+    | eval risk_score=0 | eval risk_score=case( is_help_check=1, 0, has_parameters=0, 0, has_suspicious_combo=1, risk_score + 90, has_suspicious_query=1, risk_score + 60, has_suspicious_path=1, risk_score + 40, has_url_input=1 AND has_output=1, risk_score + 80, has_query=1 AND has_output=1, risk_score + 30, has_query=1 AND has_suspicious_output=1, risk_score + 40, has_admin_conn=1, risk_score + 50, has_suspicious_auth=1, risk_score + 40, has_local_server=1 AND has_query=1, risk_score + 30, has_cert_bypass=1, risk_score + 20, has_obfuscation=1, risk_score + 70, has_data_exfil=1, risk_score + 60, true(), risk_score )
 
-    | eval risk_factors=mvappend(
-        if((is_help_check=0 AND has_parameters=0), null(), 
-            if(has_suspicious_combo=1, "High-risk command combination detected", null())),
-        if((is_help_check=0 AND has_parameters=0), null(),
-            if(has_suspicious_query=1, "Suspicious SQL query pattern", null())),
-        if(has_suspicious_path=1, "Suspicious output path", null()),
-        if(has_url_input=1 AND has_output=1, "File download attempt", null()),
-        if(has_query=1 AND has_output=1, "Query output to file", null()),
-        if(has_admin_conn=1, "Admin connection", null()),
-        if(has_suspicious_auth=1, "Suspicious authentication", null()),
-        if(has_local_server=1, "Local server connection", null()),
-        if(has_cert_bypass=1, "Certificate validation bypass", null()),
-        if(has_obfuscation=1, "Command obfuscation detected", null()),
-        if(has_data_exfil=1, "Potential data exfiltration", null())
-    )
-    | eval risk_message="SQLCMD execution with risk factors: ".mvjoin(risk_factors, ", ")
+    | eval risk_factors=mvappend( if((is_help_check=0 AND has_parameters=0), null(), if(has_suspicious_combo=1, "High-risk command combination detected", null())), if((is_help_check=0 AND has_parameters=0), null(), if(has_suspicious_query=1, "Suspicious SQL query pattern", null())), if(has_suspicious_path=1, "Suspicious output path", null()), if(has_url_input=1 AND has_output=1, "File download attempt", null()), if(has_query=1 AND has_output=1, "Query output to file", null()), if(has_admin_conn=1, "Admin connection", null()), if(has_suspicious_auth=1, "Suspicious authentication", null()), if(has_local_server=1, "Local server connection", null()), if(has_cert_bypass=1, "Certificate validation bypass", null()), if(has_obfuscation=1, "Command obfuscation detected", null()), if(has_data_exfil=1, "Potential data exfiltration", null()) ) | eval risk_message="SQLCMD execution with risk factors: ".mvjoin(risk_factors, ", ")
 
-    | where is_help_check=0 AND (risk_score >= 30 OR (has_parameters=1 AND has_suspicious_query=1))
-    | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)` | `windows_sqlcmd_execution_filter`'
-how_to_implement: The analytic will need to be tuned based on organization specific data. Currently, set to hunting to allow for tuning. SQLCmd is a legitimate tool for database management and scripting tasks within enterprise environments. The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
+    | where is_help_check=0 AND (risk_score >= 30 OR (has_parameters=1 AND has_suspicious_query=1)) | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sqlcmd_execution_filter`'
+how_to_implement: The analytic will need to be tuned based on organization specific data. Currently, set to hunting to allow for tuning. SQLCmd is a legitimate tool for database management and scripting tasks within enterprise environments. The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
 known_false_positives: |
     Database administrators and developers commonly use sqlcmd.exe legitimately for database management and scripting tasks within enterprise environments. These legitimate activities often include database backups and restores, schema deployment scripts, automated database maintenance, and ETL processes. However, it's important to note that some organizations may have no sqlcmd.exe usage at all, making any detection highly suspicious. To effectively manage false positives, organizations should whitelist known administrator accounts, create exceptions for approved script paths and output locations, and add legitimate usage patterns to the filter macro as needed.
     Recommend running this detection first as a hunt to review usage patterns. Following, modify the risk score and false positive list as needed.
@@ -178,21 +28,21 @@ references:
     - https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1105/T1105.md#atomic-test-32---file-download-with-sqlcmdexe
     - https://unit42.paloaltonetworks.com/espionage-campaign-targets-south-asian-entities/
 tags:
-  analytic_story:
-  - SQL Server Abuse
-  - GhostRedirector IIS Module and Rungan Backdoor
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1059.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
-  cve: []
+    analytic_story:
+        - SQL Server Abuse
+        - GhostRedirector IIS Module and Rungan Backdoor
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1059.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+    cve: []
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/atomic_red_team/sqlcmd_windows_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059.003/atomic_red_team/sqlcmd_windows_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

@@ -1,79 +1,65 @@
 name: Azure AD Successful PowerShell Authentication
 id: 62f10052-d7b3-4e48-b57b-56f8e3ac7ceb
-version: 9
-date: '2025-05-02'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Gowthamaraj Rajendran, Splunk
 status: production
 type: TTP
-description: The following analytic identifies a successful authentication event against
-  an Azure AD tenant using PowerShell cmdlets. This detection leverages Azure AD SignInLogs
-  to identify successful logins where the appDisplayName is "Microsoft Azure PowerShell."
-  This activity is significant because it is uncommon for regular, non-administrative
-  users to authenticate using PowerShell, and it may indicate enumeration and discovery
-  techniques by an attacker. If confirmed malicious, this activity could allow attackers
-  to perform extensive reconnaissance, potentially leading to privilege escalation
-  or further exploitation within the Azure environment.
+description: The following analytic identifies a successful authentication event against an Azure AD tenant using PowerShell cmdlets. This detection leverages Azure AD SignInLogs to identify successful logins where the appDisplayName is "Microsoft Azure PowerShell." This activity is significant because it is uncommon for regular, non-administrative users to authenticate using PowerShell, and it may indicate enumeration and discovery techniques by an attacker. If confirmed malicious, this activity could allow attackers to perform extensive reconnaissance, potentially leading to privilege escalation or further exploitation within the Azure environment.
 data_source:
-- Azure Active Directory
-search: '`azure_monitor_aad` category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell" 
-  | rename properties.* as * 
-  | rename userAgent as user_agent 
-  | fillnull 
-  | stats count min(_time) as firstTime max(_time) as lastTime by dest user src vendor_account vendor_product user_agent signature
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `azure_ad_successful_powershell_authentication_filter`'
-how_to_implement: You must install the latest version of Splunk Add-on for Microsoft
-  Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details).
-  You must be ingesting Azure Active Directory events into your Splunk environment
-  through an EventHub. This analytic was written to be used with the azure:monitor:aad
-  sourcetype leveraging the Signin log category.
-known_false_positives: Administrative users will likely use PowerShell commandlets
-  to troubleshoot and maintain the environment. Filter as needed.
+    - Azure Active Directory
+search: |-
+    `azure_monitor_aad` category=SignInLogs properties.authenticationDetails{}.succeeded=true properties.appDisplayName="Microsoft Azure PowerShell"
+      | rename properties.* as *
+      | rename userAgent as user_agent
+      | fillnull
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY dest user src
+           vendor_account vendor_product user_agent
+           signature
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `azure_ad_successful_powershell_authentication_filter`
+how_to_implement: You must install the latest version of Splunk Add-on for Microsoft Cloud Services from Splunkbase (https://splunkbase.splunk.com/app/3110/#/details). You must be ingesting Azure Active Directory events into your Splunk environment through an EventHub. This analytic was written to be used with the azure:monitor:aad sourcetype leveraging the Signin log category.
+known_false_positives: Administrative users will likely use PowerShell commandlets to troubleshoot and maintain the environment. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1078/004/
-- https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
-- https://securitycafe.ro/2022/04/29/pentesting-azure-recon-techniques/
-- https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md
+    - https://attack.mitre.org/techniques/T1078/004/
+    - https://docs.microsoft.com/en-us/powershell/module/azuread/connect-azuread?view=azureadps-2.0
+    - https://securitycafe.ro/2022/04/29/pentesting-azure-recon-techniques/
+    - https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Cloud%20-%20Azure%20Pentest.md
 drilldown_searches:
-- name: View the detection results for - "$user$"
-  search: '%original_detection_search% | search  user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$"
+      search: '%original_detection_search% | search  user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Successful authentication for user $user$ using PowerShell.
-  risk_objects:
-  - field: user
-    type: user
-    score: 54
-  threat_objects:
-  - field: src
-    type: ip_address
+    message: Successful authentication for user $user$ using PowerShell.
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+    threat_objects:
+        - field: src
+          type: ip_address
 tags:
-  analytic_story:
-  - Azure Active Directory Account Takeover
-  asset_type: Azure Active Directory
-  mitre_attack_id:
-  - T1078.004
-  - T1586.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Account Takeover
+    asset_type: Azure Active Directory
+    mitre_attack_id:
+        - T1078.004
+        - T1586.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread_pws/azure-audit.log
-    source: Azure AD
-    sourcetype: azure:monitor:aad
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1078.004/azuread_pws/azure-audit.log
+          source: Azure AD
+          sourcetype: azure:monitor:aad

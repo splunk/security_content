@@ -1,107 +1,90 @@
 name: WinEvent Scheduled Task Created Within Public Path
 id: 5d9c6eee-988c-11eb-8253-acde48001122
-version: 21
-date: '2025-12-10'
+version: 23
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects the creation of scheduled tasks 
-  within user-writable paths using Windows Security EventCode 4698. It 
-  identifies tasks registered via schtasks.exe or TaskService that execute 
-  commands from directories like Public, ProgramData, Temp, and AppData. This 
-  behavior is significant as it may indicate an attempt to establish persistence
-  or execute unauthorized commands. If confirmed malicious, an attacker could 
-  maintain long-term access, escalate privileges, or execute arbitrary code, 
-  posing a severe threat to system integrity and security.
+description: The following analytic detects the creation of scheduled tasks within user-writable paths using Windows Security EventCode 4698. It identifies tasks registered via schtasks.exe or TaskService that execute commands from directories like Public, ProgramData, Temp, and AppData. This behavior is significant as it may indicate an attempt to establish persistence or execute unauthorized commands. If confirmed malicious, an attacker could maintain long-term access, escalate privileges, or execute arbitrary code, posing a severe threat to system integrity and security.
 data_source:
-- Windows Event Log Security 4698
+    - Windows Event Log Security 4698
 search: |
-  `wineventlog_security`
-  EventCode=4698 
-  TaskContent IN (
-    "*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*", 
-    "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*"
-    )
-  | stats count min(_time) as firstTime max(_time) as lastTime 
-    by Computer, TaskName, TaskContent, user 
-  |  rename Computer as dest 
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `winevent_scheduled_task_created_within_public_path_filter`
-how_to_implement: To successfully implement this search, you need to be 
-  ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows
-  TA is also required.
-known_false_positives: False positives are possible if legitimate applications 
-  are allowed to register tasks in public paths. Filter as needed based on paths
-  that are used legitimately.
+    `wineventlog_security`
+    EventCode=4698
+    TaskContent IN (
+      "*\\users\\public\\*", "*\\programdata\\*", "*\\temp\\*",
+      "*\\Windows\\Tasks\\*", "*\\appdata\\*", "*\\perflogs\\*"
+      )
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      by Computer, TaskName, TaskContent, user
+    |  rename Computer as dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `winevent_scheduled_task_created_within_public_path_filter`
+how_to_implement: To successfully implement this search, you need to be ingesting Windows Security Event Logs with 4698 EventCode enabled. The Windows TA is also required.
+known_false_positives: False positives are possible if legitimate applications are allowed to register tasks in public paths. Filter as needed based on paths that are used legitimately.
 references:
-- https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
-- https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
-- https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
-- https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
-- https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
+    - https://research.checkpoint.com/2021/irans-apt34-returns-with-an-updated-arsenal/
+    - https://www.ultimatewindowssecurity.com/securitylog/encyclopedia/event.aspx?eventID=4698
+    - https://redcanary.com/threat-detection-report/techniques/scheduled-task-job/
+    - https://docs.microsoft.com/en-us/windows/win32/taskschd/time-trigger-example--scripting-?redirectedfrom=MSDN
+    - https://app.any.run/tasks/e26f1b2e-befa-483b-91d2-e18636e2faf3/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A windows scheduled task was created (task name=$TaskName$) on $dest$
-  risk_objects:
-  - field: dest
-    type: system
-    score: 70
-  threat_objects: []
+    message: A windows scheduled task was created (task name=$TaskName$) on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - Winter Vivern
-  - Industroyer2
-  - Compromised Windows Host
-  - Quasar RAT
-  - China-Nexus Threat Activity
-  - XWorm
-  - Ransomware
-  - IcedID
-  - CISA AA23-347A
-  - Salt Typhoon
-  - Ryuk Ransomware
-  - Active Directory Lateral Movement
-  - Malicious Inno Setup Loader
-  - CISA AA22-257A
-  - Medusa Ransomware
-  - SystemBC
-  - Scheduled Tasks
-  - Prestige Ransomware
-  - AsyncRAT
-  - Windows Persistence Techniques
-  - 0bj3ctivity Stealer
-  - APT37 Rustonotto and FadeStealer
-  - Castle RAT
-  - ValleyRAT
-  - PlugX
-  - Remcos
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1053.005
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - Winter Vivern
+        - Industroyer2
+        - Compromised Windows Host
+        - Quasar RAT
+        - China-Nexus Threat Activity
+        - XWorm
+        - Ransomware
+        - IcedID
+        - CISA AA23-347A
+        - Salt Typhoon
+        - Ryuk Ransomware
+        - Active Directory Lateral Movement
+        - Malicious Inno Setup Loader
+        - CISA AA22-257A
+        - Medusa Ransomware
+        - SystemBC
+        - Scheduled Tasks
+        - Prestige Ransomware
+        - AsyncRAT
+        - Windows Persistence Techniques
+        - 0bj3ctivity Stealer
+        - APT37 Rustonotto and FadeStealer
+        - Castle RAT
+        - ValleyRAT
+        - PlugX
+        - Remcos
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1053.005
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
-    source: XmlWinEventLog:Security
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1053.005/winevent_scheduled_task_created_to_spawn_shell/windows-xml.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

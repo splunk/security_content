@@ -1,76 +1,52 @@
 name: Windows Audit Policy Auditing Option Modified - Registry
 id: 27914692-9c62-44ea-9129-ceb429b61bd0
-version: 4
-date: '2025-07-30'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Bhavin Patel, Splunk
 status: production
 type: Anomaly
-description: The following analytic detects potentially suspicious modifications to
-  the Audit Policy auditing options registry values. It leverages data from the Endpoint.Registry
-  data model, focusing on changes to one of the following auditing option values "CrashOnAuditFail",
-  "FullPrivilegeAuditing", "AuditBaseObjects" and "AuditBaseDirectories" within the
-  "HKLM\\System\\CurrentControlSet\\Control\\Lsa\\" registry key. This activity is
-  significant as it could be a sign of a threat actor trying to tamper with the audit
-  policy configuration, and disabling SACLs configuration. If confirmed malicious,
-  this behavior could allow attackers to bypass defenses, and plan further attacks,
-  potentially leading to full machine compromise or lateral movement.
+description: The following analytic detects potentially suspicious modifications to the Audit Policy auditing options registry values. It leverages data from the Endpoint.Registry data model, focusing on changes to one of the following auditing option values "CrashOnAuditFail", "FullPrivilegeAuditing", "AuditBaseObjects" and "AuditBaseDirectories" within the "HKLM\\System\\CurrentControlSet\\Control\\Lsa\\" registry key. This activity is significant as it could be a sign of a threat actor trying to tamper with the audit policy configuration, and disabling SACLs configuration. If confirmed malicious, this behavior could allow attackers to bypass defenses, and plan further attacks, potentially leading to full machine compromise or lateral movement.
 data_source:
-- Sysmon EventID 13
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time)
-  as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Control\\Lsa*"
-  Registry.registry_value_name IN ("CrashOnAuditFail", "FullPrivilegeAuditing", "AuditBaseObjects",
-  "AuditBaseDirectories") by Registry.action Registry.dest Registry.process_guid Registry.process_id
-  Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data
-  Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user
-  Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` | `windows_audit_policy_auditing_option_modified___registry_filter`'
-how_to_implement: To successfully implement this search, you need to be ingesting
-  logs with the registry value name, registry path, and registry value data from your
-  endpoints. If you are using Sysmon, you must have at least version 2.0 of the official
-  Sysmon TA. https://splunkbase.splunk.com/app/5709
+    - Sysmon EventID 13
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry WHERE Registry.registry_path="*\\Control\\Lsa*" Registry.registry_value_name IN ("CrashOnAuditFail", "FullPrivilegeAuditing", "AuditBaseObjects", "AuditBaseDirectories") by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product | `drop_dm_object_name(Registry)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_audit_policy_auditing_option_modified___registry_filter`'
+how_to_implement: To successfully implement this search, you need to be ingesting logs with the registry value name, registry path, and registry value data from your endpoints. If you are using Sysmon, you must have at least version 2.0 of the official Sysmon TA. https://splunkbase.splunk.com/app/5709
 known_false_positives: Active setup installer may add or modify this registry.
 references:
-- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/262a2bed-93d4-4c04-abec-cf06e9ec72fd
-- https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-set
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-gpac/262a2bed-93d4-4c04-abec-cf06e9ec72fd
+    - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/auditpol-set
 drilldown_searches:
-- name: View the detection results for - "$dest$" and "$user$"
-  search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$" and "$user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$",
-    "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$" and "$user$"
+      search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: The auditing option $registry_value_name$ from the configured Audit Policy
-    was modified on $dest$.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 64
-  - field: user
-    type: user
-    score: 64
-  threat_objects: []
+    message: The auditing option $registry_value_name$ from the configured Audit Policy was modified on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+        - field: user
+          type: user
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - Windows Audit Policy Tampering
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1547.014
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Windows Audit Policy Tampering
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1547.014
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test - Sysmon
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test - Sysmon
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.002/auditpol_tampering/auditpol_tampering_sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

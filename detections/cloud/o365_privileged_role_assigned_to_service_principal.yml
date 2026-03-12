@@ -1,79 +1,55 @@
 name: O365 Privileged Role Assigned To Service Principal
 id: 80f3fc1b-705f-4080-bf08-f61bf013b900
-version: 8
-date: '2025-10-14'
+version: 9
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects potential privilege escalation threats
-  in Azure Active Directory (AD). This detection is important because it identifies
-  instances where privileged roles that hold elevated permissions are assigned to
-  service principals. This prevents unauthorized access or malicious activities, which
-  occur when these non-human entities access Azure resources to exploit them. False
-  positives might occur since administrators can legitimately assign privileged roles
-  to service principals. This detection leverages the O365 Universal Audit Log data
-  source.
+description: The following analytic detects potential privilege escalation threats in Azure Active Directory (AD). This detection is important because it identifies instances where privileged roles that hold elevated permissions are assigned to service principals. This prevents unauthorized access or malicious activities, which occur when these non-human entities access Azure resources to exploit them. False positives might occur since administrators can legitimately assign privileged roles to service principals. This detection leverages the O365 Universal Audit Log data source.
 data_source:
-- Office 365 Universal Audit Log
-search: "`o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"Add member to role.\",\"Add eligible member to role.\") 
-  | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.DisplayName\")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.TemplateId\")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2) 
-  | fillnull 
-  | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, src, user, category, result, object_name, object_id, signature,vendor_account, vendor_product, dest 
-  | lookup privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole 
-  | search isprvilegedadrole=\"TRUE\" category!=\"User\" 
-  | `security_content_ctime(firstTime)`
-  | `security_content_ctime(lastTime)` 
-  | `o365_privileged_role_assigned_to_service_principal_filter`"
-how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest
-  Office 365 management activity events.
-known_false_positives: Administrators may legitimately assign the privileged roles
-  to Service Principals as part of administrative tasks. Filter as needed.
+    - Office 365 Universal Audit Log
+search: "`o365_management_activity` Workload=AzureActiveDirectory Operation IN (\"Add member to role.\",\"Add eligible member to role.\") | eval user = ObjectId, src_user = case(match(mvindex('Actor{}.ID',-1),\"User\"),mvindex('Actor{}.ID',0),match(mvindex('Actor{}.ID',-1),\"ServicePrincipal\"),mvindex('Actor{}.ID',3),true(),mvindex('Actor{}.ID',0)), object_name = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.DisplayName\")), object_id = mvindex('ModifiedProperties{}.NewValue', mvfind('ModifiedProperties{}.Name',\"Role\\.TemplateId\")), signature = Operation, result = ResultStatus, category = mvindex('Target{}.ID',2) | fillnull | stats count, min(_time) as firstTime, max(_time) as lastTime by src_user, src, user, category, result, object_name, object_id, signature,vendor_account, vendor_product, dest | lookup privileged_azure_ad_roles azuretemplateid as object_id OUTPUT isprvilegedadrole | search isprvilegedadrole=\"TRUE\" category!=\"User\" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `o365_privileged_role_assigned_to_service_principal_filter`"
+how_to_implement: You must install the Splunk Microsoft Office 365 Add-on and ingest Office 365 management activity events.
+known_false_positives: Administrators may legitimately assign the privileged roles to Service Principals as part of administrative tasks. Filter as needed.
 references:
-- https://attack.mitre.org/techniques/T1098/003/
-- https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
-- https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
-- https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
+    - https://attack.mitre.org/techniques/T1098/003/
+    - https://learn.microsoft.com/en-us/azure/active-directory/roles/permissions-reference
+    - https://learn.microsoft.com/en-us/microsoft-365/admin/add-users/about-exchange-online-admin-role?view=o365-worldwide
+    - https://posts.specterops.io/azure-privilege-escalation-via-service-principal-abuse-210ae2be2a5
 drilldown_searches:
-- name: View the detection results for - "$user$" and "$src_user$"
-  search: '%original_detection_search% | search  user = "$user$" src_user = "$src_user$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$user$" and "$src_user$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$",
-    "$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time)
-    as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk
-    Message" values(analyticstories) as "Analytic Stories" values(annotations._all)
-    as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics"
-    by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$user$" and "$src_user$"
+      search: '%original_detection_search% | search  user = "$user$" src_user = "$src_user$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$src_user$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$src_user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A privileged Azure AD role [$object_name$] was assigned to the Service
-    Principal $user$ initiated by $src_user$
-  risk_objects:
-  - field: user
-    type: user
-    score: 75
-  - field: src_user
-    type: user
-    score: 75
-  threat_objects: []
+    message: A privileged Azure AD role [$object_name$] was assigned to the Service Principal $user$ initiated by $src_user$
+    risk_objects:
+        - field: user
+          type: user
+          score: 50
+        - field: src_user
+          type: user
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Azure Active Directory Privilege Escalation
-  - Scattered Lapsus$ Hunters
-  asset_type: O365 Tenant
-  mitre_attack_id:
-  - T1098.003
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: identity
+    analytic_story:
+        - Azure Active Directory Privilege Escalation
+        - Scattered Lapsus$ Hunters
+    asset_type: O365 Tenant
+    mitre_attack_id:
+        - T1098.003
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: identity
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: 
-      https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
-    sourcetype: o365:management:activity
-    source: o365
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1098/o365_azure_workload_events/o365_azure_workload_events.log
+          sourcetype: o365:management:activity
+          source: o365

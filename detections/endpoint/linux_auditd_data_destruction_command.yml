@@ -1,70 +1,60 @@
 name: Linux Auditd Data Destruction Command
 id: 4da5ce1a-f71b-4e71-bb73-c0a3c73f3c3c
-version: 6
-date: '2026-01-14'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of a Unix shell command
-  designed to wipe root directories on a Linux host. It leverages data from Linux
-  Auditd, focusing on the 'rm' command with force recursive deletion and the '--no-preserve-root'
-  option. This activity is significant as it indicates potential data destruction
-  attempts, often associated with malware like Awfulshred. If confirmed malicious,
-  this behavior could lead to severe data loss, system instability, and compromised
-  integrity of the affected Linux host. Immediate investigation and response are crucial
-  to mitigate potential damage.
+description: The following analytic detects the execution of a Unix shell command designed to wipe root directories on a Linux host. It leverages data from Linux Auditd, focusing on the 'rm' command with force recursive deletion and the '--no-preserve-root' option. This activity is significant as it indicates potential data destruction attempts, often associated with malware like Awfulshred. If confirmed malicious, this behavior could lead to severe data loss, system instability, and compromised integrity of the affected Linux host. Immediate investigation and response are crucial to mitigate potential damage.
 data_source:
-- Linux Auditd Proctitle
-search: '`linux_auditd`  (proctitle = "*rm *" AND proctitle = "*-rf *" AND proctitle = "*--no-preserve-root*")  
-  | rename host as dest  
-  | rename comm as process_name 
-  | rename exe as process 
-  | stats count min(_time) as firstTime max(_time) as lastTime by proctitle dest
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)`
-  | `linux_auditd_data_destruction_command_filter`'
+    - Linux Auditd Proctitle
+search: |-
+    `linux_auditd`  (proctitle = "*rm *" AND proctitle = "*-rf *" AND proctitle = "*--no-preserve-root*")
+      | rename host as dest
+      | rename comm as process_name
+      | rename exe as process
+      | stats count min(_time) as firstTime max(_time) as lastTime
+        BY proctitle dest
+      | `security_content_ctime(firstTime)`
+      | `security_content_ctime(lastTime)`
+      | `linux_auditd_data_destruction_command_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consists of SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
 known_false_positives: No false positives have been identified at this time.
 references:
-- https://cert.gov.ua/article/3718487
-- https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
+    - https://cert.gov.ua/article/3718487
+    - https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/overview-of-the-cyber-weapons-used-in-the-ukraine-russia-war/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: A [$proctitle$] event occurred on host - [$dest$] to destroy data.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 90
-  threat_objects: []
+    message: A [$proctitle$] event occurred on host - [$dest$] to destroy data.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
 tags:
-  analytic_story:
-  - Data Destruction
-  - AwfulShred
-  - Compromised Linux Host
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1485
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Data Destruction
+        - AwfulShred
+        - Compromised Linux Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1485
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_auditd_no_preserve_root/auditd_proctitle_rm_rf.log
-    source: auditd
-    sourcetype: auditd
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1485/linux_auditd_no_preserve_root/auditd_proctitle_rm_rf.log
+          source: auditd
+          sourcetype: auditd

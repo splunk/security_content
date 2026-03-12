@@ -1,53 +1,53 @@
 name: CrushFTP Max Simultaneous Users From IP
 id: 75dfd9f4-ca64-45d0-9422-4bde6d26a59e
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
 description: The following analytic identifies instances where CrushFTP has blocked access due to exceeding the maximum number of simultaneous connections from a single IP address. This activity may indicate brute force attempts, credential stuffing, or automated attacks against the CrushFTP server. This detection is particularly relevant following the discovery of CVE-2025-31161, an authentication bypass vulnerability in CrushFTP versions 10.0.0 through 10.8.3 and 11.0.0 through 11.3.0.
 data_source:
-- CrushFTP
+    - CrushFTP
 search: '`crushftp` "*User access not allowed.  Max simultaneous users from your IP*" | rex field=_raw "SESSION\\|\\d+\\/\\d+\\/\\d+ \\d+:\\d+:\\d+\\.\\d+\\|\\[HTTP:[^:]+:(?<user>[^:]+):(?<src_ip>[0-9\\.]+)\\]" | stats count min(_time) as firstTime max(_time) as lastTime values(user) as user by src_ip | where count >= 3 | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `crushftp_max_simultaneous_users_from_ip_filter`'
 how_to_implement: To implement this detection, you need to ingest CrushFTP logs into your Splunk environment. Configure CrushFTP to forward logs to Splunk via a syslog forwarder or direct file monitoring. Ensure the sourcetype is correctly set for the CrushFTP logs. The detection requires the SESSION field and the "[HTTP:*:user:IP]" format in the logs. Adjust the threshold in the "where count >= 3" clause based on your environment's normal behavior.
 known_false_positives: In environments where multiple users legitimately access CrushFTP from behind the same NAT or proxy, this may generate false positives. Tune the threshold based on your organization's usage patterns.
 references:
-- https://www.huntress.com/blog/crushftp-cve-2025-31161-auth-bypass-and-post-exploitation
-- https://nvd.nist.gov/vuln/detail/CVE-2025-31161
-- https://www.crushftp.com/crush11wiki/Wiki.jsp?page=Update
+    - https://www.huntress.com/blog/crushftp-cve-2025-31161-auth-bypass-and-post-exploitation
+    - https://nvd.nist.gov/vuln/detail/CVE-2025-31161
+    - https://www.crushftp.com/crush11wiki/Wiki.jsp?page=Update
 drilldown_searches:
-- name: View the detection results for - "$src_ip$"
-  search: '%original_detection_search% | search src_ip = "$src_ip$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$src_ip$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$src_ip$"
+      search: '%original_detection_search% | search src_ip = "$src_ip$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$src_ip$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src_ip$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: Potential brute force or automated attack against CrushFTP detected from IP $src_ip$
-  risk_objects:
-  - field: src_ip
-    type: system
-    score: 45
-  threat_objects: []
+    message: Potential brute force or automated attack against CrushFTP detected from IP $src_ip$
+    risk_objects:
+        - field: src_ip
+          type: system
+          score: 20
+    threat_objects: []
 tags:
-  analytic_story:
-  - CrushFTP Vulnerabilities
-  asset_type: Web Server
-  mitre_attack_id:
-  - T1110.001
-  - T1110.004
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: network
-  cve:
-  - CVE-2025-31161
+    analytic_story:
+        - CrushFTP Vulnerabilities
+    asset_type: Web Server
+    mitre_attack_id:
+        - T1110.001
+        - T1110.004
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: network
+    cve:
+        - CVE-2025-31161
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp11_session.log
-    sourcetype: crushftp:sessionlogs
-    source: crushftp
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/crushftp/crushftp11_session.log
+          sourcetype: crushftp:sessionlogs
+          source: crushftp

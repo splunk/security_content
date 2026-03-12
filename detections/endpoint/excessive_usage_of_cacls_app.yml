@@ -1,111 +1,104 @@
 name: Excessive Usage Of Cacls App
 id: 0bdf6092-af17-11eb-939a-acde48001122
-version: 9
-date: '2025-06-17'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
 description: |
-  The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`,
-  or `icacls.exe` to change file or folder permissions.
-  It looks for 10 or more execution of the aforementioned processes in the span of 1 minute. 
-  It leverages data from Endpoint Detection and Response (EDR) agents, 
-  focusing on process names and command-line executions.
-  This activity is significant as it may indicate an adversary attempting
-  to restrict access to malware components or artifacts on a compromised system.
-  If confirmed malicious, this behavior could prevent users from deleting or accessing
-  critical files, aiding in the persistence and concealment of malicious activities.
+    The following analytic identifies excessive usage of `cacls.exe`, `xcacls.exe`,
+    or `icacls.exe` to change file or folder permissions.
+    It looks for 10 or more execution of the aforementioned processes in the span of 1 minute.
+    It leverages data from Endpoint Detection and Response (EDR) agents,
+    focusing on process names and command-line executions.
+    This activity is significant as it may indicate an adversary attempting
+    to restrict access to malware components or artifacts on a compromised system.
+    If confirmed malicious, this behavior could prevent users from deleting or accessing
+    critical files, aiding in the persistence and concealment of malicious activities.
 data_source:
-- Sysmon EventID 1
-- Windows Event Log Security 4688
-- CrowdStrike ProcessRollup2
+    - Sysmon EventID 1
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |
-  | tstats `security_content_summariesonly` 
-    min(_time) as firstTime 
-    max(_time) as lastTime 
-    values(Processes.dest) as dest
-    values(Processes.user) as user 
-    values(Processes.action) as action 
-    values(Processes.original_file_name) as original_file_name 
-    values(Processes.parent_process_exec) as parent_process_exec 
-    values(Processes.parent_process_guid) as parent_process_guid
-    values(Processes.parent_process_id) as parent_process_id 
-    values(Processes.parent_process_path) as parent_process_path 
-    values(Processes.process) as process 
-    values(Processes.process_exec) as process_exec 
-    values(Processes.process_guid) as process_guid 
-    values(Processes.process_hash) as process_hash 
-    values(Processes.process_id) as process_id 
-    values(Processes.process_integrity_level) as process_integrity_level 
-    values(Processes.process_name) as process_name 
-    values(Processes.process_path) as process_path 
-    values(Processes.user_id) as user_id 
-    values(Processes.vendor_product) as vendor_product count 
-  from datamodel=Endpoint.Processes where 
-  Processes.process_name IN( "icacls.exe", "cacls.exe", "xcacls.exe") 
-  by Processes.parent_process_name Processes.parent_process Processes.dest Processes.user _time span=1m 
-  | where count >=10 
-  | `drop_dm_object_name(Processes)`
-  | `security_content_ctime(firstTime)` 
-  | `security_content_ctime(lastTime)` 
-  | `excessive_usage_of_cacls_app_filter`
+    | tstats `security_content_summariesonly`
+      min(_time) as firstTime
+      max(_time) as lastTime
+      values(Processes.dest) as dest
+      values(Processes.user) as user
+      values(Processes.action) as action
+      values(Processes.original_file_name) as original_file_name
+      values(Processes.parent_process_exec) as parent_process_exec
+      values(Processes.parent_process_guid) as parent_process_guid
+      values(Processes.parent_process_id) as parent_process_id
+      values(Processes.parent_process_path) as parent_process_path
+      values(Processes.process) as process
+      values(Processes.process_exec) as process_exec
+      values(Processes.process_guid) as process_guid
+      values(Processes.process_hash) as process_hash
+      values(Processes.process_id) as process_id
+      values(Processes.process_integrity_level) as process_integrity_level
+      values(Processes.process_name) as process_name
+      values(Processes.process_path) as process_path
+      values(Processes.user_id) as user_id
+      values(Processes.vendor_product) as vendor_product count
+    from datamodel=Endpoint.Processes where
+    Processes.process_name IN( "icacls.exe", "cacls.exe", "xcacls.exe")
+    by Processes.parent_process_name Processes.parent_process Processes.dest Processes.user _time span=1m
+    | where count >=10
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `excessive_usage_of_cacls_app_filter`
 how_to_implement: |
-  The detection is based on data that originates from Endpoint Detection
-  and Response (EDR) agents. These agents are designed to provide security-related
-  telemetry from the endpoints where the agent is installed. To implement this search,
-  you must ingest logs that contain the process GUID, process name, and parent process.
-  Additionally, you must ingest complete command-line executions. These logs must
-  be processed using the appropriate Splunk Technology Add-ons that are specific to
-  the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
-  data model. Use the Splunk Common Information Model (CIM) to normalize the field
-  names and speed up the data modeling process.
-known_false_positives: Administrators or administrative scripts may use this application.
-  Filter as needed.
+    The detection is based on data that originates from Endpoint Detection
+    and Response (EDR) agents. These agents are designed to provide security-related
+    telemetry from the endpoints where the agent is installed. To implement this search,
+    you must ingest logs that contain the process GUID, process name, and parent process.
+    Additionally, you must ingest complete command-line executions. These logs must
+    be processed using the appropriate Splunk Technology Add-ons that are specific to
+    the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint`
+    data model. Use the Splunk Common Information Model (CIM) to normalize the field
+    names and speed up the data modeling process.
+known_false_positives: Administrators or administrative scripts may use this application. Filter as needed.
 references:
-- https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
+    - https://thedfirreport.com/2020/04/20/sqlserver-or-the-miner-in-the-basement/
 drilldown_searches:
-- name: View the detection results for - "$dest$"
-  search: '%original_detection_search% | search  dest = "$dest$"'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
-- name: View risk events for the last 7 days for - "$dest$"
-  search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$")
-    starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime
-    values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories)
-    as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic)
-    as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)`
-    | `security_content_ctime(lastTime)`'
-  earliest_offset: $info_min_time$
-  latest_offset: $info_max_time$
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
 rba:
-  message: An excessive amount of $process_name$ was executed on $dest$ attempting
-    to modify permissions.
-  risk_objects:
-  - field: dest
-    type: system
-    score: 80
-  threat_objects:
-  - field: process_name
-    type: process_name
+    message: An excessive amount of $process_name$ was executed on $dest$ attempting to modify permissions.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
 tags:
-  analytic_story:
-  - Azorult
-  - Windows Post-Exploitation
-  - Prestige Ransomware
-  - XMRig
-  - Crypto Stealer
-  - Defense Evasion or Unauthorized Access Via SDDL Tampering
-  asset_type: Endpoint
-  mitre_attack_id:
-  - T1222
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  security_domain: endpoint
+    analytic_story:
+        - Azorult
+        - Windows Post-Exploitation
+        - Prestige Ransomware
+        - XMRig
+        - Crypto Stealer
+        - Defense Evasion or Unauthorized Access Via SDDL Tampering
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1222
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
 tests:
-- name: True Positive Test
-  attack_data:
-  - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
-    source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
-    sourcetype: XmlWinEventLog
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/xmrig_miner/windows-sysmon.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
