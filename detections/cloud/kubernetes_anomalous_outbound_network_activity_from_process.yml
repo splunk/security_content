@@ -1,7 +1,7 @@
 name: Kubernetes Anomalous Outbound Network Activity from Process
 id: dd6afee6-e0a3-4028-a089-f47dd2842c22
-version: 7
-date: '2026-01-14'
+version: 8
+date: '2026-03-10'
 author: Matthew Moore, Splunk
 status: experimental
 type: Anomaly
@@ -17,7 +17,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

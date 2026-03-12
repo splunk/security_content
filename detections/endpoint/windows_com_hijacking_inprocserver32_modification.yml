@@ -1,7 +1,7 @@
 name: Windows COM Hijacking InprocServer32 Modification
 id: b7bd83c0-92b5-4fc7-b286-23eccfa2c561
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

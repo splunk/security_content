@@ -1,7 +1,7 @@
 name: AWS Defense Evasion Delete Cloudtrail
 id: 82092925-9ca1-4e06-98b8-85a2d3889552
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 90
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

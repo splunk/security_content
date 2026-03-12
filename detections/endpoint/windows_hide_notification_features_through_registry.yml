@@ -1,7 +1,7 @@
 name: Windows Hide Notification Features Through Registry
 id: cafa4bce-9f06-11ec-a7b2-acde48001122
-version: 12
-date: '2026-01-14'
+version: 13
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: O365 Privileged Role Assigned To Service Principal
 id: 80f3fc1b-705f-4080-bf08-f61bf013b900
-version: 8
-date: '2025-10-14'
+version: 9
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 75
+          score: 50
         - field: src_user
           type: user
-          score: 75
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

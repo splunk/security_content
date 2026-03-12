@@ -1,7 +1,7 @@
 name: Winhlp32 Spawning a Process
 id: d17dae9e-2618-11ec-b9f5-acde48001122
-version: 9
-date: '2025-05-02'
+version: 10
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -31,10 +31,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

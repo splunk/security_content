@@ -1,7 +1,7 @@
 name: Windows Kerberos Coercion via DNS
 id: 9029b575-6f6b-4ab1-b660-67b24b7e9c3d
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -39,10 +39,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 74
+          score: 50
         - field: user
           type: user
-          score: 74
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

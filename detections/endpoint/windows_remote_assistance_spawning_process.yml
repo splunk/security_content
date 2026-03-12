@@ -1,7 +1,7 @@
 name: Windows Remote Assistance Spawning Process
 id: ced50492-8849-11ec-9f68-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -43,7 +43,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

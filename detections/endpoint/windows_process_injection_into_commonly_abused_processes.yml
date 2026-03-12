@@ -1,7 +1,7 @@
 name: Windows Process Injection into Commonly Abused Processes
 id: 1e1dedc6-f6f3-41a0-9dd7-a1245904fe75
-version: 5
-date: '2026-02-23'
+version: 6
+date: '2026-03-10'
 author: 0xC0FFEEEE, Github Community
 type: Anomaly
 status: production
@@ -77,7 +77,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 32
+          score: 20
     threat_objects:
         - field: SourceImage
           type: process

@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Potential Data Exfiltration
 id: 3d8536b6-52b4-4c3e-b695-3f2e90bb22be
-version: 4
-date: '2026-01-21'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -52,7 +52,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: url
           type: url

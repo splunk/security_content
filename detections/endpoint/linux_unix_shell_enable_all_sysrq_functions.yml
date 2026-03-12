@@ -1,7 +1,7 @@
 name: Linux Unix Shell Enable All SysRq Functions
 id: e7a96937-3b58-4962-8dce-538e4763cf15
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -41,7 +41,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

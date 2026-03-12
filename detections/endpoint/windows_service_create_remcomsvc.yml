@@ -1,7 +1,7 @@
 name: Windows Service Create RemComSvc
 id: 0be4b5d6-c449-4084-b945-2392b519c33b
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 type: Anomaly
 status: production
@@ -35,7 +35,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 32
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

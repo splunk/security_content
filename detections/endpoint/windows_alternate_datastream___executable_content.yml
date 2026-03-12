@@ -1,7 +1,7 @@
 name: Windows Alternate DataStream - Executable Content
 id: a258bf2a-34fd-4986-8086-78f506e00206
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

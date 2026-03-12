@@ -1,7 +1,7 @@
 name: Windows Administrative Shares Accessed On Multiple Hosts
 id: d92f2d95-05fb-48a7-910f-4d3d61ab8655
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 type: TTP
 status: production
@@ -32,7 +32,7 @@ rba:
     risk_objects:
         - field: host_targets
           type: system
-          score: 56
+          score: 50
     threat_objects:
         - field: IpAddress
           type: ip_address

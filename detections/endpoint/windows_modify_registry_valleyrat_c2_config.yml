@@ -1,7 +1,7 @@
 name: Windows Modify Registry ValleyRAT C2 Config
 id: ac59298a-8d81-4c02-8c9b-ffdac993891f
-version: 9
-date: '2026-01-14'
+version: 10
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 13
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 90
+          score: 50
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

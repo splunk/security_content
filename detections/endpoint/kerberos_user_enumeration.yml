@@ -1,7 +1,7 @@
 name: Kerberos User Enumeration
 id: d82d4af4-a0bd-11ec-9445-3e22fbd008af
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: Anomaly
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: src_ip
           type: system
-          score: 24
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Cisco SNMP Community String Configuration Changes
 id: b0ce5521-2533-4f24-b8d5-c2ff977aae08
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 20
         - field: user
           type: user
-          score: 40
+          score: 20
     threat_objects:
         - field: command
           type: command

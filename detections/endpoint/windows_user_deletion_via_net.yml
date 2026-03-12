@@ -1,7 +1,7 @@
 name: Windows User Deletion Via Net
 id: b0b6fd2c-8953-4d1b-8f7b-56075ea6ab3e
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

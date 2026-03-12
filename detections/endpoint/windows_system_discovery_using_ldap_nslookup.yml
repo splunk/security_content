@@ -1,7 +1,7 @@
 name: Windows System Discovery Using ldap Nslookup
 id: 2418780f-7c3e-4c45-b8b4-996ea850cd49
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -48,7 +48,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 1
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

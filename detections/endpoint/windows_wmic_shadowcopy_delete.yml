@@ -1,7 +1,7 @@
 name: Windows WMIC Shadowcopy Delete
 id: 0a8c4b26-a4e2-4ef1-b0d9-62af6d36bdc8
-version: 2
-date: '2025-05-02'
+version: 3
+date: '2026-03-10'
 author: Michael Haag, AJ King, Splunk
 status: production
 type: Anomaly
@@ -33,7 +33,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 10
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

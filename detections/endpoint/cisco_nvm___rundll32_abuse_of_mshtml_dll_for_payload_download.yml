@@ -1,7 +1,7 @@
 name: Cisco NVM - Rundll32 Abuse of MSHTML.DLL for Payload Download
 id: 18f0d27d-569e-4bc4-96e1-09b214fa73c0
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -68,7 +68,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 40
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

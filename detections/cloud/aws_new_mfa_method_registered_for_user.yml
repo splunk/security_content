@@ -1,7 +1,7 @@
 name: AWS New MFA Method Registered For User
 id: 4e3c26f2-4fb9-4bd7-ab46-1b76ffa2a23b
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 64
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

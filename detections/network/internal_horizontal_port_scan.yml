@@ -1,7 +1,7 @@
 name: Internal Horizontal Port Scan
 id: 1ff9eb9a-7d72-4993-a55e-59a839e607f1
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Dean Luxton
 status: production
 type: TTP
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: dest_ports
           type: system
-          score: 64
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

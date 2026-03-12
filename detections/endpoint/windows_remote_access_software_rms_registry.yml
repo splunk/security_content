@@ -1,7 +1,7 @@
 name: Windows Remote Access Software RMS Registry
 id: e5b7b5a9-e471-4be8-8c5d-4083983ba329
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

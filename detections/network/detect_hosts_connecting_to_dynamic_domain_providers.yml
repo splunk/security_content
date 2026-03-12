@@ -1,7 +1,7 @@
 name: Detect hosts connecting to dynamic domain providers
 id: a1e761ac-1344-4dbd-88b2-3f34c912d359
-version: 10
-date: '2026-01-22'
+version: 11
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

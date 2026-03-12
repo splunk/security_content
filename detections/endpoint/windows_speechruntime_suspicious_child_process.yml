@@ -1,7 +1,7 @@
 name: Windows SpeechRuntime Suspicious Child Process
 id: f7bb956f-b956-42a5-8c2c-ff9cdbbf7526
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -45,7 +45,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 65
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

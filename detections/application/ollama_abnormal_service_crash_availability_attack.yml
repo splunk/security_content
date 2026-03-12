@@ -1,7 +1,7 @@
 name: Ollama Abnormal Service Crash Availability Attack
 id: 327fa152-9b56-4e4e-bc0b-2795d4068afa
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

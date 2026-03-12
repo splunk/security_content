@@ -1,7 +1,7 @@
 name: Linux Ingress Tool Transfer with Curl
 id: 8c1de57d-abc1-4b41-a727-a7a8fc5e0857
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -52,10 +52,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 12
+          score: 20
         - field: dest
           type: system
-          score: 12
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

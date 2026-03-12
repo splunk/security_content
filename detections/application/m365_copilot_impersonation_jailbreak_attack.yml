@@ -1,7 +1,7 @@
 name: M365 Copilot Impersonation Jailbreak Attack
 id: cc26aba8-7f4a-4078-b91a-052d6a53cb13
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 10
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

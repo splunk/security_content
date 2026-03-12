@@ -1,7 +1,7 @@
 name: 3CX Supply Chain Attack Network Indicators
 id: 791b727c-deec-4fbe-a732-756131b3c5a1
-version: 8
-date: '2026-01-19'
+version: 9
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -46,7 +46,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 100
+          score: 50
     threat_objects:
         - field: query
           type: domain

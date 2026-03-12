@@ -1,7 +1,7 @@
 name: File Download or Read to Pipe Execution
 id: 26f86252-1549-45e1-a212-eb26840e86bc
-version: 2
-date: '2025-11-25'
+version: 3
+date: '2026-03-10'
 author: Michael Haag, Nasreddine Bencherchali, Splunk, DipsyTipsy
 status: production
 type: TTP
@@ -106,10 +106,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name
