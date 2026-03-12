@@ -12,8 +12,8 @@ data_source:
   - Sysmon EventID 1
   - Windows Event Log Security 4688
 search: |
-  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime 
-    from datamodel=Endpoint.Processes 
+  | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    from datamodel=Endpoint.Processes
     where (Processes.process_name="svchost.exe" OR Processes.process_name="tcc.exe")
       AND (Processes.process="* -nostdlib*" AND Processes.process="* -run*")
       AND (Processes.process="*.c" OR Processes.process="*conf.c*")
@@ -26,16 +26,16 @@ search: |
   | `windows_tinycc_shellcode_execution_filter`
 how_to_implement: |
   To successfully implement this search, you need to be ingesting logs with process creation information from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventCode 1 (Process Create). Ensure that command-line arguments are being captured in your Sysmon configuration.
-  
+
   The detection relies on the OriginalFileName field being populated to distinguish between legitimate svchost.exe and renamed tcc.exe binaries. Ensure Sysmon is configured to capture full command-line arguments.
 known_false_positives: |
   Legitimate TinyCC usage by developers may trigger this detection if executed from non-standard locations. However, the combination of:
   1. Renamed binary (svchost.exe with tcc.exe OriginalFileName)
   2. Execution from user-writable directories (AppData, Temp, ProgramData)
   3. Suspicious flags (-nostdlib -run) with .c file execution
-  
+
   is highly suspicious and warrants investigation. Legitimate TinyCC usage typically occurs from Program Files or developer directories with standard compilation workflows.
-  
+
   Allowlist known development environments if needed.
 references:
   - https://attack.mitre.org/techniques/T1059/003/
