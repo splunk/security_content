@@ -46,7 +46,7 @@ tags:
     - Lotus Blossom Chrysalis Backdoor
   asset_type: Endpoint
   mitre_attack_id:
-    - T1574.002
+    - T1574
   product:
     - Splunk Enterprise
     - Splunk Enterprise Security
