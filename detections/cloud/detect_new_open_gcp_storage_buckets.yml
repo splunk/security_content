@@ -23,7 +23,7 @@ how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platf
 known_false_positives: While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the "allUsers" group.
 references: []
 rba:
-    message: New Public GCP Storage Bucket Detected
+    message: "allUser" member added to $bucketName$ by $user$ making the bucket available to the public
     risk_objects:
         - field: user
           type: user
