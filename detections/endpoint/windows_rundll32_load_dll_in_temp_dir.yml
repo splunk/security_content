@@ -23,7 +23,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Risk Message goes here
+    message: $parent_process_name$ spawned $process_name$ with a DLL from a temporary directory
     risk_objects:
         - field: dest
           type: system

@@ -32,7 +32,7 @@ how_to_implement: You must install the AWS App for Splunk (version 5.1.0 or late
 known_false_positives: The false-positive rate may vary based on the values of`dataPointThreshold` and `deviationThreshold`. Additionally, false positives may result when AWS administrators roll out policies enforcing network blocks, causing sudden increases in the number of blocked outbound connections.
 references: []
 rba:
-    message: Blocked outbound traffic from your AWS VPC
+    message: Blocked $numberOfBlockedConnections$ outbound connections from your AWS VPC $src_ip$
     risk_objects:
         - field: src_ip
           type: system

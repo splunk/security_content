@@ -75,7 +75,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Windows AdFind Exe detected with command-line arguments associated with Active Directory queries on machine - [dest]
+    message: $user$ spawned $process$ indicative of Active Directory discovery on machine - [$dest$]
     risk_objects:
         - field: user
           type: user

@@ -17,7 +17,7 @@ references:
     - https://github.com/dxa4481/gcploit
     - https://www.youtube.com/watch?v=Ml09R38jpok
 rba:
-    message: Possible use of gcploit framework
+    message: Possible use of gcploit framework from $src$ by $src_user$
     risk_objects:
         - field: src_user
           type: user

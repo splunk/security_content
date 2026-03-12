@@ -36,7 +36,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Powershell process with command line indicative of querying domain policy.
+    message: Powershell process indicative of querying domain policy, spawned by $user_id$ on $dest$
     risk_objects:
         - field: dest
           type: system

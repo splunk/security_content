@@ -35,7 +35,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Excessive Usage Of SC Service Utility
+    message: Excessive Usage Of SC Service Utility on $dest$ by $user$
     risk_objects:
         - field: dest
           type: system
