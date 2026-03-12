@@ -16,8 +16,8 @@ search: |
   ImagePath IN ("*\\AppData\\*", "*\\Users\\*\\Bluetooth\\*", "*\\Temp\\*", "*\\ProgramData\\*")
   NOT ImagePath IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*\\Program Files*")
   | stats count min(_time) as firstTime max(_time) as lastTime 
-    by dest, ServiceName, ImagePath, ServiceType, StartType, UserID
   | rename Computer as dest, UserID as user_id
+    by dest, ServiceName, ImagePath, ServiceType, StartType, UserID
   | `security_content_ctime(firstTime)` 
   | `security_content_ctime(lastTime)`
   | `windows_bluetoothservice_persistence_filter`
