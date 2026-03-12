@@ -48,6 +48,7 @@ tags:
     analytic_story:
         - Spearphishing Attachments
         - Snake Keylogger
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1566.001

@@ -61,6 +61,7 @@ tags:
         - Hellcat Ransomware
         - Microsoft WSUS CVE-2025-59287
         - NetSupport RMM Tool Abuse
+        - MuddyWater
     mitre_attack_id:
         - T1027
         - T1059.001

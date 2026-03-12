@@ -43,6 +43,7 @@ tags:
         - MoonPeak
         - Scattered Lapsus$ Hunters
         - ZOVWiper
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1529
