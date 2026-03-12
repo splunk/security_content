@@ -15,14 +15,16 @@ search: |-
     `cisco_sd_wan_service_proxy_access`
     | rex field=_raw "^\[.*?\]\s+\"(?<http_method>\S+)\s+(?<uri>\S+)\s+(?<http_protocol>[^\"]+)\"\s+(?<http_response_code>\S+)\s+(?<response_flags>\S+)\s+(?<bytes_in>\S+)\s+(?<bytes_out>\S+)\s+(?<duration>\S+)\s+(?<upstream_service_time>\S+)\s+\"(?<src>[^\"]+)\"\s+\"(?<http_user_agent>[^\"]+)\"\s+\"(?<x_request_id>[^\"]+)\"\s+\"(?<dest>[^\"]+)\"\s+\"(?<upstream_host>[^\"]+)\""
     | rex field=uri "(?<uri_path>[^\?]+)(?<uri_query>\?.*)?"
+    | bin _time span=5m
     | stats count as requests
-            min(_time) as firstSeen
-            max(_time) as lastSeen
+            min(_time) as firstTime
+            max(_time) as lastTime
             values(uri) as uri
             dc(uri) as uri_count
     by src http_user_agent
     | where requests<=50 AND uri_count>1
-    | convert ctime(firstSeen) ctime(lastSeen)
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
     | sort 0 +requests
     | `cisco_sd_wan___uncommon_user_agent_multi_uri_activity_filter`
 how_to_implement: |
