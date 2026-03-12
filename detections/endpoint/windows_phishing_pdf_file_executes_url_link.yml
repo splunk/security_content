@@ -1,6 +1,6 @@
 name: Windows Phishing PDF File Executes URL Link
 id: 2fa9dec8-9d8e-46d3-96c1-202c06f0e6e1
-version: 10
+version: 9
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

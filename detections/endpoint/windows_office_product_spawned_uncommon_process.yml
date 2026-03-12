@@ -1,6 +1,6 @@
 name: Windows Office Product Spawned Uncommon Process
 id: 55d8741c-fa32-4692-8109-410304961eb8
-version: 8
+version: 7
 date: '2026-03-10'
 author: Michael Haag, Teoderick Contreras, Splunk
 status: production

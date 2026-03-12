@@ -1,6 +1,6 @@
 name: Windows Office Product Loaded MSHTML Module
 id: 4cc015c9-687c-40d2-adcc-46350f66e10c
-version: 6
+version: 5
 date: '2026-03-10'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
