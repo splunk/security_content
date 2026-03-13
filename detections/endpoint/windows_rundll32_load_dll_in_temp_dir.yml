@@ -1,6 +1,6 @@
 name: Windows Rundll32 Load DLL in Temp Dir
 id: 520da6fa-7d5d-4a3b-9c61-1087517b8d0f
-version: 5
+version: 4
 date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
