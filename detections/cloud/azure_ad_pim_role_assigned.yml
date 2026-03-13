@@ -1,7 +1,7 @@
 name: Azure AD PIM Role Assigned
 id: fcd6dfeb-191c-46a0-a29c-c306382145ab
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-03-13'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -13,7 +13,7 @@ search: |-
       | rename properties.* as *
       | fillnull
       | stats count min(_time) as firstTime max(_time) as lastTime
-        BY dest user src
+        BY dest user src_user
            vendor_account vendor_product signature
       | `security_content_ctime(firstTime)`
       | `security_content_ctime(lastTime)`
