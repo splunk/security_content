@@ -1,40 +1,40 @@
 detections:
   - content: Abnormally High Number Of Cloud Infrastructure API Calls
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0). 
   - content: Abnormally High Number Of Cloud Instances Destroyed
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Abnormally High Number Of Cloud Instances Launched
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Abnormally High Number Of Cloud Security Group API Calls
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Detect DNS Data Exfiltration using pretrained model in DSDL
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: DNS Query Length Outliers - MLTK
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: SMB Traffic Spike - MLTK
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Unusually Long Command Line - MLTK
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Detect DGA domains using pretrained model in DSDL
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Detect suspicious DNS TXT records using pretrained model in DSDL
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Detect suspicious processnames using pretrained model in DSDL
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Potentially malicious code on commandline
     removed_in_version: 5.26.0
-    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit and Python for Scientific Computing (for Linux 64-bit)
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Linux apt-get Privilege Escalation
     removed_in_version: 5.24.0
     reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
