@@ -1,6 +1,6 @@
 name: Azure AD PIM Role Assigned
 id: fcd6dfeb-191c-46a0-a29c-c306382145ab
-version: 13
+version: 12
 date: '2026-03-13'
 author: Mauricio Velazco, Splunk
 status: production

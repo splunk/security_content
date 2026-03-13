@@ -1,6 +1,6 @@
 name: Cisco SD-WAN - Peering Activity
 id: 1d192a47-4bd3-4c06-902d-5dbe2375ec6d
-version: 1
+version: 2
 date: '2026-03-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
