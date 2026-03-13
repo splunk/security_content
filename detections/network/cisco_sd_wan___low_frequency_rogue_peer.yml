@@ -53,7 +53,7 @@ how_to_implement: |
     Build a known-good baseline (lookup or macro conditions) for expected `peer-system-ip`, `public-ip`, and `peer-type` relationships, then tune the `cisco_sd_wan_rogue_peer_outlier_filter` macro to suppress approved peers and transport sources.
     The threshold (`<=3`) is a starting point and should be adjusted for your environment size and log
     volume.
-    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html to start ingesting these logs.
+    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging to start ingesting these logs.
 known_false_positives: |
     New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
     Path changes can create rare peer/public-IP combinations.
@@ -62,7 +62,7 @@ references:
     - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
     - https://blog.talosintelligence.com/uat-8616-sd-wan/
     - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
-    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
     - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
 drilldown_searches:

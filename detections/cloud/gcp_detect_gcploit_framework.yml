@@ -1,6 +1,6 @@
 name: GCP Detect gcploit framework
 id: a1c5a85e-a162-410c-a5d9-99ff639e5a52
-version: 8
+version: 7
 date: '2026-03-12'
 author: Rod Soto, Splunk
 status: experimental
