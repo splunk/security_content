@@ -54,6 +54,8 @@ git commit --no-verify -m "Skip hooks"
 
 ### Manual Formatting
 
+Run these from the root directory of `security_content`
+
 ```bash
 # Format all detection files
 yamlfmt detections/
@@ -86,6 +88,7 @@ python scripts/validate_yaml.py --yamlfmt-path /path/to/yamlfmt detections/
 ## Troubleshooting
 
 **yamlfmt not found:**
+
 ```bash
 # Make sure Go bin is in PATH
 export PATH="$HOME/go/bin:$PATH"
@@ -98,6 +101,7 @@ python scripts/validate_yaml.py --yamlfmt-path /path/to/yamlfmt detections/
 ```
 
 **Pre-commit hook fails:**
+
 ```bash
 # Run hook manually to see errors
 pre-commit run yamlfmt --files detections/endpoint/file.yml
@@ -111,6 +115,7 @@ pre-commit autoupdate
 ```
 
 **Validation fails in CI:**
+
 - Check the script output for specific errors
 - Run locally: `python scripts/validate_yaml.py detections/`
 - Ensure files pass both yamllint and yamlfmt --lint

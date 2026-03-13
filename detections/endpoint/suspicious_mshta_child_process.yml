@@ -57,6 +57,7 @@ tags:
         - Suspicious MSHTA Activity
         - Living Off The Land
         - Lumma Stealer
+        - MuddyWater
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.005
