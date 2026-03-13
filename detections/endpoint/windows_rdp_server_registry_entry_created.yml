@@ -1,7 +1,7 @@
 name: Windows RDP Server Registry Entry Created
 id: 61f10919-c360-4e56-9cda-f1f34500cfda
-version: 2
-date: '2026-03-10'
+version: 3
+date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -24,7 +24,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Risk Message goes here
+    message: RDP related registry key $registry_key_name$ created on $dest$
     risk_objects:
         - field: dest
           type: system
