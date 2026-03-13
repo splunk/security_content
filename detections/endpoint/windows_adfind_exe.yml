@@ -1,7 +1,7 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
 version: 12
-date: '2026-03-10'
+date: '2026-03-12'
 author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -75,7 +75,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Windows AdFind Exe detected with command-line arguments associated with Active Directory queries on machine - [dest]
+    message: $user$ spawned $process$ indicative of Active Directory discovery on machine - [$dest$]
     risk_objects:
         - field: user
           type: user

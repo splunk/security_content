@@ -1,6 +1,6 @@
 name: Cisco SD-WAN - Peering Activity
 id: 1d192a47-4bd3-4c06-902d-5dbe2375ec6d
-version: 1
+version: 2
 date: '2026-03-02'
 author: Nasreddine Bencherchali, Splunk
 status: production
@@ -43,7 +43,7 @@ search: |-
 how_to_implement: |
     This analytic requires Cisco SD-WAN/vSmart logs in Splunk and assumes control peering status
     messages are searchable via the `cisco_sd_wan_syslog` macro. Update that macro with your environment-specific index and sourcetype settings.
-    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html to start ingesting these logs.
+    Follow the documentation https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging to start ingesting these logs.
 known_false_positives: |
     New controller onboarding, topology expansion, controller failover, maintenance windows, and temporary transport.
     Path changes can create rare peer/public-IP combinations.
@@ -52,7 +52,7 @@ references:
     - https://www.cisa.gov/news-events/directives/supplemental-direction-ed-26-03-hunt-and-hardening-guidance-cisco-sd-wan-systems
     - https://blog.talosintelligence.com/uat-8616-sd-wan/
     - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/Monitor-And-Maintain/monitor-maintain-book/m-alarms-events-logs.html
-    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/configuration/system-interface/ios-xe-17/systems-interfaces-book-xe-sdwan/configure-logging.html
+    - https://www.cisco.com/c/en/us/td/docs/routers/sdwan/17-x/systems-interfaces/systems-interfaces-guide-17-x/system-logging.html#config-sys-logging
     - https://sec.cloudapps.cisco.com/security/center/resources/Cisco-Catalyst-SD-WAN-HardeningGuide
     - https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-rpa-EHchtZk
 tags:
