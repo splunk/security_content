@@ -1,6 +1,6 @@
 name: Detect New Open GCP Storage Buckets
 id: f6ea3466-d6bb-11ea-87d0-0242ac130003
-version: 8
+version: 7
 date: '2026-03-12'
 author: Shannon Davis, Splunk
 status: experimental
