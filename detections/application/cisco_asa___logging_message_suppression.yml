@@ -1,7 +1,7 @@
 name: Cisco ASA - Logging Message Suppression
 id: 4e6c9d2a-8f3b-4c7e-9a5f-2d8b6e1c4a9f
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -56,10 +56,10 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 50
+          score: 20
         - field: user
           type: user
-          score: 50
+          score: 20
     threat_objects:
         - field: command
           type: process

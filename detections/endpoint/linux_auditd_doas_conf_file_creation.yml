@@ -1,7 +1,7 @@
 name: Linux Auditd Doas Conf File Creation
 id: 61059783-574b-40d2-ac2f-69b898afd6b4
-version: 8
-date: '2025-11-27'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -81,7 +81,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

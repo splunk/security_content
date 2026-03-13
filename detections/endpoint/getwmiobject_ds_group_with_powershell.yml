@@ -1,7 +1,7 @@
 name: GetWmiObject Ds Group with PowerShell
 id: df275a44-4527-443b-b884-7600e066e3eb
-version: 7
-date: '2025-05-02'
+version: 8
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -30,7 +30,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 15
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

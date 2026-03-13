@@ -1,7 +1,7 @@
 name: AWS Multiple Users Failing To Authenticate From Ip
 id: 71e1fb89-dd5f-4691-8523-575420de4630
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-03-10'
 author: Bhavin Patel
 status: production
 type: Anomaly
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 54
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

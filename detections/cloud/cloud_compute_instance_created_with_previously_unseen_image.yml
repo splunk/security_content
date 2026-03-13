@@ -1,7 +1,7 @@
 name: Cloud Compute Instance Created With Previously Unseen Image
 id: bc24922d-987c-4645-b288-f8c73ec194c4
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: David Dorsey, Splunk
 status: production
 type: Anomaly
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 20
         - field: user
           type: user
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

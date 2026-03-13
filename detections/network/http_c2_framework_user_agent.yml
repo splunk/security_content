@@ -1,7 +1,7 @@
 name: HTTP C2 Framework User Agent
 id: 229dc225-6abe-4d28-89fd-edf874086162
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Ravent Tait, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: http_user_agent
           type: http_user_agent

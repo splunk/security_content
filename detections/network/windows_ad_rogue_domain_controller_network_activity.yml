@@ -1,7 +1,7 @@
 name: Windows AD Rogue Domain Controller Network Activity
 id: c4aeeeef-da7f-4338-b3ba-553cbcbe2138
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Dean Luxton
 type: TTP
 status: experimental
@@ -22,7 +22,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

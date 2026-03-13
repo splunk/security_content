@@ -1,7 +1,7 @@
 name: Windows ComputerDefaults Spawning a Process
 id: 697eb4c0-1008-4c3c-b5ae-7bd9b39adbd6
-version: 3
-date: '2026-02-25'
+version: 4
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

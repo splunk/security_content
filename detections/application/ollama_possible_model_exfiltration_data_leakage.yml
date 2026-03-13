@@ -1,7 +1,7 @@
 name: Ollama Possible Model Exfiltration Data Leakage
 id: c9fd1a54-0eab-4470-8970-d5fcc3c740fb
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Okta New Device Enrolled on Account
 id: bb27cbce-d4de-432c-932f-2e206e9130fb
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Michael Haag, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 24
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

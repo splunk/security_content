@@ -1,7 +1,7 @@
 name: Powershell Execute COM Object
 id: 65711630-f9bf-11eb-8d72-acde48001122
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -39,7 +39,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 5
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Windows Impair Defenses Disable AV AutoStart via Registry
 id: 31a13f43-812e-4752-a6ca-c6c87bf03e83
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 13
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 90
+          score: 50
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: HTTP Possible Request Smuggling
 id: 97d85f98-9d15-41a0-8682-7030454875e7
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: src_ip
           type: ip_address

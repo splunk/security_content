@@ -1,7 +1,7 @@
 name: Rundll32 with no Command Line Arguments with Network
 id: 35307032-a12d-11eb-835f-acde48001122
-version: 13
-date: '2026-01-01'
+version: 14
+date: '2026-03-10'
 author: Steven Dick, Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,7 +61,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 70
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

@@ -1,7 +1,7 @@
 name: Windows New Deny Permission Set On Service SD Via Sc.EXE
 id: d0f6a5e5-dbfd-46e1-8bd5-2e2905947c33
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -49,10 +49,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 20
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

@@ -1,7 +1,7 @@
 name: Windows Service Execution RemCom
 id: 7e3d68db-ea4d-419b-adbd-e14a525ecf09
-version: 5
-date: '2025-05-02'
+version: 6
+date: '2026-03-10'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 40
+          score: 50
         - field: dest
           type: system
-          score: 40
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

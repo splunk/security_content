@@ -1,7 +1,7 @@
 name: Windows AD GPO Deleted
 id: 0d41772b-35ab-4e1c-a2ba-d0b455481aee
-version: 8
-date: '2026-02-25'
+version: 9
+date: '2026-03-10'
 author: Dean Luxton
 status: production
 type: TTP
@@ -44,7 +44,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 64
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Remote WMI Command Attempt
 id: 272df6de-61f1-4784-877c-1fbc3e2d0838
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Rico Valdez, Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 36
+          score: 50
         - field: user
           type: user
-          score: 36
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
