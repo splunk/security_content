@@ -1,7 +1,7 @@
 name: Dump LSASS via procdump
 id: 3742ebfe-64c2-11eb-ae93-0242ac130002
-version: 17
-date: '2026-02-25'
+version: 18
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -78,10 +78,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

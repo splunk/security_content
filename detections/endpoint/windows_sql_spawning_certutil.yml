@@ -1,7 +1,7 @@
 name: Windows SQL Spawning CertUtil
 id: dfc18a5a-946e-44ee-a373-c0f60d06e676
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -35,10 +35,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: user
           type: user
-          score: 90
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

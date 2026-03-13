@@ -1,7 +1,7 @@
 name: Windows Admin Permission Discovery
 id: e08620cb-9488-4052-832d-97bcc0afd414
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: file_name
           type: file_name

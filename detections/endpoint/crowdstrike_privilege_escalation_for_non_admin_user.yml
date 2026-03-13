@@ -1,7 +1,7 @@
 name: Crowdstrike Privilege Escalation For Non-Admin User
 id: 69e2860c-0e4b-40ae-9dc4-bf9e3bf2a548
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 data_source: []
 type: Anomaly
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

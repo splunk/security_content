@@ -1,7 +1,7 @@
 name: Okta Non-Standard VPN Usage
 id: 58eb9f80-896c-42f8-86c6-27ab59026c9c
-version: 1
-date: '2025-06-03'
+version: 2
+date: '2026-03-10'
 author: Marissa Bower, Raven Tait
 status: experimental
 type: TTP

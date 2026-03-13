@@ -1,7 +1,7 @@
 name: Okta Unauthorized Access to Application
 id: 5f661629-9750-4cb9-897c-1f05d6db8727
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 data_source:
     - Okta
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 81
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

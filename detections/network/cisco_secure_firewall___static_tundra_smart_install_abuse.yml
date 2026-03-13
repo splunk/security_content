@@ -1,7 +1,7 @@
 name: Cisco Secure Firewall - Static Tundra Smart Install Abuse
 id: 7e9a5a2c-2f1a-4b6a-9a4b-9e7d9c8f5a21
-version: 4
-date: '2026-02-25'
+version: 5
+date: '2026-03-10'
 author: Bhavin Patel, Michael Haag, Splunk
 status: production
 type: TTP
@@ -61,7 +61,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

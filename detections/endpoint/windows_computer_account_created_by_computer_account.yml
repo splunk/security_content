@@ -1,7 +1,7 @@
 name: Windows Computer Account Created by Computer Account
 id: 97a8dc5f-8a7c-4fed-9e3e-ec407fd0268a
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

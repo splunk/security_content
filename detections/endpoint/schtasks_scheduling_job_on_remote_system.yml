@@ -1,7 +1,7 @@
 name: Schtasks scheduling job on remote system
 id: 1297fb80-f42a-4b4a-9c8a-88c066237cf6
-version: 17
-date: '2026-02-25'
+version: 18
+date: '2026-03-10'
 author: David Dorsey, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -46,10 +46,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
         - field: user
           type: user
-          score: 63
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

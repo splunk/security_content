@@ -1,7 +1,7 @@
 name: Windows Rundll32 Load DLL in Temp Dir
 id: 520da6fa-7d5d-4a3b-9c61-1087517b8d0f
-version: 3
-date: '2026-01-14'
+version: 5
+date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -23,11 +23,11 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Risk Message goes here
+    message: $parent_process_name$ spawned $process_name$ with a DLL from a temporary directory
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

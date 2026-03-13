@@ -1,7 +1,7 @@
 name: Scheduled Task Deleted Or Created via CMD
 id: d5af132c-7c17-439c-9d31-13d55340f36c
-version: 24
-date: '2026-02-09'
+version: 25
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
         - field: user
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

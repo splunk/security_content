@@ -1,7 +1,7 @@
 name: PowerShell Invoke WmiExec Usage
 id: 0734bd21-2769-4972-a5f1-78bb1e011224
-version: 9
-date: '2026-02-25'
+version: 10
+date: '2026-03-10'
 author: Michael Haag, Splunk
 type: TTP
 status: production
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

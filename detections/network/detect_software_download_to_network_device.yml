@@ -1,7 +1,7 @@
 name: Detect Software Download To Network Device
 id: cc590c66-f65f-48f2-986a-4797244762f8
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Mikael Bjerkeland, Splunk
 status: experimental
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

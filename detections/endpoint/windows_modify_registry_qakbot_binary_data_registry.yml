@@ -1,7 +1,7 @@
 name: Windows Modify Registry Qakbot Binary Data Registry
 id: 2e768497-04e0-4188-b800-70dd2be0e30d
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

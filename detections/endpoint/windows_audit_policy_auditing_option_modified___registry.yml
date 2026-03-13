@@ -1,7 +1,7 @@
 name: Windows Audit Policy Auditing Option Modified - Registry
 id: 27914692-9c62-44ea-9129-ceb429b61bd0
-version: 4
-date: '2025-07-30'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 20
         - field: user
           type: user
-          score: 64
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

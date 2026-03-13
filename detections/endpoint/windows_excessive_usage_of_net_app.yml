@@ -1,7 +1,7 @@
 name: Windows Excessive Usage Of Net App
 id: 355ba810-0a20-4215-8485-9ce3f87f2e38
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -39,10 +39,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 28
+          score: 20
         - field: dest
           type: system
-          score: 28
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

@@ -1,7 +1,7 @@
 name: Cisco SD-WAN - Low Frequency Rogue Peer
 id: 0fe052a5-07b8-48e7-9fc8-d6a3957eb914
-version: 1
-date: '2026-03-02'
+version: 2
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -97,6 +97,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_sd_wan/vsyslog/vsyslog.log
           source: /var/log/vsyslog
           sourcetype: cisco:sdwan:syslog

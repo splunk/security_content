@@ -1,7 +1,7 @@
 name: Linux Auditd Sudo Or Su Execution
 id: 817a5c89-5b92-4818-a22d-aa35e1361afe
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: O365 Service Principal Privilege Escalation
 id: b686d0bd-cca7-44ca-ae07-87f6465131d9
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Dean Luxton
 data_source:
     - O365 Add app role assignment grant to user.
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: servicePrincipal
           type: user
-          score: 100
+          score: 50
     threat_objects:
         - field: user_agent
           type: http_user_agent

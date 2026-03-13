@@ -1,7 +1,7 @@
 name: Windows SQL Server Startup Procedure
 id: 7bec7c5c-2262-4adb-ba56-c8028512bc58
-version: 3
-date: '2025-10-14'
+version: 4
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -29,10 +29,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 20
         - field: startup_procedure
           type: other
-          score: 70
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

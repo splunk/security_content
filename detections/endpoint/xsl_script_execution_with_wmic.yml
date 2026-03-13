@@ -1,7 +1,7 @@
 name: XSL Script Execution With WMIC
 id: 004e32e2-146d-11ec-a83f-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -45,10 +45,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

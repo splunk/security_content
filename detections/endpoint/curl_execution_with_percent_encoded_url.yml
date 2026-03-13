@@ -1,7 +1,7 @@
 name: Curl Execution with Percent Encoded URL
 id: 9a8d5516-4c5e-11ef-9d42-acde48001122
-version: 1
-date: '2026-02-02'
+version: 2
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -86,10 +86,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 50
+          score: 20
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

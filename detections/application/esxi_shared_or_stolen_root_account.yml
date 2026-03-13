@@ -1,7 +1,7 @@
 name: ESXi Shared or Stolen Root Account
 id: 1bc8f235-5d7c-457c-95ca-5e92edcb52ea
-version: 1
-date: '2025-05-09'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

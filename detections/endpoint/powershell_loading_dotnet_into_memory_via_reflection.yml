@@ -1,7 +1,7 @@
 name: PowerShell Loading DotNET into Memory via Reflection
 id: 85bc3f30-ca28-11eb-bd21-acde48001122
-version: 14
-date: '2025-10-14'
+version: 15
+date: '2026-03-10'
 author: Michael Haag, Teoderick Contreras Splunk
 status: production
 type: Anomaly
@@ -40,10 +40,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 20
         - field: user_id
           type: user
-          score: 56
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

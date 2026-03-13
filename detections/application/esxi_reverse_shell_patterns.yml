@@ -1,7 +1,7 @@
 name: ESXi Reverse Shell Patterns
 id: ee8b16a4-118e-4dd7-af4b-835530415610
-version: 1
-date: '2025-05-12'
+version: 2
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -25,7 +25,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 75
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

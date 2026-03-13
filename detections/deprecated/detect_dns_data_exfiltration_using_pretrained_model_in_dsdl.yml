@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 45
+          score: 20
     threat_objects:
         - field: query
           type: domain

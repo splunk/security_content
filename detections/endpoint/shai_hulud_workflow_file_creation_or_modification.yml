@@ -1,7 +1,7 @@
 name: Shai-Hulud Workflow File Creation or Modification
 id: 6b4a0a7f-10d1-4d72-9c4c-5c6a3d9f9d6a
-version: 1
-date: '2025-11-25'
+version: 2
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -77,7 +77,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 50
     threat_objects:
         - field: file_path
           type: file_path

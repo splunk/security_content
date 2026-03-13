@@ -1,7 +1,7 @@
 name: Windows Increase in Group or Object Modification Activity
 id: 4f9564dd-a204-4f22-b375-4dfca3a68731
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Dean Luxton
 status: production
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: src_user
           type: user
-          score: 8
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

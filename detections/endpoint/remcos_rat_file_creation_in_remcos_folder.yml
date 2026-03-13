@@ -1,7 +1,7 @@
 name: Remcos RAT File Creation in Remcos Folder
 id: 25ae862a-1ac3-11ec-94a1-acde48001122
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Sanjay Govind
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

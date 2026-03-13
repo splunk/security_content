@@ -1,7 +1,7 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 18
-date: '2025-12-04'
+version: 19
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: Computer
           type: system
-          score: 36
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

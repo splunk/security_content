@@ -1,7 +1,7 @@
 name: Detect DGA domains using pretrained model in DSDL
 id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 status: deprecated
 type: Anomaly
@@ -31,7 +31,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 63
+          score: 20
     threat_objects:
         - field: domain
           type: url
