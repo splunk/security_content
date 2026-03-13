@@ -1,6 +1,6 @@
 name: Excessive Usage Of SC Service Utility
 id: cb6b339e-d4c6-11eb-a026-acde48001122
-version: 10
+version: 9
 date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production

@@ -1,6 +1,6 @@
 name: Get DomainPolicy with Powershell Script Block
 id: a360d2b2-065a-11ec-b0bf-acde48001122
-version: 10
+version: 9
 date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
