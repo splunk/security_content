@@ -5,7 +5,11 @@ date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This detection identifies when an AI command-line tool is launched in an unsafe mode that bypasses normal safety checks and user approvals. For instance, running claude --dangerously-skip-permissions skips all safety restrictions, allowing the tool to operate freely, while gemini --yolo automatically approves all actions without prompting the user. These modes, often called permission overrides or YOLO mode, let the AI execute commands, modify files, or perform tasks without confirmation. Detecting their use is important to prevent unintended or potentially harmful operations.
+description: |
+    This detection identifies when an AI command-line tool is launched in an unsafe mode that bypasses normal safety checks and user approvals.
+    For instance, running claude --dangerously-skip-permissions skips all safety restrictions, allowing the tool to operate freely, while gemini --yolo automatically approves all actions without prompting the user.
+    These modes, often called permission overrides or YOLO mode, let the AI execute commands, modify files, or perform tasks without confirmation.
+    Detecting their use is important to prevent unintended or potentially harmful operations.
 data_source:
     - Linux Auditd Proctitle
 search: |-
@@ -17,7 +21,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)` | `linux_auditd_ai_cli_permission_override_activated_filter`
 how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
-known_false_positives: Administrator or network operator can execute this command. Please update the filter macros to remove false positives.
+known_false_positives: An administrator or network operator might execute this command legitimately. Please apply the necessary filters to tune that activity.
 references:
     - https://x.com/Mandiant/status/2031097693620081042?s=20
 drilldown_searches:
@@ -30,7 +34,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A [$proctitle$] event occurred on host - [$dest$] to bypassed ai safety execution with permission override.
+    message: A [$proctitle$] event occurred on host - [$dest$] to bypass AI safety execution with permission override.
     risk_objects:
         - field: dest
           type: system
