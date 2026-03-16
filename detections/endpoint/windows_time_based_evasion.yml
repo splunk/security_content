@@ -1,6 +1,6 @@
 name: Windows Time Based Evasion
 id: 34502357-deb1-499a-8261-ffe144abf561
-version: 12
+version: 11
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

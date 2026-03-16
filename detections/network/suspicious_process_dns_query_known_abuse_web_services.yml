@@ -1,6 +1,6 @@
 name: Suspicious Process DNS Query Known Abuse Web Services
 id: 3cf0dc36-484d-11ec-a6bc-acde48001122
-version: 16
+version: 15
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

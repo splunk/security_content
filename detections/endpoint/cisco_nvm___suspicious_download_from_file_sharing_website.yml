@@ -1,6 +1,6 @@
 name: Cisco NVM - Suspicious Download From File Sharing Website
 id: 94ebc001-35e7-4ae8-9b0e-52766b2f99c7
-version: 6
+version: 5
 date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production

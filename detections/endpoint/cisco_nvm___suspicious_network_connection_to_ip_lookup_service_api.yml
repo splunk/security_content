@@ -1,6 +1,6 @@
 name: Cisco NVM - Suspicious Network Connection to IP Lookup Service API
 id: 568cb83e-d79e-4a23-85ec-6e1f6c30cb2f
-version: 7
+version: 6
 date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk, Janantha Marasinghe
 status: production

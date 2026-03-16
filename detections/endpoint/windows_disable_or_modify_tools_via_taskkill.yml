@@ -1,6 +1,6 @@
 name: Windows Disable or Modify Tools Via Taskkill
 id: a43ae66f-c410-4b3d-8741-9ce1ad17ddb0
-version: 12
+version: 11
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

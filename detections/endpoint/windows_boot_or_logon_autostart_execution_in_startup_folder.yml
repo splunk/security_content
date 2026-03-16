@@ -1,6 +1,6 @@
 name: Windows Boot or Logon Autostart Execution In Startup Folder
 id: 99d157cb-923f-4a00-aee9-1f385412146f
-version: 14
+version: 13
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

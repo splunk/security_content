@@ -1,6 +1,6 @@
 name: Cisco NVM - Webserver Download From File Sharing Website
 id: 1984f997-3b49-4d4b-a7e9-dc5dbf88370e
-version: 5
+version: 4
 date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production

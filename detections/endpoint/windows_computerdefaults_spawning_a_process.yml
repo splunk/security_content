@@ -1,6 +1,6 @@
 name: Windows ComputerDefaults Spawning a Process
 id: 697eb4c0-1008-4c3c-b5ae-7bd9b39adbd6
-version: 5
+version: 4
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

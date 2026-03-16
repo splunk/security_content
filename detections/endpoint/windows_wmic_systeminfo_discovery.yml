@@ -1,6 +1,6 @@
 name: Windows Wmic Systeminfo Discovery
 id: 97937ece-cb13-4dbc-9684-c0dc3afd400a
-version: 4
+version: 3
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

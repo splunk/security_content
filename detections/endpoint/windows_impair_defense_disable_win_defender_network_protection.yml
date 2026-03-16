@@ -1,6 +1,6 @@
 name: Windows Impair Defense Disable Win Defender Network Protection
 id: 8b6c15c7-5556-463d-83c7-986326c21f12
-version: 10
+version: 9
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production

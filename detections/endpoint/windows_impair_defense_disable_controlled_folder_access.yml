@@ -1,6 +1,6 @@
 name: Windows Impair Defense Disable Controlled Folder Access
 id: 3032741c-d6fc-4c69-8988-be8043d6478c
-version: 9
+version: 8
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
