@@ -1,6 +1,6 @@
 name: Windows Gather Victim Network Info Through Ip Check Web Services
 id: 70f7c952-0758-46d6-9148-d8969c4481d1
-version: 18
+version: 17
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production

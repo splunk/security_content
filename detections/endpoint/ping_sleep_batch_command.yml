@@ -1,6 +1,6 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 14
+version: 13
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production

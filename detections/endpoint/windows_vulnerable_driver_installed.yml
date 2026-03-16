@@ -1,6 +1,6 @@
 name: Windows Vulnerable Driver Installed
 id: 1dda7586-57be-4a1b-8de1-a9ad802b9a7f
-version: 8
+version: 7
 date: '2026-03-16'
 author: Dean Luxton
 status: production

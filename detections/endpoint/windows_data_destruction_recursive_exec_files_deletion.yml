@@ -1,6 +1,6 @@
 name: Windows Data Destruction Recursive Exec Files Deletion
 id: 3596a799-6320-4a2f-8772-a9e98ddb2960
-version: 11
+version: 10
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production

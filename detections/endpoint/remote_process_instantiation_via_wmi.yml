@@ -1,6 +1,6 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: 17
+version: 16
 date: '2026-03-16'
 author: Mauricio Velazco, Splunk
 status: production

@@ -1,6 +1,6 @@
 name: Detect Regasm with Network Connection
 id: 07921114-6db4-4e2e-ae58-3ea8a52ae93f
-version: 14
+version: 13
 date: '2026-03-16'
 author: Michael Haag, Splunk
 status: production

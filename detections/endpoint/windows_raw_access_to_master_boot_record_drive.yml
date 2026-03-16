@@ -1,6 +1,6 @@
 name: Windows Raw Access To Master Boot Record Drive
 id: 7b83f666-900c-11ec-a2d9-acde48001122
-version: 11
+version: 10
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
