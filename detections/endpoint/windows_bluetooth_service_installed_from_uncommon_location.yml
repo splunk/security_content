@@ -1,26 +1,37 @@
-name: Windows BluetoothService Persistence
+name: Windows Bluetooth Service Installed From Uncommon Location
 id: f12b81e6-2fa2-48e0-95cd-f5f7e4d9ac89
 version: 1
 date: '2026-03-13'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
-    Identifies the creation of a Windows service named "BluetoothService" with a binary path in user-writable directories, particularly %AppData%\Bluetooth. This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers created a service named "BluetoothService" pointing to a malicious binary (renamed Bitdefender Submission Wizard) in a hidden AppData directory.
-    While legitimate Bluetooth services exist in Windows, they are system services with binaries in System32. Any BluetoothService created with a binary path in user directories (AppData, Temp, Downloads) is highly suspicious and indicates potential malware persistence.
+    Identifies the creation of a Windows service named "BluetoothService" with a binary path in user-writable directories, particularly %AppData%\Bluetooth.
+    This technique was observed in the Lotus Blossom Chrysalis backdoor campaign, where attackers created a service named "BluetoothService" pointing to a malicious binary (renamed Bitdefender Submission Wizard) in a hidden AppData directory.
+    While legitimate Bluetooth services exist in Windows, they are system services with binaries in System32.
+    Any BluetoothService created with a binary path in user directories (AppData, Temp, Downloads) is highly suspicious and indicates potential malware persistence.
 data_source:
     - Windows Event Log System 7045
 search: |
-    `wineventlog_system` EventCode=7045
-    ServiceName IN ("BluetoothService", "Bluetooth Service")
-    ImagePath IN ("*\\AppData\\*", "*\\Users\\*\\Bluetooth\\*", "*\\Temp\\*", "*\\ProgramData\\*")
-    NOT ImagePath IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*", "*\\Program Files*")
+    `wineventlog_system`
+    EventCode=7045
+    ServiceName IN (
+        "BluetoothService",
+        "Bluetooth Service"
+    )
+    ImagePath IN (
+        "*\\AppData\\*",
+        "*\\ProgramData\\*",
+        "*\\Temp\\*",
+        "*\\Users\\*\\Bluetooth\\*"
+    )
     | stats count min(_time) as firstTime max(_time) as lastTime
-      by Computer, ServiceName, ImagePath, ServiceType, StartType, UserID
-    | rename Computer as dest, UserID as user_id
+      by Computer ServiceName ImagePath ServiceType StartType UserID
+    | rename Computer as dest
+             UserID as user_id
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `windows_bluetoothservice_persistence_filter`
+    | `windows_bluetooth_service_installed_from_uncommon_location_filter`
 how_to_implement: |
     To successfully implement this search, you need to be ingesting Windows System Event Logs (Event ID 7045) from your Windows endpoints. Event ID 7045 logs service installation events and includes the service name, binary path, service type, and start type.
 
@@ -50,7 +61,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 75
+          score: 20
     threat_objects:
         - field: ServiceName
           type: service

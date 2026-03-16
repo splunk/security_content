@@ -60,7 +60,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: TinyCC compiler abuse detected on $dest$ by user $user$ executing shellcode from $process_path$, indicating potential malicious code execution
+    message: TinyCC compiler execution on $dest$ by user $user$ from $process_path$, indicating potential malicious code execution.
     risk_objects:
         - field: dest
           type: system
@@ -74,7 +74,7 @@ rba:
         - field: process
           type: process
         - field: process_path
-          type: process_path
+          type: file_path
 tags:
     analytic_story:
         - Lotus Blossom Chrysalis Backdoor
