@@ -1,7 +1,7 @@
 name: Windows Sysmon Bitdefender Submission Wizard DLL Sideloading
 id: a1b2c3d4-e5f6-4789-a012-3456789abcde
 version: 1
-date: '2026-02-02'
+date: '2026-03-13'
 author: Michael Haag, Splunk
 status: experimental
 type: TTP
@@ -9,7 +9,37 @@ description: |
     Detects DLL side-loading of Bitdefender Submission Wizard (BDSubmit.exe, bdsw.exe, or renamed BluetoothService.exe) when a malicious log.dll is loaded from a non-standard path via Sysmon ImageLoad events. Same Lotus Blossom Chrysalis technique as the process-creation detection but uses ImageLoad for higher precision. Marked experimental because it requires Sysmon ImageLoad and test datasets may only include process creation.
 data_source:
     - Sysmon EventID 7
-search: '`sysmon` EventCode=7 (Image IN ("*\\\\BDSubmit.exe", "*\\\\bdsw.exe", "*\\\\BluetoothService.exe") OR OriginalFileName IN ("BDSubmit.exe", "bdsw.exe")) ImageLoaded="*\\\\log.dll" NOT (ImageLoaded IN ("*\\\\System32\\\\*", "*\\\\SysWOW64\\\\*", "*\\\\Program Files*", "*\\\\Program Files (x86)*")) | stats count min(_time) as firstTime max(_time) as lastTime by dest, Image, ImageLoaded, Signed, SignatureStatus, User, OriginalFileName, loaded_file, loaded_file_path, process_exec, process_guid, process_hash, process_id, process_name, process_path, service_dll_signature_exists, service_dll_signature_verified, signature, signature_id, user_id, vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_sysmon_bitdefender_submission_wizard_dll_sideloading_filter`'
+search: |-
+    `sysmon`
+    EventCode=7
+    (
+        Image IN (
+            "*\\BDSubmit.exe",
+            "*\\bdsw.exe",
+            "*\\BluetoothService.exe"
+        )
+        OR
+        OriginalFileName IN (
+            "BDSubmit.exe",
+            "bdsw.exe"
+        )
+    )
+    ImageLoaded="*\\log.dll"
+    NOT ImageLoaded IN (
+        "*:\\Program Files (x86)\\*",
+        "*:\\Program Files\\*",
+        "*:\\Windows\\System32\\*",
+        "*:\\Windows\\SysWOW64\\*"
+    )
+    | stats count min(_time) as firstTime
+                  max(_time) as lastTime
+      by dest Image ImageLoaded Signed SignatureStatus User OriginalFileName loaded_file
+         loaded_file_path process_exec process_guid process_hash process_id process_name
+         process_path service_dll_signature_exists service_dll_signature_verified signature
+         signature_id user_id vendor_product
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_sysmon_bitdefender_submission_wizard_dll_sideloading_filter`
 how_to_implement: |
     Ingest Sysmon ImageLoad events and ensure the Splunk Add-on for Sysmon is configured to parse them. Enable ImageLoad in Sysmon config for DLLs. Map logs to Endpoint data model where applicable.
 known_false_positives: |
@@ -28,14 +58,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Bitdefender Submission Wizard loaded log.dll from a non-standard path on $dest$ by user $User$, indicating DLL side-loading
+    message: Bitdefender Submission Wizard loaded $ImageLoaded$ from a non-standard path on $dest$ by user $User$, indicating potential DLL side-loading activity.
     risk_objects:
         - field: dest
           type: system
-          score: 85
+          score: 50
         - field: User
           type: user
-          score: 85
+          score: 50
     threat_objects:
         - field: Image
           type: process_name

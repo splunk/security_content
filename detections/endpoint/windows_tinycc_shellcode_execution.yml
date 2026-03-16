@@ -1,7 +1,7 @@
 name: Windows TinyCC Shellcode Execution
 id: fdb6774e-e465-4912-86e3-63cf9ab91491
 version: 1
-date: '2026-02-02'
+date: '2026-03-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -11,22 +11,30 @@ description: |
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
-search: |
+search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-      from datamodel=Endpoint.Processes
-      where (Processes.process_name="svchost.exe" OR Processes.process_name="tcc.exe")
-        AND (Processes.process="* -nostdlib*" AND Processes.process="* -run*")
-        AND (Processes.process="*.c" OR Processes.process="*conf.c*")
-        AND NOT Processes.process_path IN ("*\\Windows\\System32\\*", "*\\Windows\\SysWOW64\\*")
-      by Processes.action Processes.dest Processes.user Processes.process Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process_name Processes.process_id Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_integrity_level Processes.process_path Processes.original_file_name Processes.user_id Processes.vendor_product
+      from datamodel=Endpoint.Processes where
+      Processes.process_name IN ("svchost.exe", "tcc.exe")
+      Processes.process="* -nostdlib*"
+      Processes.process="* -run*"
+      Processes.process IN ("*.c", "*conf.c*")
+      NOT Processes.process_path IN (
+        "*:\\Windows\\System32\\*",
+        "*:\\Windows\\SysWOW64\\*"
+      )
+      by Processes.action Processes.dest Processes.user Processes.process Processes.parent_process
+         Processes.parent_process_exec Processes.parent_process_guid
+         Processes.parent_process_id Processes.parent_process_name
+         Processes.parent_process_path Processes.process_name Processes.process_id
+         Processes.process_exec Processes.process_guid Processes.process_hash
+         Processes.process_integrity_level Processes.process_path
+         Processes.original_file_name Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_tinycc_shellcode_execution_filter`
 how_to_implement: |
     To successfully implement this search, you need to be ingesting logs with process creation information from your endpoints. If you are using Sysmon, you must have at least version 6.0.4 of the Sysmon TA and have enabled EventCode 1 (Process Create). Ensure that command-line arguments are being captured in your Sysmon configuration.
-
     The detection relies on the OriginalFileName field being populated to distinguish between legitimate svchost.exe and renamed tcc.exe binaries. Ensure Sysmon is configured to capture full command-line arguments.
 known_false_positives: |
     Legitimate TinyCC usage by developers may trigger this detection if executed from non-standard locations. However, the combination of:
@@ -56,15 +64,17 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
         - field: user
           type: user
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name
+        - field: process
+          type: process
         - field: process_path
-          type: file_path
+          type: process_path
 tags:
     analytic_story:
         - Lotus Blossom Chrysalis Backdoor

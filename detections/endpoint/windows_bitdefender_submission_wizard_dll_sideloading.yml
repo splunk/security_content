@@ -1,18 +1,21 @@
 name: Windows Bitdefender Submission Wizard DLL Sideloading
 id: f9593331-804c-4268-8b4c-2693c5ae786c
-version: 2
-date: '2026-02-02'
+version: 1
+date: '2026-03-13'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
     Detects execution of rundll32 loading log.dll, as used in the Lotus Blossom Chrysalis backdoor campaign. Attackers placed a malicious log.dll in %AppData%\Bluetooth and invoked it via rundll32.exe log.dll,LogInit to decrypt and execute shellcode. The legitimate Bitdefender Submission Wizard (BDSubmit.exe, bdsw.exe) also uses log.dll; this detection focuses on the process-creation pattern (rundll32 with log.dll in command line) which is easier to deploy and test with EventID 1 and the Endpoint data model.
 data_source:
     - Sysmon EventID 1
-search: |
+    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
+search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-      from datamodel=Endpoint.Processes
-      where `process_rundll32` AND Processes.process=*log.dll*
+      from datamodel=Endpoint.Processes where
+      `process_rundll32`
+      Processes.process=*log.dll*
       by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
@@ -40,15 +43,15 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 85
+          score: 20
         - field: user
           type: user
-          score: 85
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name
         - field: process
-          type: command
+          type: process
 tags:
     analytic_story:
         - Lotus Blossom Chrysalis Backdoor

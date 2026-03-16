@@ -1,7 +1,7 @@
 name: Windows BluetoothService Persistence
 id: f12b81e6-2fa2-48e0-95cd-f5f7e4d9ac89
 version: 1
-date: '2026-02-02'
+date: '2026-03-13'
 author: Michael Haag, Splunk
 status: production
 type: TTP
