@@ -1,6 +1,6 @@
 name: Windows AdFind Exe
 id: bd3b0187-189b-46c0-be45-f52da2bae67f
-version: 13
+version: 12
 date: '2026-03-12'
 author: Jose Hernandez, Bhavin Patel, Nasreddine Bencherchali, Splunk
 status: production
