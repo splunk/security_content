@@ -63,6 +63,7 @@ tags:
         - Qakbot
         - Industroyer2
         - Scattered Spider
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1592

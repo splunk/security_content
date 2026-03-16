@@ -1,0 +1,26 @@
+name: BlankGrabber Stealer
+id: 19342670-28e0-4efa-89d9-e709ba5534a4
+version: 1
+date: '2026-03-03'
+author: Teoderick Contreras, Splunk
+status: production
+description: |
+    BlankGrabber is a Windows-based information-stealing malware typically distributed through phishing emails, malicious downloads, cracked software, and fake game cheats.
+    Once executed, it harvests sensitive data such as saved browser passwords, cookies, autofill data, cryptocurrency wallet information, Discord tokens, and system details.
+    Stolen data is commonly exfiltrated to attacker-controlled servers via webhooks or encrypted channels. BlankGrabber often includes basic anti-analysis and obfuscation techniques to evade detection.
+    It poses significant risks to individuals and organizations by enabling account takeover, financial theft, and broader network compromise.
+narrative: |
+    When BlankGrabber slips onto a system, it rarely announces itself. Disguised as cracked software, a game cheat, or an innocent attachment, it quietly installs and begins sifting through the victim's digital life.
+    Browsers yield saved passwords and cookies, cryptocurrency wallets expose valuable keys, and messaging apps hand over authentication tokens.
+    In the background, the malware packages this information and transmits it to an attacker-controlled server, often using encrypted channels.
+    With subtle persistence and basic anti-analysis tricks, BlankGrabber enables account takeovers, financial theft, and deeper compromise before the victim realizes anything is wrong.
+references:
+    - https://malpedia.caad.fkie.fraunhofer.de/details/py.blankgrabber
+tags:
+    category:
+        - Malware
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection

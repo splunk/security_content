@@ -44,6 +44,7 @@ tags:
         - Scattered Lapsus$ Hunters
         - NetSupport RMM Tool Abuse
         - Storm-0501 Ransomware
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1562.001
