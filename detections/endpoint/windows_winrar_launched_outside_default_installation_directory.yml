@@ -5,14 +5,22 @@ date: '2026-03-03'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This Analytics detects the execution of WinRAR or RAR outside the default installation directory. This behavior is significant as it indicates potential malware activity or attempts to archive collected sensitive data from the endpoint for exfiltration. We recommend reviewing the process path and the parent process path to determine if the execution is legitimate and if possible validate the data being archived.
+description: |
+    This Analytics detects the execution of WinRAR or RAR outside the default installation directory.
+    This behavior can be significant as it could indicate attempts to archive collected sensitive data from the endpoint for exfiltration.
+    We recommend reviewing the process path and the parent process path to determine if the execution is legitimate and if possible validate the data being archived.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-      where Processes.process_name IN ("Winrar.exe", "rar.exe") AND NOT (Processes.process_path IN ("*:\\Program Files (x86)\\WinRAR\\*", "*:\\Program Files\\WinRAR\\*"))
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+      from datamodel=Endpoint.Processes where
+      Processes.process_name IN ("Winrar.exe", "rar.exe")
+      NOT Processes.process_path IN (
+        "*:\\Program Files (x86)\\WinRAR\\*",
+        "*:\\Program Files\\WinRAR\\*"
+      )
       by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
       Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
       Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
@@ -22,8 +30,10 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `windows_winrar_launched_outside_default_installation_directory_filter`
-how_to_implement: he detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: No false positives have been identified at this time.
+how_to_implement: |
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |
+    False positives are expected from machines where the default installation path was changed. Apply additional filters accordingly.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/py.blankgrabber
 drilldown_searches:
@@ -36,7 +46,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A winrar [$process_name$] execution in [$process_path$] was identified on endpoint [$dest$] by user [$user$].
+    message: A [$process_name$] execution in [$process_path$] was identified on endpoint [$dest$] by user [$user$].
     risk_objects:
         - field: dest
           type: system

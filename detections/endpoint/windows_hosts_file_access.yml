@@ -5,13 +5,37 @@ date: '2026-03-03'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
-description: This Analytics detects the execution of a process attempting to access the hosts file. This behavior is significant as it indicates potential malware activity or attempts to bypass security measures. Hosts file is a critical file for network configuration and DNS resolution. If an attacker gains access to the hosts file, they can redirect traffic to malicious websites, serve fake content or block legitimate security websites.
+description: |
+    This Analytic detects the execution of a process attempting to access the hosts file.
+    The hosts file is a critical file for network configuration and DNS resolution.
+    If an attacker gains access to it, they can redirect traffic to malicious websites, serve fake content or block legitimate security websites.
 data_source:
     - Windows Event Log Security 4663
-search: '`wineventlog_security` EventCode=4663 object_file_path="*:\\Windows\\System32\\drivers\\etc\\hosts" AND NOT ( process_path IN ( "*:\\Windows\\System32\\svchost.exe", "*:\\Windows\\SysWow64\\svchost.exe", "*:\\Windows\\System32\\lsass.exe", "*:\\Windows\\SysWow64\\lsass.exe", "*:\\Windows\\System32\\services.exe", "*:\\Windows\\SysWow64\\services.exe", "*:\\Windows\\System32\\SearchIndexer.exe", "*:\\Windows\\SysWow64\\SearchIndexer.exe", "*:\\Windows\\explorer.exe" ))
-
-    | stats count by _time object_file_path object_file_name dest process_name process_path process_id EventCode | eval process_path = lower(process_path) | lookup browser_process_and_path browser_process_path as process_path OUTPUT is_valid_browser_path | eval is_valid_browser_path=coalesce(is_valid_browser_path,"false") | where is_valid_browser_path = "false" | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_hosts_file_access_filter`'
-how_to_implement: To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
+search: |
+    `wineventlog_security`
+    EventCode=4663
+    object_file_path="*:\\Windows\\System32\\drivers\\etc\\hosts"
+    NOT process_path IN (
+        "*:\\Windows\\explorer.exe",
+        "*:\\Windows\\System32\\lsass.exe",
+        "*:\\Windows\\System32\\SearchIndexer.exe",
+        "*:\\Windows\\System32\\services.exe",
+        "*:\\Windows\\System32\\svchost.exe",
+        "*:\\Windows\\SysWow64\\SearchIndexer.exe",
+        "*:\\Windows\\SysWow64\\svchost.exe"
+    )
+    | stats count
+        by _time object_file_path object_file_name dest process_name
+           process_path process_id EventCode
+    | eval process_path = lower(process_path)
+    | lookup browser_process_and_path browser_process_path as process_path OUTPUT is_valid_browser_path
+    | eval is_valid_browser_path=coalesce(is_valid_browser_path,"false")
+    | where is_valid_browser_path = "false"
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_hosts_file_access_filter`
+how_to_implement: |
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
 known_false_positives: Administrator may access this registry for product key recovery purposes.
 references:
     - https://cert.gov.ua/article/6284730
@@ -25,7 +49,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: a [$process_name$] attempting to access the hosts file [$object_file_path$] on [$dest$].
+    message: A [$process_name$] attempting to access the hosts file [$object_file_path$] on [$dest$].
     risk_objects:
         - field: dest
           type: system
