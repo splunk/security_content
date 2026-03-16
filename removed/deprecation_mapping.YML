@@ -15,6 +15,11 @@ detections:
     reason: Detection has been renamed for clarity
     replacement_content:
       - HTTP Scripting Tool User Agent
+  - content: Windows Excel ActiveMicrosoftApp Child Process
+    removed_in_version: 5.24.0
+    reason: Detection has been renamed for clarity
+    replacement_content:
+      - Windows Excel ActiveMicrosoftApp Child Process
   - content: Cobalt Strike Named Pipes
     removed_in_version: 5.22.0
     reason: Detection is now part of a larger collection of suspicious named pipes
