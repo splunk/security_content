@@ -1,6 +1,6 @@
 name: Cisco NVM - Suspicious File Download via Headless Browser
 id: cd0e816f-f67d-4dbe-a153-480b546e867e
-version: 5
+version: 4
 date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
