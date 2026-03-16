@@ -5,6 +5,11 @@ detections:
     replacement_content:
       - Linux Docker Root Directory Mount
       - Linux Docker Shell Execution
+  - content: Windows Excel ActiveMicrosoftApp Child Process
+    removed_in_version: 5.26.0
+    reason: Detection has been renamed to a more accurate name that reflects the detection logic.
+    replacement_content:
+      - Windows Excel Spawning Microsoft Project Applications
   - content: Linux apt-get Privilege Escalation
     removed_in_version: 5.24.0
     reason: Detection has been deprecated in favor of a more broad and generic logic that aims to reduce overhead and increase coverage.
@@ -15,11 +20,6 @@ detections:
     reason: Detection has been renamed for clarity
     replacement_content:
       - HTTP Scripting Tool User Agent
-  - content: Windows Excel ActiveMicrosoftApp Child Process
-    removed_in_version: 5.24.0
-    reason: Detection has been renamed for clarity
-    replacement_content:
-      - Windows Excel Spawning Microsoft Project Applications
   - content: Cobalt Strike Named Pipes
     removed_in_version: 5.22.0
     reason: Detection is now part of a larger collection of suspicious named pipes
