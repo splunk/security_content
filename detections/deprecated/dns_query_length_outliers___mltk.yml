@@ -3,7 +3,7 @@ id: 85fbcfe8-9718-4911-adf6-7000d077a3a9
 version: 10
 date: '2026-03-10'
 author: Rico Valdez, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies DNS requests with unusually large query lengths for the record type being requested. It leverages the Network_Resolution data model and applies a machine learning model to detect outliers in DNS query lengths. This activity is significant because unusually large DNS queries can indicate data exfiltration or command-and-control communication attempts. If confirmed malicious, this activity could allow attackers to exfiltrate sensitive data or maintain persistent communication channels with compromised systems.
 data_source: []
