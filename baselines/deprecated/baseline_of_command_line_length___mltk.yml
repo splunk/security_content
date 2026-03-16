@@ -1,10 +1,10 @@
 name: Baseline of Command Line Length - MLTK
 id: d2a4d85b-fc6a-47a0-82f6-bc1ec2ebc459
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Rico Valdez, Splunk
 type: Baseline
-status: production
+status: deprecated
 description:
   This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the length of the command lines observed for each user in the environment.

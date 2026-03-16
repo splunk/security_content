@@ -62,6 +62,7 @@ tags:
         - CISA AA23-347A
         - PHP-CGI RCE Attack on Japanese Organizations
         - LAMEHUG
+        - Lotus Blossom Chrysalis Backdoor
     asset_type: Endpoint
     mitre_attack_id:
         - T1033
