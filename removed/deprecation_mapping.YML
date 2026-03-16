@@ -1,4 +1,40 @@
 detections:
+  - content: Abnormally High Number Of Cloud Infrastructure API Calls
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0). 
+  - content: Abnormally High Number Of Cloud Instances Destroyed
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Abnormally High Number Of Cloud Instances Launched
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Abnormally High Number Of Cloud Security Group API Calls
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Detect DNS Data Exfiltration using pretrained model in DSDL
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: DNS Query Length Outliers - MLTK
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: SMB Traffic Spike - MLTK
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Unusually Long Command Line - MLTK
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Detect DGA domains using pretrained model in DSDL
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Detect suspicious DNS TXT records using pretrained model in DSDL
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Detect suspicious processnames using pretrained model in DSDL
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
+  - content: Potentially malicious code on commandline
+    removed_in_version: 5.26.0
+    reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0).
   - content: Linux Docker Privilege Escalation
     removed_in_version: 5.26.0
     reason: Detection has been deprecated in favor of two scoped detections that aims to reduce overhead and ease management
@@ -400,8 +436,6 @@ detections:
     removed_in_version: 5.2.0
     reason: Detections updated to use the new search logic and field names due to the
       TA update
-    replacement_content:
-    - Abnormally High Number Of Cloud Security Group API Calls
   - content: Office Product Spawning BITSAdmin
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
@@ -727,8 +761,6 @@ detections:
     removed_in_version: 5.2.0
     reason: Detections updated to use the new search logic and field names due to the
       TA update
-    replacement_content:
-    - Abnormally High Number Of Cloud Instances Launched
   - content: EC2 Instance Modified With Previously Unseen User
     removed_in_version: 5.2.0
     reason: Detections updated to use the new search logic and field names due to the
@@ -752,8 +784,6 @@ detections:
     removed_in_version: 5.2.0
     reason: Detections updated to use the new search logic and field names due to the
       TA update
-    replacement_content:
-    - Abnormally High Number Of Cloud Instances Destroyed
   - content: Web Fraud - Account Harvesting
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
@@ -811,8 +841,6 @@ detections:
     removed_in_version: 5.2.0
     reason: Detections updated to use the new search logic and field names due to the
       TA update
-    replacement_content:
-    - Abnormally High Number Of Cloud Infrastructure API Calls
   - content: Suspicious Powershell Command-Line Arguments
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
@@ -889,6 +917,27 @@ detections:
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
 baselines:
+  - content: Baseline Of Cloud Infrastructure API Calls Per User
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline Of Cloud Instances Destroyed 
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline Of Cloud Instances Launched
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline Of Cloud Security Group API Calls Per User
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline of Command Line Length - MLTK
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline of DNS Query Length - MLTK
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
+  - content: Baseline of SMB Traffic - MLTK
+    removed_in_version: 5.26.0
+    reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
   - content: Previously Seen AWS Cross Account Activity
     removed_in_version: 5.4.0
     reason: 'All detection(s) which leverage this baseline have been deprecated. As such, this baseline has been deprecated as well.'
