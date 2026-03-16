@@ -11,12 +11,12 @@ detections:
     replacement_content:
       - Linux APT Privilege Escalation
   - content: HTTP Suspicious Tool User Agent
-    removed_in_version: 5.24.0
+    removed_in_version: 5.22.0
     reason: Detection has been renamed for clarity
     replacement_content:
       - HTTP Scripting Tool User Agent
   - content: Windows Excel ActiveMicrosoftApp Child Process
-    removed_in_version: 5.22.0
+    removed_in_version: 5.24.0
     reason: Detection has been renamed for clarity
     replacement_content:
       - Windows Excel Spawning Microsoft Project Applications
