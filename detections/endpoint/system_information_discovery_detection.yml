@@ -46,6 +46,7 @@ tags:
         - LAMEHUG
         - NetSupport RMM Tool Abuse
         - BlankGrabber Stealer
+        - Lotus Blossom Chrysalis Backdoor
     asset_type: Windows
     mitre_attack_id:
         - T1082
