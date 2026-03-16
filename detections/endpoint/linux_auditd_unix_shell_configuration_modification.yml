@@ -1,7 +1,7 @@
 name: Linux Auditd Unix Shell Configuration Modification
 id: 66f737c6-3f7f-46ed-8e9b-cc0e5bf01f04
 version: 9
-date: '2026-03-10'
+date: '2026-03-12'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -85,6 +85,7 @@ tags:
         - Linux Privilege Escalation
         - Linux Persistence Techniques
         - Compromised Linux Host
+        - QuietVault
     asset_type: Endpoint
     mitre_attack_id:
         - T1546.004
