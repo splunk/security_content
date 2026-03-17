@@ -5,7 +5,7 @@ date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when a suspicious certificate with a Subject Alternative Name (SAN) is issued using Active Directory Certificate Services (AD CS) and then immediately used for authentication. This detection leverages Windows Security Event Logs, specifically EventCode 4887, to identify the issuance and subsequent use of the certificate. This activity is significant because improperly configured certificate templates can be exploited for privilege escalation and environment compromise. If confirmed malicious, an attacker could gain unauthorized access, escalate privileges, and potentially compromise the entire environment.
+description: Test following analytic detects when a suspicious certificate with a Subject Alternative Name (SAN) is issued using Active Directory Certificate Services (AD CS) and then immediately used for authentication. This detection leverages Windows Security Event Logs, specifically EventCode 4887, to identify the issuance and subsequent use of the certificate. This activity is significant because improperly configured certificate templates can be exploited for privilege escalation and environment compromise. If confirmed malicious, an attacker could gain unauthorized access, escalate privileges, and potentially compromise the entire environment.
 data_source:
     - Windows Event Log Security 4887
     - Windows Event Log Security 4768
