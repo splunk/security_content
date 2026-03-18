@@ -18,11 +18,9 @@ search: |-
     SubjectUserName="ANONYMOUS LOGON"
     PasswordLastSet="*"
     | stats count min(_time) as firstTime max(_time) as lastTime
-        BY action app authentication_method
-           dest dvc process
-           process_id process_name process_path
-           signature signature_id src
-           src_port status subject
+        BY action app  dest processID PasswordLastSet
+           signature signature_id src_user
+           src_port status SubjectDomainName
            user user_group vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
