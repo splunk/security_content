@@ -33,14 +33,14 @@ search: |-
     | `security_content_ctime(lastTime)`
     | join process_id
     [
-        | tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
-        WHERE
-            All_Traffic.dest_port IN (
+        | tstats `security_content_summariesonly` count
+        FROM datamodel=Network_Traffic.All_Traffic WHERE
+        All_Traffic.dest_port IN (
                     389,
                     636,
                     1099,
                     1389
-            )
+        )
         BY All_Traffic.action All_Traffic.app All_Traffic.bytes
             All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
             All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
