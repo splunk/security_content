@@ -53,5 +53,5 @@ jobs:
           base: develop
           title: Automated Splunk TA Update ${{ github.run_number }}
           body: "This PR contains updates to Splunk TAs made by GitHub Actions workflow."
-          add_paths: |
+          add-paths: |
             security_content/data_sources/**
