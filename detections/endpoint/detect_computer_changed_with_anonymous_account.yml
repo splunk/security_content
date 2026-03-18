@@ -18,10 +18,9 @@ search: |-
     SubjectUserName="ANONYMOUS LOGON"
     PasswordLastSet="*"
     | stats count min(_time) as firstTime max(_time) as lastTime
-        BY action app dest processID PasswordLastSet
-           signature signature_id src_user
-           src_port status SubjectDomainName
-           user user_group vendor_product
+        BY action app dest ProcessID PasswordLastSet
+           signature signature_id src_user status
+           SubjectDomainName user user_group vendor_product
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_computer_changed_with_anonymous_account_filter`
