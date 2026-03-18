@@ -18,7 +18,7 @@ search: |-
     SubjectUserName="ANONYMOUS LOGON"
     PasswordLastSet="*"
     | stats count min(_time) as firstTime max(_time) as lastTime
-        BY action app  dest processID PasswordLastSet
+        BY action app dest processID PasswordLastSet
            signature signature_id src_user
            src_port status SubjectDomainName
            user user_group vendor_product
