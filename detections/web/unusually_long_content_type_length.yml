@@ -32,6 +32,8 @@ tags:
     analytic_story:
         - Apache Struts Vulnerability
     asset_type: Web Server
+    mitre_attack_id:
+        - DOES NOT DYANMICALLY CALCULATE MITRE_ATTACK_ID, PLEASE ADD APPROPRIATE HARDCODED MITRE ATTACK ID(S)
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

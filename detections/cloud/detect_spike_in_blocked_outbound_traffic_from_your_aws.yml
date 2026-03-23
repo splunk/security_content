@@ -44,6 +44,8 @@ tags:
         - Suspicious AWS Traffic
         - Command And Control
     asset_type: AWS Instance
+    mitre_attack_id:
+        - DOES NOT DYANMICALLY CALCULATE MITRE_ATTACK_ID, PLEASE ADD APPROPRIATE HARDCODED MITRE ATTACK ID(S)
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security

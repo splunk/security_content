@@ -45,6 +45,8 @@ tags:
     analytic_story:
         - F5 Authentication Bypass with TMUI
     asset_type: Network
+    mitre_attack_id:
+        - DOES NOT DYANMICALLY CALCULATE MITRE_ATTACK_ID, PLEASE ADD APPROPRIATE HARDCODED MITRE ATTACK ID(S)
     atomic_guid: []
     cve:
         - CVE-2023-46747
