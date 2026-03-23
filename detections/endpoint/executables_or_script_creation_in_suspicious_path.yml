@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Suspicious Path
 id: a7e3f0f0-ae42-11eb-b245-acde48001122
-version: 24
-date: '2026-03-10'
+version: 25
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -147,6 +147,7 @@ tags:
         - SesameOp
         - DynoWiper
         - XML Runner Loader
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1036
