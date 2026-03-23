@@ -1,0 +1,18 @@
+name: Windows Event Log Security 4756
+id: b0093058-0cb6-4c73-a95b-fb0f3541e88c
+version: 1
+date: '2026-03-23'
+author: Nasreddine Bencherchali, Splunk
+description: Data source object for Windows Event Log Security 4754
+source: XmlWinEventLog:Security
+sourcetype: XmlWinEventLog
+separator: EventCode
+supported_TA:
+- name: Splunk Add-on for Microsoft Windows
+  url: https://splunkbase.splunk.com/app/742
+  version: 9.1.2
+fields:
+- _time
+output_fields:
+- dest
+example_log: ''
