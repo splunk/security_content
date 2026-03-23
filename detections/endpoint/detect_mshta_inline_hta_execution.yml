@@ -66,6 +66,7 @@ tags:
         - Suspicious MSHTA Activity
         - XWorm
         - APT37 Rustonotto and FadeStealer
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.005

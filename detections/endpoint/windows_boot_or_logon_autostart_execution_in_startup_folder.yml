@@ -47,6 +47,7 @@ tags:
         - Interlock Ransomware
         - APT37 Rustonotto and FadeStealer
         - PromptFlux
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1547.001

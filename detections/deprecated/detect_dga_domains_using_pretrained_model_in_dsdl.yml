@@ -3,7 +3,7 @@ id: 92e24f32-9b9a-4060-bba2-2a0eb31f3493
 version: 7
 date: '2026-03-10'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
-status: experimental
+status: deprecated
 type: Anomaly
 description: The following analytic identifies Domain Generation Algorithm (DGA) generated domains using a pre-trained deep learning model. It leverages the Network Resolution data model to analyze domain names and detect unusual character sequences indicative of DGA activity. This behavior is significant as adversaries often use DGAs to generate numerous domain names for command-and-control servers, making it harder to block malicious traffic. If confirmed malicious, this activity could enable attackers to maintain persistent communication with compromised systems, evade detection, and execute further malicious actions.
 data_source: []

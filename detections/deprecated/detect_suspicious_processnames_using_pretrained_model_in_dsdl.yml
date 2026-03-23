@@ -4,7 +4,7 @@ version: 9
 date: '2026-03-10'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
 type: Anomaly
-status: experimental
+status: deprecated
 data_source:
     - Sysmon EventID 1
 description: The following analytic identifies suspicious process names using a pre-trained Deep Learning model. It leverages Endpoint Detection and Response (EDR) telemetry to analyze process names and predict their likelihood of being malicious. The model, a character-level Recurrent Neural Network (RNN), classifies process names as benign or suspicious based on a threshold score of 0.5. This detection is significant as it helps identify malware, such as TrickBot, which often uses randomly generated filenames to evade detection. If confirmed malicious, this activity could indicate the presence of malware capable of propagating across the network and executing harmful actions.

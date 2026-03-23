@@ -1,10 +1,10 @@
 name: Baseline of SMB Traffic - MLTK
 id: df98763b-0b08-4281-8ef9-08db7ac572a9
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-02-25'
 author: Rico Valdez, Splunk
 type: Baseline
-status: production
+status: deprecated
 description:
   This search is used to build a Machine Learning Toolkit (MLTK) model
   to characterize the number of SMB connections observed each hour for every day of

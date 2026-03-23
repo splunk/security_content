@@ -48,6 +48,7 @@ rba:
 tags:
     analytic_story:
         - NjRAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1497.003

@@ -1,0 +1,63 @@
+name: Windows Product Key Registry Query
+id: 977da0c0-c7d5-45de-8b7e-f79e959ca13d
+version: 1
+date: '2026-03-03'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |
+    This Analytic detects the execution of a process attempting to access the registry for product key recovery purposes.
+    This behavior could be significant as it might indicate potential malware activity or attempts to bypass security measures or data exfiltration.
+data_source:
+    - Windows Event Log Security 4663
+search: |-
+    `wineventlog_security`
+    EventCode=4663
+    object_file_path="*\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SoftwareProtectionPlatform"
+    | stats count min(_time) as firstTime max(_time) as lastTime
+        by object_file_name object_file_path process_name
+           process_path process_id EventCode dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_product_key_registry_query_filter`
+how_to_implement: |
+    To successfully implement this search, you must ingest Windows Security Event logs and track event code 4663. For 4663, enable "Audit Object Access" in Group Policy. Then check the two boxes listed for both "Success" and "Failure." This search may trigger on a browser application that is not included in the browser_app_list lookup file.
+known_false_positives: |
+    Administrator may access this registry for product key recovery purposes.
+references:
+    - https://malpedia.caad.fkie.fraunhofer.de/details/py.blankgrabber
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: A [$process_name$] attempting to access the registry path [$object_file_path$] on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process_name
+          type: process_name
+tags:
+    analytic_story:
+        - BlankGrabber Stealer
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1012
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1012/backup_product_key_registry/backup_protection.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
