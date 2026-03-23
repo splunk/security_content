@@ -1,7 +1,7 @@
 name: Executables Or Script Creation In Temp Path
 id: e0422b71-2c05-4f32-8754-01fb415f49c9
-version: 20
-date: '2026-03-10'
+version: 21
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -130,6 +130,7 @@ tags:
         - SesameOp
         - PromptFlux
         - XML Runner Loader
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1036
