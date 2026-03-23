@@ -63,8 +63,8 @@ tests:
     - name: Palo Alto True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
-          sourcetype: not_applicable
-          source: pan:traffic
+          sourcetype: pan:traffic
+          source: not_applicable
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log

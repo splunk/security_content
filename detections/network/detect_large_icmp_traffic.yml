@@ -19,6 +19,7 @@ search: |-
     from datamodel=Network_Traffic where
     All_Traffic.bytes > 1000
     All_Traffic.action != blocked
+    AND
     (
         All_Traffic.protocol=icmp
         OR
@@ -83,5 +84,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1095/palologs/large_icmp.log
-          sourcetype: not_applicable
-          source: pan:traffic
+          sourcetype: pan:traffic
+          source: not_applicable
