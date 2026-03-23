@@ -118,6 +118,6 @@ tags:
 tests:
     - name: True Positive
       attack_data:
-        - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1082/sysinternals_pstools/sysinternals_pstools.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
