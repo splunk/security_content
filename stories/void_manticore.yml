@@ -4,24 +4,30 @@ version: 1
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
-description: This analytic story contains detections that allow security analysts to detect and investigate activity associated with Void Manticore (aka Red Sandstorm, Banished Kitten, Handala Hack), an Iranian MOIS-affiliated threat actor. The story covers initial access via compromised VPN and supply-chain targets, credential dumping and AD reconnaissance, lateral movement over RDP and NetBird tunneling, and destructive operations including custom wipers, PowerShell-based wiping, VeraCrypt disk encryption, and manual data destruction. Use these analytics to hunt for hands-on-keyboard behavior, default hostnames and wiper or GPO-based execution.
+description: |
+    This analytic story contains detections that allow security analysts to detect and investigate activity associated with Void Manticore (aka Red Sandstorm, Banished Kitten, Handala Hack), an Iranian MOIS-affiliated threat actor.
+    The story covers initial access via compromised VPN and supply-chain targets, credential dumping and AD reconnaissance, lateral movement over RDP and NetBird tunneling, and destructive operations including custom wipers, PowerShell-based wiping, VeraCrypt disk encryption, and manual data destruction.
+    Use these analytics to hunt for hands-on-keyboard behavior, default hostnames and wiper or GPO-based execution.
 narrative: |
-  Void Manticore is an Iranian threat actor affiliated with the Ministry of Intelligence and Security (MOIS), also tracked as Red Sandstorm and Banished Kitten. The group operates multiple online personas—Handala Hack (focused on Israel and recently US enterprises such as Stryker), Homeland Justice (targeting Albania since mid-2022), and the largely retired Karma—with highly similar TTPs and code overlap in deployed wipers.
-
-  The actor relies on manual, hands-on operations and short-lived indicators: commercial VPN egress, open-source and publicly available offensive tools, and at times direct connectivity from Iranian or Starlink IP ranges. Initial access is often achieved through supply-chain targeting of IT and service providers to obtain VPN credentials, or via brute force and credential stuffing against organizational VPN infrastructure. Logons frequently originate from hosts with default Windows names (DESKTOP-XXXXXX, WIN-XXXXXX). After establishing access, the group has been observed disabling Windows Defender, dumping LSASS (e.g., via comsvcs.dll and rundll32), exporting sensitive registry hives, and running ADRecon (e.g., dra.ps1) to reach Domain Admin and enable broad destructive action.
-
-  Lateral movement is conducted mainly over RDP. To reach internal hosts not directly reachable, the group deploys NetBird—downloaded from the official site on compromised systems—to build a zero-trust mesh and tunnel traffic. During impact, Void Manticore combines multiple destructive methods: a custom Handala Wiper (sometimes handala.exe) with MBR-based wiping, distributed via Group Policy logon scripts and scheduled tasks; an AI-assisted PowerShell wiper that deletes user directories and drops handala.gif; use of VeraCrypt to encrypt system drives; and manual deletion of VMs and files. Wipers are often pushed via GPO (e.g., handala.bat) so that the executable runs from the Domain Controller without being written to disk on every endpoint.
-
-  This story ties detections to these TTPs so analysts can identify Void Manticore tradecraft, prioritize VPN and RDP monitoring (especially from default-named machines and high-risk geographies), and respond to wiper and credential-theft activity before or during destructive phases.
+    Void Manticore is an Iranian threat actor affiliated with the Ministry of Intelligence and Security (MOIS), also tracked as Red Sandstorm and Banished Kitten.
+    The group operates multiple online personas—Handala Hack (focused on Israel and recently US enterprises such as Stryker), Homeland Justice (targeting Albania since mid-2022), and the largely retired Karma—with highly similar TTPs and code overlap in deployed wipers.
+    The actor relies on manual, hands-on operations and short-lived indicators: commercial VPN egress, open-source and publicly available offensive tools, and at times direct connectivity from Iranian or Starlink IP ranges.
+    Initial access is often achieved through supply-chain targeting of IT and service providers to obtain VPN credentials, or via brute force and credential stuffing against organizational VPN infrastructure.
+    Logons frequently originate from hosts with default Windows names (DESKTOP-XXXXXX, WIN-XXXXXX).
+    After establishing access, the group has been observed disabling Windows Defender, dumping LSASS (e.g., via comsvcs.dll and rundll32), exporting sensitive registry hives, and running ADRecon (e.g., dra.ps1) to reach Domain Admin and enable broad destructive action.
+    Lateral movement is conducted mainly over RDP. To reach internal hosts not directly reachable, the group deploys NetBird—downloaded from the official site on compromised systems—to build a zero-trust mesh and tunnel traffic.
+    During impact, Void Manticore combines multiple destructive methods: a custom Handala Wiper (sometimes handala.exe) with MBR-based wiping, distributed via Group Policy logon scripts and scheduled tasks; an AI-assisted PowerShell wiper that deletes user directories and drops handala.gif; use of VeraCrypt to encrypt system drives; and manual deletion of VMs and files.
+    Wipers are often pushed via GPO (e.g., handala.bat) so that the executable runs from the Domain Controller without being written to disk on every endpoint.
+    This story ties detections to these TTPs so analysts can identify Void Manticore tradecraft, prioritize VPN and RDP monitoring (especially from default-named machines and high-risk geographies), and respond to wiper and credential-theft activity before or during destructive phases.
 references:
-- https://research.checkpoint.com/2026/handala-hack-unveiling-groups-modus-operandi/
+    - https://research.checkpoint.com/2026/handala-hack-unveiling-groups-modus-operandi/
 tags:
-  category:
-  - Data Destruction
-  - Malware
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    category:
+        - Data Destruction
+        - Malware
+        - Adversary Tactics
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection
