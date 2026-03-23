@@ -1,6 +1,6 @@
 name: Detect Regasm Spawning a Process
 id: 72170ec5-f7d2-42f5-aefb-2b8be6aad15f
-version: 14
+version: 15
 date: '2026-03-16'
 author: Michael Haag, Splunk
 status: production

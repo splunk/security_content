@@ -1,6 +1,6 @@
 name: Windows Raw Access To Disk Volume Partition
 id: a85aa37e-9647-11ec-90c5-acde48001122
-version: 10
+version: 11
 date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
