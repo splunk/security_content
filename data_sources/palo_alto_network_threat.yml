@@ -1,7 +1,7 @@
 name: Palo Alto Network Threat
 id: 375c2b0e-d216-41ad-9406-200464595209
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2026-03-23'
 author: Patrick Bareiss, Splunk
 description: Logs detected threats identified by Palo Alto Networks devices, including
   details about malware, intrusion attempts, and malicious network activity.
@@ -11,12 +11,12 @@ mitre_components:
 - Network Traffic Flow
 - Application Log Content
 - Host Status
-source: pan:threat
+source: not_applicable
 sourcetype: pan:threat
 supported_TA:
 - name: Palo Alto Networks Add-on
-  url: https://splunkbase.splunk.com/app/2757
-  version: 8.1.3
+  url: https://splunkbase.splunk.com/app/7523
+  version: 3.0.0
 field_mappings:
 - data_model: cim
   data_set: Web

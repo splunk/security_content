@@ -1,7 +1,7 @@
 name: Detect Outbound LDAP Traffic
 id: 5e06e262-d7cd-4216-b2f8-27b437e18458
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-23'
 author: Bhavin Patel, Johan Bjerke, Splunk
 status: production
 type: Hunting
@@ -10,29 +10,38 @@ data_source:
     - Palo Alto Network Traffic
     - Cisco Secure Firewall Threat Defense Connection Event
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(All_Traffic.dest_ip) as dest_ip FROM datamodel=Network_Traffic.All_Traffic
-      WHERE All_Traffic.dest_port = 389
-        OR
-        All_Traffic.dest_port = 636
-        AND
-        NOT (All_Traffic.dest_ip = 10.0.0.0/8
-        OR
-        All_Traffic.dest_ip=192.168.0.0/16
-        OR
-        All_Traffic.dest_ip = 172.16.0.0/12)
-      BY All_Traffic.action All_Traffic.app All_Traffic.bytes
-         All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
-         All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
-         All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
-         All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
-         All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
+    | tstats `security_content_summariesonly`
+             count min(_time) as firstTime
+                   max(_time) as lastTime
+                   values(All_Traffic.dest_ip) as dest_ip
+    FROM datamodel=Network_Traffic.All_Traffic WHERE
+
+    All_Traffic.dest_port IN (
+        389,
+        636
+    )
+    NOT All_Traffic.dest_ip IN (
+            "10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16", "100.64.0.0/10",
+            "127.0.0.0/8", "169.254.0.0/16", "192.0.0.0/24", "192.0.0.0/29", "192.0.0.8/32",
+            "192.0.0.9/32", "192.0.0.10/32", "192.0.0.170/32", "192.0.0.171/32", "192.0.2.0/24",
+            "192.31.196.0/24", "192.52.193.0/24", "192.88.99.0/24", "224.0.0.0/4", "192.175.48.0/24",
+            "198.18.0.0/15", "198.51.100.0/24", "203.0.113.0/24", "240.0.0.0/4", "::1"
+    )
+    by All_Traffic.action All_Traffic.app All_Traffic.bytes
+       All_Traffic.bytes_in All_Traffic.bytes_out All_Traffic.dest
+       All_Traffic.dest_ip All_Traffic.dest_port All_Traffic.dvc
+       All_Traffic.protocol All_Traffic.protocol_version All_Traffic.src
+       All_Traffic.src_ip All_Traffic.src_port All_Traffic.transport
+       All_Traffic.user All_Traffic.vendor_product All_Traffic.rule
     | `drop_dm_object_name("All_Traffic")`
     | where src_ip != dest_ip
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_outbound_ldap_traffic_filter`
-how_to_implement: In order to properly run this search, Splunk needs to ingest data from Next Generation Firewalls like, Cisco Secure Firewall Threat Defense, Palo Alto Networks Firewalls or other network control devices that mediate the traffic allowed into an environment. The search requires the Network_Traffic data model to be populated.
-known_false_positives: No false positives have been identified at this time. allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
+how_to_implement: |
+    In order to properly run this search, Splunk needs to ingest data from Next Generation Firewalls like, Cisco Secure Firewall Threat Defense, Palo Alto Networks Firewalls or other network control devices that mediate the traffic allowed into an environment. The search requires the Network_Traffic data model to be populated.
+known_false_positives: |
+    No false positives have been identified at this time. allowed outbound through your perimeter firewall. Please check those servers to verify if the activity is legitimate.
 references:
     - https://www.govcert.ch/blog/zero-day-exploit-targeting-popular-java-library-log4j/
 tags:
@@ -54,7 +63,7 @@ tests:
     - name: Palo Alto True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1059/log4shell_ldap_traffic/pantraffic.log
-          sourcetype: pan:traffic
+          sourcetype: not_applicable
           source: pan:traffic
     - name: Cisco Secure Firewall True Positive Test
       attack_data:
