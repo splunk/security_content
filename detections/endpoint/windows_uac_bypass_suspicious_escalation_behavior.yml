@@ -75,7 +75,7 @@ search: |-
         )
         BY Processes.dest Processes.parent_process_guid
            Processes.process_name Processes.process
-           Processes.process Processes.process_guid Processes.process_path
+           Processes.process_guid Processes.process_path
            Processes.process_integrity_level Processes.process_current_directory
 
         | `drop_dm_object_name(Processes)`
