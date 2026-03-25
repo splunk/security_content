@@ -34,6 +34,7 @@ search: |-
        Processes.user_id Processes.vendor_product
 
     | `drop_dm_object_name(Processes)`
+
     | eval original_integrity_level = CASE(
                 match(process_integrity_level,"low"),1,
                 match(process_integrity_level,"medium"),2,
@@ -59,10 +60,11 @@ search: |-
            Processes.process_name Processes.process_guid
 
         | `drop_dm_object_name(Processes)`
-        | rename parent_process_guid as join_guid_2,
+        | rename parent_process_guid as join_guid_1,
                  process_guid as join_guid_2,
                  process_name as uac_process_name
     ]
+
     | join max=0 dest join_guid_2 [
         | tstats `security_content_summariesonly`
           count min(_time) as firstTime
@@ -79,7 +81,9 @@ search: |-
            Processes.process_integrity_level Processes.process_current_directory
 
         | `drop_dm_object_name(Processes)`
-        | rename parent_process_guid as join_guid_3
+
+        | rename parent_process_guid as join_guid_2
+
         | eval elevated_integrity_level = CASE(
             match(process_integrity_level,"low"),1,
             match(process_integrity_level,"medium"),2,
