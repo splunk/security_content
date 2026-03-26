@@ -1,7 +1,7 @@
 name: Windows Account Access Removal via Logoff Exec
 id: 223572ab-8768-4e20-9b39-c38707af80dc
-version: 6
-date: '2026-03-10'
+version: 7
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 1
