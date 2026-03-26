@@ -1,7 +1,7 @@
 name: Reg exe Manipulating Windows Services Registry Keys
 id: 8470d755-0c13-45b3-bd63-387a373c10cf
-version: 14
-date: '2026-03-10'
+version: 15
+date: '2026-03-24'
 author: Rico Valdez, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime values(Processes.process_name) as process_name values(Processes.parent_process_name) as parent_process_name values(Processes.user) as user FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services*
+      WHERE (Processes.process_name=reg.exe Processes.process=*reg* Processes.process=*add* Processes.process=*Services*) AND NOT Processes.process=*Eventlog\\Application*
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

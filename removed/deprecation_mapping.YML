@@ -1,4 +1,19 @@
 detections:
+  - content: Sc exe Manipulating Windows Services
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated as the usage of sc.exe by itself is often used for legitimate purposes.
+  - content: Processes launching netsh
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated as the usage of netsh.exe by itself is often used for legitimate purposes.
+  - content: Possible Lateral Movement PowerShell Spawn
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated as the usage of PowerShell as a child process of svchost.exe is often used for legitimate purposes.
+  - content: CHCP Command Execution
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated as the usage of chcp.com by itself is not malicious.
+  - content: Attempt To Add Certificate To Untrusted Store
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated as the usage of certutil and addstore by itself is not malicious.
   - content: Abnormally High Number Of Cloud Infrastructure API Calls
     removed_in_version: 5.26.0
     reason: Detection is deprecated as these do not work with the latest Splunk AI Toolkit(5.7.0) and Python for Scientific Computing for Linux 64-bit(4.3.0). 

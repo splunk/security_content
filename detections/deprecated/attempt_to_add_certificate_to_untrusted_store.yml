@@ -3,7 +3,7 @@ id: 6bc5243e-ef36-45dc-9b12-f4a6be131159
 version: 18
 date: '2026-03-10'
 author: Patrick Bareiss, Rico Valdez, Splunk
-status: production
+status: deprecated
 type: Anomaly
 description: |
     The following analytic detects attempts to add a certificate to the untrusted

@@ -1,20 +1,17 @@
-name: Sc exe Manipulating Windows Services
-id: f0c693d8-2a89-4ce7-80b4-98fea4c3ea6d
-version: 14
-date: '2026-03-10'
-author: Rico Valdez, Splunk
-status: production
-type: TTP
-description: The following analytic detects the creation or modification of Windows services using the sc.exe command. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and command-line arguments. This activity is significant because manipulating Windows services can be a method for attackers to establish persistence, escalate privileges, or execute arbitrary code. If confirmed malicious, this behavior could allow an attacker to maintain long-term access, disrupt services, or gain control over critical system functions, posing a severe threat to the environment.
+name: CHCP Command Execution
+id: 21d236ec-eec1-11eb-b23e-acde48001122
+version: 12
+date: '2026-03-23'
+author: Teoderick Contreras, Splunk
+status: deprecated
+type: Anomaly
+description: The following analytic detects the execution of the chcp.com utility, which is used to change the active code page of the console. This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process creation events. This activity is significant because it can indicate the presence of malware, such as IcedID, which uses this technique to determine the locale region, language, or country of the compromised host. If confirmed malicious, this could lead to further system compromise and data exfiltration.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` values(Processes.process) as process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name = sc.exe (Processes.process="* create *"
-        OR
-        Processes.process="* config *")
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
+      WHERE Processes.process_name=chcp.com
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -25,11 +22,12 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | `sc_exe_manipulating_windows_services_filter`
+    | `chcp_command_execution_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Using sc.exe to manipulate Windows services is uncommon. However, there may be legitimate instances of this behavior. It is important to validate and investigate as appropriate.
+known_false_positives: other tools or script may used this to change code page to UTF-* or others
 references:
-    - https://www.secureworks.com/blog/drokbk-malware-uses-github-as-dead-drop-resolver
+    - https://ss64.com/nt/chcp.html
+    - https://twitter.com/tccontre18/status/1419941156633329665?s=20
 drilldown_searches:
     - name: View the detection results for - "$dest$" and "$user$"
       search: '%original_detection_search% | search  dest = "$dest$" user = "$user$"'
@@ -40,30 +38,26 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A sc process $process_name$ with commandline $process$ to create of configure services in host $dest$
+    message: parent process $parent_process_name$ spawning chcp process $process_name$ with parent command line $parent_process$
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
         - field: user
           type: user
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
+        - IcedID
         - Azorult
-        - Orangeworm Attack Group
-        - Windows Drivers
-        - NOBELIUM Group
-        - Windows Persistence Techniques
-        - Disabling Security Tools
-        - Windows Service Abuse
-        - DHS Report TA18-074A
         - Crypto Stealer
-        - Scattered Spider
+        - Quasar RAT
+        - Forest Blizzard
+        - Interlock Rat
     asset_type: Endpoint
     mitre_attack_id:
-        - T1543.003
+        - T1059
     product:
         - Splunk Enterprise
         - Splunk Enterprise Security
@@ -72,6 +66,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1543.003/atomic_red_team/windows-sysmon.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/malware/icedid/simulated_icedid/windows-sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

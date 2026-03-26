@@ -12,7 +12,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes
-      where (Processes.process_name=sc.exe OR Processes.original_file_name=sc.exe)  Processes.process IN ("*kernel*", "*filesys*") Processes.process="*type*"
+      where (Processes.process_name=sc.exe OR Processes.original_file_name=sc.exe) Processes.process="*create*" Processes.process IN ("*kernel*", "*filesys*") Processes.process="*type*"
     by Processes.action Processes.dest Processes.original_file_name
     Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
     Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -29,25 +29,6 @@ references:
     - https://www.aon.com/cyber-solutions/aon_cyber_labs/yours-truly-signed-av-driver-weaponizing-an-antivirus-driver/
     - https://whiteknightlabs.com/2025/11/25/discreet-driver-loading-in-windows/
     - https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-config
-drilldown_searches:
-    - name: View the detection results for - "$user$" and "$dest$"
-      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: Service control, $process_name$, loaded a new kernel mode driver on $dest$ by $user$.
-    risk_objects:
-        - field: user
-          type: user
-          score: 50
-        - field: dest
-          type: system
-          score: 50
-    threat_objects: []
 tags:
     analytic_story:
         - Windows Drivers

@@ -3,7 +3,7 @@ id: cb909b3e-512b-11ec-aa31-3e22fbd008af
 version: 13
 date: '2026-03-10'
 author: Mauricio Velazco, Michael Haag, Splunk
-status: production
+status: deprecated
 type: TTP
 description: The following analytic detects the spawning of a PowerShell process as a child or grandchild of commonly abused processes like services.exe, wmiprvse.exe, svchost.exe, wsmprovhost.exe, and mmc.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process and parent process names, as well as command-line executions. This activity is significant as it often indicates lateral movement or remote code execution attempts by adversaries. If confirmed malicious, this behavior could allow attackers to execute code remotely, escalate privileges, or persist within the environment.
 data_source:

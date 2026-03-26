@@ -1,10 +1,10 @@
 name: Windows Information Discovery Fsutil
 id: 2181f261-93e6-4166-a5a9-47deac58feff
 version: 10
-date: '2026-03-10'
+date: '2026-03-24'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
-type: Anomaly
+type: Hunting
 description: |
     The following analytic identifies the execution of the Windows built-in tool FSUTIL with the "FSINFO" or "Volume" parameters, in order to discover file system and disk information.
     This detection leverages data from Endpoint Detection and Response (EDR) agents, focusing on process execution logs that include command-line details.
@@ -51,22 +51,6 @@ references:
     - https://github.com/carlospolop/PEASS-ng/tree/master/winPEAS
     - https://www.microsoft.com/en-us/security/blog/2022/10/14/new-prestige-ransomware-impacts-organizations-in-ukraine-and-poland/
     - https://www.microsoft.com/en-us/security/blog/2021/01/20/deep-dive-into-the-solorigate-second-stage-activation-from-sunburst-to-teardrop-and-raindrop/
-drilldown_searches:
-    - name: View the detection results for - "$dest$"
-      search: '%original_detection_search% | search  dest = "$dest$"'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: process $process_name$ with commandline $process$ is executed on $dest$
-    risk_objects:
-        - field: dest
-          type: system
-          score: 20
-    threat_objects: []
 tags:
     analytic_story:
         - Windows Post-Exploitation
