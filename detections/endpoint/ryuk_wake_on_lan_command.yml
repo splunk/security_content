@@ -13,7 +13,11 @@ data_source:
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
+            Processes.process="* 8 LAN"
+            OR
             Processes.process="* 8 LAN *"
+            OR
+            Processes.process="* 9 REP"
             OR
             Processes.process="* 9 REP *"
         )
