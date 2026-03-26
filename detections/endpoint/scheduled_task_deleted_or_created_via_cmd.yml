@@ -19,10 +19,10 @@ search: |
     WHERE
         Processes.process_name="schtasks.exe"
         AND (
-            Processes.process=("*/create*","*-create*","*/delete*","*-delete*" )
+            Processes.process IN ("*/create*","*-create*","*/delete*","*-delete*" )
         )
         AND (
-            Processes.process=("*/tr*","*/sc*","*/ru*")
+            Processes.process IN ("*/tr*","*/sc*","*/ru*")
         )
         AND NOT Processes.process IN ("*\\Windows\\System32\\*","*\\Program Files\\*")
         AND Processes.parent_process_name IN ("cmd.exe","wscript.exe","cscript.exe")
