@@ -654,8 +654,6 @@ detections:
   - content: Processes created by netsh
     removed_in_version: 5.2.0
     reason: Updated to a new detection name
-    replacement_content:
-    - Processes launching netsh
   - content: Office Product Spawning Wmic
     removed_in_version: 5.2.0
     reason: Detection deprecated as it no longer effectively identifies the intended malicious activity
