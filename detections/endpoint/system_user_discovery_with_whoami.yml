@@ -14,6 +14,8 @@ search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
             Processes.process_name="whoami.exe"
+            OR
+            Processes.process_original_file_name="whoami.exe"
         )
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
