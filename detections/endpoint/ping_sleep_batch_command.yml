@@ -1,7 +1,7 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 13
-date: '2026-03-10'
+version: 14
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -73,6 +73,7 @@ tags:
         - Meduza Stealer
         - WhisperGate
         - BlackByte Ransomware
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1497.003

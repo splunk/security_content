@@ -1,7 +1,7 @@
 name: Windows Raw Access To Disk Volume Partition
 id: a85aa37e-9647-11ec-90c5-acde48001122
-version: 10
-date: '2026-03-10'
+version: 11
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -40,6 +40,7 @@ tags:
         - NjRAT
         - Disk Wiper
         - PathWiper
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1561.002
