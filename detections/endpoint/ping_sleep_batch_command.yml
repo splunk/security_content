@@ -1,7 +1,7 @@
 name: Ping Sleep Batch Command
 id: ce058d6c-79f2-11ec-b476-acde48001122
-version: 14
-date: '2026-03-16'
+version: 16
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -19,18 +19,22 @@ description: 'The following analytic identifies the execution of ping sleep batc
 
     thereby increasing the risk of prolonged unauthorized access and potential data
 
-    exfiltration.
-
-'
+    exfiltration.'
 data_source:
     - Sysmon EventID 1
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE (
-            Processes.parent_process= "*ping*" Processes.parent_process = *-n* Processes.parent_process="* Nul*" Processes.parent_process IN ("*&gt;*", "*>*") Processes.parent_process IN ("*&amp;*", "*& *")
-        )
-        OR ( Processes.process = "*ping*" Processes.process = *-n* Processes.process="* Nul*" Processes.process IN ("*&gt;*", "*>*") Processes.process IN ("*&amp;*", "*& *") )
+            Processes.parent_process= "*ping*" AND
+            Processes.parent_process = *-n* AND
+            (Processes.parent_process IN ("*&gt;*", "*>*") OR Processes.parent_process IN ("*&amp;*", "*&*"))
+            )
+        OR (
+            Processes.process = "*ping*" AND
+            Processes.process = *-n* AND
+            (Processes.process IN ("*&gt;*", "*>*") OR Processes.process IN ("*&amp;*", "*&*"))
+           )
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -74,6 +78,7 @@ tags:
         - WhisperGate
         - BlackByte Ransomware
         - Void Manticore
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1497.003
