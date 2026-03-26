@@ -59,4 +59,4 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/request_smuggling/suricata_reserved_names.log
           sourcetype: suricata
-          source: suricata
+          source: not_applicable
