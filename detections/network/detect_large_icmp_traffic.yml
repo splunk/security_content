@@ -1,16 +1,17 @@
 name: Detect Large ICMP Traffic
 id: 9cd6d066-94d5-4ccd-a8b9-28c03ca91be8
-version: 4
-date: '2026-03-10'
+version: 5
+date: '2026-03-25'
 author: Rico Valdez, Dean Luxton, Bhavin Patel, Splunk
 status: production
 type: TTP
 description: The following analytic identifies ICMP traffic to external IP addresses with total bytes (sum of bytes in and bytes out) greater than 1,000 bytes. It leverages the Network_Traffic data model to detect large ICMP packet that aren't blocked and are directed toward external networks. We use  All_Traffic.bytes in the detection to capture variations in inbound versus outbound traffic sizes, as significant discrepancies or unusually large ICMP exchanges can indicate information smuggling, covert communication, or command-and-control (C2) activities. If validated as malicious, this could signal ICMP tunneling, unauthorized data transfer, or compromised endpoints requiring immediate investigation.
 data_source:
     - Palo Alto Network Traffic
+    - Cisco Secure Access Firewall
 search: |-
     | tstats `security_content_summariesonly` count earliest(_time) as firstTime latest(_time) as lastTime values(All_Traffic.action) as action
-        from datamodel=Network_Traffic where All_Traffic.bytes > 1000 AND All_Traffic.action != blocked AND (All_Traffic.protocol=icmp OR All_Traffic.transport=icmp) AND NOT All_Traffic.dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16")
+        from datamodel=Network_Traffic where All_Traffic.bytes > 1000 AND All_Traffic.action != blocked AND (All_Traffic.protocol=icmp OR All_Traffic.transport=icmp) AND NOT All_Traffic.dest_ip IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16") AND NOT All_Traffic.dest IN ("10.0.0.0/8","172.16.0.0/12","192.168.0.0/16")
         by All_Traffic.src_ip, All_Traffic.dest_ip, All_Traffic.protocol, All_Traffic.bytes, All_Traffic.app, All_Traffic.bytes_in, All_Traffic.bytes_out, All_Traffic.dest_port, All_Traffic.dvc, All_Traffic.protocol_version,
         All_Traffic.src_port, All_Traffic.user, All_Traffic.vendor_product
     | `drop_dm_object_name("All_Traffic")`
@@ -59,3 +60,8 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1095/palologs/large_icmp.log
           sourcetype: pan:traffic
           source: pan:traffic
+    - name: True Positive Test - Cisco Secure Access Firewall
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/large_icmp.log
+          source: not_applicable
+          sourcetype: cisco:secure_access:firewall

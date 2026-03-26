@@ -1,28 +1,38 @@
 name: Detect Use of cmd exe to Launch Script Interpreters
 id: b89919ed-fe5f-492c-b139-95dbb162039e
-version: 13
-date: '2026-03-10'
+version: 14
+date: '2026-03-24'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
 type: TTP
-description: The following analytic detects the execution of cscript.exe or wscript.exe processes initiated by cmd.exe. It leverages data from Endpoint Detection and Response (EDR) agents, focusing on process names and parent processes within the Endpoint data model. This activity is significant as it may indicate script-based attacks or administrative actions that could be leveraged for malicious purposes. If confirmed malicious, this behavior could allow attackers to execute scripts, potentially leading to code execution, privilege escalation, or persistence within the environment.
+description: The following detects the execution of cscript.exe or wscript.exe processes spawned by cmd.exe, leveraging Endpoint Detection and Response (EDR) telemetry mapped to the Endpoint data model, with additional contextual filtering to improve fidelity and reduce false positives. It focuses on executions originating from user-writable directories such as Users, AppData, Temp, and Downloads, which are commonly abused by attackers to stage and execute malicious scripts, while excluding trusted system paths like C:\Windows\System32\ and C:\Program Files\ that are typically associated with legitimate activity. The detection also filters out service accounts (e.g., accounts ending with $ or known naming conventions) to minimize noise from automated processes and incorporates command-line context to better assess script execution patterns and identify potentially suspicious behavior. These enhancements transform the analytic from a broad pattern-based detection into a more behavior-driven approach, increasing its effectiveness in identifying malicious script interpreter usage that could indicate initial access, persistence, or lateral movement.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.parent_process_name="cmd.exe" (Processes.process_name=cscript.exe
-        OR
-        Processes.process_name =wscript.exe)
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
+    FROM datamodel=Endpoint.Processes
+    WHERE Processes.parent_process_name="cmd.exe"
+      AND (Processes.process_name="cscript.exe" OR Processes.process_name="wscript.exe")
+    BY Processes.action Processes.dest Processes.original_file_name
+      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
+      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
+      Processes.process Processes.process_exec Processes.process_guid
+      Processes.process_hash Processes.process_id Processes.process_integrity_level
+      Processes.process_name Processes.process_path Processes.user
+      Processes.user_id Processes.vendor_product
     | `drop_dm_object_name("Processes")`
+
+    | where like(process, "%\\Users\\%")
+      OR like(process, "%\\AppData\\%")
+      OR like(process, "%\\Temp\\%")
+
+    | where NOT like(process, "%\\Windows\\System32\\%")
+    | where NOT like(process, "%\\Program Files\\%")
+
+    | where NOT match(user, ".*\\$$")
+
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
@@ -41,12 +51,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: cmd.exe launching script interpreters $process_name$ on $dest$
+    message: cmd.exe launching script interpreters [$process_name$] with commandline [$process$] on [$dest$]
     risk_objects:
         - field: dest
           type: system
           score: 50
-    threat_objects: []
+    threat_objects:
+        - field: process
+          type: process
 tags:
     analytic_story:
         - Emotet Malware DHS Report TA18-201A

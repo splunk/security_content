@@ -1,0 +1,48 @@
+name: Cisco Secure Access Firewall
+id: 5dc07487-f834-4850-b6a7-4cc09e56549b
+version: 1
+date: '2026-02-25'
+author: Bhavin Patel, Splunk
+description: Captures firewall connection events from Cisco Secure Access including user identity, source and destination metadata, protocol details, and session statistics. Enables analysis of network traffic patterns, access policy enforcement, brute force attempts, and anomalous connection behavior across cloud-managed network access infrastructure.
+source: cisco_secure_access:firewall
+sourcetype: cisco:cloud_security:firewall
+supported_TA:
+- name: Cisco Secure Access Add-on for Splunk
+  url: https://splunkbase.splunk.com/app/7569
+  version: 1.0.48
+fields:
+- _time
+- action
+- app
+- bytes_in
+- bytes_out
+- datacenter
+- dest
+- dest_ip
+- dest_port
+- direction
+- duration
+- dvc
+- identity
+- identity_type
+- packets_in
+- packets_out
+- protocol
+- protocol_version
+- rule_id
+- session_id
+- src
+- src_ip
+- src_port
+- transport
+- tunnel_id
+- user
+- vendor_product
+output_fields:
+- dest_ip
+- dest_port
+- src_ip
+- user
+- action
+example_log: '"2026-03-05 17:29:39","[1360486514]","Joe Kehoe (joe.kehoe@d1.pseudoco.org)","AD
+  Users","C2S","6","0","","","10.10.3.220","3389","prod_aws_us-west-2_1_0","1482901","ALLOW","","[]","1772731753","1772731779","93","82","20847","46067","2ef4dc5a90e31b4e2f7d21ec8f863accda6ad5db2d6feeff301ca05d298fcbdb-7-1772731753-45877","","aws-us-west-2","","178937","true","1145001","[]","2","[]","[]","8176184","","","f0b0ce3d69aeedfe"'

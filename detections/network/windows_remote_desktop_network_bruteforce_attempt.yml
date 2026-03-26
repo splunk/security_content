@@ -1,7 +1,7 @@
 name: Windows Remote Desktop Network Bruteforce Attempt
 id: 908bf0d5-0983-4afd-b6a4-e9eb5d361a7d
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-29'
 author: Jose Hernandez, Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -69,3 +69,8 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/rdp_brute_sysmon/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
+    - name: True Positive Test - Cisco Secure Access Firewall
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/rdp_brute_force.log
+          source: not_applicable
+          sourcetype: cisco:cloud_security:firewall
