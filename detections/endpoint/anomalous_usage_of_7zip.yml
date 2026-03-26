@@ -12,7 +12,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE (Processes.parent_process_name IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z*) AND NOT Processes.process_path = *VMWare*
+      WHERE (Processes.parent_process_name IN ("rundll32.exe", "dllhost.exe") Processes.process_name=*7z*) AND NOT Processes.process_path = "C:\\Program Files\\VMware\\VMware Tools\\7za.exe"
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
