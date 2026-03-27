@@ -1,10 +1,10 @@
 name: Wscript Or Cscript Suspicious Child Process
 id: 1f35e1da-267b-11ec-90a9-acde48001122
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-03-24'
 author: Teoderick Contreras, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: This analytic identifies a suspicious spawned process by WScript or CScript process. This technique was a common technique used by adversaries and malware to execute different LOLBIN, other scripts like PowerShell or spawn a suspended process to inject its code as a defense evasion. This TTP may detect some normal script that uses several application tools that are in the list of the child process it detects but a good pivot and indicator that a script may execute suspicious code.
 data_source:
     - Sysmon EventID 1
