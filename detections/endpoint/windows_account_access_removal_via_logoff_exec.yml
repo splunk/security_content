@@ -1,7 +1,7 @@
 name: Windows Account Access Removal via Logoff Exec
 id: 223572ab-8768-4e20-9b39-c38707af80dc
-version: 6
-date: '2026-03-10'
+version: 7
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 data_source:
     - Sysmon EventID 1
@@ -10,7 +10,7 @@ status: production
 description: "The following analytic detects the process of logging off a user through the use of the quser and logoff commands. By monitoring for these commands, the analytic identifies actions where a user session is forcibly terminated, which could be part of an administrative task or a potentially unauthorized access attempt. This detection helps identify potential misuse or malicious activity where a user’s access is revoked without proper authorization, providing insight into potential security incidents involving account management or session manipulation."
 search: |-
     | tstats `security_content_summariesonly` min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name = logoff.exe
+      WHERE Processes.process_name = logoff.exe Processes.parent_process_name IN ("cmd.exe", "powershell.exe", "pwsh.exe")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
