@@ -4,7 +4,7 @@ version: 14
 date: '2026-03-24'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: The following detects the execution of cscript.exe or wscript.exe processes spawned by cmd.exe, leveraging Endpoint Detection and Response (EDR) telemetry mapped to the Endpoint data model, with additional contextual filtering to improve fidelity and reduce false positives. It focuses on executions originating from user-writable directories such as Users, AppData, Temp, and Downloads, which are commonly abused by attackers to stage and execute malicious scripts, while excluding trusted system paths like C:\Windows\System32\ and C:\Program Files\ that are typically associated with legitimate activity. The detection also filters out service accounts (e.g., accounts ending with $ or known naming conventions) to minimize noise from automated processes and incorporates command-line context to better assess script execution patterns and identify potentially suspicious behavior. These enhancements transform the analytic from a broad pattern-based detection into a more behavior-driven approach, increasing its effectiveness in identifying malicious script interpreter usage that could indicate initial access, persistence, or lateral movement.
 data_source:
     - Sysmon EventID 1
