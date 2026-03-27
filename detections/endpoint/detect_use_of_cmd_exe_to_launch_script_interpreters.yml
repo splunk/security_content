@@ -14,34 +14,44 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.parent_process_name="cmd.exe"
-      AND (Processes.process_name="cscript.exe" OR Processes.process_name="wscript.exe")
-      AND NOT Processes.process IN (
-        "* C:\\Windows\\System32\\*",
-        "* \"C:\\Windows\\System32\\*",
-        "* C:\\Windows\\SysWOW64\\*",
-        "* \"C:\\Windows\\SysWOW64\\*",
-        "* C:\\Program Files\\*",
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name="cmd.exe"
+    (
+        Processes.process_name IN ("cscript.exe", "wscript.exe")
+        OR
+        Processes.original_file_name IN ("cscript.exe", "wscript.exe")
+    )
+    NOT Processes.process IN (
+        "* \"C:\\Program Files (x86)\\*",
         "* \"C:\\Program Files\\*",
+        "* \"C:\\Windows\\System32\\*",
+        "* \"C:\\Windows\\SysWOW64\\*",
         "* C:\\Program Files (x86)\\*",
-        "* \"C:\\Program Files (x86)\\*"
-      )
-      AND NOT Processes.user="*$"
+        "* C:\\Program Files\\*",
+        "* C:\\Windows\\System32\\*",
+        "* C:\\Windows\\SysWOW64\\*"
+    )
+    NOT Processes.user="*$"
     BY Processes.action Processes.dest Processes.original_file_name
-      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-      Processes.process Processes.process_exec Processes.process_guid
-      Processes.process_hash Processes.process_id Processes.process_integrity_level
-      Processes.process_name Processes.process_path Processes.user
-      Processes.user_id Processes.vendor_product
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
     | `drop_dm_object_name("Processes")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: This detection may still generate alerts from legitimate administrative or enterprise activity, particularly in environments that rely on logon scripts, software deployment tools (e.g., SCCM, Intune), legacy applications, or IT automation frameworks that execute scripts via cmd.exe. Some organizations may also have internally developed scripts that run from user-writable directories, which can appear suspicious but are benign. Additionally, environments with non-standard application installations or portable tools may trigger this detection.
+known_false_positives: |-
+    This detection may still generate alerts from legitimate administrative or enterprise activity, particularly in environments that rely on logon scripts, software deployment tools (e.g., SCCM, Intune), legacy applications, or IT automation frameworks that execute scripts via cmd.exe. Some organizations may also have internally developed scripts that run from user-writable directories, which can appear suspicious but are benign. Additionally, environments with non-standard application installations or portable tools may trigger this detection.
 references:
     - https://attack.mitre.org/techniques/T1059/
     - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
