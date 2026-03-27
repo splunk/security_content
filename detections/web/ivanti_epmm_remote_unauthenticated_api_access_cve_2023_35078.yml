@@ -17,7 +17,7 @@ search: |-
       count min(_time) as firstTime
             max(_time) as lastTime
 
-    FROM datamodel=Web WHERE WHERE
+    FROM datamodel=Web WHERE
 
     Web.url="*/mifs/aad/api/v2/authorized/users?*"
     Web.status=200
