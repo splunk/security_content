@@ -1,10 +1,10 @@
 name: Windows Sqlservr Spawning Shell
 id: d33aac9f-030c-4830-8701-0c2dd75bb6cb
-version: 5
-date: '2026-03-10'
+version: 6
+date: '2026-03-24'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Hunting
 description: This analytic detects instances where the sqlservr.exe process spawns a command shell (cmd.exe) or PowerShell process. This behavior is often indicative of command execution initiated from within the SQL Server process, potentially due to exploitation of SQL injection vulnerabilities or the use of extended stored procedures like xp_cmdshell.
 data_source:
     - Sysmon EventID 1
@@ -30,29 +30,6 @@ known_false_positives: Legitimate administrative activities or monitoring tools 
 references:
     - https://attack.mitre.org/techniques/T1505/001/
     - https://github.com/MHaggis/notes/tree/master/utilities/SQLSSTT
-drilldown_searches:
-    - name: View the detection results for - "$dest$" and "$process_name$"
-      search: '%original_detection_search% | search  dest = "$dest$" process_name = "$process_name$"'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-    - name: View risk events for the last 7 days for - "$dest$" and "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
-rba:
-    message: A command shell was spawned by sqlservr.exe on host $dest$ by user $user$. This may indicate unauthorized command execution.
-    risk_objects:
-        - field: dest
-          type: system
-          score: 50
-        - field: user
-          type: user
-          score: 50
-    threat_objects:
-        - field: parent_process_name
-          type: parent_process_name
-        - field: process_name
-          type: process_name
 tags:
     analytic_story:
         - SQL Server Abuse
