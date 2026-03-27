@@ -25,7 +25,7 @@ search: |
             Processes.process IN ("*/tr*","*/sc*","*/ru*")
         )
         AND NOT Processes.process IN ("*\\Windows\\System32\\*","*\\Program Files\\*")
-        AND Processes.parent_process_name IN ("cmd.exe","wscript.exe","cscript.exe")
+        AND Processes.parent_process_name IN ("cmd.exe")
     BY
         Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product
     | `drop_dm_object_name(Processes)`
@@ -50,15 +50,19 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A schedule task process $process_name$ with create or delete commandline $process$ in host $dest$
+    message: A Parent Process [parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
         - field: user
           type: user
-          score: 50
-    threat_objects: []
+          score: 20
+    threat_objects:
+        - field: parent_process_name
+          type: parent_process_name
+        - field: process
+          type: process
 tags:
     analytic_story:
         - SolarWinds WHD RCE Post Exploitation

@@ -18,6 +18,17 @@ search: |-
     FROM datamodel=Endpoint.Processes
     WHERE Processes.parent_process_name="cmd.exe"
       AND (Processes.process_name="cscript.exe" OR Processes.process_name="wscript.exe")
+      AND NOT Processes.process IN (
+        "* C:\\Windows\\System32\\*",
+        "* \"C:\\Windows\\System32\\*",
+        "* C:\\Windows\\SysWOW64\\*",
+        "* \"C:\\Windows\\SysWOW64\\*",
+        "* C:\\Program Files\\*",
+        "* \"C:\\Program Files\\*",
+        "* C:\\Program Files (x86)\\*",
+        "* \"C:\\Program Files (x86)\\*"
+      )
+      AND NOT Processes.user="*$"
     BY Processes.action Processes.dest Processes.original_file_name
       Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
       Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -26,9 +37,6 @@ search: |-
       Processes.process_name Processes.process_path Processes.user
       Processes.user_id Processes.vendor_product
     | `drop_dm_object_name("Processes")`
-    | where NOT like(process, "%\\Windows\\System32\\%")
-    | where NOT like(process, "%\\Program Files\\%")
-    | where NOT match(user, ".*\\$$")
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
@@ -51,7 +59,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: process
           type: process
