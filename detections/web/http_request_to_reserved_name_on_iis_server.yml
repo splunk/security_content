@@ -1,24 +1,65 @@
 name: HTTP Request to Reserved Name on IIS Server
 id: 1e45e6a8-110b-4886-b815-8d69cf35bf0a
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-03-27'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: Detects attempts to exploit a request smuggling technique against IIS that leverages a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early server response before the request body is received. When combined with a Content-Length desynchronization, this behavior can lead to a parsing confusion between frontend and backend.
+description: |-
+    Detects attempts to exploit a request smuggling technique against IIS that leverages a Windows quirk where requests for reserved Windows device names such as "/con" trigger an early server response before the request body is received.
+    When combined with a Content-Length desynchronization, this behavior can lead to a parsing confusion between frontend and backend.
 data_source:
     - Suricata
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("/con", "/prn", "/aux", "/nul", "/com1","/com2","/com3","/com4", "/com5","/com6","/com7")
-      BY Web.src, Web.dest, Web.http_user_agent,
-         Web.url, Web.status, Web.http_method
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url IN (
+        "*/aux",
+        "*/com1",
+        "*/com2",
+        "*/com3",
+        "*/com4",
+        "*/com5",
+        "*/com6",
+        "*/com7",
+        "*/con",
+        "*/nul",
+        "*/prn"
+    )
+
+    BY Web.src Web.dest Web.http_user_agent
+       Web.url Web.url_domain Web.status Web.http_method
+
     | `drop_dm_object_name("Web")`
+    ```
+    We have to add the logic below because the TA does not extract the URI path from the URL, and the anchors are short. Hence to avoid false positives, we need to extract the URI path from the URL and check if it is a reserved name.
+    ```
+    | eval uri=replace(url, url_domain, "")
+    | where uri IN (
+        "/aux",
+        "/com1",
+        "/com2",
+        "/com3",
+        "/com4",
+        "/com5",
+        "/com6",
+        "/com7",
+        "/con",
+        "/nul",
+        "/prn"
+    )
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `http_request_to_reserved_name_on_iis_server_filter`
-how_to_implement: To implement this analytic, ensure proper logging is occurring with IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk. The analytic was written against Suricata. The proper TA will need to be enabled and should be mapped to CIM and the Web datamodel. Ingestion of the data source is required to utilize this detection. In addition, if it is not mapped to the datamodel, modify the query for your application logs to look for requests the same URI and investigate further.
-known_false_positives: False positives are not expected on IIS servers, as the detection is based on the presence of web requests to reserved names, which is not a common page to be accessed by legitimate users. Modify the query as needed to reduce false positives or hunt for additional indicators of compromise.
+how_to_implement: |-
+    To implement this analytic, ensure proper logging is occurring with IIS, Apache, or a Proxy server and that these logs are being ingested into Splunk. The analytic was written against Suricata. The proper TA will need to be enabled and should be mapped to CIM and the Web datamodel. Ingestion of the data source is required to utilize this detection. In addition, if it is not mapped to the datamodel, modify the query for your application logs to look for requests the same URI and investigate further.
+known_false_positives: |-
+    False positives are not expected on IIS servers, as the detection is based on the presence of web requests to reserved names, which is not a common page to be accessed by legitimate users.
+    Modify the query as needed to reduce false positives or hunt for additional indicators of compromise.
 references:
     - https://portswigger.net/web-security/request-smuggling#what-is-http-request-smuggling
     - https://portswigger.net/research/http1-must-die

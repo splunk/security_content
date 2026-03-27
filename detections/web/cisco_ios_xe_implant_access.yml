@@ -1,25 +1,38 @@
 name: Cisco IOS XE Implant Access
 id: 07c36cda-6567-43c3-bc1a-89dff61e2cd9
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
     - Suricata
-description: The following analytic identifies the potential exploitation of a vulnerability (CVE-2023-20198) in the Web User Interface of Cisco IOS XE software. It detects suspicious account creation and subsequent actions, including the deployment of a non-persistent implant configuration file. The detection leverages the Web datamodel, focusing on specific URL patterns and HTTP methods. This activity is significant as it indicates unauthorized administrative access, which can lead to full control of the device. If confirmed malicious, attackers could maintain privileged access, compromising the device's integrity and security.
+description: |-
+    The following analytic identifies the potential exploitation of the Cisco IOS XE vulnerability, CVE-2023-20198, in the Web User Interface.
+    It monitors POST requests to the "/webui/logoutconfirm.html?logon_hash=*" endpoint using the Web datamodel.
+    This activity can be significant as it indicates potential access request to the implant
+    If confirmed malicious, attackers could maintain privileged access, compromising the device's integrity and security.
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("/webui/logoutconfirm.html?logon_hash=*") Web.http_method=POST Web.status=200
-      BY Web.http_user_agent, Web.status Web.http_method,
-         Web.url, Web.url_length, Web.src,
-         Web.dest, sourcetype
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url="*/webui/logoutconfirm.html?logon_hash=*"
+    Web.http_method=POST
+    Web.status=200
+
+    BY Web.http_user_agent Web.status Web.http_method
+       Web.url Web.url_length Web.src Web.dest
     | `drop_dm_object_name("Web")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `cisco_ios_xe_implant_access_filter`
-how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache, Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: False positives may be present, restrict to Cisco IOS XE devices or perimeter appliances. Modify the analytic as needed based on hunting for successful exploitation of CVE-2023-20198.
+how_to_implement: |-
+    This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache, Splunk for Nginx, Suricata, or Splunk for Palo Alto.
+known_false_positives: |-
+    False positives may be present from vulnerability scanners or legitimate access requests. Apply appropriate filters as needed.
 references:
     - https://blog.talosintelligence.com/active-exploitation-of-cisco-ios-xe-software/
     - https://github.com/vulncheck-oss/cisco-ios-xe-implant-scanner
@@ -33,7 +46,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Possible exploitation of CVE-2023-20198 against $dest$ by $src$.
+    message: Possible exploitation of CVE-2023-20198 against $dest$ via $url$ by $src$.
     risk_objects:
         - field: dest
           type: system

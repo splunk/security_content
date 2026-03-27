@@ -1,19 +1,34 @@
 name: Microsoft SharePoint Server Elevation of Privilege
 id: fcf4bd3f-a79f-4b7a-83bf-2692d60b859d
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-27'
 author: Michael Haag, Gowthamaraj Rajendran, Splunk
 status: production
-type: TTP
+type: Anomaly
 data_source:
     - Suricata
-description: The following analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357. It leverages the Web datamodel to monitor for specific API calls and HTTP methods indicative of privilege escalation attempts. This activity is significant as it may indicate an attacker is trying to gain unauthorized privileged access to the SharePoint environment. If confirmed malicious, the impact could include unauthorized access to sensitive data, potential data theft, and further compromise of the SharePoint server, leading to a broader security breach.
+description: |-
+    The following analytic detects potential exploitation attempts against Microsoft SharePoint Server vulnerability CVE-2023-29357.
+    It leverages the Web datamodel to monitor for specific API calls and HTTP methods indicative of privilege escalation attempts.
+    This activity is significant as it may indicate an attacker is trying to gain unauthorized privileged access to the SharePoint environment.
+    If confirmed malicious, the impact could include unauthorized access to sensitive data, potential data theft, and further compromise of the SharePoint server, leading to a broader security breach.
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("/_api/web/siteusers*","/_api/web/currentuser*") Web.status=200 Web.http_method=GET
-      BY Web.http_user_agent, Web.status Web.http_method,
-         Web.url, Web.url_length, Web.src,
-         Web.dest, sourcetype
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url IN (
+        "*/_api/web/siteusers*",
+        "*/_api/web/currentuser*"
+    )
+    Web.status=200
+    Web.http_method="GET"
+
+    BY Web.http_user_agent Web.status Web.http_method
+       Web.url Web.url_length Web.src Web.dest
+
     | `drop_dm_object_name("Web")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
@@ -37,7 +52,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

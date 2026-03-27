@@ -1,7 +1,7 @@
 name: PaperCut NG Remote Web Access Attempt
 id: 9fcb214a-dc42-4ce7-a650-f1d2cab16a6a
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -21,10 +21,10 @@ search: |
     from datamodel=Web WHERE
 
     Web.url IN (
-      "/app?service=direct/1/PrinterDetails/printerOptionsTab.tab"
-      "/app?service=direct/1/PrinterList/selectPrinter&sp=*",
-      "/app?service=page/PrinterList",
-      "/app?service=page/SetupCompleted"
+      "*/app?service=direct/1/PrinterDetails/printerOptionsTab.tab"
+      "*/app?service=direct/1/PrinterList/selectPrinter&sp=*",
+      "*/app?service=page/PrinterList",
+      "*/app?service=page/SetupCompleted"
     )
     NOT src IN (
                   "10.0.0.0/8",
@@ -60,8 +60,10 @@ search: |
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `papercut_ng_remote_web_access_attempt_filter`
-how_to_implement: To successfully implement this search you need to be ingesting information on Web traffic that include fields relevant for traffic into the `Web` datamodel.
-known_false_positives: False positives may be present, filter as needed.
+how_to_implement: |-
+    To successfully implement this search you need to be ingesting information on Web traffic that include fields relevant for traffic into the `Web` datamodel.
+known_false_positives: |-
+    False positives may be present if you allow access to the PaperCut NG server from public IP addresses. Filter as needed.
 references:
     - https://www.cisa.gov/news-events/alerts/2023/05/11/cisa-and-fbi-release-joint-advisory-response-active-exploitation-papercut-vulnerability
     - https://www.papercut.com/kb/Main/PO-1216-and-PO-1219
