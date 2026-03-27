@@ -5,9 +5,6 @@ detections:
   - content: Processes launching netsh
     removed_in_version: 5.28.0
     reason: Detection is deprecated as the usage of netsh.exe by itself is often used for legitimate purposes.
-  - content: Possible Lateral Movement PowerShell Spawn
-    removed_in_version: 5.28.0
-    reason: Detection is deprecated as the usage of PowerShell as a child process of svchost.exe is often used for legitimate purposes.
   - content: CHCP Command Execution
     removed_in_version: 5.28.0
     reason: Detection is deprecated as the usage of chcp.com by itself is not malicious.
