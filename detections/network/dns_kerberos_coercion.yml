@@ -64,7 +64,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/suricata.log
-          source: Suricata
+          source: not_applicable
           sourcetype: suricata
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

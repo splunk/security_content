@@ -1,4 +1,7 @@
 detections:
+  - content: Ivanti Sentry Authentication Bypass
+    removed_in_version: 5.28.0
+    reason: Detection is deprecated since it is not specific enough to identify the intended malicious activity and might produce false positives.
   - content: Sc exe Manipulating Windows Services
     removed_in_version: 5.28.0
     reason: Detection is deprecated as the usage of sc.exe by itself is often used for legitimate purposes.

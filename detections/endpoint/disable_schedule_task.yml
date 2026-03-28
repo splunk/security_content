@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

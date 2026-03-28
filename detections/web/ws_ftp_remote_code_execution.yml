@@ -1,25 +1,40 @@
 name: WS FTP Remote Code Execution
 id: b84e8f39-4e7b-4d4f-9e7c-fcd29a227845
-version: 8
-date: '2026-03-10'
+version: 9
+date: '2026-03-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
     - Suricata
-description: The following analytic detects potential Remote Code Execution (RCE) attempts exploiting CVE-2023-40044 in WS_FTP software. It identifies HTTP POST requests to the "/AHT/AhtApiService.asmx/AuthUser" URL with a status code of 200. This detection leverages the Web datamodel to monitor specific URL patterns and HTTP status codes. This activity is significant as it may indicate an exploitation attempt, potentially allowing an attacker to execute arbitrary code on the server. If confirmed malicious, this could lead to unauthorized access, data exfiltration, or further compromise of the affected system.
+description: |-
+    The following analytic detects potential Remote Code Execution (RCE) attempts exploiting CVE-2023-40044 in WS_FTP software.
+    It identifies HTTP POST requests to the "/AHT/AhtApiService.asmx/AuthUser" URL with a status code of 200.
+    This detection leverages the Web datamodel to monitor specific URL patterns and HTTP status codes. This activity is significant as it may indicate an exploitation attempt, potentially allowing an attacker to execute arbitrary code on the server.
+    If confirmed malicious, this could lead to unauthorized access, data exfiltration, or further compromise of the affected system.
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("/AHT/AhtApiService.asmx/AuthUser") Web.status=200 Web.http_method=POST
-      BY Web.http_user_agent, Web.status Web.http_method,
-         Web.url, Web.url_length, Web.src,
-         Web.dest, sourcetype
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url="*/AHT/AhtApiService.asmx/AuthUser"
+    Web.status=200
+    Web.http_method="POST"
+
+    BY Web.http_user_agent Web.status Web.http_method
+       Web.url Web.url_length Web.src Web.dest
+
     | `drop_dm_object_name("Web")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `ws_ftp_remote_code_execution_filter`
-how_to_implement: The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
-known_false_positives: If WS_FTP Server is not in use, this analytic will not return results. Monitor and tune for your environment. Note the MetaSploit module is focused on only hitting /AHT/ and not the full /AHT/AhtApiService.asmx/AuthUser URL.
+how_to_implement: |-
+    The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
+known_false_positives: |-
+    If WS_FTP Server is not in use, this analytic will not return results. Monitor and tune for your environment.
+    Note the MetaSploit module is focused on only hitting /AHT/ and not the full /AHT/AhtApiService.asmx/AuthUser URL.
 references:
     - https://github.com/projectdiscovery/nuclei-templates/pull/8296/files
     - https://www.assetnote.io/resources/research/rce-in-progress-ws-ftp-ad-hoc-via-iis-http-modules-cve-2023-40044
@@ -60,5 +75,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ws_ftp/wsftpweb.log
-          source: suricata
+          source: not_applicable
           sourcetype: suricata
