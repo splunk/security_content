@@ -71,4 +71,4 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.001/http_user_agents/suricata_c2.log
           sourcetype: suricata
-          source: suricata
+          source: not_applicable

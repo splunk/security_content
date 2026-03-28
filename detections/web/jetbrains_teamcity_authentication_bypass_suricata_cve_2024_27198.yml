@@ -60,4 +60,4 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity_cve_2024_27198.log
           sourcetype: suricata
-          source: suricata
+          source: not_applicable

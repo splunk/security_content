@@ -93,11 +93,11 @@ apps:
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_130.tgz
 - uid: 4242
-  title: TA for Suricata
+  title: CCX Add-on for Suricata
   appid: SPLUNK_TA_FOR_SURICATA
-  version: 2.3.4
+  version: 1.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-for-suricata_234.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ccx-add-on-for-suricata_101.tgz
 - uid: 5466
   title: TA for Zeek
   appid: SPLUNK_TA_FOR_ZEEK
