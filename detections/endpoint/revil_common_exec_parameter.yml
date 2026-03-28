@@ -1,7 +1,7 @@
 name: Revil Common Exec Parameter
 id: 85facebe-c382-11eb-9c3e-acde48001122
-version: 9
-date: '2026-03-10'
+version: 10
+date: '2026-03-24'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -15,10 +15,6 @@ search: |-
       WHERE Processes.process = "* -nolan *"
         OR
         Processes.process = "* -nolocal *"
-        OR
-        Processes.process = "* -fast *"
-        OR
-        Processes.process = "* -full *"
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
