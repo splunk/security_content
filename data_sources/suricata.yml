@@ -13,10 +13,10 @@ mitre_components:
 - Application Log Content
 source: not_applicable
 sourcetype: suricata
-supported_TA:
-- name: CCX Add-on for Suricata
-  url: https://splunkbase.splunk.com/app/6994
-  version: 1.0.1
+# supported_TA:
+# - name: CCX Add-on for Suricata
+#   url: https://splunkbase.splunk.com/app/6994
+#   version: 1.0.1
 field_mappings:
 - data_model: cim
   data_set: Web
