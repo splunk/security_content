@@ -1,9 +1,9 @@
 name: Ivanti Sentry Authentication Bypass
 id: b8e0d1cf-e6a8-4d46-a5ae-aebe18ead8f8
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-27'
 author: Michael Haag, Splunk
-status: production
+status: deprecated
 type: TTP
 data_source:
     - Suricata
