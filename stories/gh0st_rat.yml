@@ -35,6 +35,10 @@ narrative: |
   Gh0st‑style remote control from benign administrative activity.
 references:
 - https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
+- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
+- https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
+- https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
+- https://cloud.google.com/blog/topics/threat-intelligence/demonstrating-hustle/
 tags:
   category:
   - Adversary Tactics
