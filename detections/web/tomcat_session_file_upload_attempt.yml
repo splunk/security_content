@@ -1,7 +1,7 @@
 name: Tomcat Session File Upload Attempt
 id: a1d8f5c3-9b7e-4f2d-8c51-3bca5e672410
-version: 4
-date: '2026-03-10'
+version: 5
+date: '2026-03-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -39,9 +39,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
     - name: View all PUT requests to .session files
       search: '| from datamodel Web.Web | search http_method = PUT uri_path="*.session" src=$src$ | table src dest http_method uri_path http_user_agent status'
       earliest_offset: $info_min_time$

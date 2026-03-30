@@ -1,7 +1,7 @@
 name: Cisco Isovalent - Access To Cloud Metadata Service
 id: 7f2e1a9a-1e8e-4d2e-8b7c-5f2c3d6a9b21
-version: 4
-date: '2026-03-10'
+version: 5
+date: '2026-03-30'
 author: Bhavin Patel, Splunk
 type: Anomaly
 data_source:
@@ -31,9 +31,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$pod_name$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$pod_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Pod [$pod_name$] accessed the cloud metadata service [$dest_ip$] in cluster [$cluster_name$]
     risk_objects:

@@ -1,7 +1,7 @@
 name: O365 Service Principal Privilege Escalation
 id: b686d0bd-cca7-44ca-ae07-87f6465131d9
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-30'
 author: Dean Luxton
 data_source:
     - O365 Add app role assignment grant to user.
@@ -34,9 +34,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$servicePrincipal$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$servicePrincipal$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Service Principal $servicePrincipal$ has elevated privileges by adding themself to app role $appRole$
     risk_objects:

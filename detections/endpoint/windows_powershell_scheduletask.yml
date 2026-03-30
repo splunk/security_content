@@ -1,7 +1,7 @@
 name: Windows PowerShell ScheduleTask
 id: ddf82fcb-e9ee-40e3-8712-a50b5bf323fc
-version: 11
-date: '2026-03-10'
+version: 12
+date: '2026-03-30'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -31,9 +31,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$Computer$" and "$user_id$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$", "$user_id$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$Computer$", "$user_id$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: The PowerShell cmdlets related to task creation, modification and start occurred on $dest$ by $user_id$.
     risk_objects:

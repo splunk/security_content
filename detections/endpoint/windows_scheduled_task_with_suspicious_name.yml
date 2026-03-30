@@ -1,7 +1,7 @@
 name: Windows Scheduled Task with Suspicious Name
 id: 9e9ab4e3-c9d0-4967-a197-6d755e8a7e6e
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-30'
 author: Steven Dick
 status: production
 type: TTP
@@ -34,9 +34,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$" and "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$","$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
     - name: Investigate schedule tasks on $dest$
       search: '`wineventlog_security` EventCode IN (4698,4700,4702) | xmlkv TaskContent | search dest="$dest$" AND TaskName = "$TaskName$"'
       earliest_offset: $info_min_time$
