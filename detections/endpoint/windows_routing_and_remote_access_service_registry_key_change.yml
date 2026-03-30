@@ -17,7 +17,7 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `windows_routing_and_remote_access_service_registry_key_change_filter`
 how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
-known_false_positives: Be aware of potential false positives - legitimate applications may cause benign activities to be flagged.
+known_false_positives: Be aware of potential false positives - legitimate applications like services.exe, svchost.exe and mmc.exe may cause benign activities to be flagged.
 references:
     - https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
     - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
