@@ -69,7 +69,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A parent process [parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
+    message: A parent process [$parent_process_name$] with commandline [$parent_process$] spawned a schedule task process [$process_name$] with create or delete commandline [$process$] on host [$dest$]
     risk_objects:
         - field: dest
           type: system
