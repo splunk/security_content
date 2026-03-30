@@ -1,25 +1,39 @@
 name: JetBrains TeamCity RCE Attempt
 id: 89a58e5f-1365-4793-b45c-770abbb32b6c
-version: 8
-date: '2026-03-10'
+version: 9
+date: '2026-03-27'
 author: Michael Haag, Splunk
 status: production
 type: TTP
 data_source:
     - Suricata
-description: The following analytic detects attempts to exploit the CVE-2023-42793 vulnerability in JetBrains TeamCity On-Premises. It identifies suspicious POST requests to /app/rest/users/id:1/tokens/RPC2, leveraging the Web datamodel to monitor specific URL patterns and HTTP methods. This activity is significant as it may indicate an unauthenticated attacker attempting to gain administrative access via Remote Code Execution (RCE). If confirmed malicious, this could allow the attacker to execute arbitrary code, potentially compromising the entire TeamCity environment and leading to further unauthorized access and data breaches.
+description: |-
+    The following analytic detects attempts to exploit the CVE-2023-42793 vulnerability in JetBrains TeamCity On-Premises.
+    It identifies suspicious POST requests to /app/rest/users/id:1/tokens/RPC2, leveraging the Web datamodel to monitor specific URL patterns and HTTP methods.
+    This activity is significant as it may indicate an unauthenticated attacker attempting to gain administrative access via Remote Code Execution (RCE).
+    If confirmed malicious, this could allow the attacker to execute arbitrary code, potentially compromising the entire TeamCity environment and leading to further unauthorized access and data breaches.
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("/app/rest/users/id:1/tokens/RPC2*") Web.status=200 Web.http_method=POST
-      BY Web.http_user_agent, Web.status Web.http_method,
-         Web.url, Web.url_length, Web.src,
-         Web.dest, sourcetype
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url="*/app/rest/users/id:1/tokens/RPC2*"
+    Web.status=200
+    Web.http_method="POST"
+
+    BY Web.http_user_agent Web.status Web.http_method
+       Web.url Web.url_length Web.src Web.dest
+
     | `drop_dm_object_name("Web")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `jetbrains_teamcity_rce_attempt_filter`
-how_to_implement: The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
-known_false_positives: If TeamCity is not in use, this analytic will not return results. Monitor and tune for your environment.
+how_to_implement: |-
+    The following analytic requires the Web datamodel. Ensure data source is mapped correctly or modify and tune for your data source.
+known_false_positives: |-
+    Requests to this specific endpoint via this method should not be common. Investigate further to determine if the request is legitimate, and apply appropriate filters to reduce false positives.
 references:
     - https://blog.jetbrains.com/teamcity/2023/09/critical-security-issue-affecting-teamcity-on-premises-update-to-2023-05-4-now/
     - https://www.sonarsource.com/blog/teamcity-vulnerability/
@@ -63,5 +77,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/jetbrains/teamcity.log
-          source: suricata
+          source: not_applicable
           sourcetype: suricata

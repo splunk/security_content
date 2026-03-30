@@ -1,7 +1,7 @@
 name: Possible Lateral Movement PowerShell Spawn
 id: cb909b3e-512b-11ec-aa31-3e22fbd008af
-version: 13
-date: '2026-03-10'
+version: 14
+date: '2026-03-26'
 author: Mauricio Velazco, Michael Haag, Splunk
 status: production
 type: TTP

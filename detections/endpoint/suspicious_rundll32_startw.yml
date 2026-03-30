@@ -1,7 +1,7 @@
 name: Suspicious Rundll32 StartW
 id: 9319dda5-73f2-4d43-a85a-67ce961bddb7
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-03-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -12,7 +12,7 @@ data_source:
     - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
-      WHERE `process_rundll32` Processes.process=*start*
+      WHERE `process_rundll32` Processes.process IN ("*startw", "*startw *")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
