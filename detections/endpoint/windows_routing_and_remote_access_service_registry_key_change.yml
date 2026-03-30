@@ -1,0 +1,79 @@
+name: Windows Routing and Remote Access Service Registry Key Change
+id: a93df51e-e612-40b7-a105-33e288160575
+version: 1
+date: '2026-03-24'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |-
+    This analytic identifies the modification of the Windows RemoteAccess Registry Entry.
+    This technique can be used by malware, adversaries, threat actors and red teamers to gain persistence on a system by tampering with the key to add a custom DLL to be loaded.
+    This technique was also observed to be used by Gh0st RAT malware.
+    Upon seeing this behavior, it is recommended to review the system services events especially the remote access services.
+data_source:
+    - Sysmon EventID 13
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Registry WHERE
+
+    Registry.registry_path="*\\Services\\RemoteAccess\\RouterManagers\\Ip*"
+    Registry.action=modified
+
+    by Registry.action Registry.dest Registry.process_guid
+       Registry.process_id Registry.registry_hive
+       Registry.registry_path Registry.registry_key_name
+       Registry.registry_value_data Registry.registry_value_name
+       Registry.registry_value_type Registry.status
+       Registry.user Registry.vendor_product
+
+    | `drop_dm_object_name(Registry)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_routing_and_remote_access_service_registry_key_change_filter`
+how_to_implement: To successfully implement this search you need to be ingesting information on process that include the name of the process responsible for the changes from your endpoints into the `Endpoint` datamodel in the `Registry` node. In addition, confirm the latest CIM App 4.20 or higher is installed and the latest TA for the endpoint product.
+known_false_positives: |
+    There are legitimate reasons for changing this registry key/value.
+    Investigate the change and its source and apply appropriate filters as needed.
+references:
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
+    - https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
+    - https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: Routing and Remote Access Service registry key [$registry_path$] was modified with the value [$registry_value_data$] by [$user$] on [$dest$].
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: registry_path
+          type: registry_path
+tags:
+    analytic_story:
+        - Gh0st RAT
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/remote_access_reg/remote_access_reg.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
