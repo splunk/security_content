@@ -61,7 +61,6 @@ tags:
         - DHS Report TA18-074A
         - Crypto Stealer
         - Scattered Spider
-        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1543.003

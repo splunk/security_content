@@ -4,46 +4,36 @@ version: 1
 date: '2026-03-24'
 author: Teoderick Contreras, Splunk
 status: production
-description: |
-  Gh0st RAT is a long‑running Windows remote access trojan family known for full
-  interactive control, surveillance, and data theft. Variants implement a custom
-  binary wire protocol over TCP (often high ports), peer‑to‑peer relaying, and
-  modular features such as keylogging, screen and camera capture, audio recording,
-  file management, and remote shell. Operators frequently achieve persistence via
-  Run keys, services, or scheduled tasks, and may load capability through
-  side‑loaded DLLs or abused LOLBins. Because Gh0st tooling is widely shared and
-  re‑branded, detections should emphasize behavioral chains—ingress staging,
-  non‑standard process ancestry, unusual outbound sessions, and registry or service
-  changes associated with remote access—rather than brittle file hashes alone.
-narrative: |
-  Gh0st samples typically establish a foothold through spear‑phishing, drive‑by
-  downloads, or supply‑chain delivery, then unpack a loader or injector that
-  decrypts the core implant in memory. The implant beacons to attacker‑controlled
-  infrastructure using its proprietary framing; some builds add encryption,
-  compression, or domain generation to resist network inspection. On the endpoint,
-  the malware often registers autostart mechanisms under standard persistence
-  locations, may masquerade as legitimate software or use stolen certificates,
-  and sometimes stages payloads under user‑writable or public directories before
-  execution. Operational use spans credential harvesting, lateral movement as a
-  foothold for follow‑on tools, and long‑term espionage. Effective coverage
-  combines host telemetry (process creation, module loads, WMI or service
-  creation, and authentication events for remote access features) with firewall
-  and proxy logs highlighting repeated connections to uncommon ports, symmetric
-  upload/download ratios on non‑web protocols, and TLS anomalies where HTTPS
-  wrappers are used. Correlating registry edits that enable remote access or
-  weaken authentication with subsequent interactive sessions helps distinguish
-  Gh0st‑style remote control from benign administrative activity.
+description: |-
+    Gh0st RAT is a long-running Windows remote access trojan family known for full interactive control, surveillance, and data theft.
+
+    Variants implement a custom binary wire protocol over TCP (often high ports), peer-to-peer relaying, and modular features such as keylogging, screen and camera capture, audio recording, file management, and remote shell.
+
+    Operators frequently achieve persistence via Run keys, services, or scheduled tasks, and may load capability through side-loaded DLLs or abused LOLBins.
+
+    Because Gh0st tooling is widely shared and re-branded, detections should emphasize behavioral chains including ingress staging, non-standard process ancestry, unusual outbound sessions, and registry or service changes associated with remote access—rather than brittle file hashes alone.
+narrative: |-
+    Gh0st samples typically establish a foothold through spear-phishing, drive-by downloads, or supply-chain delivery, then unpack a loader or injector that decrypts the core implant in memory.
+
+    The implant beacons to attacker-controlled infrastructure using its proprietary framing; some builds add encryption, compression, or domain generation to resist network inspection.
+
+    On the endpoint, the malware often registers autostart mechanisms under standard persistence locations, may masquerade as legitimate software or use stolen certificates, and sometimes stages payloads under user-writable or public directories before execution.
+
+    Operational use spans credential harvesting, lateral movement as a foothold for follow-on tools, and long-term espionage.
+
+    Effective coverage combines host telemetry (process creation, module loads, WMI or service creation, and authentication events for remote access features) with firewall and proxy logs highlighting repeated connections to uncommon ports, symmetric upload/download ratios on non-web protocols, and TLS anomalies where HTTPS wrappers are used.
+    Correlating registry edits that enable remote access or weaken authentication with subsequent interactive sessions helps distinguish Gh0st-style remote control from benign administrative activity.
 references:
-- https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
-- https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
-- https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
-- https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
-- https://cloud.google.com/blog/topics/threat-intelligence/demonstrating-hustle/
+    - https://malpedia.caad.fkie.fraunhofer.de/details/win.ghost_rat
+    - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-rrasm/22ad9f0e-4349-43e0-92b3-37f7a9c7ca41
+    - https://s7d2.scene7.com/is/content/cylance/prod/cylance-web/en-us/resources/knowledge-center/resource-library/reports/Op_Dust_Storm_Report.pdf
+    - https://www.sentinelone.com/blog/the-curious-case-of-gh0st-malware/
+    - https://cloud.google.com/blog/topics/threat-intelligence/demonstrating-hustle/
 tags:
-  category:
-  - Adversary Tactics
-  product:
-  - Splunk Enterprise
-  - Splunk Enterprise Security
-  - Splunk Cloud
-  usecase: Advanced Threat Detection
+    category:
+        - Adversary Tactics
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    usecase: Advanced Threat Detection
