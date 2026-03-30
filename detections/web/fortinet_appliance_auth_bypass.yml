@@ -1,25 +1,41 @@
 name: Fortinet Appliance Auth bypass
 id: a83122f2-fa09-4868-a230-544dbc54bc1c
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-23'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects attempts to exploit CVE-2022-40684, a Fortinet appliance authentication bypass vulnerability. It identifies REST API requests to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that may indicate unauthorized modifications, such as adding SSH keys or creating new users. This detection leverages the Web datamodel to monitor specific URL patterns and HTTP methods. This activity is significant as it can lead to unauthorized access and control over the appliance. If confirmed malicious, attackers could gain persistent access, reroute network traffic, or capture sensitive information.
+description: |
+    The following analytic detects attempts to exploit CVE-2022-40684, a Fortinet appliance authentication bypass vulnerability.
+    It identifies REST API requests to the /api/v2/ endpoint using various HTTP methods (GET, POST, PUT, DELETE) that may indicate unauthorized modifications, such as adding SSH keys or creating new users.
+    This detection leverages the Web datamodel to monitor specific URL patterns and HTTP methods.
+    This activity is significant as it can lead to unauthorized access and control over the appliance.
+    If confirmed malicious, attackers could gain persistent access, reroute network traffic, or capture sensitive information.
 data_source:
     - Palo Alto Network Threat
 search: |-
-    | tstats count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Web
-      WHERE Web.url IN ("*/api/v2/cmdb/system/admin*")  Web.http_method IN ("GET", "PUT")
-      BY Web.http_user_agent, Web.http_method, Web.url,
-         Web.url_length, Web.src, Web.dest,
-         sourcetype
+    | tstats `security_content_summariesonly`
+             count min(_time) as firstTime
+                   max(_time) as lastTime
+
+    FROM datamodel=Web WHERE
+
+    Web.url = "*/api/v2/cmdb/system/admin*"
+    Web.http_method IN ("GET", "PUT")
+    BY Web.http_user_agent
+       Web.http_method Web.url
+       Web.url_length
+       Web.src Web.dest
     | `drop_dm_object_name("Web")`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `fortinet_appliance_auth_bypass_filter`
-how_to_implement: This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache. Splunk for Nginx, or Splunk for Palo Alto.
-known_false_positives: GET requests will be noisy and need to be filtered out or removed from the query based on volume. Restrict analytic to known publically facing Fortigates, or run analytic as a Hunt until properly tuned. It is also possible the user agent may be filtered on Report Runner or Node.js only for the exploit, however, it is unknown at this if other user agents may be used.
+how_to_implement: |
+    This detection requires the Web datamodel to be populated from a supported Technology Add-On like Splunk for Apache. Splunk for Nginx, or Splunk for Palo Alto.
+known_false_positives: |
+    GET requests will be noisy and need to be filtered out or removed from the query based on volume.
+    Restrict analytic to known publicly facing Fortigates, or run analytic as a Hunt until properly tuned.
+    It is also possible the user agent may be filtered on Report Runner or Node.js only for the exploit, however, it is unknown at this if other user agents may be used.
 references:
     - https://www.wordfence.com/blog/2022/10/threat-advisory-cve-2022-40684-fortinet-appliance-auth-bypass/
     - https://www.horizon3.ai/fortios-fortiproxy-and-fortiswitchmanager-authentication-bypass-technical-deep-dive-cve-2022-40684/
@@ -61,5 +77,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/fortigate/fortinetcve202240684.log
-          source: pan:threat
+          source: not_applicable
           sourcetype: pan:threat

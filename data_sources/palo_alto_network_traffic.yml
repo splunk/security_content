@@ -1,7 +1,7 @@
 name: Palo Alto Network Traffic
 id: 182a83bc-c31a-4817-8c7a-263744cec52a
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2026-03-23'
 author: Patrick Bareiss, Splunk
 description: Logs network traffic events captured by Palo Alto Networks devices, including
   details about sessions, protocols, and source and destination IPs.
@@ -11,12 +11,12 @@ mitre_components:
 - Network Connection Creation
 - Response Metadata
 - Application Log Content
-source: screenconnect_palo_traffic
+source: not_applicable
 sourcetype: pan:traffic
 supported_TA:
 - name: Palo Alto Networks Add-on
-  url: https://splunkbase.splunk.com/app/2757
-  version: 8.1.3
+  url: https://splunkbase.splunk.com/app/7523
+  version: 3.0.0
 fields:
 - _time
 - date_hour
