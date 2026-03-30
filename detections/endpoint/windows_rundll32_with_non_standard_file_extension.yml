@@ -76,6 +76,7 @@ search: |-
 
     | where (
                 folder_count = 3
+                AND
                 NOT lower(subdirs) IN (
                                         "windows",
                                         "program files",

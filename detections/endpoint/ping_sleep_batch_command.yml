@@ -22,10 +22,12 @@ search: |-
     (
         Processes.parent_process= "*ping*"
         Processes.parent_process = *-n*
-        (
-            Processes.parent_process IN ("*&gt;*", "*>*")
-            OR
-            Processes.parent_process IN ("*&amp;*", "*& *", "*&C:*")
+        Processes.parent_process IN (
+            "*& *",
+            "*&amp;*",
+            "*&C:*",
+            "*&gt;*",
+            "*>*"
         )
     )
     OR
@@ -36,10 +38,12 @@ search: |-
             Processes.original_file_name= "ping.exe"
         )
         Processes.process = *-n*
-        (
-            Processes.process IN ("*&gt;*", "*>*")
-            OR
-            Processes.process IN ("*&amp;*", "*& *", "*&C:*")
+        Processes.process IN (
+            "*& *",
+            "*&amp;*",
+            "*&C:*",
+            "*&gt;*",
+            "*>*"
         )
     )
 

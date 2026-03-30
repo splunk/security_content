@@ -22,12 +22,19 @@ search: |-
 
     Processes.process_name = "ping.exe"
     (
-        (
-            Processes.parent_process = "* 0 -n *"
-            Processes.parent_process = "*ping*"
+        Processes.parent_process IN (
+            "*ping  0 -n *",
+            "*ping 0 -n *",
+            "*ping.exe  0 -n *",
+            "*ping.exe 0 -n *"
         )
         OR
-        Processes.process = "* 0 -n *"
+        Processes.process IN (
+            "*ping  0 -n *",
+            "*ping 0 -n *",
+            "*ping.exe  0 -n *",
+            "*ping.exe 0 -n *"
+        )
     )
 
     BY Processes.action Processes.dest Processes.original_file_name
