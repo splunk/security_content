@@ -44,7 +44,10 @@ rba:
         - field: user
           type: user
           score: 50
+    threat_objects: []
 tags:
+    analytic_story:
+        - Azure Active Directory Account Takeover
     asset_type: Azure Tenant
     mitre_attack_id:
         - T1561.001
