@@ -10,7 +10,7 @@ data_source:
     - Sysmon EventID 13
 search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Registry
-      WHERE Registry.registry_path = "*\\SYSTEM\\CurrentControlSet\\Services\\RemoteAccess\\RouterManagers\\Ip*"
+      WHERE Registry.registry_path = "*\\SYSTEM\\CurrentControlSet\\Services\\RemoteAccess\\RouterManagers\\Ip*" AND Registry.action=modified
       by Registry.action Registry.dest Registry.process_guid Registry.process_id Registry.registry_hive Registry.registry_path Registry.registry_key_name Registry.registry_value_data Registry.registry_value_name Registry.registry_value_type Registry.status Registry.user Registry.vendor_product
     | `drop_dm_object_name(Registry)`
     | `security_content_ctime(firstTime)`
