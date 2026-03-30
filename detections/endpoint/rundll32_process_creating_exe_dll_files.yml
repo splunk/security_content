@@ -1,7 +1,7 @@
 name: Rundll32 Process Creating Exe Dll Files
 id: 6338266a-ee2a-11eb-bf68-acde48001122
-version: 11
-date: '2026-03-10'
+version: 12
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -43,6 +43,7 @@ tags:
     analytic_story:
         - IcedID
         - Living Off The Land
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.011

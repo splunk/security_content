@@ -33,6 +33,7 @@ references:
 tags:
     analytic_story:
         - LAMEHUG
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1007
