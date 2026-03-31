@@ -1,0 +1,36 @@
+name: Axios Supply Chain Post Compromise
+id: 2b1b0e8f-8674-4544-a209-a52e1ea4c2da
+version: 1
+date: '2026-03-31'
+author: Teoderick Contreras, Splunk
+status: production
+description: |-
+  Leverage searches that help you detect and investigate post-compromise activity that may
+  follow installation of compromised axios npm releases (notably axios@1.14.1 and axios@0.30.4)
+  and the phantom dependency plain-crypto-js@4.2.1 from the March 2026 supply chain incident
+  documented by Huntress, Socket, Step Security, and others. The backdoored packages used a
+  malicious postinstall script to drop a cross-platform remote access trojan with Windows,
+  macOS, and Linux payloads, process staging, and command-and-control beaconing. Use these
+  analytics alongside dependency audits and EDR data to scope impact, prioritize containment,
+  and support recovery on hosts that resolved the malicious versions during the exposure window.
+narrative: |-
+  On March 31, 2026, attackers compromised the npm account of the lead axios maintainer and published two trojanized releases: axios@1.14.1 (tagged latest) and axios@0.30.4 (tagged legacy). The packages introduced a dependency that legitimate axios never used—plain-crypto-js@4.2.1—whose sole purpose was to run a postinstall script that downloaded and executed a cross-platform RAT. axios is one of the most widely used JavaScript HTTP clients, so CI/CD jobs, developer workstations, and applications that ran npm install during the roughly three-hour window could have pulled the malicious builds automatically, especially where semver caret ranges allowed the new versions to resolve without a locked lockfile.
+
+  Infection required no end-user action: installing dependencies was enough to trigger the dropper. Reporting from Huntress and the community noted infections beginning within minutes of publication, consistent with automated pipelines and local installs resolving ^1.x or similar ranges. The dropper used obfuscation and post-execution cleanup (for example, replacing package metadata so the plain-crypto-js folder looked benign), which makes disk evidence easy to miss and raises the value of process, script, and network telemetry for confirming compromise on a host.
+
+  After the initial drop, platform-specific tradecraft unfolded—such as staging scripts under temp paths, abusing trusted interpreters, and beaconing to remote infrastructure. These behaviors are the post-compromise phase this story emphasizes: moving from a poisoned package install to hands-on access, reconnaissance, and persistence-style activity on Windows, macOS, or Linux endpoints. Detections aligned to this narrative help teams find execution chains that may not explicitly mention axios or npm in every event.
+
+  Organizations should treat any system that installed the known bad versions during the incident window as potentially breached: validate lockfiles and SBOMs, rotate credentials and tokens that could have been exposed on those machines, and hunt using the bundled analytics plus C2 and IOC lists from vendor advisories. Pairing these searches with asset and dependency inventory reduces blind spots where transitive JavaScript dependencies updated in the background.
+references:
+- https://www.huntress.com/blog/supply-chain-compromise-axios-npm-package
+- https://thehackernews.com/2026/03/axios-supply-chain-attack-pushes-cross.html
+- https://www.stepsecurity.io/blog/axios-compromised-on-npm-malicious-versions-drop-remote-access-trojan
+- https://socket.dev/blog/axios-npm-package-compromised
+tags:
+  category:
+  - Malware
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection
