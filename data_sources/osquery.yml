@@ -13,7 +13,10 @@ mitre_components:
 - Application Log Content
 source: osquery
 sourcetype: osquery:results
-supported_TA: []
+supported_TA:
+- name: TA-osquery
+  url: https://splunkbase.splunk.com/app/8574
+  version: 1.0.4
 fields:
 - _time
 - calendarTime
