@@ -1,7 +1,7 @@
 name: Windows Driver Load Non-Standard Path
 id: 9216ef3d-066a-4958-8f27-c84589465e62
-version: 10
-date: '2026-03-10'
+version: 11
+date: '2026-03-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,9 +35,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: A kernel mode driver was loaded from a non-standard path on $dest$.
     risk_objects:

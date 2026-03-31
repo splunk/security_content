@@ -1,7 +1,7 @@
 name: Detect Empire with PowerShell Script Block Logging
 id: bc1dc6b8-c954-11eb-bade-acde48001122
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-03-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -35,9 +35,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$" and "$Computer$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$Computer$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$Computer$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: The following behavior was identified and typically related to PowerShell-Empire on $dest$ by $user_id$.
     risk_objects:

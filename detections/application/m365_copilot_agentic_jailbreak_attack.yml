@@ -1,7 +1,7 @@
 name: M365 Copilot Agentic Jailbreak Attack
 id: e5c7b380-19da-42e9-9e53-0af4cd27aee3
-version: 2
-date: '2026-03-10'
+version: 3
+date: '2026-03-31'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -30,9 +30,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object="$user$" | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: User $user$ attempted to establish persistent agentic control over M365 Copilot through advanced jailbreak techniques including rule injection, universal triggers, and system overrides, potentially compromising AI security across multiple sessions.
     risk_objects:

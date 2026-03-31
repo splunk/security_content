@@ -1,7 +1,7 @@
 name: Ollama Abnormal Network Connectivity
 id: 19ec30ad-faa2-496a-a6a9-f2e5f778fbdb
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-03-31'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -31,9 +31,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$",) starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$",) | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: 'Abnormal network activity detected on $host$ with $incidents$ incidents from $src$. Investigation needed for network errors: $warning_messages$.'
     risk_objects:

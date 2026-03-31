@@ -1,7 +1,7 @@
 name: Windows Suspicious React or Next.js Child Process
 id: baa80bc8-7c9c-4395-b458-b69feb92830a
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-03-31'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -115,9 +115,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: A Node-based server process ($parent_process_name$) spawned the child process $process_name$ with command-line $process$ on host $dest$ by user $user$, which may indicate remote code execution via React Server Components (CVE-2025-55182 / React2Shell) or abuse of a similar Node.js RCE vector.
     risk_objects:

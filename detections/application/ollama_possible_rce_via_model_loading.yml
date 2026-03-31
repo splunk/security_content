@@ -1,7 +1,7 @@
 name: Ollama Possible RCE via Model Loading
 id: 3f28c930-5208-425d-a7b9-53d349756d91
-version: 2
-date: '2026-03-10'
+version: 3
+date: '2026-03-31'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -19,9 +19,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$host$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$", starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$host$", | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Suspicious model loading errors detected on $host$ with $error_count$ failures showing error messages $error_messages$, potentially indicating malicious model injection, path traversal exploitation, or attempts to achieve remote code execution through crafted model files.
     risk_objects:

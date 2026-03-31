@@ -1,7 +1,7 @@
 name: Zscaler Legal Liability Threat Blocked
 id: bbf55ebf-c416-4f62-94d9-4064f2a28014
-version: 7
-date: '2026-03-10'
+version: 8
+date: '2026-03-31'
 author: Rod Soto, Gowthamaraj Rajendran, Splunk
 status: production
 type: Anomaly
@@ -27,9 +27,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$" and "$user$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Potential Legal Liability Threat from dest -[$dest$] on $src$ for user-[$user$].
     risk_objects:

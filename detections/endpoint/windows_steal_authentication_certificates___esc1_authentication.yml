@@ -1,7 +1,7 @@
 name: Windows Steal Authentication Certificates - ESC1 Authentication
 id: f0306acf-a6ab-437a-bbc6-8628f8d5c97e
-version: 8
-date: '2026-03-17'
+version: 9
+date: '2026-03-31'
 author: Steven Dick
 status: production
 type: TTP
@@ -69,9 +69,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$src$" and "$dest$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$", "$src_user$", "$user$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$src$", "$dest$", "$src_user$", "$user$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Possible AD CS ESC1 authentication on $dest$
     risk_objects:

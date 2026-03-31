@@ -1,7 +1,7 @@
 name: Windows WMIC Shadowcopy Delete
 id: 0a8c4b26-a4e2-4ef1-b0d9-62af6d36bdc8
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-03-31'
 author: Michael Haag, AJ King, Splunk
 status: production
 type: Anomaly
@@ -25,9 +25,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$dest$" and "$process_name$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$process_name$") starthoursago=168 | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$", "$process_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: A WMIC command, $process_name$, was detected attempting to delete volume shadow copies spawned off of $parent_process_name$ on $dest$. This is a common ransomware technique used to prevent system recovery.
     risk_objects:

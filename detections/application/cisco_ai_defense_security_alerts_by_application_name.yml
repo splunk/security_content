@@ -1,7 +1,7 @@
 name: Cisco AI Defense Security Alerts by Application Name
 id: 105e4a69-ec55-49fc-be1f-902467435ea8
-version: 5
-date: '2026-03-10'
+version: 6
+date: '2026-03-31'
 author: Bhavin Patel, Splunk
 status: production
 type: Anomaly
@@ -48,9 +48,9 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
     - name: View risk events for the last 7 days for - "$application_name$"
-      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$application_name$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
-      earliest_offset: $info_min_time$
-      latest_offset: $info_max_time$
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$application_name$") | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: 7d
+      latest_offset: 0
 rba:
     message: Cisco AI Defense Security Alert has been action - [$event_action$] for the application name - [$application_name$]
     risk_objects:
