@@ -1,6 +1,6 @@
 name: Windows Process Execution in Temp Dir
 id: f6fbe929-4187-4ba4-901e-8a34be838443
-version: 10
+version: 9
 date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
