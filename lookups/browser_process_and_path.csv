@@ -1,0 +1,47 @@
+browser_process_name,browser_process_path,is_valid_browser_path
+"360browser.exe","*360browser\browser\application\360browser.exe*",true
+"360chrome.exe","*360chrome\chrome\application\360chrome.exe*",true
+"7star.exe","*7star\7star\application\7star.exe*",true
+"amigobrowser.exe","*amigo\application\amigobrowser.exe*",true
+"avastbrowser.exe","*avast software\browser\application\avastbrowser.exe*",true
+"blackhawk.exe","*blackhawk\application\blackhawk.exe*",true
+"bliskbrowser.exe","*blisk\application\bliskbrowser.exe*",true
+"brave.exe","*bravesoftware\brave-browser\application\brave.exe*",true
+"centbrowser.exe","*centbrowser\application\centbrowser.exe*",true
+"chedot.exe","*chedot\application\chedot.exe*",true
+"chrome sxs.exe","*google\chrome sxs\application\chrome sxs.exe*",true
+"chrome.exe","*google\chrome\application\chrome.exe*",true
+"chromeplus.exe","*maplestudio\chromeplus\application\chromeplus.exe*",true
+"chromium.exe","*chromium\application\chrome.exe*",true
+"citrio.exe","*catalinagroup\citrio\application\citrio.exe*",true
+"coccocbrowser.exe","*coccoc\browser\application\coccocbrowser.exe*",true
+"coowon.exe","*coowon\coowon\application\coowon.exe*",true
+"cyberfox.exe","*8pecxstudios\cyberfox\cyberfox.exe*",true
+"dragon.exe","*comodo\dragon\application\dragon.exe*",true
+"epic privacy browser.exe","*epic privacy browser\application\epic privacy browser.exe*",true
+"ghostbrowser.exe","*ghostbrowser\application\ghostbrowser.exe*",true
+"icedragon.exe","*comodo\icedragon\icedragon.exe*",true
+"iridium.exe","*iridium\application\iridium.exe*",true
+"kinza.exe","*kinza\application\kinza.exe*",true
+"kometabrowser.exe","*kometa\application\kometabrowser.exe*",true
+"liebaobrowser.exe","*liebao7\application\liebaobrowser.exe*",true
+"msedge.exe","*microsoft\edge\application\msedge.exe*",true
+"nichrome.exe","*nichrome\application\nichrome.exe*",true
+"opera.exe","*opera software\opera*\opera.exe*",true
+"orbitum.exe","*orbitum\application\orbitum.exe*",true
+"palemoon.exe","*moonchild productions\pale moon\palemoon.exe*",true
+"qip surf.exe","*qip surf\application\qip surf.exe*",true
+"qqbrowser.exe","*tencent\qqbrowser\application\qqbrowser.exe*",true
+"seamonkey.exe","*mozilla\seamonkey\seamonkey.exe*",true
+"sleipnir5.exe","*fenrir inc\sleipnir5\sleipnir5.exe*",true
+"slimbrowser.exe","*flashpeak\slimbrowser\slimbrowser.exe*",true
+"slimjet.exe","*slimjet\application\slimjet.exe*",true
+"sputnik.exe","*sputnik\sputnik\application\sputnik.exe*",true
+"superbird.exe","*superbird\application\superbird.exe*",true
+"torch.exe","*torch\application\torch.exe*",true
+"ucbrowser.exe","*ucbrowser\application\ucbrowser.exe*",true
+"uran.exe","*ucozmedia\uran\application\uran.exe*",true
+"vivaldi.exe","*vivaldi\application\vivaldi.exe*",true
+"xpombrowser.exe","*xpom\application\xpombrowser.exe*",true
+"xvast.exe","*xvast\application\xvast.exe*",true
+"yandex.exe","*yandex\yandexbrowser\yandex.exe*",true

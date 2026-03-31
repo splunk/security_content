@@ -1,7 +1,7 @@
 name: Windows Default Rdp File Deletion
 id: 30a334c1-f9a5-4fbd-8958-5b65a8435cb2
-version: 2
-date: '2026-01-14'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

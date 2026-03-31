@@ -1,7 +1,7 @@
 name: Detect Exchange Web Shell
 id: 8c14eeee-2af1-4a4b-bda8-228da0f4862a
-version: 13
-date: '2025-09-16'
+version: 14
+date: '2026-03-10'
 author: Michael Haag, Shannon Davis, David Dorsey, Splunk
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 81
+          score: 50
         - field: dest
           type: system
-          score: 81
+          score: 50
     threat_objects:
         - field: file_name
           type: file_name

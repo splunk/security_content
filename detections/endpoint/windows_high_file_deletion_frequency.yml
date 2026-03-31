@@ -1,7 +1,7 @@
 name: Windows High File Deletion Frequency
 id: 45b125c4-866f-11eb-a95a-acde48001122
-version: 11
-date: '2026-02-12'
+version: 13
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 72
+          score: 20
         - field: dest
           type: system
-          score: 72
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name
@@ -53,6 +53,7 @@ tags:
         - APT37 Rustonotto and FadeStealer
         - DynoWiper
         - ZOVWiper
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1485

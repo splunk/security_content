@@ -1,0 +1,59 @@
+name: Linux Auditd AI CLI Permission Override Activated
+id: 737e8baa-d44e-4fa9-8281-24056ed424c0
+version: 1
+date: '2026-03-12'
+author: Teoderick Contreras, Splunk
+status: production
+type: Anomaly
+description: |
+    This detection identifies when an AI command-line tool is launched in an unsafe mode that bypasses normal safety checks and user approvals.
+    For instance, running claude --dangerously-skip-permissions skips all safety restrictions, allowing the tool to operate freely, while gemini --yolo automatically approves all actions without prompting the user.
+    These modes, often called permission overrides or YOLO mode, let the AI execute commands, modify files, or perform tasks without confirmation.
+    Detecting their use is important to prevent unintended or potentially harmful operations.
+data_source:
+    - Linux Auditd Proctitle
+search: |-
+    `linux_auditd` (proctitle = "*gemini*" AND proctitle IN ("*--yolo*", "*-y *")) OR
+    (proctitle = "*claude*" AND proctitle= "*--dangerously-skip-permissions*")
+    | rename host as dest
+    | stats count min(_time) as firstTime max(_time) as lastTime
+      BY proctitle dest
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)` | `linux_auditd_ai_cli_permission_override_activated_filter`
+how_to_implement: To implement this detection, the process begins by ingesting auditd data, that consist SYSCALL, TYPE, EXECVE and PROCTITLE events, which captures command-line executions and process details on Unix/Linux systems. These logs should be ingested and processed using Splunk Add-on for Unix and Linux (https://splunkbase.splunk.com/app/833), which is essential for correctly parsing and categorizing the data. The next step involves normalizing the field names  to match the field names set by the Splunk Common Information Model (CIM) to ensure consistency across different data sources and enhance the efficiency of data modeling. This approach enables effective monitoring and detection of linux endpoints where auditd is deployed
+known_false_positives: An administrator or network operator might execute this command legitimately. Please apply the necessary filters to tune that activity.
+references:
+    - https://x.com/Mandiant/status/2031097693620081042?s=20
+drilldown_searches:
+    - name: View the detection results for - "$dest$"
+      search: '%original_detection_search% | search  dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: A [$proctitle$] event occurred on host - [$dest$] to bypass AI safety execution with permission override.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - QuietVault
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1480
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1480/ai_cli_override/gemini_yolo.log
+          source: auditd
+          sourcetype: auditd

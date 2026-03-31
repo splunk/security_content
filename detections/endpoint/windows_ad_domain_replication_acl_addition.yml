@@ -1,7 +1,7 @@
 name: Windows AD Domain Replication ACL Addition
 id: 8c372853-f459-4995-afdc-280c114d33ab
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Dean Luxton
 type: TTP
 status: production
@@ -11,8 +11,8 @@ description: The following analytic detects the addition of permissions required
 search: |-
     `wineventlog_security` EventCode=5136 ObjectClass=domainDNS
       | stats min(_time) as _time values(eval(if(OperationType=="%%14675",AttributeValue,null))) as old_value values(eval(if(OperationType=="%%14674",AttributeValue,null))) as new_value values(OperationType) as OperationType
-        BY ObjectClass ObjectDN OpCorrelationID
-           src_user SubjectLogonId
+          BY ObjectClass ObjectDN OpCorrelationID
+          src_user SubjectLogonId dest
       | rex field=old_value max_match=10000 "\((?P<old_values>.*?)\)"
       | rex field=new_value max_match=10000 "\((?P<new_ace>.*?)\)"
       | mvexpand new_ace
@@ -24,15 +24,12 @@ search: |-
       | lookup msad_guid_lookup guid as aceObjectGuid OUTPUT displayName as ControlAccessRights
       | lookup ace_access_rights_lookup access_rights_string as AccessRights OUTPUT access_rights_value
       | lookup ace_type_lookup ace_type_string as aceType OUTPUT ace_type_value
-      | lookup ace_flag_lookup flag_string as aceFlags OUTPUT flag_value as ace_flag_value ``` Optional SID resolution lookups
-      | lookup identity_lookup_expanded objectSid as aceSid OUTPUT downLevelDomainName as user
-      | lookup admon_groups_def objectSid as aceSid OUTPUT cn as group ```
-      | lookup builtin_groups_lookup builtin_group_string  as aceSid OUTPUT builtin_group_name as builtin_group
+      | lookup ace_flag_lookup flag_string as aceFlags OUTPUT flag_value as ace_flag_value
+      | lookup builtin_groups_lookup builtin_group_string as aceSid OUTPUT builtin_group_name as builtin_group
       | eval aceType=coalesce(ace_type_value,aceType), aceFlags=coalesce(ace_flag_value,"This object only"), aceAccessRights=if(aceAccessRights="CCDCLCSWRPWPDTLOCRSDRCWDWO","Full control",coalesce(access_rights_value,AccessRights)), aceControlAccessRights=coalesce(ControlAccessRights,aceObjectGuid), user=coalesce(user, group, builtin_group, aceSid)
       | stats min(_time) as _time values(aceType) as aceType values(aceFlags) as aceFlags(inheritance) values(aceControlAccessRights) as aceControlAccessRights values(aceAccessRights) as aceAccessRights values(new_ace) as new_ace values(SubjectLogonId) as SubjectLogonId
-        BY ObjectClass ObjectDN src_user
-           user dest
-      | search (aceControlAccessRights="DS-Replication-Get-Changes" AND aceControlAccessRights="DS-Replication-Get-Changes-All") OR (aceControlAccessRights="1131f6aa-9c07-11d1-f79f-00c04fc2dcd2" AND aceControlAccessRights="1131f6ad-9c07-11d1-f79f-00c04fc2dcd2")
+          BY ObjectClass ObjectDN src_user dest user
+      | search (aceControlAccessRights="Replicating Directory Changes" AND aceControlAccessRights="Replicating Directory Changes All") OR (aceControlAccessRights="1131f6aa-9c07-11d1-f79f-00c04fc2dcd2" AND aceControlAccessRights="1131f6ad-9c07-11d1-f79f-00c04fc2dcd2")
       | `windows_ad_domain_replication_acl_addition_filter`
 how_to_implement: To successfully implement this search, you need to be ingesting the eventcode 5136. The Advanced Security Audit policy setting `Audit Directory Services Changes` within `DS Access` needs to be enabled, alongside a SACL for `everybody` to  `Write All Properties` applied to the domain root and all descendant objects. Once the necessary logging has been enabled, enumerate the domain policy to verify if existing accounts with access need to be whitelisted, or revoked. Assets and Identities is also leveraged to automatically translate the objectSid into username. Ensure your identities lookup is configured with the sAMAccountName and objectSid of all AD user and computer objects.
 known_false_positives: When there is a change to nTSecurityDescriptor, Windows logs the entire ACL with the newly added components. If existing accounts are present with this permission, they will raise an alert each time the nTSecurityDescriptor is updated unless whitelisted.
@@ -54,10 +51,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: src_user
           type: user
-          score: 80
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

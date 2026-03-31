@@ -1,7 +1,7 @@
 name: Linux Auditd Base64 Decode Files
 id: 5890ba10-4e48-4dc0-8a40-3e1ebe75e737
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

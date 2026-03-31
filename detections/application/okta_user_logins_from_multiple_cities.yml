@@ -1,7 +1,7 @@
 name: Okta User Logins from Multiple Cities
 id: a3d1df37-c2a9-41d0-aa8f-59f82d6192a8
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 data_source:
     - Okta
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 81
+          score: 20
     threat_objects:
         - field: src
           type: ip_address

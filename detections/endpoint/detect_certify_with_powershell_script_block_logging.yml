@@ -1,7 +1,7 @@
 name: Detect Certify With PowerShell Script Block Logging
 id: f533ca6c-9440-4686-80cb-7f294c07812a
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
         - field: user_id
           type: user
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Revil Registry Entry
 id: e3d3f57a-c381-11eb-9e35-acde48001122
-version: 10
-date: '2026-01-14'
+version: 11
+date: '2026-03-10'
 author: Steven Dick, Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -29,10 +29,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 60
+          score: 50
         - field: user
           type: user
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

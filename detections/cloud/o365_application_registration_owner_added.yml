@@ -1,7 +1,7 @@
 name: O365 Application Registration Owner Added
 id: c068d53f-6aaa-4558-8011-3734df878266
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 30
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: Citrix ADC and Gateway CitrixBleed 2 Memory Disclosure
 id: bef92f3f-7dc8-413a-8989-50581039e250
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -50,7 +50,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 85
+          score: 20
     threat_objects:
         - field: src
           type: system
@@ -71,5 +71,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/citrix/suricata_citrixbleed2.log
-          source: suricata
+          source: not_applicable
           sourcetype: suricata

@@ -1,7 +1,7 @@
 name: M365 Copilot Jailbreak Attempts
 id: b05a4f25-e07d-436f-ab03-f954afa922c0
-version: 2
-date: '2026-01-13'
+version: 3
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -47,7 +47,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
@@ -63,6 +63,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://raw.githubusercontent.com/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/m365_copilot/copilot_prompt_logs.csv
           sourcetype: csv
           source: csv

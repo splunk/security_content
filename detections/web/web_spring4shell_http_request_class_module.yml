@@ -1,7 +1,7 @@
 name: Web Spring4Shell HTTP Request Class Module
 id: fcdfd69d-0ca3-4476-920e-9b633cb4593e
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -36,7 +36,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 50
     threat_objects:
         - field: src
           type: ip_address

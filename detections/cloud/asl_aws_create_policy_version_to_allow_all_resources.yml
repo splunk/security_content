@@ -1,7 +1,7 @@
 name: ASL AWS Create Policy Version to allow all resources
 id: 22cc7a62-3884-48c4-82da-592b8199b72f
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-10'
 author: Patrick Bareiss, Splunk
 status: production
 type: TTP
@@ -42,7 +42,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

@@ -1,7 +1,7 @@
 name: ConnectWise ScreenConnect Path Traversal
 id: 56a3ac65-e747-41f7-b014-dff7423c1dda
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Michael Haag, Splunk
 data_source:
     - Sysmon EventID 11
@@ -29,7 +29,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 100
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

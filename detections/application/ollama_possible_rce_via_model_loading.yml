@@ -1,7 +1,7 @@
 name: Ollama Possible RCE via Model Loading
 id: 3f28c930-5208-425d-a7b9-53d349756d91
-version: 1
-date: '2025-10-05'
+version: 2
+date: '2026-03-10'
 author: Rod Soto
 status: experimental
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: host
           type: system
-          score: 10
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

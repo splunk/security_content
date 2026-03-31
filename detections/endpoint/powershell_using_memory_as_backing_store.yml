@@ -1,7 +1,7 @@
 name: Powershell Using memory As Backing Store
 id: c396a0c4-c9f2-11eb-b4f5-acde48001122
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 40
+          score: 50
         - field: user_id
           type: user
-          score: 40
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

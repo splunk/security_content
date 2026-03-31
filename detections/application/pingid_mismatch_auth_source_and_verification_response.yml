@@ -1,7 +1,7 @@
 name: PingID Mismatch Auth Source and Verification Response
 id: 15b0694e-caa2-4009-8d83-a1f98b86d086
-version: 6
-date: '2025-05-02'
+version: 7
+date: '2026-03-10'
 author: Steven Dick
 status: production
 type: TTP
@@ -30,10 +30,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
         - field: src
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

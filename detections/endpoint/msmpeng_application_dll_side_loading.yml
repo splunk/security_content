@@ -1,7 +1,7 @@
 name: Msmpeng Application DLL Side Loading
 id: 8bb3f280-dd9b-11eb-84d5-acde48001122
-version: 10
-date: '2025-05-02'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk, Sanjay Govind
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

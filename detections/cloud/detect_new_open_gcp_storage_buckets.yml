@@ -1,7 +1,7 @@
 name: Detect New Open GCP Storage Buckets
 id: f6ea3466-d6bb-11ea-87d0-0242ac130003
-version: 6
-date: '2026-02-25'
+version: 7
+date: '2026-03-12'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -23,11 +23,12 @@ how_to_implement: This search relies on the Splunk Add-on for Google Cloud Platf
 known_false_positives: While this search has no known false positives, it is possible that a GCP admin has legitimately created a public bucket for a specific purpose. That said, GCP strongly advises against granting full control to the "allUsers" group.
 references: []
 rba:
-    message: New Public GCP Storage Bucket Detected
+    message: |
+        "allUser" member added to $bucketName$ by $user$ making the bucket available to the public
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

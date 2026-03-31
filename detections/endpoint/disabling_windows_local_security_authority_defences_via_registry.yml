@@ -1,7 +1,7 @@
 name: Disabling Windows Local Security Authority Defences via Registry
 id: 45cd08f8-a2c9-4f4e-baab-e1a0c624b0ab
-version: 8
-date: '2025-08-20'
+version: 9
+date: '2026-03-10'
 author: Dean Luxton,Teoderick Contreras Splunk
 status: production
 type: TTP
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 60
+          score: 50
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

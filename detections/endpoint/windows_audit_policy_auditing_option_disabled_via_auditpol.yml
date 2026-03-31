@@ -1,7 +1,7 @@
 name: Windows Audit Policy Auditing Option Disabled via Auditpol
 id: 663a7a50-b752-4c84-975b-8325ca3f6f9e
-version: 5
-date: '2026-02-25'
+version: 6
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Splunk
 status: production
 type: TTP
@@ -43,10 +43,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 60
+          score: 50
         - field: dest
           type: system
-          score: 60
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

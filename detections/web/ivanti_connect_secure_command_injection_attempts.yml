@@ -1,7 +1,7 @@
 name: Ivanti Connect Secure Command Injection Attempts
 id: 1f32a7e0-a060-4545-b7de-73fcf9ad536e
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 90
+          score: 50
     threat_objects: []
 tags:
     cve:
@@ -62,5 +62,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/suricata_ivanti_secure_connect_exploitphase.log
-          source: suricata
+          source: not_applicable
           sourcetype: suricata

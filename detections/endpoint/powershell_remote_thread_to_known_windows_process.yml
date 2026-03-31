@@ -1,7 +1,7 @@
 name: Powershell Remote Thread To Known Windows Process
 id: ec102cb2-a0f5-11eb-9b38-acde48001122
-version: 8
-date: '2026-01-14'
+version: 9
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 63
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name

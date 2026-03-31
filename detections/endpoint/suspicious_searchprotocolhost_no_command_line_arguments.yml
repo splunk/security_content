@@ -1,32 +1,51 @@
 name: Suspicious SearchProtocolHost no Command Line Arguments
 id: f52d2db8-31f9-4aa7-a176-25779effe55c
-version: 11
-date: '2026-02-25'
+version: 13
+date: '2026-03-25'
 author: Michael Haag, Splunk
 status: production
 type: TTP
-description: The following analytic detects instances of searchprotocolhost.exe running without command line arguments. This behavior is unusual and often associated with malicious activities, such as those performed by Cobalt Strike. The detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process execution data. This activity is significant because searchprotocolhost.exe typically runs with specific arguments, and its absence may indicate an attempt to evade detection. If confirmed malicious, this could lead to unauthorized code execution, potential credential dumping, or other malicious actions within the environment.
+description: |-
+    The following analytic detects instances of searchprotocolhost.exe running without command line arguments.
+    This behavior is unusual and often associated with malicious activities, such as those performed by Cobalt Strike.
+    The detection leverages Endpoint Detection and Response (EDR) telemetry, focusing on process execution data.
+    This activity is significant because searchprotocolhost.exe typically runs with specific arguments, and its absence may indicate an attempt to evade detection.
+    If confirmed malicious, this could lead to unauthorized code execution, potential credential dumping, or other malicious actions within the environment.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count FROM datamodel=Endpoint.Processes
-      WHERE Processes.process_name=searchprotocolhost.exe
-      BY Processes.action Processes.dest Processes.original_file_name
-         Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-         Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-         Processes.process Processes.process_exec Processes.process_guid
-         Processes.process_hash Processes.process_id Processes.process_integrity_level
-         Processes.process_name Processes.process_path Processes.user
-         Processes.user_id Processes.vendor_product
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    (
+        Processes.process_name=searchprotocolhost.exe
+        OR
+        Processes.original_file_name=searchprotocolhost.exe
+    )
+    Processes.process IN ("*searchprotocolhost","*searchprotocolhost.exe", "*searchprotocolhost.exe\"")
+
+    BY Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | regex process="(?i)(searchprotocolhost\.exe.{0,4}$)"
     | `suspicious_searchprotocolhost_no_command_line_arguments_filter`
-how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: Limited false positives may be present in small environments. Tuning may be required based on parent process.
+how_to_implement: |-
+    The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: |-
+    No false positives have been identified at this time.
 references:
     - https://github.com/mandiant/red_team_tool_countermeasures/blob/master/rules/PGF/supplemental/hxioc/SUSPICIOUS%20EXECUTION%20OF%20SEARCHPROTOCOLHOST%20(METHODOLOGY).ioc
 drilldown_searches:
@@ -43,10 +62,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 49
+          score: 50
         - field: user
           type: user
-          score: 49
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

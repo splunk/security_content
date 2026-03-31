@@ -1,7 +1,7 @@
 name: Windows PowerShell Process Implementing Manual Base64 Decoder
 id: 08d67349-0808-4f55-b431-1037269fa517
-version: 2
-date: '2025-11-19'
+version: 3
+date: '2026-03-10'
 author: Nasreddine Bencherchali
 status: production
 type: Anomaly
@@ -69,10 +69,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 25
+          score: 20
         - field: dest
           type: system
-          score: 30
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name
@@ -94,6 +94,6 @@ tags:
 tests:
     - name: True Positive
       attack_data:
-        - data: https://github.com/Splunk/attack_data/raw/master/datasets/attack_techniques/T1027.010/manual_b64_decode_pwsh/manual_b64_decode_pwsh.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1027.010/manual_b64_decode_pwsh/manual_b64_decode_pwsh.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog

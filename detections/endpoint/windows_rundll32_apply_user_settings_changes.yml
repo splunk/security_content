@@ -1,7 +1,7 @@
 name: Windows Rundll32 Apply User Settings Changes
 id: b9fb8d97-dbc9-4a09-804c-ff0e3862bb2d
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-03-10'
 author: Teoderick Contreras, Nasreddine Bencherchali, Splunk
 status: production
 type: Anomaly
@@ -56,7 +56,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects:
         - field: process_name
           type: process_name

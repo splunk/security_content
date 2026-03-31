@@ -1,7 +1,7 @@
 name: Windows Query Registry UnInstall Program List
 id: 535fd4fc-7151-4062-9d7e-e896bea77bf6
-version: 7
-date: '2025-12-16'
+version: 8
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 25
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

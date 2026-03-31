@@ -1,7 +1,7 @@
 name: Windows Service Created with Suspicious Service Path
 id: 429141be-8311-11eb-adb6-acde48001122
-version: 16
-date: '2025-09-18'
+version: 18
+date: '2026-03-26'
 author: Teoderick Contreras, Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -28,7 +28,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects:
         - field: ImagePath
           type: service
@@ -47,6 +47,7 @@ tags:
         - Crypto Stealer
         - Brute Ratel C4
         - APT37 Rustonotto and FadeStealer
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1569.002

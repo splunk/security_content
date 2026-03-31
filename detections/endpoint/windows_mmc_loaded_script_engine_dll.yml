@@ -1,7 +1,7 @@
 name: Windows MMC Loaded Script Engine DLL
 id: 785bbfb5-d404-42d1-ab9d-45c37a2c75cd
-version: 1
-date: '2026-02-03'
+version: 2
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

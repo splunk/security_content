@@ -1,7 +1,7 @@
 name: Windows Application Whitelisting Bypass Attempt via Rundll32
 id: 1ef5dab0-e1f1-495d-a272-d134583c10b1
-version: 2
-date: '2026-02-25'
+version: 4
+date: '2026-03-24'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -33,6 +33,7 @@ search: |
     `process_rundll32`
     Processes.process IN ("*syssetup*", "*advpack*", "*setupapi*")
     Processes.process IN ("*LaunchINFSection*", "*InstallHinfSection*", "*SetupInfObjectInstallAction*")
+    NOT (Processes.parent_process_name="msiexec.exe" Processes.process="* C:\\Program Files (x86)\\Netskope\\EPDLP Deployment\\*")
     by Processes.action Processes.dest Processes.original_file_name Processes.parent_process
        Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id
        Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec
@@ -77,10 +78,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 80
+          score: 50
         - field: dest
           type: system
-          score: 80
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

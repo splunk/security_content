@@ -1,7 +1,7 @@
 name: Windows New EventLog ChannelAccess Registry Value Set
 id: 16eb11bc-ef42-42e8-9d0c-d21e0fa15725
-version: 4
-date: '2025-05-02'
+version: 5
+date: '2026-03-10'
 author: Nasreddine Bencherchali, Michael Haag, Splunk
 status: production
 type: Anomaly
@@ -28,10 +28,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 30
+          score: 20
         - field: user
           type: user
-          score: 30
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

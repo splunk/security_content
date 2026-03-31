@@ -1,7 +1,7 @@
 name: Prevent Automatic Repair Mode using Bcdedit
 id: 7742aa92-c9d9-11eb-bbfc-acde48001122
-version: 8
-date: '2026-02-25'
+version: 10
+date: '2026-03-16'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -42,15 +42,16 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
         - field: user
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
         - Ransomware
         - Chaos Ransomware
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1490

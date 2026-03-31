@@ -1,7 +1,7 @@
 name: Kerberos Pre-Authentication Flag Disabled in UserAccountControl
 id: 0cb847ee-9423-11ec-b2df-acde48001122
-version: 9
-date: '2026-02-02'
+version: 10
+date: '2026-03-10'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -34,7 +34,7 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 45
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
@@ -51,6 +51,6 @@ tags:
 tests:
     - name: True Positive Test
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/refs/heads/master/datasets/attack_techniques/T1558.004/powershell/windows-security-xml.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1558.004/powershell/windows-security-xml.log
           source: XmlWinEventLog:Security
           sourcetype: XmlWinEventLog

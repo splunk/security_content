@@ -1,7 +1,7 @@
 name: Windows Potential AppDomainManager Hijack Artifacts Creation
 id: be19b369-fd0c-42be-ae97-c10b6c01638f
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly

@@ -1,7 +1,7 @@
 name: Schtasks used for forcing a reboot
 id: 1297fb80-f42a-4b4a-9c8a-88c066437cf6
-version: 12
-date: '2026-02-25'
+version: 13
+date: '2026-03-10'
 author: Bhavin Patel, Splunk
 status: production
 type: TTP
@@ -41,10 +41,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
         - field: user
           type: user
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

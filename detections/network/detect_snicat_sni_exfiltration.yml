@@ -1,7 +1,7 @@
 name: Detect SNICat SNI Exfiltration
 id: 82d06410-134c-11eb-adc1-0242ac120002
-version: 7
-date: '2026-02-25'
+version: 8
+date: '2026-03-10'
 author: Shannon Davis, Splunk
 status: experimental
 type: TTP
@@ -37,7 +37,7 @@ rba:
     risk_objects:
         - field: src_ip
           type: system
-          score: 25
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

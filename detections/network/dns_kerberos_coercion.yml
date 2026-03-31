@@ -1,7 +1,7 @@
 name: DNS Kerberos Coercion
 id: 8551252d-b5b6-4b6e-8a82-51460aeb29a3
-version: 2
-date: '2026-02-25'
+version: 3
+date: '2026-03-10'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -40,7 +40,7 @@ rba:
     risk_objects:
         - field: src
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:
@@ -64,7 +64,7 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/suricata.log
-          source: Suricata
+          source: not_applicable
           sourcetype: suricata
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1071.004/kerberos_coercion/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational

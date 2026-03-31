@@ -1,7 +1,7 @@
 name: Detect Rundll32 Inline HTA Execution
 id: 91c79f14-5b41-11eb-ae93-0242ac130002
-version: 10
-date: '2026-02-25'
+version: 12
+date: '2026-03-26'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -14,9 +14,7 @@ search: |-
     | tstats `security_content_summariesonly` count values(Processes.process) as process values(Processes.parent_process) as parent_process min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_rundll32` (Processes.process=*vbscript*
         OR
-        Processes.process=*javascript*
-        OR
-        Processes.process=*about*)
+        Processes.process=*javascript*)
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
@@ -48,7 +46,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 56
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

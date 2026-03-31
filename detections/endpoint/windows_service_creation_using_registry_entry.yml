@@ -1,7 +1,7 @@
 name: Windows Service Creation Using Registry Entry
 id: 25212358-948e-11ec-ad47-acde48001122
-version: 16
-date: '2026-02-09'
+version: 18
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk, Steven Dick
 status: production
 type: Anomaly
@@ -27,7 +27,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 64
+          score: 20
     threat_objects: []
 tags:
     analytic_story:
@@ -44,6 +44,7 @@ tags:
         - Suspicious Windows Registry Activities
         - Crypto Stealer
         - Brute Ratel C4
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1574.011

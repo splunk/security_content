@@ -1,7 +1,7 @@
 name: Detect Regasm with no Command Line Arguments
 id: c3bc1430-04e7-4178-835f-047d8e6e97df
-version: 12
-date: '2025-12-15'
+version: 14
+date: '2026-03-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -44,10 +44,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 50
         - field: dest
           type: system
-          score: 49
+          score: 50
     threat_objects:
         - field: parent_process_name
           type: parent_process_name
@@ -58,6 +58,7 @@ tags:
         - Suspicious Regsvcs Regasm Activity
         - Living Off The Land
         - Handala Wiper
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1218.009

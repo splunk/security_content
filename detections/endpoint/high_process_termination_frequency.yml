@@ -1,7 +1,7 @@
 name: High Process Termination Frequency
 id: 17cd75b2-8666-11eb-9ab4-acde48001122
-version: 11
-date: '2026-02-25'
+version: 12
+date: '2026-03-10'
 author: Teoderick Contreras
 status: production
 type: Anomaly
@@ -38,7 +38,7 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 72
+          score: 20
     threat_objects: []
 tags:
     analytic_story:

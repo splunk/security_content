@@ -1,14 +1,85 @@
 name: Windows Privilege Escalation User Process Spawn System Process
 id: c9687a28-39ad-43c6-8bcf-eaf061ba0cbe
-version: 9
-date: '2026-01-14'
+version: 11
+date: '2026-03-24'
 author: Steven Dick
 status: production
 type: TTP
-description: The following analytic detects when a process with low, medium, or high integrity spawns a system integrity process from a user-controlled location. This behavior is indicative of privilege escalation attempts where attackers elevate their privileges to SYSTEM level from a user-controlled process or service. The detection leverages Sysmon data, specifically Event ID 15, to identify such transitions. Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level access, potentially leading to full control over the affected system, unauthorized access to sensitive data, and further malicious activities.
+description: |
+    The following analytic detects when a process with low, medium, or high integrity spawns a system integrity process from a user-controlled location.
+    This behavior is indicative of privilege escalation attempts where attackers elevate their privileges to SYSTEM level from a user-controlled process or service.
+    The detection leverages Sysmon data, specifically Event ID 15, to identify such transitions.
+    Monitoring this activity is crucial as it can signify an attacker gaining SYSTEM-level access, potentially leading to full control over the affected system, unauthorized access to sensitive data, and further malicious activities.
 data_source:
     - Sysmon EventID 1 AND Sysmon EventID 1
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("low","medium","high") NOT Processes.user IN ("*SYSTEM","*LOCAL SERVICE","*NETWORK SERVICE","DWM-*","*$") AND Processes.process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by Processes.action Processes.dest Processes.original_file_name Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_integrity_level Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | eval join_guid = process_guid | join max=0 dest join_guid [| tstats `security_content_summariesonly` count max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process_integrity_level IN ("system") AND Processes.parent_process_path IN ("*\\\\*","*\\Users\\*","*\\Temp\\*","*\\ProgramData\\*") by Processes.dest, Processes.user, Processes.parent_process_guid, Processes.process_name, Processes.process, Processes.process_path, Processes.process_integrity_level, Processes.process_current_directory | `drop_dm_object_name(Processes)` | rename parent_process_guid as join_guid, process* as system_process*, user as system_user ] | fields dest, user, parent_process, parent_process_name, parent_process_guid, process, process_name, process_guid, process_integrity_level,process_path, process_current_directory, system_process_name, system_process, system_process_path, system_process_integrity_level, system_process_current_directory, system_user, firstTime, lastTime, count | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `windows_privilege_escalation_user_process_spawn_system_process_filter`'
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process_integrity_level IN (
+        "low",
+        "medium",
+        "high"
+    )
+    Processes.process_path IN (
+        "*\\\\*",
+        "*\\ProgramData\\*",
+        "*\\Temp\\*",
+        "*\\Users\\*"
+    )
+    NOT Processes.user IN (
+        "*SYSTEM",
+        "*LOCAL SERVICE",
+        "*NETWORK SERVICE",
+        "DWM-*",
+        "*$"
+    )
+
+    by Processes.action Processes.dest Processes.original_file_name
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | eval join_guid = process_guid
+
+    | join max=0 dest join_guid [
+
+            | tstats `security_content_summariesonly`
+              count max(_time) as lastTime
+
+            from datamodel=Endpoint.Processes where
+
+            Processes.process_integrity_level="system"
+            Processes.parent_process_path IN (
+                "*\\\\*",
+                "*\\ProgramData\\*",
+                "*\\Temp\\*",
+                "*\\Users\\*"
+            )
+
+            by Processes.dest Processes.user Processes.parent_process_guid
+               Processes.process_name Processes.process Processes.process_path
+               Processes.process_integrity_level Processes.process_current_directory
+
+            | `drop_dm_object_name(Processes)`
+            | rename parent_process_guid as join_guid, process* as system_process*, user as system_user
+        ]
+    | fields dest user parent_process parent_process_name parent_process_guid
+             process process_name process_guid process_integrity_level process_path
+             process_current_directory system_process_name system_process system_process_path
+             system_process_integrity_level system_process_current_directory system_user
+             firstTime lastTime count
+
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `windows_privilege_escalation_user_process_spawn_system_process_filter`
 how_to_implement: Target environment must ingest sysmon data, specifically Event ID 15.
 known_false_positives: No false positives have been identified at this time.
 references:
@@ -30,10 +101,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 80
+          score: 50
         - field: user
           type: user
-          score: 80
+          score: 50
     threat_objects:
         - field: process_name
           type: process_name
