@@ -4,24 +4,47 @@ version: 14
 date: '2026-03-24'
 author: Bhavin Patel, Mauricio Velazco, Splunk
 status: production
-type: TTP
-description: The following detects the execution of cscript.exe or wscript.exe processes spawned by cmd.exe, leveraging Endpoint Detection and Response (EDR) telemetry mapped to the Endpoint data model, with additional contextual filtering to improve fidelity and reduce false positives. It focuses on executions originating from user-writable directories such as Users, AppData, Temp, and Downloads, which are commonly abused by attackers to stage and execute malicious scripts, while excluding trusted system paths like C:\Windows\System32\ and C:\Program Files\ that are typically associated with legitimate activity. The detection also filters out service accounts (e.g., accounts ending with $ or known naming conventions) to minimize noise from automated processes and incorporates command-line context to better assess script execution patterns and identify potentially suspicious behavior. These enhancements transform the analytic from a broad pattern-based detection into a more behavior-driven approach, increasing its effectiveness in identifying malicious script interpreter usage that could indicate initial access, persistence, or lateral movement.
+type: Anomaly
+description: |
+    The following detects the execution of cscript.exe or wscript.exe processes spawned by cmd.exe, leveraging Endpoint Detection and Response (EDR) telemetry mapped to the Endpoint data model, with additional contextual filtering to improve fidelity and reduce false positives.
+    It focuses on executions originating from user-writable directories such as Users, AppData, Temp, and Downloads, which are commonly abused by attackers to stage and execute malicious scripts, while excluding trusted system paths like C:\Windows\System32\ and C:\Program Files\ that are typically associated with legitimate activity.
+    The detection also filters out service accounts (e.g., accounts ending with $ or known naming conventions) to minimize noise from automated processes and incorporates command-line context to better assess script execution patterns and identify potentially suspicious behavior.
 data_source:
     - Sysmon EventID 1
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime
-    FROM datamodel=Endpoint.Processes
-    WHERE Processes.parent_process_name="cmd.exe"
-      AND (Processes.process_name="cscript.exe" OR Processes.process_name="wscript.exe")
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    Processes.parent_process_name="cmd.exe"
+    (
+        Processes.process_name IN ("cscript.exe", "wscript.exe")
+        OR
+        Processes.original_file_name IN ("cscript.exe", "wscript.exe")
+    )
+    NOT Processes.process IN (
+        "* \"C:\\Program Files (x86)\\*",
+        "* \"C:\\Program Files\\*",
+        "* \"C:\\Windows\\System32\\*",
+        "* \"C:\\Windows\\SysWOW64\\*",
+        "* C:\\Program Files (x86)\\*",
+        "* C:\\Program Files\\*",
+        "* C:\\Windows\\System32\\*",
+        "* C:\\Windows\\SysWOW64\\*"
+    )
+    NOT Processes.user="*$"
     BY Processes.action Processes.dest Processes.original_file_name
-      Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
-      Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
-      Processes.process Processes.process_exec Processes.process_guid
-      Processes.process_hash Processes.process_id Processes.process_integrity_level
-      Processes.process_name Processes.process_path Processes.user
-      Processes.user_id Processes.vendor_product
+       Processes.parent_process Processes.parent_process_exec
+       Processes.parent_process_guid Processes.parent_process_id
+       Processes.parent_process_name Processes.parent_process_path
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id Processes.process_integrity_level
+       Processes.process_name Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
     | `drop_dm_object_name("Processes")`
 
     | where like(process, "%\\Users\\%")
@@ -37,7 +60,8 @@ search: |-
     | `security_content_ctime(lastTime)`
     | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
-known_false_positives: This detection may also be triggered by legitimate applications and numerous service accounts, which often end with a $ sign. To manage this, it's advised to check the service account's activities and, if they are valid, modify the filter macro to exclude them.
+known_false_positives: |-
+    This detection may still generate alerts from legitimate administrative or enterprise activity, particularly in environments that rely on logon scripts, software deployment tools (e.g., SCCM, Intune), legacy applications, or IT automation frameworks that execute scripts via cmd.exe. Some organizations may also have internally developed scripts that run from user-writable directories, which can appear suspicious but are benign. Additionally, environments with non-standard application installations or portable tools may trigger this detection.
 references:
     - https://attack.mitre.org/techniques/T1059/
     - https://redcanary.com/threat-detection-report/techniques/windows-command-shell/
@@ -51,11 +75,11 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: cmd.exe launching script interpreters [$process_name$] with commandline [$process$] on [$dest$]
+    message: cmd.exe launched a script interpreter [$process_name$] with CommandLine [$process$] on [$dest$]
     risk_objects:
         - field: dest
           type: system
-          score: 50
+          score: 20
     threat_objects:
         - field: process
           type: process

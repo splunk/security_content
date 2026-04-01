@@ -1,7 +1,7 @@
 name: Windows Service Created with Suspicious Service Name
 id: 35eb6d19-a497-400c-93c5-645562804b11
-version: 6
-date: '2026-03-10'
+version: 7
+date: '2026-03-26'
 author: Steven Dick
 status: production
 type: Anomaly
@@ -60,6 +60,7 @@ tags:
         - Qakbot
         - Snake Malware
         - Tuoni
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1569.002

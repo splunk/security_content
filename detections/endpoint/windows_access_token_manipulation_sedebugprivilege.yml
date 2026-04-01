@@ -1,7 +1,7 @@
 name: Windows Access Token Manipulation SeDebugPrivilege
 id: 6ece9ed0-5f92-4315-889d-48560472b188
-version: 19
-date: '2026-03-10'
+version: 20
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -52,6 +52,7 @@ tags:
         - Lokibot
         - Scattered Lapsus$ Hunters
         - Tuoni
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1134.002

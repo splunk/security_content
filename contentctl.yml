@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.24.0
+  version: 5.25.0
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
@@ -93,11 +93,11 @@ apps:
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_130.tgz
 - uid: 4242
-  title: TA for Suricata
+  title: CCX Add-on for Suricata
   appid: SPLUNK_TA_FOR_SURICATA
-  version: 2.3.4
+  version: 1.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-for-suricata_234.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ccx-add-on-for-suricata_101.tgz
 - uid: 5466
   title: TA for Zeek
   appid: SPLUNK_TA_FOR_ZEEK
@@ -123,11 +123,11 @@ apps:
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-stream-wire-data_816.tgz
 - uid: 2757
-  title: Palo Alto Networks Add-on for Splunk
-  appid: PALO_ALTO_NETWORKS_ADD_ON_FOR_SPLUNK
-  version: 8.1.3
+  title: Splunk Add-on for Palo Alto Networks
+  appid: SPLUNK_ADD_ON_FOR_PALO_ALTO_NETWORKS
+  version: 3.0.1
   description: description of app
-  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/palo-alto-networks-add-on-for-splunk_813.tgz
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-palo-alto-networks_301.tgz
 - uid: 3865
   title: Zscaler Technical Add-On for Splunk
   appid: Zscaler_CIM

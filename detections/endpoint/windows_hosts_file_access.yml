@@ -1,7 +1,7 @@
 name: Windows Hosts File Access
 id: b34bcf35-5380-4b00-b208-5531303fb751
-version: 1
-date: '2026-03-03'
+version: 2
+date: '2026-03-26'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -60,6 +60,7 @@ rba:
 tags:
     analytic_story:
         - BlankGrabber Stealer
+        - Gh0st RAT
     asset_type: Endpoint
     mitre_attack_id:
         - T1012
