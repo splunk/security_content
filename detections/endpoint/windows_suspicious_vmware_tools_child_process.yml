@@ -1,7 +1,7 @@
 name: Windows Suspicious VMWare Tools Child Process
 id: 1f77661a-0fe3-4b8d-a62c-7dff06906d26
-version: 3
-date: '2026-03-10'
+version: 4
+date: '2026-03-31'
 author: Raven Tait, Splunk
 status: production
 type: TTP
@@ -15,6 +15,8 @@ search: |-
       WHERE Processes.parent_process_name=vmtoolsd.exe
         AND
         Processes.process_name IN ("powershell.exe","cmd.exe", "msbuild.exe", "microsoft.workflow.compiler.exe", "searchprotocolhost.exe", "scrcons.exe", "cscript.exe", "wscript.exe","bitsadmin.exe", "rundll32.exe", "wmic.exe", "mshta.exe", "certutil.exe", "schtasks.exe")
+        AND NOT
+        (Processes.process_name="cmd.exe" AND Processes.process IN ("*\\VMware Tools\\poweroff-vm-default.bat*","*\\VMware Tools\\poweron-vm-default.bat*"))
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
