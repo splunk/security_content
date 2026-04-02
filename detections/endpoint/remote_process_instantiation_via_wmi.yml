@@ -1,7 +1,7 @@
 name: Remote Process Instantiation via WMI
 id: d25d2c3d-d9d8-40ec-8fdf-e86fe155a3da
-version: 16
-date: '2026-03-10'
+version: 17
+date: '2026-03-16'
 author: Mauricio Velazco, Splunk
 status: production
 type: TTP
@@ -62,6 +62,7 @@ tags:
         - Suspicious WMI Use
         - Salt Typhoon
         - Active Directory Lateral Movement
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1047

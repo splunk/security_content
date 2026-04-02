@@ -1,7 +1,7 @@
 name: CMD Carry Out String Command Parameter
 id: 54a6ed00-3256-11ec-b031-acde48001122
-version: 17
-date: '2026-02-25'
+version: 18
+date: '2026-03-26'
 author: Teoderick Contreras, Bhavin Patel, Splunk
 status: production
 type: Hunting
@@ -59,6 +59,7 @@ tags:
         - Log4Shell CVE-2021-44228
         - Interlock Rat
         - 0bj3ctivity Stealer
+        - Gh0st RAT
     asset_type: Endpoint
     cve:
         - CVE-2021-44228

@@ -1,7 +1,7 @@
 name: BCDEdit Failure Recovery Modification
 id: 809b31d2-5462-11eb-ae93-0242ac130002
-version: 12
-date: '2026-03-10'
+version: 13
+date: '2026-03-16'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -57,6 +57,7 @@ tags:
         - Compromised Windows Host
         - Ryuk Ransomware
         - Storm-2460 CLFS Zero Day Exploitation
+        - Void Manticore
     asset_type: Endpoint
     mitre_attack_id:
         - T1490

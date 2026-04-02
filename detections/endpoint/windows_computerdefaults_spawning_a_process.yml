@@ -47,6 +47,7 @@ rba:
 tags:
     analytic_story:
         - Castle RAT
+        - BlankGrabber Stealer
     asset_type: Endpoint
     mitre_attack_id:
         - T1548.002

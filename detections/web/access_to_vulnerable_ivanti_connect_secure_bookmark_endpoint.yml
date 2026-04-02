@@ -59,5 +59,5 @@ tests:
     - name: True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1190/ivanti/ivanti_bookmark_web_access.log
-          source: suricata
+          source: not_applicable
           sourcetype: suricata
