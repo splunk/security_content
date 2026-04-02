@@ -95,6 +95,17 @@ def _get_template_mapping(directory):
             except json.JSONDecodeError as e:
                 raise ValueError(f"File {file.name} contains invalid JSON: {e}")
 
+    # Validate that (template_name, version) pairs are unique
+    for template_name, template_list in template_to_file_mapping.items():
+        seen_versions = {}
+        for version, file in template_list:
+            if version in seen_versions:
+                raise ValueError(
+                    f"Duplicate version '{version}' for template '{template_name}': "
+                    f"found in both '{seen_versions[version].name}' and '{file.name}'"
+                )
+            seen_versions[version] = file
+
     # Sort each template's version list by version number (ascending order)
     for template_name in template_to_file_mapping:
         try:
