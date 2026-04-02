@@ -3,7 +3,7 @@ id: 92f65c3a-968c-11ed-a1eb-0242ac120002
 version: 8
 date: '2026-03-10'
 author: Abhinav Mishra, Kumar Sharad and Namratha Sreekanta, Splunk
-status: deprecated
+status: removed
 type: Anomaly
 description: The following analytic identifies suspicious DNS TXT records using a pre-trained deep learning model. It leverages DNS response data from the Network Resolution data model, categorizing TXT records into known types via regular expressions. Records that do not match known patterns are flagged as suspicious. This activity is significant as DNS TXT records can be used for data exfiltration or command-and-control communication. If confirmed malicious, attackers could use these records to covertly transfer data or receive instructions, posing a severe threat to network security.
 data_source: []
