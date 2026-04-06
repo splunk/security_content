@@ -71,8 +71,8 @@ def _get_template_mapping(directory):
     if not path.exists() or not path.is_dir():
         raise ValueError(f"The directory {directory} does not exist or is not a directory.")
 
-    # Check for non-JSON files (ignore hidden files like .DS_Store)
-    non_json_files = [f.name for f in path.iterdir() if f.is_file() and f.suffix != '.json' and not f.name.startswith('.')]
+    # Check for non-JSON files
+    non_json_files = [f.name for f in path.iterdir() if f.is_file() and f.suffix != '.json']
     if non_json_files:
         raise ValueError(f"Non-JSON files found in directory {directory}: {', '.join(non_json_files)}")
 
