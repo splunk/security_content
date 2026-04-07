@@ -22,8 +22,10 @@ import json
 import urllib.parse
 from pathlib import Path
 
-def _get_out_template_name(template_name):
-    return f"{urllib.parse.quote(template_name)}.json"
+def _get_out_template_name(template_name, quote=True):
+    if quote:
+        return f"{urllib.parse.quote(template_name)}.json"
+    return f"{template_name}.json"
 
 def generate_manifest(template_mapping, prefix, output_dir):
     # Code to generate the manifest file
@@ -118,7 +120,7 @@ def _get_template_mapping(directory):
 def merge_files(template_mapping, output_dir):
     try:
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
-            out_template_name = _get_out_template_name(template_name)
+            out_template_name = _get_out_template_name(template_name, quote=False)
 
             templates = []
             for _, file in template_list:
