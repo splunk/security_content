@@ -11,7 +11,7 @@ description: |
     This technique can be used by attackers to execute arbitrary commands through SSH proxy configurations, potentially enabling command & control activities or remote code execution. The detection focuses on commonly abused Windows scripting engines and web requests that may indicate malicious activity when spawned through SSH proxy commands.
 data_source:
     - Sysmon EventID 1
-    - Windows Event Log Security 4688
+    - CrowdStrike ProcessRollup2
 search: |-
     | tstats `security_content_summariesonly`
       count min(_time) as firstTime
