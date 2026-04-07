@@ -69,7 +69,7 @@ tags:
         - Splunk Enterprise
         - Splunk Enterprise Security
         - Splunk Cloud
-    security_domain: access
+    security_domain: endpoint
 tests:
     - name: True Positive Test
       attack_data:
