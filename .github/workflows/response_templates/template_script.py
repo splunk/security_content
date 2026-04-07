@@ -22,8 +22,11 @@ import json
 import urllib.parse
 from pathlib import Path
 
-def _get_out_template_name(template_name):
-    return f"{urllib.parse.quote(template_name)}.json"
+def _get_out_template_name(template_name, double_quote=False):
+    quoted_template_name = urllib.parse.quote(template_name)
+    if double_quote:
+        return f"{urllib.parse.quote(quoted_template_name)}.json"
+    return f"{quoted_template_name}.json"
 
 def generate_manifest(template_mapping, prefix, output_dir):
     # Code to generate the manifest file
@@ -34,7 +37,7 @@ def generate_manifest(template_mapping, prefix, output_dir):
     }
     try:
         for template_name, template_list in sorted(template_mapping.items(), key=lambda x: x[0]):
-            out_template_name = _get_out_template_name(template_name)
+            out_template_name = _get_out_template_name(template_name, double_quote=True)
             curr_template_name = template_name
 
             templates_version= []
