@@ -43,8 +43,8 @@ search: |
         "*/mp*"
     )
     Processes.process IN (
-        "* ls*",
         "* keyiso*",
+        "* ls*",
         "* samss*"
     )
 
