@@ -12,8 +12,17 @@ data_source:
     - Windows Event Log Security 4688
     - CrowdStrike ProcessRollup2
 search: |-
-    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes WHERE
-    Processes.process_name="arp.exe"
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    FROM datamodel=Endpoint.Processes WHERE
+
+    (
+        Processes.process_name="arp.exe"
+        OR
+        Processes.process_original_file_name="arp.exe"
+    )
     Processes.process IN (
         "* -a*",
         "* -g *",
