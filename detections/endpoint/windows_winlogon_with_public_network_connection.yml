@@ -1,7 +1,7 @@
 name: Windows WinLogon with Public Network Connection
 id: 65615b3a-62ea-4d65-bb9f-6f07c17df4ea
-version: 10
-date: '2026-02-25'
+version: 11
+date: '2026-04-09'
 author: Michael Haag, Splunk
 status: production
 type: Hunting
@@ -21,12 +21,13 @@ search: |-
     | `drop_dm_object_name(Processes)`
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
-    | join process_id [
+    | join process_id dest [
     | tstats `security_content_summariesonly` count FROM datamodel=Network_Traffic.All_Traffic
       WHERE All_Traffic.dest_port != 0 NOT (All_Traffic.dest IN (127.0.0.1,10.0.0.0/8,172.16.0.0/12, 192.168.0.0/16, 0:0:0:0:0:0:0:1))
-      BY All_Traffic.process_id All_Traffic.dest All_Traffic.dest_port
+      BY All_Traffic.process_id All_Traffic.src All_Traffic.dest All_Traffic.dest_port
     | `drop_dm_object_name(All_Traffic)`
-    | rename dest as publicIp ]
+    | rename dest as publicIp
+    | rename src as dest ]
     | table dest parent_process_name process_name process_path process process_id dest_port publicIp
     | `windows_winlogon_with_public_network_connection_filter`
 how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
