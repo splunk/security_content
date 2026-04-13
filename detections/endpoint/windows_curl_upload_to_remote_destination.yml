@@ -1,7 +1,7 @@
 name: Windows Curl Upload to Remote Destination
 id: 42f8f1a2-4228-11ec-aade-acde48001122
-version: 15
-date: '2026-03-10'
+version: 16
+date: '2026-03-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -68,6 +68,7 @@ tags:
         - Microsoft WSUS CVE-2025-59287
         - NPM Supply Chain Compromise
         - PromptLock
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1105
