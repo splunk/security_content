@@ -1,7 +1,7 @@
 name: Powershell Fileless Script Contains Base64 Encoded Content
 id: 8acbc04c-c882-11eb-b060-acde48001122
-version: 17
-date: '2026-03-10'
+version: 18
+date: '2026-03-31'
 author: Michael Haag, Splunk
 status: production
 type: TTP
@@ -62,6 +62,7 @@ tags:
         - Microsoft WSUS CVE-2025-59287
         - NetSupport RMM Tool Abuse
         - MuddyWater
+        - Axios Supply Chain Post Compromise
     mitre_attack_id:
         - T1027
         - T1059.001

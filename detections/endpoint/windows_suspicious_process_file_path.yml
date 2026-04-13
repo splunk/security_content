@@ -1,7 +1,7 @@
 name: Windows Suspicious Process File Path
 id: ecddae4e-3d4b-41e2-b3df-e46a88b38521
-version: 21
-date: '2026-03-16'
+version: 22
+date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: TTP
@@ -92,6 +92,7 @@ tags:
         - Castle RAT
         - SesameOp
         - Void Manticore
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1543
