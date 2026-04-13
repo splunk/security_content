@@ -9,7 +9,7 @@ description: |
     The following analytic detects AMOS Stealer VM check activity on macOS. It leverages osquery to monitor process events and identifies the execution of the "osascript" command along with specific commandline strings. This activity is significant
     as AMOS stealer was seen using this pattern in order to check if the host is a Virtual Machine or not. If confirmed malicious, this behavior indicate that the host is already infected by the AMOS stealer, which could allow attackers to execute arbitrary code, escalate privileges, steal information, or persist within the environment, posing a significant security risk.
 data_source:
-    - osquery
+    - Osquery Results
 search: |
     `osquery_macro` name=es_process_events
     columns.cmdline="*osascript*" AND columns.cmdline="* -e *" AND columns.cmdline="*set*" AND columns.cmdline="*system_profiler*" AND columns.cmdline IN ("*VMware*", "*QEMU*")

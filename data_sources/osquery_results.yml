@@ -1,7 +1,7 @@
-name: osquery
+name: Osquery Results 
 id: 7ec4d7c8-c1d0-423a-9169-261f6adb74c0
-version: 2
-date: '2025-01-23'
+version: 3
+date: '2026-04-13'
 author: Patrick Bareiss, Splunk
 description: Logs system queries performed using osquery, including details about
   processes, file access, network activity, and system configurations.
