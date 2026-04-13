@@ -18,7 +18,15 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-    Processes.process IN ("dd *","*split *")
+    (
+        Processes.process = "dd *"
+         Processes.process = "* if=*"
+    )
+    OR
+    (
+        Processes.process = "*split *"
+        Processes.process="* -b *"
+    )
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
@@ -38,6 +46,8 @@ known_false_positives: |-
     Administrator or network operator can use this application for automation purposes. Please update the filter macros to remove false positives.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://ss64.com/mac/dd.html
+    - https://ss64.com/mac/split.html
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -48,14 +58,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: A file was split on $dest$ by $user$
+    message: A file was split on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
-          score: 49
+          score: 20
         - field: dest
           type: system
-          score: 49
+          score: 20
     threat_objects:
         - field: process
           type: process

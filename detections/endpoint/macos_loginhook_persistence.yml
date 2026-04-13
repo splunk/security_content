@@ -40,6 +40,7 @@ known_false_positives: |-
     This method is possibly still used by legacy enterprise management scripts. Update filter macro to remove false positives.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://www.loobins.io/binaries/defaults/
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -50,14 +51,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Loginhook created on $dest$ by $user$
+    message: Loginhook created on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
-          score: 75
+          score: 50
         - field: dest
           type: system
-          score: 75
+          score: 50
     threat_objects:
         - field: process
           type: process

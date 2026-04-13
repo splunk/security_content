@@ -45,6 +45,8 @@ known_false_positives: |-
     Administrators or power users may need to disable Gatekeeper to install unsigned tools.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://ss64.com/mac/xattr.html
+    - https://ss64.com/mac/spctl.html
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'

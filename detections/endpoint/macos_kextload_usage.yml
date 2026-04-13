@@ -19,6 +19,13 @@ search: |-
 
     Processes.process_name = "kextload"
 
+    AND NOT
+
+    Processes.process IN (
+        "*-help*",
+        "* -h *"
+    )
+
     by Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
        Processes.process_hash Processes.process_id
@@ -37,6 +44,7 @@ known_false_positives: |-
     Administrators installing new drivers could use this application.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://www.unix.com/man_page/osx/8/kextload/
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -47,7 +55,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Possible kernel extension loaded on $dest$ by $user$
+    message: Possible kernel extension loaded on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user

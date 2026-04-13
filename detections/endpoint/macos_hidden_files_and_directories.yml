@@ -21,7 +21,8 @@ search: |-
     OR
     (
         Processes.process="*xattr *"
-        Processes.process="* -c *"
+        Processes.process="* -wx *"
+        Processes.process="*com.apple.FinderInfo*"
     )
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
@@ -42,6 +43,8 @@ known_false_positives: |-
     Power users or developers utilizing build tools or CI/CD tools could trigger this activity.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://ss64.com/mac/chflags.html
+    - https://ss64.com/mac/xattr.html
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -52,14 +55,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Attempt to hide files on $dest$ by $user$
+    message: Attempt to hide files on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
-          score: 35
+          score: 20
         - field: dest
           type: system
-          score: 35
+          score: 20
     threat_objects:
         - field: process
           type: process

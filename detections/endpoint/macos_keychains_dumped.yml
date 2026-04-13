@@ -17,7 +17,12 @@ search: |-
 
     from datamodel=Endpoint.Processes where
 
-    Processes.process IN ("*/library/keychains*","*keychaindump*")
+    Processes.process IN (
+        "*dump-keychain -d*",
+        "*keychaindump*"
+    )
+
+    Processes.process="*/library/keychains*"
 
     by Processes.dest Processes.original_file_name Processes.parent_process_id
        Processes.process Processes.process_exec Processes.process_guid
@@ -37,6 +42,8 @@ known_false_positives: |-
     Administrators accessing keychain files for troubleshooting or endpoint management.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://gist.github.com/hfeeki/88c12f01d00534e09a84
+    - https://ss64.com/mac/security-keychain-settings.html
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -47,14 +54,14 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Keychains dumped on $dest$ by $user$
+    message: Keychains dumped on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
-          score: 55
+          score: 50
         - field: dest
           type: system
-          score: 55
+          score: 50
     threat_objects: []
 tags:
     analytic_story:

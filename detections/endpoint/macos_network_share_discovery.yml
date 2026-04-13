@@ -36,6 +36,8 @@ known_false_positives: |-
     Administrators may utilize these tools occasionaly for troubleshooting.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://leopard-adc.pepas.com/documentation/Darwin/Reference/ManPages/man8/showmount.8.html
+    - https://www.unix.com/man_page/osx/1/smbutil/
 drilldown_searches:
     - name: View the detection results for - "$user$" and "$dest$"
       search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
@@ -46,7 +48,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Network share information enumerated on $dest$ by $user$
+    message: Network share information enumerated on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
