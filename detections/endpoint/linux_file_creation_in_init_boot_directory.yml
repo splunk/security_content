@@ -18,7 +18,7 @@ search: |-
 
     FROM datamodel=Endpoint.Filesystem WHERE
 
-    Filesystem.action = "created"
+    Filesystem.action  IN ("created", "modified")
     Filesystem.file_path IN (
         "*/etc/init.d/*",
         "*/etc/rc.d/*",
