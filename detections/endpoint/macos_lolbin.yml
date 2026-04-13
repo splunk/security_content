@@ -15,14 +15,15 @@ search: |-
     `osquery_macro`
     name=es_process_events
     columns.cmdline IN (
-        "find*",
+        "chmod*",
         "crontab*",
-        "screencapture*",
-        "openssl*",
         "curl*",
-        "wget*",
+        "find*",
+        "funzip*",
         "killall*",
-        "funzip*"
+        "openssl*",
+        "screencapture*",
+        "wget*",
     )
     | rename columns.* as *
     | stats count min(_time) as firstTime
@@ -73,6 +74,7 @@ tags:
     analytic_story:
         - Living Off The Land
         - Hellcat Ransomware
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.004

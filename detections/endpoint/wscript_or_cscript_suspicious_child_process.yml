@@ -1,7 +1,7 @@
 name: Wscript Or Cscript Suspicious Child Process
 id: 1f35e1da-267b-11ec-90a9-acde48001122
-version: 13
-date: '2026-03-24'
+version: 14
+date: '2026-03-31'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -60,6 +60,7 @@ tags:
         - ShrinkLocker
         - 0bj3ctivity Stealer
         - MuddyWater
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1055
