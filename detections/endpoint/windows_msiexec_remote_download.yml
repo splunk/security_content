@@ -1,10 +1,10 @@
 name: Windows MSIExec Remote Download
 id: 6aa49ff2-3c92-4586-83e0-d83eb693dfda
-version: 14
-date: '2026-03-10'
+version: 15
+date: '2026-04-08'
 author: Michael Haag, Splunk
 status: production
-type: TTP
+type: Anomaly
 description: |
     The following analytic detects the use of msiexec.exe with an HTTP or
     HTTPS URL in the command line, indicating a remote file download attempt. This detection
@@ -61,10 +61,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 50
+          score: 30
         - field: dest
           type: system
-          score: 50
+          score: 30
     threat_objects:
         - field: parent_process_name
           type: parent_process_name

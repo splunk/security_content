@@ -16,7 +16,7 @@ search: |-
         AND
         (Processes.process = "*sl*"
         OR
-        Processes.process = "*set-log*" ) Processes.process = "*/e:false*"
+        Processes.process = "*set-log*" ) Processes.process IN ("*/e:false*", "*/enabled:false*")
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path

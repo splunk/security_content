@@ -1,7 +1,7 @@
 name: Regsvr32 Silent and Install Param Dll Loading
 id: f421c250-24e7-11ec-bc43-acde48001122
-version: 11
-date: '2026-03-10'
+version: 12
+date: '2026-04-07'
 author: Teoderick Contreras, Splunk
 status: production
 type: Anomaly
@@ -14,7 +14,7 @@ search: |-
     | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime FROM datamodel=Endpoint.Processes
       WHERE `process_regsvr32`
         AND
-        Processes.process="*/i*"
+        Processes.process="*/i*" AND NOT Processes.process="*Microsoft\\TeamsMeetingAddin*"
       BY Processes.action Processes.dest Processes.original_file_name
          Processes.parent_process Processes.parent_process_exec Processes.parent_process_guid
          Processes.parent_process_id Processes.parent_process_name Processes.parent_process_path
