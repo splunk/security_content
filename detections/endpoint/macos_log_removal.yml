@@ -5,12 +5,45 @@ date: '2026-02-27'
 author: Raven Tait, Splunk
 status: production
 type: TTP
-description: Detects the deletion or modification of logs on MacOS systems by identifying execution of the rm command with command-line arguments referencing system.log or audit-related paths. Adversaries may remove or alter log files to cover their tracks and hinder detection and forensic analysis. This behavior commonly occurs during post-exploitation cleanup.
+description: |-
+    Detects the deletion or modification of logs on MacOS systems by identifying execution of the rm command with command-line arguments referencing system.log or audit-related paths.
+    Adversaries may remove or alter log files to cover their tracks and hinder detection and forensic analysis. This behavior commonly occurs during post-exploitation cleanup.
 data_source:
     - Osquery Results
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process = "*rm *" AND Processes.process = "*system.log*") OR (Processes.process = "*audit*" AND Processes.process = "* -s *" AND Processes.process = "*system.log*") by Processes.dest Processes.original_file_name Processes.parent_process_id Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_current_directory Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `macos_log_removal_filter`'
-how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery. Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: Legitimate log rotation or administrative cleanup of system or audit logs.
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process = "*system.log*"
+    AND
+    (
+        (Processes.process = "*rm *")
+        OR
+        (
+            Processes.process = "*audit*"
+            Processes.process = "* -s *"
+        )
+    )
+
+    by Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_log_removal_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Legitimate log rotation or administrative cleanup of system or audit logs.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 drilldown_searches:

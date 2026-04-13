@@ -5,12 +5,35 @@ date: '2026-03-02'
 author: Raven Tait, Splunk
 status: production
 type: Anomaly
-description: Identifies execution of network share enumeration commands (smbutil, showmount) that can be leveraged by adversaries to discover accessible SMB and NFS resources, supporting internal reconnaissance and potential lateral movement.
+description: |-
+    Identifies execution of network share enumeration commands (smbutil, showmount) that can be leveraged by adversaries to discover accessible SMB and NFS resources, supporting internal reconnaissance and potential lateral movement.
 data_source:
     - Osquery Results
-search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where Processes.process = "*showmount *" OR Processes.process = "*smbutil *" by Processes.dest Processes.original_file_name Processes.parent_process_id Processes.process Processes.process_exec Processes.process_guid Processes.process_hash Processes.process_id Processes.process_current_directory Processes.process_name Processes.process_path Processes.user Processes.user_id Processes.vendor_product | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)` | `macos_network_share_discovery_filter`'
-how_to_implement: This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery. Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
-known_false_positives: Administrators may utilize these tools occasionaly for troubleshooting.
+search: |-
+    | tstats `security_content_summariesonly`
+      count min(_time) as firstTime
+            max(_time) as lastTime
+
+    from datamodel=Endpoint.Processes where
+
+    Processes.process IN ("*showmount *", "*smbutil *")
+
+    by Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_network_share_discovery_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Administrators may utilize these tools occasionaly for troubleshooting.
 references:
     - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
 drilldown_searches:
@@ -27,10 +50,10 @@ rba:
     risk_objects:
         - field: user
           type: user
-          score: 18
+          score: 20
         - field: dest
           type: system
-          score: 18
+          score: 20
     threat_objects:
         - field: process
           type: process
