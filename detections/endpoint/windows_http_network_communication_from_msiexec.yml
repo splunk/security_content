@@ -31,7 +31,7 @@ search: |-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
 
-    | join process_id dest [
+    | join process_id [
         | tstats `security_content_summariesonly`
           count
 
@@ -48,7 +48,6 @@ search: |-
            All_Traffic.process_id
 
         | `drop_dm_object_name(All_Traffic)`
-        | rename src as dest
     ]
     | table _time user dest parent_process_name process_name
             process_path process process_id dest_port dest_ip
