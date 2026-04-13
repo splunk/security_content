@@ -57,7 +57,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: Attempt to bypass gatekeeper protections on $dest$ by $user$
+    message: Attempt to bypass gatekeeper protections on $dest$ by $user$ via $process$
     risk_objects:
         - field: user
           type: user
