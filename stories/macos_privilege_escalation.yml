@@ -1,0 +1,27 @@
+name: MacOS Privilege Escalation
+id: 67f1ebd1-7a3c-4e9b-bb74-9656425db3c4
+version: 1
+status: production
+date: '2026-02-26'
+author: Raven Tait, Splunk
+description: Monitor for and investigate activities that may be associated with a
+  MacOS privilege-escalation attack, including unusual processes running on endpoints,
+  schedule task, services, setuid, root execution and more.
+narrative: 'Privilege escalation is a "land-and-expand" technique, wherein an adversary
+  gains an initial foothold on a host and then exploits its weaknesses to increase
+  his privileges. The motivation is simple: certain actions on a MacOS machine--such
+  as installing software--may require higher-level privileges than those the attacker
+  initially acquired. By increasing his privilege level, the attacker can gain the
+  control required to carry out his malicious ends. This Analytic Story provides searches
+  to detect and investigate behaviors that attackers may use to elevate their privileges
+  in your environment.'
+references:
+- https://attack.mitre.org/tactics/TA0004/
+tags:
+  category:
+  - Adversary Tactics
+  product:
+  - Splunk Enterprise
+  - Splunk Enterprise Security
+  - Splunk Cloud
+  usecase: Advanced Threat Detection

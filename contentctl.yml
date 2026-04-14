@@ -92,7 +92,7 @@ apps:
   version: 1.3.0
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/splunk-add-on-for-microsoft-iis_130.tgz
-- uid: 4242
+- uid: 6994
   title: CCX Add-on for Suricata
   appid: SPLUNK_TA_FOR_SURICATA
   version: 1.0.1
@@ -250,6 +250,12 @@ apps:
   version: 0.1.2
   description: description of app
   hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/mcp-ta_012.tgz
+- uid: 8574
+  title: TA-osquery
+  appid: ta-osquery
+  version: 1.0.4
+  description: description of app
+  hardcoded_path: https://attack-range-appbinaries.s3.us-west-2.amazonaws.com/ta-osquery_104.tgz
 githash: d6fac80e6d50ae06b40f91519a98489d4ce3a3fd
 test_data_caches:
 - base_url: https://media.githubusercontent.com/media/splunk/attack_data/master/
