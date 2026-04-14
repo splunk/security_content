@@ -9,7 +9,7 @@ description: The following analytic detects multiple executions of Living off th
 data_source:
     - osquery
 search: |-
-    `osquery_macro` name=es_process_events columns.cmdline IN ("find*", "crontab*", "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*")
+    `osquery_macro` name=es_process_events columns.cmdline IN ("find*", "crontab*", "screencapture*", "openssl*", "curl*", "wget*", "killall*", "funzip*", "chmod*")
       | rename columns.* as *
       | stats  min(_time) as firstTime max(_time) as lastTime values(cmdline) as cmdline, values(pid) as pid, values(parent) as parent, values(path) as path, values(signing_id) as signing_id,  dc(path) as dc_path
         BY username host
@@ -45,6 +45,7 @@ tags:
     analytic_story:
         - Living Off The Land
         - Hellcat Ransomware
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1059.004

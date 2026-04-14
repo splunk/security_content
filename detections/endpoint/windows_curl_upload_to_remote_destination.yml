@@ -68,6 +68,7 @@ tags:
         - Microsoft WSUS CVE-2025-59287
         - NPM Supply Chain Compromise
         - PromptLock
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1105

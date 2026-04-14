@@ -115,7 +115,7 @@ drilldown_searches:
       earliest_offset: 7d
       latest_offset: 0
 rba:
-    message: An instance of [$parent_process_path] launched [$process_name$] loading a non-standard DLL extension [$process$] in host [$dest$]
+    message: An instance of [$parent_process_path$] launched [$process_name$] loading a non-standard DLL extension [$process$] in host [$dest$]
     risk_objects:
         - field: dest
           type: system

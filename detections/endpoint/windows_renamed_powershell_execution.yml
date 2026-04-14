@@ -65,6 +65,7 @@ tags:
     analytic_story:
         - XWorm
         - Hellcat Ransomware
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1036.003

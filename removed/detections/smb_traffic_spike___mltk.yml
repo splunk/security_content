@@ -3,7 +3,7 @@ id: d25773ba-9ad8-48d1-858e-07ad0bbeb828
 version: 11
 date: '2026-03-10'
 author: Rico Valdez, Splunk
-status: deprecated
+status: removed
 type: Anomaly
 description: The following analytic identifies spikes in the number of Server Message Block (SMB) connections using the Machine Learning Toolkit (MLTK). It leverages the Network_Traffic data model to monitor SMB traffic on ports 139 and 445, applying a machine learning model to detect anomalies. This activity is significant because sudden increases in SMB traffic can indicate lateral movement or data exfiltration attempts by attackers. If confirmed malicious, this behavior could lead to unauthorized access, data theft, or further compromise of the network.
 data_source: []

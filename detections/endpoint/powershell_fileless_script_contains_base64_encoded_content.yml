@@ -62,6 +62,7 @@ tags:
         - Microsoft WSUS CVE-2025-59287
         - NetSupport RMM Tool Abuse
         - MuddyWater
+        - Axios Supply Chain Post Compromise
     mitre_attack_id:
         - T1027
         - T1059.001

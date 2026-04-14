@@ -92,6 +92,7 @@ tags:
         - Castle RAT
         - SesameOp
         - Void Manticore
+        - Axios Supply Chain Post Compromise
     asset_type: Endpoint
     mitre_attack_id:
         - T1543
