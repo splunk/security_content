@@ -1,0 +1,85 @@
+name: MacOS Hidden Files and Directories
+id: 51c43b7b-e406-45d2-9bad-5c67f07e6528
+version: 1
+date: '2026-02-26'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: |-
+    The following analytic detects suspicious creation of hidden files and directories, which may indicate an attacker's attempt to conceal malicious activities or unauthorized data.
+    Hidden files and directories are often used to evade detection by security tools and administrators, providing a stealthy means for storing malware, logs, or sensitive information.
+    By monitoring for unusual or unauthorized creation of hidden files and directories, this analytic helps identify potential attempts to hide or unauthorized creation of hidden files and directories, and helps identify potential attempts to hide malicious operations, enabling security teams to uncover and address hidden threats effectively.
+data_source:
+    - Osquery Results
+search: |-
+    | tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where
+
+    (
+        Processes.process="*chflags *"
+        Processes.process="* hidden*"
+    )
+    OR
+    (
+        Processes.process="*xattr *"
+        Processes.process="* -wx *"
+        Processes.process="*com.apple.FinderInfo*"
+    )
+
+    by Processes.dest Processes.original_file_name Processes.parent_process_id
+       Processes.process Processes.process_exec Processes.process_guid
+       Processes.process_hash Processes.process_id
+       Processes.process_current_directory Processes.process_name
+       Processes.process_path Processes.user
+       Processes.user_id Processes.vendor_product
+
+    | `drop_dm_object_name(Processes)`
+    | `security_content_ctime(firstTime)`
+    | `security_content_ctime(lastTime)`
+    | `macos_hidden_files_and_directories_filter`
+how_to_implement: |-
+    This detection uses osquery and endpoint security on MacOS. Follow the link in references, which describes how to setup process auditing in MacOS with endpoint security and osquery.
+    Also the [TA-OSquery](https://splunkbase.splunk.com/app/8574) must be deployed across your indexers and universal forwarders in order to have the osquery data populate the data models.
+known_false_positives: |-
+    Power users or developers utilizing build tools or CI/CD tools could trigger this activity.
+references:
+    - https://osquery.readthedocs.io/en/stable/deployment/process-auditing/
+    - https://ss64.com/mac/chflags.html
+    - https://ss64.com/mac/xattr.html
+drilldown_searches:
+    - name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+    - name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+      earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+rba:
+    message: Attempt to hide files on $dest$ by $user$ via $process$
+    risk_objects:
+        - field: user
+          type: user
+          score: 20
+        - field: dest
+          type: system
+          score: 20
+    threat_objects:
+        - field: process
+          type: process
+tags:
+    analytic_story:
+        - MacOS Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1564.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1564.001/osquery_hidden_files/osquery.log
+          source: osquery
+          sourcetype: osquery:results
