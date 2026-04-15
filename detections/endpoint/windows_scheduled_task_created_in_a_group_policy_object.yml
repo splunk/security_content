@@ -1,0 +1,53 @@
+name: Windows Scheduled task created in a Group Policy Object
+id: 350032cd-3d3f-4278-afc8-e01cf5c33524
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: 'When a scheduled task is created within a Group Policy, a characteristic file ScheduledTasks.xml with its definition is created in the respective subfolder of the SYSVOL share. This rule can hit on legitimate GPO scheduled task creation, but this does not happen often and is therefore an effective way to monitor for malicious scheduled tasks.
+
+'
+data_source:
+    - Windows Event Log Security 5145
+search: '`wineventlog_security` EventID=5145 ShareName="\\*\\SYSVOL" RelativeTargetName="*\\ScheduledTasks\\ScheduledTasks.xml" RelativeTargetName="*\\Policies\\*" AccessList IN ("*%%4417*", "*%%4418*") | fillnull | stats count by Computer, ShareName, RelativeTargetName, AccessList| rename Computer as dest | `security_content_ctime(firstTime)`|`security_content_ctime(lastTime)` | `windows_scheduled_task_created_in_a_group_policy_object_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate scheduled tasks are occasionally created via Group Policy Objects in managed environments. Filter alerts for approved GPO deployments to reduce false positives.
+references:
+    - https://docs.microsoft.com/en-us/windows/security/threat-protection/auditing/event-5145
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Scheduled task created in a Group Policy Object activity observed on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Scheduled Tasks
+        - Windows Persistence Techniques
+        - Living Off The Land
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1484.001
+        - T1053.005
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1484.001/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
