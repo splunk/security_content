@@ -16,7 +16,6 @@ data_source:
 search: |
     | tstats `security_content_summariesonly`
       count
-      values(Processes.process) as process
       values(Processes.parent_process) AS parent_process
       values(Processes.parent_process_exec) AS parent_process_exec
       values(Processes.parent_process_id) AS parent_process_id
@@ -62,7 +61,7 @@ drilldown_searches:
       earliest_offset: $info_min_time$
       latest_offset: $info_max_time$
 rba:
-    message: MacOS firewall rules listed via $process$ by $user$ on $dest$ using $process$
+    message: MacOS firewall rules listed via $process_name$ by $user$ on $dest$ using the command line $process$
     risk_objects:
         - field: dest
           type: system
@@ -76,7 +75,7 @@ rba:
         - field: process_name
           type: process_name
         - field: process
-          type: process
+          type: command
 tags:
     analytic_story:
         - Network Discovery
