@@ -69,8 +69,8 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1110.001/rdp_brute_sysmon/sysmon.log
           source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
           sourcetype: XmlWinEventLog
-    - name: True Positive Test - Cisco Secure Access Firewall
+    - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/rdp_brute_force.log
-          source: not_applicable
+          source: cisco_cloud_security_addon
           sourcetype: cisco:cloud_security:firewall

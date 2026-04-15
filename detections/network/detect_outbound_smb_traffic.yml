@@ -73,8 +73,8 @@ tests:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_firewall_threat_defense/connection_event/connection_events.log
           source: not_applicable
           sourcetype: cisco:sfw:estreamer
-    - name: Cisco Secure Firewall True Positive Test
+    - name: Cisco Secure Access Firewall True Positive Test
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/smb.log
-          source: not_applicable
-          sourcetype: cisco:sfw:estreamer
+          source: cisco_cloud_security_addon
+          sourcetype: cisco:secure_access:firewall
