@@ -1,0 +1,50 @@
+name: Windows POWERSTATS Backdoor Files
+id: 74abef41-fd14-4eed-892b-80804f13d963
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: 'Detects creation of hardcoded POWERSTATS backdoor staging files on disk, WindowsDefenderService.ini, EventManager.dll, and EventManager.logs under C:\ProgramData, indicating an active MuddyWater intrusion on the affected host.
+
+    Once executed, POWERSTATS drops encoded components to C:\ProgramData using filenames designed to blend with legitimate Windows services. These files contain encoded backdoor components and configuration material including C2 communication channels. POWERSTATS then establishes persistence and begins beaconing to attacker-controlled PHP-based C2 infrastructure, supporting commands for credential harvesting (via LaZagne and Mimikatz), screenshot capture, arbitrary command execution, and second-stage payload delivery via POWERSTATS '
+data_source:
+    - Sysmon EventID 11
+search: '`sysmon` EventID=11 EventDescription="FileCreate" TargetFilename IN ("C:\\ProgramData\\WindowsDefenderService.ini", "C:\\ProgramData\\EventManager.dll", "C:\\ProgramData\\EventManager.logs") | fillnull | stats count by Computer, EventID, EventDescription, TargetFilename, action, file_name, file_path, process_guid, process_id, user, vendor_product | rename Computer as dest| `security_content_ctime(firstTime)` |`security_content_ctime(lastTime)`| `windows_powerstats_backdoor_files_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate security tools or system monitoring scripts may create similar encoded files. Verify and allow files from trusted sources to reduce false alerts.
+references:
+    - https://www.cisa.gov/uscert/sites/default/files/publications/AA22-055A_Iranian_Government-Sponsored_Actors_Conduct_Cyber_Operations.pdf
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential POWERSTATS Backdoor Files activity observed on $dest$ via $process$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Compromised Windows Host
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1219
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1219/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
