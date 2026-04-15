@@ -1,0 +1,52 @@
+name: Windows Possible Cloudflare Tunnel
+id: 2e29b58e-0f5a-42fc-b435-0fdce8862831
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: "This detects command line arguments associated with the Cloudflared tool used to create tunnels via CloudFlare. Cloudflared is functionally very similar to ngrok, an ingress-as-a-service tool. Cloudflared reaches out to the Cloudflare Edge Servers, creating an outbound connection over HTTPS(HTTP2/QUIC), where the tunnel's controller makes services or private networks accessible."
+data_source:
+    - Sysmon EventID 1
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Processes where (Processes.process="*tunnel*" Processes.process="*run*" Processes.process="*token*") OR (Processes.process="*tunnel*" Processes.process="*--url*" Processes.process="*localhost*") by Processes.process Processes.vendor_product Processes.user_id Processes.process_hash Processes.parent_process_name Processes.parent_process_exec Processes.action Processes.dest Processes.process_current_directory Processes.process_path Processes.process_integrity_level Processes.original_file_name Processes.parent_process Processes.parent_process_path Processes.parent_process_guid Processes.parent_process_id Processes.process_guid Processes.process_id Processes.user Processes.process_name | `drop_dm_object_name(Processes)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_possible_cloudflare_tunnel_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate use cases include authorized DevOps or IT teams using Cloudflared for secure remote access and network management. Filter alerts based on approved usage and trusted users.
+references:
+    - https://www.guidepointsecurity.com/blog/tunnel-vision-cloudflared-abused-in-the-wild/
+    - https://github.com/cloudflare/cloudflared
+    - https://www-bleepingcomputer-com.cdn.ampproject.org/c/s/www.bleepingcomputer.com/news/security/hackers-increasingly-abuse-cloudflare-tunnels-for-stealthy-connections/amp/
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Possible Cloudflare Tunnel activity observed on $dest$ via $process$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects:
+        - field: parent_process_name
+          type: process
+tags:
+    analytic_story:
+        - Reverse Network Proxy
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1572
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1572/snapattack/snapattack.log
+          source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog

@@ -1,0 +1,47 @@
+name: Windows Possible Cobalt Strike Powershell Loader
+id: a6351724-06dc-42dd-939f-679add826e76
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: TTP
+description: "Detects the powershell pattern used at the end of a Cobalt Strike powershell loader to perform the decompression of the executable. This loader is used in attacks such as scripted web delivery. Cobalt Strike is a legitimate, commercial penetration testing tool that has been largely co-opted by ransomware gangs to launch attacks. Cobalt Strike's popularity is mainly due to its beacons or payload being stealthy, and easily customizable. Cobalt Strike Beacon provides encrypted communication with the C&C server to send information and receive commands."
+data_source:
+    - Powershell Script Block Logging 4104
+search: '`powershell` (EventID="*4104" ScriptBlockText="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();") OR (EventData_Xml="*));IEX (New-Object IO.StreamReader(New-Object IO.Compression.GzipStream($s,[IO.Compression.CompressionMode]::Decompress))).ReadToEnd();*" EventID="4104") | fillnull | stats count by Computer, EventID, ScriptBlockText, EventData_Xml, dest, signature, signature_id, user_id, vendor_product, Guid, Opcode, Name, Path, ProcessID, ScriptBlockId| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_possible_cobalt_strike_powershell_loader_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate penetration testing activities and authorized red team exercises may use this PowerShell loader pattern. Verify and whitelist approved security testing tools to reduce false alerts.
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Possible Cobalt Strike Powershell Loader activity observed on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Cobalt Strike
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1608
+        - T1059.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1608/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-PowerShell/Operational
+          sourcetype: XmlWinEventLog

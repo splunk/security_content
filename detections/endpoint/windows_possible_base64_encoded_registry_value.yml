@@ -1,0 +1,49 @@
+name: Windows Possible Base64 Encoded Registry Value
+id: 70009ab6-8d19-49ca-b21b-7ab9c05f1e91
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: 'Detects registry values ending in "=" commonly seen when base64 encoding data. Malicious actors will sometimes store actions in registry keys and use encoding to obfuscate their functions. This won''t catch all base64 encoded data since they don''t always end in "=". False positives should be unlikely.
+
+'
+data_source:
+    - Sysmon EventID 13
+search: '`sysmon` EventID IN (12, 13, 14) registry_value_data="*=" NOT (TargetObject IN ("*FileExts*", "*GoToAssist*")) | fillnull | stats count by Computer, EventID, TargetObject, registry_value_data, dest, action, process_guid, process_id, registry_hive, registry_path, registry_key_name, registry_value_name, status, user, vendor_product| `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_possible_base64_encoded_registry_value_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate applications may store base64 encoded data in the registry for configuration or data purposes. False positives are expected to be rare but review any alerts in context.
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: Potential Possible Base64 Encoded Registry Value activity observed on $dest$.
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - Suspicious Windows Registry Activities
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1112
+        - T1001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1112/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
