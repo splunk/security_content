@@ -40,6 +40,8 @@ known_false_positives: |-
     This action is typically used for offboarding endpoints or in response to a lost or stolen device.
 references:
     - https://www.lumos.com/blog/stryker-hack
+    - https://www.covertswarm.com/post/swarm-intelligence-strykers-intune-wipe-proves-your-bcdr-plan-has-a-single-point-of-failure
+    - https://www.wwt.com/blog/how-the-stryker-intune-wipe-incident-highlights-a-critical-gap-in-endpoint-control
 drilldown_searches:
     - name: View the detection results for - "$user$"
       search: '%original_detection_search% | search  user = "$user$"'
