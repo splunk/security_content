@@ -77,4 +77,4 @@ tests:
       attack_data:
         - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/cisco_secure_access/firewall/smb.log
           source: cisco_cloud_security_addon
-          sourcetype: cisco:secure_access:firewall
+          sourcetype: cisco:cloud_security:firewall

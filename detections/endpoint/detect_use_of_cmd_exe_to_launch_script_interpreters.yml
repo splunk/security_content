@@ -46,16 +46,6 @@ search: |-
        Processes.process_name Processes.process_path Processes.user
        Processes.user_id Processes.vendor_product
     | `drop_dm_object_name("Processes")`
-
-    | where like(process, "%\\Users\\%")
-      OR like(process, "%\\AppData\\%")
-      OR like(process, "%\\Temp\\%")
-
-    | where NOT like(process, "%\\Windows\\System32\\%")
-    | where NOT like(process, "%\\Program Files\\%")
-
-    | where NOT match(user, ".*\\$$")
-
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
     | `detect_use_of_cmd_exe_to_launch_script_interpreters_filter`
