@@ -3,7 +3,7 @@ app:
   uid: 3449
   title: ES Content Updates
   appid: DA-ESS-ContentUpdate
-  version: 5.25.0
+  version: 5.25.1
   description: Explore the Analytic Stories included with ES Content Updates.
   prefix: ESCU
   label: ESCU
