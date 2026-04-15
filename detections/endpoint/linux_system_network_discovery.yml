@@ -1,6 +1,6 @@
 name: Linux System Network Discovery
 id: 535cb214-8b47-11ec-a2c7-acde48001122
-version: 9
+version: 10
 date: '2026-03-10'
 author: Teoderick Contreras, Splunk
 status: production
