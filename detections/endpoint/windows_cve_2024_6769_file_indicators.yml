@@ -1,0 +1,53 @@
+name: Windows CVE-2024-6769 File Indicators
+id: 8a116c47-ce7a-4114-addb-8387852305db
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: 'Indicates exploitation of CVE-2024-6769. The CVE-2024-6769 vulnerability allows for privilege escalation in Microsoft Windows systems, including Windows 10, Windows 11, and various Windows Server versions (2016, 2019, and 2022). This vulnerability occurs due to a combination of DLL hijacking and poisoning of the activation cache. An attacker who already has authenticated access to a system can exploit these flaws to elevate their process from medium to high integrity without triggering a User Account Control (UAC) prompt.
+
+
+'
+data_source:
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path IN ("*System32\\Tasks\\imm32.dll", "*System32\\Tasks\\TAPI32.Manifest", "*System32\\MsCtfMonitor.dll") by Filesystem.dest Filesystem.file_create_time Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_cve_2024_6769_file_indicators_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Legitimate system administration or software update processes may trigger these indicators due to their use of DLL loading and activation cache updates. Verify against trusted sources before alerting.
+references:
+    - https://www.fortra.com/blog/cve-2024-6769-poisoning-activation-cache-elevate-medium-high-integrity
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: A process created a suspicious file at $file_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 50
+    threat_objects: []
+tags:
+    analytic_story:
+        - Windows Privilege Escalation
+        - Windows Post-Exploitation
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1574.002
+        - T1548.002
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1574.002/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog

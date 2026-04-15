@@ -1,0 +1,52 @@
+name: Windows Defender Control Artifact
+id: d7e3219f-d5fa-4f44-8ad6-74a273eab165
+version: 1
+date: '2026-04-13'
+author: Raven Tait, Splunk
+status: production
+type: Anomaly
+description: 'The Defender Control tool used to disable Windows Defender creates an ini file on execution that can be an indication of its use on a system. This detects the file creation event for that file.
+
+'
+data_source:
+    - Sysmon EventID 11
+search: '| tstats `security_content_summariesonly` count min(_time) as firstTime max(_time) as lastTime from datamodel=Endpoint.Filesystem where Filesystem.file_path="*DefenderController.ini" by Filesystem.dest Filesystem.file_create_time Filesystem.process_path Filesystem.process_guid Filesystem.process_id Filesystem.file_path Filesystem.file_name Filesystem.user Filesystem.vendor_product Filesystem.action | `drop_dm_object_name(Filesystem)` | `security_content_ctime(firstTime)`| `security_content_ctime(lastTime)`| `windows_defender_control_artifact_filter`'
+how_to_implement: The detection is based on data that originates from Endpoint Detection and Response (EDR) agents. These agents are designed to provide security-related telemetry from the endpoints where the agent is installed. To implement this search, you must ingest logs that contain the process GUID, process name, and parent process. Additionally, you must ingest complete command-line executions. These logs must be processed using the appropriate Splunk Technology Add-ons that are specific to the EDR product. The logs must also be mapped to the `Processes` node of the `Endpoint` data model. Use the Splunk Common Information Model (CIM) to normalize the field names and speed up the data modeling process.
+known_false_positives: Some legitimate administrative activities may create the Defender Control ini file during approved maintenance. Verify with authorized use before alerting.
+references:
+    - https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-263a
+drilldown_searches:
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View the detection results for - "$user$" and "$dest$"
+      search: '%original_detection_search% | search  user = "$user$" dest = "$dest$"'
+    - earliest_offset: $info_min_time$
+      latest_offset: $info_max_time$
+      name: View risk events for the last 7 days for - "$user$" and "$dest$"
+      search: '| from datamodel Risk.All_Risk | search normalized_risk_object IN ("$user$", "$dest$") starthoursago=168  | stats count min(_time) as firstTime max(_time) as lastTime values(search_name) as "Search Name" values(risk_message) as "Risk Message" values(analyticstories) as "Analytic Stories" values(annotations._all) as "Annotations" values(annotations.mitre_attack.mitre_tactic) as "ATT&CK Tactics" by normalized_risk_object | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`'
+rba:
+    message: A process created a suspicious file at $file_path$ on $dest$
+    risk_objects:
+        - field: dest
+          type: system
+          score: 20
+    threat_objects: []
+tags:
+    analytic_story:
+        - Windows Defense Evasion Tactics
+        - Security Solution Tampering
+        - Windows Persistence Techniques
+    asset_type: Endpoint
+    mitre_attack_id:
+        - T1562.001
+    product:
+        - Splunk Enterprise
+        - Splunk Enterprise Security
+        - Splunk Cloud
+    security_domain: endpoint
+tests:
+    - name: True Positive Test
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1562.001/snapattack/snapattack.log
+          source: XmlWinEventLog:Microsoft-Windows-Sysmon/Operational
+          sourcetype: XmlWinEventLog
