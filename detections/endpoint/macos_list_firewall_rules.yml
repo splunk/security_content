@@ -12,7 +12,7 @@ description: |
     While they are legitimate administrative operations, adversaries may leverage them to identify potential attack surfaces, determine whether the firewall is active, or enumerate allowed network flows.
     Monitoring for these commands, particularly when executed by non-administrative users or at unusual times, can provide early indication of reconnaissance activity on macOS endpoints
 data_source:
-    - osquery_process
+    - Osquery Results
 search: |
     | tstats `security_content_summariesonly`
       count
@@ -66,10 +66,10 @@ rba:
     risk_objects:
         - field: dest
           type: system
-          score: 6
+          score: 20
         - field: user
           type: user
-          score: 6
+          score: 20
     threat_objects:
         - field: parent_process_name
           type: parent_process_name
