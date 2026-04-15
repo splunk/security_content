@@ -29,7 +29,7 @@ search: |-
     NOT ( All_Traffic.dest_ip IN `non_public_ip_blocks`
     OR All_Traffic.dest IN `non_public_ip_blocks`
     )
-    by All_Traffic.src_ip All_Traffic.dest_ip All_Traffic.protocol
+    by All_Traffic.src_ip All_Traffic.src All_Traffic.dest_ip All_Traffic.dest All_Traffic.protocol
        All_Traffic.bytes All_Traffic.app All_Traffic.bytes_in
        All_Traffic.bytes_out All_Traffic.dest_port All_Traffic.dvc
        All_Traffic.protocol_version All_Traffic.src_port
