@@ -58,8 +58,13 @@ tags:
         - Splunk Cloud
     security_domain: endpoint
 tests:
-    - name: True Positive Test
+    - name: True Positive Test - Security
       attack_data:
-        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-xml.log
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-security.log
           source: XmlWinEventLog:Security
+          sourcetype: XmlWinEventLog
+    - name: True Positive Test - System
+      attack_data:
+        - data: https://media.githubusercontent.com/media/splunk/attack_data/master/datasets/attack_techniques/T1070.001/windows_event_log_cleared/windows-system.log
+          source: XmlWinEventLog:System
           sourcetype: XmlWinEventLog
