@@ -88,7 +88,6 @@ output_fields:
 - change_type
 - dest
 - dvc
-- name
 - object_category
 - signature_id
 - status
