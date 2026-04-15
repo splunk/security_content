@@ -17,7 +17,7 @@ search: >-
     | rename identity as user
              resultType as result
     | fillnull
-    | table _time action command dest user src 
+    | table _time action command dest user src
             vendor_account vendor_product change_type
             properties.Targets.*
 
@@ -25,6 +25,7 @@ search: >-
             max(_time) as lastTime
             values(*) as *
       count by user
+
     | where count >= 5
     | `security_content_ctime(firstTime)`
     | `security_content_ctime(lastTime)`
